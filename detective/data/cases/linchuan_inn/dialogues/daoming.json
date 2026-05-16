@@ -1,0 +1,111 @@
+{
+  "_comment": "道明法师对话树。表面平和睿智，实则隐瞒甚多。当玩家积累足够证据时可逐步揭穿。",
+  "start_variants": [
+    { "when": { "flag": "daoming_cornered" }, "goto": "intro_cornered" },
+    { "when": { "all": [ { "evidence": "evidence_old_case_file" }, { "evidence": "evidence_monk_handwriting" } ] }, "goto": "intro_pressed" },
+    { "when": { "evidence": "evidence_temple_paper" }, "goto": "intro_alert" }
+  ],
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "text_variants": [
+        { "when": { "state": "daoming.composure", "lte": 2 }, "text": "（道明法师双手合十，眼神平静却带着一丝叹息）施主又来了。沈施主之死——许是天意。" },
+        { "default": true, "text": "（道明法师双手合十）阿弥陀佛。施主请坐。沈施主一案，老衲所知不多，能告知施主的——皆已说尽。" }
+      ],
+      "options": [
+        { "text": "沈砚秋平时常来庙里吗？", "goto": "shen_visits", "hide_after_visit": true },
+        { "text": "庙里这两个月有谁出入？", "goto": "temple_visitors", "hide_after_visit": true },
+        { "text": "您怎么看这桩案子？", "goto": "your_view", "hide_after_visit": true },
+        { "text": "（出示「庙里的字条」）这字条您见过吗？", "goto": "show_paper", "requires": { "evidence": "evidence_temple_paper" }, "cost_time": 1, "hide_after_visit": true }
+      ]
+    },
+    "intro_alert": {
+      "text": "（道明微微抬眼，目光沉了一沉）施主夜半来访，可是有要事？老衲一向闲云野鹤，怕是答不上施主想问的。",
+      "options": [
+        { "text": "您俗家姓什么？", "goto": "lay_name", "hide_after_visit": true },
+        { "text": "（出示「字迹比对」）字底之笔，老衲也认得。", "goto": "show_handwriting", "requires": { "evidence": "evidence_monk_handwriting" }, "cost_time": 1, "hide_after_visit": true },
+        { "text": "（先回去，再来）", "goto": "__exit__" }
+      ]
+    },
+    "intro_pressed": {
+      "text": "（道明合掌许久不语，缓声道）施主——既已知道，又何必再问老衲？",
+      "options": [
+        { "text": "（出示「二十年前旧案」）严施主，万历四年的米行案，是不是您告发的？", "goto": "confront_old_case", "requires": { "evidence": "evidence_old_case_file" }, "cost_time": 1, "hide_after_visit": true },
+        { "text": "（让他先静一静，回去）", "goto": "__exit__" }
+      ]
+    },
+    "intro_cornered": {
+      "text": "（道明跪坐在佛前，神情已经平静得近乎释然）施主请坐。该说的，老衲都说过了。该担的，老衲一肩担起。",
+      "options": [
+        { "text": "把整件事的来龙去脉都讲一遍。", "goto": "full_confession", "hide_after_visit": true },
+        { "text": "（默然离开，去指证）", "goto": "__exit__" }
+      ]
+    },
+
+    "shen_visits": {
+      "text": "（道明微笑）沈施主每月都来上香，问问父母往生之事。是个孝顺的孩子。",
+      "lie": { "is_lie": true, "reason": "隐瞒沈砚秋来庙是为查旧案而非礼佛", "exposed_by_node": "show_temple_visits" },
+      "options": [ { "text": "（先记下）", "goto": "intro" } ]
+    },
+    "temple_visitors": {
+      "text": "（道明缓缓道）佛门是清净地，平日里只老衲与一个知客僧。香客虽多，皆是过往。",
+      "lie": { "is_lie": true, "reason": "隐瞒自己亲自外出买朱砂之事", "exposed_by_node": "show_buyers" },
+      "options": [ { "text": "（这话似有玄机）", "goto": "intro" } ]
+    },
+    "your_view": {
+      "text": "（合掌）官府已断，沈施主自寻短见。佛家说「业报」——也许是他先前查案太急，惊扰了某些不该惊扰的人。",
+      "options": [ { "text": "（这话像是在引导）", "goto": "intro" } ]
+    },
+
+    "show_paper": {
+      "reveal_lie": { "lie_node": "your_view" },
+      "text_variants": [
+        { "when": { "state": "daoming.composure", "lte": 2 }, "text": "（道明的眼神微微一颤，许久才道）这字条……是有信徒求医，问朱砂之毒解法。老衲不通医理，只是替他记下。" },
+        { "default": true, "text": "（道明合掌不动声色）这字条像是有人遗落的。佛门来往杂多，老衲并不知情。" }
+      ],
+      "options": [ { "text": "（暂时收回字条）", "goto": "intro" } ]
+    },
+    "lay_name": {
+      "text": "（道明笑得极淡）施主问俗家——老衲已出家二十年，俗名连自己也快忘了。",
+      "lie": { "is_lie": true, "reason": "刻意回避俗家姓氏", "exposed_by_node": "show_handwriting" },
+      "options": [ { "text": "（他不肯说）", "goto": "intro_alert" } ]
+    },
+    "show_handwriting": {
+      "reveal_lie": { "lie_node": "lay_name" },
+      "text_variants": [
+        { "when": { "state": "daoming.composure", "lte": 2 }, "text": "（道明的脸色一点点褪去血色，许久沉声道）……这字，确是老衲的。施主从何处得来？" },
+        { "default": true, "text": "（道明双手合十）字与字相像，未必同一只手所写。施主不要轻易下断语。" }
+      ],
+      "options": [ { "text": "（再追问下去）", "goto": "intro_alert" } ]
+    },
+    "show_temple_visits": {
+      "reveal_lie": { "lie_node": "shen_visits" },
+      "text": "（你出示了集市与知客僧的口供：沈砚秋每旬必至，问的不是佛事，是「往年的捐粮册」。）\n\n（道明合掌许久）……是。沈施主问的，并非父母之事。他问的，是老衲早年在临川尚未出家时的旧账。",
+      "options": [ { "text": "（继续）", "goto": "intro_alert" } ]
+    },
+    "show_buyers": {
+      "reveal_lie": { "lie_node": "temple_visitors" },
+      "text": "（药铺掌柜的口供你已转告道明）有位「化缘的师父」隔几日就来取朱砂——不就是您本人吗？\n\n（道明面色不动，只低声道）老衲为庙中画佛，需朱砂磨入颜料。施主多虑。",
+      "options": [
+        { "text": "（这解释牵强）", "goto": "intro_alert" }
+      ]
+    },
+
+    "confront_old_case": {
+      "set_flags": ["daoming_cornered"],
+      "text": "（道明良久，缓缓睁眼）……是。万历四年那场告发，是老衲。\n\n那年——老衲还俗名「严某」，是临川街上一个小账房。沈家米行隔壁。我家与沈父因捐粮的差额起了争执，沈父打了我——也撞翻了我父亲的烟杆，烧了半个屋。\n\n我父亲在那场火里死了。\n\n我去衙门告——告他「私吞捐粮」。卷宗上写的是清楚的，可那其实并非沈父所为。沈家七口流放岭南，路上死绝。只剩这一个孩子被远房舅父收去——也就是沈砚秋。\n\n老衲此后入空门，自以为这账已经过了。可——沈砚秋他长大了，他来了。",
+      "options": [
+        { "text": "那您为什么要再下毒？", "goto": "ask_motive", "hide_after_visit": true },
+        { "text": "（先记下，回去整理证据）", "goto": "__exit__" }
+      ]
+    },
+    "ask_motive": {
+      "text": "（道明垂下眼帘）他每来一次，便问一遍那年的事。老衲一开始能答多少答多少。可他越问越深——他已经查到了那张赏银的字据。\n\n他写的诗——「朱砂三两印朱痕，何故年年减半分」——朱砂三两，那年的告发赏银，正是「白银三两」。何故年年减半分——他是在讥刺老衲：每年清明，本要为父超度，却年年减半分功德。\n\n他是在告诉老衲：他都知道了。\n\n他迟早要去州府告——告那一桩二十年前的旧账。老衲一人受罚不打紧，可佛门也要受牵连。\n\n于是——朱砂入茶。每日少许。三月半两可致。\n\n沈施主体弱，老衲算错了日子，他比预想中早走了一步。临死前他扑去了井边，许是想喝水解毒——可惜，井水也救不了他。",
+      "options": [ { "text": "（沉默离开）", "goto": "__exit__" } ]
+    },
+    "full_confession": {
+      "text": "（道明低声诵了一段经，转头道）旧账二十年。老衲承担。\n\n这一切，与柳大人无关——柳大人贪墨自有他的罪，但与沈施主的死无关。\n\n施主该指证的是老衲。也只能是老衲。",
+      "options": [ { "text": "（去指证）", "goto": "__exit__" } ]
+    }
+  }
+}

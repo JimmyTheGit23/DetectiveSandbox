@@ -1,0 +1,47 @@
+{
+  "start": "scene1",
+  "nodes": {
+    "scene1": {
+      "background": "res://assets/cn/scenes/prologue.png",
+      "speaker": "",
+      "text": "万历二十三年，江南。\n\n这是个下大雨的夜晚，临川镇外的石桥上。",
+      "next": "scene2"
+    },
+    "scene2": {
+      "background": "res://assets/cn/scenes/prologue.png",
+      "speaker": "陆昭",
+      "text": "（提着灯笼一个人走在桥上）这就是临川了……州府说这地方多年太平。可这场雨下得，倒像是有什么旧事要被冲出来似的。",
+      "next": "scene3"
+    },
+    "scene3": {
+      "background": "res://assets/cn/scenes/prologue.png",
+      "speaker": "",
+      "text": "第二天一大早，临川驿的后院。",
+      "next": "scene4"
+    },
+    "scene4": {
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "陆昭",
+      "text": "井边躺着一个人。\n\n嘴唇发黑，指甲青紫——这分明是中毒的样子。",
+      "next": "scene5"
+    },
+    "scene5": {
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "",
+      "text": "死的是临川县主簿沈砚秋，三十二岁。袖子里还藏着一封没写完的信：\n\n「……朱砂的事，恐怕已经……」",
+      "next": "scene6"
+    },
+    "scene6": {
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "陆昭",
+      "text": "（皱眉）当地知县已经断成自尽了。可要真是自杀——这袖子里写到一半的信，又是要写给谁看的？\n\n……三天内查不出真相，案宗就要发还州府。到时候我这个「擅自越权」的罪名也跑不掉了。",
+      "next": "scene7"
+    },
+    "scene7": {
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "",
+      "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 指证\n• 跨地点移动会花掉一个时段；探索某处也要花时段\n• 时间用完前要找出真凶\n\n记住：每一点朱砂、每一句寒暄，都有它的含义。",
+      "end": true
+    }
+  }
+}

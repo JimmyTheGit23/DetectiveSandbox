@@ -1,0 +1,56 @@
+{
+  "start_variants": [
+    { "when": { "state": "gu_qingxuan.revealed", "gte": 2 }, "goto": "intro_revealed" }
+  ],
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "text": "（白衣公子放下茶盏，淡淡一笑）御史大人远道而来，临川招待不周。在下顾清玄，游学经过此地。",
+      "options": [
+        { "text": "昨晚你在临川驿？", "goto": "where", "hide_after_visit": true },
+        { "text": "你认识沈砚秋？", "goto": "knew_shen", "hide_after_visit": true },
+        { "text": "你到底是什么人？", "goto": "who_are_you", "hide_after_visit": true },
+        { "text": "（出示证据）把「致州府密信」摆出来", "goto": "show_letter", "requires": { "evidence": "evidence_secret_letter" }, "cost_time": 1, "hide_after_visit": true }
+      ]
+    },
+    "intro_revealed": {
+      "text": "（顾清玄收起折扇，神色比之前郑重了几分）陆大人，既然话已挑明，在下也不再瞒着。\n\n在下乃邻县按察分司之吏。柳文卿贪墨之事，按察使大人早已留意，特派在下来临川察访。大人查到何处了？",
+      "options": [
+        { "text": "你跟沈砚秋是约好的？", "goto": "with_shen", "hide_after_visit": true },
+        { "text": "你为何不直接出手？", "goto": "why_silent", "hide_after_visit": true }
+      ]
+    },
+    "where": {
+      "text": "在下昨晚确实住在驿站，北边的厢房。雨太大，没出过门。后院的事，是早上听驿丞惊呼才知道的。",
+      "options": [ { "text": "（暂记）", "goto": "intro" } ]
+    },
+    "knew_shen": {
+      "text": "（指尖一停）算认识。半个月前在春风楼有过一面之缘。沈主簿是个有书卷气的人。",
+      "lie": { "is_lie": true, "reason": "隐瞒双方实为合作关系", "exposed_by_node": "show_letter" },
+      "options": [ { "text": "（先记下）", "goto": "intro" } ]
+    },
+    "who_are_you": {
+      "text": "（笑容收了一点）一个出门游学的书生罢了。不过——大人您知道吗，临川的赈灾粮帐目，邻县的按察司也有人在留意。大人查案的同时，不妨多问问这方面。",
+      "options": [
+        { "text": "（这是在暗示什么）", "goto": "intro" }
+      ]
+    },
+    "show_letter": {
+      "reveal_lie": { "lie_node": "knew_shen" },
+      "text": "（顾清玄看到密信，沉默良久，缓缓道）这密信本是要送到按察司的。可惜——晚了。\n\n大人，在下与沈砚秋有约：他从内查帐，在下从外验证。如今他人没了，证据落到大人手里，也算天意。",
+      "set_flags": ["gu_revealed_identity"],
+      "options": [
+        { "text": "你跟沈砚秋是约好的？", "goto": "with_shen", "hide_after_visit": true },
+        { "text": "你为何不直接出手？", "goto": "why_silent", "hide_after_visit": true }
+      ]
+    },
+    "with_shen": {
+      "text": "三个月前，他递了第一封信到按察司。按察使大人不动声色，派在下来配合他取证。我们约定，案发当夜他将告发信交给在下，由在下带回州府。\n\n谁知——他没等到这一夜。",
+      "options": [ { "text": "（沉重）", "goto": "intro_revealed" } ]
+    },
+    "why_silent": {
+      "text": "因为没有证据。柳文卿掌管县衙文书，又有州府某些人遮掩，按察司若贸然出手反会打草惊蛇。\n\n在下今日仍可作证，但需大人有充分实物方能定罪。",
+      "options": [ { "text": "（点头）", "goto": "intro_revealed" } ]
+    }
+  }
+}

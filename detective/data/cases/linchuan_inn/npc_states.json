@@ -1,0 +1,58 @@
+{
+  "_comment": "NPC 状态机：每个 NPC 初始 composure（镇定度 0-5），不同对话/证据会降档。0=崩溃 1=慌张 2=动摇 3=戒备 4=正常 5=自信",
+  "liu_wenqing": {
+    "initial": { "composure": 5 },
+    "transitions": [
+      { "on": "node_visited:show_ledger", "delta": { "composure": -1 } },
+      { "on": "node_visited:show_account", "delta": { "composure": -2 } },
+      { "on": "node_visited:show_letter", "delta": { "composure": -2 } },
+      { "on": "flag_set:liu_alarmed", "delta": { "composure": -1 } }
+    ]
+  },
+  "su_wan": {
+    "initial": { "composure": 3, "openness": 1 },
+    "transitions": [
+      { "on": "node_visited:investigation", "delta": { "openness": 1 } },
+      { "on": "node_visited:afraid_who", "delta": { "openness": 1 } }
+    ]
+  },
+  "zhao_dayou": {
+    "initial": { "composure": 4 },
+    "transitions": [
+      { "on": "node_visited:show_rope", "delta": { "composure": -2 } },
+      { "on": "node_visited:rope_confess", "delta": { "composure": -1 } }
+    ]
+  },
+  "gu_qingxuan": {
+    "initial": { "composure": 5, "revealed": 0 },
+    "transitions": [
+      { "on": "node_visited:who_are_you", "delta": { "revealed": 1 } },
+      { "on": "evidence_obtained:evidence_secret_letter", "delta": { "revealed": 1 } }
+    ]
+  },
+  "ma_san": {
+    "initial": { "composure": 4, "trust": 1 },
+    "transitions": [
+      { "on": "node_visited:your_opinion", "delta": { "trust": 1 } },
+      { "on": "flag_set:met_ma_at_bridge", "delta": { "trust": 1 } }
+    ]
+  },
+  "xiao_cui": {
+    "initial": { "composure": 3, "openness": 1 },
+    "transitions": [
+      { "on": "node_visited:yamen_thing", "delta": { "openness": 1 } },
+      { "on": "node_visited:more", "delta": { "openness": 1 } },
+      { "on": "node_visited:family", "delta": { "openness": 1 } }
+    ]
+  },
+  "daoming": {
+    "initial": { "composure": 5 },
+    "transitions": [
+      { "on": "node_visited:show_paper", "delta": { "composure": -1 } },
+      { "on": "node_visited:show_handwriting", "delta": { "composure": -2 } },
+      { "on": "node_visited:show_temple_visits", "delta": { "composure": -1 } },
+      { "on": "node_visited:show_buyers", "delta": { "composure": -1 } },
+      { "on": "evidence_obtained:evidence_old_case_file", "delta": { "composure": -1 } }
+    ]
+  }
+}

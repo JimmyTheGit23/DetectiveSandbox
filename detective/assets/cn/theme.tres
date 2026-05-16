@@ -1,0 +1,29 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://chinesetheme"]
+
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSansSC.otf" id="1_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
+bg_color = Color(0.15, 0.12, 0.1, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6, 0.5, 0.3, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+
+[resource]
+default_font = ExtResource("1_font")
+default_font_size = 18
+Button/colors/font_color = Color(0.95, 0.9, 0.75, 1)
+Button/colors/font_hover_color = Color(1, 1, 0.85, 1)
+Button/colors/font_pressed_color = Color(1, 0.85, 0.5, 1)
+Button/styles/normal = SubResource("StyleBoxFlat_btn")
+Label/colors/font_color = Color(0.95, 0.92, 0.82, 1)
+RichTextLabel/colors/default_color = Color(0.95, 0.92, 0.82, 1)

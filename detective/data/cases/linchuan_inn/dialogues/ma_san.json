@@ -1,0 +1,72 @@
+{
+  "start_variants": [
+    { "when": { "flag": "met_ma_at_bridge" }, "goto": "intro_open" },
+    { "when": { "state": "ma_san.trust", "gte": 2 }, "goto": "intro_trust" }
+  ],
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "text": "（马三抱拳，眼睛扫了一下四周）大人。卑职奉命候命。沈主簿的事——卑职这里不方便多说。",
+      "options": [
+        { "text": "你什么时候到的现场？", "goto": "when_arrived", "hide_after_visit": true },
+        { "text": "你怎么看这案子？", "goto": "your_opinion", "hide_after_visit": true },
+        { "text": "（出示证据）把「赈灾粮帐目稿」摆出来", "goto": "show_account", "requires": { "evidence": "evidence_account_draft" }, "cost_time": 1, "hide_after_visit": true },
+        { "text": "（约他出来）今晚城外石桥下面见。", "goto": "set_bridge_meet", "requires": { "visited": "ma_san.your_opinion" }, "hide_after_visit": true }
+      ]
+    },
+    "intro_trust": {
+      "text": "（马三压低声）大人在县衙问，卑职不敢说太多。大人若有事，最好换个地方。",
+      "options": [
+        { "text": "（约他出来）今晚城外石桥下面见。", "goto": "set_bridge_meet", "hide_after_visit": true }
+      ]
+    },
+    "intro_open": {
+      "text": "（夜色下，石桥之下水声哗哗。马三低声道）大人。这里没人。卑职便把心里话都倒出来。",
+      "options": [
+        { "text": "县里的赈灾粮，柳大人到底贪了多少？", "goto": "open_grain", "hide_after_visit": true },
+        { "text": "你为何不敢在县衙说？", "goto": "open_fear", "hide_after_visit": true },
+        { "text": "你还见过什么？", "goto": "open_sighting", "hide_after_visit": true },
+        { "text": "案发那夜还有别的可疑的人吗？", "goto": "open_other_sight", "hide_after_visit": true }
+      ]
+    },
+    "when_arrived": {
+      "text": "早上五点多，赵驿丞派人来报。卑职马上就赶过去了。到的时候沈主簿脸色青黑，明显是中毒——可县老爷一到，就定了「自尽」二字。卑职……卑职是个粗人，不敢多嘴。",
+      "options": [ { "text": "（值得记下）", "goto": "intro" } ]
+    },
+    "your_opinion": {
+      "text": "（左右看了一眼，压低声音）大人，卑职说一句话就走——这案子不是卑职断的。在县衙里头，卑职说不得。大人要是有空，可以到城外石桥下面，咱们再聊。",
+      "options": [ { "text": "（明白他的难处）", "goto": "intro" } ]
+    },
+    "show_account": {
+      "text": "（马三看到帐目稿，眼睛瞪大了）这……这就是了。这就是沈主簿前几个月天天抄的东西。卑职曾经撞见他抄到深夜，他只说「公事」两个字。现在终于明白了——大人，您一定要把这案子翻过来。",
+      "options": [ { "text": "（点头）", "goto": "intro" } ]
+    },
+    "set_bridge_meet": {
+      "text": "（马三轻轻点头）好。卑职今夜亥时去那石桥下候大人。\n\n（出了县衙，往集市方向去，集市西头的石桥下便是相见之处。）",
+      "set_flags": ["met_ma_at_bridge"],
+      "options": [
+        { "text": "（去集市的石桥下找他）", "goto": "__exit__" }
+      ]
+    },
+    "open_grain": {
+      "text": "三年算下来，少说两千石。卑职是粗人，可这账卑职会算——县里饿死的人里头，至少有一半本该有粮。",
+      "options": [ { "text": "（沉默）", "goto": "intro_open" } ]
+    },
+    "open_fear": {
+      "text": "前年有个老主簿姓周，也想告。后来——后来死在自家屋里，说是中风。我去验尸的时候，看见他嘴角发黑、指甲青紫——跟这次的沈主簿，一模一样。",
+      "set_flags": ["learned_previous_death"],
+      "options": [ { "text": "（这案子比想象中要深）", "goto": "intro_open" } ]
+    },
+    "open_sighting": {
+      "text": "案发前夜，子时三刻——卑职在县衙后门当值，看见柳大人从衙门后院出来，手里提着个小布包，连夜骑马出城。卑职跟了一段，他是去城西的私家粮仓——那是他贪墨灾粮的窝子。\n\n柳大人那夜不在临川，回到县衙时已经是辰时了。",
+      "set_flags": ["ma_witness_liu"],
+      "options": [ { "text": "（这条证词很重要——但不等于他杀了人）", "goto": "intro_open" } ]
+    },
+    "open_other_sight": {
+      "text": "（马三皱眉想了想）说起来——子时四刻左右，我从衙门后门出来去屋瓦上守夜，瞥见有个穿灰色僧袍的人，从沈宅那边的小巷里走出来，往观音庙方向去了。当时我没在意——观音庙的师父半夜替人念经也是常事。\n\n现在想起来——那个时辰，他从沈宅出来做什么？",
+      "set_flags": ["ma_witness_monk"],
+      "gain_clue": "clue_temple_visits",
+      "options": [ { "text": "（这条线索更要紧）", "goto": "intro_open" } ]
+    }
+  }
+}

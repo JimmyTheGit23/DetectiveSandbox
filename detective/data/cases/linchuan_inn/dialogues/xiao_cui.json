@@ -1,0 +1,62 @@
+{
+  "start_variants": [
+    { "when": { "state": "xiao_cui.openness", "gte": 3 }, "goto": "intro_open" }
+  ],
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "text": "（小翠垂泪）大人。砚秋哥哥他、他答应过要把我从这火坑里救出去的。如今……（用袖子掩着脸）",
+      "options": [
+        { "text": "你跟他认识多久了？", "goto": "how_long", "hide_after_visit": true },
+        { "text": "他有没有跟你提过县衙的事？", "goto": "yamen_thing", "hide_after_visit": true },
+        { "text": "他来春风楼，是来找你的吗？", "goto": "why_come", "hide_after_visit": true },
+        { "text": "他有跟你提过他家里的旧事吗？", "goto": "family", "hide_after_visit": true }
+      ]
+    },
+    "intro_open": {
+      "text": "（小翠抬起头，眼里含泪，神情却比之前镇定）大人……砚秋哥哥那夜其实塞了一物给我，我一直没敢拿出来。",
+      "options": [
+        { "text": "什么物？", "goto": "hidden_item", "hide_after_visit": true }
+      ]
+    },
+    "how_long": {
+      "text": "去年中秋第一次见面。他不像别的客人，从来不动手动脚。就是来听我弹一曲琵琶，然后跟我说几句话。半年里，他来了大概二十次。",
+      "options": [ { "text": "（先问别的）", "goto": "intro" } ]
+    },
+    "yamen_thing": {
+      "text": "他从来不提衙门里的事。就有一次，他喝多了酒说：「这世上有种人，把朱砂当饭吃，吃出血来还说是天意。」我那时候听不懂。现在想来——",
+      "options": [
+        { "text": "他还说了什么？", "goto": "more" },
+        { "text": "（先记下）", "goto": "intro" }
+      ]
+    },
+    "more": {
+      "text": "他说：「翠儿，我要是有什么三长两短，你帮我跟我未婚妻说一句——账，在桌子下面。」我那时候只当他开玩笑，没放在心上。",
+      "options": [ { "text": "（沉默）", "goto": "intro" } ]
+    },
+    "why_come": {
+      "text": "上个月二十三号晚上，砚秋哥哥并没来找我。他在丙号雅间——跟一位戴乌纱帽的官老爷一直坐到深夜。我从屏风后面瞥了一眼，只觉得那位官老爷脸色冷冰冰的。",
+      "options": [
+        { "text": "你看清那个官老爷是谁了吗？", "goto": "who_official" },
+        { "text": "（先记下）", "goto": "intro" }
+      ]
+    },
+    "who_official": {
+      "text": "我没敢看清，怕得罪贵人。只记得他袖口绣着一只白鹭。",
+      "options": [ { "text": "（白鹭——五品文官的补子）", "goto": "intro" } ]
+    },
+    "family": {
+      "text": "（小翠想了一会，眼眶又红了）有一次他喝得最多，跟我说——他原本不姓沈，是抱过去的。他十一岁那年，亲生父亲被人冤告私吞捐粮，全家流放。\n\n他说：「翠儿，告我家的那个人，我至今还在临川——他就在我每日抬头都看得见的地方。」我当时听得心惊肉跳。\n\n他还说他不会去报仇，只想「让那人替我父亲念三个月的经」。",
+      "gain_clue": "clue_shen_father_old_case",
+      "options": [ { "text": "（这是关键背景）", "goto": "intro" } ]
+    },
+    "hidden_item": {
+      "text": "（小翠从袖中取出一只小巧的瓷瓶，瓶口尚封着）这瓶子他塞给我的时候，叮嘱我说：「若哪天我没回来，便交给查案的官人。这是物证。」\n\n我打开闻过——是朱砂粉。封纸里头还夹着一张极薄的纸条——他亲笔的：「砚秋兄见字如面：每日所赠丹砂，乃出某佛门之私焙。汝若信我，便莫再饮。」\n\n这「赠」字——他写得很重。",
+      "set_flags": ["xiao_cui_gave_bottle"],
+      "gain_evidence": "evidence_cinnabar_bottle",
+      "options": [
+        { "text": "（接过瓷瓶。这是一件关键物证——朱砂来自佛门）", "goto": "__exit__" }
+      ]
+    }
+  }
+}

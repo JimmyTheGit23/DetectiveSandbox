@@ -1,0 +1,71 @@
+{
+  "post_station": {
+    "name": "临川驿",
+    "description": "案发地。古井旁还残留着沈砚秋的血迹和一段散乱的麻绳。",
+    "background": "res://assets/cn/scenes/post_station.png",
+    "npcs": ["zhao_dayou"],
+    "search_points": [
+      { "id": "well", "name": "古井", "time_cost": 1 },
+      { "id": "rope", "name": "井旁的麻绳", "time_cost": 1 },
+      { "id": "body", "name": "尸体所在处", "time_cost": 2 },
+      { "id": "barrels", "name": "墙边的木桶", "time_cost": 1 },
+      { "id": "lantern", "name": "屋檐下的灯笼", "time_cost": 1 }
+    ]
+  },
+  "shen_residence": {
+    "name": "沈砚秋宅",
+    "description": "死者独居的住处。屋里灯还没熄，茶水洒了一桌。",
+    "background": "res://assets/cn/scenes/shen_residence.png",
+    "npcs": [],
+    "search_points": [
+      { "id": "desk", "name": "书桌", "time_cost": 1 },
+      { "id": "drawer", "name": "抽屉", "time_cost": 2 },
+      { "id": "bed", "name": "床榻", "time_cost": 1 },
+      { "id": "scrolls", "name": "墙上的字画", "time_cost": 1 },
+      { "id": "teacup", "name": "翻倒的茶盏", "time_cost": 1 }
+    ]
+  },
+  "yamen": {
+    "name": "县衙",
+    "description": "临川县衙门所在。明镜高悬之下，知县柳文卿正等着你的回话。",
+    "background": "res://assets/cn/scenes/yamen.png",
+    "npcs": ["liu_wenqing", "ma_san"],
+    "search_points": [
+      { "id": "archive", "name": "卷宗架", "time_cost": 2 },
+      { "id": "evidence_table", "name": "证物台", "time_cost": 1 }
+    ]
+  },
+  "spring_wind_tower": {
+    "name": "春风楼",
+    "description": "临川有名的酒楼。死者生前常来。红绸金灯，胭脂香气里似乎藏着话。",
+    "background": "res://assets/cn/scenes/spring_wind_tower.png",
+    "npcs": ["xiao_cui", "gu_qingxuan"],
+    "search_points": [
+      { "id": "private_room", "name": "雅间的桌子", "time_cost": 2 },
+      { "id": "stage", "name": "戏台幕后", "time_cost": 2 },
+      { "id": "ledger", "name": "酒楼帐簿", "time_cost": 2 }
+    ]
+  },
+  "guanyin_temple": {
+    "name": "观音庙",
+    "description": "镇北的古庙，香烟缥缈。道明法师独自住在这里。",
+    "background": "res://assets/cn/scenes/guanyin_temple.png",
+    "npcs": ["daoming"],
+    "search_points": [
+      { "id": "incense", "name": "香炉", "time_cost": 1 },
+      { "id": "ribbons", "name": "红绸祈福", "time_cost": 1 },
+      { "id": "altar", "name": "佛龛", "time_cost": 2 }
+    ]
+  },
+  "market": {
+    "name": "集市",
+    "description": "临川镇的中心。布庄、茶摊、米行都在这里，三教九流都来。",
+    "background": "res://assets/cn/scenes/market.png",
+    "npcs": ["su_wan"],
+    "search_points": [
+      { "id": "drug_shop", "name": "药铺门口", "time_cost": 2 },
+      { "id": "bridge", "name": "石桥下", "time_cost": 1 },
+      { "id": "stalls", "name": "摊位之间", "time_cost": 1 }
+    ]
+  }
+}

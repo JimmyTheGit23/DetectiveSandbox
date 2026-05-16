@@ -1,0 +1,10 @@
+{
+  "id": "linchuan_inn",
+  "title": "临川驿案",
+  "subtitle": "万历廿三年 · 江南",
+  "difficulty": "中等",
+  "estimated_days": 7,
+  "main_scene": "post_station",
+  "preview_image": "res://assets/cn/scenes/post_station.png",
+  "intro": "暴雨夜，临川驿。次日卯时，主簿沈砚秋陈尸古井之旁。\n地方草草定案，恰逢御史夜宿。\n三日为限，能否拨云见月——"
+}

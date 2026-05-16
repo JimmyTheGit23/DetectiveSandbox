@@ -1,0 +1,108 @@
+{
+  "start_variants": [
+    { "when": { "flag": "shen_house_broken" }, "goto": "intro_after_break_in" },
+    { "when": { "state": "zhao_dayou.composure", "lte": 2 }, "goto": "intro_after_confess" }
+  ],
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "text": "陆大人。小老儿是赵大有，这驿站的驿丞。今早天刚亮，小老儿照例去后院打水，一开门——就看见沈主簿倒在井边了。唉，大人您说，这可怎么办才好。",
+      "options": [
+        { "text": "你把看到的，从头到尾说一遍。", "goto": "tell_story", "hide_after_visit": true },
+        { "text": "案发那晚，驿站里还住了别人吗？", "goto": "guests", "hide_after_visit": true },
+        { "text": "你最后一次见到沈主簿是什么时候？", "goto": "last_seen", "hide_after_visit": true },
+        { "text": "（出示证据）把「井边的断绳」拿给他看", "goto": "show_rope", "requires": { "clue": "clue_rope_cut" }, "cost_time": 1, "hide_after_visit": true }
+      ]
+    },
+    "intro_after_confess": {
+      "text": "（赵大有低着头，再不敢直视你的眼睛）大人……小老儿那银钱已经原封不动放回主簿的衣袋了。求大人不要追究小老儿——",
+      "options": [
+        { "text": "（再问点别的）那夜你确实没见到第二个人？", "goto": "really_no_one", "hide_after_visit": true },
+        { "text": "（先离开）", "goto": "__exit__" }
+      ]
+    },
+    "intro_after_break_in": {
+      "text": "（赵大有神色比昨日更慌张）大人……刚才小老儿听人说，沈宅的门被人撬过了。这镇上、这镇上是不是出什么大事了？",
+      "options": [
+        { "text": "你昨夜可曾听到什么动静？", "goto": "heard_anything", "hide_after_visit": true },
+        { "text": "那夜你确实没见到第二个人？", "goto": "really_no_one", "hide_after_visit": true }
+      ]
+    },
+    "tell_story": {
+      "text": "早上五点多，小老儿提着桶去后院打水。井盖一掀——就见沈主簿仰面躺在井边上，嘴角……都是黑的。小老儿吓得桶都掉了，赶紧跑去县衙报案。马捕头一会儿就到了。",
+      "options": [
+        { "text": "你打水的时候，井绳是什么状态？", "goto": "rope_state" },
+        { "text": "叫人之前你动过尸体没有？", "goto": "moved_body" },
+        { "text": "（先问别的）", "goto": "intro" }
+      ]
+    },
+    "rope_state": {
+      "text": "（赵大有脸色一变）井绳……井绳本来就是乱的，小老儿哪敢多看一眼啊。",
+      "lie": { "is_lie": true, "reason": "掩盖动过井绳", "exposed_by_node": "show_rope" },
+      "options": [
+        { "text": "（先放放，回头再问）", "goto": "intro" }
+      ]
+    },
+    "moved_body": {
+      "text": "（眼神躲闪）小、小老儿吓得手都软了，哪还敢碰尸体啊大人……",
+      "lie": { "is_lie": true, "reason": "掩盖偷银两", "exposed_by_node": "show_rope" },
+      "options": [
+        { "text": "（先记下他的反应）", "goto": "intro" }
+      ]
+    },
+    "guests": {
+      "text": "昨晚雨大，住店的就一位白衣公子，半夜一点多才回来歇下。其他就是——大人您和您的随从。沈主簿是本地人，平时不住驿站的，是后半夜被人喊来的。",
+      "options": [
+        { "text": "被人喊来？谁喊的？", "goto": "who_called" },
+        { "text": "（先问别的）", "goto": "intro" }
+      ]
+    },
+    "who_called": {
+      "text": "（赵大有犹豫了一下）这……小老儿真不知道。沈主簿自己来敲的门，门子开了门他就进去了。",
+      "options": [
+        { "text": "（他好像在藏什么。先记下）", "goto": "intro" }
+      ]
+    },
+    "last_seen": {
+      "text": "昨天傍晚，沈主簿来驿站借过一匹马，说要去城北的观音庙一趟。马是凌晨一点多牵回来的——他自己牵回来的。",
+      "options": [
+        { "text": "他去观音庙干什么？", "goto": "why_temple" },
+        { "text": "（先问别的）", "goto": "intro" }
+      ]
+    },
+    "why_temple": {
+      "text": "这小老儿就不知道了。沈主簿是读书人，去庙里走走也是常事吧。",
+      "options": [
+        { "text": "（先记下）", "goto": "intro" }
+      ]
+    },
+    "show_rope": {
+      "reveal_lie": { "lie_node": "rope_state" },
+      "text": "（一看到那段断绳，赵大有脸瞬间白了）大、大人……您怎么知道——我、我就是看井绳乱了，整理了一下而已！我没碰尸体，没碰尸体啊！",
+      "options": [
+        { "text": "那你到底动了什么？", "goto": "rope_confess" },
+        { "text": "（先放他一马）", "goto": "intro" }
+      ]
+    },
+    "rope_confess": {
+      "text": "（跪在地上）大人开恩！小老儿就是、就是看见沈主簿袖子里露出几两银子，一时鬼迷心窍拿了出来……再也不敢了！那绳子是我截的，本来想做个套子绑赃物——结果一吓，丢下就跑了！跟杀人真没关系啊大人——",
+      "set_flags": ["zhao_confessed_theft"],
+      "options": [
+        { "text": "（看来这老头是另一桩小案）", "goto": "intro" }
+      ]
+    },
+    "really_no_one": {
+      "text": "（赵大有抹着汗）大、大人，小老儿真的就开了一次门，那是给白衣公子开的。沈主簿是后半夜自己敲的门——门子开的，不是小老儿。",
+      "options": [
+        { "text": "（先离开）", "goto": "__exit__" }
+      ]
+    },
+    "heard_anything": {
+      "text": "（眼睛一亮）大人这一问——小老儿想起来了。昨夜三更，似乎是听到院里有脚步声，可能不止一个人。小老儿当时困迷糊了，未起身去看。",
+      "set_flags": ["zhao_heard_footsteps"],
+      "options": [
+        { "text": "（多人脚步——这就对得上了）", "goto": "intro_after_break_in" }
+      ]
+    }
+  }
+}

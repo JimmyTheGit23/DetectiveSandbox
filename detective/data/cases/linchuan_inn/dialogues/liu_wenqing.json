@@ -1,0 +1,133 @@
+{
+  "_comment": "柳文卿对话：进入时按 composure 选不同 intro；多次出示证据他越来越紧张但仍装糊涂；composure<=1 时崩溃自白",
+  "start_variants": [
+    { "when": { "state": "liu_wenqing.composure", "lte": 1 }, "goto": "intro_broken" },
+    { "when": { "state": "liu_wenqing.composure", "lte": 2 }, "goto": "intro_shaken" },
+    { "when": { "all": [ { "state": "liu_wenqing.composure", "lte": 3 }, { "day_gte": 3 } ] }, "goto": "intro_wary" }
+  ],
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "text": "陆大人辛苦了。本县已经听说了，唉……沈主簿可是个有学问的人，竟然想不开自寻短见，是我这个知县没看顾好他。下官已经叫马三去料理后事了。大人您要是没什么要紧事，这案子就这么了结吧——免得州府那边节外生枝。",
+      "options": [
+        { "text": "你说他是自杀？", "goto": "suicide", "hide_after_visit": true },
+        { "text": "你跟沈砚秋平日里来往多吗？", "goto": "relation", "hide_after_visit": true },
+        { "text": "最近这段时间一起吃过饭吗？", "goto": "shared_dinner", "hide_after_visit": true },
+        { "text": "（出示证据）把「春风楼帐簿」摆出来", "goto": "show_ledger", "requires": { "all": [ { "evidence": "evidence_tower_ledger" }, { "not_flag": "lie_exposed:liu_wenqing.shared_dinner" } ] }, "cost_time": 1 },
+        { "text": "（出示证据）把「赈灾粮帐目稿」摆出来", "goto": "show_account", "requires": { "evidence": "evidence_account_draft" }, "cost_time": 1, "hide_after_visit": true },
+        { "text": "（出示证据）把「致州府的密信」摆出来", "goto": "show_letter", "requires": { "evidence": "evidence_secret_letter" }, "cost_time": 1, "hide_after_visit": true },
+        { "text": "（连环出示三件证据，正面质问）", "goto": "final_press", "requires": { "all": [ { "evidence": "evidence_tower_ledger" }, { "evidence": "evidence_account_draft" }, { "evidence": "evidence_secret_letter" }, { "state": "liu_wenqing.composure", "lte": 2 } ] }, "cost_time": 1 }
+      ]
+    },
+    "intro_wary": {
+      "text_variants": [
+        { "when": { "flag": "liu_alarmed" }, "text": "（柳文卿放下手中的卷宗，神色比昨日严肃了几分）陆大人又来了。本县已是事务繁忙——大人若是没什么新的物证，下官可要送客了。" },
+        { "default": true, "text": "（柳文卿放下手中的卷宗，神色严肃）陆大人又来了。沈砚秋一案——本县以为，已无再议之必要。" }
+      ],
+      "options": [
+        { "text": "（出示证据）把「春风楼帐簿」摆出来", "goto": "show_ledger", "requires": { "all": [ { "evidence": "evidence_tower_ledger" }, { "not_flag": "lie_exposed:liu_wenqing.shared_dinner" } ] }, "cost_time": 1 },
+        { "text": "（出示证据）把「赈灾粮帐目稿」摆出来", "goto": "show_account", "requires": { "evidence": "evidence_account_draft" }, "cost_time": 1, "hide_after_visit": true },
+        { "text": "（出示证据）把「致州府的密信」摆出来", "goto": "show_letter", "requires": { "evidence": "evidence_secret_letter" }, "cost_time": 1, "hide_after_visit": true },
+        { "text": "（连环出示三件证据，正面质问）", "goto": "final_press", "requires": { "all": [ { "evidence": "evidence_tower_ledger" }, { "evidence": "evidence_account_draft" }, { "evidence": "evidence_secret_letter" }, { "state": "liu_wenqing.composure", "lte": 2 } ] }, "cost_time": 1 }
+      ]
+    },
+    "intro_shaken": {
+      "text": "（柳文卿坐在案后，手中折扇没有打开。看到你进来，眼神短暂闪烁了一下）……陆大人。又来了。",
+      "options": [
+        { "text": "（再次施压）你还想瞒到什么时候？", "goto": "press_more", "cost_time": 1 },
+        { "text": "（连环出示三件证据，正面质问）", "goto": "final_press", "requires": { "all": [ { "evidence": "evidence_tower_ledger" }, { "evidence": "evidence_account_draft" }, { "evidence": "evidence_secret_letter" } ] }, "cost_time": 1 }
+      ]
+    },
+    "intro_broken": {
+      "text": "（柳文卿坐在案后，神情灰败，折扇散在桌上）……陆大人不必再说了。下官——下官认。",
+      "options": [
+        { "text": "你为何要杀沈砚秋？", "goto": "confess_motive" },
+        { "text": "（先记下他的态度，离开）", "goto": "__exit__" }
+      ]
+    },
+    "press_more": {
+      "text": "（柳文卿手指微微发抖，强笑）大人这话——这话从何说起。本县不知大人所指为何。",
+      "options": [
+        { "text": "（先放放，离开）", "goto": "__exit__" }
+      ]
+    },
+    "suicide": {
+      "text": "（柳文卿轻摇折扇）井边有人投井挣扎的痕迹——大人难道认为，这井边会有谁跟一个穷主簿争执？沈砚秋这人，性子又孤僻，独自一个人住了好几年，肯定是心病憋出来的。",
+      "options": [ { "text": "（记下他的语气）", "goto": "intro" } ]
+    },
+    "relation": {
+      "text": "上下级而已。下官是他的顶头上司，公事之外不过点头之交。",
+      "lie": { "is_lie": true, "reason": "掩盖与沈的密切来往", "exposed_by_node": "show_ledger" },
+      "options": [ { "text": "（看起来跟他离得远远的）", "goto": "intro" } ]
+    },
+    "shared_dinner": {
+      "text": "（笑得很温和）最近公事繁忙，下官跟沈主簿已经好久没一起吃过饭了。",
+      "lie": { "is_lie": true, "reason": "回避案发前一周与沈的同席", "exposed_by_node": "show_ledger" },
+      "options": [ { "text": "（记下这句话）", "goto": "intro" } ]
+    },
+    "show_ledger": {
+      "reveal_lie": { "lie_node": "shared_dinner" },
+      "text_variants": [
+        { "when": { "state": "liu_wenqing.composure", "lte": 2 }, "text": "（柳文卿盯着帐簿，扇子忽地合上，脸色微变）……廿三日那天……是我，是我去找他的。可那只是为公事——大人不要乱想。" },
+        { "default": true, "text": "（柳文卿翻开帐簿，扇子顿了一下，又重新摇起来）哦……这是上个月二十三号的事？大人您记性真好。下官是去过一次——但那是为了公事，不是同席。下官说「最近没一起吃饭」，意思是从那以后就没有了。" }
+      ],
+      "options": [
+        { "text": "什么公事？", "goto": "what_business" },
+        { "text": "（先记下他的辩解）", "goto": "intro" }
+      ]
+    },
+    "what_business": {
+      "text": "（顿了顿）……是沈砚秋向我请教文章的事。书生气，没什么大不了的。",
+      "lie": { "is_lie": true, "reason": "用书生气搪塞真实议题", "exposed_by_node": "show_account" },
+      "options": [ { "text": "（这话越听越不对劲）", "goto": "intro" } ]
+    },
+    "show_account": {
+      "reveal_lie": { "lie_node": "what_business" },
+      "text_variants": [
+        { "when": { "state": "liu_wenqing.composure", "lte": 2 }, "text": "（柳文卿盯着帐目稿，半晌不语，缓缓道）……这帐目，本县……本县并不熟悉。可、可此事还须容下官细查。" },
+        { "default": true, "text": "（柳文卿目光突然一沉）这——这是从哪儿来的？沈砚秋平时就爱舞文弄墨，那些数字怕是他自己抄错了。本县正打算去查……" }
+      ],
+      "options": [
+        { "text": "（继续观察他的神情）", "goto": "intro" }
+      ]
+    },
+    "show_letter": {
+      "text_variants": [
+        { "when": { "state": "liu_wenqing.composure", "lte": 1 }, "text": "（柳文卿身子一晃，手扶住案几）……陆大人，您都知道了。" },
+        { "default": true, "text": "（折扇啪地合上，他强笑）大、大人。这封信只是个草稿，做不得真。沈砚秋这人一直有点疑神疑鬼，老觉得有人要害他。这种胡思乱想写的东西……" }
+      ],
+      "options": [
+        { "text": "（再追问他就要崩了）", "goto": "intro" }
+      ]
+    },
+    "final_press": {
+      "text": "（你将帐簿、帐目稿、密信三件物证一一摆在案上）柳大人。三年贪墨灾粮、与死者最后同席、死者写至一半的告发信——三样物证都在此。你还要装到几时？",
+      "options": [
+        { "text": "（等他回答）", "goto": "confess" }
+      ]
+    },
+    "confess": {
+      "text": "（柳文卿瘫坐在椅上，许久——许久才出声）……是。这三年的赈灾粮，下官——下官认。\n\n两千石粮，下官替自己留了一千五。沈砚秋查出来了，要告——下官知道。\n\n可——大人。下官没杀他。\n\n二十三日那夜下官是去找他了，是要劝他息事宁人。下官有个法子——把他举荐到州府去任职，远离临川。可他不肯。\n\n他冷笑：「柳大人，你以为我告你只是为了赈灾粮？我告你，是顺手——你只是个挡在我前面的小人物。我真要算的账，比你的还大。」\n\n下官当时不解。第二天清早，他就死了。\n\n下官——贪墨该认，杀人却万万不曾。",
+      "set_flags": ["liu_confessed"],
+      "options": [
+        { "text": "他真要算的「大账」是什么？", "goto": "confess_clue", "hide_after_visit": true },
+        { "text": "（沉默离开）", "goto": "__exit__" }
+      ]
+    },
+    "confess_clue": {
+      "text": "（柳文卿苦笑）下官也只能把他原话告诉大人——他说：「柳大人，你查惯了纸面上的账，可临川还有一笔账，是用人命写的——二十年前的事。你若知道了，自己也得发抖。」\n\n下官当时只当他是疯话。如今他人没了——大人不妨问问观音庙的住持。沈砚秋这两个月，几乎天天往那座庙里跑。",
+      "gain_clue": "clue_temple_visits",
+      "options": [
+        { "text": "（这条线索很要紧——离开）", "goto": "__exit__" }
+      ]
+    },
+    "confess_motive": {
+      "text": "（柳文卿苦笑）大人若以为下官是凶手——下官只能说，下官只贪了粮，未敢害人。沈砚秋的死另有缘由——临川还有一笔旧账，二十年前的。大人去问问那位「清净人」。",
+      "set_flags": ["liu_confessed"],
+      "gain_clue": "clue_temple_visits",
+      "options": [
+        { "text": "（你已经听完了。离开）", "goto": "__exit__" }
+      ]
+    }
+  }
+}

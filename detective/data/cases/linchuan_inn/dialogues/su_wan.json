@@ -1,0 +1,74 @@
+{
+  "start_variants": [
+    { "when": { "flag": "evt_day5_done" }, "goto": "intro_after_day5" }
+  ],
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "text": "（妇人转过身，抬起一双红肿的眼）大人……砚秋他、他真的走了吗？昨天他还跟我说，过不了几天就……（说不下去）",
+      "options": [
+        { "text": "你跟沈砚秋是什么关系？", "goto": "relation", "hide_after_visit": true },
+        { "text": "你是不是在沈宅床下落过手帕？", "goto": "handkerchief", "requires": { "clue": "clue_handkerchief" }, "cost_time": 1, "hide_after_visit": true },
+        { "text": "你怎么会出现在临川？", "goto": "why_here", "hide_after_visit": true },
+        { "text": "（追问）你前夜在沈宅时，是否与他争执过？", "goto": "press_quarrel", "requires": { "all": [ { "visited": "su_wan.handkerchief" }, { "day_gte": 4 } ] }, "cost_time": 1 }
+      ]
+    },
+    "intro_after_day5": {
+      "text": "（苏婉神色比前几日平静了一些，眼眶却仍是红的）大人，我已把那物交给您。请您一定查清楚——砚秋走得不甘心。",
+      "options": [
+        { "text": "你前夜在沈宅时，是否与他争执过？", "goto": "press_quarrel", "cost_time": 1, "hide_after_visit": true },
+        { "text": "你给我的那条朱砂麻线，从何而来？", "goto": "thread_origin", "requires": { "clue": "clue_red_thread" }, "cost_time": 1, "hide_after_visit": true }
+      ]
+    },
+    "relation": {
+      "text": "（沉默了好一会儿）……我们是同乡。三年前定了亲，他来临川做官，说先攒点俸禄安顿下来，再回去娶我。这次他写信叫我来，说县里的事就快了结了。",
+      "options": [
+        { "text": "他信里还说了什么？", "goto": "what_letter" },
+        { "text": "（先问别的）", "goto": "intro" }
+      ]
+    },
+    "what_letter": {
+      "text": "他说……他说临川有件大事要做，做完就辞官回家。我没问是什么大事，我只盼他平平安安。可他、他怎么就……",
+      "options": [
+        { "text": "（先安抚她一下）", "goto": "intro" }
+      ]
+    },
+    "handkerchief": {
+      "text": "（脸微微一红）那条帕子……是我前天晚上落在他屋里的。我前天偷偷去找过他，那时候他还活得好好的，跟我说着话呢……",
+      "lie": { "is_lie": true, "reason": "半真半假——确实去过，但隐瞒了争吵", "exposed_by_node": "press_quarrel" },
+      "options": [
+        { "text": "他有没有跟你说过他在查什么？", "goto": "investigation" },
+        { "text": "（先问别的）", "goto": "intro" }
+      ]
+    },
+    "press_quarrel": {
+      "reveal_lie": { "lie_node": "handkerchief" },
+      "text": "（苏婉低下头，许久才道）……是。我那夜确实和他争吵过。\n\n我劝他放下告发的念头，与我回乡成亲。他不肯。我说他若不肯，我也不嫁了。\n\n他冷笑：「你以为我贪生怕死么？」我便摔门而去。\n\n谁知道——那竟是我见他的最后一面。",
+      "set_flags": ["su_admitted_quarrel"],
+      "options": [
+        { "text": "（沉默）", "goto": "intro" }
+      ]
+    },
+    "investigation": {
+      "text": "（咬着嘴唇，犹豫了一下）他说，他在抄一笔账，是关于赈灾粮的。说县里有人这几年吃了好几年的灾粮。他要写信向州府按察司告发——但他怕。他说怕来不及。",
+      "options": [
+        { "text": "他怕谁？", "goto": "afraid_who" },
+        { "text": "（先记下）", "goto": "intro" }
+      ]
+    },
+    "afraid_who": {
+      "text": "（声音颤抖）他没明说。可他的眉头一直皱着，老是看窗外。我说我留下陪他，他不肯，把我赶回客栈。说万一有什么事，千万别牵连到我。",
+      "options": [ { "text": "（沉默）", "goto": "intro" } ]
+    },
+    "why_here": {
+      "text": "我接到信就赶来了。可我到临川的时候已经是昨天傍晚了，住在集市旁边的客栈。今早就听人说……",
+      "options": [ { "text": "（先问别的）", "goto": "intro" } ]
+    },
+    "thread_origin": {
+      "text": "（苏婉低声道）那物是砚秋前夜塞给我的。他说：「若事不顺，便交给见朱砂之人。」\n\n我一直未懂何意。今早想到大人正在查朱砂，方才送来。",
+      "options": [
+        { "text": "（点头）", "goto": "intro_after_day5" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "lu_zhao": {
+    "name": "陆昭",
+    "title": "巡按御史",
+    "portrait": "res://assets/cn/portraits/lu_zhao.png"
+  },
+  "liu_wenqing": {
+    "name": "柳文卿",
+    "title": "临川知县",
+    "portrait": "res://assets/cn/portraits/liu_wenqing.png",
+    "intro": "三十八岁，进士出身。沈砚秋的顶头上司。"
+  },
+  "su_wan": {
+    "name": "苏婉",
+    "title": "妇人",
+    "portrait": "res://assets/cn/portraits/su_wan.png",
+    "intro": "自称是沈砚秋的故旧。一身素白，眼眶通红。"
+  },
+  "zhao_dayou": {
+    "name": "赵大有",
+    "title": "驿丞",
+    "portrait": "res://assets/cn/portraits/zhao_dayou.png",
+    "intro": "五十多岁的老驿丞。今早发现尸体的人。"
+  },
+  "gu_qingxuan": {
+    "name": "顾清玄",
+    "title": "白衣公子",
+    "portrait": "res://assets/cn/portraits/gu_qingxuan.png",
+    "intro": "春风楼常客。自称游学路过临川。一身白衣，气度不凡。"
+  },
+  "xiao_cui": {
+    "name": "小翠",
+    "title": "春风楼花魁",
+    "portrait": "res://assets/cn/portraits/xiao_cui.png",
+    "intro": "春风楼当家花魁。据说跟沈砚秋认识。"
+  },
+  "daoming": {
+    "name": "道明法师",
+    "title": "观音庙住持",
+    "portrait": "res://assets/cn/portraits/daoming.png",
+    "intro": "观音庙的住持。六十多岁，眼神清明。说话温和，但似乎不愿主动谈起出家前的事。"
+  },
+  "ma_san": {
+    "name": "马三",
+    "title": "捕头",
+    "portrait": "res://assets/cn/portraits/ma_san.png",
+    "intro": "临川县衙捕头。脸上有一道刀疤。"
+  }
+}

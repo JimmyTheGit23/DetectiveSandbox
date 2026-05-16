@@ -1,0 +1,61 @@
+{
+  "_comment": "指证答案。仅引擎读取，玩家看不到。注意：知县只是误导，不是真凶。",
+  "culprit": "daoming",
+  "motive": "old_grudge",
+  "method": "cinnabar_poison",
+  "key_evidence": [
+    "evidence_letter_draft",
+    "evidence_red_powder",
+    "evidence_chronic_dose",
+    "evidence_temple_paper",
+    "evidence_old_case_file",
+    "evidence_monk_handwriting"
+  ],
+  "min_evidence_required": 4,
+
+  "suspects": [
+    { "id": "liu_wenqing", "name": "柳文卿（知县）" },
+    { "id": "su_wan", "name": "苏婉" },
+    { "id": "zhao_dayou", "name": "赵大有（驿丞）" },
+    { "id": "gu_qingxuan", "name": "顾清玄（白衣公子）" },
+    { "id": "xiao_cui", "name": "小翠" },
+    { "id": "daoming", "name": "道明法师" },
+    { "id": "ma_san", "name": "马三（捕头）" }
+  ],
+  "motives": [
+    { "id": "embezzlement", "name": "贪墨灾粮，恐被告发" },
+    { "id": "love_jealousy", "name": "情爱纠葛" },
+    { "id": "money_robbery", "name": "图财害命" },
+    { "id": "old_grudge", "name": "私人恩怨（旧案宿仇）" },
+    { "id": "political_rival", "name": "官场倾轧" }
+  ],
+  "methods": [
+    { "id": "cinnabar_poison", "name": "朱砂下毒" },
+    { "id": "stab", "name": "刀剑刺杀" },
+    { "id": "drowned_in_well", "name": "溺毙古井" },
+    { "id": "strangle", "name": "勒杀" }
+  ],
+
+  "endings": {
+    "perfect": {
+      "title": "「明镜高悬」结局",
+      "narration": "你揭开了真相——朱砂三两印朱痕，何故年年减半分。沈砚秋写这首诗时，并不只是讽刺贪墨；他写的是——一桩二十年前被掩埋的旧案。\n\n真凶的伪装太久了，连他自己都快忘了。但沈砚秋记得。沈家的旧人，没有几个还活着，可那一个，他把自己活成了清净。\n\n柳文卿的贪墨案被另案收审，临川百姓的赈灾粮终归得到清理。苏婉抱着沈砚秋的骨灰回乡，小翠脱了乐籍，顾清玄朝你拱手——「沈兄一生疑案，今夜方了。」\n\n你骑马离临川，雨过天青。"
+    },
+    "good": {
+      "title": "「真凶伏法」结局",
+      "narration": "你抓对了真凶，可证据还差一截。州府接案时，那位「清净之人」只承认下毒，不肯承认旧案——案子结了，但沈砚秋写的那首诗，还有半句藏在风里。\n\n柳文卿的贪墨另案细查，临川春雨，洗清了大半。"
+    },
+    "partial": {
+      "title": "「擒贼一半」结局",
+      "narration": "你抓对了人，但动机说错了——你以为是为了贪墨灭口，其实是更深的旧账。真凶在被押上京时只是淡淡一句：「大人查得勤，可惜不够久。」\n\n沈砚秋的家书烧了一半，留下来的那一半，没人再敢翻。"
+    },
+    "bad": {
+      "title": "「冤狱再起」结局",
+      "narration": "你被表面的证据牵着鼻子走了。柳文卿确实贪墨，可沈砚秋的死，并不在他手上。\n\n你抓错了人。真凶在临川的某处晨钟暮鼓里，依然在念他的经。\n\n临川春雨，再也洗不掉这场冤。"
+    },
+    "timeout": {
+      "title": "「日暮途穷」结局",
+      "narration": "三天过去了，你没能结案。卷宗发还州府，柳文卿一笔了结此事。\n\n回京的路上你想——要是早一刻去观音庙，是不是就能赶上？"
+    }
+  }
+}

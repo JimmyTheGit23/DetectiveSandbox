@@ -1,0 +1,166 @@
+{
+  "_comment": "探索结果。key: location_id.point_id ；result 可指向证据 id 或线索 id 或纯文本",
+
+  "post_station.well": {
+    "default": {
+      "narration": "你低头查看古井。井栏的石板上有一些不规则的水渍，像是有人匆忙拨弄过井绳。井口边缘还粘着一缕黑色的发丝。",
+      "clue": "clue_well_disturbed"
+    }
+  },
+  "post_station.rope": {
+    "default": {
+      "narration": "井边的麻绳一截断口很整齐，像是用刀切的，另一截却是被人用力拽断的——不像自杀的人会做的事。",
+      "clue": "clue_rope_cut"
+    }
+  },
+  "post_station.body": {
+    "default": {
+      "narration": "尸体嘴角发黑，指甲青紫，嘴里还残留着一点金属的腥味。沈砚秋袖子里还藏着一封写到一半的信——「……朱砂的事，恐怕已经……」",
+      "evidence": "evidence_letter_draft"
+    },
+    "after_clue:clue_drug_question": {
+      "narration": "你又仔细看了看尸体。指甲青得发黑，口角的黑斑边缘呈细小的颗粒——这是慢性中毒的特征，下毒之人能稳定接触死者饮食已经至少两个月。",
+      "evidence": "evidence_chronic_dose"
+    }
+  },
+  "post_station.barrels": {
+    "default": {
+      "narration": "墙边几个木桶，多半装着雨水和马料，看起来没什么异常。"
+    }
+  },
+  "post_station.lantern": {
+    "default": {
+      "narration": "屋檐下挂着的灯笼上有油渍——看来昨晚确实点过。"
+    }
+  },
+
+  "shen_residence.desk": {
+    "default": {
+      "narration": "书桌上摊着一本草稿——竟然是沈砚秋手抄的县里这三年赈灾粮入库出库的帐目，旁边还有他用红笔写的批注：「七月入两千石，账上记一千五」「九月又少三百」。",
+      "evidence": "evidence_account_draft"
+    }
+  },
+  "shen_residence.drawer": {
+    "default": {
+      "narration": "抽屉里藏着一封还没寄出的密信，字迹很工整，开头写着「呈州府按察司：临川知县柳大人贪墨灾粮一事陈述如下……」沈砚秋显然已经准备越级告发了。\n\n奇怪的是——抽屉里另有一格夹层，明显被人匆匆翻过，里面只剩一根掉落的线头。",
+      "evidence": "evidence_secret_letter"
+    },
+    "after_clue:clue_shen_father_old_case": {
+      "narration": "你重新翻找抽屉夹层。最深处，沈砚秋藏着一本极旧的卷宗誊录——「万历四年，临川县米行案」。誊录末尾，有一行红笔小字：「告发者，俗姓严，今为临川某寺住持。」",
+      "evidence": "evidence_old_case_file"
+    }
+  },
+  "shen_residence.bed": {
+    "default": {
+      "narration": "床被掀过，像是有人匆匆翻找过什么。枕头底下藏着一条精致的妇人手帕，上面绣着一个「婉」字。",
+      "clue": "clue_handkerchief"
+    }
+  },
+  "shen_residence.scrolls": {
+    "default": {
+      "narration": "墙上挂着几幅自题的诗轴。其中一幅墨迹还很新：「朱砂三两印朱痕，何故年年减半分」——明显是首讽刺的诗。落款日期是——「万历七年」。可万历七年沈砚秋才十一岁。这日期不对劲。",
+      "clue": "clue_poem"
+    }
+  },
+  "shen_residence.teacup": {
+    "default": {
+      "narration": "桌上翻倒的茶盏里，茶渍泛着淡淡的橙红色。你用指尖蘸了一下——竟然有一点不溶解的红色细粉。",
+      "evidence": "evidence_red_powder"
+    }
+  },
+
+  "yamen.archive": {
+    "default": {
+      "narration": "卷宗架上是历年的文书。你翻找了一遍，没找到今年赈灾粮的明细——好像被人抽走了。",
+      "clue": "clue_missing_archive"
+    },
+    "after_clue:clue_shen_father_old_case": {
+      "narration": "你重新翻找万历四年前后的卷宗——「米行案」一卷竟然完整保留。誊本写得清清楚楚：告发者，临川人氏，俗姓严。流放路上，沈家七口未到岭南就尽数殁了。卷尾还粘着一张更小的纸条——告发当时拿到的「赏银」记录。",
+      "evidence": "evidence_old_case_file"
+    }
+  },
+  "yamen.evidence_table": {
+    "default": {
+      "narration": "证物台上零零散散摆着几样东西：一块用旧的朱砂印泥残块、一支磨秃了的毛笔、一只摔破的青瓷茶碗。那块印泥的颜色，跟你在沈宅茶盏里看到的红粉乍看一样——可仔细看，印泥里掺了油，茶盏里的红粉却是纯粉末。",
+      "evidence": "evidence_cinnabar_inkpaste"
+    }
+  },
+
+  "spring_wind_tower.private_room": {
+    "default": {
+      "narration": "雅间桌上还留着昨晚没收拾的酒席。两副筷子、两个杯子——其中一只杯沿留着口红印。"
+    }
+  },
+  "spring_wind_tower.stage": {
+    "default": {
+      "narration": "戏台幕后的妆奁里，藏着一封没拆开的信。署名「砚秋兄留」——是沈砚秋写给小翠却没来得及送出的。信里说「县里的事快了结了，过不了几天就来接你出这火坑」。",
+      "clue": "clue_shen_to_xiaocui"
+    },
+    "after_clue:clue_shen_to_xiaocui": {
+      "narration": "你又看了一遍这封信，背面竟然还有一行小字：「父冤近矣，望再忍数日。」——「父冤」？沈砚秋的父亲，到底发生过什么？",
+      "clue": "clue_shen_father_old_case"
+    }
+  },
+  "spring_wind_tower.ledger": {
+    "default": {
+      "narration": "酒楼帐簿上有一栏：「二十三日夜，柳大人、沈主簿同坐丙号雅间，至子时方散。」——可柳文卿对你说他「最近没跟沈一起吃过饭」。",
+      "evidence": "evidence_tower_ledger"
+    }
+  },
+
+  "guanyin_temple.incense": {
+    "default": {
+      "narration": "香炉里残着三支烧完的香。底座的灰里似乎有一小片黄色纸屑——上面还有半枚朱砂印章。印章不是县衙公印，倒像是哪位私人「号印」。",
+      "clue": "clue_temple_paper"
+    },
+    "after_clue:clue_temple_paper": {
+      "narration": "你按着那半枚印章的轮廓，凑近又看——印底「严」字隐约可辨，下方有「行藏」二字。这种「号印」是文人雅士所用，不应出现在佛寺香炉里。\n\n（你忽然想起——观音庙住持，俗家可能姓什么？）"
+    }
+  },
+  "guanyin_temple.ribbons": {
+    "default": {
+      "narration": "古树上系着许多红色的祈福绸带。其中一条系上去没多久，写着「愿砚秋兄一生平安」——字迹娟秀。"
+    }
+  },
+  "guanyin_temple.altar": {
+    "default": {
+      "narration": "佛龛底下的供盘里压着一张折迭的字条：「朱砂入水，三月半两可致……」字迹潦草，像是有人写完了才惊觉，赶紧藏起来。",
+      "evidence": "evidence_temple_paper"
+    },
+    "after_clue:clue_temple_paper": {
+      "narration": "你把字条带到功德册前比对——大殿功德册上，住持每月都要亲笔留偈语。两份字迹的撇捺与运笔几乎完全一致。",
+      "evidence": "evidence_monk_handwriting"
+    }
+  },
+
+  "market.drug_shop": {
+    "default": {
+      "narration": "镇上唯一的药铺。掌柜一见你就摇头：「朱砂这东西，本来就是寻常之物。最近一个月有人来问得多——是谁我可不能乱说。」",
+      "clue": "clue_drug_buyer_hint"
+    },
+    "after_clue:clue_drug_buyer_hint": {
+      "narration": "你又来药铺问了一次。掌柜屈着指头算了算：「上个月十五，一位穿青袍的官老爷来抓过半两；二十三号，又有一位戴帷帽的妇人来过——还有，化缘的某位师父隔几日就要来取一点，说是给寺里画佛用。」",
+      "clue": "clue_drug_buyers"
+    }
+  },
+  "market.bridge": {
+    "conditional": [
+      {
+        "when": { "all": [ { "flag": "met_ma_at_bridge" }, { "not": { "flag": "ma_bridge_met_done" } } ] },
+        "narration": "你按约定到了城南石桥下。亥时已过，桥孔下水声哗哗，一道黑影从桥墩后转出——是马三。",
+        "trigger_dialogue": "ma_san",
+        "trigger_dialogue_start": "intro_open",
+        "set_flags": ["ma_bridge_met_done"]
+      }
+    ],
+    "default": {
+      "narration": "石桥下面水流湍急。桥栏边挂着一只草鞋——大概是有人匆匆经过遗落的。"
+    }
+  },
+  "market.stalls": {
+    "default": {
+      "narration": "集市清晨人少，几个摊主低声议论：「沈主簿那么实在的人，怎么会说没就没了……」「听说前阵子常被知县留到衙后说话呢。」「听说前阵子他又常去观音庙坐着——人都说他是要出家了。」",
+      "clue": "clue_market_gossip"
+    }
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "_comment": "日程事件：按累计消耗时段触发（3 日 × 14 时段 = 42 总时段）。玩家自行触发提示。",
+  "events": [
+    {
+      "id": "evt_day2_break_in",
+      "trigger": {
+        "all": [
+          { "total_periods_used_gte": 8 },
+          { "not": { "flag": "evt_day2_break_in_done" } }
+        ]
+      },
+      "title": "夜半惊变",
+      "hint": "（驿丞神色匆匆赶来）「大人，沈宅的门，今夜被人撬过了……」",
+      "narration": [
+        "天色微亮，赵大有匆匆赶来。",
+        "「大人！沈砚秋宅院的门被人撬过了。我刚从那儿过，门半开着，里面被翻得一塌糊涂。」",
+        "看来昨夜有人比你更急着进沈宅。"
+      ],
+      "effects": {
+        "set_flag": "shen_house_broken",
+        "unlock_hint": "sheng_residence"
+      }
+    },
+    {
+      "id": "evt_bridge_appointment",
+      "trigger": {
+        "all": [
+          { "flag": "met_ma_at_bridge" },
+          { "not": { "flag": "ma_bridge_met_done" } },
+          { "not": { "flag": "evt_bridge_appointment_done" } }
+        ]
+      },
+      "title": "夜会石桥",
+      "hint": "（与马三约定亥时相见）",
+      "narration": [
+        "你与马三定下今夜亥时，于城南石桥下相见。",
+        "去集市的方向，西头那座石桥便是。届时进入「集市」地点，从「探索」中点选「石桥下」。",
+        "夜里时辰，他自会在那儿候着。"
+      ],
+      "effects": {}
+    },
+    {
+      "id": "evt_old_case_revealed",
+      "trigger": {
+        "all": [
+          { "evidence": "evidence_old_case_file" },
+          { "not": { "flag": "evt_old_case_revealed_done" } }
+        ]
+      },
+      "title": "故案重现",
+      "hint": "（顾清玄约你于春风楼上吃茶）「大人，沈兄之死，怕不是大人想的那么简单……」",
+      "narration": [
+        "顾清玄在春风楼上邀你吃茶。他从怀中抽出一卷誊本——",
+        "「这是邻县按察司里压了二十年的副本。万历四年的米行案——告发者，俗姓严。流放路上，沈家七口尽殁，只剩一个十一岁的小儿，被远房舅父收养——就是后来的沈砚秋。」",
+        "「沈兄查的根本不是赈灾粮——那只是顺手。他真正要为之昭雪的，是他亲生父亲。」",
+        "「大人，凶手不在县衙——在临川某处寺院的香火里。」"
+      ],
+      "effects": {
+        "set_flag": "gu_revealed_old_case"
+      }
+    },
+    {
+      "id": "evt_day3_liu_pressure",
+      "trigger": {
+        "all": [
+          { "total_periods_used_gte": 14 },
+          { "visited": "liu_wenqing.show_account" },
+          { "not": { "flag": "evt_day3_done" } }
+        ]
+      },
+      "title": "县衙施压",
+      "hint": "（捕头马三悄悄递来字条）「县老爷今晨发了好大的火……」",
+      "narration": [
+        "马三趁着无人，将一张折迭的字条塞到你手里。",
+        "「县老爷今晨发了好大的火，说御史多事。卑职劝大人，要查就快查——夜里出门也要小心。」",
+        "字条上只有一行：「今夜守在城南石桥下，可见有趣事。」",
+        "（看来夜里时辰，他会等在城南石桥下与你相见。）"
+      ],
+      "effects": {
+        "set_flag": ["liu_alarmed", "ma_bridge_invite"]
+      }
+    },
+    {
+      "id": "evt_day5_su_initiative",
+      "trigger": {
+        "all": [
+          { "total_periods_used_gte": 25 },
+          { "visited": "su_wan.investigation" },
+          { "not": { "flag": "evt_day5_done" } }
+        ]
+      },
+      "title": "苏婉来访",
+      "hint": "（一位身着素白的妇人在门外，神色焦急）",
+      "narration": [
+        "苏婉来到你住处，眼眶通红。",
+        "「大人，我这两日反复想，前夜与砚秋见面时，他塞给我一物，让我若事不顺便交给「见朱砂之人」。我不知何意——」",
+        "她将一个小布包递给你，里面是半截染了朱砂的麻线。"
+      ],
+      "effects": {
+        "set_flag": "su_handed_thread",
+        "gain_clue": "clue_red_thread"
+      }
+    },
+    {
+      "id": "evt_day6_deadline",
+      "trigger": {
+        "all": [
+          { "total_periods_used_gte": 33 },
+          { "not": { "flag": "evt_day6_done" } }
+        ]
+      },
+      "title": "限期将至",
+      "hint": "（你独坐客房，案宗未结。明日便是三日之期）",
+      "narration": [
+        "天色暗了下来。明日便是三日之期。",
+        "若不能结案，你这御史的官印恐怕也要落到案宗夹页里。",
+        "证据若已齐全，便可前往县衙公开指证。"
+      ],
+      "effects": {}
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "_comment": "证据与线索定义。type: evidence(实物证据可指证), clue(线索文本)",
+  "evidence_letter_draft": {
+    "type": "evidence",
+    "name": "未写完的信",
+    "description": "沈砚秋袖子里的残信：「……朱砂的事，恐怕已经……」死前他显然想写出真凶跟朱砂有关的某件事——但「朱砂」二字在他心里到底是哪桩，得问对人。"
+  },
+  "evidence_account_draft": {
+    "type": "evidence",
+    "name": "赈灾粮帐目稿",
+    "description": "沈砚秋抄录的县里这三年赈灾粮入库出库的帐目，红笔批注显示账面数字和实际入库数差距巨大。指向监管这件事的官员——但这只是沈砚秋手上的「公务」，未必是他被杀的全部理由。"
+  },
+  "evidence_secret_letter": {
+    "type": "evidence",
+    "name": "致州府密信",
+    "description": "沈砚秋还没寄出的密信草稿：「呈州府按察司：临川知县柳大人贪墨灾粮一事陈述如下……」明确指向柳文卿贪墨。但请注意——信里没有一个字提到「下毒」或「杀人」。"
+  },
+  "evidence_red_powder": {
+    "type": "evidence",
+    "name": "茶盏中的红粉",
+    "description": "沈宅翻倒的茶盏里，茶渍带橙红色，残留着不溶解的红粉。看起来很像朱砂。但朱砂可分多种——印泥用的、画工用的、还有一种「炼气养身」的丹砂粉。"
+  },
+  "evidence_cinnabar_inkpaste": {
+    "type": "evidence",
+    "name": "县衙朱砂印泥",
+    "description": "柳文卿日常用的朱砂印泥残块。颜色和茶盏里的红粉乍看一致，可仔细比对——印泥里掺了油，而茶盏中的红粉是纯粉末，两者并不完全相同。"
+  },
+  "evidence_tower_ledger": {
+    "type": "evidence",
+    "name": "春风楼帐簿",
+    "description": "酒楼帐簿明明白白记着柳文卿和沈砚秋上个月二十三号一起坐到深夜。可柳文卿对你说「最近没一起吃过饭」——证明他在撒谎。这能揭穿柳文卿的贪墨遮掩，但不一定指向凶手。"
+  },
+  "evidence_chronic_dose": {
+    "type": "evidence",
+    "name": "慢性投毒佐证",
+    "description": "沈砚秋指甲青黑、口角发黑，是长期小剂量摄入朱砂的症状。这意味着——下毒的人是能稳定接触沈砚秋日常饮食的人，至少持续了两个月。"
+  },
+  "evidence_temple_paper": {
+    "type": "evidence",
+    "name": "庙里的字条",
+    "description": "观音庙佛龛底下藏着的字条，字迹潦草：「朱砂入水，三月半两可致……」——字句里透露着一种「养身炼丹」的语气。是有人在打听、记录朱砂的致死剂量。"
+  },
+  "evidence_old_case_file": {
+    "type": "evidence",
+    "name": "二十年前旧案",
+    "description": "顾清玄从邻县按察司带来的旧档：万历四年，临川县沈家米行因捐赈一事获罪，全家流放。主事的是当年的「沈典史」——也就是沈砚秋的父亲。\n\n卷宗末页注着一句：「告发者，本县某佛寺主持，俗家姓氏不详。」"
+  },
+  "evidence_monk_handwriting": {
+    "type": "evidence",
+    "name": "字迹比对",
+    "description": "把佛龛底下那张「朱砂入水」字条，与观音庙功德册上某住持亲笔留下的偈语并排对照——字底的运笔、撇捺的微小破绽，惊人地相似。不是无名小辈的字。"
+  },
+
+  "clue_well_disturbed": { "type": "clue", "name": "井栏的水渍", "description": "井栏被人匆忙拨弄过，看起来像是死者临死前曾扑到井边。" },
+  "clue_rope_cut": { "type": "clue", "name": "断绳异常", "description": "井绳一截是刀切的，一截是被扯断的——不像自杀的样子。" },
+  "clue_handkerchief": { "type": "clue", "name": "「婉」字手帕", "description": "沈宅床下藏着一条绣「婉」字的妇人手帕——苏婉？" },
+  "clue_poem": { "type": "clue", "name": "讽刺诗", "description": "沈砚秋的自题诗：「朱砂三两印朱痕，何故年年减半分」——表面看是讽刺有官员借朱砂的名义贪污，可这首诗最早写于「万历七年」——那年他才十一岁，还在跟着父亲读书。怎么会写出这样老辣的诗？" },
+  "clue_missing_archive": { "type": "clue", "name": "卷宗失踪", "description": "县衙卷宗里今年的赈灾粮明细被人抽走了。" },
+  "clue_shen_to_xiaocui": { "type": "clue", "name": "未送出的信", "description": "沈砚秋写给小翠：「县里的事快了结了，过不了几天就来接你出这火坑」。沈跟小翠似乎有结婚的打算。" },
+  "clue_temple_paper": { "type": "clue", "name": "庙里的纸屑", "description": "观音庙香灰里有一片黄色纸屑，上面有半枚朱砂印章——印章的式样不像县衙公印，倒像私人「号」印。" },
+  "clue_drug_question": { "type": "clue", "name": "庙里的字条", "description": "佛龛底下藏着字条：「朱砂入水，三月半两可致……」——有人在打听朱砂致死的剂量。" },
+  "clue_drug_buyer_hint": { "type": "clue", "name": "药铺有买家", "description": "镇上的药铺最近有人频繁买朱砂。" },
+  "clue_drug_buyers": { "type": "clue", "name": "朱砂的买主", "description": "药铺承认：上个月十五，有位穿青袍的官老爷来抓过半两朱砂；二十三号，又有一位戴帷帽的妇人来过；此外——有位「化缘的师父」隔三差五就来取一点。" },
+  "clue_market_gossip": { "type": "clue", "name": "市井流言", "description": "集市摊主低声说：沈主簿最近常被知县留到衙后说话。也有人说：沈主簿这一个多月，常去观音庙独坐，回回坐到天黑。" },
+  "clue_red_thread": { "type": "clue", "name": "朱砂麻线", "description": "苏婉转交，沈砚秋遗物。一段染了朱砂的麻线——他对她说：「若事不顺，便交给见朱砂之人。」可这「见朱砂之人」——不是知县，那是谁？" },
+  "evidence_cinnabar_bottle": { "type": "evidence", "name": "朱砂瓷瓶", "description": "小翠保管的瓷瓶，沈砚秋亲手交给她作为物证。瓶口尚封，内含纯朱砂粉。封纸内层粘着一张极薄的纸条：「砚秋兄见字如面：每日所赠丹砂，乃出某佛门之私焙。汝若信我，便莫再饮。」" },
+  "clue_shen_father_old_case": { "type": "clue", "name": "沈父往事", "description": "沈砚秋曾在春风楼酒后对小翠说过：他十一岁那年，父亲被人告发「私吞捐粮」流放岭南。一家人全死在路上，只有他被一位远房舅父收养。「告发我家的，是临川一座庙。」" },
+  "clue_temple_visits": { "type": "clue", "name": "沈砚秋的庙访", "description": "沈砚秋这一两个月内，几乎每旬必往观音庙独坐——并非礼佛，是在反复盘问庙中存档与往来人事。庙中知客僧悄悄说：沈大人问的，不是佛事，是「往年的捐粮册」。" },
+  "clue_daoming_lay_name": { "type": "clue", "name": "住持俗家姓氏", "description": "道明法师二十年前出家。庙志记载，他俗家姓「严」——临川老人都记得，万历四年告发沈家米行的，正是当年米行隔壁的「严姓账房」。可账房之名，早已无人提起。" }
+}
