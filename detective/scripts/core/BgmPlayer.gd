@@ -183,8 +183,12 @@ func _play_stream(stream: AudioStreamWAV) -> void:
 	# 先不用 Tween，直接 0dB 播放，排除淡入 Tween 未执行导致一直 -80dB 的问题
 	next_player.volume_db = default_volume_db
 	next_player.play()
-	# 手动循环：避免 AudioStreamWAV 的 loop_end 配置导致 0 长度循环
-	next_player.finished.connect(_on_bgm_finished.bind(next_player), CONNECT_ONE_SHOT)
+	# 手动循环：避免 AudioStreamWAV 的 loop_end 配置导致 0 长度循环。
+	# 切歌时同一个 player 可能还残留上一条 finished 连接，先安全断开再连接。
+	var finished_cb := _on_bgm_finished.bind(next_player)
+	if next_player.finished.is_connected(finished_cb):
+		next_player.finished.disconnect(finished_cb)
+	next_player.finished.connect(finished_cb, CONNECT_ONE_SHOT)
 	
 	if old_player and old_player.playing and old_player != next_player:
 		old_player.stop()
@@ -201,4 +205,7 @@ func _on_bgm_finished(player: AudioStreamPlayer) -> void:
 	# 当前 active player 播完时重播，实现 BGM 循环
 	if player == _active_player and _current_id != "" and player.stream != null:
 		player.play()
-		player.finished.connect(_on_bgm_finished.bind(player), CONNECT_ONE_SHOT)
+		var finished_cb := _on_bgm_finished.bind(player)
+		if player.finished.is_connected(finished_cb):
+			player.finished.disconnect(finished_cb)
+		player.finished.connect(finished_cb, CONNECT_ONE_SHOT)

@@ -202,7 +202,7 @@ func _on_location_changed(loc_id: String) -> void:
 
 
 func _on_time_advanced(_day: int, _period: int) -> void:
-	top_bar_label.text = GameManager.current_time_text() + "    剩余 %d 时段" % GameManager.remaining_periods()
+	top_bar_label.text = "%s    距下一日 %d 时段    总剩余 %d 时段" % [GameManager.current_time_text(), GameManager.periods_until_next_day(), GameManager.remaining_periods()]
 	if GameManager.is_time_up():
 		_show_ending("timeout")
 
@@ -353,10 +353,10 @@ func _on_dialogue_ended() -> void:
 
 
 # ─── 序章 / 叙述 ───
-func _on_narration_started(background: String, _speaker: String, text: String, has_next: bool) -> void:
+func _on_narration_started(background: String, _speaker: String, text: String, has_next: bool, centered: bool) -> void:
 	if background != "" and ResourceLoader.exists(background):
 		scene_bg.texture = load(background)
-	narration_box.show_narration(_speaker, text, has_next)
+	narration_box.show_narration(_speaker, text, has_next, centered)
 	narration_box.visible = true
 	menu_panel.visible = false
 

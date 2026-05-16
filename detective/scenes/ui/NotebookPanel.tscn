@@ -14,29 +14,40 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0.85)
 
-[node name="Panel" type="Control" parent="."]
+[node name="Panel" type="Panel" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 60.0
-offset_top = 50.0
-offset_right = -60.0
-offset_bottom = -40.0
+offset_left = 70.0
+offset_top = 48.0
+offset_right = -150.0
+offset_bottom = -46.0
+
+[node name="Title" type="Label" parent="Panel"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 12.0
+offset_bottom = 52.0
+text = "案 牍 笔 记"
+horizontal_alignment = 1
 
 [node name="Tabs" type="TabContainer" parent="Panel"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 50.0
+offset_left = 20.0
+offset_top = 66.0
+offset_right = -20.0
+offset_bottom = -22.0
 theme_override_font_sizes/font_size = 22
 
 [node name="CloseBtn" type="Button" parent="Panel"]
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -100.0
-offset_top = 4.0
-offset_right = -10.0
-offset_bottom = 44.0
+offset_left = -56.0
+offset_top = 8.0
+offset_right = -16.0
+offset_bottom = 48.0
 theme_override_font_sizes/font_size = 20
-text = "关 闭"
+text = "✕"

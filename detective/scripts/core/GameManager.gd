@@ -213,6 +213,10 @@ func remaining_periods() -> int:
 	return TOTAL_DAYS * PERIODS_PER_DAY - used
 
 
+func periods_until_next_day() -> int:
+	return PERIODS_PER_DAY - current_period
+
+
 func total_periods_used() -> int:
 	return (current_day - 1) * PERIODS_PER_DAY + current_period
 

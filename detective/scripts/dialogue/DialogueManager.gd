@@ -3,7 +3,7 @@ extends Node
 
 signal dialogue_started(speaker: String, portrait: String, text: String, options: Array)
 signal dialogue_ended()
-signal narration_started(background: String, speaker: String, text: String, has_next: bool)
+signal narration_started(background: String, speaker: String, text: String, has_next: bool, centered: bool)
 signal narration_ended()
 signal lie_exposed(npc_id: String, lie_node: String)
 
@@ -221,11 +221,15 @@ func _emit_narration() -> void:
 	if node.is_empty():
 		_end_narration()
 		return
-	VoicePlayer.play_narration(_narration_node)
+	if not node.get("silent", false):
+		VoicePlayer.play_narration(_narration_node)
+	else:
+		VoicePlayer.stop()
+	var centered: bool = node.get("centered", false)
 	if node.get("end", false):
-		narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), false)
+		narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), false, centered)
 		return
-	narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), true)
+	narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), true, centered)
 
 
 func _end_narration() -> void:
@@ -264,7 +268,10 @@ func _emit_adhoc() -> void:
 		speaker = item.get("speaker", "")
 		text = item.get("text", "")
 	var has_next := _adhoc_idx < _adhoc_lines.size() - 1
-	narration_started.emit(background, speaker, text, has_next)
+	var centered := false
+	if item is Dictionary:
+		centered = item.get("centered", false)
+	narration_started.emit(background, speaker, text, has_next, centered)
 
 
 func adhoc_next() -> void:
