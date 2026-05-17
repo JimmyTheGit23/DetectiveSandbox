@@ -95,7 +95,19 @@
       "oral": 4,
       "laugh": 0,
       "break": 3,
-      "note": "马三：年轻江湖捕头，粗粝、短句有力。"
+      "note": "青年游侠：年轻江湖人，利落、短句有力。"
+    },
+    "actor_scarred_constable": {
+      "engine": "chattts",
+      "speaker_seed": 35072,
+      "gender": "M",
+      "age": "middle",
+      "speed": 4,
+      "temperature": 0.30,
+      "oral": 2,
+      "laugh": 0,
+      "break": 4,
+      "note": "马三（中年捕头）：粗粝中年男声，军伍出身，说话干脆有力。"
     },
     "actor_senior_prefect": {
       "engine": "chattts",

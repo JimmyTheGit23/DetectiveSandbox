@@ -61,6 +61,70 @@
           "goto": "greet"
         }
       ]
+    },
+    "greet_collect_debt": {
+      "text": "（卜掌柜在浔阳楼檐下收起账袋，见你过来忙拱手）大人也在此处？小人是来同楼里清一笔旧账，不敢耽搁问案。",
+      "options": [
+        {
+          "text": "案发那天可有人买过绛红云纹绸？",
+          "goto": "about_silk",
+          "hide_after_visit": true
+        },
+        {
+          "text": "（出示红绸残片）能否对一下织法？",
+          "goto": "match_silk",
+          "requires": {
+            "evidence": "evidence_torn_silk"
+          },
+          "hide_after_visit": true
+        },
+        {
+          "text": "（先告辞）",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "greet_market_wholesale": {
+      "text": "（卜掌柜抱着几卷布样，正从市集人群里挤出来）大人，小人今日来市集跑货，铺子里有伙计照看。若问绛红云纹绸，小人还记得。",
+      "options": [
+        {
+          "text": "案发那天可有人买过绛红云纹绸？",
+          "goto": "about_silk",
+          "hide_after_visit": true
+        },
+        {
+          "text": "（出示红绸残片）能否对一下织法？",
+          "goto": "match_silk",
+          "requires": {
+            "evidence": "evidence_torn_silk"
+          },
+          "hide_after_visit": true
+        },
+        {
+          "text": "（先告辞）",
+          "goto": "__exit__"
+        }
+      ]
     }
-  }
+  },
+  "start_variants": [
+    {
+      "when": {
+        "npc_activity": {
+          "npc": "bu_zhang",
+          "activity": "collect_debt"
+        }
+      },
+      "goto": "greet_collect_debt"
+    },
+    {
+      "when": {
+        "npc_activity": {
+          "npc": "bu_zhang",
+          "activity": "wholesale_run"
+        }
+      },
+      "goto": "greet_market_wholesale"
+    }
+  ]
 }

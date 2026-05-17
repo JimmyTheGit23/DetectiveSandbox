@@ -565,6 +565,29 @@ func evaluate_condition(cond) -> bool:
 		return has_flag(d["flag"])
 	if d.has("not_flag"):
 		return not has_flag(d["not_flag"])
+	# 当前地点条件，用于 NPC 移动后的场景化开场白/选项
+	if d.has("location"):
+		return current_location == str(d["location"])
+	# NPC 当前所在地条件：{ "npc_location": { "npc": "bu_zhang", "location": "pavilion_main" } }
+	if d.has("npc_location"):
+		var loc_spec = d["npc_location"]
+		if typeof(loc_spec) == TYPE_DICTIONARY:
+			var loc_npc: String = str(loc_spec.get("npc", ""))
+			var loc_id: String = str(loc_spec.get("location", ""))
+			if loc_npc == "" or loc_id == "":
+				return false
+			return get_npc_schedule_at(loc_npc, current_day, current_period).get("location", "") == loc_id
+		return false
+	# NPC 当前活动条件：{ "npc_activity": { "npc": "bu_zhang", "activity": "collect_debt" } }
+	if d.has("npc_activity"):
+		var act_spec = d["npc_activity"]
+		if typeof(act_spec) == TYPE_DICTIONARY:
+			var act_npc: String = str(act_spec.get("npc", ""))
+			var act_id: String = str(act_spec.get("activity", ""))
+			if act_npc == "" or act_id == "":
+				return false
+			return get_npc_schedule_at(act_npc, current_day, current_period).get("activity", "") == act_id
+		return false
 	if d.has("visited"):
 		var v: String = d["visited"]
 		var parts := v.split(".")

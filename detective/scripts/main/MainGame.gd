@@ -329,8 +329,7 @@ func _on_event_hint_clicked() -> void:
 # ─── 菜单 ───
 func _on_menu_clicked(menu_id: String) -> void:
 	if menu_id == "talk":
-		var loc := GameManager.current_location_data()
-		var npcs: Array = loc.get("npcs", [])
+		var npcs: Array = GameManager.get_active_npcs_at(GameManager.current_location)
 		if npcs.is_empty():
 			_flash_notification("此处无人。")
 			return

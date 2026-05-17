@@ -1,0 +1,226 @@
+{
+  "_comment": "浔阳楼案 Gemini TTS 角色配音设定。生成前必须先为每个案件角色定义：性别、年龄、性格、基础语气，以及关键节点的单句语气。",
+  "_schema": {
+    "voice_name": "Gemini TTS prebuilt voice name，用于保证角色声线一致",
+    "gender": "男 / 女 / 中性旁白",
+    "age": "青年 / 中年 / 老年 / 旁白",
+    "personality": "角色性格与社会身份",
+    "base_tone": "该角色所有台词的默认朗读方式",
+    "line_tones": "按 dialogue node_id 覆盖单句语气；未配置则使用 base_tone"
+  },
+  "model": "gemini-2.5-flash-preview-tts",
+  "narrator": {
+    "voice_name": "Charon",
+    "gender": "男",
+    "age": "中年",
+    "personality": "明清话本式说书人，沉稳克制，不替玩家下结论",
+    "base_tone": "以低沉、平稳、略带悬疑的旁白语气朗读；停顿清楚，不夸张，不剧透"
+  },
+  "roles": {
+    "lu_zhao": {
+      "actor_id": "actor_imperial_inspector",
+      "role_name": "陆昭",
+      "role_title": "巡按御史",
+      "voice_name": "Iapetus",
+      "gender": "男",
+      "age": "中年",
+      "personality": "冷静、克制、观察力强的御史；不轻易下结论",
+      "base_tone": "沉稳清晰，语速中慢，官员口吻，疑问句要像询问而非定罪",
+      "line_tones": {}
+    },
+    "qing_jie": {
+      "actor_id": "actor_madam_proprietress",
+      "role_name": "青姐",
+      "role_title": "浔阳楼当家",
+      "voice_name": "Aoede",
+      "gender": "女",
+      "age": "中年",
+      "personality": "成熟圆滑、善于应酬，悲伤外表下极力自持；说话带当家人的分寸",
+      "base_tone": "成熟女声，低一些，克制悲伤，字句圆滑；不要尖利，不要少女感",
+      "line_tones": {
+        "intro": "强忍悲痛，礼数周全，声音微哑",
+        "last_company": "回忆死者时压低声音，带一点真切哀伤",
+        "voice_who": "警惕、试探，不要显得心虚",
+        "loan_truth": "解释账目时谨慎周旋",
+        "show_redemption": "听到赎身契时短促停顿，随后强作镇定",
+        "who_loses": "语气微冷，带被逼问后的防御",
+        "confront_shoes": "被指出破绽时语速变慢，压住慌乱",
+        "confront_ledger": "承认小错但避开大罪，声音收紧",
+        "ledger_pressed": "情绪裂开，悲怒与不甘交织",
+        "alibi": "平稳陈述，像准备好的口供"
+      }
+    },
+    "sun_laoliu": {
+      "actor_id": "actor_innkeeper_wife",
+      "role_name": "孙娘",
+      "role_title": "茶坊娘子",
+      "voice_name": "Kore",
+      "gender": "女",
+      "age": "中年",
+      "personality": "市井、消息灵通、话多但怕惹祸",
+      "base_tone": "中年市井女声，语速略快，带谨慎和八卦感；古代口吻，不现代",
+      "line_tones": {
+        "greet": "热络但压低声音",
+        "night_movement": "回忆夜里动静，神秘兮兮",
+        "who_from_yard": "犹豫后说出关键观察，声音放轻",
+        "d1_noon": "必须保持与孙娘其他台词完全同一声线：中年市井女声，语速略快，压低声音，带八卦和怕惹事的谨慎；像回忆午时人来人往，不要变成旁白、少女或老年声",
+        "d1_dusk": "紧张，怕被牵连",
+        "qingjie_timing": "小心指出矛盾，不敢说死"
+      }
+    },
+    "lady_zhou": {
+      "actor_id": "actor_elder_grandmother",
+      "role_name": "周老夫人",
+      "role_title": "望族遗孀",
+      "voice_name": "Sulafat",
+      "gender": "女",
+      "age": "老年",
+      "personality": "望族遗孀，威严、慢条斯理，不轻易失态",
+      "base_tone": "老年女声，低沉、缓慢、有威仪；每句留足停顿",
+      "line_tones": {
+        "greet": "端坐问话，疏离而有礼",
+        "about_debt": "谈银钱时淡淡的，不贪婪",
+        "alibi": "陈述行踪，稳重克制",
+        "qingjie_reaction": "说出疑心时语气更低",
+        "show_redemption": "略带怜悯，但仍保持身份感"
+      }
+    },
+    "wuchen": {
+      "actor_id": "actor_buddhist_nun",
+      "role_name": "无尘师太",
+      "role_title": "慈航庵主",
+      "voice_name": "Despina",
+      "gender": "女",
+      "age": "中老年",
+      "personality": "佛门中人，清冷平和，目击后仍不妄断",
+      "base_tone": "平缓、低声、克制，像诵经后的轻声陈述；不夸张惊恐",
+      "line_tones": {
+        "intro": "温和迎客，带疲惫",
+        "saw_what": "回忆雨夜所见，停顿多",
+        "figure_detail": "谨慎描述，不作判断",
+        "intro_after_visit": "心中已有不安，但仍克制",
+        "visit_time": "确认时辰，声音很轻",
+        "step_familiar": "若有所思，语气含蓄"
+      },
+      "tts_text_overrides": {
+        "visit_time": "刚过三更，雨已经停了。"
+      }
+    },
+    "ma_san": {
+      "actor_id": "actor_scarred_constable",
+      "role_name": "马三",
+      "role_title": "本府捕头",
+      "voice_name": "Orus",
+      "gender": "男",
+      "age": "中年",
+      "personality": "粗粝、直率、军伍捕快气，服从陆昭调遣",
+      "base_tone": "中年男性粗哑声线，短句有力，抱拳回话；不要年轻游侠感",
+      "line_tones": {
+        "intro": "抱拳禀报，语气干脆",
+        "request_help": "领命，果断可靠",
+        "why_lu": "压低声音解释府衙态度",
+        "opinion": "坦率说看法，但不越权定案"
+      }
+    },
+    "magistrate_lu": {
+      "actor_id": "actor_senior_prefect",
+      "role_name": "鲁知府",
+      "role_title": "本府知府",
+      "voice_name": "Algieba",
+      "gender": "男",
+      "age": "老年",
+      "personality": "地方父母官，稳重、爱惜官声，表面周全但抗拒翻案",
+      "base_tone": "老年官员男声，慢而有压迫感，官腔明显",
+      "line_tones": {
+        "intro": "官样文章，客气但设防",
+        "argue_railing": "被质疑时略不悦",
+        "argue_silk": "态度松动但仍要维护体面",
+        "argue_witness": "终于让步，声音沉下去"
+      }
+    },
+    "qing_xuan": {
+      "actor_id": "actor_opera_performer",
+      "role_name": "顾清玄",
+      "role_title": "白衣公子",
+      "voice_name": "Enceladus",
+      "gender": "男",
+      "age": "青年",
+      "personality": "温雅、克制、带一点戏腔；看似从容，实则愧疚压抑",
+      "base_tone": "青年男声，清润低声，语气温雅，有细微戏腔；不要阴险化",
+      "line_tones": {
+        "intro": "从容见礼，避重就轻",
+        "alibi": "平静陈述，略有保留",
+        "press_wine": "被追问时短暂停顿",
+        "relation": "谈及秋菱时温柔又压抑",
+        "show_hairpin": "明显愧疚，但仍克制",
+        "she_was_fine": "急于说明她还活着，语气微乱",
+        "show_letter": "读到私情时声音变轻",
+        "post_actions": "坦白可疑行为，像自责",
+        "show_silk": "承认买绸，低声解释"
+      }
+    },
+    "bu_zhang": {
+      "actor_id": "actor_wealthy_merchant",
+      "role_name": "卜掌柜",
+      "role_title": "城南布庄东家",
+      "voice_name": "Algenib",
+      "gender": "男",
+      "age": "中年",
+      "personality": "布庄掌柜，谨慎圆滑，熟悉账目，怕牵连但会说场面话",
+      "base_tone": "中年男性商贾声线，低而稳，带账房掌柜感；古人说话的礼数要重",
+      "line_tones": {
+        "greet": "拱手迎客，恭敬谨慎",
+        "greet_collect_debt": "在浔阳楼偶遇官差，先惊后恭敬，解释自己只是来清账，仍保持掌柜的圆滑谨慎",
+        "greet_market_wholesale": "在市集跑货时被叫住，略喘但恭敬，强调铺子有人照看，仍是同一中年商贾声线",
+        "about_silk": "回忆买绸客人，迟疑后如实禀告",
+        "show_ledger": "像翻账册给官差看，字句清楚",
+        "match_silk": "专业判断布料，笃定但不替玩家下结论"
+      }
+    },
+    "liu_chuan": {
+      "actor_id": "actor_foreign_traveler",
+      "role_name": "刘船家",
+      "role_title": "江上船家",
+      "voice_name": "Sadaltager",
+      "gender": "男",
+      "age": "中年",
+      "personality": "江上船家，粗哑、谨慎、怕惹上官司，有外乡口音感",
+      "base_tone": "中年粗哑男声，语速不快，带江湖水路人的迟疑",
+      "line_tones": {
+        "greet": "拘谨见官，声音粗哑",
+        "about_night": "回忆夜里江边，压低声音",
+        "figure_detail": "怕惹祸，吞吞吐吐",
+        "about_prints": "说船绳与脚印时更笃定"
+      }
+    }
+  },
+  "tts_text_overrides": {
+    "event": {
+      "evt_redemption_revealed_0": "一纸契文，三百两白银，要将秋菱带回故里。"
+    }
+  },
+  "prologue_tones": {
+    "scene1": "开场话本旁白，低沉铺陈",
+    "scene2": "夜雨氛围，缓慢压低",
+    "scene3": "命案突发，稍加紧张但不惊叫",
+    "scene4": "描述混乱现场，短促停顿",
+    "scene5": "官府定论，冷静克制",
+    "scene6": "提出疑点，不替玩家下结论",
+    "scene7": "若为无声/过场则跳过"
+  },
+  "event_tones": {
+    "evt_redemption_revealed_0": "发现文书时低声读出，带疑云",
+    "evt_redemption_revealed_1": "提出问题但不下结论",
+    "evt_encounter_dock_figure_0": "水阁雾夜，压低声音",
+    "evt_encounter_dock_figure_1": "看见人影，紧张加重",
+    "evt_encounter_dock_figure_2": "动作突然，语速略快",
+    "evt_encounter_dock_figure_3": "留下悬念，冷静收束",
+    "evt_encounter_chamber_intruder_0": "室内撞见，低声紧张",
+    "evt_encounter_chamber_intruder_1": "描述翻找痕迹，克制",
+    "evt_encounter_chamber_intruder_2": "保留模糊判断，不揭示身份",
+    "evt_encounter_convent_visitor_0": "庵前夜色，肃静",
+    "evt_encounter_convent_visitor_1": "听见交谈，压低声音",
+    "evt_encounter_convent_visitor_2": "来客离开，节奏稍急",
+    "evt_encounter_convent_visitor_3": "留下疑点，不下结论"
+  }
+}

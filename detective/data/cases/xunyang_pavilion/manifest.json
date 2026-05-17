@@ -6,7 +6,7 @@
   "estimated_days": 3,
   "main_scene": "pavilion_courtyard",
   "preview_image": "res://assets/cn/scenes/xunyang_prologue.png",
-  "voice_status": "missing",
+  "voice_status": "full",
   "art_status": "partial",
   "art_todo": {
     "_comment": "动态扩展完成：8 地点 / 9 嫌疑人 / schedule + culprit_actions / 新增 2 场景图。剩余 P1 旧背景仍可后续替换。",
