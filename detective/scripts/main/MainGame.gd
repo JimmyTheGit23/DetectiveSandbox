@@ -108,19 +108,24 @@ func _show_title() -> void:
 	center.add_child(vbox)
 	
 	var title := Label.new()
-	title.text = "推 理 模 拟 器"
+	title.text = "推 理 者 计 划"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 56)
 	title.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1))
 	vbox.add_child(title)
 	
 	var sub := Label.new()
-	sub.text = "水墨古风侦探 AVG"
+	sub.text = "Detective Program"
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sub.add_theme_font_size_override("font_size", 20)
 	sub.add_theme_color_override("font_color", Color(0.85, 0.78, 0.62, 1))
 	vbox.add_child(sub)
-	
+
+	# 调查员状态条
+	var iv := get_node_or_null("/root/InvestigatorService")
+	if iv:
+		vbox.add_child(_make_investigator_strip(iv))
+
 	vbox.add_child(_make_title_button("开 始 游 戏", _on_start_game_pressed, false))
 	if GameManager.has_save():
 		vbox.add_child(_make_title_button("继 续 游 戏", _continue_game, false))
@@ -460,11 +465,115 @@ func _show_ending(ending_id: String) -> void:
 		BgmPlayer.play("ending_perfect")
 	else:
 		BgmPlayer.play("ending_bad")
+	# 通知调查员档案：结算 XP / 升级 / 解锁
+	var summary: Dictionary = {}
+	var iv := get_node_or_null("/root/InvestigatorService")
+	if iv:
+		summary = iv.record_case_cleared(GameManager.ACTIVE_CASE, ending_id)
 	var data := GameManager.get_ending(ending_id)
 	ending_screen.show_ending(data.get("title", ""), data.get("narration", ""))
+	if ending_screen.has_method("show_progression_summary") and not summary.is_empty():
+		ending_screen.show_progression_summary(summary, iv)
 	ending_screen.visible = true
 	menu_panel.visible = false
 	dialogue_box.visible = false
 	narration_box.visible = false
 	subpanel_container.visible = false
 	event_hint_btn.visible = false
+
+
+# ─── 调查员状态条 / 代号设置 ──────────────────────────────────────────────
+
+func _make_investigator_strip(iv: Node) -> Control:
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.custom_minimum_size = Vector2(0, 70)
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.10, 0.09, 0.07, 0.85)
+	sb.border_color = Color(0.55, 0.42, 0.22, 0.85)
+	sb.set_border_width_all(1)
+	sb.corner_radius_top_left = 6
+	sb.corner_radius_top_right = 6
+	sb.corner_radius_bottom_left = 6
+	sb.corner_radius_bottom_right = 6
+	sb.content_margin_left = 14
+	sb.content_margin_right = 14
+	sb.content_margin_top = 8
+	sb.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", sb)
+
+	var vbx := VBoxContainer.new()
+	vbx.add_theme_constant_override("separation", 4)
+	panel.add_child(vbx)
+
+	# 行 1：代号 · Lv.x · 称号 · [改代号]
+	var top_hb := HBoxContainer.new()
+	top_hb.add_theme_constant_override("separation", 10)
+	vbx.add_child(top_hb)
+
+	var codename_lbl := Label.new()
+	codename_lbl.text = "代号：%s" % iv.get_codename()
+	codename_lbl.add_theme_font_size_override("font_size", 16)
+	codename_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1))
+	codename_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top_hb.add_child(codename_lbl)
+
+	var rank_lbl := Label.new()
+	rank_lbl.text = "Lv.%d  %s" % [iv.get_rank(), iv.get_rank_title()]
+	rank_lbl.add_theme_font_size_override("font_size", 16)
+	rank_lbl.add_theme_color_override("font_color", Color(0.95, 0.78, 0.42, 1))
+	top_hb.add_child(rank_lbl)
+
+	var edit_btn := Button.new()
+	edit_btn.text = "改代号"
+	edit_btn.flat = true
+	edit_btn.add_theme_font_size_override("font_size", 12)
+	edit_btn.add_theme_color_override("font_color", Color(0.78, 0.70, 0.55, 1))
+	edit_btn.add_theme_color_override("font_hover_color", Color(1.0, 0.92, 0.68, 1))
+	edit_btn.pressed.connect(func(): _prompt_codename(iv, codename_lbl))
+	top_hb.add_child(edit_btn)
+
+	# 行 2：XP 进度条
+	var bar := ProgressBar.new()
+	bar.show_percentage = false
+	bar.min_value = 0
+	bar.max_value = 100
+	bar.value = iv.rank_progress() * 100.0
+	bar.custom_minimum_size = Vector2(0, 14)
+	vbx.add_child(bar)
+
+	var xp_lbl := Label.new()
+	xp_lbl.text = "经验：%d / %d" % [iv.get_xp(), iv.xp_for_next_rank()]
+	xp_lbl.add_theme_font_size_override("font_size", 12)
+	xp_lbl.add_theme_color_override("font_color", Color(0.75, 0.70, 0.55, 1))
+	xp_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	vbx.add_child(xp_lbl)
+
+	# 首次进入：未设代号 → 弹设置代号
+	if not iv.has_codename():
+		call_deferred("_prompt_codename", iv, codename_lbl)
+	return panel
+
+
+func _prompt_codename(iv: Node, codename_lbl: Label) -> void:
+	var dlg := AcceptDialog.new()
+	dlg.title = "设定调查员代号"
+	dlg.dialog_text = "「推理者计划」需要一个代号。你将以此身份接受所有模拟卷宗。"
+	dlg.ok_button_text = "确定"
+	var input := LineEdit.new()
+	input.placeholder_text = "输入代号（最多 16 字）"
+	input.text = iv.get_codename("")
+	input.max_length = 16
+	input.custom_minimum_size = Vector2(320, 36)
+	dlg.add_child(input)
+	add_child(dlg)
+	dlg.popup_centered(Vector2i(420, 220))
+	dlg.confirmed.connect(func():
+		var nm: String = input.text.strip_edges()
+		if nm == "":
+			nm = "无名调查员"
+		iv.set_codename(nm)
+		if is_instance_valid(codename_lbl):
+			codename_lbl.text = "代号：%s" % iv.get_codename()
+		dlg.queue_free()
+	)

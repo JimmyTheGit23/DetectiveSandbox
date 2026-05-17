@@ -115,9 +115,29 @@ func _build_ui() -> void:
 func _make_case_card(entry: Dictionary) -> Control:
 	var case_id: String = entry.get("id", "")
 	var manifest_path: String = entry.get("manifest", "")
-	var locked: bool = entry.get("locked", false)
+	var locked_field: bool = entry.get("locked", false)
+	var rank_required: int = int(entry.get("rank_required", 1))
+	var _style_tag: String = entry.get("style", "")
+	var _category: String = entry.get("category", "solo")
 	var tag: String = entry.get("tag", "")
 	var voice_status: String = entry.get("voice_status", "full")
+
+	# 调查员视角：是否解锁 / 是否已通关 / 最佳结局
+	var iv := get_node_or_null("/root/InvestigatorService")
+	var locked := locked_field
+	var rank_ok := true
+	var cleared := false
+	var best_ending := ""
+	var play_count := 0
+	if iv:
+		rank_ok = iv.get_rank() >= rank_required
+		if not rank_ok:
+			locked = true
+		var rec: Dictionary = iv.get_case_record(case_id)
+		if not rec.is_empty():
+			cleared = true
+			best_ending = rec.get("best_ending", "")
+			play_count = int(rec.get("play_count", 0))
 
 	# 加载 manifest
 	var manifest: Dictionary = {}
@@ -217,6 +237,16 @@ func _make_case_card(entry: Dictionary) -> Control:
 		tag_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		title_hb.add_child(tag_lbl)
 
+	# 通关徽章
+	if cleared:
+		var clear_lbl := Label.new()
+		var ending_name := _ending_label(best_ending)
+		clear_lbl.text = "✦ 已通关 · %s" % ending_name
+		clear_lbl.add_theme_font_size_override("font_size", 13)
+		clear_lbl.add_theme_color_override("font_color", _ending_color(best_ending))
+		clear_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		title_hb.add_child(clear_lbl)
+
 	# 副标题
 	var sub_text: String = manifest.get("subtitle", "")
 	if sub_text != "":
@@ -263,11 +293,21 @@ func _make_case_card(entry: Dictionary) -> Control:
 
 	if locked:
 		var lock_lbl := Label.new()
-		lock_lbl.text = "🔒 暂未开放"
+		if iv and not rank_ok:
+			lock_lbl.text = "🔒 需 Lv.%d 解锁（%s）" % [rank_required, iv.get_rank_title(rank_required)]
+		else:
+			lock_lbl.text = "🔒 暂未开放"
 		lock_lbl.add_theme_font_size_override("font_size", 13)
 		lock_lbl.add_theme_color_override("font_color", Color(0.55, 0.55, 0.55, 1))
 		lock_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		info_vb.add_child(lock_lbl)
+	elif cleared:
+		var replay_lbl := Label.new()
+		replay_lbl.text = "已玩 %d 次（重玩仅得 30%% 经验）" % play_count
+		replay_lbl.add_theme_font_size_override("font_size", 12)
+		replay_lbl.add_theme_color_override("font_color", Color(0.65, 0.62, 0.50, 1))
+		replay_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		info_vb.add_child(replay_lbl)
 
 	# 鼠标交互：hover 高亮 + 点击触发
 	if not locked:
@@ -293,3 +333,23 @@ func _make_case_card(entry: Dictionary) -> Control:
 		)
 
 	return card
+
+
+static func _ending_label(eid: String) -> String:
+	match eid:
+		"perfect": return "明镜高悬"
+		"good": return "真凶伏法"
+		"partial": return "擒贼一半"
+		"bad": return "冤狱再起"
+		"timeout": return "日暮途穷"
+	return eid
+
+
+static func _ending_color(eid: String) -> Color:
+	match eid:
+		"perfect": return Color(0.60, 0.95, 0.55, 1)
+		"good": return Color(0.78, 0.85, 0.48, 1)
+		"partial": return Color(0.90, 0.78, 0.35, 1)
+		"bad": return Color(0.92, 0.55, 0.45, 1)
+		"timeout": return Color(0.70, 0.62, 0.55, 1)
+	return Color(0.85, 0.78, 0.62, 1)

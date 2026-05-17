@@ -1,0 +1,19 @@
+{
+  "_comment": "推理者计划：等级曲线与通关 XP。InvestigatorService 读取此表。",
+  "ranks": [
+    { "rank": 1, "title": "实习侦探",   "xp_required": 0    },
+    { "rank": 2, "title": "见习调查员", "xp_required": 200  },
+    { "rank": 3, "title": "正式调查员", "xp_required": 500  },
+    { "rank": 4, "title": "高级调查员", "xp_required": 900  },
+    { "rank": 5, "title": "首席调查员", "xp_required": 1400 }
+  ],
+  "ending_xp": {
+    "perfect": 200,
+    "good": 140,
+    "partial": 80,
+    "bad": 30,
+    "timeout": 20
+  },
+  "replay_xp_multiplier": 0.3,
+  "first_clear_bonus": 50
+}
