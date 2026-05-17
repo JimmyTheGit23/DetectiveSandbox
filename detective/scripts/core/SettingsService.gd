@@ -10,6 +10,7 @@ const SAVE_PATH := "user://settings.cfg"
 
 var bgm_volume: float = 0.8  # 0.0 .. 1.0
 var voice_volume: float = 1.0
+var gm_unlock_all: bool = false  # GM 指令：无视条件解锁所有案件
 
 # BgmPlayer 的"默认播放音量"是 default_volume_db（默认 -12 dB），这里再叠加用户系数。
 # voice_player 的"默认 volume_db"是 0 dB（直接出）。
@@ -31,6 +32,12 @@ func set_bgm_volume(v: float) -> void:
 func set_voice_volume(v: float) -> void:
 	voice_volume = clampf(v, 0.0, 1.0)
 	_apply_voice()
+	save_settings()
+	settings_changed.emit()
+
+
+func set_gm_unlock_all(enabled: bool) -> void:
+	gm_unlock_all = enabled
 	save_settings()
 	settings_changed.emit()
 
@@ -92,6 +99,7 @@ func save_settings() -> void:
 	var cfg := ConfigFile.new()
 	cfg.set_value("audio", "bgm_volume", bgm_volume)
 	cfg.set_value("audio", "voice_volume", voice_volume)
+	cfg.set_value("gm", "unlock_all", gm_unlock_all)
 	var _err := cfg.save(SAVE_PATH)
 
 
@@ -102,3 +110,4 @@ func load_settings() -> void:
 		return
 	bgm_volume = float(cfg.get_value("audio", "bgm_volume", bgm_volume))
 	voice_volume = float(cfg.get_value("audio", "voice_volume", voice_volume))
+	gm_unlock_all = bool(cfg.get_value("gm", "unlock_all", gm_unlock_all))

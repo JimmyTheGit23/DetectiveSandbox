@@ -311,6 +311,10 @@ func _best_ending(a: String, b: String) -> String:
 # ─── 案件解锁 / 状态查询 ──────────────────────────────────────────────────
 
 func is_case_unlocked(case_id: String) -> bool:
+	# GM 模式：无视所有条件
+	var ss := get_node_or_null("/root/SettingsService")
+	if ss and ss.get("gm_unlock_all"):
+		return true
 	if unlocked_cases.has(case_id):
 		return true
 	# 额外按 rank 即时判断（防档案漂移）
@@ -332,13 +336,16 @@ func get_case_record(case_id: String) -> Dictionary:
 ## 主屏要展示的案件列表（含锁定态），按 order 排序
 func get_visible_cases() -> Array:
 	var entries: Array = GameManager.get_case_index_entries() if GameManager else []
+	# GM 模式：全部视为解锁
+	var ss := get_node_or_null("/root/SettingsService")
+	var gm_mode: bool = ss != null and bool(ss.get("gm_unlock_all"))
 	var out: Array = []
 	for entry in entries:
 		if typeof(entry) != TYPE_DICTIONARY:
 			continue
 		var cid: String = entry.get("id", "")
 		var req: int = int(entry.get("rank_required", 1))
-		var locked: bool = (rank < req) or bool(entry.get("locked", false))
+		var locked: bool = (not gm_mode) and ((rank < req) or bool(entry.get("locked", false)))
 		var record: Dictionary = cleared_cases.get(cid, {})
 		out.append({
 			"entry": entry,

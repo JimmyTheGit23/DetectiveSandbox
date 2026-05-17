@@ -10,6 +10,7 @@ var _bgm_slider: HSlider
 var _voice_slider: HSlider
 var _bgm_value_lbl: Label
 var _voice_value_lbl: Label
+var _gm_check: CheckBox
 # 用 get_node 取 autoload，避免 LSP 在某些环境下不识别 autoload symbol
 var _settings: Node
 
@@ -56,6 +57,43 @@ func _build_ui() -> void:
 	var spacer := Control.new()
 	spacer.custom_minimum_size = Vector2(0, 12)
 	vbox.add_child(spacer)
+
+	# GM 指令区
+	var gm_sep := HSeparator.new()
+	gm_sep.add_theme_color_override("separator", Color(0.6, 0.45, 0.25, 0.4))
+	vbox.add_child(gm_sep)
+
+	var gm_box := HBoxContainer.new()
+	gm_box.add_theme_constant_override("separation", 10)
+	gm_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.add_child(gm_box)
+
+	var gm_label := Label.new()
+	gm_label.text = "GM 指令"
+	gm_label.add_theme_font_size_override("font_size", 18)
+	gm_label.add_theme_color_override("font_color", Color(0.9, 0.6, 0.3, 1))
+	gm_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	gm_box.add_child(gm_label)
+
+	_gm_check = CheckBox.new()
+	_gm_check.text = "解锁全部案件"
+	_gm_check.button_pressed = bool(_settings.get("gm_unlock_all")) if _settings else false
+	_gm_check.add_theme_font_size_override("font_size", 16)
+	_gm_check.add_theme_color_override("font_color", Color(0.85, 0.75, 0.55, 1))
+	_gm_check.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_gm_check.toggled.connect(_on_gm_unlock_toggled)
+	gm_box.add_child(_gm_check)
+
+	var gm_hint := Label.new()
+	gm_hint.text = "（测试用，无视等级限制）"
+	gm_hint.add_theme_font_size_override("font_size", 12)
+	gm_hint.add_theme_color_override("font_color", Color(0.55, 0.50, 0.42, 0.8))
+	gm_hint.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	gm_box.add_child(gm_hint)
+
+	var spacer2 := Control.new()
+	spacer2.custom_minimum_size = Vector2(0, 12)
+	vbox.add_child(spacer2)
 	
 	# 按钮区
 	var btn_box := VBoxContainer.new()
@@ -137,3 +175,8 @@ func _on_close() -> void:
 
 func _on_return_title() -> void:
 	return_to_title_requested.emit()
+
+
+func _on_gm_unlock_toggled(pressed: bool) -> void:
+	if _settings and _settings.has_method("set_gm_unlock_all"):
+		_settings.set_gm_unlock_all(pressed)

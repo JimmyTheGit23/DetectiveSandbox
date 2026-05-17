@@ -124,13 +124,15 @@ func _make_case_card(entry: Dictionary) -> Control:
 
 	# 调查员视角：是否解锁 / 是否已通关 / 最佳结局
 	var iv := get_node_or_null("/root/InvestigatorService")
+	var ss := get_node_or_null("/root/SettingsService")
+	var gm_mode: bool = ss != null and bool(ss.get("gm_unlock_all"))
 	var locked := locked_field
 	var rank_ok := true
 	var cleared := false
 	var best_ending := ""
 	var play_count := 0
 	if iv:
-		rank_ok = iv.get_rank() >= rank_required
+		rank_ok = gm_mode or iv.get_rank() >= rank_required
 		if not rank_ok:
 			locked = true
 		var rec: Dictionary = iv.get_case_record(case_id)

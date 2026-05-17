@@ -134,6 +134,7 @@ func _show_title() -> void:
 	if case_count >= 2:
 		var current_title: String = GameManager.case_manifest.get("title", GameManager.ACTIVE_CASE)
 		vbox.add_child(_make_title_button("选 择 案 件 （当前：%s）" % current_title, _on_select_case_pressed, false))
+	vbox.add_child(_make_title_button("设 置", _on_title_settings_pressed, false))
 	vbox.add_child(_make_title_button("退 出 游 戏", func(): get_tree().quit(), false))
 
 
@@ -163,6 +164,21 @@ func _on_start_game_pressed() -> void:
 		_show_restart_confirm()
 		return
 	_start_new_game()
+
+
+func _on_title_settings_pressed() -> void:
+	var scene_path: String = SubPanels.get("settings", "")
+	if scene_path == "" or not ResourceLoader.exists(scene_path):
+		push_warning("Panel scene missing: " + scene_path)
+		return
+	var packed: PackedScene = load(scene_path)
+	var panel: Control = packed.instantiate()
+	add_child(panel)
+	move_child(panel, get_child_count() - 1)
+	if panel.has_signal("close_requested"):
+		panel.close_requested.connect(panel.queue_free)
+	if panel.has_signal("return_to_title_requested"):
+		panel.return_to_title_requested.connect(panel.queue_free)
 
 
 func _show_restart_confirm() -> void:

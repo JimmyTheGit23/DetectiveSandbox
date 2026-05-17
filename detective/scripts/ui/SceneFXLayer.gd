@@ -207,6 +207,7 @@ func _make_light_flicker(c: Color, period: float) -> ColorRect:
 	rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	rect.color = c
 	var tw := create_tween()
+	tw.bind_node(rect)
 	tw.set_loops()
 	var base_a: float = c.a
 	tw.tween_property(rect, "color:a", base_a * 1.6, period * 0.5).set_trans(Tween.TRANS_SINE)
@@ -221,6 +222,7 @@ func _make_modulated_overlay(c: Color, period: float) -> ColorRect:
 	rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	rect.color = c
 	var tw := create_tween()
+	tw.bind_node(rect)
 	tw.set_loops()
 	var base_a: float = c.a
 	tw.tween_property(rect, "color:a", base_a * 1.4, period * 0.5).set_trans(Tween.TRANS_SINE)
@@ -314,6 +316,7 @@ func _make_light_shaft() -> ColorRect:
 	var base := Color(1.0, 0.92, 0.65, 0.05)
 	rect.color = base
 	var tw := create_tween()
+	tw.bind_node(rect)
 	tw.set_loops()
 	tw.tween_property(rect, "color:a", base.a * 1.6, 4.0).set_trans(Tween.TRANS_SINE)
 	tw.tween_property(rect, "color:a", base.a * 0.7, 4.0).set_trans(Tween.TRANS_SINE)

@@ -14,7 +14,8 @@
   },
   "pavilion_courtyard.courtyard_well": {
     "default": {
-      "narration": "后院的老井安静地靠在墙边。井栏上没有异样，但井边的石阶上有一小片灰绿苔泥——与后院青石板一样。"
+      "narration": "后院的老井安静地靠在墙边。井栏上没有异样，但井边的石阶上有一小片灰绿苔泥——与后院青石板一样。",
+      "clue": "clue_well_mud_match"
     }
   },
   "pavilion_courtyard.lantern_spot": {
@@ -43,12 +44,14 @@
   },
   "qiu_chamber.wine_cup": {
     "default": {
-      "narration": "翻倒的酒盏边沿留着两层不同的口红印——秋菱与某人在阁中对饮过。第二层印色偏深，不像是男子。"
+      "narration": "翻倒的酒盏边沿留着两层不同的口红印——秋菱与某人在阁中对饮过。第二层印色偏深，不像是男子。",
+      "clue": "clue_wine_cup_lipstick"
     }
   },
   "pavilion_main.private_room": {
     "default": {
-      "narration": "一间雅间桌案上，烛台下压着一张当铺典当票——已过期。看来某位客人近来手头不宽裕。"
+      "narration": "一间雅间桌案上，烛台下压着一张当铺典当票——已过期。看来某位客人近来手头不宽裕。",
+      "clue": "clue_pawn_ticket"
     }
   },
   "pavilion_main.wine_cellar": {
@@ -108,11 +111,25 @@
       "time_cost": 2
     }
   },
+  "silk_shop.back_curtain": {
+    "default": {
+      "narration": "帘后私账里有一行附注：案发当日急购红绸之人「付银后未等收据便走」。正常采办不会如此仓促。",
+      "clue": "clue_back_curtain_rush",
+      "time_cost": 1
+    }
+  },
   "riverside_dock.wet_planks": {
     "default": {
       "narration": "湿木板上一道鞋印拖痕，方向朝江面。缆绳上多了一个生手打的扣。脚印大小中等。",
       "evidence": "evidence_dock_disturbed",
       "time_cost": 1
+    }
+  },
+  "riverside_dock.ferry_boat": {
+    "default": {
+      "narration": "渡船舱底翻出一角被水浸透的绛红衣料，像是急匆匆塞入、没来得及收拾。颜色与浔阳楼红绸一致。",
+      "clue": "clue_ferry_boat_item",
+      "time_cost": 2
     }
   }
 }
