@@ -1,124 +1,158 @@
 {
-  "_comment": "凶手白衣公子顾清玄。基础对话 + schedule 破绽攻防（红绸购单/水阁销证/闺阁翻找/试探无尘）。",
-  "start_variants": [
-    { "when": { "all": [
-        { "flag": "qing_xuan_motive_exposed" },
-        { "any": [
-          { "evidence": "evidence_silk_purchase_receipt" },
-          { "evidence": "evidence_dock_disturbed" },
-          { "evidence": "evidence_chamber_redisturbed" },
-          { "evidence": "evidence_nun_visited_by_white" },
-          { "flag": "qing_xuan_seen_at_dock" },
-          { "flag": "qing_xuan_caught_at_chamber" }
-        ]}
-      ]}, "goto": "intro_cornered" }
-  ],
+  "_comment": "白衣公子。他不是凶手，但他的行为极度可疑——因为他出于愧疚在替死者掩盖私情。",
   "start": "intro",
   "nodes": {
     "intro": {
-      "text": "（白衣公子拱手）陆大人。在下顾清玄，江南游学之客。听说昨夜浔阳楼出了不幸的事，在下可惜得很——秋姑娘那样人物，竟落得这般结局。",
+      "text": "（白衣公子拱手）在下顾清玄，江南游学之客。秋姑娘那样人物，竟落得这般结局——在下惋惜得很。",
       "options": [
-        { "text": "你昨夜在何处？", "goto": "where_you_were", "hide_after_visit": true },
-        { "text": "你与秋菱可有交情？", "goto": "your_relation", "hide_after_visit": true },
-        { "text": "（出示银钗）这枚刻着'清玄'的银钗，从秋菱阁中得来。", "goto": "show_hairpin", "requires": { "evidence": "evidence_silver_hairpin" }, "cost_time": 1, "hide_after_visit": true },
-        { "text": "（出示分手笺）你认得这封信么？", "goto": "show_letter_q", "requires": { "evidence": "evidence_love_letter" }, "cost_time": 1, "hide_after_visit": true },
-        { "text": "（出示对楼僧之言）有人那夜望见阁中两人。", "goto": "show_witness", "requires": { "evidence": "evidence_witness_lantern" }, "cost_time": 1, "hide_after_visit": true },
-        { "text": "（出示布庄收据）「玄」字签名的红绸单。", "goto": "confront_silk_receipt", "requires": { "evidence": "evidence_silk_purchase_receipt" }, "cost_time": 1, "hide_after_visit": true },
-        { "text": "（出示江畔乱痕）昨夜你为何在水阁？", "goto": "confront_at_dock", "requires": { "any": [ { "evidence": "evidence_dock_disturbed" }, { "flag": "qing_xuan_seen_at_dock" } ] }, "cost_time": 1, "hide_after_visit": true },
-        { "text": "（出示闺阁翻找痕）你昨日回过秋菱闺阁。", "goto": "confront_at_chamber", "requires": { "any": [ { "evidence": "evidence_chamber_redisturbed" }, { "flag": "qing_xuan_caught_at_chamber" } ] }, "cost_time": 1, "hide_after_visit": true },
-        { "text": "（出示对楼僧异常）你深夜去过慈航庵敲门。", "goto": "confront_visited_nun", "requires": { "evidence": "evidence_nun_visited_by_white" }, "cost_time": 1, "hide_after_visit": true }
+        {
+          "text": "你昨夜在何处？",
+          "goto": "alibi",
+          "hide_after_visit": true
+        },
+        {
+          "text": "你与秋菱可有交情？",
+          "goto": "relation",
+          "hide_after_visit": true
+        },
+        {
+          "text": "（出示银钗）这枚银钗从阁中得来。",
+          "goto": "show_hairpin",
+          "requires": {
+            "evidence": "evidence_silver_hairpin"
+          },
+          "hide_after_visit": true
+        },
+        {
+          "text": "（出示小笺）这封信里写到'清郎'。",
+          "goto": "show_letter",
+          "requires": {
+            "evidence": "evidence_love_letter"
+          },
+          "hide_after_visit": true
+        },
+        {
+          "text": "（出示布庄收据）案发后有人急购红绸。",
+          "goto": "show_silk",
+          "requires": {
+            "evidence": "evidence_silk_purchase_receipt"
+          },
+          "hide_after_visit": true
+        },
+        {
+          "text": "（先告辞）",
+          "goto": "__exit__"
+        }
       ]
     },
-
-    "where_you_were": {
-      "text": "（端着茶杯）在下吃了两壶酒，醉卧偏房。一觉到天亮，连秋姑娘出事都未听闻——惭愧。",
-      "lie": { "is_lie": true, "reason": "其实只喝了一壶不到二两酒，并未醉", "exposed_by_node": "show_wine_amount" },
+    "alibi": {
+      "text": "在下吃了酒，醉卧偏房。一觉到天亮——连出事都未听闻。",
       "options": [
-        { "text": "（出示酒窖账册）酒窖账册写得清楚，你只取了一壶。", "goto": "show_wine_amount", "requires": { "evidence": "evidence_wine_cellar_amount" }, "cost_time": 1, "hide_after_visit": true },
-        { "text": "（先放放）", "goto": "intro" }
+        {
+          "text": "（出示酒窖账册）四壶酒，你取的那壶不到二两。",
+          "goto": "press_wine",
+          "requires": {
+            "evidence": "evidence_wine_cellar_amount"
+          },
+          "hide_after_visit": true
+        },
+        {
+          "text": "（先放放）",
+          "goto": "intro"
+        }
       ]
     },
-    "show_wine_amount": {
-      "reveal_lie": { "lie_node": "where_you_were" },
-      "text": "（顾清玄笑容收了一寸）大人……果然细致。罢罢，我承认那夜只喝了一壶。可'醉'是个心境——我在偏房醒着发愁，跟一壶酒、两壶酒，也没多大分别。",
-      "set_flags": ["qing_xuan_alibi_shaken"],
+    "press_wine": {
+      "text": "（笑容收了一寸）……罢罢，在下那夜没醉。但在下确实在偏房——心里不痛快，喝不下去。",
+      "set_flags": [
+        "qx_alibi_shaken"
+      ],
       "options": [
-        { "text": "（先记下）", "goto": "intro" }
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
       ]
     },
-    "your_relation": {
-      "text": "（淡淡一笑）相识半年。在下囊中并不宽裕，常来浔阳楼也只是吃些清茶——秋姑娘待人和气，与我也不过点头之交。",
-      "lie": { "is_lie": true, "reason": "实际深陷情爱并求而不得", "exposed_by_node": "show_letter_q" },
+    "relation": {
+      "text": "（淡淡一笑）相识半年，不过点头之交。",
+      "lie": {
+        "is_lie": true,
+        "reason": "实际深陷情爱"
+      },
       "options": [
-        { "text": "（先放放）", "goto": "intro" }
-      ]
-    },
-    "show_letter_q": {
-      "reveal_lie": { "lie_node": "your_relation" },
-      "text": "（看到那封信，顾清玄沉默了一会儿）……「清郎」，是写给我的。\n\n（声音低下来）她说要走。三百两赎身银，把她从浔阳楼买出来——明日就要走了，去哪里我都不知道。我跟她说「你别走」，她笑笑——她笑的时候我就明白了，她从来没有真正属于过我。",
-      "set_flags": ["qing_xuan_motive_exposed"],
-      "options": [
-        { "text": "你那夜上过她的阁子？", "goto": "show_hairpin" },
-        { "text": "（先记下，回头再问）", "goto": "intro" }
+        {
+          "text": "（先放放）",
+          "goto": "intro"
+        }
       ]
     },
     "show_hairpin": {
-      "reveal_lie": { "lie_node": "your_relation" },
-      "text": "（顾清玄盯着那支银钗，半晌没说话）……是我的。\n\n那夜我去找过她，求她不要走。她说她要走了，请我也走。我走出去三步——又回去了。\n\n（自嘲一笑）我没料到她会从栏边退——也没料到我伸手是真的伸了出去。",
-      "set_flags": ["qing_xuan_confessed_at_chamber"],
+      "text": "（盯着银钗，半晌）……是在下的。那夜在下去找过她。求她不要走。她说请在下也走。\n\n在下走出去三步——又回去了。但回去的时候，阁子里已经只剩她一个人。",
+      "set_flags": [
+        "qx_was_at_chamber"
+      ],
       "options": [
-        { "text": "（你得到了你想要的全部回答）", "goto": "__exit__" }
+        {
+          "text": "你回去时她还好好的？",
+          "goto": "she_was_fine"
+        },
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
       ]
     },
-    "show_witness": {
-      "text": "（脸色微变）……望见？谁望见的？\n\n罢了，大人既然来问，便是有人见了。是的——那夜阁中我不止一次站在栏边。可我推没推她，那是另一桩事。请大人查清楚再说。",
-      "set_flags": ["qing_xuan_witness_pressed"],
+    "she_was_fine": {
+      "text": "她靠在栏边，回头对在下笑了笑。那时候她好好的。\n\n在下离开后不到一刻钟就听见了响动——赶到后院时……已经来不及了。",
+      "set_flags": [
+        "qx_claims_she_alive_when_he_left"
+      ],
       "options": [
-        { "text": "（出示银钗追问）", "goto": "show_hairpin", "requires": { "evidence": "evidence_silver_hairpin" } },
-        { "text": "（先记下）", "goto": "intro" }
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
       ]
     },
-
-    "confront_silk_receipt": {
-      "reveal_lie": { "lie_node": "where_you_were" },
-      "text": "（顾清玄盯着账册上那个歪斜的「玄」字，半晌不语）\n\n……案发第二日午时，我去布庄取了一匹一样的绛红云纹绸。\n\n（轻声）我以为只要红绸还在她手里，府衙就会信「醉酒失足」——一匹完整的红绸，谁会去想是谁断的、什么时候断的。\n\n（苦笑）我替她做了一件她最不需要的事。",
-      "set_flags": ["qing_xuan_silk_substitution_confessed"],
+    "show_letter": {
+      "text": "（看到信，沉默了）……'清郎'是在下。她要走，在下没拦住。这信，是她写给在下的告别。\n\n在下案后回去拿走了一封同样的信并烧了——不是销毁证据，是不想让旁人说她的闲话。",
+      "set_flags": [
+        "qx_motive_exposed"
+      ],
       "options": [
-        { "text": "（先记下）", "goto": "intro" }
+        {
+          "text": "你案后还做了什么？",
+          "goto": "post_actions"
+        },
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
       ]
     },
-
-    "confront_at_dock": {
-      "reveal_lie": { "lie_node": "where_you_were" },
-      "text": "（顾清玄眼神一闪）……大人也去过水阁？\n\n（深吸一口气）那夜我没睡。三更过后我去后江畔——把她平日里的胭脂盒、银钗匣，和一封她没写完的信，一并丢进了江里。\n\n（低头）我以为东西不在，事情就过去了。可是该过去的，从来不是东西。",
-      "set_flags": ["qing_xuan_dock_disposal_confessed"],
+    "post_actions": {
+      "text": "（苦笑）在下去布庄买了一匹同样的红绸——以为把整匹放回去就能让府衙信'失足'。又去水阁丢了她的一些私物——怕被人翻出来说闲话。\n\n在下知道这些事让在下看起来像凶手。但在下宁肯背这个嫌疑，也不愿她的名声被人议论。",
+      "set_flags": [
+        "qx_explained_post_actions"
+      ],
       "options": [
-        { "text": "（先记下）", "goto": "intro" }
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
       ]
     },
-
-    "confront_at_chamber": {
-      "reveal_lie": { "lie_node": "where_you_were" },
-      "text": "（顾清玄嘴角抽了一下）……是的。次日午后，我趁府衙人散，回去过。\n\n她妆台抽屉里有一张小笺——「玄郎，明日我便走了，万勿来送」。她字迹漂亮，写我的名字也漂亮。我不能让那张笺留下来。\n\n（垂目）我把它带走了，烧了。我以为这样就没人能把她和我连起来。",
-      "set_flags": ["qing_xuan_chamber_revisit_confessed"],
+    "show_silk": {
+      "text": "是在下买的。账上那个字是在下写的。\n\n大人若因此治在下的罪——在下认。但推不推她，是另一桩事。请大人明察。",
+      "set_flags": [
+        "qx_silk_admitted"
+      ],
       "options": [
-        { "text": "（先记下）", "goto": "intro" }
-      ]
-    },
-
-    "confront_visited_nun": {
-      "text": "（顾清玄抬眼，眼神冷了一寸）……无尘师太告诉大人的？\n\n（沉默片刻）我去问她那夜是否听见动静。她说她什么都没听见——可她说的时候没看我。\n\n（自嘲）我若没去问，大人也许永远不知道她其实看见了。我自己把她推向了大人。",
-      "set_flags": ["qing_xuan_panicked_visit_nun"],
-      "options": [
-        { "text": "（先记下，再去庵里）", "goto": "intro" }
-      ]
-    },
-
-    "intro_cornered": {
-      "text": "（顾清玄已不再粉饰，盘腿坐在偏房窗下）陆大人。该问的都问完了。\n\n红绸是我案发后去布庄重买的。她的东西是我夜里丢到江里的。她妆台里的小笺是我次日回去拿走烧了的。我连无尘师太那里都去试探过——只怕您从她口中听到什么。\n\n（轻声）但那一夜栏边，我伸手是真伸了出去。\n\n大人请定夺。",
-      "set_flags": ["qing_xuan_cornered"],
-      "options": [
-        { "text": "（默然离开，准备指证）", "goto": "__exit__" }
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
       ]
     }
   }

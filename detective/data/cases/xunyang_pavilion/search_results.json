@@ -1,125 +1,117 @@
 {
-  "_comment": "探索结果。本案在 6 个地点的 ~17 个搜索点中布置关键证据。",
+  "_comment": "探索结果。所有描述只陈述事实，不替玩家锁定嫌疑人。",
   "pavilion_courtyard.fall_spot": {
     "default": {
-      "narration": "你蹲下查看坠落处的青石板。死者后脑大片血迹，指甲缝中却干净——没有挣扎抓地的痕迹。她不是在挣扎中跌下，而是已经无力反抗。",
-      "clue": "clue_courtyard_drag"
+      "narration": "你蹲下查看坠落处的青石板。死者后脑大片血迹。指甲缝中却干净——没有挣扎抓地的痕迹。旁边有一串偏小的脚印，从楼梯口延伸到栏边又折回。",
+      "evidence": "evidence_courtyard_second_figure"
     }
   },
   "pavilion_courtyard.torn_silk": {
     "default": {
-      "narration": "墙角那段红绸有半臂长。仔细看：红绸的断口是被力道横向猛拽——若是失足坠落，绸面只会被纵向撕裂。",
+      "narration": "墙角那段红绸有半臂长。红绸的断口是被力道横向猛拽——若是失足坠落，绸面应是纵向撕裂。",
       "evidence": "evidence_torn_silk"
     }
   },
   "pavilion_courtyard.courtyard_well": {
     "default": {
-      "narration": "后院的老井安静地靠在墙边，井栏上没有异样。"
+      "narration": "后院的老井安静地靠在墙边。井栏上没有异样，但井边的石阶上有一小片灰绿苔泥——与后院青石板一样。"
     }
   },
   "pavilion_courtyard.lantern_spot": {
     "default": {
-      "narration": "屋檐下的风灯还亮着半截蜡烛——案发那夜风雨虽大，但灯笼下并没有泥水溅入，说明楼上当夜并不曾大雨灌入。"
+      "narration": "屋檐下的风灯还亮着半截蜡烛。灯笼下有泥水的痕迹——夜里确实有人在这附近走动过。"
     }
   },
   "qiu_chamber.dressing_table": {
     "default": {
-      "narration": "妆台上胭脂水粉摆放整齐，铜镜还映着死者前一夜的妆——她是在'清醒'的状态下走到栏边的。"
+      "narration": "妆台上胭脂水粉摆放整齐，铜镜映着前一夜的妆。旁边有一册浔阳楼的内账——翻到秋菱赎身那一页，有明显的涂改墨迹。",
+      "evidence": "evidence_qingjie_altered_ledger"
     }
   },
   "qiu_chamber.letter_box": {
     "default": {
-      "narration": "案发后本已封锁的桌案抽屉被人拉开过——你昨日见到的那张未送出的小笺，今天不见了。",
-      "reward": {
-        "evidence": "evidence_chamber_redisturbed"
-      },
+      "narration": "桌案抽屉被人拉开过。昨日见到的那张小笺还在——但位置变了，像是有人拿起看过又放回。",
+      "evidence": "evidence_chamber_redisturbed",
       "time_cost": 2
     }
   },
   "qiu_chamber.incense_burner": {
     "default": {
-      "narration": "床头香炉。香灰深处隐隐露出一点白光——你伸手拨开。",
-      "evidence": "evidence_silver_hairpin"
-    },
-    "after_clue:clue_courtyard_drag": {
-      "narration": "再看这个香炉，灰是新埋的——埋的人甚至来不及把白玉钗深埋。说明白衣公子曾匆忙进过这间闺阁。",
+      "narration": "床头香炉。香灰深处隐隐露出一点白光——你伸手拨开，是一支银钗。钗柄上刻着两个字，被灰覆盖。",
       "evidence": "evidence_silver_hairpin"
     }
   },
   "qiu_chamber.wine_cup": {
     "default": {
-      "narration": "翻倒的酒盏边沿留着两层口红印——不是同一个人喝的。秋菱与某人在阁中对饮过。"
+      "narration": "翻倒的酒盏边沿留着两层不同的口红印——秋菱与某人在阁中对饮过。第二层印色偏深，不像是男子。"
     }
   },
   "pavilion_main.private_room": {
     "default": {
-      "narration": "白衣公子坐过的雅间桌案。烛台下压着一张当铺典当票——已经过期。看起来这位'清玄公子'囊中并不宽裕。"
+      "narration": "一间雅间桌案上，烛台下压着一张当铺典当票——已过期。看来某位客人近来手头不宽裕。"
     }
   },
   "pavilion_main.wine_cellar": {
     "default": {
-      "narration": "翻看酒窖账册：案发那夜一共出了三壶酒。一壶给阁中秋菱，一壶给楼下茶客，剩下一壶——给的就是顾清玄。",
+      "narration": "翻看酒窖账册：案发那夜一共出了四壶酒。其中三壶去向明确，第四壶记的是「楼内自用」——没有写谁取的。",
       "evidence": "evidence_wine_cellar_amount"
     }
   },
   "pavilion_main.stage": {
     "default": {
-      "narration": "戏台幕后只剩几件残旧的戏服。靠后的木架上有一段绛红云纹绸——与案发现场的红绸出自同一匹布。",
+      "narration": "戏台幕后的木架上有一段绛红云纹绸——与案发现场的红绸出自同一匹布。但这段是完整的，没有撕扯痕迹。",
       "clue": "clue_silk_seller"
+    }
+  },
+  "pavilion_main.qingjie_room": {
+    "default": {
+      "narration": "青姐房门虚掩。你注意到门口有一双绣鞋，鞋底沾着灰绿色的苔泥——和后院青石板上的一模一样。",
+      "evidence": "evidence_qingjie_mud_shoes"
     }
   },
   "convent.altar": {
     "default": {
-      "narration": "佛龛香烟尚温。无尘老僧每夜守门诵经，并非全无事。"
+      "narration": "佛龛香烟尚温。庵内很安静。"
     }
   },
   "convent.window": {
     "default": {
-      "narration": "面街的小窗对着浔阳楼三楼阁子。无尘说他案发之夜确实望了那阁子一眼。",
-      "clue": "clue_silk_seller"
+      "narration": "面街的小窗对着浔阳楼三楼阁子。无尘说她案发之夜确实从此处望了一眼——但雨夜朦胧，分辨不清衣色。"
     }
   },
   "yamen.case_file": {
     "default": {
-      "narration": "卷宗架上压着鲁知府已写好的'醉酒失足'结案稿——印章未盖。"
+      "narration": "卷宗架上压着鲁知府写好的'醉酒失足'结案稿——印章未盖。"
     }
   },
   "yamen.evidence_table": {
     "default": {
-      "narration": "证物台上放着死者衣物。仔细查看那段红绸——栏杆上的指甲深痕清晰可见。",
+      "narration": "证物台上放着死者衣物。仔细查看那段红绸上——栏杆的木屑嵌在上面，方向显示人是面朝栏外被推的。",
       "evidence": "evidence_pavilion_railing"
     }
   },
   "marketplace.pawnshop": {
     "default": {
-      "narration": "城南当铺。掌柜证实：上月有位白衣公子典当了几件玉器换银——名款是'清玄'。看来他确实为钱困扰。"
+      "narration": "城南当铺。掌柜翻了翻簿子：上月有人典当了几件玉器换银。但当铺有规矩，不能直接告诉你典当人的身份——需要拿到府衙的令状。"
     }
   },
   "marketplace.alley": {
     "default": {
-      "narration": "巷尾石阶下，居然压着一封封口未启的赎身契——三百两聘，赎秋菱归故里。落款是一位远地客人。",
-      "evidence": "evidence_courtesan_redemption"
-    },
-    "after_clue:clue_silk_seller": {
-      "narration": "再看那封赎身契：落款日期就是案发前三日——秋菱原本明日就要赎身归乡。",
+      "narration": "巷尾石阶下压着一封封口未启的赎身契——三百两为聘，赎秋菱归故里。",
       "evidence": "evidence_courtesan_redemption"
     }
   },
   "silk_shop.sales_ledger": {
     "default": {
-      "narration": "账册上一笔三日前的临时手写记录：「绛红云纹绸一匹，急用，三两八。」字迹歪斜，买方栏写着一个孤字——「玄」。",
-      "reward": {
-        "evidence": "evidence_silk_purchase_receipt"
-      },
+      "narration": "账册上一笔临时手写的记录：「绛红云纹绸一匹，急用」。买方栏只有一个字，笔迹潦草难辨。",
+      "evidence": "evidence_silk_purchase_receipt",
       "time_cost": 2
     }
   },
   "riverside_dock.wet_planks": {
     "default": {
-      "narration": "湿木板上一道新鲜的鞋印拖痕，方向朝着江面。缆绳上多了一个生手打的扣。",
-      "reward": {
-        "evidence": "evidence_dock_disturbed"
-      },
+      "narration": "湿木板上一道鞋印拖痕，方向朝江面。缆绳上多了一个生手打的扣。脚印大小中等。",
+      "evidence": "evidence_dock_disturbed",
       "time_cost": 1
     }
   }

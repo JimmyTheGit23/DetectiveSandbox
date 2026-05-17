@@ -1,0 +1,15 @@
+# 本地 ChatTTS 语音生成依赖
+#
+# macOS/Linux CPU/MPS 通常可直接：
+#   pip install -r tools/tts/requirements-chattts.txt
+#
+# Windows / CUDA 用户建议先按 https://pytorch.org/get-started/locally/ 安装匹配的 torch/torchaudio，
+# 再安装本文件剩余依赖。
+
+numpy>=1.24
+soundfile>=0.12
+# ChatTTS 依赖 torch/torchaudio；不同平台的 torch wheel 差异较大，如本行安装失败请手动安装 torch。
+torch>=2.1
+torchaudio>=2.1
+# 用 GitHub 源比 PyPI 更接近官方最新 API。
+ChatTTS @ git+https://github.com/2noise/ChatTTS.git

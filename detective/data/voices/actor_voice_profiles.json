@@ -1,0 +1,149 @@
+{
+  "_comment": "本地 TTS 声线配置。speaker_seed 绑定 actor_id，而不是 npc_id；同一个 actor 在不同案件中保持同一音色。ChatTTS 生成结果不保证跨平台 bit-perfect，但提交生成好的 wav 后运行时完全平台无关。",
+  "_schema": {
+    "engine": "chattts | cosyvoice | gpt_sovits（当前只实现 chattts）",
+    "speaker_seed": "固定 speaker seed；同 actor 不变",
+    "gender": "M/F/N，仅供工具日志与后续选声参考",
+    "age": "young/middle/elder/narrator",
+    "speed": "ChatTTS speed tag，建议 3-6，越大越快",
+    "temperature": "采样温度；0.25-0.45 较稳",
+    "oral": "口语化强度，0-9",
+    "laugh": "笑声倾向，0-2",
+    "break": "停顿倾向，3-7",
+    "note": "角色声线说明"
+  },
+  "profiles": {
+    "_narrator": {
+      "engine": "chattts",
+      "speaker_seed": 90001,
+      "gender": "M",
+      "age": "narrator",
+      "speed": 4,
+      "temperature": 0.30,
+      "oral": 1,
+      "laugh": 0,
+      "break": 5,
+      "note": "沉稳男性旁白，平静、偏慢、低情绪。"
+    },
+    "actor_imperial_inspector": {
+      "engine": "chattts",
+      "speaker_seed": 31001,
+      "gender": "M",
+      "age": "middle",
+      "speed": 4,
+      "temperature": 0.32,
+      "oral": 2,
+      "laugh": 0,
+      "break": 4,
+      "note": "陆昭：沉稳清晰的中年官员男声。"
+    },
+    "actor_madam_proprietress": {
+      "engine": "chattts",
+      "speaker_seed": 42011,
+      "gender": "F",
+      "age": "middle",
+      "speed": 4,
+      "temperature": 0.34,
+      "oral": 3,
+      "laugh": 0,
+      "break": 4,
+      "note": "青姐：成熟女声，圆润、有阅历。"
+    },
+    "actor_innkeeper_wife": {
+      "engine": "chattts",
+      "speaker_seed": 42021,
+      "gender": "F",
+      "age": "middle",
+      "speed": 5,
+      "temperature": 0.36,
+      "oral": 4,
+      "laugh": 0,
+      "break": 3,
+      "note": "孙娘：市井中年女声，语速略快，消息灵通。"
+    },
+    "actor_elder_grandmother": {
+      "engine": "chattts",
+      "speaker_seed": 43031,
+      "gender": "F",
+      "age": "elder",
+      "speed": 3,
+      "temperature": 0.30,
+      "oral": 1,
+      "laugh": 0,
+      "break": 6,
+      "note": "周老夫人：老年女声，慢、威严、低沉。"
+    },
+    "actor_buddhist_nun": {
+      "engine": "chattts",
+      "speaker_seed": 42041,
+      "gender": "F",
+      "age": "middle",
+      "speed": 3,
+      "temperature": 0.28,
+      "oral": 1,
+      "laugh": 0,
+      "break": 6,
+      "note": "无尘师太：克制女声，慢速、平稳、少情绪。"
+    },
+    "actor_jianghu_swordsman": {
+      "engine": "chattts",
+      "speaker_seed": 31051,
+      "gender": "M",
+      "age": "young",
+      "speed": 5,
+      "temperature": 0.36,
+      "oral": 4,
+      "laugh": 0,
+      "break": 3,
+      "note": "马三：年轻江湖捕头，粗粝、短句有力。"
+    },
+    "actor_senior_prefect": {
+      "engine": "chattts",
+      "speaker_seed": 33061,
+      "gender": "M",
+      "age": "elder",
+      "speed": 3,
+      "temperature": 0.30,
+      "oral": 1,
+      "laugh": 0,
+      "break": 6,
+      "note": "鲁知府：老年官员男声，慢、压迫感。"
+    },
+    "actor_opera_performer": {
+      "engine": "chattts",
+      "speaker_seed": 31071,
+      "gender": "M",
+      "age": "young",
+      "speed": 4,
+      "temperature": 0.38,
+      "oral": 2,
+      "laugh": 0,
+      "break": 5,
+      "note": "顾清玄：青年男声，温雅、有一点戏腔与气声。"
+    },
+    "actor_wealthy_merchant": {
+      "engine": "chattts",
+      "speaker_seed": 33061,
+      "gender": "M",
+      "age": "middle",
+      "speed": 3,
+      "temperature": 0.28,
+      "oral": 1,
+      "laugh": 0,
+      "break": 5,
+      "note": "卜掌柜：中年布商男声，低一些、稳一些，措辞谨慎，有账房商贾感。"
+    },
+    "actor_foreign_traveler": {
+      "engine": "chattts",
+      "speaker_seed": 32091,
+      "gender": "M",
+      "age": "middle",
+      "speed": 4,
+      "temperature": 0.37,
+      "oral": 5,
+      "laugh": 0,
+      "break": 4,
+      "note": "刘船家：粗哑男声，外乡感，略迟疑。"
+    }
+  }
+}

@@ -1,73 +1,88 @@
 {
-  "_comment": "证据与线索定义。本案用 6 件 key 证据 + 2 件 supporting + 1 件 red_herring 构成完整推理链。",
+  "_comment": "证据与线索。每条描述只陈述事实，不替玩家下结论。",
   "evidence_torn_silk": {
     "type": "evidence",
     "name": "扯断的红绸",
-    "description": "死者颈间红绸断口呈横向剪切痕迹，显示力道是从背后向下拽——不是失足时手胡乱抓栏，而是有人从身后猛拉。"
+    "description": "死者颈间红绸断口呈横向痕迹——力道从背后向下拽，而非失足时手胡乱抓栏。"
   },
   "evidence_silver_hairpin": {
     "type": "evidence",
     "name": "阁中遗银钗",
-    "description": "秋菱闺阁的香炉灰里，半埋着一支白玉镶银的细钗。钗柄上刻'清玄'两字——这种钗多是文士赠物。\n\n白衣公子声称从未上过秋菱的阁子。"
+    "description": "秋菱闺阁的香炉灰里，半埋着一支白玉镶银的细钗。钗柄上刻着两个字，字迹被灰覆盖不甚清晰。这种钗多是文士赠物，但也可能是女子互赠之物。"
   },
   "evidence_love_letter": {
     "type": "evidence",
     "name": "未送的小笺",
-    "description": "秋菱书桌上未送出的小笺：「清郎安好。妾身知此情已成多余，惟愿郎择良配，妾自归故里……」落款是「菱字」。\n\n字里行间是在宣告分手。"
+    "description": "秋菱书桌上一封未送出的小笺：「清郎安好。妾身知此情已成多余，惟愿郎择良配，妾自归故里……」落款「菱字」。\n\n'清郎'是谁？信中没有写全名。"
   },
   "evidence_witness_lantern": {
     "type": "evidence",
     "name": "庵僧夜见",
-    "description": "无尘老僧守夜诵经，恰好望见浔阳楼阁中：先是一抹白影在闺阁中徘徊，继而红影后退、白影逼近，红影从栏边坠下。\n\n白影分明是男人——这与白衣公子'醉卧偏房'的口供相悖。"
+    "description": "无尘师太守夜诵经，望见浔阳楼阁中：先有两个人影在阁内，继而一个影子后退、另一个逼近，前者从栏边坠下。\n\n雨夜朦胧，她分辨不出衣色与性别。"
   },
   "evidence_unpaid_loan": {
     "type": "evidence",
     "name": "欠债字据",
-    "description": "周夫人手中持有秋菱所欠三百两银的字据。字据日期较新，到期日就在明日。"
+    "description": "周夫人手中持有秋菱所欠五十两银的字据。字据日期较新，到期日就在明日。数目不大——但借期很急。"
   },
   "evidence_wine_cellar_amount": {
     "type": "evidence",
     "name": "酒窖账册",
-    "description": "浔阳楼酒窖账册显示，案发当夜白衣公子只取了一壶清酒——不到二两。他声称'醉得人事不省'，但这点酒量并不足以让他失去意识。"
+    "description": "浔阳楼酒窖账册显示，案发当夜一共出了四壶酒：一壶给阁中秋菱，一壶给楼下散客，一壶给白衣公子，还有一壶——记的是「楼内自用」，没写谁取的。"
   },
   "evidence_courtesan_redemption": {
     "type": "evidence",
     "name": "赎身契",
-    "description": "秋菱床头收着一份未启封的赎身契——是一户外地客人以三百两为聘，欲为秋菱赎身。这才是她欠周夫人钱的真相：她在筹钱赎自己。"
+    "description": "秋菱床头收着一份未启封的赎身契——三百两为聘，赎秋菱归故里。落款是一位远地客人。\n\n若此契生效，浔阳楼将失去头牌。谁最不希望她走？"
   },
   "evidence_pavilion_railing": {
     "type": "evidence",
     "name": "栏杆挣痕",
-    "description": "凭栏靠近坠落处有一道指甲在木上抠出的深痕——人从高处跌下，绝不会有时间在背后留这样的抓痕。除非——是被人从背后推下时挣扎一抓。"
+    "description": "凭栏靠近坠落处有一道指甲在木上抠出的深痕——人从高处跌下不会在背后留这样的抓痕。这是被人从背后推下时的最后挣扎。"
   },
-  "clue_courtyard_drag": {
-    "type": "clue",
-    "name": "院中拖痕",
-    "description": "后院青石板上有几条不甚明显的拖拉痕迹，从屋檐下向坠落处方向——像是有人事先把'醉态'的人布置到栏边。"
+  "evidence_qingjie_mud_shoes": {
+    "type": "evidence",
+    "name": "泥底绣鞋",
+    "description": "青姐房中的一双绣鞋，鞋底沾着后院青石板特有的灰绿苔泥。她说案发夜一直在房中——但这双鞋说她去过后院。"
   },
-  "clue_silk_seller": {
-    "type": "clue",
-    "name": "红绸是新的",
-    "description": "城南布庄掌柜证实：那匹绛红云纹绸是三日前才出的，秋菱不可能是用旧物自缢——红绸是临时被'选'来的。"
+  "evidence_qingjie_altered_ledger": {
+    "type": "evidence",
+    "name": "涂改的账册",
+    "description": "浔阳楼内账册上，秋菱赎身一栏有明显的涂改痕迹——原本写着「三百两已收」，被人用浓墨覆盖改成了「待议」。墨迹比周围的字新得多。"
+  },
+  "evidence_courtyard_second_figure": {
+    "type": "evidence",
+    "name": "第二道脚印",
+    "description": "后院青石板上除了死者坠落的血迹外，还有一串从楼梯口到栏边再折返的脚印。脚印偏小——不像男子的。"
   },
   "evidence_silk_purchase_receipt": {
     "name": "新购红绸单据",
-    "description": "布庄账册上一条临时手写的销售记录。买方笔迹与顾清玄案上字迹一致——他在案发前买过一匹同样的红绸。",
+    "description": "布庄账册上一笔临时手写记录。买方栏只写了一个字。字迹歪斜匆忙——可能是任何人。",
     "category": "物证"
   },
   "evidence_dock_disturbed": {
     "name": "江畔水阁的乱痕",
-    "description": "湿木板上一道新鲜的鞋印拖痕，缆绳被打了一个奇怪的扣。有人凌晨独自来此并把东西丢进了江里。",
+    "description": "湿木板上一道新鲜的鞋印拖痕，缆绳被打了一个奇怪的扣。有人凌晨独自来此丢弃了什么——脚印大小中等，无法确定性别。",
     "category": "物证"
   },
   "evidence_chamber_redisturbed": {
     "name": "闺阁被翻动的痕迹",
-    "description": "案发后封锁的闺阁，妆台抽屉被重新拉开过，几张纸笺凌乱。有人在你之前回来找过东西。",
+    "description": "案发后封锁的闺阁，妆台抽屉被重新拉开，几张纸笺凌乱。不止一个人在案发后回来过。",
     "category": "物证"
   },
-  "evidence_nun_visited_by_white": {
-    "name": "无尘师太的异常",
-    "description": "无尘师太提到——夜里有个白衣公子曾敲门，问案发那夜她是否听到过什么动静。",
+  "evidence_nun_visited_by_stranger": {
+    "name": "深夜来庵的陌生人",
+    "description": "无尘师太提到——案发后的夜里有人敲庵门，问她那夜是否听见对楼有动静。来人戴了兜帽，师太没看清面貌。",
     "category": "证词"
+  },
+  "clue_courtyard_drag": {
+    "type": "clue",
+    "name": "院中拖痕",
+    "description": "后院青石板上有几条不甚明显的拖拉痕迹——方向不确定是拖向栏边，还是从栏边拖开。"
+  },
+  "clue_silk_seller": {
+    "type": "clue",
+    "name": "红绸出处",
+    "description": "城南布庄是全城唯一卖绛红云纹绸的。三日前浔阳楼采办过一匹，案发当日又有人急购一匹。两笔买家是否同一人？"
   }
 }

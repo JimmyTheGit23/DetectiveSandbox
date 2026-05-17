@@ -2,24 +2,57 @@
   "start": "intro",
   "nodes": {
     "intro": {
-      "text": "（马三抱拳）陆大人。鲁知府是判了'醉酒失足'，可末将看了现场——红绸断口确实不对劲。大人但有差遣，末将听调。",
+      "text": "（马三抱拳）陆大人。鲁知府判的是'醉酒失足'，但末将看了现场——红绸断口和栏杆挣痕都不对劲。大人但有差遣，末将听调。",
       "options": [
-        { "text": "你帮我盯住浔阳楼，别让人离开。", "goto": "request_help", "hide_after_visit": true },
-        { "text": "鲁知府为何坚持'醉酒失足'？", "goto": "why_lu", "hide_after_visit": true },
-        { "text": "（先离开）", "goto": "__exit__" }
+        {
+          "text": "帮我盯住浔阳楼，别让人离开。",
+          "goto": "request_help",
+          "hide_after_visit": true
+        },
+        {
+          "text": "鲁知府为何坚持'失足'？",
+          "goto": "why_lu",
+          "hide_after_visit": true
+        },
+        {
+          "text": "你对这案子有什么看法？",
+          "goto": "opinion",
+          "hide_after_visit": true
+        },
+        {
+          "text": "（先告辞）",
+          "goto": "__exit__"
+        }
       ]
     },
     "request_help": {
-      "text": "（点头）末将立即布置。浔阳楼前后两门各派两人，三日内出门的全部记下。",
-      "set_flags": ["ma_on_watch"],
+      "text": "末将立即布置。前后两门各派两人，三日内进出的全部记下。",
+      "set_flags": [
+        "ma_san_watching"
+      ],
       "options": [
-        { "text": "（先放放）", "goto": "intro" }
+        {
+          "text": "（先告辞）",
+          "goto": "__exit__"
+        }
       ]
     },
     "why_lu": {
-      "text": "（压低声）末将私下说——本府前年才出了一桩'醉死的伶人'，闹得整府名声不好。鲁大人怕这案子又一闹大，往上拍来一封折子，他这官就难当了。\n\n大人手上若证据充分，鲁大人也不敢压。",
+      "text": "本府前年出过一桩'醉死的伶人'，闹得名声不好。鲁大人怕这案子再闹大。\n\n大人手上若证据充分，鲁大人也不敢压。",
       "options": [
-        { "text": "（先放放）", "goto": "intro" }
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
+      ]
+    },
+    "opinion": {
+      "text": "末将觉得——楼里不止一个人有心事。但心事归心事，推人归推人。大人还是看证据说话稳当。",
+      "options": [
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
       ]
     }
   }

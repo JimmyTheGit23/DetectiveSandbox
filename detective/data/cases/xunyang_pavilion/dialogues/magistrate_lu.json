@@ -2,32 +2,63 @@
   "start": "intro",
   "nodes": {
     "intro": {
-      "text": "（鲁知府捻须）陆大人远来辛苦。这案子本府已经派人查过——醉酒失足，证据明白。大人不必费心。",
+      "text": "（鲁知府捻须）陆大人远来辛苦。这案子本府已经查过——醉酒失足，证据明白。大人不必费心。",
       "options": [
-        { "text": "栏杆上有指甲挣痕，醉酒之人不至于此。", "goto": "argue_railing", "hide_after_visit": true },
-        { "text": "（出示扯断红绸）这红绸是被人从背后拽断的。", "goto": "argue_silk", "requires": { "evidence": "evidence_torn_silk" }, "cost_time": 1, "hide_after_visit": true },
-        { "text": "（出示对楼僧之言）那夜阁中确有第二人。", "goto": "argue_witness", "requires": { "evidence": "evidence_witness_lantern" }, "cost_time": 1, "hide_after_visit": true },
-        { "text": "（先告辞）", "goto": "__exit__" }
+        {
+          "text": "栏杆上有指甲挣痕。",
+          "goto": "argue_railing",
+          "hide_after_visit": true
+        },
+        {
+          "text": "红绸断口方向不对。",
+          "goto": "argue_silk",
+          "hide_after_visit": true
+        },
+        {
+          "text": "有目击者看到阁中两人。",
+          "goto": "argue_witness",
+          "requires": {
+            "evidence": "evidence_witness_lantern"
+          },
+          "hide_after_visit": true
+        },
+        {
+          "text": "（先告辞）",
+          "goto": "__exit__"
+        }
       ]
     },
     "argue_railing": {
-      "text": "（皱眉）……指甲痕？本府未曾细看。陆大人若执意要查，本府不阻拦——但三日为限，结案稿已拟好，过期就发回州府。",
+      "text": "（眉头微皱）……指甲痕？本府再看看。但这也可能是她抓栏时留下的——不算定论。",
       "options": [
-        { "text": "（先放放）", "goto": "intro" }
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
       ]
     },
     "argue_silk": {
-      "text": "（脸色微变）……这红绸的断口，确实不像失足。罢罢，本府改'存疑'二字，等大人再查三日。",
-      "set_flags": ["lu_grudgingly_open"],
+      "text": "（脸色微变）……这红绸的断口确实不像失足。罢罢，本府改'存疑'二字，等大人再查三日。",
+      "set_flags": [
+        "lu_grudgingly_open"
+      ],
       "options": [
-        { "text": "（先放放）", "goto": "intro" }
+        {
+          "text": "（先告辞）",
+          "goto": "__exit__"
+        }
       ]
     },
     "argue_witness": {
-      "text": "（沉默良久）阁中第二人——那便不是失足了。本府这就把结案稿撕了。陆大人，这桩案子交予您。",
-      "set_flags": ["lu_yielded"],
+      "text": "（沉默良久）阁中有第二人——那便不是失足了。本府这就把结案稿撕了。陆大人，这桩案子交予您。",
+      "set_flags": [
+        "lu_yielded"
+      ],
       "options": [
-        { "text": "（先放放）", "goto": "intro" }
+        {
+          "text": "（先告辞）",
+          "goto": "__exit__"
+        }
       ]
     }
   }

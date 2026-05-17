@@ -6,7 +6,9 @@
     "yamen": "mood:suspense",
     "pavilion_main": "mood:warm_secret",
     "convent": "mood:vigil",
-    "marketplace": "mood:bustling"
+    "marketplace": "mood:bustling",
+    "riverside_dock": "track:xunyang_rain_courtyard",
+    "silk_shop": "track:market_calm"
   },
   "states": {
     "prologue": "mood:rainy_night",

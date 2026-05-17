@@ -1,137 +1,122 @@
 {
-  "_comment": "浔阳楼案日程事件：时段触发 + 证据触发 + 凶手撞见遭遇（auto_play=true）。",
+  "_comment": "日程事件。auto_play 遭遇中，玩家可能撞见真凶，也可能撞见红鲱鱼——两者都行为可疑。",
   "events": [
     {
       "id": "evt_redemption_revealed",
       "trigger": {
         "all": [
-          { "evidence": "evidence_courtesan_redemption" },
-          { "not": { "flag": "evt_redemption_revealed_done" } }
+          {
+            "evidence": "evidence_courtesan_redemption"
+          },
+          {
+            "not": {
+              "flag": "evt_redemption_revealed_done"
+            }
+          }
         ]
       },
       "title": "赎身故案",
-      "hint": "（青姐悄悄请你到雅间叙话）「大人，秋菱原本明日……就要走了。」",
+      "hint": "你发现了赎身契",
       "narration": [
-        "青姐红着眼睛递过来一封黄黄的封信。",
-        "「这是远地客人三日前送来的赎身契，三百两整。秋菱若收下了，明日就是良民。她不肯告诉别人——只跟我说要还清债再走。」",
-        "「她不是想嫁那位客人，她只是想离开这个地方。她欠周夫人的银，也是为了拖时间凑齐赎身钱。」",
-        "「能让她走得好的人不多，不让她走的人——大人您仔细想想就明白了。」"
+        "一封赎身契。三百两白银，赎秋菱归故里。",
+        "若此契生效，浔阳楼将失去头牌——这对楼里的人意味着什么？"
       ],
       "effects": {
-        "set_flag": "qing_jie_revealed_truth"
+        "set_flag": "redemption_known"
       }
     },
     {
-      "id": "evt_silk_message",
-      "trigger": {
-        "all": [
-          { "total_periods_used_gte": 8 },
-          { "not": { "flag": "evt_silk_message_done" } }
-        ]
-      },
-      "title": "城南布庄信",
-      "hint": "（市集布庄掌柜送来口信）「那匹绛红云纹绸，三日前才出。」",
-      "narration": [
-        "城南布庄一名学徒匆匆送来字条：",
-        "「那匹绛红云纹绸是浔阳楼三日前刚出银采办的。共三尺六寸，一尺六寸做了红披帛，剩下两尺整存着。」",
-        "「也就是说，案发那条红绸，是从楼里临时拿出来的。死者并不是用'自己的'东西自缢——这红绸是被人特意取来的。」"
-      ],
-      "effects": {
-        "set_flag": "silk_recently_purchased"
-      }
-    },
-
-    {
-      "_section": "─── 凶手撞见遭遇剧情 (auto_play, 进场即播) ───",
-      "id": "evt_encounter_dock",
+      "id": "evt_encounter_dock_figure",
       "auto_play": true,
       "trigger": {
         "all": [
-          { "flag": "qing_xuan_seen_at_dock" },
-          { "not": { "flag": "evt_encounter_dock_done" } }
+          {
+            "any": [
+              {
+                "flag": "qingjie_seen_at_dock"
+              },
+              {
+                "flag": "qing_xuan_seen_at_dock"
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "evt_encounter_dock_done"
+            }
+          }
         ]
       },
-      "title": "江畔撞影",
-      "hint": "（你撞见一个白衣身影正在水阁边）",
+      "title": "水阁夜影",
+      "hint": "你在水阁撞见一个人影",
       "narration": [
-        "夜色未深，江面起了薄雾。你正踏上那段湿木板，忽见水阁那头一个白衣人影背对着你站着。",
-        "他手里提着个不大的包袱，正欲俯身把它系在缆绳上。听见脚步，他猛地一僵。",
-        "你借灯笼微光看清了——是顾清玄。他白衣胸前沾了水痕，袖口还湿着。",
-        "「……陆大人，怎么这个时辰也来江畔走走？」他笑得极浅，眼里没笑意。「我醉了，出来透透风。这包袱？是楼里小厮托我顺便丢去对岸的旧物罢了。」",
-        "你没去接他递的话——那包袱沉得不像旧物。但他已松手让它落入江中，绳一抽，便顺水而去。",
-        "（你已撞见他在江畔销证，这一夜他必不能再装作'醉卧偏房'。）"
+        "夜色未深，江面起了薄雾。你踏上那段湿木板，忽见水阁那头有一个人影背对着你站着。",
+        "那人手里提着个不大的包袱，正欲俯身把它系在缆绳上。听见脚步，那人猛地一僵——随即转过身来。",
+        "灯笼微光下，你只看清一个被兜帽遮住半面的轮廓。那人低声说了句什么，便松手让包袱落入江中，绳一抽，顺水而去。",
+        "你来不及看清那人的脸。但你记住了——那人的身形、那人走路的姿态。"
       ],
       "effects": {
-        "set_flag": ["qing_xuan_alibi_drunken_broken", "encounter_dock_seen"]
+        "set_flag": "dock_encounter_seen"
       }
     },
     {
-      "id": "evt_encounter_chamber",
+      "id": "evt_encounter_chamber_intruder",
       "auto_play": true,
       "trigger": {
         "all": [
-          { "flag": "qing_xuan_caught_at_chamber" },
-          { "not": { "flag": "evt_encounter_chamber_done" } }
+          {
+            "any": [
+              {
+                "flag": "qingjie_caught_altering"
+              },
+              {
+                "flag": "qing_xuan_caught_at_chamber"
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "evt_encounter_chamber_done"
+            }
+          }
         ]
       },
-      "title": "闺阁遇贼",
-      "hint": "（你推开秋菱闺阁的门——里面有人）",
+      "title": "闺阁来客",
+      "hint": "闺阁里有人",
       "narration": [
-        "你推开闺阁门，正撞见一个白衣身影从妆台前直起身——抽屉半开着，里面的物什被翻乱了。",
-        "「陆大人。」顾清玄从容地理了理袖口，脸色却有一瞬白。「我来看看……秋菱姐留下的那把篦子。她答应过送我作念想的。」",
-        "你看了眼妆台。被翻动的明明不止那把篦子——香盒、笺盒、连枕下的小匣都被掀了一遍。",
-        "他笑了笑，从袖中取出一封半皱的信纸折成小笺：「就找到这一张。她写给一位'阿公子'——你看，这字也不是写给我的。」",
-        "（信纸边缘已有焦痕——他刚才正在烧。）",
-        "（你已撞见他在闺阁翻找并销毁书信。这是他在掩盖什么，绝非'念想'二字所能解释。）"
+        "你推开闺阁门，正撞见一个人影从妆台前直起身——抽屉半开着，里面的物什被翻乱了。",
+        "那人转过身，表情一闪而过——是意外，还是心虚？",
+        "那人说自己是来'整理秋菱遗物'的。但你注意到桌上的内账册翻开在赎身那一页。"
       ],
       "effects": {
-        "set_flag": ["qing_xuan_chamber_revisit_seen", "encounter_chamber_seen"],
-        "gain_clue": "clue_burned_letter_fragment"
+        "set_flag": "chamber_intruder_seen"
       }
     },
     {
-      "id": "evt_encounter_silk_shop",
+      "id": "evt_encounter_convent_visitor",
       "auto_play": true,
       "trigger": {
         "all": [
-          { "flag": "qing_xuan_alibi_market_broken" },
-          { "not": { "flag": "evt_encounter_silk_shop_done" } }
+          {
+            "flag": "qingjie_seen_at_convent"
+          },
+          {
+            "not": {
+              "flag": "evt_encounter_convent_done"
+            }
+          }
         ]
       },
-      "title": "布庄惊鸿",
-      "hint": "（你正在布庄账上翻看，门口走来一个熟人）",
+      "title": "庵前来客",
+      "hint": "有人在庵里问话",
       "narration": [
-        "卜掌柜将账册推到你面前，正欲翻页，门口铜铃一响——",
-        "顾清玄抱着一卷新红绸进来，眼见你与卜掌柜相对而坐，他的脚步顿了一下，随即笑着拱手：",
-        "「陆大人也喜欢这色？这家是城南最老的布庄了。我替楼里采办些新绸——青姐说近日要换些喜色冲冲晦气。」",
-        "卜掌柜在他背后向你使了个不易察觉的眼神。",
-        "（你看出来了：他怕你看到的不是'采办'，而是账册上他自己三日前那笔——一尺六寸的绛红云纹绸。）"
+        "你立在庵前石阶下，听见里面传来低低的话音。",
+        "「……师太昨夜何时熄灯？可有听见对楼有人说话？」",
+        "声音压得很低，你分辨不出是谁。但问的分明是案发夜的事。",
+        "你退到山门后柱影里，看着那人戴着兜帽从侧门匆匆离去。"
       ],
       "effects": {
-        "set_flag": ["qing_xuan_silk_substitution_seen", "encounter_silk_shop_seen"]
-      }
-    },
-    {
-      "id": "evt_encounter_convent",
-      "auto_play": true,
-      "trigger": {
-        "all": [
-          { "flag": "qing_xuan_seen_at_convent" },
-          { "not": { "flag": "evt_encounter_convent_done" } }
-        ]
-      },
-      "title": "庵前轻语",
-      "hint": "（你刚要进慈航庵，听见里面传来一个熟悉的声音）",
-      "narration": [
-        "你立在庵前石阶下，欲叩门，却听见里面传来低低的话音。",
-        "「……师太昨夜何时熄灯？……可有听见对楼有人说话？」",
-        "正是顾清玄的声音——温和有礼，问的却分明是案发夜的事。",
-        "你听见无尘师太淡淡一句：「贫尼念经至子时方歇，旁的，未曾留心。」",
-        "顾清玄又低声说了几句，便起身。你退到山门后柱影里，看着他披上斗篷，从侧门匆匆离去——并不见他来时焚的香。",
-        "（他不是来礼佛——是来探虚实。他要确认师太是否目击案发夜。）"
-      ],
-      "effects": {
-        "set_flag": ["qing_xuan_test_witness_seen", "encounter_convent_seen"]
+        "set_flag": "convent_visitor_seen"
       }
     }
   ]

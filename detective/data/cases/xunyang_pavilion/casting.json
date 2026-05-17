@@ -13,7 +13,8 @@
       "actor_id": "actor_madam_proprietress",
       "role_name": "青姐",
       "role_title": "浔阳楼当家",
-      "role_intro": "三十余岁的当家娘子。死者秋菱的义姐。一身缟素，眼眶通红。"
+      "role_intro": "三十余岁的当家娘子。死者秋菱的义姐。一身缟素，眼眶通红。",
+      "is_culprit": true
     },
     "sun_laoliu": {
       "actor_id": "actor_innkeeper_wife",
@@ -49,8 +50,7 @@
       "actor_id": "actor_opera_performer",
       "role_name": "顾清玄",
       "role_title": "白衣公子",
-      "role_intro": "案发当夜借宿浔阳楼的客人。一身白衣，言语得体，行止间却有一丝戏台上的雕琢。",
-      "is_culprit": true
+      "role_intro": "案发当夜借宿浔阳楼的客人。一身白衣，言语得体，行止间却有一丝戏台上的雕琢。"
     },
     "bu_zhang": {
       "actor_id": "actor_wealthy_merchant",

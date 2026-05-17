@@ -163,24 +163,26 @@ func _make_mist(alpha: float) -> CPUParticles2D:
 	return p
 
 
-# ─── 烟（线性上升） ────────────────────────────────────────────────────────
+# ─── 烟（香炉细烟）────────────────────────────────────────────────────────
 func _make_smoke() -> CPUParticles2D:
 	var p := CPUParticles2D.new()
 	var vp_size := get_viewport_rect().size
-	p.position = Vector2(vp_size.x * 0.32, vp_size.y * 0.78)
+	# 秋菱闺阁图中香炉位于画面偏右、床榻前的小香几上。
+	# 原点必须贴近炉盖，否则烟会像从半空/桌面冒出。
+	p.position = Vector2(vp_size.x * 0.58, vp_size.y * 0.50)
 	p.emitting = true
-	p.amount = 10
-	p.lifetime = 4.5
-	p.preprocess = 2.0
-	p.randomness = 0.8
-	p.direction = Vector2(0, -1)
-	p.spread = 12.0
-	p.gravity = Vector2(0, -8.0)
-	p.initial_velocity_min = 18.0
-	p.initial_velocity_max = 32.0
-	p.scale_amount_min = 0.6
-	p.scale_amount_max = 1.6
-	p.color = Color(0.85, 0.78, 0.65, 0.18)
+	p.amount = 7
+	p.lifetime = 3.2
+	p.preprocess = 1.2
+	p.randomness = 0.55
+	p.direction = Vector2(0.08, -1)
+	p.spread = 7.0
+	p.gravity = Vector2(0, -3.0)
+	p.initial_velocity_min = 10.0
+	p.initial_velocity_max = 20.0
+	p.scale_amount_min = 0.35
+	p.scale_amount_max = 0.95
+	p.color = Color(0.92, 0.86, 0.74, 0.12)
 	# 软圆斑
 	var sz := 16
 	var img := Image.create(sz, sz, false, Image.FORMAT_RGBA8)

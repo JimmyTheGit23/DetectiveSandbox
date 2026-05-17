@@ -7,3 +7,9 @@
 
 # MCP 客户端配置（含本机绝对路径，不入库；按需让队友各自 setup configure）
 .mcp.json
+
+# Local TTS / Python environments
+.venv-tts/
+
+# ChatTTS local model cache if source=local is accidentally used
+asset/

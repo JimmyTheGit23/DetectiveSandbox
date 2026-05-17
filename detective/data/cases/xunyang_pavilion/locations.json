@@ -102,6 +102,11 @@
         "id": "stage",
         "name": "戏台幕后",
         "time_cost": 1
+      },
+      {
+        "id": "qingjie_room",
+        "name": "青姐房间",
+        "time_cost": 1
       }
     ]
   },

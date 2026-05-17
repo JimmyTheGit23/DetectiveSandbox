@@ -2,45 +2,157 @@
   "start": "intro",
   "nodes": {
     "intro": {
-      "text": "（青姐含泪）陆大人。秋菱这孩子，我看着长大的。她不是会跌下去的人——大人您可一定要查个明白。",
+      "text": "（青姐含泪）大人。秋菱是我一手带大的，她若真是失足，我认了。可若不是——大人可一定要查个明白。",
       "options": [
-        { "text": "她最后一夜跟谁在阁中？", "goto": "last_company", "hide_after_visit": true },
-        { "text": "她欠周夫人的银两是怎么回事？", "goto": "loan_truth", "hide_after_visit": true },
-        { "text": "（出示赎身契）这赎身契你知道吗？", "goto": "show_redemption", "requires": { "evidence": "evidence_courtesan_redemption" }, "cost_time": 1, "hide_after_visit": true },
-        { "text": "（出示分手笺）她写过这封信么？", "goto": "show_letter_qj", "requires": { "evidence": "evidence_love_letter" }, "cost_time": 1, "hide_after_visit": true }
+        {
+          "text": "她最后一夜跟谁在一起？",
+          "goto": "last_company",
+          "hide_after_visit": true
+        },
+        {
+          "text": "她欠银的事你知道多少？",
+          "goto": "loan_truth",
+          "hide_after_visit": true
+        },
+        {
+          "text": "（出示赎身契）",
+          "goto": "show_redemption",
+          "requires": {
+            "evidence": "evidence_courtesan_redemption"
+          },
+          "hide_after_visit": true
+        },
+        {
+          "text": "（出示泥底绣鞋）这双鞋怎么有后院的泥？",
+          "goto": "confront_shoes",
+          "requires": {
+            "evidence": "evidence_qingjie_mud_shoes"
+          },
+          "hide_after_visit": true
+        },
+        {
+          "text": "（出示涂改账册）赎身记录被人改过。",
+          "goto": "confront_ledger",
+          "requires": {
+            "evidence": "evidence_qingjie_altered_ledger"
+          },
+          "hide_after_visit": true
+        },
+        {
+          "text": "案发那夜你在哪里？",
+          "goto": "alibi",
+          "hide_after_visit": true
+        }
       ]
     },
     "last_company": {
-      "text": "（垂下眼）那夜雨大，楼里少有客人。她偏房点了灯，似乎是在等人。我去送了一壶酒上去——出来时听见她在说'你回去吧'，再后面我就不该听了。",
+      "text": "那夜雨大，楼里少有客人。她偏房点了灯。我去送了一壶酒上去——出来时听见她在跟人说话。",
       "options": [
-        { "text": "你听见的是男声还是女声？", "goto": "voice_who" },
-        { "text": "（先放放）", "goto": "intro" }
+        {
+          "text": "你听见是谁的声音？",
+          "goto": "voice_who"
+        },
+        {
+          "text": "（先放放）",
+          "goto": "intro"
+        }
       ]
     },
     "voice_who": {
-      "text": "男声，斯文。是我们这里的常客——白衣公子。",
+      "text": "（迟疑）……声音压得低，我没听清。我只知道她在说'你别拦我'。",
       "options": [
-        { "text": "（先放放）", "goto": "intro" }
+        {
+          "text": "（先放放）",
+          "goto": "intro"
+        }
       ]
     },
     "loan_truth": {
-      "text": "（叹气）秋菱不是好赌的。她欠周夫人的钱，是为了凑足赎身银——她差三百两不到，便用浔阳楼的份子钱去借，约期就在明日。",
+      "text": "她欠周夫人五十两，是为了凑赎身银。差三百两不到，借期急得很。",
       "options": [
-        { "text": "（先放放）", "goto": "intro" }
+        {
+          "text": "（先放放）",
+          "goto": "intro"
+        }
       ]
     },
     "show_redemption": {
-      "text": "（青姐怔了一下）……这就是了。这是远地一位姓陈的老客人，仰慕秋菱清雅，三百两为聘想接她归乡做夫人。秋菱没说要嫁他——她只是要走。\n\n大人，世上不是所有人都心甘情愿一辈子站在浔阳楼三楼凭栏赏雨的。",
-      "set_flags": ["qing_jie_revealed_truth"],
+      "text": "（青姐怔了一下，随即恢复）……这便是了。外地一位客人三百两为聘。秋菱说她要走——我劝过她，浔阳楼离了她，日子难过。\n\n但她主意已定。",
+      "set_flags": [
+        "qingjie_knew_redemption"
+      ],
       "options": [
-        { "text": "（先放放）", "goto": "intro" }
+        {
+          "text": "浔阳楼离了她，谁最受影响？",
+          "goto": "who_loses"
+        },
+        {
+          "text": "（先放放）",
+          "goto": "intro"
+        }
       ]
     },
-    "show_letter_qj": {
-      "text": "（看到信，眼泪掉下来）……这字是她写的没错。'清郎'是她近半年新交的客——白衣公子。她跟我说过，那位公子人不坏，但太执拗。\n\n秋菱说：'我若不走，他不会让我好好过。'她原话。",
-      "set_flags": ["qing_jie_pointed_at_qx"],
+    "who_loses": {
+      "text": "（眼神闪过一丝什么）……这楼是我打理的。秋菱走了，下一个头牌不知几年才能养出来。但大人，我不至于为这个——",
       "options": [
-        { "text": "（先放放）", "goto": "intro" }
+        {
+          "text": "（先放放）",
+          "goto": "intro"
+        }
+      ]
+    },
+    "confront_shoes": {
+      "text": "（脸色微变）……那双鞋，是白日里我去后院看过现场——大人忘了？我早上在那儿上过香。",
+      "lie": {
+        "is_lie": true,
+        "reason": "她说的是早上，但鞋底的泥是夜间湿泥，不是白日干泥"
+      },
+      "options": [
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
+      ]
+    },
+    "confront_ledger": {
+      "text": "（沉默良久）……那是我改的没错。赎身的事还没定，我先把账挂'待议'，等她想清楚再说。这有什么问题？",
+      "set_flags": [
+        "qingjie_admitted_altering"
+      ],
+      "options": [
+        {
+          "text": "赎身契写得清楚——三百两已付。你改的不是'待议'，是'抹掉'。",
+          "goto": "ledger_pressed"
+        },
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
+      ]
+    },
+    "ledger_pressed": {
+      "text": "（青姐抬起头，眼眶红了）……大人。我养了她十年。她说走就走，连一句商量都没有。\n\n我改了账册不假。但我没有——我没有推她。",
+      "set_flags": [
+        "qingjie_emotional_break"
+      ],
+      "options": [
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
+      ]
+    },
+    "alibi": {
+      "text": "案发那夜我在房中。三更听见响动才下楼的——大人可以问孙娘，她看见我下来。",
+      "lie": {
+        "is_lie": true,
+        "reason": "孙娘看见她是从后院方向回来，不是从楼上下来"
+      },
+      "options": [
+        {
+          "text": "（先记下）",
+          "goto": "intro"
+        }
       ]
     }
   }

@@ -9,32 +9,32 @@
     },
     "scene2": {
       "background": "res://assets/cn/scenes/xunyang_prologue.png",
-      "speaker": "陆昭",
-      "text": "（按辔行至楼下）今日借宿浔阳楼，明日一早就要启程回京。雨下得这么大，倒也省得有人请喝酒了。",
+      "speaker": "",
+      "text": "巡按御史陆昭借宿楼中，明日一早便要启程回京。",
       "next": "scene3"
     },
     "scene3": {
       "background": "res://assets/cn/scenes/xunyang_pavilion_main.png",
       "speaker": "",
-      "text": "夜里三更。楼下传来一声闷响，紧接着是女人短促的惊叫——",
+      "text": "夜里三更。楼下传来一声闷响，紧接着是短促的惊叫——",
       "next": "scene4"
     },
     "scene4": {
       "background": "res://assets/cn/scenes/xunyang_courtyard.png",
-      "speaker": "陆昭",
-      "text": "（提灯赶到后院）青石板上躺着一位女子。颈间缠着一段绛红云纹绸——\n\n这便是浔阳楼的当家花魁，秋菱。",
+      "speaker": "",
+      "text": "后院青石板上躺着一位女子。颈间缠着一段绛红云纹绸。\n\n这便是浔阳楼的当家花魁，秋菱。",
       "next": "scene5"
     },
     "scene5": {
       "background": "res://assets/cn/scenes/xunyang_courtyard.png",
-      "speaker": "陆昭",
-      "text": "（蹲下细看）她的指甲缝里干净，手心却握着一段红绸——这绸的断口是横向的扯痕，分明是从背后被人猛拉。\n\n但鲁知府已经拍板：醉后凭栏，失足跌下。",
+      "speaker": "",
+      "text": "她的指甲缝里干净，手心却握着一段红绸。红绸的断口是横向的——这与失足坠落的受力方向不一致。\n\n鲁知府已经拍板：醉后凭栏，失足跌下。",
       "next": "scene6"
     },
     "scene6": {
       "background": "res://assets/cn/scenes/xunyang_courtyard.png",
-      "speaker": "陆昭",
-      "text": "（皱眉）三日为限。再迟，结案稿就要送回京——这就成了一桩没人在意的'醉死的女伶'。\n\n该问的人，都还在浔阳楼里。从这院里开始查吧。",
+      "speaker": "",
+      "text": "三日为限。结案稿送回京之前，也许还有值得追问的事。\n\n浔阳楼里的人，都还在。",
       "next": "scene7"
     },
     "scene7": {
@@ -42,7 +42,7 @@
       "speaker": "",
       "centered": true,
       "silent": true,
-      "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 指证\n• 跨地点移动会花掉一个时段；探索某处也要花时段\n• 时间用完前要找出真凶\n\n【本案语音说明】\n\n本案为 M2 资产抽象层验证案件，所有 NPC 复用首部演员，但语音尚未生成（参见 docs/MISSING_VOICES.md）。\n剧情靠文字推进，不影响破案体验。",
+      "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 指证\n• 跨地点移动花费一个时段；探索某处也要花时段\n• 在时间用完前指出真凶",
       "end": true
     }
   }

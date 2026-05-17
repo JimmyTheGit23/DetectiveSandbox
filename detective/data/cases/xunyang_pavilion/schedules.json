@@ -1,7 +1,7 @@
 {
-  "_comment": "NPC 时段日程表。每条 NPC 有 default 和 overrides。运行时 GameManager.get_npc_at(npc_id, day, period) 返回该时段实际所在地。public=false 是隐秘行动。",
+  "_comment": "NPC 时段日程表。真凶的隐秘行动混在其他人的可疑行为中。",
   "qing_jie": {
-    "_role": "死者义姐 当家娘子",
+    "_role": "死者义姐 / 浔阳楼当家（真凶）",
     "default": {
       "location": "pavilion_main",
       "activity": "mourning",
@@ -13,10 +13,28 @@
         "activity": "incense_offering",
         "public": true
       },
+      "D1_P5": {
+        "location": "qiu_chamber",
+        "activity": "tidy_chamber",
+        "public": true,
+        "motive_hidden": "趁机涂改内账赎身记录"
+      },
+      "D2_P3": {
+        "location": "riverside_dock",
+        "activity": "dispose_items",
+        "public": false,
+        "motive_hidden": "丢弃秋菱私物"
+      },
       "D2_P4": {
         "location": "yamen",
         "activity": "plead_case",
         "public": true
+      },
+      "D2_P7": {
+        "location": "convent",
+        "activity": "visit_nun",
+        "public": false,
+        "motive_hidden": "打探无尘是否目击"
       }
     }
   },
@@ -48,9 +66,14 @@
         "activity": "check_ledger",
         "public": true
       },
-      "D2_P5": {
+      "D1_P7": {
         "location": "pavilion_main",
         "activity": "demand_debt",
+        "public": true
+      },
+      "D2_P5": {
+        "location": "pavilion_main",
+        "activity": "demand_debt_again",
         "public": true
       }
     }
@@ -61,6 +84,13 @@
       "location": "convent",
       "activity": "sutra",
       "public": true
+    },
+    "overrides": {
+      "D2_P7": {
+        "location": "convent",
+        "activity": "night_vigil",
+        "public": true
+      }
     }
   },
   "ma_san": {
@@ -132,7 +162,7 @@
     }
   },
   "qing_xuan": {
-    "_role": "真凶 白衣公子（戏子伪装）",
+    "_role": "白衣公子（红鲱鱼：出于愧疚做了大量看起来像销证的事）",
     "default": {
       "location": "pavilion_main",
       "activity": "calm_pose",
@@ -142,22 +172,20 @@
       "D1_P2": {
         "location": "silk_shop",
         "activity": "buy_silk_replica",
-        "public": true
+        "public": true,
+        "motive_hidden": "出于愧疚买红绸，以为自己逼死了她"
       },
       "D1_P6": {
         "location": "riverside_dock",
-        "activity": "dispose_evidence",
-        "public": false
+        "activity": "dispose_keepsakes",
+        "public": false,
+        "motive_hidden": "丢弃私情信物，替死者掩盖"
       },
       "D2_P3": {
         "location": "qiu_chamber",
         "activity": "search_letter",
-        "public": false
-      },
-      "D2_P6": {
-        "location": "convent",
-        "activity": "test_nun",
-        "public": false
+        "public": false,
+        "motive_hidden": "回闺阁找那封「清郎」的信，怕暴露私情"
       },
       "D3_P1": {
         "location": "pavilion_main",

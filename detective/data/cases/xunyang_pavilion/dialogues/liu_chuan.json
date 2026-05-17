@@ -1,22 +1,17 @@
 {
-  "_comment": "江畔船家。D1 昏时凶手 qing_xuan 在水阁销证，他打盹被惊醒目击。",
   "start": "greet",
   "nodes": {
     "greet": {
       "text": "（刘船家眼神躲闪，正在收缆绳）大人……要渡江么？",
       "options": [
         {
-          "text": "案发那夜你在水阁吗？",
+          "text": "案发那夜你看到什么？",
           "goto": "about_night",
           "hide_after_visit": true
         },
         {
-          "text": "（出示江畔乱痕）水阁这边昨夜被人来过。",
-          "goto": "confront_traces",
-          "requires": {
-            "evidence": "evidence_dock_disturbed"
-          },
-          "cost_time": 1,
+          "text": "水阁木板上的脚印你见过？",
+          "goto": "about_prints",
           "hide_after_visit": true
         },
         {
@@ -26,26 +21,22 @@
       ]
     },
     "about_night": {
-      "text": "（搓手）……三更头我打盹被惊醒，看见一个白影从水阁那头走出来，往江边丢了个包袱。我没敢出声。",
-      "set_flags": [
-        "liu_chuan_witnessed_disposal"
-      ],
+      "text": "三更头我打盹被惊醒，看见一个人影从水阁那头走出来，往江边丢了个包袱。\n\n我没敢出声。那人走得急——像是怕被人看见。",
       "options": [
         {
-          "text": "是男是女？",
-          "goto": "gender",
-          "hide_after_visit": true
+          "text": "看清什么特征了？",
+          "goto": "figure_detail"
         },
         {
-          "text": "（先告辞）",
+          "text": "（先记下）",
           "goto": "greet"
         }
       ]
     },
-    "gender": {
-      "text": "（低声）男的。白衣。瘦。脚步轻——像是会做工夫的，不像寻常书生。\n\n包袱沉得很，丢下水扑通一声，溅起的水花到现在我还记得。",
+    "figure_detail": {
+      "text": "……戴了兜帽。身形不高——不像是个大男人。但也可能是缩着肩膀走的。夜里看不真切。",
       "set_flags": [
-        "liu_chuan_described_culprit"
+        "liu_saw_cloaked_figure"
       ],
       "options": [
         {
@@ -54,10 +45,10 @@
         }
       ]
     },
-    "confront_traces": {
-      "text": "（叹气）……既然大人都看到了，我便不瞒。那条新打的绳扣是我事后补的——我怕浔阳楼的人来问，把原来的扣子改了。\n\n那白衣公子走后第二日午时还回来过一趟。我躲在船舱里没敢露面，只听见他在水阁来回踱了一会儿，像是在确认包袱有没有浮起来。",
+    "about_prints": {
+      "text": "那条缆绳上的扣子不是我打的——那是个生手扣，渔家不会那样打。说明来的人不常下水。",
       "set_flags": [
-        "liu_chuan_revealed_revisit"
+        "liu_confirmed_amateur_knot"
       ],
       "options": [
         {
