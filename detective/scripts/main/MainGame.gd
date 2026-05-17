@@ -199,6 +199,8 @@ func _continue_game() -> void:
 	_on_location_changed(GameManager.current_location)
 	_on_time_advanced(GameManager.current_day, GameManager.current_period)
 	menu_panel.visible = true
+	if menu_panel.has_method("refresh_visibility"):
+		menu_panel.refresh_visibility()
 	_refresh_event_hint()
 
 
@@ -220,6 +222,8 @@ func _on_location_changed(loc_id: String) -> void:
 	if _scene_fx and _scene_fx.has_method("apply_for_scene_id"):
 		_scene_fx.apply_for_scene_id(data.get("scene_type", ""))
 	BgmPlayer.play(loc_id)
+	if menu_panel.has_method("refresh_visibility"):
+		menu_panel.refresh_visibility()
 	_close_subpanel()
 
 

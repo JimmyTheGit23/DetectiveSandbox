@@ -35,6 +35,10 @@ func _ready() -> void:
 		pass
 	else:
 		GameManager.location_changed.connect(_on_location_changed)
+	# 读档/返回游戏时 MainGame 可能直接调用 _on_location_changed 而不 emit signal；
+	# 菜单重新显示时也刷新一次，避免移动按钮停留在旧地点状态。
+	visibility_changed.connect(_on_visibility_changed)
+	call_deferred("refresh_visibility")
 
 
 func _build() -> void:
@@ -90,6 +94,16 @@ func _on_pressed(menu_id: String) -> void:
 
 
 func _on_location_changed(_loc_id: String) -> void:
+	refresh_visibility()
+
+
+func _on_visibility_changed() -> void:
+	if visible:
+		refresh_visibility()
+
+
+## 公开刷新入口：读档、切地点、菜单重新显示时都可调用
+func refresh_visibility() -> void:
 	_refresh_visibility()
 
 
