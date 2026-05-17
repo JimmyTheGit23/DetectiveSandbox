@@ -1,0 +1,364 @@
+{
+  "id": "tpl_003_impersonation_inheritance",
+  "version": "1.0.0",
+  "crime_type": "impersonation",
+  "summary": {
+    "title_pattern": "{family_name}归宗案",
+    "logline": "二十年前流落在外的'独子'回乡继承家产，老仆觉得不对劲。直到家主突然暴毙——被冒名顶替者发现自己即将被识破。",
+    "tags": ["chinese_ancient", "identity_fraud", "inheritance", "family_secret"],
+    "inspiration": "经典身份顶替骨架（与 tpl_001 不同：真凶身份本身就是谜，旧案是顶替而非旧仇）"
+  },
+  "difficulty": {
+    "star": 5,
+    "factors": {
+      "suspect_count": 5,
+      "min_evidence_required": 5,
+      "contradiction_count": 4,
+      "red_herring_count": 1,
+      "key_evidence_depth": "buried",
+      "motive_obfuscation": "hidden"
+    }
+  },
+
+  "roles": [
+    {
+      "slot_id": "player_inspector",
+      "function": "player",
+      "archetype_tags": ["male", "middle", "official", "scholarly"]
+    },
+    {
+      "slot_id": "victim_patriarch",
+      "function": "victim",
+      "archetype_tags": ["male", "elder", "merchant", "patriarch"],
+      "knowledge_topics": ["timeline_son_returns", "timeline_doubt_growing"]
+    },
+    {
+      "slot_id": "fake_son",
+      "function": "culprit",
+      "archetype_tags": ["male", "young", "scholar", "guarded"],
+      "knowledge_topics": ["timeline_real_son_fate", "evidence_birth_mark", "evidence_childhood_book"],
+      "lie_topics": ["topic_childhood_memory", "topic_birth_mark", "alibi_at_temple"],
+      "trust_pattern": "guarded",
+      "is_culprit": true,
+      "alibi": {
+        "claim_location": "loc_temple",
+        "claim_time_window": "timeline_crime_night",
+        "weakness_topic": "evidence_witness_lantern"
+      }
+    },
+    {
+      "slot_id": "old_servant",
+      "function": "informant",
+      "archetype_tags": ["male", "elder", "lowborn", "loyal", "honest"],
+      "knowledge_topics": ["timeline_son_returns", "timeline_doubt_growing", "evidence_birth_mark", "evidence_childhood_book"],
+      "trust_pattern": "cooperative"
+    },
+    {
+      "slot_id": "wife_of_patriarch",
+      "function": "suspect",
+      "archetype_tags": ["female", "elder", "noble", "fragile"],
+      "knowledge_topics": ["timeline_doubt_growing", "evidence_will_change"],
+      "lie_topics": ["topic_son_identity"],
+      "trust_pattern": "fragile"
+    },
+    {
+      "slot_id": "family_doctor",
+      "function": "witness",
+      "archetype_tags": ["male", "middle", "scholar", "professional"],
+      "knowledge_topics": ["evidence_poison_signs"],
+      "trust_pattern": "cooperative"
+    },
+    {
+      "slot_id": "estranged_nephew",
+      "function": "suspect",
+      "archetype_tags": ["male", "middle", "merchant", "ambitious"],
+      "knowledge_topics": ["evidence_will_change"],
+      "lie_topics": [],
+      "trust_pattern": "hostile"
+    },
+    {
+      "slot_id": "temple_witness",
+      "function": "witness",
+      "archetype_tags": ["male", "elder", "religious", "calm"],
+      "knowledge_topics": ["evidence_witness_lantern"],
+      "trust_pattern": "cooperative"
+    }
+  ],
+
+  "location_slots": [
+    {
+      "slot_id": "loc_family_estate",
+      "scene_archetype": "private_residence",
+      "purpose": "victim_residence",
+      "search_point_count": 6
+    },
+    {
+      "slot_id": "loc_servant_quarters",
+      "scene_archetype": "private_residence",
+      "purpose": "neutral",
+      "search_point_count": 3
+    },
+    {
+      "slot_id": "loc_official_hall",
+      "scene_archetype": "indoor_official",
+      "purpose": "official_hall",
+      "search_point_count": 2
+    },
+    {
+      "slot_id": "loc_temple",
+      "scene_archetype": "temple",
+      "purpose": "religious_site",
+      "search_point_count": 3
+    },
+    {
+      "slot_id": "loc_marketplace",
+      "scene_archetype": "market",
+      "purpose": "marketplace",
+      "search_point_count": 2
+    }
+  ],
+
+  "timeline_slots": [
+    {
+      "id": "timeline_real_son_fate",
+      "phase": "pre_crime",
+      "actor": "fake_son",
+      "action_type": "flashback",
+      "visible_to_player": false
+    },
+    {
+      "id": "timeline_son_returns",
+      "phase": "pre_crime",
+      "actor": "fake_son",
+      "location": "loc_family_estate",
+      "action_type": "meeting",
+      "visible_to_player": true
+    },
+    {
+      "id": "timeline_doubt_growing",
+      "phase": "pre_crime",
+      "actor": "old_servant",
+      "location": "loc_family_estate",
+      "action_type": "witness_event",
+      "visible_to_player": false,
+      "produces_evidence": ["evidence_childhood_book"]
+    },
+    {
+      "id": "timeline_will_modification",
+      "phase": "D1.morning",
+      "actor": "victim_patriarch",
+      "location": "loc_family_estate",
+      "action_type": "witness_event",
+      "visible_to_player": false,
+      "produces_evidence": ["evidence_will_change"]
+    },
+    {
+      "id": "timeline_crime_night",
+      "phase": "crime_moment",
+      "actor": "fake_son",
+      "location": "loc_family_estate",
+      "action_type": "crime_act",
+      "visible_to_player": false,
+      "produces_evidence": ["evidence_poison_signs"]
+    },
+    {
+      "id": "timeline_fake_son_alibi_claim",
+      "phase": "D2.morning",
+      "actor": "fake_son",
+      "location": "loc_temple",
+      "action_type": "alibi_claim",
+      "visible_to_player": true
+    },
+    {
+      "id": "timeline_body_discovery",
+      "phase": "D2.morning",
+      "actor": "old_servant",
+      "location": "loc_family_estate",
+      "action_type": "discovery",
+      "visible_to_player": true
+    },
+    {
+      "id": "timeline_lantern_seen",
+      "phase": "crime_moment",
+      "actor": "temple_witness",
+      "location": "loc_family_estate",
+      "action_type": "witness_event",
+      "visible_to_player": false,
+      "produces_evidence": ["evidence_witness_lantern"]
+    }
+  ],
+
+  "evidence_slots": [
+    {
+      "id": "evidence_birth_mark",
+      "kind": "key",
+      "category": "identity_proof",
+      "discovery_path": {
+        "type": "dialogue",
+        "from_actor": "old_servant"
+      },
+      "points_to": "fake_son"
+    },
+    {
+      "id": "evidence_childhood_book",
+      "kind": "key",
+      "category": "identity_proof",
+      "discovery_path": {
+        "type": "search",
+        "hint_location": "loc_servant_quarters",
+        "preconditions": ["evidence_birth_mark"]
+      },
+      "points_to": "fake_son"
+    },
+    {
+      "id": "evidence_witness_lantern",
+      "kind": "key",
+      "category": "alibi_breaker",
+      "discovery_path": {
+        "type": "dialogue",
+        "from_actor": "temple_witness",
+        "preconditions": ["evidence_birth_mark"]
+      },
+      "points_to": "fake_son"
+    },
+    {
+      "id": "evidence_poison_signs",
+      "kind": "key",
+      "category": "weapon_or_method",
+      "discovery_path": {
+        "type": "dialogue",
+        "from_actor": "family_doctor"
+      },
+      "points_to": "fake_son"
+    },
+    {
+      "id": "evidence_will_change",
+      "kind": "key",
+      "category": "motive_proof",
+      "discovery_path": {
+        "type": "search",
+        "hint_location": "loc_official_hall"
+      },
+      "points_to": "fake_son",
+      "blocks_red_herring": ["red_herring_nephew_for_inheritance"]
+    },
+    {
+      "id": "evidence_market_rumor",
+      "kind": "supporting",
+      "category": "background_context",
+      "discovery_path": {
+        "type": "search",
+        "hint_location": "loc_marketplace"
+      },
+      "points_to": "fake_son"
+    }
+  ],
+
+  "contradictions": [
+    {
+      "id": "contradiction_birth_mark",
+      "actor": "fake_son",
+      "claim": "topic_birth_mark",
+      "rebuttal_sources": ["evidence_birth_mark", "evidence_childhood_book"],
+      "exposes": "topic_fake_son_is_impostor"
+    },
+    {
+      "id": "contradiction_childhood",
+      "actor": "fake_son",
+      "claim": "topic_childhood_memory",
+      "rebuttal_sources": ["evidence_childhood_book", "evidence_birth_mark"],
+      "exposes": "topic_fake_son_is_impostor"
+    },
+    {
+      "id": "contradiction_alibi_temple",
+      "actor": "fake_son",
+      "claim": "alibi_at_temple",
+      "rebuttal_sources": ["evidence_witness_lantern", "evidence_poison_signs"],
+      "exposes": "topic_fake_son_at_estate"
+    },
+    {
+      "id": "contradiction_wife_protects",
+      "actor": "wife_of_patriarch",
+      "claim": "topic_son_identity",
+      "rebuttal_sources": ["evidence_birth_mark", "evidence_childhood_book"],
+      "exposes": "topic_wife_knew_or_suspected"
+    }
+  ],
+
+  "red_herrings": [
+    {
+      "id": "red_herring_nephew_for_inheritance",
+      "false_target": "estranged_nephew",
+      "false_motive": "money_robbery",
+      "rebuttal": ["evidence_will_change", "contradiction_alibi_temple"]
+    }
+  ],
+
+  "solution_skeleton": {
+    "culprit_slot": "fake_son",
+    "motive_id": "identity_exposure_panic",
+    "method_id": "slow_poison",
+    "key_evidence_slots": [
+      "evidence_birth_mark",
+      "evidence_childhood_book",
+      "evidence_witness_lantern",
+      "evidence_poison_signs",
+      "evidence_will_change"
+    ],
+    "min_evidence_required": 5,
+    "deduction_chain": [
+      {
+        "step": 1,
+        "uses": ["timeline_body_discovery", "evidence_poison_signs"],
+        "concludes": "patriarch_was_poisoned"
+      },
+      {
+        "step": 2,
+        "uses": ["evidence_birth_mark", "evidence_childhood_book"],
+        "concludes": "returning_son_is_impostor"
+      },
+      {
+        "step": 3,
+        "uses": ["evidence_will_change"],
+        "concludes": "patriarch_was_about_to_change_will"
+      },
+      {
+        "step": 4,
+        "uses": ["evidence_witness_lantern", "contradiction_alibi_temple"],
+        "concludes": "fake_son_was_at_estate_during_crime"
+      },
+      {
+        "step": 5,
+        "uses": ["timeline_doubt_growing", "timeline_will_modification"],
+        "concludes": "fake_son_killed_to_prevent_exposure"
+      }
+    ]
+  },
+
+  "endings_pattern": {
+    "perfect": {
+      "requires_culprit": true,
+      "requires_motive": true,
+      "requires_method": true,
+      "requires_key_evidence_count": 5
+    },
+    "good": { "requires_culprit": true, "requires_motive": true, "requires_key_evidence_count": 3 },
+    "partial": { "requires_culprit": true },
+    "bad": {},
+    "timeout": {}
+  },
+
+  "constraints": {
+    "hard": [
+      "culprit_alibi_must_have_weakness",
+      "every_red_herring_must_have_rebuttal",
+      "deduction_chain_must_reach_culprit",
+      "every_contradiction_needs_at_least_2_rebuttal_sources",
+      "impostor_identity_must_be_provable_via_at_least_2_independent_evidence"
+    ],
+    "soft": [
+      "prefer_loyal_servant_as_informant",
+      "5_star_difficulty_requires_min_4_contradictions"
+    ]
+  }
+}

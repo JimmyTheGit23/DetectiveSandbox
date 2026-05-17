@@ -23,11 +23,13 @@ const SubPanels = {
 	"search": "res://scenes/ui/SearchPanel.tscn",
 	"notebook": "res://scenes/ui/NotebookPanel.tscn",
 	"accuse": "res://scenes/ui/AccusePanel.tscn",
+	"settings": "res://scenes/ui/SettingsPanel.tscn",
 }
 
 var _active_subpanel: Control = null
 var _pending_events: Array[String] = []
 var _title_layer: Control = null
+var _scene_fx: Node = null
 
 
 func _ready() -> void:
@@ -53,6 +55,15 @@ func _ready() -> void:
 	menu_panel.visible = false
 	event_hint_btn.visible = false
 	
+	# 在背景图之上、UI 之下挂一层场景动态效果
+	var FX = load("res://scripts/ui/SceneFXLayer.gd")
+	if FX:
+		_scene_fx = FX.new()
+		_scene_fx.name = "SceneFXLayer"
+		# 紧贴 Background 之上：把它插入到 Background 之后的位置
+		add_child(_scene_fx)
+		move_child(_scene_fx, scene_bg.get_index() + 1)
+	
 	BgmPlayer.register_players(bgm_a, bgm_b)
 	_show_title()
 
@@ -67,7 +78,9 @@ func _show_title() -> void:
 	ending_screen.visible = false
 	event_hint_btn.visible = false
 	
-	var bg := "res://assets/cn/scenes/title_screen.png"
+	var bg := AssetResolver.get_scene_background_by_id("scene_title")
+	if bg == "":
+		bg = "res://assets/cn/scenes/title_screen.png"
 	if ResourceLoader.exists(bg):
 		scene_bg.texture = load(bg)
 	BgmPlayer.play("main_theme")
@@ -111,6 +124,11 @@ func _show_title() -> void:
 	vbox.add_child(_make_title_button("开 始 游 戏", _on_start_game_pressed, false))
 	if GameManager.has_save():
 		vbox.add_child(_make_title_button("继 续 游 戏", _continue_game, false))
+	# 仅当案件索引中有 ≥ 2 个案件时显示"选择案件"
+	var case_count: int = GameManager.get_case_index_entries().size()
+	if case_count >= 2:
+		var current_title: String = GameManager.case_manifest.get("title", GameManager.ACTIVE_CASE)
+		vbox.add_child(_make_title_button("选 择 案 件 （当前：%s）" % current_title, _on_select_case_pressed, false))
 	vbox.add_child(_make_title_button("退 出 游 戏", func(): get_tree().quit(), false))
 
 
@@ -194,9 +212,13 @@ func _sync_pending_events_from_save() -> void:
 func _on_location_changed(loc_id: String) -> void:
 	var data := GameManager.get_location_data(loc_id)
 	location_label.text = data.get("name", loc_id)
-	var bg_path: String = data.get("background", "")
+	# 通过 AssetResolver 解析背景（scene_type → registry → background，回退到 data.background）
+	var bg_path: String = AssetResolver.get_scene_background(data)
 	if bg_path != "" and ResourceLoader.exists(bg_path):
 		scene_bg.texture = load(bg_path)
+	# 同步场景动态特效层
+	if _scene_fx and _scene_fx.has_method("apply_for_scene_id"):
+		_scene_fx.apply_for_scene_id(data.get("scene_type", ""))
 	BgmPlayer.play(loc_id)
 	_close_subpanel()
 
@@ -245,9 +267,29 @@ func _flash_notification(text: String) -> void:
 
 # ─── 日程事件 ───
 func _on_day_event_available(evt_id: String) -> void:
+	# auto_play 事件（如撞见凶手）直接播放，不进按钮队列
+	var evt: Dictionary = GameManager.get_day_event(evt_id)
+	if bool(evt.get("auto_play", false)):
+		_play_event_now(evt_id)
+		return
 	if not _pending_events.has(evt_id):
 		_pending_events.append(evt_id)
 	_refresh_event_hint()
+
+
+func _play_event_now(evt_id: String) -> void:
+	var evt: Dictionary = GameManager.get_day_event(evt_id)
+	GameManager.apply_event_effects(evt)
+	var lines: Array = []
+	var idx := 0
+	for line in evt.get("narration", []):
+		if line is Dictionary:
+			lines.append(line)
+		else:
+			var voice_path: String = AssetResolver.resolve_event_voice_path(evt_id, idx)
+			lines.append({ "speaker": "", "text": str(line), "voice_path": voice_path })
+		idx += 1
+	DialogueManager.play_adhoc_narration(lines, func(): _refresh_event_hint())
 
 
 func _refresh_event_hint() -> void:
@@ -269,10 +311,18 @@ func _on_event_hint_clicked() -> void:
 	var evt = GameManager.get_day_event(evt_id)
 	# 应用效果
 	GameManager.apply_event_effects(evt)
-	# 播放叙述
+	# 播放叙述：支持字符串，也支持 {speaker,text,voice_path}
+	# 注意：事件叙述的 voice_path 必须按案件隔离。data 中显式写的 voice_path 视为'已确认正确'，
+	# 否则通过 AssetResolver.resolve_event_voice_path 严格按当前案件查找；找不到就传空（静默）。
 	var lines: Array = []
+	var idx := 0
 	for line in evt.get("narration", []):
-		lines.append({ "speaker": "", "text": line })
+		if line is Dictionary:
+			lines.append(line)
+		else:
+			var voice_path: String = AssetResolver.resolve_event_voice_path(evt_id, idx)
+			lines.append({ "speaker": "", "text": str(line), "voice_path": voice_path })
+		idx += 1
 	DialogueManager.play_adhoc_narration(lines, func(): _refresh_event_hint())
 
 
@@ -310,6 +360,13 @@ func _open_subpanel(menu_id: String) -> void:
 		panel.location_selected.connect(_on_location_selected)
 	if panel.has_signal("accuse_submitted"):
 		panel.accuse_submitted.connect(_on_accuse_submitted)
+	if panel.has_signal("return_to_title_requested"):
+		panel.return_to_title_requested.connect(_on_return_to_title)
+
+
+func _on_return_to_title() -> void:
+	_close_subpanel()
+	_show_title()
 
 
 func _close_subpanel() -> void:
@@ -365,10 +422,32 @@ func _on_narration_ended() -> void:
 	narration_box.visible = false
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:
 		GameManager.set_state(GameManager.STATE_PLAYING)
-		GameManager.change_location("post_station", false)
+		GameManager.change_location(GameManager.case_main_scene, false)
 		_on_time_advanced(GameManager.current_day, GameManager.current_period)
 	menu_panel.visible = true
 	_refresh_event_hint()
+
+
+# ─── 选择案件 ───
+func _on_select_case_pressed() -> void:
+	# 弹出案件选择面板（在标题层之上）
+	var packed: PackedScene = load("res://scenes/ui/CaseSelectPanel.tscn")
+	if packed == null:
+		push_error("CaseSelectPanel.tscn missing")
+		return
+	var panel: Control = packed.instantiate()
+	add_child(panel)
+	panel.case_chosen.connect(_on_case_chosen)
+	panel.cancelled.connect(func(): panel.queue_free())
+
+
+func _on_case_chosen(case_id: String) -> void:
+	# 玩家选了一个案件
+	if case_id != GameManager.ACTIVE_CASE:
+		# 切到新案件，回标题
+		GameManager.switch_case(case_id)
+		_show_title()
+	# 同案件不需要切，UI 已经会自动 close
 
 
 # ─── 结局 ───

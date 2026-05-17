@@ -1,0 +1,56 @@
+{
+  "_comment": "临川驿案选角表：把'剧本角色'(npc_id) 分配给'演员'(actor_id)，并附带角色专属的剧本身份信息（姓名、头衔、自我介绍、是否凶手）。运行时由 AssetResolver 通过 casting.json → registry.json 解析出立绘、声线、语音目录。",
+  "case_id": "linchuan_inn",
+  "casting": {
+    "lu_zhao": {
+      "actor_id": "actor_imperial_inspector",
+      "role_name": "陆昭",
+      "role_title": "巡按御史",
+      "role_intro": "玩家本人。江南道巡按御史，奉旨查案。",
+      "is_player": true
+    },
+    "liu_wenqing": {
+      "actor_id": "actor_district_magistrate",
+      "role_name": "柳文卿",
+      "role_title": "临川知县",
+      "role_intro": "三十八岁，进士出身。沈砚秋的顶头上司。"
+    },
+    "su_wan": {
+      "actor_id": "actor_widow_in_white",
+      "role_name": "苏婉",
+      "role_title": "妇人",
+      "role_intro": "自称是沈砚秋的故旧。一身素白，眼眶通红。"
+    },
+    "zhao_dayou": {
+      "actor_id": "actor_old_innkeeper",
+      "role_name": "赵大有",
+      "role_title": "驿丞",
+      "role_intro": "五十多岁的老驿丞。今早发现尸体的人。"
+    },
+    "gu_qingxuan": {
+      "actor_id": "actor_white_robed_scholar",
+      "role_name": "顾清玄",
+      "role_title": "白衣公子",
+      "role_intro": "春风楼常客。自称游学路过临川。一身白衣，气度不凡。"
+    },
+    "xiao_cui": {
+      "actor_id": "actor_courtesan_top",
+      "role_name": "小翠",
+      "role_title": "春风楼花魁",
+      "role_intro": "春风楼当家花魁。据说跟沈砚秋认识。"
+    },
+    "daoming": {
+      "actor_id": "actor_elder_monk",
+      "role_name": "道明法师",
+      "role_title": "观音庙住持",
+      "role_intro": "观音庙的住持。六十多岁，眼神清明。说话温和，但似乎不愿主动谈起出家前的事。",
+      "is_culprit": true
+    },
+    "ma_san": {
+      "actor_id": "actor_scarred_constable",
+      "role_name": "马三",
+      "role_title": "捕头",
+      "role_intro": "临川县衙捕头。脸上有一道刀疤。"
+    }
+  }
+}

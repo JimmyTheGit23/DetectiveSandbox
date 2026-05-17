@@ -1,0 +1,96 @@
+{
+  "_comment": "无尘师太。案发当夜守夜诵经，望见两个影子。凶手 D2·昏来庵里试探她，反而暴露了自己。",
+  "start_variants": [
+    {
+      "when": {
+        "flag": "culprit_action_done:ca_test_nun"
+      },
+      "goto": "intro_after_visit"
+    }
+  ],
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "text": "（无尘师太合十）大人安好。寒庵无事，唯每夜诵经守门。",
+      "options": [
+        {
+          "text": "案发那夜你可见对楼有什么动静？",
+          "goto": "saw_what",
+          "hide_after_visit": true
+        },
+        {
+          "text": "（先告辞）",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "saw_what": {
+      "text": "（缓缓道）老衲那夜诵经至三更。雨声中，望了对楼三楼阁子一眼——\n\n阁中先有一抹白影徘徊，停在栏边。继而红影后退，白影又逼近。再然后——红影便从栏边坠了下去。\n\n那白影分明是一位男子。",
+      "options": [
+        {
+          "text": "你看清那白影的脸了吗？",
+          "goto": "saw_face",
+          "hide_after_visit": true
+        },
+        {
+          "text": "（先告辞）",
+          "goto": "intro"
+        }
+      ]
+    },
+    "saw_face": {
+      "text": "（摇头）夜雨蒙蒙，老衲只见衣色。但那身白衫，本府这几年只一位常着——大人您应已心中有数。",
+      "set_flags": [
+        "wuchen_pointed_at_white_robe"
+      ],
+      "options": [
+        {
+          "text": "（你郑重接下这条证词）",
+          "goto": "intro"
+        }
+      ],
+      "gain_evidence": "evidence_witness_lantern"
+    },
+    "intro_after_visit": {
+      "text": "（无尘师太眉头微皱）……大人这次来，老衲想说一件事。\n\n昨夜三更，那位白衣公子曾来庵中敲门——问老衲那夜是否听见对楼有动静。老衲只说「未曾」，他便走了。\n\n但他来问的时候没有看老衲——眼神在我身后空处转了一圈又一圈。",
+      "options": [
+        {
+          "text": "他来时几时？",
+          "goto": "visit_time",
+          "hide_after_visit": true
+        },
+        {
+          "text": "你为何不当场质问他？",
+          "goto": "why_silent",
+          "hide_after_visit": true
+        },
+        {
+          "text": "（先告辞）",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "visit_time": {
+      "text": "（合十）三更刚过。雨已歇。\n\n他一个人来——若只是寻常借宿之客，何必夜半敲庵门问案发夜之事？心虚之人，方才如此。",
+      "set_flags": [
+        "wuchen_confirmed_culprit_visit"
+      ],
+      "options": [
+        {
+          "text": "（你郑重接下这条证词）",
+          "goto": "intro_after_visit"
+        }
+      ],
+      "gain_evidence": "evidence_nun_visited_by_white"
+    },
+    "why_silent": {
+      "text": "（缓缓道）老衲见过的恶人，多数不在他作恶之时，而在他事后慌乱之时。\n\n若我当场质问他，他可能反咬。老衲只能装作不知，让大人来问。",
+      "options": [
+        {
+          "text": "（先记下）",
+          "goto": "intro_after_visit"
+        }
+      ]
+    }
+  }
+}

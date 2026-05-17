@@ -1,0 +1,232 @@
+{
+  "_comment": "场景库（Scene Pool）：全局共享的背景资源池。案件的 locations.json 通过 scene_type 引用本表，不再直接写背景图路径。",
+  "_schema": {
+    "scene_id": {
+      "name": "场景库内显示名（参考用）",
+      "background": "背景图资源路径（res:// 前缀）",
+      "tags": "场景标签：室内外/类型/规模/时段倾向",
+      "mood": "默认情绪基调，仅作 BGM 选曲提示，不强制",
+      "description": "场景气质描述，用于选景参考"
+    }
+  },
+  "scenes": {
+    "scene_post_station": {
+      "name": "驿站院落",
+      "background": "res://assets/cn/scenes/post_station.png",
+      "tags": [
+        "outdoor",
+        "courtyard",
+        "inn",
+        "official_facility"
+      ],
+      "mood": "neutral",
+      "description": "古代驿站院落，含古井、麻绳、墙边木桶、屋檐灯笼。可作为案发地、过夜地、信使停留地。"
+    },
+    "scene_private_residence": {
+      "name": "私人宅邸",
+      "background": "res://assets/cn/scenes/shen_residence.png",
+      "tags": [
+        "indoor",
+        "private",
+        "study",
+        "small"
+      ],
+      "mood": "intimate",
+      "description": "古代书生/小官的独居住处。书桌、床榻、字画、茶具齐全。可作为死者住处、嫌疑人住处。"
+    },
+    "scene_government_hall": {
+      "name": "县衙大堂",
+      "background": "res://assets/cn/scenes/yamen.png",
+      "tags": [
+        "indoor",
+        "official",
+        "formal",
+        "large"
+      ],
+      "mood": "tense",
+      "description": "明镜高悬的官府大堂。可作为审讯、议事、卷宗查阅地。",
+      "effects": [
+        "candle_flicker"
+      ]
+    },
+    "scene_pleasure_house": {
+      "name": "酒楼/花楼",
+      "background": "res://assets/cn/scenes/spring_wind_tower.png",
+      "tags": [
+        "indoor",
+        "social",
+        "entertainment",
+        "warm"
+      ],
+      "mood": "warm",
+      "description": "红绸金灯的古代酒楼。可作为社交、打听消息、密会地。"
+    },
+    "scene_temple": {
+      "name": "庙宇",
+      "background": "res://assets/cn/scenes/guanyin_temple.png",
+      "tags": [
+        "indoor",
+        "religious",
+        "quiet",
+        "secluded"
+      ],
+      "mood": "solemn",
+      "description": "香烟缥缈的古庙。可作为隐居地、宗教场所、密谈地。",
+      "effects": [
+        "candle_flicker",
+        "dust_motes"
+      ]
+    },
+    "scene_market": {
+      "name": "集市",
+      "background": "res://assets/cn/scenes/market.png",
+      "tags": [
+        "outdoor",
+        "public",
+        "bustling",
+        "trade"
+      ],
+      "mood": "bustling",
+      "description": "古镇中心的集市。布庄、茶摊、米行汇集。可作为打听情报、目击线索、巧遇 NPC 的公共场地。",
+      "effects": []
+    },
+    "scene_prologue": {
+      "name": "序章过场",
+      "background": "res://assets/cn/scenes/prologue.png",
+      "tags": [
+        "cinematic",
+        "intro",
+        "mood"
+      ],
+      "mood": "mysterious",
+      "description": "用于序章/章节开篇的氛围背景。"
+    },
+    "scene_title": {
+      "name": "标题画面",
+      "background": "res://assets/cn/scenes/title_screen.png",
+      "tags": [
+        "cinematic",
+        "title",
+        "mood"
+      ],
+      "mood": "mysterious",
+      "description": "游戏主菜单背景。"
+    },
+    "scene_town_map": {
+      "name": "小镇地图",
+      "background": "res://assets/cn/scenes/town_map.png",
+      "tags": [
+        "map",
+        "ui_overlay"
+      ],
+      "mood": "neutral",
+      "description": "用于场景切换的小镇全景地图。"
+    },
+    "scene_xunyang_prologue": {
+      "name": "浔阳楼序章·夜雨远景",
+      "background": "res://assets/cn/scenes/xunyang_prologue.png",
+      "tags": [
+        "cinematic",
+        "intro",
+        "rain",
+        "night",
+        "exterior",
+        "water"
+      ],
+      "mood": "mysterious",
+      "description": "案件序章用：江畔夜雨中的浔阳楼远景，红灯倒映水波，无人物。",
+      "effects": [
+        "rain_light",
+        "mist_slow",
+        "lantern_flicker"
+      ]
+    },
+    "scene_xunyang_courtyard": {
+      "name": "浔阳楼·后院（案发地）",
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "tags": [
+        "outdoor",
+        "courtyard",
+        "crime_scene",
+        "rain_aftermath",
+        "morning"
+      ],
+      "mood": "tense",
+      "description": "案发后院：雨后青石板留有坠落痕迹，墙角红绸残片，屋檐风灯，老井。",
+      "effects": [
+        "rain_drip",
+        "lantern_flicker",
+        "red_silk_sway"
+      ]
+    },
+    "scene_xunyang_qiu_chamber": {
+      "name": "秋菱闺阁",
+      "background": "res://assets/cn/scenes/xunyang_qiu_chamber.png",
+      "tags": [
+        "indoor",
+        "private",
+        "feminine",
+        "small",
+        "evidence"
+      ],
+      "mood": "intimate",
+      "description": "花魁私室：妆台、倾倒酒盏、香炉、未送出的小笺。",
+      "effects": [
+        "incense_smoke",
+        "candle_flicker",
+        "curtain_sway"
+      ]
+    },
+    "scene_xunyang_main_hall": {
+      "name": "浔阳楼·正厅",
+      "background": "res://assets/cn/scenes/xunyang_pavilion_main.png",
+      "tags": [
+        "indoor",
+        "social",
+        "entertainment",
+        "warm",
+        "night"
+      ],
+      "mood": "warm",
+      "description": "浔阳楼内堂：红灯戏台、雅间、酒桌，夜雨打窗。",
+      "effects": [
+        "lantern_flicker",
+        "curtain_sway"
+      ]
+    },
+    "scene_xunyang_dock": {
+      "name": "浔阳楼·江畔水阁",
+      "background": "res://assets/cn/scenes/xunyang_riverside_dock.png",
+      "tags": [
+        "outdoor",
+        "water",
+        "secret",
+        "dusk",
+        "transit"
+      ],
+      "mood": "tense",
+      "description": "浔阳楼后江畔的小码头与水阁，泊船、灯笼、雾江。可作为销证地、夜间目击点。",
+      "effects": [
+        "mist_slow",
+        "lantern_flicker"
+      ]
+    },
+    "scene_xunyang_silk_shop": {
+      "name": "城南布庄",
+      "background": "res://assets/cn/scenes/xunyang_silk_shop.png",
+      "tags": [
+        "indoor",
+        "trade",
+        "evidence",
+        "daytime"
+      ],
+      "mood": "neutral",
+      "description": "城南布庄内堂：成卷绸缎、铜秤算盘、绣样、内帐帘。",
+      "effects": [
+        "dust_motes",
+        "light_shaft",
+        "curtain_sway"
+      ]
+    }
+  }
+}

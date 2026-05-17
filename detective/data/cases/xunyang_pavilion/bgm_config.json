@@ -1,0 +1,19 @@
+{
+  "_comment": "浔阳楼案 BGM：使用本案专属曲（mood 索引第一首即为浔阳专属），保证音色与首案差异化，并全部走\"不刺耳\"曲。",
+  "locations": {
+    "pavilion_courtyard": "mood:rain_suspense",
+    "qiu_chamber": "mood:lament",
+    "yamen": "mood:suspense",
+    "pavilion_main": "mood:warm_secret",
+    "convent": "mood:vigil",
+    "marketplace": "mood:bustling"
+  },
+  "states": {
+    "prologue": "mood:rainy_night",
+    "main_theme": "mood:rainy_night",
+    "accuse": "mood:climax",
+    "ending_perfect": "mood:ending_good",
+    "ending_good": "mood:ending_good",
+    "ending_bad": "mood:ending_bad"
+  }
+}

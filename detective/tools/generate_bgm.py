@@ -122,6 +122,74 @@ BGM_CONFIGS = {
 		"duration_sec": 40,
 		"description": "坏结局：冷峻悲凉",
 	},
+
+	# ─────── 第二案：浔阳楼·夜雨红绸案 专属 BGM ───────
+	# 共同约束：避免刺耳，软低中频，宽混响，循环友好，慢速。
+	"xunyang_main_theme": {
+		"prompts": [
+			("soft Chinese xiao bamboo flute, breathy and warm", 1.0),
+			("low guqin drone, very gentle plucked sustain", 0.9),
+			("light rain on river surface, distant water lapping", 0.8),
+			("misty Jiangnan night atmosphere, mournful but tender", 0.9),
+			("avoid piercing high tones, avoid sharp percussion, avoid metallic bells", 1.0),
+			("soft low-mid frequencies, wide warm reverb, no sudden swells", 1.0),
+		],
+		"bpm": 55,
+		"duration_sec": 60,
+		"description": "浔阳楼主题曲：江南夜雨远景、洞箫古琴，柔和不刺耳",
+	},
+	"xunyang_rain_courtyard": {
+		"prompts": [
+			("slow Chinese erhu, mid-low register, long bow strokes", 1.0),
+			("quiet guqin pluck, sparse single notes", 0.8),
+			("light continuous rain ambience, soft puddle drips", 0.9),
+			("cold dawn after a crime, hushed and tragic", 0.9),
+			("avoid harsh attack, avoid bright cymbals, avoid sharp pizzicato", 1.0),
+			("gentle dynamic range, no startling transitions", 0.9),
+		],
+		"bpm": 50,
+		"duration_sec": 50,
+		"description": "案发后院：雨后冷晨、低二胡稀疏古琴，沉重但不刺耳",
+	},
+	"xunyang_chamber_lament": {
+		"prompts": [
+			("Chinese pipa lute solo, soft fingerpicked phrases", 1.0),
+			("warm guzheng zither, slow tremolo, no harsh strikes", 0.8),
+			("incense smoke ambience, intimate small room reverb", 0.7),
+			("melancholic feminine lament, tender and sorrowful", 1.0),
+			("avoid loud plucks, avoid high pitched bells, avoid sharp percussion", 1.0),
+			("very gentle dynamics, breathy soft", 0.9),
+		],
+		"bpm": 58,
+		"duration_sec": 45,
+		"description": "秋菱闺阁：琵琶哀曲、暖古筝、私密香炉，柔不刺耳",
+	},
+	"xunyang_pavilion_warm": {
+		"prompts": [
+			("Chinese pipa and guzheng duet, mid tempo softly plucked", 1.0),
+			("muted Chinese dizi flute in background", 0.7),
+			("rain on lattice window, distant red-lantern courtesan tower", 0.8),
+			("warm but with an undercurrent of secrecy, late night cabaret hush", 0.9),
+			("avoid bright cymbals, avoid sharp clap, avoid fast strumming", 1.0),
+			("warm low-mid range, intimate reverb", 0.9),
+		],
+		"bpm": 62,
+		"duration_sec": 50,
+		"description": "浔阳楼正厅：夜雨酒楼、琵琶古筝二重，温暖但克制",
+	},
+	"xunyang_convent_vigil": {
+		"prompts": [
+			("very soft Chinese xiao flute, sustained and breathy", 1.0),
+			("low warm guqin drone, single sustained notes", 0.9),
+			("faint distant wooden fish (muyu) tap, very gentle and slow", 0.6),
+			("nighttime nunnery vigil, prayer beads, hushed devotion", 0.9),
+			("absolutely no metal bells, no sharp tones, no loud percussion", 1.0),
+			("dark calm Buddhist atmosphere, soft low frequencies, wide reverb", 1.0),
+		],
+		"bpm": 46,
+		"duration_sec": 50,
+		"description": "慈航庵守夜：洞箫古琴、轻木鱼，绝无刺耳钟声",
+	},
 }
 
 MODEL = "models/lyria-realtime-exp"

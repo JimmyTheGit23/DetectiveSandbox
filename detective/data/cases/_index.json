@@ -1,0 +1,22 @@
+{
+  "_comment": "案件索引：列出本游戏所有可玩案件。CaseSelectPanel 用此驱动卡片列表。每条引用 data/cases/<id>/manifest.json 作为详细元信息。",
+  "default_case": "linchuan_inn",
+  "cases": [
+    {
+      "id": "linchuan_inn",
+      "manifest": "res://data/cases/linchuan_inn/manifest.json",
+      "order": 1,
+      "locked": false,
+      "tag": "首部曲",
+      "voice_status": "full"
+    },
+    {
+      "id": "xunyang_pavilion",
+      "manifest": "res://data/cases/xunyang_pavilion/manifest.json",
+      "order": 2,
+      "locked": false,
+      "tag": "二部曲",
+      "voice_status": "missing"
+    }
+  ]
+}

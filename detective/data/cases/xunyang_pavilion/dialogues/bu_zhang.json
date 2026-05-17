@@ -1,0 +1,71 @@
+{
+  "_comment": "城南布庄掌柜。D1 午时凶手 qing_xuan 来买新红绸，他亲眼所见。",
+  "start": "greet",
+  "nodes": {
+    "greet": {
+      "text": "（卜掌柜抬眼）大人光临布庄，可是看货？",
+      "options": [
+        {
+          "text": "案发那天可有人买过绛红云纹绸？",
+          "goto": "about_silk",
+          "hide_after_visit": true
+        },
+        {
+          "text": "（出示红绸残片）能否对一下织法？",
+          "goto": "match_silk",
+          "requires": {
+            "evidence": "evidence_torn_silk"
+          },
+          "cost_time": 1,
+          "hide_after_visit": true
+        },
+        {
+          "text": "（先告辞）",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "about_silk": {
+      "text": "（顿）这……案发当日午时确有一笔，是位白衣公子急要的，连名都没留全，只签了个「玄」字。\n\n他要的是整匹未断的——我心里就奇怪，浔阳楼那批红绸刚出三日，怎的这位公子又赶着补一匹。",
+      "set_flags": [
+        "bu_zhang_revealed_white_buyer"
+      ],
+      "options": [
+        {
+          "text": "请出示账册",
+          "goto": "show_ledger",
+          "hide_after_visit": true
+        },
+        {
+          "text": "（先记下）",
+          "goto": "greet"
+        }
+      ]
+    },
+    "show_ledger": {
+      "text": "（取出账册）大人您看，这笔记得急，字也歪。买的还是一整匹——三尺八，少见。\n\n他付的是碎银，没要单子。我也是后来听浔阳楼出事，才把这笔记上的。",
+      "set_flags": [
+        "silk_buyer_is_white_robed"
+      ],
+      "options": [
+        {
+          "text": "（记下离开）",
+          "goto": "__exit__"
+        }
+      ],
+      "gain_evidence": "evidence_silk_purchase_receipt"
+    },
+    "match_silk": {
+      "text": "（对比片刻）大人，这残片的织纹与浔阳楼出的那批是一致的。但那匹绛红云纹绸全城只有我柜上出——三日前刚卖出一匹给浔阳楼，案发当日午时又卖出一匹给那位白衣公子。",
+      "set_flags": [
+        "silk_source_confirmed"
+      ],
+      "options": [
+        {
+          "text": "（先告辞）",
+          "goto": "greet"
+        }
+      ]
+    }
+  }
+}

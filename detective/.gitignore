@@ -4,3 +4,6 @@
 
 # CodeBuddy workspace metadata
 .codebuddy/
+
+# MCP 客户端配置（含本机绝对路径，不入库；按需让队友各自 setup configure）
+.mcp.json

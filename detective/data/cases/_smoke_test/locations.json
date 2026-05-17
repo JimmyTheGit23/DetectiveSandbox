@@ -1,0 +1,15 @@
+{
+  "_comment": "哑案件地点：完全复用临川驿案的场景库（scene_type 引用全局 scenes/registry.json）。",
+  "marketplace": {
+    "name": "城南集市",
+    "description": "案件起点，遗孀在这里摆摊。",
+    "scene_type": "scene_market",
+    "npcs": ["victim_widow", "shop_owner"]
+  },
+  "abandoned_temple": {
+    "name": "废弃古庙",
+    "description": "城外荒山，传闻有云游僧借住。",
+    "scene_type": "scene_temple",
+    "npcs": ["mystery_monk"]
+  }
+}

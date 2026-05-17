@@ -1,0 +1,48 @@
+{
+  "_comment": "浔阳楼案 NPC 状态机：composure（镇定 0-5）+ openness（开放度 0-3）",
+  "qing_xuan": {
+    "initial": { "composure": 5 },
+    "transitions": [
+      { "on": "node_visited:show_hairpin", "delta": { "composure": -2 } },
+      { "on": "node_visited:show_letter_q", "delta": { "composure": -1 } },
+      { "on": "evidence_obtained:evidence_witness_lantern", "delta": { "composure": -1 } },
+      { "on": "evidence_obtained:evidence_silver_hairpin", "delta": { "composure": -1 } }
+    ]
+  },
+  "qing_jie": {
+    "initial": { "composure": 3, "openness": 1 },
+    "transitions": [
+      { "on": "node_visited:speak_truth", "delta": { "openness": 1 } },
+      { "on": "node_visited:show_redemption", "delta": { "openness": 1 } }
+    ]
+  },
+  "sun_laoliu": {
+    "initial": { "composure": 4 },
+    "transitions": [
+      { "on": "node_visited:heard_what", "delta": { "composure": -1 } }
+    ]
+  },
+  "lady_zhou": {
+    "initial": { "composure": 3, "openness": 1 },
+    "transitions": [
+      { "on": "node_visited:show_redemption_z", "delta": { "openness": 2 } }
+    ]
+  },
+  "wuchen": {
+    "initial": { "composure": 5 },
+    "transitions": []
+  },
+  "ma_san": {
+    "initial": { "composure": 4, "trust": 1 },
+    "transitions": [
+      { "on": "node_visited:request_help", "delta": { "trust": 1 } }
+    ]
+  },
+  "magistrate_lu": {
+    "initial": { "composure": 5 },
+    "transitions": [
+      { "on": "evidence_obtained:evidence_torn_silk", "delta": { "composure": -1 } },
+      { "on": "evidence_obtained:evidence_witness_lantern", "delta": { "composure": -1 } }
+    ]
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "_comment": "BGM 库（BGM Pool）：全局共享的音乐资源池。案件的 bgm_config.json 通过 mood_tag 或 track_id 引用本表，不再硬编码到 BgmPlayer。",
+  "_schema": {
+    "track_id": {
+      "file": "音频资源路径（res:// 前缀，wav 格式）",
+      "tags": "氛围标签数组",
+      "mood": "主情绪标签（用于 mood_tag → track 的快速选曲）",
+      "tempo": "节奏参考：slow / medium / fast",
+      "loop_friendly": "是否适合长循环（false 表示更适合作为短场景过场曲）",
+      "description": "曲目气质描述"
+    }
+  },
+  "tracks": {
+    "main_theme": {
+      "file": "res://assets/cn/bgm/main_theme.wav",
+      "tags": [
+        "theme",
+        "mysterious",
+        "opening"
+      ],
+      "mood": "mysterious",
+      "tempo": "medium",
+      "loop_friendly": true,
+      "description": "主题曲，用于序章和标题画面。"
+    },
+    "investigation_dark": {
+      "file": "res://assets/cn/bgm/investigation_dark.wav",
+      "tags": [
+        "investigation",
+        "dark",
+        "tense"
+      ],
+      "mood": "suspense",
+      "tempo": "slow",
+      "loop_friendly": true,
+      "description": "深沉的调查氛围，适合案发地、私人宅邸、官府等紧张场景。"
+    },
+    "spring_wind": {
+      "file": "res://assets/cn/bgm/spring_wind.wav",
+      "tags": [
+        "social",
+        "warm",
+        "entertainment"
+      ],
+      "mood": "warm",
+      "tempo": "medium",
+      "loop_friendly": true,
+      "description": "温暖热闹的社交场景音乐，适合酒楼、花楼。"
+    },
+    "temple_quiet": {
+      "file": "res://assets/cn/bgm/temple_quiet.wav",
+      "tags": [
+        "religious",
+        "quiet",
+        "solemn"
+      ],
+      "mood": "solemn",
+      "tempo": "slow",
+      "loop_friendly": true,
+      "description": "寂静肃穆，适合庙宇、墓园、隐居场所。"
+    },
+    "market_calm": {
+      "file": "res://assets/cn/bgm/market_calm.wav",
+      "tags": [
+        "public",
+        "bustling",
+        "daily"
+      ],
+      "mood": "bustling",
+      "tempo": "medium",
+      "loop_friendly": true,
+      "description": "市井喧闹的日常感，适合集市、街巷、码头。"
+    },
+    "accuse_tension": {
+      "file": "res://assets/cn/bgm/accuse_tension.wav",
+      "tags": [
+        "climax",
+        "tense",
+        "confrontation"
+      ],
+      "mood": "climax",
+      "tempo": "fast",
+      "loop_friendly": false,
+      "description": "高潮指认场景音乐，节奏紧迫。"
+    },
+    "ending_warm": {
+      "file": "res://assets/cn/bgm/ending_warm.wav",
+      "tags": [
+        "ending",
+        "warm",
+        "resolution"
+      ],
+      "mood": "ending_good",
+      "tempo": "slow",
+      "loop_friendly": false,
+      "description": "温暖收束的好结局音乐。"
+    },
+    "ending_cold": {
+      "file": "res://assets/cn/bgm/ending_cold.wav",
+      "tags": [
+        "ending",
+        "cold",
+        "tragedy"
+      ],
+      "mood": "ending_bad",
+      "tempo": "slow",
+      "loop_friendly": false,
+      "description": "冷峻悲凉的坏结局音乐。"
+    },
+    "xunyang_main_theme": {
+      "file": "res://assets/cn/bgm/xunyang_main_theme.wav",
+      "tags": [
+        "theme",
+        "rain",
+        "night",
+        "xunyang"
+      ],
+      "mood": "rainy_night",
+      "tempo": "slow",
+      "loop_friendly": true,
+      "description": "浔阳楼主题曲：江南夜雨远景、洞箫古琴，柔和不刺耳。"
+    },
+    "xunyang_rain_courtyard": {
+      "file": "res://assets/cn/bgm/xunyang_rain_courtyard.wav",
+      "tags": [
+        "investigation",
+        "rain",
+        "crime_scene",
+        "xunyang"
+      ],
+      "mood": "rain_suspense",
+      "tempo": "slow",
+      "loop_friendly": true,
+      "description": "案发后院：雨后冷晨、低二胡稀疏古琴，沉重但不刺耳。"
+    },
+    "xunyang_chamber_lament": {
+      "file": "res://assets/cn/bgm/xunyang_chamber_lament.wav",
+      "tags": [
+        "intimate",
+        "lament",
+        "feminine",
+        "xunyang"
+      ],
+      "mood": "lament",
+      "tempo": "slow",
+      "loop_friendly": true,
+      "description": "秋菱闺阁：琵琶哀曲、暖古筝、私密香炉，柔不刺耳。"
+    },
+    "xunyang_pavilion_warm": {
+      "file": "res://assets/cn/bgm/xunyang_pavilion_warm.wav",
+      "tags": [
+        "social",
+        "warm",
+        "rain",
+        "secret",
+        "xunyang"
+      ],
+      "mood": "warm_secret",
+      "tempo": "medium",
+      "loop_friendly": true,
+      "description": "浔阳楼正厅：夜雨酒楼、琵琶古筝二重，温暖但克制。"
+    },
+    "xunyang_convent_vigil": {
+      "file": "res://assets/cn/bgm/xunyang_convent_vigil.wav",
+      "tags": [
+        "religious",
+        "vigil",
+        "quiet",
+        "xunyang"
+      ],
+      "mood": "vigil",
+      "tempo": "slow",
+      "loop_friendly": true,
+      "description": "慈航庵守夜：洞箫古琴、轻木鱼，绝无刺耳钟声。"
+    }
+  },
+  "mood_index": {
+    "_comment": "mood_tag → track_id 的反向索引，便于运行时按情绪查曲；同一情绪有多曲时由 BgmPlayer 取首项。",
+    "mysterious": [
+      "main_theme"
+    ],
+    "suspense": [
+      "investigation_dark"
+    ],
+    "warm": [
+      "spring_wind"
+    ],
+    "solemn": [
+      "temple_quiet"
+    ],
+    "bustling": [
+      "market_calm"
+    ],
+    "climax": [
+      "accuse_tension"
+    ],
+    "ending_good": [
+      "ending_warm"
+    ],
+    "ending_bad": [
+      "ending_cold"
+    ],
+    "rainy_night": [
+      "xunyang_main_theme",
+      "main_theme"
+    ],
+    "rain_suspense": [
+      "xunyang_rain_courtyard",
+      "investigation_dark"
+    ],
+    "lament": [
+      "xunyang_chamber_lament"
+    ],
+    "warm_secret": [
+      "xunyang_pavilion_warm",
+      "spring_wind"
+    ],
+    "vigil": [
+      "xunyang_convent_vigil",
+      "temple_quiet"
+    ]
+  }
+}

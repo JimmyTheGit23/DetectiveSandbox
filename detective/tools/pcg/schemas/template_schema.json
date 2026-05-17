@@ -1,0 +1,366 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Crime Skeleton Template",
+  "description": "犯罪骨架模板：定义一类侦探案件的抽象骨架。骨架不指定具体演员、地点、物证文件，只描述'结构与约束'，由后续填槽器(M1.2)结合演员库/场景库具体化为可玩案件(case.json + casting.json + dialogues/*).",
+  "type": "object",
+  "required": [
+    "id",
+    "version",
+    "crime_type",
+    "difficulty",
+    "summary",
+    "roles",
+    "timeline_slots",
+    "evidence_slots",
+    "contradictions",
+    "solution_skeleton"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "全局唯一模板 ID，蛇形命名，前缀 'tpl_'",
+      "pattern": "^tpl_[a-z0-9_]+$"
+    },
+    "version": {
+      "type": "string",
+      "description": "语义化版本，便于与生成器版本对齐"
+    },
+    "crime_type": {
+      "type": "string",
+      "description": "犯罪类型分类（用于检索/统计）",
+      "enum": [
+        "poisoning",
+        "drowning",
+        "stabbing",
+        "strangulation",
+        "fall_disguised",
+        "locked_room",
+        "missing_person",
+        "impersonation",
+        "framed_innocent"
+      ]
+    },
+    "difficulty": {
+      "type": "object",
+      "description": "难度量化指标。生成器/UI 用此打标签；玩家只看到聚合星级。",
+      "required": ["star", "factors"],
+      "properties": {
+        "star": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "factors": {
+          "type": "object",
+          "properties": {
+            "suspect_count": { "type": "integer", "description": "嫌疑人数（含真凶）" },
+            "min_evidence_required": { "type": "integer", "description": "完美结局所需关键证据数" },
+            "contradiction_count": { "type": "integer", "description": "需要识破的关键矛盾对数" },
+            "red_herring_count": { "type": "integer", "description": "误导线索数" },
+            "key_evidence_depth": {
+              "type": "string",
+              "enum": ["surface", "moderate", "buried"],
+              "description": "关键证据被发现需要的努力深度：surface=直接搜查；moderate=需先获取触发条件；buried=需多步推理或破谎言"
+            },
+            "motive_obfuscation": {
+              "type": "string",
+              "enum": ["overt", "misdirected", "hidden"],
+              "description": "真实动机暴露程度：overt=直陈；misdirected=有伪装动机；hidden=需挖出旧案/秘史"
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "策划/审稿用元信息，不进入运行时。",
+      "required": ["title_pattern", "logline"],
+      "properties": {
+        "title_pattern": { "type": "string", "description": "标题模板，可含占位符如 {location}/{victim_name}" },
+        "logline": { "type": "string", "description": "一句话案件简介" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "inspiration": { "type": "string", "description": "灵感来源/参考案例（仅文档用）" }
+      }
+    },
+
+    "roles": {
+      "type": "array",
+      "description": "角色画像列表。每个角色只描述抽象画像 + 在案件中的功能；M3 选角阶段从演员库为每个画像挑 actor_id。",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["slot_id", "function", "archetype_tags"],
+        "additionalProperties": false,
+        "properties": {
+          "slot_id": {
+            "type": "string",
+            "description": "本模板内唯一槽位名，蛇形命名（不是最终 npc_id；填槽时可能改名）"
+          },
+          "function": {
+            "type": "string",
+            "enum": ["player", "victim", "culprit", "suspect", "witness", "informant", "authority"],
+            "description": "在剧本中的功能。一个 slot 通常承担一种功能；victim 不出场对话但需要画像。"
+          },
+          "archetype_tags": {
+            "type": "array",
+            "description": "演员选角标签集合：性别 / 年龄段 / 职业类 / 性格类。生成器选角时按标签匹配演员库。",
+            "items": { "type": "string" },
+            "minItems": 1
+          },
+          "knowledge_topics": {
+            "type": "array",
+            "description": "本角色知道的'话题主键'列表（对应 evidence_slot.id 或 timeline_slot.id）。决定其知识层与对话树派生范围。",
+            "items": { "type": "string" }
+          },
+          "lie_topics": {
+            "type": "array",
+            "description": "本角色会主动撒谎的话题。每个对应一个谎言节点，被识破后产出关键证据/线索。",
+            "items": { "type": "string" }
+          },
+          "trust_pattern": {
+            "type": "string",
+            "enum": ["cooperative", "guarded", "hostile", "fragile"],
+            "description": "初始信任度倾向，影响对话开放度阈值"
+          },
+          "is_culprit": { "type": "boolean", "default": false },
+          "alibi": {
+            "type": "object",
+            "description": "不在场证明结构。真凶的 alibi 含一个'破绽点(weakness_topic)'，被攻破即定位。",
+            "properties": {
+              "claim_location": { "type": "string", "description": "宣称的地点 slot_id" },
+              "claim_time_window": { "type": "string", "description": "宣称的时间窗（引用 timeline_slot.id）" },
+              "weakness_topic": { "type": "string", "description": "破绽对应的话题（指向某 evidence_slot.id 或 contradiction.id）" }
+            }
+          }
+        }
+      }
+    },
+
+    "location_slots": {
+      "type": "array",
+      "description": "地点槽位。值描述场景类型/功能；M3 选景阶段从场景库挑 scene_id。",
+      "items": {
+        "type": "object",
+        "required": ["slot_id", "scene_archetype", "purpose"],
+        "additionalProperties": false,
+        "properties": {
+          "slot_id": { "type": "string" },
+          "scene_archetype": {
+            "type": "string",
+            "description": "场景类型（与 data/scenes/registry.json 的 tags 对齐，例如 outdoor_courtyard / indoor_official / indoor_pleasure / temple / market / private_residence）"
+          },
+          "purpose": {
+            "type": "string",
+            "enum": ["crime_scene", "victim_residence", "official_hall", "social_venue", "religious_site", "marketplace", "neutral"]
+          },
+          "search_point_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "需要的可搜索点数量；具体物证由 evidence_slots 的 hint_location 关联"
+          }
+        }
+      }
+    },
+
+    "timeline_slots": {
+      "type": "array",
+      "description": "事件时间线骨架。使用相对时间（D1.morning / D1.evening / D2.noon 等），由填槽器映射到具体游戏时段。",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "phase", "actor", "action_type"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "description": "时间线事件唯一 ID，作为 knowledge_topics / weakness_topic / contradictions 的引用键" },
+          "phase": {
+            "type": "string",
+            "description": "相对时间，格式 D{n}.{period} 或 pre_crime / crime_moment / post_crime",
+            "pattern": "^(D[0-9]+\\.[a-z_]+|pre_crime|crime_moment|post_crime)$"
+          },
+          "actor": {
+            "type": "string",
+            "description": "执行该事件的角色 slot_id；用 'unknown' 表示玩家未知执行者"
+          },
+          "location": {
+            "type": "string",
+            "description": "发生地点 slot_id；可省略表示未具体化"
+          },
+          "action_type": {
+            "type": "string",
+            "enum": ["meeting", "alibi_claim", "crime_act", "evidence_planting", "evidence_destruction", "witness_event", "discovery", "confrontation", "flashback"]
+          },
+          "visible_to_player": {
+            "type": "boolean",
+            "default": false,
+            "description": "玩家是否能直接知晓此事件（true=作为已知前置，false=需调查揭露）"
+          },
+          "produces_evidence": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "本事件产出的 evidence_slot.id 列表"
+          }
+        }
+      }
+    },
+
+    "evidence_slots": {
+      "type": "array",
+      "description": "物证/线索槽位。区分 key（关键证据）/ supporting（辅助）/ red_herring（误导）。",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "category", "discovery_path"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "kind": {
+            "type": "string",
+            "enum": ["key", "supporting", "red_herring"]
+          },
+          "category": {
+            "type": "string",
+            "enum": ["weapon_or_method", "motive_proof", "alibi_breaker", "identity_proof", "background_context", "false_lead"]
+          },
+          "discovery_path": {
+            "type": "object",
+            "description": "如何被玩家获取。三选一：search（搜索地点）/ dialogue（对话获得）/ derived（推理派生）",
+            "required": ["type"],
+            "properties": {
+              "type": { "type": "string", "enum": ["search", "dialogue", "derived"] },
+              "hint_location": { "type": "string", "description": "search 类型下，地点 slot_id" },
+              "from_actor": { "type": "string", "description": "dialogue 类型下，角色 slot_id" },
+              "preconditions": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "前置条件：依赖的 evidence_slot.id 或 lie_exposed:slot_id.topic 等"
+              }
+            }
+          },
+          "points_to": {
+            "type": "string",
+            "description": "本证据指向的角色 slot_id 或动机 ID（用于 solution_skeleton 推理链）"
+          },
+          "blocks_red_herring": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "本证据可证伪的 red_herring evidence_slot.id 列表"
+          }
+        }
+      }
+    },
+
+    "contradictions": {
+      "type": "array",
+      "description": "矛盾点列表。每条矛盾必须能被至少 2 条 evidence 或 timeline 揭示，否则校验失败。",
+      "items": {
+        "type": "object",
+        "required": ["id", "actor", "claim", "rebuttal_sources"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "actor": { "type": "string", "description": "撒谎/产生矛盾的角色 slot_id" },
+          "claim": { "type": "string", "description": "该角色对外的陈述（自然语言或 topic_key）" },
+          "rebuttal_sources": {
+            "type": "array",
+            "minItems": 2,
+            "items": { "type": "string" },
+            "description": "至少两条可揭穿的来源：可以是 evidence_slot.id 或 timeline_slot.id"
+          },
+          "exposes": {
+            "type": "string",
+            "description": "矛盾被揭破后所暴露的关键事实 / 动机 / 真凶（topic_key）"
+          }
+        }
+      }
+    },
+
+    "red_herrings": {
+      "type": "array",
+      "description": "误导线索包，每条必须存在 evidence 中的 'blocks_red_herring' 或 dialogue 中的反驳路径。",
+      "items": {
+        "type": "object",
+        "required": ["id", "false_target", "false_motive", "rebuttal"],
+        "properties": {
+          "id": { "type": "string" },
+          "false_target": { "type": "string", "description": "误导指向的角色 slot_id（应是 suspect 而非真凶）" },
+          "false_motive": { "type": "string", "description": "误导动机 ID" },
+          "rebuttal": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "证伪路径：evidence_slot.id 或 contradiction.id 列表"
+          }
+        }
+      }
+    },
+
+    "solution_skeleton": {
+      "type": "object",
+      "description": "正确答案骨架。culprit/motive/method 是抽象 ID（指向 slot/库），由填槽器具体化为 case.json 字段。",
+      "required": ["culprit_slot", "motive_id", "method_id", "key_evidence_slots"],
+      "additionalProperties": false,
+      "properties": {
+        "culprit_slot": { "type": "string", "description": "真凶角色 slot_id（必须 is_culprit=true 的那个）" },
+        "motive_id": { "type": "string", "description": "动机 ID（生成器映射到 case.json.motives 列表项）" },
+        "method_id": { "type": "string", "description": "手法 ID（同上 → case.json.methods）" },
+        "key_evidence_slots": {
+          "type": "array",
+          "minItems": 3,
+          "items": { "type": "string" },
+          "description": "完美结局所需关键证据槽位列表"
+        },
+        "min_evidence_required": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "完美结局至少需要的关键证据数（≤ key_evidence_slots.size()）"
+        },
+        "deduction_chain": {
+          "type": "array",
+          "description": "可解性证明链：从 initial_observation 经过若干 step 推到 conclusion，每步引用 evidence/contradiction id",
+          "items": {
+            "type": "object",
+            "required": ["step", "uses", "concludes"],
+            "properties": {
+              "step": { "type": "integer" },
+              "uses": { "type": "array", "items": { "type": "string" } },
+              "concludes": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "endings_pattern": {
+      "type": "object",
+      "description": "结局模板：定义 perfect/good/partial/bad/timeout 五档的判定阈值与文案钩子",
+      "properties": {
+        "perfect": {
+          "type": "object",
+          "properties": {
+            "requires_culprit": { "type": "boolean", "default": true },
+            "requires_motive": { "type": "boolean", "default": true },
+            "requires_method": { "type": "boolean", "default": true },
+            "requires_key_evidence_count": { "type": "integer" },
+            "narration_pattern": { "type": "string" }
+          }
+        },
+        "good": { "type": "object" },
+        "partial": { "type": "object" },
+        "bad": { "type": "object" },
+        "timeout": { "type": "object" }
+      }
+    },
+
+    "constraints": {
+      "type": "object",
+      "description": "硬约束（生成器必须满足）/软约束（尽量满足）",
+      "properties": {
+        "hard": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "硬约束声明，如 'culprit_alibi_must_have_weakness'、'every_red_herring_must_have_rebuttal'"
+        },
+        "soft": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

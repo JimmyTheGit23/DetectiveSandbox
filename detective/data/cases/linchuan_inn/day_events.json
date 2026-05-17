@@ -12,9 +12,9 @@
       "title": "夜半惊变",
       "hint": "（驿丞神色匆匆赶来）「大人，沈宅的门，今夜被人撬过了……」",
       "narration": [
-        "天色微亮，赵大有匆匆赶来。",
-        "「大人！沈砚秋宅院的门被人撬过了。我刚从那儿过，门半开着，里面被翻得一塌糊涂。」",
-        "看来昨夜有人比你更急着进沈宅。"
+        { "speaker": "旁白", "text": "天色微亮，临川驿的老驿丞赵大有匆匆赶来。赵大有正是今早发现沈砚秋尸体的人，平日负责驿站杂务。", "voice_path": "res://assets/cn/voices/_events/linchuan_inn/evt_day2_break_in_0.wav" },
+        { "speaker": "赵大有 · 临川驿驿丞", "text": "大人！沈砚秋宅院的门被人撬过了。我刚从那儿过，门半开着，里面被翻得一塌糊涂。", "voice_path": "res://assets/cn/voices/_events/linchuan_inn/evt_day2_break_in_1.wav" },
+        { "speaker": "旁白", "text": "看来昨夜有人比你更急着进沈宅。", "voice_path": "res://assets/cn/voices/_events/linchuan_inn/evt_day2_break_in_2.wav" }
       ],
       "effects": {
         "set_flag": "shen_house_broken",

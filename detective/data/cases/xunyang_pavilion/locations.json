@@ -1,0 +1,198 @@
+{
+  "_comment": "浔阳楼案地点：完全复用 M2 场景库（scene_type 引用全局），仅重写 name/description/搜索点。",
+  "pavilion_courtyard": {
+    "name": "浔阳楼·后院",
+    "description": "案发后院。青石板上还留着死者坠落的痕迹，一段红绸斜搭在墙角。",
+    "scene_type": "scene_xunyang_courtyard",
+    "npcs": [
+      "sun_laoliu"
+    ],
+    "search_points": [
+      {
+        "id": "fall_spot",
+        "name": "坠落处",
+        "time_cost": 2
+      },
+      {
+        "id": "torn_silk",
+        "name": "墙角红绸",
+        "time_cost": 1
+      },
+      {
+        "id": "courtyard_well",
+        "name": "后院老井",
+        "time_cost": 1
+      },
+      {
+        "id": "lantern_spot",
+        "name": "屋檐风灯",
+        "time_cost": 1
+      }
+    ]
+  },
+  "qiu_chamber": {
+    "name": "秋菱闺阁",
+    "description": "死者私室。妆台尚有未拭的胭脂，案上一本未送出的小笺。",
+    "scene_type": "scene_xunyang_qiu_chamber",
+    "npcs": [],
+    "search_points": [
+      {
+        "id": "dressing_table",
+        "name": "妆台",
+        "time_cost": 1
+      },
+      {
+        "id": "letter_box",
+        "name": "桌上小笺",
+        "time_cost": 2
+      },
+      {
+        "id": "incense_burner",
+        "name": "床头香炉",
+        "time_cost": 1
+      },
+      {
+        "id": "wine_cup",
+        "name": "翻倒的酒盏",
+        "time_cost": 1
+      }
+    ]
+  },
+  "yamen": {
+    "name": "府衙",
+    "description": "本府衙门。鲁知府和马捕头在此等你议案。",
+    "scene_type": "scene_government_hall",
+    "npcs": [
+      "magistrate_lu",
+      "ma_san"
+    ],
+    "search_points": [
+      {
+        "id": "case_file",
+        "name": "卷宗架",
+        "time_cost": 2
+      },
+      {
+        "id": "evidence_table",
+        "name": "证物台",
+        "time_cost": 1
+      }
+    ]
+  },
+  "pavilion_main": {
+    "name": "浔阳楼·正厅",
+    "description": "灯笼摇曳的酒楼正厅。当家青姐和借宿的白衣公子都在此。",
+    "scene_type": "scene_xunyang_main_hall",
+    "npcs": [
+      "qing_jie",
+      "qing_xuan"
+    ],
+    "search_points": [
+      {
+        "id": "private_room",
+        "name": "雅间桌案",
+        "time_cost": 2
+      },
+      {
+        "id": "wine_cellar",
+        "name": "酒窖账册",
+        "time_cost": 2
+      },
+      {
+        "id": "stage",
+        "name": "戏台幕后",
+        "time_cost": 1
+      }
+    ]
+  },
+  "convent": {
+    "name": "慈航庵",
+    "description": "浔阳楼对面的小庵。无尘老僧夜夜诵经守门。",
+    "scene_type": "scene_temple",
+    "npcs": [
+      "wuchen"
+    ],
+    "search_points": [
+      {
+        "id": "altar",
+        "name": "佛龛",
+        "time_cost": 1
+      },
+      {
+        "id": "window",
+        "name": "面街小窗",
+        "time_cost": 1
+      }
+    ]
+  },
+  "marketplace": {
+    "name": "城南市集",
+    "description": "本城最热闹的集市。布庄、茶肆、当铺一字排开。",
+    "scene_type": "scene_market",
+    "npcs": [
+      "lady_zhou"
+    ],
+    "search_points": [
+      {
+        "id": "pawnshop",
+        "name": "当铺前",
+        "time_cost": 2
+      },
+      {
+        "id": "alley",
+        "name": "巷尾石阶",
+        "time_cost": 1
+      }
+    ]
+  },
+  "riverside_dock": {
+    "name": "江畔水阁",
+    "description": "浔阳楼后的江畔水阁。泊船摇晃，雾深。案发夜可能有人在此销毁证物。",
+    "scene_type": "scene_xunyang_dock",
+    "npcs": [
+      "liu_chuan"
+    ],
+    "search_points": [
+      {
+        "id": "mooring_post",
+        "name": "石桩缆绳",
+        "time_cost": 1
+      },
+      {
+        "id": "wet_planks",
+        "name": "湿木板",
+        "time_cost": 1
+      },
+      {
+        "id": "ferry_boat",
+        "name": "渡船舱底",
+        "time_cost": 2
+      }
+    ]
+  },
+  "silk_shop": {
+    "name": "城南布庄",
+    "description": "城南老字号布庄。绛红云纹绸的卖出之处，柜上账册有名。",
+    "scene_type": "scene_xunyang_silk_shop",
+    "npcs": [
+      "bu_zhang"
+    ],
+    "search_points": [
+      {
+        "id": "silk_shelf",
+        "name": "红绸架",
+        "time_cost": 1
+      },
+      {
+        "id": "sales_ledger",
+        "name": "账册",
+        "time_cost": 2
+      },
+      {
+        "id": "back_curtain",
+        "name": "内帐帘后",
+        "time_cost": 1
+      }
+    ]
+  }
+}

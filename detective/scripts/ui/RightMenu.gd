@@ -10,6 +10,7 @@ const ICON_PATHS = {
 	"search": "res://assets/cn/ui/icon_search.png",
 	"notebook": "res://assets/cn/ui/icon_notebook.png",
 	"accuse": "res://assets/cn/ui/icon_accuse.png",
+	"settings": "res://assets/cn/ui/icon_settings.png",
 }
 
 const LABELS = {
@@ -19,9 +20,10 @@ const LABELS = {
 	"search": "探  索",
 	"notebook": "笔记本",
 	"accuse": "指  证",
+	"settings": "设  置",
 }
 
-const ORDER = ["map", "talk", "move", "search", "notebook", "accuse"]
+const ORDER = ["map", "talk", "move", "search", "notebook", "accuse", "settings"]
 
 
 func _ready() -> void:

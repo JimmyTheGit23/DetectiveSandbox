@@ -1,0 +1,401 @@
+{
+  "_comment": "演员库（Actor Pool）：全局共享的角色资源池。每个演员有固定的立绘、声线配置与气质标签；具体的剧本角色（姓名/头衔/介绍/是否凶手）写在各案件的 casting.json 里。",
+  "_schema": {
+    "actor_id": {
+      "display_name": "演员的库内名（仅参考用，不直接出现在游戏里）",
+      "portrait": "立绘资源路径（res:// 前缀）",
+      "voice_config": {
+        "style": "TTS 风格 ID，对应 tools/generate_voices.py 的语音风格枚举",
+        "pitch": "音高微调，整型，单位半音"
+      },
+      "tags": "气质标签数组：性别(male/female)、年龄(young/middle/elder)、职业类、性格类",
+      "description": "演员气质描述，用于选角参考（M3 阶段 LLM/选角器使用）"
+    }
+  },
+  "actors": {
+    "actor_imperial_inspector": {
+      "display_name": "中年儒雅官员",
+      "portrait": "res://assets/cn/portraits/lu_zhao.png",
+      "voice_config": {
+        "style": "calm_official_male",
+        "pitch": 0
+      },
+      "tags": [
+        "male",
+        "middle",
+        "official",
+        "scholarly",
+        "composed"
+      ],
+      "description": "三十至四十岁的中年官员，气度沉稳，目光如炬。可扮演御史、巡按、京官、清流文臣。"
+    },
+    "actor_district_magistrate": {
+      "display_name": "中年地方文官",
+      "portrait": "res://assets/cn/portraits/liu_wenqing.png",
+      "voice_config": {
+        "style": "polite_official_male",
+        "pitch": 0
+      },
+      "tags": [
+        "male",
+        "middle",
+        "official",
+        "polite",
+        "guarded"
+      ],
+      "description": "三十至四十岁的地方主官，进士出身的样貌，温文尔雅之下藏着小心思。可扮演知县、县丞、地方士绅。"
+    },
+    "actor_widow_in_white": {
+      "display_name": "素衣青年女子",
+      "portrait": "res://assets/cn/portraits/su_wan.png",
+      "voice_config": {
+        "style": "gentle_young_female",
+        "pitch": 0
+      },
+      "tags": [
+        "female",
+        "young",
+        "gentle",
+        "sorrowful",
+        "elegant"
+      ],
+      "description": "二十余岁的清秀女子，一身素白，眼眶含泪。可扮演遗孀、未亡人、隐情之女、寡居夫人。"
+    },
+    "actor_old_innkeeper": {
+      "display_name": "老年驿站差吏",
+      "portrait": "res://assets/cn/portraits/zhao_dayou.png",
+      "voice_config": {
+        "style": "weary_elder_male",
+        "pitch": -1
+      },
+      "tags": [
+        "male",
+        "elder",
+        "lowborn",
+        "weary",
+        "honest"
+      ],
+      "description": "五十岁上下、风霜满面的老差吏。可扮演驿丞、店家、看门老人、衙役老吏。"
+    },
+    "actor_white_robed_scholar": {
+      "display_name": "白衣青年公子",
+      "portrait": "res://assets/cn/portraits/gu_qingxuan.png",
+      "voice_config": {
+        "style": "elegant_young_male",
+        "pitch": 0
+      },
+      "tags": [
+        "male",
+        "young",
+        "scholar",
+        "elegant",
+        "mysterious"
+      ],
+      "description": "二十出头的白衣公子，气度不凡，言语间带着若有若无的距离感。可扮演游学书生、世家公子、隐姓富商。"
+    },
+    "actor_courtesan_top": {
+      "display_name": "青年花魁",
+      "portrait": "res://assets/cn/portraits/xiao_cui.png",
+      "voice_config": {
+        "style": "sweet_young_female",
+        "pitch": 1
+      },
+      "tags": [
+        "female",
+        "young",
+        "courtesan",
+        "sharp",
+        "charming"
+      ],
+      "description": "二十岁出头的当家花魁，眉眼俏丽，言语机敏。可扮演花魁、酒楼当家、女伶、风尘知情者。"
+    },
+    "actor_elder_monk": {
+      "display_name": "老年方外之人",
+      "portrait": "res://assets/cn/portraits/daoming.png",
+      "voice_config": {
+        "style": "calm_elder_male",
+        "pitch": -2
+      },
+      "tags": [
+        "male",
+        "elder",
+        "religious",
+        "calm",
+        "secretive"
+      ],
+      "description": "六十多岁的出家人，眼神清明、说话温和。可扮演住持、道士、僧人、退隐文士、隐姓罪人。"
+    },
+    "actor_scarred_constable": {
+      "display_name": "中年捕头",
+      "portrait": "res://assets/cn/portraits/ma_san.png",
+      "voice_config": {
+        "style": "rough_middle_male",
+        "pitch": -1
+      },
+      "tags": [
+        "male",
+        "middle",
+        "constable",
+        "rough",
+        "loyal"
+      ],
+      "description": "脸上有刀疤的中年武人，沉默寡言。可扮演捕头、班头、衙役、镖师、退伍军卒。"
+    },
+    "actor_madam_proprietress": {
+      "display_name": "中年掌柜娘子",
+      "portrait": "res://assets/cn/portraits/actor_madam_proprietress.png",
+      "voice_config": {
+        "style": "shrewd_middle_female",
+        "pitch": 0
+      },
+      "tags": [
+        "female",
+        "middle",
+        "merchant",
+        "sharp",
+        "worldly"
+      ],
+      "description": "三十五至四十岁的酒楼/商号当家娘子。略施粉黛，目光精明，举止干练。可扮演当家娘子、老鸨、布庄掌柜娘子。"
+    },
+    "actor_elder_grandmother": {
+      "display_name": "老年贵妇",
+      "portrait": "res://assets/cn/portraits/actor_elder_grandmother.png",
+      "voice_config": {
+        "style": "stern_elder_female",
+        "pitch": -2
+      },
+      "tags": [
+        "female",
+        "elder",
+        "noble",
+        "weary",
+        "stern"
+      ],
+      "description": "六十岁上下的望族遗孀/老夫人。银发银簪，眉目威严。可扮演老夫人、退休女官、宗族长辈。"
+    },
+    "actor_buddhist_nun": {
+      "display_name": "中年比丘尼",
+      "portrait": "res://assets/cn/portraits/actor_buddhist_nun.png",
+      "voice_config": {
+        "style": "calm_middle_female",
+        "pitch": -1
+      },
+      "tags": [
+        "female",
+        "middle",
+        "religious",
+        "austere",
+        "secretive"
+      ],
+      "description": "四十岁上下的庵主/师太。灰布僧衣，目光清冷。可扮演庵主、师太、隐姓出家女子。"
+    },
+    "actor_young_servant_boy": {
+      "display_name": "少年小厮",
+      "portrait": "res://assets/cn/portraits/actor_young_servant_boy.png",
+      "voice_config": {
+        "style": "bright_youth_male",
+        "pitch": 3
+      },
+      "tags": [
+        "male",
+        "young_teen",
+        "lowborn",
+        "agile",
+        "curious"
+      ],
+      "description": "十三四岁的书童/小二。瘦削机灵。可扮演书童、跑堂小二、衙门小吏、客栈小厮。"
+    },
+    "actor_wealthy_merchant": {
+      "display_name": "中年富商",
+      "portrait": "res://assets/cn/portraits/actor_wealthy_merchant.png",
+      "voice_config": {
+        "style": "jovial_middle_male",
+        "pitch": -1
+      },
+      "tags": [
+        "male",
+        "middle",
+        "merchant",
+        "jovial",
+        "greedy"
+      ],
+      "description": "四十多岁的商号东家/当铺老板。富态圆润，笑里藏算盘。可扮演商号东家、当铺老板、米行东家、走私贩。"
+    },
+    "actor_jianghu_swordsman": {
+      "display_name": "青年游侠",
+      "portrait": "res://assets/cn/portraits/actor_jianghu_swordsman.png",
+      "voice_config": {
+        "style": "stoic_young_male",
+        "pitch": -1
+      },
+      "tags": [
+        "male",
+        "young",
+        "martial",
+        "proud",
+        "wandering"
+      ],
+      "description": "二十五六岁的镖师/游侠。身姿挺拔，一道浅疤。可扮演镖师、护院、游侠、外乡客。"
+    },
+    "actor_eccentric_diviner": {
+      "display_name": "老年术士",
+      "portrait": "res://assets/cn/portraits/actor_eccentric_diviner.png",
+      "voice_config": {
+        "style": "raspy_elder_male",
+        "pitch": -3
+      },
+      "tags": [
+        "male",
+        "elder",
+        "religious",
+        "eccentric",
+        "cunning"
+      ],
+      "description": "六十多岁的算命先生/阴阳师。一脸狡黠，长须飘飘。可扮演算命先生、阴阳师、神棍、巫祝。"
+    },
+    "actor_courtly_lady": {
+      "display_name": "中年贵妇",
+      "portrait": "res://assets/cn/portraits/actor_courtly_lady.png",
+      "voice_config": {
+        "style": "refined_middle_female",
+        "pitch": 0
+      },
+      "tags": [
+        "female",
+        "middle",
+        "noble",
+        "graceful",
+        "proud"
+      ],
+      "description": "三十五岁上下的高门夫人/官眷。气度雍容，眼神警惕。可扮演高门夫人、致仕官眷、退休女官夫人。"
+    },
+    "actor_senior_prefect": {
+      "display_name": "老年知府",
+      "portrait": "res://assets/cn/portraits/actor_senior_prefect.png",
+      "voice_config": {
+        "style": "weighty_elder_male",
+        "pitch": -2
+      },
+      "tags": [
+        "male",
+        "elder",
+        "official",
+        "stern",
+        "weary"
+      ],
+      "description": "五十多岁的本府主官/老知府。官袍威严，世故沉重。可扮演知府、老京官、退休大员，与中年地方官区分。"
+    },
+    "actor_apothecary_doctor": {
+      "display_name": "中年药师",
+      "portrait": "res://assets/cn/portraits/actor_apothecary_doctor.png",
+      "voice_config": {
+        "style": "soft_scholar_male",
+        "pitch": 0
+      },
+      "tags": [
+        "male",
+        "middle",
+        "scholar",
+        "scholarly",
+        "meticulous"
+      ],
+      "description": "四十岁出头的药铺/医馆主人。长衫青色，手握药戥。可扮演大夫、药铺东家、仵作师傅。"
+    },
+    "actor_innkeeper_wife": {
+      "display_name": "中年客栈娘子",
+      "portrait": "res://assets/cn/portraits/actor_innkeeper_wife.png",
+      "voice_config": {
+        "style": "warm_middle_female",
+        "pitch": 1
+      },
+      "tags": [
+        "female",
+        "middle",
+        "lowborn",
+        "warm",
+        "gossipy"
+      ],
+      "description": "三十多岁的客栈娘子/茶坊老板娘。圆脸热情，话多消息灵。可扮演客栈老板娘、茶坊娘子、邻里大嫂。"
+    },
+    "actor_shy_handmaid": {
+      "display_name": "年轻女侍",
+      "portrait": "res://assets/cn/portraits/actor_shy_handmaid.png",
+      "voice_config": {
+        "style": "soft_young_female",
+        "pitch": 3
+      },
+      "tags": [
+        "female",
+        "young",
+        "lowborn",
+        "shy",
+        "innocent"
+      ],
+      "description": "十八九岁的丫鬟/侍女。低头怯怯。可扮演大户人家丫鬟、酒楼侍女、绣楼侍女。"
+    },
+    "actor_tomboy_courier": {
+      "display_name": "青年女镖客",
+      "portrait": "res://assets/cn/portraits/actor_tomboy_courier.png",
+      "voice_config": {
+        "style": "spirited_young_female",
+        "pitch": 0
+      },
+      "tags": [
+        "female",
+        "young",
+        "martial",
+        "spirited",
+        "loyal"
+      ],
+      "description": "二十四五岁的女镖师/女江湖客。英气勃发。可扮演女镖师、女护卫、客栈女打手、走江湖的姑娘。"
+    },
+    "actor_drunken_poet": {
+      "display_name": "中年落魄文人",
+      "portrait": "res://assets/cn/portraits/actor_drunken_poet.png",
+      "voice_config": {
+        "style": "slurred_middle_male",
+        "pitch": -1
+      },
+      "tags": [
+        "male",
+        "middle",
+        "scholar",
+        "dissolute",
+        "perceptive"
+      ],
+      "description": "四十岁上下的失意文人/醉书生。胡子拉碴，半醉半醒。可扮演落魄秀才、酒楼常客、街头说书人、隐姓京官。"
+    },
+    "actor_foreign_traveler": {
+      "display_name": "西域旅人",
+      "portrait": "res://assets/cn/portraits/actor_foreign_traveler.png",
+      "voice_config": {
+        "style": "accented_middle_male",
+        "pitch": -1
+      },
+      "tags": [
+        "male",
+        "middle",
+        "merchant",
+        "exotic",
+        "wary"
+      ],
+      "description": "三十多岁的外族商人/西域客。深目高鼻，络腮胡。可扮演西域胡商、北疆来客、丝路使者，提供异邦视角。"
+    },
+    "actor_opera_performer": {
+      "display_name": "青年戏子",
+      "portrait": "res://assets/cn/portraits/actor_opera_performer.png",
+      "voice_config": {
+        "style": "soft_androgynous_male",
+        "pitch": 2
+      },
+      "tags": [
+        "male",
+        "young",
+        "performer",
+        "androgynous",
+        "beautiful"
+      ],
+      "description": "二十出头的旦角戏子。眉眼细腻，男装女相。可扮演戏班名角、变装侦察、男旦、走唱艺人。"
+    }
+  }
+}

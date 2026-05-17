@@ -9,10 +9,11 @@
 ## 总览甘特图
 
 ```
-Week  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+Week  1  2  3  4  5  6  7  8  9  10 11 12 13 14 14.5 15 16 17 18 19 20
       ├──── P1: 核心循环 ────┤
                               ├────── P2: 系统丰富 ──────────┤
-                                                              ├──── P3: AI + 打磨 ────┤
+                                                              ├ 资产层 ┤
+                                                                       ├──── P3: AI + 打磨 ────┤
 ```
 
 ---
@@ -210,22 +211,80 @@ Week  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
 
 ---
 
-## Phase 3: AI 生成 + 打磨（W15 – W20）
+### W14.5 — 资产抽象层（演员制） ⭐ PCG 前置依赖
 
-> **里程碑**: 可自动生成不同剧本并完整游玩，体验流畅
-
-### W15-W16 — 剧本生成工具链（Python）
+> **里程碑**: 把资产（立绘/场景/语音/BGM）从案件数据中解耦，建立可跨案件复用的资产库；为 W15 剧本生成扫清障碍。
 
 | 任务 | 产出 | 优先级 |
 |------|------|--------|
-| 定义犯罪骨架模板 JSON Schema | template_schema.json | P0 |
+| 设计三大注册表 Schema（演员库 / 场景库 / BGM 库） | `data/actors/registry.json`、`data/scenes/registry.json`、`data/bgm/registry.json` | P0 |
+| 实现 `AssetResolver.gd`：统一资产解析（角色 → 演员 → 立绘/语音；地点 → 场景；氛围 → BGM） | AssetResolver.gd | P0 |
+| 临川驿案改造：新增 `casting.json`（演员→角色映射），`npcs.json` 中的角色专属信息（名字、头衔、介绍）迁入选角表 | casting.json | P0 |
+| 临川驿案改造：`locations.json` 改用 `scene_type` 引用场景库；`bgm_config.json` 改用氛围标签引用 BGM 库 | 案件数据 | P0 |
+| `VoicePlayer.gd` 改造：路径解析改用 `AssetResolver`，目录结构升级为 `voices/{actor_id}/{case_id}/{node_id}.wav`，保留旧路径回退 | VoicePlayer.gd | P0 |
+| `BgmPlayer.gd` 改造：移除硬编码 `BGM_MAP`，改为从 `bgm_config.json` + 注册表运行时加载 | BgmPlayer.gd | P0 |
+| `DialogueManager.gd` 改造：`portrait` 获取改走 `AssetResolver`（角色→演员→立绘） | DialogueManager.gd | P0 |
+| 硬编码路径清理：`MainGame.gd` / `MapPanel.gd` / `RightMenu.gd` 中的资产路径迁入注册表或常量层 | 代码清理 | P1 |
+| 工具脚本对齐：`generate_voices.py` / `generate_event_voices.py` 输出目录改为 `{actor_id}/{case_id}/`；新增 `validate_registry.py` 校验注册表完整性 | tools/*.py | P1 |
+| 文档：撰写 `docs/ASSET_ARCHITECTURE.md`，描述演员制、目录约定、新增案件资产的 SOP | 架构文档 | P0 |
+| 兼容性回归：临川驿案在新系统下完整通关一遍，确认无回退 | 回归报告 | P0 |
+
+**本周验收**:  
+1. 临川驿案完全通过 `AssetResolver` 间接层运行，无任何案件数据直接引用具体资产路径；  
+2. 新增一个"假案件"（仅 1-2 个 NPC），仅通过编写 `casting.json` 即可复用现有所有立绘/语音/场景，无需新增美术资源；  
+3. 注册表校验脚本通过，CI 可自动检测悬空引用。
+
+> **美术资产硬性规则（R1-R5）** ⚠ 详见 `docs/ASSET_ARCHITECTURE.md` §6.1
+> - **R1**：新案件如引入新场景概念，必须新增背景图，禁止把"画舫"复用为"酒楼"等强行套用
+> - **R2**：开场图（preview/prologue）与案发图（main_scene 背景）必须不同——构图、视角、时段、氛围都要可识别区分
+> - **R3**：演员标签覆盖度 < 0.7 的新角色必须新增立绘
+> - **R4**：每个案件 manifest 必须声明 `art_status` ∈ {placeholder, partial, release}
+> - **R5**：非 release 状态必须填 `art_todo` 列出待办美术清单
+> 这条规则同时影响 W14.5（注册表/校验扩展）、W15（生成器输出 art_todo）、W19（案件发布前最后一关美术替换）。
+
+---
+
+### 动态行为系统（W14.5 同期落地，2026-05-17）
+
+第二案 `xunyang_pavilion` 已升级为"动态可演"案件，作为 PCG 的能力基线：
+
+- **NPC schedule**：`data/cases/<case>/schedules.json`，每个 NPC 有 D{1..3}_P{0..7} 的位置/活动表，带 default + overrides
+- **凶手 culprit_actions**：`data/cases/<case>/culprit_actions.json`，确定时刻 + ±jitter 抖动；每次新游戏用 `case_seed` 解算实际时刻；存档恢复保持一致
+- **运行时调度**：`GameManager.get_active_npcs_at(loc, day, period)` + `_run_culprit_tick()`（advance_period 时跑一次）
+- **撞见遭遇剧情**：在 `day_events.json` 中以 `auto_play=true` 标识，玩家在凶手行动地点时自动播叙述；不弹按钮、不可错过
+- **地图 NPC 徽章**：`MapPanel` 在每个地点标牌右侧显示当前时段实际人数徽章，hover 展开人名
+
+> **未来案件**只要写 `schedules.json` + `culprit_actions.json` 即可启用此机制；缺失时自动回退到静态 `locations.json.npcs`（向后兼容）。
+
+#### TODO（暂记，不阻塞当前节奏）
+
+| 待办 | 范围 | 触发优先级 |
+|------|------|-----------|
+| 浔阳案 83 条对话/事件语音补录 | `tools/tts/` 批跑（待 TTS 后端确定）；含 4 条新增"撞见遭遇"叙述 + qing_xuan 12 节点破绽对话 + 4 NPC 新增对话 | 案件正式发布前必做；当前 manifest.voice_status=missing |
+| schedule 编辑器/可视化工具 | `tools/pcg/inspect_schedule.py`：以时段 × 地点矩阵打印 NPC 流向；冲突高亮（同一 NPC 同时间在两地）| M3 PCG 选角阶段需要 |
+| culprit_actions 自动校验 | `validate_registry.py` 加 R6：`leaves_trace.evidence_id` 必须在 evidence.json 中存在 | 写新案件时容易忘 |
+| 撞见遭遇支持立绘对话化 | 当前是纯 narration；未来可把"凶手反应"做成立绘+对话+一次选项的小段落 | 体验提升项 |
+
+## Phase 3: AI 生成 + 打磨（W15 – W20）
+
+> **里程碑**: 可自动生成不同剧本并完整游玩，体验流畅。  
+> **前置条件**: W14.5 资产抽象层完成 —— 生成器输出的剧本只需选角和挑场景，无需生成新美术。
+
+### W15-W16 — 剧本生成工具链（Python）
+
+> **依赖**: W14.5 资产抽象层。生成器只需挑选演员/场景/BGM 标签，不再生成新美术。
+
+| 任务 | 产出 | 优先级 |
+|------|------|--------|
+| 定义犯罪骨架模板 JSON Schema（含 casting 占位） | template_schema.json | P0 |
 | 制作 10+ 犯罪骨架模板 | template_xxx.json × 10 | P0 |
-| 实现剧本生成器（模板选取 + 随机/LLM 填槽） | generator.py | P0 |
-| 实现约束校验器（时间线/物证/可解性/矛盾检查） | validator.py | P0 |
+| 实现剧本生成器（模板选取 + 随机/LLM 填槽 + 自动选角） | generator.py | P0 |
+| 选角策略：根据角色标签（性别/年龄/职业）从演员库匹配候选 | casting_picker.py | P0 |
+| 实现约束校验器（时间线/物证/可解性/矛盾检查 + 资产引用合法性） | validator.py | P0 |
 | 对话树自动生成（基于 NPC 知识层自动派生选项） | dialogue_gen.py | P1 |
 | 生成器 CLI + 批量生成测试 | cli.py | P1 |
 
-**本周验收**: 运行 `python generator.py` 可输出完整合法剧本 JSON
+**本周验收**: 运行 `python generator.py` 可输出完整合法剧本 JSON（含 casting.json），Godot 端无需新增任何美术即可加载游玩
 
 ---
 
@@ -233,14 +292,14 @@ Week  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
 
 | 任务 | 产出 | 优先级 |
 |------|------|--------|
-| Godot 端剧本加载器（读取生成的 JSON→初始化游戏状态） | ScriptLoader.gd | P0 |
+| Godot 端剧本加载器（读取生成的 JSON + casting → 通过 AssetResolver 装配） | ScriptLoader.gd | P0 |
 | 开局流程：选择「生成新剧本」或「选择预制剧本」 | 开局 UI | P0 |
-| 场景美术替换：AI 生成 16×16 像素 Tile + 调色板统一 | 像素 Tileset + 场景资源 | P1 |
-| 角色像素 Sprite（16×16，AI 生成 + #FF00FF 色键处理） | 角色 Sprite × 6-10 | P1 |
+| 演员库扩充：补足常用职业/年龄/性别组合的立绘和声线（目标 15-20 演员） | 演员库资产 | P1 |
+| 场景库扩充：补足常用古代场景类型（客栈/衙门/庙宇/集市/书房/卧房...） | 场景库资产 | P1 |
 | UI 动画（场景转场、对话气泡、笔记本翻页） | 动画 | P2 |
-| 背景音乐 + 环境音效 | 音频资源 | P2 |
+| 背景音乐 + 环境音效（按氛围标签分类入库） | 音频资源 | P2 |
 
-**本周验收**: 可选择 AI 生成的剧本开局并完整游玩
+**本周验收**: 可选择 AI 生成的剧本开局并完整游玩；演员/场景库规模足以支撑至少 5 个不同主题的随机案件
 
 ---
 
@@ -269,6 +328,8 @@ Week  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
 | 认知负荷视觉效果实现复杂 | Shader 开发耗时 | 先用简单屏幕变色，后期替换 |
 | AI 生成质量不稳定 | P3 生成器可能产出不合法剧本 | 约束校验器严格把关，不通过则重新生成 |
 | 美术资源不足 | 视觉体验打折 | 优先用占位素材，风格统一比精致更重要 |
+| 资产硬编码扩散 | 新增案件需重做美术，PCG 不可行 | W14.5 引入 `AssetResolver` 间接层 + 演员制；新增案件零美术成本 |
+| 演员库不够泛化 | 生成的角色撞脸/不匹配剧本设定 | 演员注册表带标签（性别/年龄/职业/气质），生成器按标签筛选；不足时按标签优先级降级匹配 |
 | 数值不平衡 | 玩家体验割裂 | 预留 W19-W20 专门调平，配置外置便于热调 |
 
 ---
@@ -296,4 +357,34 @@ Week  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
   - [x] 小地图 UI（地点列表 + 点击切换 + 移动耗时显示）
   - [x] 地点间距离 → 移动分钟数消耗逻辑
   - [x] 完整目录结构（scenes/scripts/data/assets 全部就位）
-- [ ] **下一步：Phase 1 Week 2 — 时间系统 & HUD**
+- [x] **Phase 1-2 跨周期内容实装**（临川驿案）✅
+  - [x] 对话系统（DialogueManager + 对话树 JSON）
+  - [x] 序章 / 多日事件 / 多 NPC 对话脚本
+  - [x] 角色立绘 + 场景背景 + BGM + TTS 语音全套接入
+  - [x] VoicePlayer / BgmPlayer / EvidenceManager 等核心管线就绪
+- [x] **W14.5 — 资产抽象层（演员制）** ✅ (2026-05-17)
+  - [x] M2.1 三大注册表落地：`data/actors/registry.json`（8 演员）/ `data/scenes/registry.json`（9 场景）/ `data/bgm/registry.json`（8 BGM + mood_index）
+  - [x] M2.2 `AssetResolver.gd` 实装并注册为首个 autoload，提供 portrait/role_info/voice_path/scene_bg/bgm_track 统一解析与三级回退
+  - [x] M2.3 临川驿案迁移：新增 `casting.json` + `bgm_config.json`，`locations.json` 加 `scene_type` 字段（旧字段保留兼容）
+  - [x] M2.4 运行时改造：`DialogueManager` / `MainGame` / `VoicePlayer` / `BgmPlayer` / `TalkPanel` / `NotebookPanel` 全部走 AssetResolver；`GameManager._load_data()` 主动调用 `load_case()`
+  - [x] M2.5 工具与文档：`tools/validate_registry.py`（一次过：8/9/8 + 1 案件）+ `docs/ASSET_ARCHITECTURE.md` 架构文档
+  - [x] M2.6 验收：哑案件 `data/cases/_smoke_test/`（仅 3 份配置 + 0 美术）通过校验，证明新增案件零美术成本可行
+  - [x] M2.7 编辑器内运行时回归（通过 Godot MCP Pro 自动化完成）✅ (2026-05-17)
+    - [x] AssetResolver autoload 在游戏运行时正确实例化、加载注册表、加载 case
+    - [x] 8 个 NPC 全部 actor_id/portrait/role_info 解析合法（8/8）
+    - [x] 6 个地点 scene_type → 背景路径解析合法（6/6）
+    - [x] 11 个 BGM 键（含 mood / track 两种语法）解析合法（11/11）
+    - [x] 主题曲走新链路成功播放（log: `[BGM] play('main_theme') → main_theme`）
+    - [x] 标题画面截图视觉正常
+- [ ] **下一步：M1 PCG 主线**（参见 `docs/ROADMAP_PCG.md`）
+  - [x] M1.1 犯罪骨架模板 Schema + 3 套模板（poisoning ★4 / fall_disguised ★3 / impersonation ★5）+ inspect_template.py + README
+  - [ ] M1.2 填槽生成器（character / timeline / clue filler，输出 case.json + casting.json + dialogues/*.json）
+  - [ ] M1.3 约束校验器（时间线 / 物证 / 可解性 / 矛盾）
+  - [ ] M1.4 对话树派生（NPC 知识层 → 选项树）
+  - [ ] M1.5 Godot 端 ScriptLoader 接入
+
+- [x] **多案件 UI + 第二案件 + 回归基线**（2026-05-17 同期）✅
+  - [x] **多案件 UI**：`data/cases/_index.json` 案件索引 + `CaseSelectPanel.tscn/gd` 卡片选择面板 + `GameManager.switch_case()` 切换流程 + 案件分槽存档（`user://saves/<case_id>.json`）+ 旧存档自动迁移
+  - [x] **第二案件**：`data/cases/xunyang_pavilion/`（浔阳楼·夜雨红绸案）完整数据：11 份基础 JSON + 7 份 NPC 对话树 + 6 地点 17 搜索点 + 9 件证据 + 2 件日程事件 + 5 档结局。**零美术新增**，全部复用 M2 资产抽象层（8/8 NPC / 6/6 地点 / 12/12 BGM 解析通过运行时回归）
+  - [x] **未生成语音清单**：`tools/audit_voices.py` 自动扫描 + `docs/MISSING_VOICES.md` 生成（含每条文本预览、预期 wav 路径、按 NPC→actor 分组），方便未来批量 TTS
+  - [x] **回归基线**：`tools/regression/run_static.py`（L1 静态：注册表 + 案件文件齐全 + casting 对齐 + 模板 schema + 语音清单）+ `tools/regression/runtime_check.gd`（L2 运行时：通过 MCP 注入验证）+ `docs/REGRESSION_SOP.md`（含已知陷阱、二层结构、何时跑哪层）—— 作为所有未来任务的退出门禁

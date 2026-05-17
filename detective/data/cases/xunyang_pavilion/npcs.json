@@ -1,0 +1,54 @@
+{
+  "_comment": "兼容字段保留：name/title/intro/portrait 仅作 AssetResolver 不可用时的 fallback。新系统会读 casting.json。",
+  "lu_zhao": {
+    "name": "陆昭",
+    "title": "巡按御史"
+  },
+  "qing_jie": {
+    "name": "青姐",
+    "title": "浔阳楼当家",
+    "intro": "三十余岁的当家娘子。死者秋菱的义姐。"
+  },
+  "sun_laoliu": {
+    "name": "孙娘",
+    "title": "茶坊娘子",
+    "intro": "浔阳楼楼下茶坊老板。"
+  },
+  "lady_zhou": {
+    "name": "周老夫人",
+    "title": "望族遗孀",
+    "intro": "本城望族遗孀。"
+  },
+  "wuchen": {
+    "name": "无尘师太",
+    "title": "慈航庵主",
+    "intro": "对面慈航庵的老僧。"
+  },
+  "ma_san": {
+    "name": "马三",
+    "title": "本府捕头",
+    "intro": "受陆昭委派协查的本府捕头。"
+  },
+  "magistrate_lu": {
+    "name": "鲁知府",
+    "title": "本府知府",
+    "intro": "倾向'醉后失足'结案的父母官。"
+  },
+  "qing_xuan": {
+    "name": "顾清玄",
+    "title": "白衣公子",
+    "intro": "案发当夜借宿浔阳楼的客人。"
+  },
+  "bu_zhang": {
+    "name": "卜掌柜",
+    "title": "城南布庄东家",
+    "dialogue": "bu_zhang",
+    "portrait": "res://assets/cn/portraits/actor_wealthy_merchant.png"
+  },
+  "liu_chuan": {
+    "name": "刘船家",
+    "title": "江上船家",
+    "dialogue": "liu_chuan",
+    "portrait": "res://assets/cn/portraits/actor_foreign_traveler.png"
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "_comment": "NPC 时段日程表。每条 NPC 有 default 和 overrides。运行时 GameManager.get_npc_at(npc_id, day, period) 返回该时段实际所在地。public=false 是隐秘行动。",
+  "qing_jie": {
+    "_role": "死者义姐 当家娘子",
+    "default": {
+      "location": "pavilion_main",
+      "activity": "mourning",
+      "public": true
+    },
+    "overrides": {
+      "D1_P0": {
+        "location": "pavilion_courtyard",
+        "activity": "incense_offering",
+        "public": true
+      },
+      "D2_P4": {
+        "location": "yamen",
+        "activity": "plead_case",
+        "public": true
+      }
+    }
+  },
+  "sun_laoliu": {
+    "_role": "茶坊娘子",
+    "default": {
+      "location": "pavilion_courtyard",
+      "activity": "tea_stall",
+      "public": true
+    },
+    "overrides": {
+      "D2_P0": {
+        "location": "marketplace",
+        "activity": "fetch_tea_leaves",
+        "public": true
+      }
+    }
+  },
+  "lady_zhou": {
+    "_role": "望族老遗孀",
+    "default": {
+      "location": "marketplace",
+      "activity": "shopping",
+      "public": true
+    },
+    "overrides": {
+      "D1_P3": {
+        "location": "silk_shop",
+        "activity": "check_ledger",
+        "public": true
+      },
+      "D2_P5": {
+        "location": "pavilion_main",
+        "activity": "demand_debt",
+        "public": true
+      }
+    }
+  },
+  "wuchen": {
+    "_role": "庵主师太",
+    "default": {
+      "location": "convent",
+      "activity": "sutra",
+      "public": true
+    }
+  },
+  "ma_san": {
+    "_role": "本府捕头",
+    "default": {
+      "location": "yamen",
+      "activity": "on_duty",
+      "public": true
+    },
+    "overrides": {
+      "D1_P5": {
+        "location": "pavilion_courtyard",
+        "activity": "recheck_scene",
+        "public": true
+      },
+      "D3_P0": {
+        "location": "riverside_dock",
+        "activity": "patrol_dock",
+        "public": true
+      }
+    }
+  },
+  "magistrate_lu": {
+    "_role": "本府知府",
+    "default": {
+      "location": "yamen",
+      "activity": "review_case",
+      "public": true
+    }
+  },
+  "bu_zhang": {
+    "_role": "布庄掌柜",
+    "default": {
+      "location": "silk_shop",
+      "activity": "mind_shop",
+      "public": true
+    },
+    "overrides": {
+      "D1_P6": {
+        "location": "pavilion_main",
+        "activity": "collect_debt",
+        "public": true
+      },
+      "D2_P2": {
+        "location": "marketplace",
+        "activity": "wholesale_run",
+        "public": true
+      }
+    }
+  },
+  "liu_chuan": {
+    "_role": "江上船家",
+    "default": {
+      "location": "riverside_dock",
+      "activity": "idle_boat",
+      "public": true
+    },
+    "overrides": {
+      "D1_P7": {
+        "location": "marketplace",
+        "activity": "drink_alone",
+        "public": true
+      },
+      "D2_P4": {
+        "location": "convent",
+        "activity": "consult_nun",
+        "public": true
+      }
+    }
+  },
+  "qing_xuan": {
+    "_role": "真凶 白衣公子（戏子伪装）",
+    "default": {
+      "location": "pavilion_main",
+      "activity": "calm_pose",
+      "public": true
+    },
+    "overrides": {
+      "D1_P2": {
+        "location": "silk_shop",
+        "activity": "buy_silk_replica",
+        "public": true
+      },
+      "D1_P6": {
+        "location": "riverside_dock",
+        "activity": "dispose_evidence",
+        "public": false
+      },
+      "D2_P3": {
+        "location": "qiu_chamber",
+        "activity": "search_letter",
+        "public": false
+      },
+      "D2_P6": {
+        "location": "convent",
+        "activity": "test_nun",
+        "public": false
+      },
+      "D3_P1": {
+        "location": "pavilion_main",
+        "activity": "pretend_calm",
+        "public": true
+      }
+    }
+  }
+}

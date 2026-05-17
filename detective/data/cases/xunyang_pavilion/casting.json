@@ -1,0 +1,68 @@
+{
+  "_comment": "浔阳楼案选角：除玩家陆昭外，全部启用新增演员，避免与临川驿案立绘撞脸。",
+  "case_id": "xunyang_pavilion",
+  "casting": {
+    "lu_zhao": {
+      "actor_id": "actor_imperial_inspector",
+      "role_name": "陆昭",
+      "role_title": "巡按御史",
+      "role_intro": "玩家本人。借宿浔阳楼，发现命案。",
+      "is_player": true
+    },
+    "qing_jie": {
+      "actor_id": "actor_madam_proprietress",
+      "role_name": "青姐",
+      "role_title": "浔阳楼当家",
+      "role_intro": "三十余岁的当家娘子。死者秋菱的义姐。一身缟素，眼眶通红。"
+    },
+    "sun_laoliu": {
+      "actor_id": "actor_innkeeper_wife",
+      "role_name": "孙娘",
+      "role_title": "茶坊娘子",
+      "role_intro": "浔阳楼楼下茶坊老板娘，三十多岁，话密、消息灵通。"
+    },
+    "lady_zhou": {
+      "actor_id": "actor_elder_grandmother",
+      "role_name": "周老夫人",
+      "role_title": "望族遗孀",
+      "role_intro": "本城望族遗孀，年逾六旬。秋菱欠她一笔银两未还。"
+    },
+    "wuchen": {
+      "actor_id": "actor_buddhist_nun",
+      "role_name": "无尘师太",
+      "role_title": "慈航庵主",
+      "role_intro": "浔阳楼对面慈航庵的师太。守夜诵经，常望见阁楼中事。"
+    },
+    "ma_san": {
+      "actor_id": "actor_jianghu_swordsman",
+      "role_name": "马三",
+      "role_title": "本府捕头",
+      "role_intro": "本府捕头，受陆昭委派协查。年纪不大，江湖出身。"
+    },
+    "magistrate_lu": {
+      "actor_id": "actor_senior_prefect",
+      "role_name": "鲁知府",
+      "role_title": "本府知府",
+      "role_intro": "稳重的本府父母官。倾向\"醉后失足\"结案，怕影响地方风声。"
+    },
+    "qing_xuan": {
+      "actor_id": "actor_opera_performer",
+      "role_name": "顾清玄",
+      "role_title": "白衣公子",
+      "role_intro": "案发当夜借宿浔阳楼的客人。一身白衣，言语得体，行止间却有一丝戏台上的雕琢。",
+      "is_culprit": true
+    },
+    "bu_zhang": {
+      "actor_id": "actor_wealthy_merchant",
+      "role_name": "卜掌柜",
+      "role_title": "城南布庄东家",
+      "role_intro": "四十来岁的布庄东家。绛红云纹绸自他柜上而出，账册记的客户名让人意外。"
+    },
+    "liu_chuan": {
+      "actor_id": "actor_foreign_traveler",
+      "role_name": "刘船家",
+      "role_title": "江上船家",
+      "role_intro": "三十来岁的渡船船家。案发夜恰好在江畔过夜，似乎看到了什么但欲言又止。"
+    }
+  }
+}

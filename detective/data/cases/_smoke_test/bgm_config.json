@@ -1,0 +1,12 @@
+{
+  "_comment": "哑案件 BGM：完全复用 BGM 库，按情绪标签引用。",
+  "locations": {
+    "marketplace": "mood:bustling",
+    "abandoned_temple": "mood:solemn"
+  },
+  "states": {
+    "accuse": "mood:climax",
+    "ending_good": "mood:ending_good",
+    "ending_bad": "mood:ending_bad"
+  }
+}

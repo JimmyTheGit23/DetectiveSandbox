@@ -1,0 +1,406 @@
+{
+  "id": "tpl_001_old_grudge_poisoning",
+  "version": "1.0.0",
+  "crime_type": "poisoning",
+  "summary": {
+    "title_pattern": "{location_name}沉案",
+    "logline": "一桩看似为贪墨灭口的毒杀，背后藏着一段二十年前未结的旧案。真凶是最不可能被怀疑的'清净之人'。",
+    "tags": ["chinese_ancient", "poison", "old_case", "religious_facade", "official_misdirection"],
+    "inspiration": "临川驿案（首部参照案件）"
+  },
+  "difficulty": {
+    "star": 4,
+    "factors": {
+      "suspect_count": 7,
+      "min_evidence_required": 4,
+      "contradiction_count": 3,
+      "red_herring_count": 1,
+      "key_evidence_depth": "buried",
+      "motive_obfuscation": "hidden"
+    }
+  },
+
+  "roles": [
+    {
+      "slot_id": "player_inspector",
+      "function": "player",
+      "archetype_tags": ["male", "middle", "official", "scholarly", "composed"]
+    },
+    {
+      "slot_id": "victim_scholar",
+      "function": "victim",
+      "archetype_tags": ["male", "middle", "scholar", "principled"],
+      "knowledge_topics": ["timeline_old_case_origin"]
+    },
+    {
+      "slot_id": "official_misdirect",
+      "function": "suspect",
+      "archetype_tags": ["male", "middle", "official", "polite", "guarded"],
+      "knowledge_topics": ["evidence_account_book", "evidence_grain_record"],
+      "lie_topics": ["alibi_official_meeting"],
+      "trust_pattern": "guarded",
+      "alibi": {
+        "claim_location": "loc_official_hall",
+        "claim_time_window": "timeline_crime_night",
+        "weakness_topic": "evidence_account_book"
+      }
+    },
+    {
+      "slot_id": "widow_keeper",
+      "function": "informant",
+      "archetype_tags": ["female", "young", "gentle", "sorrowful"],
+      "knowledge_topics": ["timeline_victim_letters", "evidence_letter_draft", "timeline_old_case_origin"],
+      "trust_pattern": "fragile"
+    },
+    {
+      "slot_id": "innkeeper_witness",
+      "function": "witness",
+      "archetype_tags": ["male", "elder", "lowborn", "honest"],
+      "knowledge_topics": ["timeline_body_discovery", "timeline_temple_visit"],
+      "trust_pattern": "cooperative"
+    },
+    {
+      "slot_id": "social_observer",
+      "function": "informant",
+      "archetype_tags": ["male", "young", "scholar", "elegant", "mysterious"],
+      "knowledge_topics": ["timeline_temple_visit", "evidence_temple_paper"],
+      "trust_pattern": "guarded"
+    },
+    {
+      "slot_id": "courtesan_link",
+      "function": "informant",
+      "archetype_tags": ["female", "young", "courtesan", "sharp"],
+      "knowledge_topics": ["timeline_victim_letters", "evidence_chronic_dose"],
+      "trust_pattern": "guarded"
+    },
+    {
+      "slot_id": "religious_culprit",
+      "function": "culprit",
+      "archetype_tags": ["male", "elder", "religious", "calm", "secretive"],
+      "knowledge_topics": ["timeline_crime_night", "timeline_old_case_origin", "evidence_monk_handwriting"],
+      "lie_topics": ["alibi_evening_chant", "topic_old_case"],
+      "trust_pattern": "guarded",
+      "is_culprit": true,
+      "alibi": {
+        "claim_location": "loc_religious_site",
+        "claim_time_window": "timeline_crime_night",
+        "weakness_topic": "evidence_red_powder"
+      }
+    },
+    {
+      "slot_id": "constable_assist",
+      "function": "authority",
+      "archetype_tags": ["male", "middle", "constable", "rough", "loyal"],
+      "knowledge_topics": ["evidence_old_case_file"],
+      "trust_pattern": "cooperative"
+    }
+  ],
+
+  "location_slots": [
+    {
+      "slot_id": "loc_crime_scene",
+      "scene_archetype": "outdoor_courtyard",
+      "purpose": "crime_scene",
+      "search_point_count": 5
+    },
+    {
+      "slot_id": "loc_victim_residence",
+      "scene_archetype": "private_residence",
+      "purpose": "victim_residence",
+      "search_point_count": 5
+    },
+    {
+      "slot_id": "loc_official_hall",
+      "scene_archetype": "indoor_official",
+      "purpose": "official_hall",
+      "search_point_count": 2
+    },
+    {
+      "slot_id": "loc_pleasure_house",
+      "scene_archetype": "indoor_pleasure",
+      "purpose": "social_venue",
+      "search_point_count": 3
+    },
+    {
+      "slot_id": "loc_religious_site",
+      "scene_archetype": "temple",
+      "purpose": "religious_site",
+      "search_point_count": 3
+    },
+    {
+      "slot_id": "loc_marketplace",
+      "scene_archetype": "market",
+      "purpose": "marketplace",
+      "search_point_count": 3
+    }
+  ],
+
+  "timeline_slots": [
+    {
+      "id": "timeline_old_case_origin",
+      "phase": "pre_crime",
+      "actor": "religious_culprit",
+      "action_type": "flashback",
+      "visible_to_player": false,
+      "produces_evidence": ["evidence_old_case_file"]
+    },
+    {
+      "id": "timeline_victim_letters",
+      "phase": "D1.morning",
+      "actor": "victim_scholar",
+      "location": "loc_victim_residence",
+      "action_type": "witness_event",
+      "visible_to_player": false,
+      "produces_evidence": ["evidence_letter_draft"]
+    },
+    {
+      "id": "timeline_temple_visit",
+      "phase": "D1.evening",
+      "actor": "victim_scholar",
+      "location": "loc_religious_site",
+      "action_type": "meeting",
+      "visible_to_player": false,
+      "produces_evidence": ["evidence_temple_paper"]
+    },
+    {
+      "id": "timeline_crime_night",
+      "phase": "crime_moment",
+      "actor": "religious_culprit",
+      "location": "loc_crime_scene",
+      "action_type": "crime_act",
+      "visible_to_player": false,
+      "produces_evidence": ["evidence_red_powder", "evidence_monk_handwriting"]
+    },
+    {
+      "id": "timeline_chronic_dosing",
+      "phase": "pre_crime",
+      "actor": "religious_culprit",
+      "action_type": "evidence_planting",
+      "visible_to_player": false,
+      "produces_evidence": ["evidence_chronic_dose"]
+    },
+    {
+      "id": "timeline_body_discovery",
+      "phase": "D1.morning",
+      "actor": "innkeeper_witness",
+      "location": "loc_crime_scene",
+      "action_type": "discovery",
+      "visible_to_player": true
+    },
+    {
+      "id": "timeline_official_alibi_claim",
+      "phase": "D1.morning",
+      "actor": "official_misdirect",
+      "location": "loc_official_hall",
+      "action_type": "alibi_claim",
+      "visible_to_player": true
+    },
+    {
+      "id": "timeline_culprit_alibi_claim",
+      "phase": "D1.evening",
+      "actor": "religious_culprit",
+      "location": "loc_religious_site",
+      "action_type": "alibi_claim",
+      "visible_to_player": true
+    }
+  ],
+
+  "evidence_slots": [
+    {
+      "id": "evidence_letter_draft",
+      "kind": "key",
+      "category": "motive_proof",
+      "discovery_path": {
+        "type": "search",
+        "hint_location": "loc_victim_residence"
+      },
+      "points_to": "religious_culprit"
+    },
+    {
+      "id": "evidence_red_powder",
+      "kind": "key",
+      "category": "weapon_or_method",
+      "discovery_path": {
+        "type": "search",
+        "hint_location": "loc_crime_scene"
+      },
+      "points_to": "religious_culprit"
+    },
+    {
+      "id": "evidence_chronic_dose",
+      "kind": "key",
+      "category": "weapon_or_method",
+      "discovery_path": {
+        "type": "dialogue",
+        "from_actor": "courtesan_link",
+        "preconditions": ["evidence_red_powder"]
+      },
+      "points_to": "religious_culprit"
+    },
+    {
+      "id": "evidence_temple_paper",
+      "kind": "key",
+      "category": "alibi_breaker",
+      "discovery_path": {
+        "type": "search",
+        "hint_location": "loc_religious_site",
+        "preconditions": ["evidence_letter_draft"]
+      },
+      "points_to": "religious_culprit"
+    },
+    {
+      "id": "evidence_old_case_file",
+      "kind": "key",
+      "category": "background_context",
+      "discovery_path": {
+        "type": "dialogue",
+        "from_actor": "constable_assist",
+        "preconditions": ["evidence_letter_draft"]
+      },
+      "points_to": "religious_culprit"
+    },
+    {
+      "id": "evidence_monk_handwriting",
+      "kind": "key",
+      "category": "identity_proof",
+      "discovery_path": {
+        "type": "derived",
+        "preconditions": ["evidence_temple_paper", "evidence_old_case_file"]
+      },
+      "points_to": "religious_culprit"
+    },
+    {
+      "id": "evidence_account_book",
+      "kind": "supporting",
+      "category": "motive_proof",
+      "discovery_path": {
+        "type": "search",
+        "hint_location": "loc_official_hall"
+      },
+      "points_to": "official_misdirect",
+      "blocks_red_herring": ["red_herring_official_killed_for_embezzlement"]
+    },
+    {
+      "id": "evidence_grain_record",
+      "kind": "supporting",
+      "category": "background_context",
+      "discovery_path": {
+        "type": "dialogue",
+        "from_actor": "official_misdirect"
+      },
+      "points_to": "official_misdirect"
+    }
+  ],
+
+  "contradictions": [
+    {
+      "id": "contradiction_culprit_alibi",
+      "actor": "religious_culprit",
+      "claim": "alibi_evening_chant",
+      "rebuttal_sources": ["evidence_red_powder", "timeline_temple_visit"],
+      "exposes": "topic_culprit_present_at_crime_scene"
+    },
+    {
+      "id": "contradiction_culprit_identity",
+      "actor": "religious_culprit",
+      "claim": "topic_old_case",
+      "rebuttal_sources": ["evidence_old_case_file", "evidence_monk_handwriting"],
+      "exposes": "topic_culprit_real_identity"
+    },
+    {
+      "id": "contradiction_official_alibi",
+      "actor": "official_misdirect",
+      "claim": "alibi_official_meeting",
+      "rebuttal_sources": ["evidence_account_book", "evidence_grain_record"],
+      "exposes": "topic_official_embezzlement_not_murder"
+    }
+  ],
+
+  "red_herrings": [
+    {
+      "id": "red_herring_official_killed_for_embezzlement",
+      "false_target": "official_misdirect",
+      "false_motive": "embezzlement",
+      "rebuttal": ["evidence_account_book", "contradiction_official_alibi"]
+    }
+  ],
+
+  "solution_skeleton": {
+    "culprit_slot": "religious_culprit",
+    "motive_id": "old_grudge",
+    "method_id": "cinnabar_poison",
+    "key_evidence_slots": [
+      "evidence_letter_draft",
+      "evidence_red_powder",
+      "evidence_chronic_dose",
+      "evidence_temple_paper",
+      "evidence_old_case_file",
+      "evidence_monk_handwriting"
+    ],
+    "min_evidence_required": 4,
+    "deduction_chain": [
+      {
+        "step": 1,
+        "uses": ["timeline_body_discovery"],
+        "concludes": "victim_killed_at_crime_scene"
+      },
+      {
+        "step": 2,
+        "uses": ["evidence_letter_draft"],
+        "concludes": "victim_was_investigating_old_case"
+      },
+      {
+        "step": 3,
+        "uses": ["evidence_red_powder", "evidence_chronic_dose"],
+        "concludes": "method_is_cinnabar_long_term_poison"
+      },
+      {
+        "step": 4,
+        "uses": ["evidence_temple_paper", "evidence_old_case_file"],
+        "concludes": "culprit_linked_to_old_case_via_temple"
+      },
+      {
+        "step": 5,
+        "uses": ["evidence_monk_handwriting", "contradiction_culprit_identity"],
+        "concludes": "religious_culprit_is_the_killer"
+      }
+    ]
+  },
+
+  "endings_pattern": {
+    "perfect": {
+      "requires_culprit": true,
+      "requires_motive": true,
+      "requires_method": true,
+      "requires_key_evidence_count": 4,
+      "narration_pattern": "明镜高悬：玩家揭穿{culprit_real_name}的真实身份与{motive_id}动机，{victim_name}的旧案得以平反"
+    },
+    "good": {
+      "requires_culprit": true,
+      "requires_motive": true,
+      "requires_method": true,
+      "requires_key_evidence_count": 2
+    },
+    "partial": {
+      "requires_culprit": true
+    },
+    "bad": {
+      "requires_culprit": false
+    },
+    "timeout": {}
+  },
+
+  "constraints": {
+    "hard": [
+      "culprit_alibi_must_have_weakness",
+      "every_red_herring_must_have_rebuttal",
+      "deduction_chain_must_reach_culprit",
+      "every_contradiction_needs_at_least_2_rebuttal_sources",
+      "all_key_evidence_must_be_reachable_from_initial_state"
+    ],
+    "soft": [
+      "prefer_misdirection_via_authority_role",
+      "prefer_culprit_with_high_trust_facade"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "_comment": "临川驿案 BGM 配置：把'地点 ID / 状态名'映射为 BGM 库里的 mood_tag 或 track_id。值的形式：'mood:xxx' 走情绪索引；'track:xxx' 直接指定曲目；裸字符串等同于 track:xxx。AssetResolver.resolve_bgm_track() 负责解析。",
+  "locations": {
+    "post_station": "mood:suspense",
+    "shen_residence": "mood:suspense",
+    "yamen": "mood:suspense",
+    "spring_wind_tower": "mood:warm",
+    "guanyin_temple": "mood:solemn",
+    "market": "mood:bustling"
+  },
+  "states": {
+    "prologue": "mood:mysterious",
+    "main_theme": "mood:mysterious",
+    "accuse": "mood:climax",
+    "ending_perfect": "mood:ending_good",
+    "ending_good": "mood:ending_good",
+    "ending_bad": "mood:ending_bad"
+  }
+}

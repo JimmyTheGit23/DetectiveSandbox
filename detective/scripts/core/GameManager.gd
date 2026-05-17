@@ -27,9 +27,25 @@ const PERIOD_NAMES := [
 	"申时", "酉初", "酉时", "戌初", "戌时", "亥初", "亥时"
 ]
 
-# 当前案件
-const ACTIVE_CASE := "linchuan_inn"
-const SAVE_PATH := "user://linchuan_inn_save.json"
+# 当前案件（动态可切换）
+const CASE_INDEX_PATH := "res://data/cases/_index.json"
+const CURRENT_CASE_PATH := "user://current_case.json"
+const DEFAULT_CASE := "linchuan_inn"
+
+var ACTIVE_CASE: String = DEFAULT_CASE
+
+# 当前案件的初始定位地点（从 manifest.main_scene 读，回退到 DEFAULT_MAIN_SCENE）
+const DEFAULT_MAIN_SCENE := "post_station"
+var case_main_scene: String = DEFAULT_MAIN_SCENE
+
+# 当前案件元信息（来自 manifest.json）
+var case_manifest: Dictionary = {}
+
+# 案件索引（来自 _index.json）
+var case_index: Dictionary = {}
+
+# 存档路径（按案件分槽，user://saves/<case_id>.json）
+var SAVE_PATH: String = "user://saves/%s.json" % DEFAULT_CASE
 
 var current_state: String = STATE_PROLOGUE
 var current_day: int = 1
@@ -44,6 +60,15 @@ var search_results_data: Dictionary = {}
 var case_data: Dictionary = {}
 var day_events_data: Dictionary = {}
 var npc_states_data: Dictionary = {}
+# 新：NPC 时段日程 + 凶手行动表（动态案件可选）
+var schedules_data: Dictionary = {}
+var culprit_actions_data: Dictionary = {}
+# 每次 reset 时基于 case_seed 解算的真实执行时刻：action_id -> "D{d}_P{p}"
+var culprit_action_resolved: Dictionary = {}
+# 玩家撞见过的凶手行动（用于触发遭遇剧情，避免重复）
+var culprit_actions_witnessed: Dictionary = {}
+# 案件随机种子（每次新游戏生成；存档/读档保持一致）
+var case_seed: int = 0
 
 # 玩家进度
 var collected_evidence: Array[String] = []
@@ -57,8 +82,93 @@ var npc_states: Dictionary = {}         # npc_id -> { stat_name: value }
 
 
 func _ready() -> void:
+	_load_case_index()
+	_resolve_active_case()
 	_load_data()
 	_init_npc_states()
+
+
+# ─── 案件管理 ───
+func _load_case_index() -> void:
+	if not FileAccess.file_exists(CASE_INDEX_PATH):
+		return
+	var f := FileAccess.open(CASE_INDEX_PATH, FileAccess.READ)
+	if f == null:
+		return
+	var parsed = JSON.parse_string(f.get_as_text())
+	if typeof(parsed) == TYPE_DICTIONARY:
+		case_index = parsed
+
+
+func _resolve_active_case() -> void:
+	# 优先级：user://current_case.json -> case_index.default_case -> DEFAULT_CASE
+	var chosen := ""
+	if FileAccess.file_exists(CURRENT_CASE_PATH):
+		var f := FileAccess.open(CURRENT_CASE_PATH, FileAccess.READ)
+		if f:
+			var parsed = JSON.parse_string(f.get_as_text())
+			if typeof(parsed) == TYPE_DICTIONARY:
+				chosen = parsed.get("case_id", "")
+	if chosen == "":
+		chosen = case_index.get("default_case", DEFAULT_CASE)
+	# 校验存在
+	if not _case_exists(chosen):
+		chosen = DEFAULT_CASE
+	_set_active_case(chosen, false)
+
+
+func _case_exists(case_id: String) -> bool:
+	return DirAccess.dir_exists_absolute(ProjectSettings.globalize_path("res://data/cases/%s" % case_id)) \
+		or FileAccess.file_exists("res://data/cases/%s/case.json" % case_id)
+
+
+func _set_active_case(case_id: String, persist: bool = true) -> void:
+	ACTIVE_CASE = case_id
+	SAVE_PATH = "user://saves/%s.json" % case_id
+	# 确保 user://saves/ 目录存在
+	if not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path("user://saves")):
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("user://saves"))
+	# 加载 manifest
+	case_manifest = _read_json(_case_path("manifest.json"))
+	case_main_scene = case_manifest.get("main_scene", DEFAULT_MAIN_SCENE)
+	if persist:
+		var f := FileAccess.open(CURRENT_CASE_PATH, FileAccess.WRITE)
+		if f:
+			f.store_string(JSON.stringify({"case_id": case_id}))
+
+
+## 切换到另一个案件。会：
+##   1) 写 current_case.json，下次启动会记得
+##   2) 重新加载该案件的全套 JSON 数据
+##   3) 通知 AssetResolver 切换 casting/bgm_config
+##   4) 重置玩家进度（不是清存档，仅当前会话的状态变量）
+## 注意：调用方负责把 UI 切回标题画面/序章
+func switch_case(case_id: String) -> bool:
+	if not _case_exists(case_id):
+		push_error("Case not found: " + case_id)
+		return false
+	_set_active_case(case_id, true)
+	_load_data()
+	_init_npc_states()
+	# 重置当前会话状态（但不清存档；玩家选了案件后再决定开新游戏还是继续）
+	current_state = STATE_PROLOGUE
+	current_day = 1
+	current_period = 0
+	current_location = case_main_scene
+	collected_evidence.clear()
+	collected_clues.clear()
+	visited_locations = [case_main_scene]
+	search_history.clear()
+	dialogue_flags.clear()
+	visited_nodes.clear()
+	triggered_events.clear()
+	culprit_actions_witnessed.clear()
+	reroll_case_seed()
+	return true
+
+
+func get_case_index_entries() -> Array:
+	return case_index.get("cases", [])
 
 
 # ─── 数据加载 ───
@@ -74,6 +184,15 @@ func _load_data() -> void:
 	case_data = _read_json(_case_path("case.json"))
 	day_events_data = _read_json(_case_path("day_events.json"))
 	npc_states_data = _read_json(_case_path("npc_states.json"))
+	# 新：NPC schedule 与凶手行动表（可选，没有就退回静态行为）
+	schedules_data = _read_json(_case_path("schedules.json"))
+	culprit_actions_data = _read_json(_case_path("culprit_actions.json"))
+	_resolve_culprit_action_schedule()
+	# 通知资产解析器加载本案的 casting / bgm_config
+	if Engine.has_singleton("AssetResolver") or get_node_or_null("/root/AssetResolver") != null:
+		var resolver := get_node_or_null("/root/AssetResolver")
+		if resolver and resolver.has_method("load_case"):
+			resolver.load_case(ACTIVE_CASE)
 
 
 func _read_json(path: String) -> Dictionary:
@@ -108,20 +227,44 @@ func reset_progress() -> void:
 	current_state = STATE_PROLOGUE
 	current_day = 1
 	current_period = 0
-	current_location = "post_station"
+	current_location = case_main_scene
 	collected_evidence.clear()
 	collected_clues.clear()
-	visited_locations = ["post_station"]
+	visited_locations = [case_main_scene]
 	search_history.clear()
 	dialogue_flags.clear()
 	visited_nodes.clear()
 	triggered_events.clear()
+	culprit_actions_witnessed.clear()
+	reroll_case_seed()
 	_init_npc_states()
 	save_game()
 
 
 func has_save() -> bool:
-	return FileAccess.file_exists(SAVE_PATH)
+	if FileAccess.file_exists(SAVE_PATH):
+		return true
+	# 兼容旧存档路径（一次性迁移）
+	var legacy := "user://%s_save.json" % ACTIVE_CASE
+	if FileAccess.file_exists(legacy):
+		_migrate_legacy_save(legacy)
+		return FileAccess.file_exists(SAVE_PATH)
+	return false
+
+
+func _migrate_legacy_save(legacy_path: String) -> void:
+	var f := FileAccess.open(legacy_path, FileAccess.READ)
+	if f == null:
+		return
+	var content := f.get_as_text()
+	f.close()
+	if not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path("user://saves")):
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("user://saves"))
+	var w := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	if w:
+		w.store_string(content)
+		w.close()
+		print("[GameManager] migrated legacy save: %s -> %s" % [legacy_path, SAVE_PATH])
 
 
 func save_game() -> void:
@@ -138,6 +281,8 @@ func save_game() -> void:
 		"visited_nodes": visited_nodes,
 		"triggered_events": triggered_events,
 		"npc_states": npc_states,
+		"case_seed": case_seed,
+		"culprit_actions_witnessed": culprit_actions_witnessed,
 	}
 	var f := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if f:
@@ -157,15 +302,19 @@ func load_game() -> bool:
 	current_state = data.get("current_state", STATE_PLAYING)
 	current_day = int(data.get("current_day", 1))
 	current_period = int(data.get("current_period", 0))
-	current_location = data.get("current_location", "post_station")
+	current_location = data.get("current_location", case_main_scene)
 	collected_evidence.assign(data.get("collected_evidence", []))
 	collected_clues.assign(data.get("collected_clues", []))
-	visited_locations.assign(data.get("visited_locations", ["post_station"]))
+	visited_locations.assign(data.get("visited_locations", [case_main_scene]))
 	search_history = data.get("search_history", {})
 	dialogue_flags = data.get("dialogue_flags", {})
 	visited_nodes = data.get("visited_nodes", {})
 	triggered_events = data.get("triggered_events", {})
 	npc_states = data.get("npc_states", {})
+	case_seed = int(data.get("case_seed", 0))
+	culprit_actions_witnessed = data.get("culprit_actions_witnessed", {})
+	# 用恢复出来的 case_seed 重算凶手动作的实际时刻，确保读档与原游玩一致
+	_resolve_culprit_action_schedule()
 	return true
 
 
@@ -196,6 +345,7 @@ func advance_period(periods: int = 1) -> void:
 	time_advanced.emit(current_day, current_period)
 	if current_day != old_day:
 		day_changed.emit(current_day)
+	_run_culprit_tick()
 	_check_day_events()
 	save_game()
 
@@ -236,7 +386,10 @@ func change_location(loc_id: String, advance: bool = true) -> void:
 
 
 func get_location_data(loc_id: String) -> Dictionary:
-	return locations_data.get(loc_id, {})
+	var data = locations_data.get(loc_id, {})
+	if typeof(data) == TYPE_DICTIONARY:
+		return data
+	return {}
 
 
 func current_location_data() -> Dictionary:
@@ -544,3 +697,154 @@ func judge_accusation(suspect: String, motive: String, method: String, selected_
 
 func get_ending(ending_id: String) -> Dictionary:
 	return case_data.get("endings", {}).get(ending_id, {})
+
+
+# ─── NPC 调度（schedule + culprit actions）─────────────────────────────────
+
+## "D{day}_P{period}" → 绝对时段（0-23），方便比大小与抖动
+static func _to_abs_period(day: int, period: int) -> int:
+	return (day - 1) * PERIODS_PER_DAY + period
+
+
+static func _from_abs_period(abs_p: int) -> Vector2i:
+	abs_p = max(0, abs_p)
+	@warning_ignore("integer_division")
+	var d: int = abs_p / PERIODS_PER_DAY + 1
+	var p: int = abs_p % PERIODS_PER_DAY
+	return Vector2i(d, p)
+
+
+## "D2_P3" → Vector2i(day, period)；解析失败返回 (-1,-1)
+static func _parse_dp(s: String) -> Vector2i:
+	if not s.begins_with("D"):
+		return Vector2i(-1, -1)
+	var p_idx := s.find("_P")
+	if p_idx < 0:
+		return Vector2i(-1, -1)
+	var d := int(s.substr(1, p_idx - 1))
+	var p := int(s.substr(p_idx + 2))
+	return Vector2i(d, p)
+
+
+## 用 case_seed 解算凶手每个动作的实际执行时段（基础时刻 + ±jitter 抖动）
+func _resolve_culprit_action_schedule() -> void:
+	culprit_action_resolved.clear()
+	if case_seed == 0:
+		case_seed = int(Time.get_unix_time_from_system()) & 0x7FFFFFFF
+	var actions: Array = culprit_actions_data.get("actions", [])
+	if actions.is_empty():
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.seed = case_seed
+	for a in actions:
+		if typeof(a) != TYPE_DICTIONARY:
+			continue
+		var aid: String = a.get("id", "")
+		var dp_str: String = a.get("day_period", "")
+		var jitter: int = int(a.get("jitter", 0))
+		var dp := _parse_dp(dp_str)
+		if dp.x < 0:
+			continue
+		var base_abs := _to_abs_period(dp.x, dp.y)
+		var delta := 0
+		if jitter > 0:
+			delta = rng.randi_range(-jitter, jitter)
+		var final_abs: int = clamp(base_abs + delta, 0, TOTAL_DAYS * PERIODS_PER_DAY - 1)
+		var v := _from_abs_period(final_abs)
+		culprit_action_resolved[aid] = "D%d_P%d" % [v.x, v.y]
+
+
+## 取某 NPC 在 day/period 时段的所在地与活动
+## 返回 {"location": "...", "activity": "...", "public": bool} 或 {} 表示无调度
+func get_npc_schedule_at(npc_id: String, day: int, period: int) -> Dictionary:
+	var entry = schedules_data.get(npc_id, null)
+	if typeof(entry) != TYPE_DICTIONARY:
+		return {}
+	var key := "D%d_P%d" % [day, period]
+	var overrides: Dictionary = entry.get("overrides", {})
+	if overrides.has(key):
+		var ov = overrides[key]
+		if typeof(ov) == TYPE_DICTIONARY:
+			return ov
+	var def = entry.get("default", null)
+	if typeof(def) == TYPE_DICTIONARY:
+		return def
+	return {}
+
+
+## 取当前时段所在 location_id 的有效 NPC 列表（public=true 的才会自然出现）
+## 优先用 schedule，schedule 缺失则回退到 locations.json 的静态 npcs 字段
+func get_active_npcs_at(location_id: String, day: int = -1, period: int = -1) -> Array:
+	if day < 0: day = current_day
+	if period < 0: period = current_period
+	# 如果当前案件没配 schedules，直接回退到静态
+	if schedules_data.is_empty():
+		var fallback_loc := get_location_data(location_id)
+		return fallback_loc.get("npcs", [])
+	var result: Array = []
+	for npc_id in schedules_data.keys():
+		if typeof(npc_id) != TYPE_STRING:
+			continue
+		var nid: String = npc_id
+		if nid.begins_with("_"):
+			continue
+		var sched := get_npc_schedule_at(nid, day, period)
+		if sched.is_empty():
+			continue
+		if sched.get("location", "") != location_id:
+			continue
+		if not bool(sched.get("public", true)):
+			continue
+		result.append(nid)
+	# 同时合并 locations.json 中的静态 npcs（兼容老数据）
+	var static_loc := get_location_data(location_id)
+	for nid2 in static_loc.get("npcs", []):
+		var nid_s := str(nid2)
+		if not schedules_data.has(nid_s) and not result.has(nid_s):
+			result.append(nid_s)
+	return result
+
+
+## 凶手动作 tick：进入某个时段时调用
+##  - 若动作时段已到，投放痕迹证据（标记为"案件隐藏证据"，玩家搜索到才显形）
+##  - 若玩家正在动作地点，且 public=false → 直接撞见，设置 witness flag
+func _run_culprit_tick() -> void:
+	var actions: Array = culprit_actions_data.get("actions", [])
+	if actions.is_empty() or culprit_action_resolved.is_empty():
+		return
+	var now_abs := _to_abs_period(current_day, current_period)
+	for a in actions:
+		if typeof(a) != TYPE_DICTIONARY:
+			continue
+		var aid: String = a.get("id", "")
+		if aid == "":
+			continue
+		if has_flag("culprit_action_done:" + aid):
+			continue
+		var resolved_key: String = culprit_action_resolved.get(aid, a.get("day_period", ""))
+		var dp := _parse_dp(resolved_key)
+		if dp.x < 0:
+			continue
+		var action_abs := _to_abs_period(dp.x, dp.y)
+		if now_abs < action_abs:
+			continue
+		# 已到执行时段：判定玩家是否目击
+		var loc: Dictionary = a.get("leaves_trace", {})
+		var loc_id: String = loc.get("location", "")
+		# 玩家只要在场就算"撞见"（public 动作=公开看到；private=撞破偷偷做）
+		# 撞见会设置 if_witnessed flag → 触发 day_events.json 中 auto_play 遭遇剧情
+		if current_location == loc_id:
+			var wflag: String = a.get("if_witnessed", "")
+			if wflag != "":
+				set_flag(wflag)
+		# 标记动作已发生（即使玩家没看见，也会留下痕迹）
+		set_flag("culprit_action_done:" + aid)
+		culprit_actions_witnessed[aid] = current_location == loc_id
+
+
+## "重置随机种子" —— 新游戏开局时调用
+func reroll_case_seed() -> void:
+	case_seed = int(Time.get_unix_time_from_system()) & 0x7FFFFFFF
+	_resolve_culprit_action_schedule()
+
+

@@ -1,0 +1,57 @@
+{
+  "_comment": "凶手 qing_xuan 的罪后清理动作。每项 jitter=N 表示运行时执行时间 = day_period + rand(-N..+N) 时段。痕迹证据在 discoverable_after 之后可被搜索发现。",
+  "actions": [
+    {
+      "id": "ca_silk_buy_new",
+      "culprit": "qing_xuan",
+      "day_period": "D1_P2",
+      "jitter": 1,
+      "intent": "买新绛红云纹绸顶替案发那条，破坏证物链",
+      "leaves_trace": {
+        "evidence_id": "evidence_silk_purchase_receipt",
+        "location": "silk_shop",
+        "discoverable_after": "D1_P3"
+      },
+      "if_witnessed": "qing_xuan_alibi_market_broken"
+    },
+    {
+      "id": "ca_dispose_at_dock",
+      "culprit": "qing_xuan",
+      "day_period": "D1_P6",
+      "jitter": 1,
+      "intent": "把死者贴身私物丢入江中销证",
+      "leaves_trace": {
+        "evidence_id": "evidence_dock_disturbed",
+        "location": "riverside_dock",
+        "discoverable_after": "D1_P7"
+      },
+      "if_witnessed": "qing_xuan_seen_at_dock"
+    },
+    {
+      "id": "ca_revisit_chamber",
+      "culprit": "qing_xuan",
+      "day_period": "D2_P3",
+      "jitter": 1,
+      "intent": "回闺阁找写有他名字的小笺",
+      "leaves_trace": {
+        "evidence_id": "evidence_chamber_redisturbed",
+        "location": "qiu_chamber",
+        "discoverable_after": "D2_P4"
+      },
+      "if_witnessed": "qing_xuan_caught_at_chamber"
+    },
+    {
+      "id": "ca_test_nun",
+      "culprit": "qing_xuan",
+      "day_period": "D2_P6",
+      "jitter": 1,
+      "intent": "去对面慈航庵打探无尘是否目击案发夜",
+      "leaves_trace": {
+        "evidence_id": "evidence_nun_visited_by_white",
+        "location": "convent",
+        "discoverable_after": "D2_P7"
+      },
+      "if_witnessed": "qing_xuan_seen_at_convent"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "text": "（青姐含泪）陆大人。秋菱这孩子，我看着长大的。她不是会跌下去的人——大人您可一定要查个明白。",
+      "options": [
+        { "text": "她最后一夜跟谁在阁中？", "goto": "last_company", "hide_after_visit": true },
+        { "text": "她欠周夫人的银两是怎么回事？", "goto": "loan_truth", "hide_after_visit": true },
+        { "text": "（出示赎身契）这赎身契你知道吗？", "goto": "show_redemption", "requires": { "evidence": "evidence_courtesan_redemption" }, "cost_time": 1, "hide_after_visit": true },
+        { "text": "（出示分手笺）她写过这封信么？", "goto": "show_letter_qj", "requires": { "evidence": "evidence_love_letter" }, "cost_time": 1, "hide_after_visit": true }
+      ]
+    },
+    "last_company": {
+      "text": "（垂下眼）那夜雨大，楼里少有客人。她偏房点了灯，似乎是在等人。我去送了一壶酒上去——出来时听见她在说'你回去吧'，再后面我就不该听了。",
+      "options": [
+        { "text": "你听见的是男声还是女声？", "goto": "voice_who" },
+        { "text": "（先放放）", "goto": "intro" }
+      ]
+    },
+    "voice_who": {
+      "text": "男声，斯文。是我们这里的常客——白衣公子。",
+      "options": [
+        { "text": "（先放放）", "goto": "intro" }
+      ]
+    },
+    "loan_truth": {
+      "text": "（叹气）秋菱不是好赌的。她欠周夫人的钱，是为了凑足赎身银——她差三百两不到，便用浔阳楼的份子钱去借，约期就在明日。",
+      "options": [
+        { "text": "（先放放）", "goto": "intro" }
+      ]
+    },
+    "show_redemption": {
+      "text": "（青姐怔了一下）……这就是了。这是远地一位姓陈的老客人，仰慕秋菱清雅，三百两为聘想接她归乡做夫人。秋菱没说要嫁他——她只是要走。\n\n大人，世上不是所有人都心甘情愿一辈子站在浔阳楼三楼凭栏赏雨的。",
+      "set_flags": ["qing_jie_revealed_truth"],
+      "options": [
+        { "text": "（先放放）", "goto": "intro" }
+      ]
+    },
+    "show_letter_qj": {
+      "text": "（看到信，眼泪掉下来）……这字是她写的没错。'清郎'是她近半年新交的客——白衣公子。她跟我说过，那位公子人不坏，但太执拗。\n\n秋菱说：'我若不走，他不会让我好好过。'她原话。",
+      "set_flags": ["qing_jie_pointed_at_qx"],
+      "options": [
+        { "text": "（先放放）", "goto": "intro" }
+      ]
+    }
+  }
+}

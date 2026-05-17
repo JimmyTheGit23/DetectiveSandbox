@@ -19,6 +19,7 @@ var _pending_play: String = ""
 # 流缓存（手动加载的 wav）
 var _stream_cache: Dictionary = {}
 
+## 旧的硬编码映射，作为 AssetResolver 不可用时的兜底（迁移期保留，迁移完成后可删除）。
 const BGM_MAP := {
 	"prologue": "main_theme",
 	"main_theme": "main_theme",
@@ -67,7 +68,14 @@ func play(id: String) -> void:
 		return
 	if id == _current_id and _active_player and _active_player.playing:
 		return
-	var bgm_name: String = BGM_MAP.get(id, id)
+	# 优先走 AssetResolver：location_id / mood_tag / track_id 都能解析
+	var bgm_name: String = ""
+	var resolver := get_node_or_null("/root/AssetResolver")
+	if resolver and resolver.has_method("resolve_bgm_track"):
+		bgm_name = resolver.resolve_bgm_track(id)
+	# 回退到旧的硬编码映射（迁移期兜底）
+	if bgm_name == "":
+		bgm_name = BGM_MAP.get(id, id)
 	var stream := _load_stream_raw(bgm_name)
 	if debug_log:
 		print("[BGM] play('", id, "') → bgm_name='", bgm_name, "', stream=", stream)

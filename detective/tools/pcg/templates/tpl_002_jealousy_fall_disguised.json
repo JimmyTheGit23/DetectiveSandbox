@@ -1,0 +1,328 @@
+{
+  "id": "tpl_002_jealousy_fall_disguised",
+  "version": "1.0.0",
+  "crime_type": "fall_disguised",
+  "summary": {
+    "title_pattern": "{location_name}坠楼案",
+    "logline": "看似从酒楼凭栏失足坠亡，实则是被推下。情敌精心布置了一场'醉酒摔死'的伪装。",
+    "tags": ["chinese_ancient", "love_jealousy", "staged_accident", "social_venue"],
+    "inspiration": "通用情爱纠葛骨架"
+  },
+  "difficulty": {
+    "star": 3,
+    "factors": {
+      "suspect_count": 5,
+      "min_evidence_required": 3,
+      "contradiction_count": 2,
+      "red_herring_count": 2,
+      "key_evidence_depth": "moderate",
+      "motive_obfuscation": "misdirected"
+    }
+  },
+
+  "roles": [
+    {
+      "slot_id": "player_inspector",
+      "function": "player",
+      "archetype_tags": ["male", "middle", "official", "scholarly"]
+    },
+    {
+      "slot_id": "victim_merchant",
+      "function": "victim",
+      "archetype_tags": ["male", "middle", "merchant"],
+      "knowledge_topics": ["timeline_love_triangle"]
+    },
+    {
+      "slot_id": "rival_lover",
+      "function": "culprit",
+      "archetype_tags": ["male", "young", "scholar", "elegant"],
+      "knowledge_topics": ["timeline_crime_moment", "evidence_pushed_traces"],
+      "lie_topics": ["alibi_was_downstairs"],
+      "trust_pattern": "guarded",
+      "is_culprit": true,
+      "alibi": {
+        "claim_location": "loc_pleasure_house_lobby",
+        "claim_time_window": "timeline_crime_moment",
+        "weakness_topic": "evidence_witness_silhouette"
+      }
+    },
+    {
+      "slot_id": "shared_lover",
+      "function": "suspect",
+      "archetype_tags": ["female", "young", "courtesan", "sharp"],
+      "knowledge_topics": ["timeline_love_triangle", "evidence_love_letter"],
+      "lie_topics": ["topic_who_she_loves"],
+      "trust_pattern": "guarded",
+      "alibi": {
+        "claim_location": "loc_pleasure_house_stage",
+        "claim_time_window": "timeline_crime_moment",
+        "weakness_topic": "evidence_costume_hair_pin"
+      }
+    },
+    {
+      "slot_id": "drinking_companion",
+      "function": "witness",
+      "archetype_tags": ["male", "middle", "merchant", "honest"],
+      "knowledge_topics": ["timeline_dinner_arguing", "evidence_wine_amount"],
+      "trust_pattern": "cooperative"
+    },
+    {
+      "slot_id": "balcony_neighbor",
+      "function": "witness",
+      "archetype_tags": ["female", "elder", "lowborn", "nosy"],
+      "knowledge_topics": ["evidence_witness_silhouette"],
+      "trust_pattern": "cooperative"
+    },
+    {
+      "slot_id": "creditor_misdirect",
+      "function": "suspect",
+      "archetype_tags": ["male", "middle", "merchant", "rough"],
+      "knowledge_topics": ["evidence_debt_record"],
+      "lie_topics": [],
+      "trust_pattern": "hostile"
+    }
+  ],
+
+  "location_slots": [
+    {
+      "slot_id": "loc_pleasure_house_balcony",
+      "scene_archetype": "indoor_pleasure",
+      "purpose": "crime_scene",
+      "search_point_count": 4
+    },
+    {
+      "slot_id": "loc_pleasure_house_lobby",
+      "scene_archetype": "indoor_pleasure",
+      "purpose": "social_venue",
+      "search_point_count": 2
+    },
+    {
+      "slot_id": "loc_pleasure_house_stage",
+      "scene_archetype": "indoor_pleasure",
+      "purpose": "social_venue",
+      "search_point_count": 2
+    },
+    {
+      "slot_id": "loc_victim_residence",
+      "scene_archetype": "private_residence",
+      "purpose": "victim_residence",
+      "search_point_count": 4
+    },
+    {
+      "slot_id": "loc_marketplace",
+      "scene_archetype": "market",
+      "purpose": "marketplace",
+      "search_point_count": 2
+    }
+  ],
+
+  "timeline_slots": [
+    {
+      "id": "timeline_love_triangle",
+      "phase": "pre_crime",
+      "actor": "rival_lover",
+      "action_type": "flashback",
+      "visible_to_player": false,
+      "produces_evidence": ["evidence_love_letter"]
+    },
+    {
+      "id": "timeline_dinner_arguing",
+      "phase": "D1.evening",
+      "actor": "victim_merchant",
+      "location": "loc_pleasure_house_balcony",
+      "action_type": "meeting",
+      "visible_to_player": true,
+      "produces_evidence": ["evidence_wine_amount"]
+    },
+    {
+      "id": "timeline_crime_moment",
+      "phase": "crime_moment",
+      "actor": "rival_lover",
+      "location": "loc_pleasure_house_balcony",
+      "action_type": "crime_act",
+      "visible_to_player": false,
+      "produces_evidence": ["evidence_pushed_traces", "evidence_witness_silhouette", "evidence_costume_hair_pin"]
+    },
+    {
+      "id": "timeline_body_discovered",
+      "phase": "D1.evening",
+      "actor": "drinking_companion",
+      "location": "loc_pleasure_house_balcony",
+      "action_type": "discovery",
+      "visible_to_player": true
+    },
+    {
+      "id": "timeline_rival_alibi_claim",
+      "phase": "D2.morning",
+      "actor": "rival_lover",
+      "location": "loc_pleasure_house_lobby",
+      "action_type": "alibi_claim",
+      "visible_to_player": true
+    },
+    {
+      "id": "timeline_lover_alibi_claim",
+      "phase": "D2.morning",
+      "actor": "shared_lover",
+      "location": "loc_pleasure_house_stage",
+      "action_type": "alibi_claim",
+      "visible_to_player": true
+    }
+  ],
+
+  "evidence_slots": [
+    {
+      "id": "evidence_pushed_traces",
+      "kind": "key",
+      "category": "weapon_or_method",
+      "discovery_path": {
+        "type": "search",
+        "hint_location": "loc_pleasure_house_balcony"
+      },
+      "points_to": "rival_lover"
+    },
+    {
+      "id": "evidence_witness_silhouette",
+      "kind": "key",
+      "category": "alibi_breaker",
+      "discovery_path": {
+        "type": "dialogue",
+        "from_actor": "balcony_neighbor"
+      },
+      "points_to": "rival_lover"
+    },
+    {
+      "id": "evidence_love_letter",
+      "kind": "key",
+      "category": "motive_proof",
+      "discovery_path": {
+        "type": "search",
+        "hint_location": "loc_victim_residence"
+      },
+      "points_to": "rival_lover"
+    },
+    {
+      "id": "evidence_costume_hair_pin",
+      "kind": "supporting",
+      "category": "alibi_breaker",
+      "discovery_path": {
+        "type": "search",
+        "hint_location": "loc_pleasure_house_balcony",
+        "preconditions": ["evidence_pushed_traces"]
+      },
+      "points_to": "shared_lover",
+      "blocks_red_herring": ["red_herring_lover_silenced_him"]
+    },
+    {
+      "id": "evidence_wine_amount",
+      "kind": "supporting",
+      "category": "false_lead",
+      "discovery_path": {
+        "type": "dialogue",
+        "from_actor": "drinking_companion"
+      },
+      "points_to": "victim_merchant"
+    },
+    {
+      "id": "evidence_debt_record",
+      "kind": "red_herring",
+      "category": "false_lead",
+      "discovery_path": {
+        "type": "search",
+        "hint_location": "loc_marketplace"
+      },
+      "points_to": "creditor_misdirect"
+    }
+  ],
+
+  "contradictions": [
+    {
+      "id": "contradiction_rival_alibi",
+      "actor": "rival_lover",
+      "claim": "alibi_was_downstairs",
+      "rebuttal_sources": ["evidence_witness_silhouette", "evidence_pushed_traces"],
+      "exposes": "topic_rival_was_on_balcony"
+    },
+    {
+      "id": "contradiction_lover_who",
+      "actor": "shared_lover",
+      "claim": "topic_who_she_loves",
+      "rebuttal_sources": ["evidence_love_letter", "evidence_costume_hair_pin"],
+      "exposes": "topic_lover_secret_affair_with_rival"
+    }
+  ],
+
+  "red_herrings": [
+    {
+      "id": "red_herring_lover_silenced_him",
+      "false_target": "shared_lover",
+      "false_motive": "love_jealousy",
+      "rebuttal": ["evidence_costume_hair_pin", "evidence_witness_silhouette"]
+    },
+    {
+      "id": "red_herring_creditor_killed_for_debt",
+      "false_target": "creditor_misdirect",
+      "false_motive": "money_robbery",
+      "rebuttal": ["evidence_pushed_traces", "evidence_witness_silhouette"]
+    }
+  ],
+
+  "solution_skeleton": {
+    "culprit_slot": "rival_lover",
+    "motive_id": "love_jealousy",
+    "method_id": "pushed_from_height",
+    "key_evidence_slots": [
+      "evidence_pushed_traces",
+      "evidence_witness_silhouette",
+      "evidence_love_letter"
+    ],
+    "min_evidence_required": 3,
+    "deduction_chain": [
+      {
+        "step": 1,
+        "uses": ["timeline_body_discovered", "evidence_pushed_traces"],
+        "concludes": "death_was_not_accidental"
+      },
+      {
+        "step": 2,
+        "uses": ["evidence_love_letter"],
+        "concludes": "victim_in_love_triangle"
+      },
+      {
+        "step": 3,
+        "uses": ["evidence_witness_silhouette", "contradiction_rival_alibi"],
+        "concludes": "rival_was_on_balcony_at_crime_moment"
+      },
+      {
+        "step": 4,
+        "uses": ["timeline_love_triangle"],
+        "concludes": "rival_lover_killed_for_jealousy"
+      }
+    ]
+  },
+
+  "endings_pattern": {
+    "perfect": {
+      "requires_culprit": true,
+      "requires_motive": true,
+      "requires_method": true,
+      "requires_key_evidence_count": 3
+    },
+    "good": { "requires_culprit": true, "requires_motive": true, "requires_key_evidence_count": 2 },
+    "partial": { "requires_culprit": true },
+    "bad": {},
+    "timeout": {}
+  },
+
+  "constraints": {
+    "hard": [
+      "culprit_alibi_must_have_weakness",
+      "every_red_herring_must_have_rebuttal",
+      "deduction_chain_must_reach_culprit",
+      "every_contradiction_needs_at_least_2_rebuttal_sources"
+    ],
+    "soft": [
+      "prefer_courtesan_or_widow_as_lover_archetype",
+      "prefer_two_red_herrings_for_3_star"
+    ]
+  }
+}

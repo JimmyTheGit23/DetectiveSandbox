@@ -1,0 +1,70 @@
+{
+  "_comment": "茶坊娘子。整日守在浔阳楼前院，能证明谁何时进出。是 qing_xuan 不在场的关键证人。",
+  "start": "greet",
+  "nodes": {
+    "greet": {
+      "text": "（孙娘擦着茶碗）大人请坐。后院出了事，我这茶也卖不动了。",
+      "options": [
+        {
+          "text": "案发当日午时你看到谁出过楼？",
+          "goto": "about_d1_noon",
+          "hide_after_visit": true
+        },
+        {
+          "text": "案发当日黄昏呢？",
+          "goto": "about_d1_dusk",
+          "hide_after_visit": true
+        },
+        {
+          "text": "（出示红绸购单）案发当日午时有人去买过红绸。",
+          "goto": "confirm_silk_trip",
+          "requires": {
+            "evidence": "evidence_silk_purchase_receipt"
+          },
+          "cost_time": 1,
+          "hide_after_visit": true
+        },
+        {
+          "text": "（先告辞）",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "about_d1_noon": {
+      "text": "（想了想）午时……白衣那位公子出过楼。一刻钟前还在正厅喝茶，一刻钟后我转头他人就没了。回来的时候手里多了一个布庄的包袱。\n\n我没多想——这边客商常去布庄买点小料子，他买什么是他的事。",
+      "set_flags": [
+        "sun_laoliu_confirmed_d1_noon_qing_xuan_left"
+      ],
+      "options": [
+        {
+          "text": "（先记下）",
+          "goto": "greet"
+        }
+      ]
+    },
+    "about_d1_dusk": {
+      "text": "（皱眉）黄昏雨大。我关了茶摊回屋。后门口我看见那位白衣公子披了一件深色斗篷出去——往后江畔的方向。\n\n（叹）我当时只想他是去看江景。出了事后想起来——那个方向是江畔水阁。",
+      "set_flags": [
+        "sun_laoliu_saw_white_to_dock"
+      ],
+      "options": [
+        {
+          "text": "（先记下）",
+          "goto": "greet"
+        }
+      ]
+    },
+    "confirm_silk_trip": {
+      "text": "（看一眼单据）对，就是这家——卜掌柜的字我认得。\n\n这就坐实了——他午时出楼那一刻钟，正是去买了这匹红绸。他不是「醉卧偏房」。",
+      "set_flags": [
+        "qing_xuan_alibi_broken_by_witness"
+      ],
+      "options": [
+        {
+          "text": "（先记下）",
+          "goto": "greet"
+        }
+      ]
+    }
+  }
+}

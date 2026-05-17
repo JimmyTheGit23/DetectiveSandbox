@@ -1,0 +1,27 @@
+{
+  "_comment": "M2 验收用哑案件：证明仅通过 casting/locations/bgm_config 即可复用全部美术资源，不新增任何立绘/语音/背景。",
+  "case_id": "_smoke_test",
+  "casting": {
+    "detective": {
+      "actor_id": "actor_imperial_inspector",
+      "role_name": "陈知白",
+      "role_title": "提刑使司"
+    },
+    "victim_widow": {
+      "actor_id": "actor_widow_in_white",
+      "role_name": "周氏",
+      "role_title": "亡夫遗孀"
+    },
+    "shop_owner": {
+      "actor_id": "actor_old_innkeeper",
+      "role_name": "孙老六",
+      "role_title": "米行掌柜"
+    },
+    "mystery_monk": {
+      "actor_id": "actor_elder_monk",
+      "role_name": "无尘",
+      "role_title": "云游僧",
+      "is_culprit": true
+    }
+  }
+}

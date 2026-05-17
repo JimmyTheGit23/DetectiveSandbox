@@ -167,16 +167,53 @@ func _make_portrait_avatar(texture: Texture2D) -> Texture2D:
 	if texture == null:
 		return null
 	var img: Image = texture.get_image()
-	var side: int = mini(img.get_width(), img.get_height())
-	var crop_x: int = int(float(img.get_width() - side) / 2.0)
-	# 头像取立绘上方区域，避免裁到身体下半部分
-	var crop_y: int = int(img.get_height() * 0.02)
-	var crop_h: int = mini(side, int(img.get_height() * 0.42))
-	var crop_w: int = crop_h
-	crop_x = int(float(img.get_width() - crop_w) / 2.0)
-	var cropped := img.get_region(Rect2i(crop_x, crop_y, crop_w, crop_h))
+	if img == null:
+		return texture
+	var w: int = img.get_width()
+	var h: int = img.get_height()
+	# 扫描 alpha 包围盒（每 4 像素采样）
+	var min_x: int = w
+	var min_y: int = h
+	var max_x: int = -1
+	var max_y: int = -1
+	var step: int = 4
+	var yy: int = 0
+	while yy < h:
+		var xx: int = 0
+		while xx < w:
+			if img.get_pixel(xx, yy).a > 0.04:
+				if xx < min_x: min_x = xx
+				if yy < min_y: min_y = yy
+				if xx > max_x: max_x = xx
+				if yy > max_y: max_y = yy
+			xx += step
+		yy += step
+	var has_alpha_region: bool = (max_x >= 0) and (min_x > 0 or min_y > 0 or max_x < w - 1 or max_y < h - 1)
+	var crop_x: int
+	var crop_y: int
+	var crop_w: int
+	if has_alpha_region:
+		var bbox_h: float = float(max_y - min_y + 1)
+		var bbox_w: float = float(max_x - min_x + 1)
+		var side: float = min(bbox_h * 0.42, bbox_w)
+		crop_w = int(side)
+		var center_x: float = float(min_x + max_x) * 0.5
+		crop_x = int(center_x - side * 0.5)
+		crop_y = int(float(min_y) - bbox_h * 0.02)
+		if crop_x < 0: crop_x = 0
+		if crop_y < 0: crop_y = 0
+		if crop_x + crop_w > w: crop_x = w - crop_w
+		if crop_y + crop_w > h: crop_y = h - crop_w
+	else:
+		# 旧实心立绘兼容
+		var side2: int = mini(w, h)
+		crop_w = mini(side2, int(h * 0.42))
+		crop_x = int((w - crop_w) * 0.5)
+		crop_y = int(h * 0.02)
+	var cropped := img.get_region(Rect2i(crop_x, crop_y, crop_w, crop_w))
 	cropped.resize(96, 96, Image.INTERPOLATE_LANCZOS)
 	return ImageTexture.create_from_image(cropped)
+
 
 
 func _add_empty_state(parent: VBoxContainer, text: String) -> void:
@@ -230,8 +267,16 @@ func _build_people_tab() -> void:
 				var ln: String = flag.substr(("lie_exposed:%s." % nid).length())
 				lies_exposed.append(ln)
 		var body: String = data.get("intro", "")
+		# 通过 AssetResolver 解析角色信息（casting 优先），保证笔记本展示的是剧本身份
+		var role_info: Dictionary = AssetResolver.get_role_info(nid, GameManager.npcs_data)
+		var role_name: String = role_info.get("name", data.get("name", nid))
+		var role_title: String = role_info.get("title", data.get("title", ""))
+		var role_intro: String = role_info.get("intro", "")
+		if role_intro != "":
+			body = role_intro
+		var portrait_path: String = AssetResolver.get_portrait(nid, GameManager.npcs_data)
 		if lies_exposed.size() > 0:
 			body += "\n\n[color=#ffaa55]【已识破谎言】[/color]"
 			for ln in lies_exposed:
 				body += "\n  · %s" % ln
-		_add_entry(vbox, "%s ｜ %s" % [data.get("name", nid), data.get("title", "")], body, Color(0.72, 0.95, 0.72, 1), "人物", data.get("portrait", ""))
+		_add_entry(vbox, "%s ｜ %s" % [role_name, role_title], body, Color(0.72, 0.95, 0.72, 1), "人物", portrait_path)

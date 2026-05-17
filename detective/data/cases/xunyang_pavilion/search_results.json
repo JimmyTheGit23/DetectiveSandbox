@@ -1,0 +1,126 @@
+{
+  "_comment": "探索结果。本案在 6 个地点的 ~17 个搜索点中布置关键证据。",
+  "pavilion_courtyard.fall_spot": {
+    "default": {
+      "narration": "你蹲下查看坠落处的青石板。死者后脑大片血迹，指甲缝中却干净——没有挣扎抓地的痕迹。她不是在挣扎中跌下，而是已经无力反抗。",
+      "clue": "clue_courtyard_drag"
+    }
+  },
+  "pavilion_courtyard.torn_silk": {
+    "default": {
+      "narration": "墙角那段红绸有半臂长。仔细看：红绸的断口是被力道横向猛拽——若是失足坠落，绸面只会被纵向撕裂。",
+      "evidence": "evidence_torn_silk"
+    }
+  },
+  "pavilion_courtyard.courtyard_well": {
+    "default": {
+      "narration": "后院的老井安静地靠在墙边，井栏上没有异样。"
+    }
+  },
+  "pavilion_courtyard.lantern_spot": {
+    "default": {
+      "narration": "屋檐下的风灯还亮着半截蜡烛——案发那夜风雨虽大，但灯笼下并没有泥水溅入，说明楼上当夜并不曾大雨灌入。"
+    }
+  },
+  "qiu_chamber.dressing_table": {
+    "default": {
+      "narration": "妆台上胭脂水粉摆放整齐，铜镜还映着死者前一夜的妆——她是在'清醒'的状态下走到栏边的。"
+    }
+  },
+  "qiu_chamber.letter_box": {
+    "default": {
+      "narration": "案发后本已封锁的桌案抽屉被人拉开过——你昨日见到的那张未送出的小笺，今天不见了。",
+      "reward": {
+        "evidence": "evidence_chamber_redisturbed"
+      },
+      "time_cost": 2
+    }
+  },
+  "qiu_chamber.incense_burner": {
+    "default": {
+      "narration": "床头香炉。香灰深处隐隐露出一点白光——你伸手拨开。",
+      "evidence": "evidence_silver_hairpin"
+    },
+    "after_clue:clue_courtyard_drag": {
+      "narration": "再看这个香炉，灰是新埋的——埋的人甚至来不及把白玉钗深埋。说明白衣公子曾匆忙进过这间闺阁。",
+      "evidence": "evidence_silver_hairpin"
+    }
+  },
+  "qiu_chamber.wine_cup": {
+    "default": {
+      "narration": "翻倒的酒盏边沿留着两层口红印——不是同一个人喝的。秋菱与某人在阁中对饮过。"
+    }
+  },
+  "pavilion_main.private_room": {
+    "default": {
+      "narration": "白衣公子坐过的雅间桌案。烛台下压着一张当铺典当票——已经过期。看起来这位'清玄公子'囊中并不宽裕。"
+    }
+  },
+  "pavilion_main.wine_cellar": {
+    "default": {
+      "narration": "翻看酒窖账册：案发那夜一共出了三壶酒。一壶给阁中秋菱，一壶给楼下茶客，剩下一壶——给的就是顾清玄。",
+      "evidence": "evidence_wine_cellar_amount"
+    }
+  },
+  "pavilion_main.stage": {
+    "default": {
+      "narration": "戏台幕后只剩几件残旧的戏服。靠后的木架上有一段绛红云纹绸——与案发现场的红绸出自同一匹布。",
+      "clue": "clue_silk_seller"
+    }
+  },
+  "convent.altar": {
+    "default": {
+      "narration": "佛龛香烟尚温。无尘老僧每夜守门诵经，并非全无事。"
+    }
+  },
+  "convent.window": {
+    "default": {
+      "narration": "面街的小窗对着浔阳楼三楼阁子。无尘说他案发之夜确实望了那阁子一眼。",
+      "clue": "clue_silk_seller"
+    }
+  },
+  "yamen.case_file": {
+    "default": {
+      "narration": "卷宗架上压着鲁知府已写好的'醉酒失足'结案稿——印章未盖。"
+    }
+  },
+  "yamen.evidence_table": {
+    "default": {
+      "narration": "证物台上放着死者衣物。仔细查看那段红绸——栏杆上的指甲深痕清晰可见。",
+      "evidence": "evidence_pavilion_railing"
+    }
+  },
+  "marketplace.pawnshop": {
+    "default": {
+      "narration": "城南当铺。掌柜证实：上月有位白衣公子典当了几件玉器换银——名款是'清玄'。看来他确实为钱困扰。"
+    }
+  },
+  "marketplace.alley": {
+    "default": {
+      "narration": "巷尾石阶下，居然压着一封封口未启的赎身契——三百两聘，赎秋菱归故里。落款是一位远地客人。",
+      "evidence": "evidence_courtesan_redemption"
+    },
+    "after_clue:clue_silk_seller": {
+      "narration": "再看那封赎身契：落款日期就是案发前三日——秋菱原本明日就要赎身归乡。",
+      "evidence": "evidence_courtesan_redemption"
+    }
+  },
+  "silk_shop.sales_ledger": {
+    "default": {
+      "narration": "账册上一笔三日前的临时手写记录：「绛红云纹绸一匹，急用，三两八。」字迹歪斜，买方栏写着一个孤字——「玄」。",
+      "reward": {
+        "evidence": "evidence_silk_purchase_receipt"
+      },
+      "time_cost": 2
+    }
+  },
+  "riverside_dock.wet_planks": {
+    "default": {
+      "narration": "湿木板上一道新鲜的鞋印拖痕，方向朝着江面。缆绳上多了一个生手打的扣。",
+      "reward": {
+        "evidence": "evidence_dock_disturbed"
+      },
+      "time_cost": 1
+    }
+  }
+}

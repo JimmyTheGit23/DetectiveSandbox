@@ -1,0 +1,27 @@
+{
+  "id": "xunyang_pavilion",
+  "title": "浔阳楼·夜雨红绸案",
+  "subtitle": "万历廿四年 · 江南",
+  "difficulty": "中等",
+  "estimated_days": 3,
+  "main_scene": "pavilion_courtyard",
+  "preview_image": "res://assets/cn/scenes/xunyang_prologue.png",
+  "voice_status": "missing",
+  "art_status": "partial",
+  "art_todo": {
+    "_comment": "动态扩展完成：8 地点 / 9 嫌疑人 / schedule + culprit_actions / 新增 2 场景图。剩余 P1 旧背景仍可后续替换。",
+    "secondary_scenes": [
+      "convent（慈航庵）当前仍复用 scene_temple / guanyin_temple.png，建议新绘对街小庵窗景",
+      "yamen（府衙）当前仍复用 scene_government_hall / yamen.png，可选新绘江南府衙黄昏版",
+      "marketplace（城南市集）当前仍复用 scene_market / market.png，可接受复用或后续新绘浔阳城南市集"
+    ],
+    "new_actors": [],
+    "dynamic_fx_todo": [
+      "scene_xunyang_prologue: rain_light / mist_slow / lantern_reflection",
+      "scene_xunyang_courtyard: rain_drip / red_silk_sway / puddle_ripple",
+      "scene_xunyang_qiu_chamber: incense_smoke / candle_flicker / curtain_sway",
+      "scene_xunyang_main_hall: lantern_flicker / rain_on_window / curtain_sway"
+    ]
+  },
+  "intro": "三月夜雨，浔阳楼。当家花魁秋菱倚栏赏雨，半夜从阁楼凭栏摔下，府衙判作'醉酒失足'。\n借宿楼内的御史发觉脖颈红绸的扯痕方向不对——\n三日为限，能否替这江南名伶讨个明白。"
+}

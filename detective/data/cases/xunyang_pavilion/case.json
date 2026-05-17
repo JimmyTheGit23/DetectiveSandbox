@@ -1,0 +1,63 @@
+{
+  "_comment": "指证答案。真凶顾清玄。情敌嫉妒动机，凭栏推下手法。schedule 痕迹证据（红绸购单/水阁乱痕/闺阁翻找/无尘试探）已纳入关键证据集。",
+  "culprit": "qing_xuan",
+  "motive": "love_jealousy",
+  "method": "pushed_from_height",
+  "key_evidence": [
+    "evidence_torn_silk",
+    "evidence_silver_hairpin",
+    "evidence_love_letter",
+    "evidence_witness_lantern",
+    "evidence_pavilion_railing",
+    "evidence_silk_purchase_receipt",
+    "evidence_dock_disturbed",
+    "evidence_chamber_redisturbed",
+    "evidence_nun_visited_by_white"
+  ],
+  "min_evidence_required": 4,
+
+  "suspects": [
+    { "id": "qing_jie", "name": "青姐（浔阳楼当家）" },
+    { "id": "sun_laoliu", "name": "孙娘（茶坊娘子）" },
+    { "id": "lady_zhou", "name": "周老夫人（望族遗孀）" },
+    { "id": "wuchen", "name": "无尘师太（慈航庵主）" },
+    { "id": "magistrate_lu", "name": "鲁知府" },
+    { "id": "qing_xuan", "name": "顾清玄（白衣公子）" },
+    { "id": "bu_zhang", "name": "卜掌柜（城南布庄）" },
+    { "id": "liu_chuan", "name": "刘船家（江上船家）" }
+  ],
+  "motives": [
+    { "id": "love_jealousy", "name": "情敌嫉妒（既不能拥有，便不许她离去）" },
+    { "id": "money_robbery", "name": "图财害命（赎身银三百两）" },
+    { "id": "old_grudge", "name": "私人恩怨" },
+    { "id": "official_coverup", "name": "官场遮丑" }
+  ],
+  "methods": [
+    { "id": "pushed_from_height", "name": "从阁楼推下" },
+    { "id": "drunk_fall", "name": "醉酒失足（府衙原断）" },
+    { "id": "strangle_with_silk", "name": "红绸勒杀后伪装" }
+  ],
+
+  "endings": {
+    "perfect": {
+      "title": "「红绸归处」结局",
+      "narration": "你揭破真相——白衣公子顾清玄家道中落，为筹钱多次向秋菱借银未果。当他得知秋菱即将赎身归乡，再也容不下她落入他人之手。\n\n是夜，他登上阁楼，将早已布下醉态的秋菱从凭栏推下。次日午时他去布庄买了一匹一模一样的绛红云纹绸，想以「整匹未断」遮过府衙的眼；黄昏又去江畔水阁把她的胭脂盒、银钗匣丢进江里；次日午时他甚至潜回闺阁，把她未送出的小笺烧了。\n\n他唯独算漏了——对楼慈航庵的无尘师太那夜恰好守夜，望见了凭栏上的两个影子。他次日又匆匆去庵中试探，反而让无尘起了戒心。\n\n顾清玄被押解上京。秋菱的赎身银被青姐转交给她乡下的弟弟。鲁知府把那份「醉酒失足」结案稿撕了。\n\n你离开浔阳楼时雨已停，江上月色清亮。"
+    },
+    "good": {
+      "title": "「白衣不归」结局",
+      "narration": "你抓对了真凶。顾清玄招认推人，但坚不承认借钱被拒一节。「我只是看不得她另嫁」——他冷淡地这样说。\n\n鲁知府不再坚持「醉酒失足」，案子上呈州府。但你没把他案后那一连串的小动作——红绸、水阁、闺阁、慈航庵——都拼起来。判得是真凶，但你看到的是一个尚未崩塌的人。"
+    },
+    "partial": {
+      "title": "「擒贼一半」结局",
+      "narration": "你抓对了人，但动机错了。你以为他是为图三百两赎身银，其实是为情而妒。顾清玄在公堂上反复说：「银两不重要，只是她不能走。」\n\n你听不懂这句话，但秋菱的家人听懂了。"
+    },
+    "bad": {
+      "title": "「醉酒失足」结局",
+      "narration": "你被表面的证据牵着鼻子走。鲁知府的「醉酒失足」结案稿盖了印，顾清玄第二日离开浔阳楼，从此再无音讯。\n\n秋菱被葬在城南乱岗，没有碑。\n\n后来江上有夜泊的客商说，常听见浔阳楼三楼阁子里有女子轻叹——但谁也不再提起。"
+    },
+    "timeout": {
+      "title": "「日暮途穷」结局",
+      "narration": "三日过去，案子结发州府。「醉酒失足」四个字成了秋菱的盖棺定论。\n\n你回京路上想——若是早一晚去那慈航庵问无尘老僧，会不会赶得上？又或者——若你 D2 午时在闺阁多留一会儿，是否就能撞见那个回去销证的白衣？"
+    }
+  }
+}
