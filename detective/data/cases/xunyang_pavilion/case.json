@@ -19,71 +19,163 @@
   "suspects": [
     {
       "id": "qing_jie",
-      "name": "青姐（浔阳楼当家）"
+      "name": "青姐（浔阳楼当家）",
+      "unlock": [
+        {
+          "flag": "qingjie_knew_redemption"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "sun_laoliu",
-      "name": "孙娘（茶坊娘子）"
+      "name": "孙娘（茶坊娘子）",
+      "unlock": [
+        {
+          "flag": "sun_saw_insider_from_yard"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "lady_zhou",
-      "name": "周老夫人（望族遗孀）"
+      "name": "周老夫人（望族遗孀）",
+      "unlock": [
+        {
+          "evidence": "evidence_unpaid_loan"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "wuchen",
-      "name": "无尘师太（慈航庵主）"
+      "name": "无尘师太（慈航庵主）",
+      "unlock": [
+        {
+          "flag": "wuchen_figure_short"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "magistrate_lu",
-      "name": "鲁知府"
+      "name": "鲁知府",
+      "unlock": [
+        {
+          "flag": "lu_grudgingly_open"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "qing_xuan",
-      "name": "顾清玄（白衣公子）"
+      "name": "顾清玄（白衣公子）",
+      "unlock": [
+        {
+          "evidence": "evidence_silver_hairpin"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "bu_zhang",
-      "name": "卜掌柜（城南布庄）"
+      "name": "卜掌柜（城南布庄）",
+      "unlock": [
+        {
+          "flag": "bu_revealed_buyer"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "liu_chuan",
-      "name": "刘船家（江上船家）"
+      "name": "刘船家（江上船家）",
+      "unlock": [
+        {
+          "flag": "liu_saw_cloaked_figure"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     }
   ],
   "motives": [
     {
       "id": "love_jealousy",
-      "name": "情敌嫉妒（求而不得）"
+      "name": "情敌嫉妒（求而不得）",
+      "unlock": [
+        {
+          "flag": "qx_motive_exposed"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "money_robbery",
-      "name": "图财害命（赎身银三百两）"
+      "name": "图财害命（赎身银三百两）",
+      "unlock": [
+        {
+          "evidence": "evidence_unpaid_loan"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "prevent_departure",
-      "name": "阻止离去（留住摇钱树）"
+      "name": "阻止离去（留住摇钱树）",
+      "unlock": [
+        {
+          "evidence": "evidence_courtesan_redemption"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "old_grudge",
-      "name": "私人恩怨"
+      "name": "私人恩怨",
+      "unlock": [
+        {
+          "flag": "zhou_suspected_qingjie"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "official_coverup",
-      "name": "官场遮丑"
+      "name": "官场遮丑",
+      "unlock": [
+        {
+          "flag": "lu_grudgingly_open"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     }
   ],
   "methods": [
     {
       "id": "pushed_from_height",
-      "name": "从阁楼推下"
+      "name": "从阁楼推下",
+      "unlock": [
+        {
+          "evidence": "evidence_pavilion_railing"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "drunk_fall",
-      "name": "醉酒失足（府衙原断）"
+      "name": "醉酒失足（府衙原断）",
+      "unlock": [],
+      "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "strangle_with_silk",
-      "name": "红绸勒杀后伪装"
+      "name": "红绸勒杀后伪装",
+      "unlock": [
+        {
+          "evidence": "evidence_torn_silk"
+        }
+      ],
+      "unlock_hint": "继续调查后解锁"
     }
   ],
   "endings": {

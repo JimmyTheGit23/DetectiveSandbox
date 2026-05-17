@@ -90,6 +90,8 @@ func _spawn_layer(fx_id: String) -> void:
 			node = _make_dust_motes()
 		"light_shaft":
 			node = _make_light_shaft()
+		"falling_leaves":
+			node = _make_falling_leaves()
 		_:
 			push_warning("[SceneFXLayer] unknown fx_id: " + fx_id)
 			return
@@ -316,3 +318,54 @@ func _make_light_shaft() -> ColorRect:
 	tw.tween_property(rect, "color:a", base.a * 1.6, 4.0).set_trans(Tween.TRANS_SINE)
 	tw.tween_property(rect, "color:a", base.a * 0.7, 4.0).set_trans(Tween.TRANS_SINE)
 	return rect
+
+
+## 落叶飘零：从画面顶部缓缓飘下枯黄/暗红叶片，适合有古树的室外庭院（庵堂、古道等）。
+func _make_falling_leaves() -> CPUParticles2D:
+	var p := CPUParticles2D.new()
+	var vp_size := get_viewport_rect().size
+	# 发射区域：画面上方偏左（古树方向），宽覆盖 80%
+	p.position = Vector2(vp_size.x * 0.4, vp_size.y * 0.05)
+	p.emitting = true
+	p.amount = 12
+	p.lifetime = 8.0
+	p.preprocess = 4.0
+	p.randomness = 1.0
+	p.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	p.emission_rect_extents = Vector2(vp_size.x * 0.4, 8)
+	p.direction = Vector2(0.3, 1.0)
+	p.spread = 25.0
+	p.gravity = Vector2(8.0, 18.0)
+	p.initial_velocity_min = 12.0
+	p.initial_velocity_max = 28.0
+	p.angular_velocity_min = -45.0
+	p.angular_velocity_max = 45.0
+	p.scale_amount_min = 0.6
+	p.scale_amount_max = 1.3
+	# 暖黄到暗红的颜色变化（秋叶感）
+	var ramp := Gradient.new()
+	ramp.set_color(0, Color(0.0, 0.0, 0.0, 0.0))
+	ramp.add_point(0.08, Color(0.85, 0.72, 0.35, 0.75))
+	ramp.add_point(0.5, Color(0.7, 0.45, 0.2, 0.85))
+	ramp.add_point(0.85, Color(0.5, 0.28, 0.15, 0.6))
+	ramp.set_color(1, Color(0.4, 0.2, 0.1, 0.0))
+	p.color_ramp = ramp
+	# 叶片纹理：椭圆形+中间叶脉，比圆点更像树叶
+	var sz := 16
+	var img := Image.create(sz, sz, false, Image.FORMAT_RGBA8)
+	var cx: float = (sz - 1) * 0.5
+	var cy: float = (sz - 1) * 0.5
+	for y in range(sz):
+		for x in range(sz):
+			var dx: float = (float(x) - cx) / (sz * 0.5)
+			var dy: float = (float(y) - cy) / (sz * 0.35)
+			var d: float = dx * dx + dy * dy
+			# 椭圆边界柔化
+			var a: float = clampf(1.0 - d, 0.0, 1.0)
+			a = a * a  # 平方衰减让边缘更柔
+			# 叶脉：中间一条稍亮的线
+			var vein: float = exp(-pow(abs(dx) * 6.0, 2.0)) * 0.3
+			var brightness: float = clampf(0.7 + vein, 0.0, 1.0)
+			img.set_pixel(x, y, Color(brightness, brightness, brightness, a))
+	p.texture = ImageTexture.create_from_image(img)
+	return p

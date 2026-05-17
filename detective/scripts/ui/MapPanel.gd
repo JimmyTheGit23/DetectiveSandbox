@@ -15,13 +15,10 @@ const CASE_MAP_POSITIONS := {
 		"market": Vector2(310, 310),
 	},
 	"xunyang_pavilion": {
-		"pavilion_courtyard": Vector2(840, 500),
-		"qiu_chamber": Vector2(780, 330),
 		"yamen": Vector2(610, 270),
 		"pavilion_main": Vector2(850, 300),
 		"convent": Vector2(650, 160),
 		"marketplace": Vector2(330, 330),
-		"riverside_dock": Vector2(950, 560),
 		"silk_shop": Vector2(280, 460),
 	},
 }
@@ -59,35 +56,70 @@ func _build_points() -> void:
 	for i in range(loc_ids.size()):
 		var loc_id: String = loc_ids[i]
 		var data := GameManager.get_location_data(loc_id)
+		# 跳过有 parent 的子地点——它们不在大地图上显示
+		if data.get("parent", "") != "":
+			continue
 		var pos := _position_for(loc_id, i, configured)
+		# 判断"当前是否在此地或此地的子地点内"
+		var is_current: bool = _is_current_or_child(loc_id, data)
 		var visited: bool = GameManager.visited_locations.has(loc_id)
-		var is_current: bool = (loc_id == GameManager.current_location)
-		# 计算当前时段实际在这地点的 NPC（不含玩家自己）
-		var npcs_here: Array = GameManager.get_active_npcs_at(loc_id)
-		var npc_names: Array = []
-		for nid in npcs_here:
-			var nid_s := str(nid)
-			if nid_s == "lu_zhao":
-				continue
-			var role := AssetResolver.get_role_info(nid_s, GameManager.npcs_data)
-			var nm: String = role.get("name", "")
-			if nm == "":
-				nm = GameManager.get_npc_data(nid_s).get("name", nid_s)
-			npc_names.append(nm)
+		# 如果是 hub，检查子地点是否有被访问过的
+		if not visited and data.get("is_hub", false):
+			for child_id in data.get("children", []):
+				if GameManager.visited_locations.has(child_id):
+					visited = true
+					break
+		# 汇总 NPC：自己 + 所有 children 的 NPC
+		var all_npc_names: Array = []
+		var child_location_names: Array = []  # 用于 hover 展示子地点
+		_collect_npcs_for(loc_id, all_npc_names)
+		if data.get("is_hub", false):
+			for child_id in data.get("children", []):
+				_collect_npcs_for(child_id, all_npc_names)
+				var child_data := GameManager.get_location_data(child_id)
+				var child_name: String = child_data.get("name", child_id)
+				child_location_names.append(child_name)
 		
 		var marker := _MapMarker.new()
 		marker.position = pos
-		marker.location_name = _display_name(loc_id, data)
+		# hub 用 map_name（如"浔阳楼"），普通地点用 name
+		marker.location_name = data.get("map_name", data.get("name", loc_id))
 		marker.is_current = is_current
 		marker.is_visited = visited
+		# hub 的点击目标是自身（正厅），会被 _on_point_clicked 处理
 		marker.location_id = loc_id
-		marker.npc_names = npc_names
+		marker.npc_names = all_npc_names
+		marker.child_location_names = child_location_names
 		marker.clicked.connect(_on_point_clicked)
 		points_layer.add_child(marker)
 		markers.append(marker)
-	# 所有 marker 入场后做一次"标牌方向"碰撞回避：
-	# 若当前 marker 的右向标牌与其他 marker 圆点/标牌重叠 → 翻到左侧
 	_resolve_label_directions(markers)
+
+
+## 收集某地点当前时段的 NPC 名字（排除玩家自己）
+func _collect_npcs_for(loc_id: String, out: Array) -> void:
+	var npcs_here: Array = GameManager.get_active_npcs_at(loc_id)
+	for nid in npcs_here:
+		var nid_s := str(nid)
+		if nid_s == "lu_zhao":
+			continue
+		var role := AssetResolver.get_role_info(nid_s, GameManager.npcs_data)
+		var nm: String = role.get("name", "")
+		if nm == "":
+			nm = GameManager.get_npc_data(nid_s).get("name", nid_s)
+		if not out.has(nm):
+			out.append(nm)
+
+
+## 判断玩家当前是否"在此地点或其子地点内"
+func _is_current_or_child(loc_id: String, data: Dictionary) -> bool:
+	if GameManager.current_location == loc_id:
+		return true
+	if data.get("is_hub", false):
+		for child_id in data.get("children", []):
+			if GameManager.current_location == child_id:
+				return true
+	return false
 
 
 ## 把所有 marker 的标牌方向（right/left）按碰撞情况调整，避免互相遮挡。
@@ -158,8 +190,11 @@ func _display_name(loc_id: String, data: Dictionary) -> String:
 
 
 func _on_point_clicked(loc_id: String) -> void:
-	if loc_id == GameManager.current_location:
-		info_label.text = "[center][color=#ffaa88]你已经在 %s。[/color][/center]" % _display_name(loc_id, GameManager.get_location_data(loc_id))
+	var data := GameManager.get_location_data(loc_id)
+	# 如果点的是 hub 且玩家已在其内部（含子地点），提示
+	if _is_current_or_child(loc_id, data):
+		var name_str: String = data.get("map_name", data.get("name", loc_id))
+		info_label.text = "[center][color=#ffaa88]你已经在 %s 范围内。使用【移动】在内部走动。[/color][/center]" % name_str
 		return
 	location_selected.emit(loc_id)
 
@@ -172,6 +207,7 @@ class _MapMarker extends Control:
 	var is_current: bool = false
 	var is_visited: bool = false
 	var npc_names: Array = []
+	var child_location_names: Array = []  # hub 的子地点名列表
 	var _hover: bool = false
 	# +1 = 标牌在圆点右侧（默认），-1 = 在左侧
 	var label_side: int = 1
@@ -320,15 +356,39 @@ class _MapMarker extends Control:
 			draw_string(fnt, bc + Vector2(-5 if count > 9 else -3, 5), num_text,
 				HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1, 0.95, 0.85, 1))
 		
-		# ─── hover 时展开人名条 ───
-		if _hover and count > 0:
-			var nbr := _name_box_rect_local()
+		# ─── hover 时展开人名条（含子地点列表）───
+		if _hover and (count > 0 or child_location_names.size() > 0):
+			# 计算总行数 = 子地点行 + NPC 行
+			var child_count := child_location_names.size()
+			var total_lines: int = child_count + count
+			if child_count > 0 and count > 0:
+				total_lines += 1  # 分割行
+			var nbr_pos := _label_rect_local().position + Vector2(0, _label_rect_local().size.y + 4)
+			var box_h: float = NAME_BOX_LINE_H * float(total_lines) + 10.0
+			var nbr := Rect2(nbr_pos, Vector2(_label_rect_local().size.x + 40, box_h))
 			draw_rect(nbr, Color(0.18, 0.12, 0.08, 0.92), true)
 			draw_rect(nbr, Color(0.95, 0.78, 0.35, 0.85), false, 1.2)
 			draw_rect(Rect2(nbr.position + Vector2(4, 4), Vector2(2, nbr.size.y - 8)),
 				Color(0.95, 0.78, 0.35, 0.7), true)
+			var line_i: int = 0
+			# 子地点
+			for ci in range(child_count):
+				var cn: String = str(child_location_names[ci])
+				draw_string(fnt, nbr.position + Vector2(12, 6 + NAME_BOX_LINE_H * (line_i + 1) - 4),
+					"▸ " + cn, HORIZONTAL_ALIGNMENT_LEFT, nbr.size.x - 16, 14,
+					Color(0.75, 0.88, 0.65, 1.0))
+				line_i += 1
+			# 分割
+			if child_count > 0 and count > 0:
+				var sep_y: float = nbr.position.y + 6 + NAME_BOX_LINE_H * float(line_i) - 2
+				draw_line(Vector2(nbr.position.x + 8, sep_y),
+					Vector2(nbr.position.x + nbr.size.x - 8, sep_y),
+					Color(0.95, 0.78, 0.35, 0.4), 1.0)
+				line_i += 1
+			# NPC
 			for i in range(count):
 				var nm: String = str(npc_names[i])
-				draw_string(fnt, nbr.position + Vector2(12, 6 + NAME_BOX_LINE_H * (i + 1) - 4),
+				draw_string(fnt, nbr.position + Vector2(12, 6 + NAME_BOX_LINE_H * (line_i + 1) - 4),
 					"· " + nm, HORIZONTAL_ALIGNMENT_LEFT, nbr.size.x - 16, 14,
 					Color(1.0, 0.94, 0.78, 1.0))
+				line_i += 1

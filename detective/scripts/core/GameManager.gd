@@ -376,6 +376,9 @@ func change_location(loc_id: String, advance: bool = true) -> void:
 	if not locations_data.has(loc_id):
 		push_error("Unknown location: " + loc_id)
 		return
+	# 主地点内部移动不消耗时段
+	if advance and _is_same_hub(current_location, loc_id):
+		advance = false
 	current_location = loc_id
 	if not visited_locations.has(loc_id):
 		visited_locations.append(loc_id)
@@ -383,6 +386,29 @@ func change_location(loc_id: String, advance: bool = true) -> void:
 		advance_period(1)
 	location_changed.emit(loc_id)
 	save_game()
+
+
+## 判断两个地点是否属于同一个 hub（parent 相同，或互为 parent/child）
+func _is_same_hub(a: String, b: String) -> bool:
+	if a == b:
+		return true
+	var da: Dictionary = locations_data.get(a, {})
+	var db: Dictionary = locations_data.get(b, {})
+	var pa: String = da.get("parent", "")
+	var pb: String = db.get("parent", "")
+	# 都有同一个 parent
+	if pa != "" and pa == pb:
+		return true
+	# a 是 b 的 parent
+	if pb == a:
+		return true
+	# b 是 a 的 parent
+	if pa == b:
+		return true
+	# a 和 b 分别是子地点和 hub，通过 parent 关联
+	if pa != "" and pa == pb:
+		return true
+	return false
 
 
 func get_location_data(loc_id: String) -> Dictionary:
@@ -756,16 +782,29 @@ func _resolve_culprit_action_schedule() -> void:
 
 ## 取某 NPC 在 day/period 时段的所在地与活动
 ## 返回 {"location": "...", "activity": "...", "public": bool} 或 {} 表示无调度
+## 优先级：时段 override > conditional_override（flag 触发） > default
 func get_npc_schedule_at(npc_id: String, day: int, period: int) -> Dictionary:
 	var entry = schedules_data.get(npc_id, null)
 	if typeof(entry) != TYPE_DICTIONARY:
 		return {}
+	# 1) 时段精确 override（最高优先级）
 	var key := "D%d_P%d" % [day, period]
 	var overrides: Dictionary = entry.get("overrides", {})
 	if overrides.has(key):
 		var ov = overrides[key]
 		if typeof(ov) == TYPE_DICTIONARY:
 			return ov
+	# 2) 条件 override（flag 被设置后替换 default）
+	var cond_overrides: Array = entry.get("conditional_overrides", [])
+	for co in cond_overrides:
+		if typeof(co) != TYPE_DICTIONARY:
+			continue
+		var flag: String = co.get("if_flag", "")
+		if flag != "" and has_flag(flag):
+			var sched = co.get("schedule", null)
+			if typeof(sched) == TYPE_DICTIONARY:
+				return sched
+	# 3) default
 	var def = entry.get("default", null)
 	if typeof(def) == TYPE_DICTIONARY:
 		return def

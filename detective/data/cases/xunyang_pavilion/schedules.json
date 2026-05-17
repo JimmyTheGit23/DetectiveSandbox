@@ -100,6 +100,16 @@
       "activity": "on_duty",
       "public": true
     },
+    "conditional_overrides": [
+      {
+        "if_flag": "ma_san_watching",
+        "schedule": {
+          "location": "pavilion_courtyard",
+          "activity": "watching_pavilion",
+          "public": true
+        }
+      }
+    ],
     "overrides": {
       "D1_P5": {
         "location": "pavilion_courtyard",

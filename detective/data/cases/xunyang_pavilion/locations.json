@@ -28,7 +28,20 @@
         "name": "屋檐风灯",
         "time_cost": 1
       }
-    ]
+    ],
+    "sub_locations": [
+      {
+        "target": "pavilion_main",
+        "name": "回正厅",
+        "description": "从后门返回酒楼正厅。"
+      },
+      {
+        "target": "riverside_dock",
+        "name": "走小径 → 江畔水阁",
+        "description": "沿院后石径通往水阁码头。"
+      }
+    ],
+    "parent": "pavilion_main"
   },
   "qiu_chamber": {
     "name": "秋菱闺阁",
@@ -56,7 +69,20 @@
         "name": "翻倒的酒盏",
         "time_cost": 1
       }
-    ]
+    ],
+    "sub_locations": [
+      {
+        "target": "pavilion_main",
+        "name": "下楼 → 正厅",
+        "description": "从三楼阁子下楼回正厅。"
+      },
+      {
+        "target": "pavilion_courtyard",
+        "name": "后窗翻下 → 后院",
+        "description": "从阁子后窗可以看到后院。"
+      }
+    ],
+    "parent": "pavilion_main"
   },
   "yamen": {
     "name": "府衙",
@@ -108,6 +134,25 @@
         "name": "青姐房间",
         "time_cost": 1
       }
+    ],
+    "sub_locations": [
+      {
+        "target": "pavilion_courtyard",
+        "name": "穿过后门 → 后院",
+        "description": "经小门走向后院天井。"
+      },
+      {
+        "target": "qiu_chamber",
+        "name": "上楼梯 → 秋菱闺阁",
+        "description": "沿木楼梯上三楼阁子。"
+      }
+    ],
+    "is_hub": true,
+    "map_name": "浔阳楼",
+    "children": [
+      "pavilion_courtyard",
+      "qiu_chamber",
+      "riverside_dock"
     ]
   },
   "convent": {
@@ -173,7 +218,15 @@
         "name": "渡船舱底",
         "time_cost": 2
       }
-    ]
+    ],
+    "sub_locations": [
+      {
+        "target": "pavilion_courtyard",
+        "name": "回后院",
+        "description": "沿石径返回浔阳楼后院。"
+      }
+    ],
+    "parent": "pavilion_main"
   },
   "silk_shop": {
     "name": "城南布庄",

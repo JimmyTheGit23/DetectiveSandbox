@@ -1,5 +1,5 @@
 extends PanelContainer
-## 右侧主菜单：6 个图标按钮
+## 右侧主菜单：图标按钮，移动按钮仅在当前地点有 sub_locations 时显示。
 
 signal menu_clicked(menu_id: String)
 
@@ -25,9 +25,16 @@ const LABELS = {
 
 const ORDER = ["map", "talk", "move", "search", "notebook", "accuse", "settings"]
 
+var _btn_map: Dictionary = {}  # menu_id -> Button
+
 
 func _ready() -> void:
 	_build()
+	# 监听地点变化以刷新按钮显隐
+	if GameManager.location_changed.is_connected(_on_location_changed):
+		pass
+	else:
+		GameManager.location_changed.connect(_on_location_changed)
 
 
 func _build() -> void:
@@ -41,7 +48,7 @@ func _build() -> void:
 		btn.custom_minimum_size = Vector2(0, 52)
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		btn.add_theme_font_size_override("font_size", 18)
-		# 用 HBox 自己装图标+文字，避免 Button 内置 icon 把按钮撑高
+		# 用 HBox 自己装图标+文字
 		var hb := HBoxContainer.new()
 		hb.alignment = BoxContainer.ALIGNMENT_BEGIN
 		hb.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -74,7 +81,22 @@ func _build() -> void:
 		
 		btn.pressed.connect(_on_pressed.bind(menu_id))
 		vbox.add_child(btn)
+		_btn_map[menu_id] = btn
+	_refresh_visibility()
 
 
 func _on_pressed(menu_id: String) -> void:
 	menu_clicked.emit(menu_id)
+
+
+func _on_location_changed(_loc_id: String) -> void:
+	_refresh_visibility()
+
+
+## 刷新按钮显隐：move 按钮只在当前地点有 sub_locations 时显示
+func _refresh_visibility() -> void:
+	if not _btn_map.has("move"):
+		return
+	var loc: Dictionary = GameManager.current_location_data()
+	var subs: Array = loc.get("sub_locations", [])
+	_btn_map["move"].visible = subs.size() > 0

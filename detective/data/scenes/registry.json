@@ -74,7 +74,7 @@
       "description": "香烟缥缈的古庙。可作为隐居地、宗教场所、密谈地。",
       "effects": [
         "candle_flicker",
-        "dust_motes"
+        "falling_leaves"
       ]
     },
     "scene_market": {
