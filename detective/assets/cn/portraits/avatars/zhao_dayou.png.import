@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drhh6n4kj8m6p"
-path="res://.godot/imported/companion_lingyao.png-e1f1b996baf32442742ff5dd0ff6fff6.ctex"
+uid="uid://bsb5h1o4r4b3f"
+path="res://.godot/imported/zhao_dayou.png-e454f3573b0efc6f0cb10f4de758834b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cn/portraits/companion_lingyao.png"
-dest_files=["res://.godot/imported/companion_lingyao.png-e1f1b996baf32442742ff5dd0ff6fff6.ctex"]
+source_file="res://assets/cn/portraits/avatars/zhao_dayou.png"
+dest_files=["res://.godot/imported/zhao_dayou.png-e454f3573b0efc6f0cb10f4de758834b.ctex"]
 
 [params]
 

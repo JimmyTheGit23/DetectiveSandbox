@@ -11,24 +11,30 @@
       "background": "res://assets/cn/scenes/prologue.png",
       "speaker": "陆昭",
       "text": "（提着灯笼走在桥上）这就是临川了……州府说这地方多年太平。可这场雨下得，倒像是有什么旧事要被冲出来似的。",
+      "next": "scene2a"
+    },
+    "scene2a": {
+      "background": "res://assets/cn/scenes/prologue.png",
+      "speaker": "凌瑶",
+      "text": "（缩着脖子小声嘟囔）太平不好吗……非得不太平才来查，这官场的人脑子都有问题。",
       "next": "scene2b"
     },
     "scene2b": {
       "background": "res://assets/cn/scenes/prologue.png",
       "speaker": "凌瑶",
-      "text": "（小跑着跟上来，斗笠歪了半边）陆大人！您走那么快干嘛！本姑娘差点踩进水坑里！",
+      "text": "（小跑着跟上来，抹了把脸上的雨水）陆大人！您走那么快干嘛！本姑娘差点踩进水坑里！",
       "next": "scene2c"
     },
     "scene2c": {
       "background": "res://assets/cn/scenes/prologue.png",
       "speaker": "陆昭",
-      "text": "……凌姑娘，你那斗笠戴正些。",
+      "text": "……凌姑娘，你这身都湿透了，先顾顾自己。",
       "next": "scene2d"
     },
     "scene2d": {
       "background": "res://assets/cn/scenes/prologue.png",
       "speaker": "凌瑶",
-      "text": "嗨，反正都湿透了，戴不戴有什么区别。话说陆大人，咱这次来临川到底查什么呀？首座只说让我跟着您，别的什么都没交代。",
+      "text": "嗨，反正都湿透了，管它呢。话说陆大人，咱这次来临川到底查什么呀？首座只说让我跟着您，别的什么都没交代。",
       "next": "scene2e"
     },
     "scene2e": {
@@ -65,6 +71,12 @@
       "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "陆昭",
       "text": "井边躺着一个人。\n\n嘴唇发黑，指甲青紫——这分明是中毒的样子。",
+      "next": "scene4a"
+    },
+    "scene4a": {
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "凌瑶",
+      "text": "（凑近看了看，又猛地退回来）嘴唇这个颜色……不像是急病吧？我以前跑镖见过喝毒药的，就是这个样子。",
       "next": "scene4b"
     },
     "scene4b": {
@@ -83,6 +95,12 @@
       "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "",
       "text": "死的是临川县主簿沈砚秋，三十二岁。袖子里还藏着一封没写完的信：\n\n「……朱砂的事，恐怕已经……」",
+      "next": "scene5a"
+    },
+    "scene5a": {
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "凌瑶",
+      "text": "县主簿……那不是管文书的小官吗？三十二岁，跟我差不多大……怎么会死在这口井边？",
       "next": "scene5b"
     },
     "scene5b": {
@@ -95,6 +113,12 @@
       "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "陆昭",
       "text": "信写到一半人就死了……这恐怕不是普通的自尽。",
+      "next": "scene5c2"
+    },
+    "scene5c2": {
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "凌瑶",
+      "text": "对啊！谁自尽还特意把信塞袖子里？分明是写到一半被人发现了吧……",
       "next": "scene5d"
     },
     "scene5d": {
@@ -107,6 +131,12 @@
       "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "陆昭",
       "text": "（站起来）不排除这种可能。从今天起，这件案子由我来查。",
+      "next": "scene5f"
+    },
+    "scene5f": {
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "凌瑶",
+      "text": "陆大人，您一个人查会不会人手不够？虽然本姑娘查案不太行……但多个人多双眼睛嘛。反正首座让我跟着您，总不能干站着。",
       "next": "scene6"
     },
     "scene6": {
@@ -143,6 +173,12 @@
       "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "陆昭",
       "text": "（皱眉）当地知县已经断成自尽了。可要真是自杀——这袖子里写到一半的信，又是要写给谁看的？\n\n……三天内查不出真相，案宗就要发还州府。到时候我这个「擅自越权」的罪名也跑不掉了。",
+      "next": "scene6g"
+    },
+    "scene6g": {
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "凌瑶",
+      "text": "三天？！那可太赶了……不过陆大人您放心，本姑娘一定全力帮忙！再说了，要是您被扣了罪名，我这个跟着跑的也脱不了干系啊……",
       "next": "scene7"
     },
     "scene7": {

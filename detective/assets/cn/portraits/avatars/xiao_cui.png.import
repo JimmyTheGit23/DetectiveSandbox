@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drhh6n4kj8m6p"
-path="res://.godot/imported/companion_lingyao.png-e1f1b996baf32442742ff5dd0ff6fff6.ctex"
+uid="uid://7mo6eow2gqaa"
+path="res://.godot/imported/xiao_cui.png-b9e530327a9be2b4cd5b92e5916402dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cn/portraits/companion_lingyao.png"
-dest_files=["res://.godot/imported/companion_lingyao.png-e1f1b996baf32442742ff5dd0ff6fff6.ctex"]
+source_file="res://assets/cn/portraits/avatars/xiao_cui.png"
+dest_files=["res://.godot/imported/xiao_cui.png-b9e530327a9be2b4cd5b92e5916402dc.ctex"]
 
 [params]
 

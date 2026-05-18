@@ -6,7 +6,7 @@
   "estimated_days": 7,
   "main_scene": "post_station",
   "preview_image": "res://assets/cn/scenes/post_station.png",
-  "voice_status": "full",
+  "voice_status": "missing",
   "art_status": "partial",
   "art_todo": {
     "_comment": "art_status=partial：语音/对话/演员立绘/BGM 全部到位，但 R2 暂未达成（preview_image 与 main_scene 背景同图 post_station.png）。发布前需补一张序章/标题专用图，并将 preview_image 切换。",

@@ -30,6 +30,7 @@ var _active_subpanel: Control = null
 var _pending_events: Array[String] = []
 var _title_layer: Control = null
 var _scene_fx: Node = null
+#var _npc_layer: Control = null
 
 
 func _ready() -> void:
@@ -63,6 +64,15 @@ func _ready() -> void:
 		# 紧贴 Background 之上：把它插入到 Background 之后的位置
 		add_child(_scene_fx)
 		move_child(_scene_fx, scene_bg.get_index() + 1)
+	
+	# NPC 场景立绘层（已禁用）
+	#var NpcLayer = load("res://scripts/ui/NpcSceneLayer.gd")
+	#if NpcLayer:
+	#	_npc_layer = NpcLayer.new()
+	#	_npc_layer.name = "NpcSceneLayer"
+	#	add_child(_npc_layer)
+	#	if _scene_fx:
+	#		move_child(_npc_layer, _scene_fx.get_index() + 1)
 	
 	BgmPlayer.register_players(bgm_a, bgm_b)
 	
@@ -248,6 +258,9 @@ func _on_location_changed(loc_id: String) -> void:
 	# 同步场景动态特效层
 	if _scene_fx and _scene_fx.has_method("apply_for_scene_id"):
 		_scene_fx.apply_for_scene_id(data.get("scene_type", ""))
+	# 刷新 NPC 场景立绘层
+	#if _npc_layer and _npc_layer.has_method("refresh_npcs"):
+	#	_npc_layer.refresh_npcs(loc_id)
 	BgmPlayer.play(loc_id)
 	if menu_panel.has_method("refresh_visibility"):
 		menu_panel.refresh_visibility()
@@ -434,12 +447,16 @@ func _on_dialogue_started(speaker: String, portrait: String, text: String, optio
 	dialogue_box.show_dialogue(speaker, portrait, text, options)
 	dialogue_box.visible = true
 	menu_panel.visible = false
+	#if _npc_layer and _npc_layer.has_method("hide_npcs"):
+	#	_npc_layer.hide_npcs()
 
 
 func _on_dialogue_ended() -> void:
 	dialogue_box.visible = false
 	menu_panel.visible = true
 	_refresh_event_hint()
+	#if _npc_layer and _npc_layer.has_method("show_npcs"):
+	#	_npc_layer.show_npcs()
 
 
 # ─── 序章 / 叙述 ───
@@ -449,6 +466,8 @@ func _on_narration_started(background: String, _speaker: String, text: String, h
 	narration_box.show_narration(_speaker, text, has_next, centered)
 	narration_box.visible = true
 	menu_panel.visible = false
+	#if _npc_layer and _npc_layer.has_method("hide_npcs"):
+	#	_npc_layer.hide_npcs()
 
 
 func _on_narration_ended() -> void:
@@ -459,6 +478,8 @@ func _on_narration_ended() -> void:
 		_on_time_advanced(GameManager.current_day, GameManager.current_period)
 	menu_panel.visible = true
 	_refresh_event_hint()
+	#if _npc_layer and _npc_layer.has_method("show_npcs"):
+	#	_npc_layer.show_npcs()
 
 
 # ─── 选择案件 ───
