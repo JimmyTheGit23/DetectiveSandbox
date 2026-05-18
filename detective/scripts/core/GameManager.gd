@@ -284,6 +284,10 @@ func save_game() -> void:
 		"case_seed": case_seed,
 		"culprit_actions_witnessed": culprit_actions_witnessed,
 	}
+	# 助手系统状态
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs and cs.has_method("get_save_data"):
+		data["companion_state"] = cs.get_save_data()
 	var f := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if f:
 		f.store_string(JSON.stringify(data))
@@ -315,6 +319,12 @@ func load_game() -> bool:
 	culprit_actions_witnessed = data.get("culprit_actions_witnessed", {})
 	# 用恢复出来的 case_seed 重算凶手动作的实际时刻，确保读档与原游玩一致
 	_resolve_culprit_action_schedule()
+	# 恢复助手系统状态
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs and cs.has_method("load_save_data"):
+		var comp_data: Dictionary = data.get("companion_state", {})
+		if not comp_data.is_empty():
+			cs.load_save_data(comp_data)
 	return true
 
 

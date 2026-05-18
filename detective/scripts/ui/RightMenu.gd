@@ -9,6 +9,7 @@ const ICON_PATHS = {
 	"move": "res://assets/cn/ui/icon_move.png",
 	"search": "res://assets/cn/ui/icon_search.png",
 	"notebook": "res://assets/cn/ui/icon_notebook.png",
+	"discuss": "res://assets/cn/ui/icon_discuss.png",
 	"accuse": "res://assets/cn/ui/icon_accuse.png",
 	"settings": "res://assets/cn/ui/icon_settings.png",
 }
@@ -19,11 +20,12 @@ const LABELS = {
 	"move": "移  动",
 	"search": "探  索",
 	"notebook": "笔记本",
+	"discuss": "讨  论",
 	"accuse": "指  证",
 	"settings": "设  置",
 }
 
-const ORDER = ["map", "talk", "move", "search", "notebook", "accuse", "settings"]
+const ORDER = ["map", "talk", "move", "search", "notebook", "discuss", "accuse", "settings"]
 
 var _btn_map: Dictionary = {}  # menu_id -> Button
 
@@ -108,9 +110,14 @@ func refresh_visibility() -> void:
 
 
 ## 刷新按钮显隐：move 按钮只在当前地点有 sub_locations 时显示
+## discuss 按钮只在有助手时显示
 func _refresh_visibility() -> void:
 	if not _btn_map.has("move"):
 		return
 	var loc: Dictionary = GameManager.current_location_data()
 	var subs: Array = loc.get("sub_locations", [])
 	_btn_map["move"].visible = subs.size() > 0
+	# 讨论按钮：助手系统在场时才显示
+	if _btn_map.has("discuss"):
+		var cs = get_node_or_null("/root/CompanionService")
+		_btn_map["discuss"].visible = cs != null and cs.has_method("has_companion") and cs.has_companion()

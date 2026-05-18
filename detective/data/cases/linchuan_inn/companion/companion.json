@@ -1,0 +1,16 @@
+{
+  "_comment": "临川驿案助手配置。凌瑶作为陆昭的随行护卫参与调查。",
+  "companion_id": "xia_lingyao",
+  "role_name": "凌瑶",
+  "actor_id": "actor_tomboy_courier",
+  "available_topics": ["next_direction", "suspect_now", "evidence_ready", "chitchat"],
+  "limits": {
+    "next_direction": { "per_day": 1, "cost_period": 1, "cost_cognitive": 5 },
+    "suspect_now":    { "per_day": 1, "cost_period": 1, "cost_cognitive": 5 },
+    "evidence_ready": { "per_day": 1, "cost_period": 0, "cost_cognitive": 0 },
+    "chitchat":       { "per_day": 99, "cost_period": 0, "cost_cognitive": 0 }
+  },
+  "lock_on_final_day": true,
+  "banter_max_per_day": 8,
+  "intro_hint": "凌瑶是江南金鳞镖局的女镖师，奉镖局首座之命随行护卫陆大人。虽然武功不俗，但对查案完全是外行。"
+}

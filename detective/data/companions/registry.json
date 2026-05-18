@@ -1,0 +1,16 @@
+{
+  "_comment": "助手库。每个时代/风格挂一个固定助手形象。通过 companion_id 在案件 companion.json 中引用。",
+  "companions": {
+    "xia_lingyao": {
+      "display_name": "凌瑶",
+      "actor_id": "actor_tomboy_courier",
+      "portrait": "res://assets/cn/portraits/companion_lingyao.png",
+      "era": "ming_qing",
+      "voice_dir": "res://assets/cn/voices/xia_lingyao/",
+      "personality_tags": ["clumsy", "brave", "sharp_tongue", "loyal", "spirited"],
+      "intro": "江南金鳞镖局女镖师，奉首座之命随行护卫。性格冒失但重义气，心直口快，偶尔插科打诨。",
+      "称呼玩家": ["陆大人", "御史大人"],
+      "自称": ["本姑娘", "我"]
+    }
+  }
+}

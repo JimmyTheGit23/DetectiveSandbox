@@ -1,0 +1,72 @@
+{
+  "_comment": "临川驿案 - 助手通用被动旁白。在对话关键节点后自动触发。trigger 对应触发类型。",
+  "rules": [
+    {
+      "id": "lie_exposed_generic_1",
+      "when": { "trigger": "lie_exposed" },
+      "lines": [
+        "嘿嘿嘿，露馅了吧！本姑娘早就觉得他不对劲！",
+        "哈！果然在撒谎！陆大人您可真是火眼金睛！",
+        "看吧看吧！我就说这人说话不老实！"
+      ]
+    },
+    {
+      "id": "gain_evidence_generic",
+      "when": { "trigger": "gain_evidence" },
+      "lines": [
+        "哦？这个东西看着挺重要的。陆大人您赶紧记下来！",
+        "这是证据吧？本姑娘虽然不太懂，但感觉很关键的样子。",
+        "嘶……这东西搁这儿可不正常啊。"
+      ]
+    },
+    {
+      "id": "gain_clue_generic",
+      "when": { "trigger": "gain_clue" },
+      "lines": [
+        "哦——原来是这样。我差点没注意到。",
+        "陆大人这观察力……佩服佩服。本姑娘学着呢。",
+        "有意思，这条线索是不是能跟之前那个对上？"
+      ]
+    },
+    {
+      "id": "node_end_zhao_dayou",
+      "when": { "trigger": "dialogue_end", "npc_id": "zhao_dayou" },
+      "lines": [
+        "这老头说话吞吞吐吐的……本姑娘总觉得他还有什么没说。",
+        "驿丞这人嘛……看着老实，但本姑娘的直觉告诉我没那么简单。"
+      ]
+    },
+    {
+      "id": "node_end_gu_qingxuan",
+      "when": { "trigger": "dialogue_end", "npc_id": "gu_qingxuan" },
+      "lines": [
+        "这种白衣公子说话绕来绕去的，本姑娘最不耐烦了。",
+        "顾公子……看着斯斯文文，但总感觉他在打什么太极。"
+      ]
+    },
+    {
+      "id": "node_end_su_wan",
+      "when": { "trigger": "dialogue_end", "npc_id": "su_wan" },
+      "lines": [
+        "苏婉……她哭得好伤心。是真难过还是装的呢？本姑娘分不出来。",
+        "这位姐姐……看着可怜兮兮的。唉，希望她不是坏人。"
+      ]
+    },
+    {
+      "id": "node_end_daoming",
+      "when": { "trigger": "dialogue_end", "npc_id": "daoming" },
+      "lines": [
+        "出家人说话就是这样，一句话绕十个弯。本姑娘听得头疼。",
+        "道明法师看着慈眉善目的……但说话怎么总是点到为止呢？"
+      ]
+    },
+    {
+      "id": "node_end_xiao_cui",
+      "when": { "trigger": "dialogue_end", "npc_id": "xiao_cui" },
+      "lines": [
+        "花魁娘子嘴巴可真甜……不过本姑娘觉得她其实挺精明的。",
+        "小翠姐姐说话有时候真真假假的，得细想想。"
+      ]
+    }
+  ]
+}

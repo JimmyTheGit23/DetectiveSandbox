@@ -111,6 +111,11 @@ func get_voice_status() -> String:
 
 
 # ─── 角色 → 演员 → 立绘/语音 ───
+
+## 返回当前案件的完整 casting 字典（npc_id -> entry）
+func get_casting() -> Dictionary:
+	return _casting
+
 ## 返回当前案件中该 npc_id 对应的 actor_id；若无 casting 或未配置，返回 ""。
 func get_actor_id_for_npc(npc_id: String) -> String:
 	var entry = _casting.get(npc_id, null)

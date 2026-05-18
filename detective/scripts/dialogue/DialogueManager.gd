@@ -108,11 +108,14 @@ func _apply_node_entry(node_id: String) -> void:
 
 
 func end_dialogue() -> void:
+	var ended_npc := _current_npc_id
 	_current_tree = {}
 	_current_npc_id = ""
 	VoicePlayer.end_session()
 	GameManager.set_state(GameManager.STATE_PLAYING)
 	dialogue_ended.emit()
+	# 助手被动旁白：对话结束时尝试触发
+	_try_companion_banter({"trigger": "dialogue_end", "npc_id": ended_npc, "node_id": ""})
 
 
 func _emit_current() -> void:
@@ -129,15 +132,35 @@ func _emit_current() -> void:
 		var gc: String = node.get("gain_clue", "")
 		if gc != "":
 			GameManager.add_clue(gc)
+			_try_companion_banter({
+				"trigger": "gain_clue",
+				"npc_id": _current_npc_id,
+				"node_id": _current_node_id,
+				"gained_clue": gc,
+				"companion_banter": node.get("companion_banter", []),
+			})
 		var ge: String = node.get("gain_evidence", "")
 		if ge != "":
 			GameManager.add_evidence(ge)
+			_try_companion_banter({
+				"trigger": "gain_evidence",
+				"npc_id": _current_npc_id,
+				"node_id": _current_node_id,
+				"gained_evidence": ge,
+				"companion_banter": node.get("companion_banter", []),
+			})
 		var reveal: Dictionary = node.get("reveal_lie", {})
 		if reveal.size() > 0:
 			var lie_node: String = reveal.get("lie_node", "")
 			var lie_flag: String = "lie_exposed:%s.%s" % [_current_npc_id, lie_node]
 			GameManager.set_flag(lie_flag)
 			lie_exposed.emit(_current_npc_id, lie_node)
+			_try_companion_banter({
+				"trigger": "lie_exposed",
+				"npc_id": _current_npc_id,
+				"node_id": _current_node_id,
+				"companion_banter": node.get("companion_banter", []),
+			})
 	
 	var npc := GameManager.get_npc_data(_current_npc_id)
 	# 通过 AssetResolver 解析立绘和角色名（先走 casting → actor → portrait，回退到 npcs.json）
@@ -307,3 +330,13 @@ func narration_advance() -> void:
 		adhoc_next()
 	else:
 		narration_next()
+
+
+# ─── 助手旁白触发辅助 ───
+func _try_companion_banter(context: Dictionary) -> void:
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs == null:
+		return
+	if not cs.has_method("try_emit_banter"):
+		return
+	cs.try_emit_banter(context)

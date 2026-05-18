@@ -65,6 +65,12 @@ func _ready() -> void:
 		move_child(_scene_fx, scene_bg.get_index() + 1)
 	
 	BgmPlayer.register_players(bgm_a, bgm_b)
+	
+	# 助手系统：被动旁白信号
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs and cs.has_signal("banter_ready"):
+		cs.banter_ready.connect(_on_companion_banter)
+	
 	_show_title()
 
 
@@ -358,6 +364,9 @@ func _on_menu_clicked(menu_id: String) -> void:
 		if npcs.is_empty():
 			_flash_notification("此处无人。")
 			return
+	if menu_id == "discuss":
+		_open_discuss_panel()
+		return
 	_open_subpanel(menu_id)
 
 
@@ -593,3 +602,43 @@ func _prompt_codename(iv: Node, codename_lbl: Label) -> void:
 			codename_lbl.text = "代号：%s" % iv.get_codename()
 		dlg.queue_free()
 	)
+
+
+# ─── 助手系统集成 ─────────────────────────────────────────────────────────
+
+func _open_discuss_panel() -> void:
+	var DiscussPanelScript = load("res://scripts/ui/DiscussPanel.gd")
+	if DiscussPanelScript == null:
+		push_warning("DiscussPanel.gd not found")
+		return
+	var panel := PanelContainer.new()
+	panel.set_script(DiscussPanelScript)
+	panel.name = "DiscussPanel"
+	# 居中弹出
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	panel.grow_vertical = Control.GROW_DIRECTION_BOTH
+	add_child(panel)
+	move_child(panel, get_child_count() - 1)
+	menu_panel.visible = false
+	if panel.has_signal("discuss_closed"):
+		panel.discuss_closed.connect(func():
+			menu_panel.visible = true
+		)
+	if panel.has_signal("discuss_result"):
+		panel.discuss_result.connect(_on_discuss_result)
+
+
+func _on_discuss_result(lines: Array) -> void:
+	# 用 adhoc narration 播放助手的讨论回答
+	if lines.is_empty():
+		menu_panel.visible = true
+		return
+	DialogueManager.play_adhoc_narration(lines, func(): menu_panel.visible = true)
+
+
+func _on_companion_banter(lines: Array) -> void:
+	# 播放助手被动旁白（adhoc narration 方式）
+	if lines.is_empty():
+		return
+	DialogueManager.play_adhoc_narration(lines)
