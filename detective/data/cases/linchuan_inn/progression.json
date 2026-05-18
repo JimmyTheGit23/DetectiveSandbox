@@ -1,0 +1,124 @@
+{
+  "_comment": "渐进式信息开放系统。凶手为顾清玄版。",
+
+  "phases": [
+    {
+      "id": "phase_1",
+      "title": "案发现场",
+      "description": "勘察案发现场，初步了解案情",
+      "hint": "先仔细勘察临川驿和县衙，搜集基础证据。",
+      "locations": ["post_station", "yamen"],
+      "unlock_condition": null
+    },
+    {
+      "id": "phase_2",
+      "title": "扩大调查",
+      "description": "死者宅院被人闯入，调查范围扩大",
+      "hint": "沈宅已可进入，春风楼和观音庙也出现了线索。",
+      "locations": ["shen_residence", "spring_wind_tower", "guanyin_temple"],
+      "unlock_condition": {
+        "any": [
+          { "flag": "shen_house_broken" },
+          { "total_periods_used_gte": 8 }
+        ]
+      }
+    },
+    {
+      "id": "phase_3",
+      "title": "深入追查",
+      "description": "朱砂线索指向集市，真相逐渐浮出",
+      "hint": "集市药铺有关键证人。谁在大量购买朱砂？",
+      "locations": ["market"],
+      "unlock_condition": {
+        "any": [
+          { "clue": "clue_drug_buyer_hint" },
+          { "clue": "clue_temple_paper" },
+          { "evidence": "evidence_red_powder" },
+          { "total_periods_used_gte": 14 }
+        ]
+      }
+    }
+  ],
+
+  "panel_unlock": {
+    "accuse": {
+      "condition": {
+        "all": [
+          { "total_periods_used_gte": 20 },
+          {
+            "any": [
+              { "evidence_count_gte": 4 },
+              { "clue": "clue_gu_alibi_broken" }
+            ]
+          }
+        ]
+      },
+      "locked_hint": "证据不足，尚无法指证。继续搜集线索和证据。"
+    },
+    "notebook": {
+      "condition": {
+        "any": [
+          { "evidence_count_gte": 1 },
+          { "clue_count_gte": 2 }
+        ]
+      },
+      "locked_hint": "尚无记录。先去调查现场搜集线索。"
+    }
+  },
+
+  "search_point_unlock": {
+    "shen_residence.drawer": {
+      "condition": { "flag": "shen_house_broken" },
+      "locked_hint": "门锁完好，暂时无法深入搜查。"
+    },
+    "guanyin_temple.altar": {
+      "condition": {
+        "any": [
+          { "clue": "clue_temple_paper" },
+          { "clue": "clue_drug_question" },
+          { "visited": "daoming.intro" }
+        ]
+      },
+      "locked_hint": "佛龛供奉庄严，贸然翻动恐引人注目。需要先找到理由。"
+    },
+    "market.bridge": {
+      "condition": {
+        "any": [
+          { "flag": "met_ma_at_bridge" },
+          { "flag": "ma_bridge_invite" }
+        ]
+      },
+      "locked_hint": "石桥下只有流水，没什么特别的。"
+    }
+  },
+
+  "npc_unlock": {
+    "gu_qingxuan": {
+      "condition": {
+        "any": [
+          { "total_periods_used_gte": 6 },
+          { "evidence": "evidence_account_draft" }
+        ]
+      }
+    },
+    "su_wan": {
+      "condition": {
+        "any": [
+          { "clue": "clue_handkerchief" },
+          { "total_periods_used_gte": 14 }
+        ]
+      }
+    }
+  },
+
+  "phase_notifications": {
+    "phase_2": {
+      "speaker": "凌瑶",
+      "text": "陆大人，沈宅被人闯入了！咱们赶紧去看看。另外听说春风楼和观音庙那边也有人跟死者有来往，是不是该去打探打探？"
+    },
+    "phase_3": {
+      "speaker": "凌瑶",
+      "text": "朱砂……这是关键线索！镇上集市有药铺，应该能问到谁在买朱砂。陆大人，咱们去集市走一趟吧。"
+    }
+  }
+}

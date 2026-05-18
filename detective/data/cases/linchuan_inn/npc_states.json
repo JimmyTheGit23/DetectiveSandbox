@@ -1,5 +1,5 @@
 {
-  "_comment": "NPC 状态机：每个 NPC 初始 composure（镇定度 0-5），不同对话/证据会降档。0=崩溃 1=慌张 2=动摇 3=戒备 4=正常 5=自信",
+  "_comment": "NPC 状态机。凶手为顾清玄版。composure: 0=崩溃 1=慌张 2=动摇 3=戒备 4=正常 5=自信",
   "liu_wenqing": {
     "initial": { "composure": 5 },
     "transitions": [
@@ -24,10 +24,18 @@
     ]
   },
   "gu_qingxuan": {
-    "initial": { "composure": 5, "revealed": 0 },
+    "initial": { "composure": 5, "mask": 5 },
+    "_comment_mask": "mask 代表伪装程度，越低越容易露出破绽。被质疑时 mask 下降，composure 也会下降。",
     "transitions": [
-      { "on": "node_visited:who_are_you", "delta": { "revealed": 1 } },
-      { "on": "evidence_obtained:evidence_secret_letter", "delta": { "revealed": 1 } }
+      { "on": "node_visited:who_are_you", "delta": { "mask": -1 } },
+      { "on": "node_visited:show_fan_poem", "delta": { "mask": -1, "composure": -1 } },
+      { "on": "node_visited:show_handwriting", "delta": { "mask": -2, "composure": -2 } },
+      { "on": "node_visited:show_purchase", "delta": { "mask": -2, "composure": -2 } },
+      { "on": "node_visited:confront_alibi", "delta": { "composure": -2 } },
+      { "on": "evidence_obtained:evidence_gu_handwriting", "delta": { "mask": -1, "composure": -1 } },
+      { "on": "evidence_obtained:evidence_fake_dossier", "delta": { "mask": -2 } },
+      { "on": "evidence_obtained:evidence_ledger_discrepancy", "delta": { "composure": -1 } },
+      { "on": "clue_obtained:clue_gu_background", "delta": { "mask": -1 } }
     ]
   },
   "ma_san": {
@@ -42,17 +50,18 @@
     "transitions": [
       { "on": "node_visited:yamen_thing", "delta": { "openness": 1 } },
       { "on": "node_visited:more", "delta": { "openness": 1 } },
-      { "on": "node_visited:family", "delta": { "openness": 1 } }
+      { "on": "node_visited:family", "delta": { "openness": 1 } },
+      { "on": "node_visited:gu_that_night", "delta": { "openness": 1 } }
     ]
   },
   "daoming": {
-    "initial": { "composure": 5 },
+    "initial": { "composure": 4, "openness": 1 },
+    "_comment": "道明法师不再是凶手，但有旧案负罪感。当玩家问及旧案时他会逐渐坦白。",
     "transitions": [
       { "on": "node_visited:show_paper", "delta": { "composure": -1 } },
-      { "on": "node_visited:show_handwriting", "delta": { "composure": -2 } },
-      { "on": "node_visited:show_temple_visits", "delta": { "composure": -1 } },
-      { "on": "node_visited:show_buyers", "delta": { "composure": -1 } },
-      { "on": "evidence_obtained:evidence_old_case_file", "delta": { "composure": -1 } }
+      { "on": "node_visited:old_case_ask", "delta": { "openness": 1 } },
+      { "on": "node_visited:confess_old_case", "delta": { "openness": 2, "composure": -1 } },
+      { "on": "evidence_obtained:evidence_fake_dossier", "delta": { "openness": 1 } }
     ]
   }
 }

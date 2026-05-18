@@ -10,6 +10,8 @@ signal location_changed(location_id: String)
 signal flag_set(flag_id: String)
 signal node_visited(npc_id: String, node_id: String)
 signal day_event_available(event_id: String)
+signal phase_unlocked(phase_id: String)
+signal progression_hint(speaker: String, text: String)
 
 # 游戏状态
 const STATE_PROLOGUE := "prologue"
@@ -60,6 +62,10 @@ var search_results_data: Dictionary = {}
 var case_data: Dictionary = {}
 var day_events_data: Dictionary = {}
 var npc_states_data: Dictionary = {}
+# 渐进式开放系统
+var progression_data: Dictionary = {}
+var unlocked_phases: Array[String] = ["phase_1"]
+
 # 新：NPC 时段日程 + 凶手行动表（动态案件可选）
 var schedules_data: Dictionary = {}
 var culprit_actions_data: Dictionary = {}
@@ -163,6 +169,7 @@ func switch_case(case_id: String) -> bool:
 	visited_nodes.clear()
 	triggered_events.clear()
 	culprit_actions_witnessed.clear()
+	unlocked_phases = ["phase_1"]
 	reroll_case_seed()
 	return true
 
@@ -184,6 +191,7 @@ func _load_data() -> void:
 	case_data = _read_json(_case_path("case.json"))
 	day_events_data = _read_json(_case_path("day_events.json"))
 	npc_states_data = _read_json(_case_path("npc_states.json"))
+	progression_data = _read_json(_case_path("progression.json"))
 	# 新：NPC schedule 与凶手行动表（可选，没有就退回静态行为）
 	schedules_data = _read_json(_case_path("schedules.json"))
 	culprit_actions_data = _read_json(_case_path("culprit_actions.json"))
@@ -236,6 +244,7 @@ func reset_progress() -> void:
 	visited_nodes.clear()
 	triggered_events.clear()
 	culprit_actions_witnessed.clear()
+	unlocked_phases = ["phase_1"]
 	reroll_case_seed()
 	_init_npc_states()
 	save_game()
@@ -283,6 +292,7 @@ func save_game() -> void:
 		"npc_states": npc_states,
 		"case_seed": case_seed,
 		"culprit_actions_witnessed": culprit_actions_witnessed,
+		"unlocked_phases": unlocked_phases,
 	}
 	# 助手系统状态
 	var cs = get_node_or_null("/root/CompanionService")
@@ -317,6 +327,10 @@ func load_game() -> bool:
 	npc_states = data.get("npc_states", {})
 	case_seed = int(data.get("case_seed", 0))
 	culprit_actions_witnessed = data.get("culprit_actions_witnessed", {})
+	var saved_phases = data.get("unlocked_phases", ["phase_1"])
+	unlocked_phases.clear()
+	for p in saved_phases:
+		unlocked_phases.append(str(p))
 	# 用恢复出来的 case_seed 重算凶手动作的实际时刻，确保读档与原游玩一致
 	_resolve_culprit_action_schedule()
 	# 恢复助手系统状态
@@ -357,6 +371,7 @@ func advance_period(periods: int = 1) -> void:
 		day_changed.emit(current_day)
 	_run_culprit_tick()
 	_check_day_events()
+	_check_progression()
 	save_game()
 
 
@@ -385,6 +400,9 @@ func total_periods_used() -> int:
 func change_location(loc_id: String, advance: bool = true) -> void:
 	if not locations_data.has(loc_id):
 		push_error("Unknown location: " + loc_id)
+		return
+	if not is_location_unlocked(loc_id):
+		push_warning("Location locked: " + loc_id)
 		return
 	# 主地点内部移动不消耗时段
 	if advance and _is_same_hub(current_location, loc_id):
@@ -440,6 +458,7 @@ func add_evidence(eid: String) -> bool:
 	_apply_transitions("evidence_obtained:" + eid)
 	evidence_added.emit(eid)
 	_check_day_events()
+	_check_progression()
 	save_game()
 	return true
 
@@ -451,6 +470,7 @@ func add_clue(cid: String) -> bool:
 	_apply_transitions("clue_obtained:" + cid)
 	clue_added.emit(cid)
 	_check_day_events()
+	_check_progression()
 	save_game()
 	return true
 
@@ -471,6 +491,7 @@ func set_flag(flag_id: String) -> void:
 	_apply_transitions("flag_set:" + flag_id)
 	flag_set.emit(flag_id)
 	_check_day_events()
+	_check_progression()
 	save_game()
 
 
@@ -571,6 +592,10 @@ func evaluate_condition(cond) -> bool:
 		return has_evidence(d["evidence"])
 	if d.has("clue"):
 		return has_clue(d["clue"])
+	if d.has("evidence_count_gte"):
+		return collected_evidence.size() >= int(d["evidence_count_gte"])
+	if d.has("clue_count_gte"):
+		return collected_clues.size() >= int(d["clue_count_gte"])
 	if d.has("flag"):
 		return has_flag(d["flag"])
 	if d.has("not_flag"):
@@ -693,6 +718,145 @@ func get_npc_data(nid: String) -> Dictionary:
 	return npcs_data.get(nid, {})
 
 
+## 获取 NPC 对玩家显示的名字（考虑名字是否已解锁）
+func get_npc_display_name(nid: String) -> String:
+	var data: Dictionary = npcs_data.get(nid, {})
+	if data.is_empty():
+		return nid
+	# 没有 hidden_name 字段 → 始终显示真名
+	if not data.get("hidden_name", false):
+		return data.get("name", nid)
+	# 检查是否满足解锁条件
+	var cond = data.get("reveal_name_condition", null)
+	if cond != null and evaluate_condition(cond):
+		return data.get("name", nid)
+	# 未解锁 → 显示 unknown_label
+	return data.get("unknown_label", data.get("title", nid))
+
+
+## 判断 NPC 名字是否已对玩家揭示
+func is_npc_name_revealed(nid: String) -> bool:
+	var data: Dictionary = npcs_data.get(nid, {})
+	if not data.get("hidden_name", false):
+		return true
+	var cond = data.get("reveal_name_condition", null)
+	if cond == null:
+		return true
+	return evaluate_condition(cond)
+
+
+# ─── 渐进式开放系统 ───
+func _check_progression() -> void:
+	if progression_data.is_empty():
+		return
+	for phase in progression_data.get("phases", []):
+		var pid: String = phase.get("id", "")
+		if pid == "" or unlocked_phases.has(pid):
+			continue
+		var cond = phase.get("unlock_condition", null)
+		if cond == null:
+			continue
+		if evaluate_condition(cond):
+			unlocked_phases.append(pid)
+			phase_unlocked.emit(pid)
+			# 发送助手引导提示
+			var notifs: Dictionary = progression_data.get("phase_notifications", {})
+			if notifs.has(pid):
+				var n: Dictionary = notifs[pid]
+				progression_hint.emit(n.get("speaker", ""), n.get("text", ""))
+			save_game()
+
+
+## 判断地点是否已解锁
+func is_location_unlocked(loc_id: String) -> bool:
+	if progression_data.is_empty():
+		return true
+	var loc_data: Dictionary = locations_data.get(loc_id, {})
+	var phase_id: String = loc_data.get("unlock_phase", "")
+	if phase_id == "":
+		return true
+	return unlocked_phases.has(phase_id)
+
+
+## 获取所有已解锁的地点 ID
+func get_unlocked_locations() -> Array:
+	var result: Array = []
+	for loc_id in locations_data.keys():
+		if is_location_unlocked(loc_id):
+			result.append(loc_id)
+	return result
+
+
+## 判断搜索点是否已解锁
+func is_search_point_unlocked(location_id: String, point_id: String) -> bool:
+	if progression_data.is_empty():
+		return true
+	var sp_unlock: Dictionary = progression_data.get("search_point_unlock", {})
+	var key := "%s.%s" % [location_id, point_id]
+	if not sp_unlock.has(key):
+		return true
+	var entry: Dictionary = sp_unlock[key]
+	return evaluate_condition(entry.get("condition", null))
+
+
+## 获取搜索点锁定提示
+func get_search_point_locked_hint(location_id: String, point_id: String) -> String:
+	var sp_unlock: Dictionary = progression_data.get("search_point_unlock", {})
+	var key := "%s.%s" % [location_id, point_id]
+	if sp_unlock.has(key):
+		return sp_unlock[key].get("locked_hint", "此处暂时无法调查。")
+	return ""
+
+
+## 判断NPC是否已解锁（可见）
+func is_npc_unlocked(npc_id: String) -> bool:
+	if progression_data.is_empty():
+		return true
+	var npc_unlock: Dictionary = progression_data.get("npc_unlock", {})
+	if not npc_unlock.has(npc_id):
+		return true
+	var entry: Dictionary = npc_unlock[npc_id]
+	return evaluate_condition(entry.get("condition", null))
+
+
+## 判断面板是否已解锁
+func is_panel_unlocked(panel_id: String) -> bool:
+	if progression_data.is_empty():
+		return true
+	var panel_unlock: Dictionary = progression_data.get("panel_unlock", {})
+	if not panel_unlock.has(panel_id):
+		return true
+	var entry: Dictionary = panel_unlock[panel_id]
+	return evaluate_condition(entry.get("condition", null))
+
+
+## 获取面板锁定提示
+func get_panel_locked_hint(panel_id: String) -> String:
+	var panel_unlock: Dictionary = progression_data.get("panel_unlock", {})
+	if panel_unlock.has(panel_id):
+		return panel_unlock[panel_id].get("locked_hint", "尚未解锁。")
+	return ""
+
+
+## 获取当前阶段信息
+func get_current_phase() -> Dictionary:
+	if progression_data.is_empty():
+		return {}
+	var phases: Array = progression_data.get("phases", [])
+	var current: Dictionary = {}
+	for phase in phases:
+		var pid: String = phase.get("id", "")
+		if unlocked_phases.has(pid):
+			current = phase
+	return current
+
+
+## 获取当前阶段的引导提示
+func get_current_phase_hint() -> String:
+	var phase := get_current_phase()
+	return phase.get("hint", "")
+
+
 # ─── 日程事件 ───
 func _check_day_events() -> void:
 	for evt in day_events_data.get("events", []):
@@ -729,6 +893,12 @@ func apply_event_effects(evt: Dictionary) -> void:
 		set_flag(evt_id + "_done")
 	if effects.has("gain_evidence"):
 		add_evidence(effects["gain_evidence"])
+	if effects.has("unlock_phase"):
+		var phase_id: String = effects["unlock_phase"]
+		if not unlocked_phases.has(phase_id):
+			unlocked_phases.append(phase_id)
+			phase_unlocked.emit(phase_id)
+			save_game()
 
 
 # ─── 指证 ───
@@ -846,19 +1016,27 @@ func get_npc_schedule_at(npc_id: String, day: int, period: int) -> Dictionary:
 
 ## 取当前时段所在 location_id 的有效 NPC 列表（public=true 的才会自然出现）
 ## 优先用 schedule，schedule 缺失则回退到 locations.json 的静态 npcs 字段
+## 会过滤渐进系统中未解锁的 NPC
 func get_active_npcs_at(location_id: String, day: int = -1, period: int = -1) -> Array:
 	if day < 0: day = current_day
 	if period < 0: period = current_period
 	# 如果当前案件没配 schedules，直接回退到静态
 	if schedules_data.is_empty():
 		var fallback_loc := get_location_data(location_id)
-		return fallback_loc.get("npcs", [])
+		var static_npcs: Array = fallback_loc.get("npcs", [])
+		var filtered: Array = []
+		for nid in static_npcs:
+			if is_npc_unlocked(str(nid)):
+				filtered.append(nid)
+		return filtered
 	var result: Array = []
 	for npc_id in schedules_data.keys():
 		if typeof(npc_id) != TYPE_STRING:
 			continue
 		var nid: String = npc_id
 		if nid.begins_with("_"):
+			continue
+		if not is_npc_unlocked(nid):
 			continue
 		var sched := get_npc_schedule_at(nid, day, period)
 		if sched.is_empty():
@@ -873,7 +1051,8 @@ func get_active_npcs_at(location_id: String, day: int = -1, period: int = -1) ->
 	for nid2 in static_loc.get("npcs", []):
 		var nid_s := str(nid2)
 		if not schedules_data.has(nid_s) and not result.has(nid_s):
-			result.append(nid_s)
+			if is_npc_unlocked(nid_s):
+				result.append(nid_s)
 	return result
 
 

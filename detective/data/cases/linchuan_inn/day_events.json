@@ -1,5 +1,5 @@
 {
-  "_comment": "日程事件：按累计消耗时段触发（3 日 × 14 时段 = 42 总时段）。玩家自行触发提示。",
+  "_comment": "日程事件。凶手为顾清玄版。按累计消耗时段触发（3 日 × 14 时段 = 42 总时段）。",
   "events": [
     {
       "id": "evt_day2_break_in",
@@ -12,14 +12,38 @@
       "title": "夜半惊变",
       "hint": "（驿丞神色匆匆赶来）「大人，沈宅的门，今夜被人撬过了……」",
       "narration": [
-        { "speaker": "旁白", "text": "天色微亮，临川驿的老驿丞赵大有匆匆赶来。赵大有正是今早发现沈砚秋尸体的人，平日负责驿站杂务。" },
-        { "speaker": "赵大有 · 临川驿驿丞", "text": "大人！沈砚秋宅院的门被人撬过了。我刚从那儿过，门半开着，里面被翻得一塌糊涂。" },
+        { "speaker": "旁白", "text": "天色微亮，临川驿的老驿丞赵大有匆匆赶来。" },
+        { "speaker": "赵大有", "text": "大人！沈砚秋宅院的门被人撬过了。我刚从那儿过，门半开着，里面被翻得一塌糊涂。" },
         { "speaker": "凌瑶", "text": "撬门？！昨晚咱们不就在驿站吗，居然有人敢当着我们的面动手……这也太胆大包天了吧！" },
-        { "speaker": "旁白", "text": "看来昨夜有人比你更急着进沈宅。" }
+        { "speaker": "陆昭", "text": "……说明凶手还在临川。而且他要找的东西还没找到。" },
+        { "speaker": "凌瑶", "text": "那咱们快去看看！" }
       ],
       "effects": {
         "set_flag": "shen_house_broken",
-        "unlock_hint": "sheng_residence"
+        "unlock_hint": "shen_residence"
+      }
+    },
+    {
+      "id": "evt_gu_offers_help",
+      "trigger": {
+        "all": [
+          { "total_periods_used_gte": 10 },
+          { "not": { "flag": "evt_gu_offers_help_done" } },
+          { "not": { "flag": "gu_introduced_self" } },
+          { "not": { "visited": "gu_qingxuan.intro" } },
+          { "not": { "clue": "clue_gu_fan_poem" } }
+        ]
+      },
+      "title": "白衣公子来访",
+      "hint": "（一位气度不凡的白衣公子在门外求见）",
+      "narration": [
+        { "speaker": "旁白", "text": "一位白衣公子主动找到你，自称顾清玄，沈砚秋的旧友。" },
+        { "speaker": "顾清玄", "text": "大人。在下听闻砚秋兄遇害，特来相助。我与他相识多年，或许能提供一些线索。", "portrait": "gu_qingxuan" },
+        { "speaker": "凌瑶", "text": "（低声）陆大人，这人好突然啊……不过有人帮忙总是好的吧？", "portrait": "companion" },
+        { "speaker": "旁白", "text": "顾清玄看起来真诚而悲伤。他说他有一些关于沈砚秋过去的资料——如果你有空，可以去春风楼找他。" }
+      ],
+      "effects": {
+        "set_flag": "gu_introduced_self"
       }
     },
     {
@@ -41,31 +65,53 @@
       "effects": {}
     },
     {
-      "id": "evt_old_case_revealed",
+      "id": "evt_gu_provides_dossier",
       "trigger": {
         "all": [
-          { "evidence": "evidence_old_case_file" },
-          { "not": { "flag": "evt_old_case_revealed_done" } }
+          { "visited": "gu_qingxuan.old_case" },
+          { "not": { "flag": "evt_gu_dossier_done" } }
         ]
       },
-      "title": "故案重现",
-      "hint": "（顾清玄约你于春风楼上吃茶）「大人，沈兄之死，怕不是大人想的那么简单……」",
+      "title": "顾清玄送来旧案卷宗",
+      "hint": "（顾清玄约你于春风楼吃茶）「大人，沈兄之死，怕不是大人想的那么简单……」",
       "narration": [
-        "顾清玄在春风楼上邀你吃茶。他从怀中抽出一卷誊本——",
-        "「这是邻县按察司里压了二十年的副本。万历四年的米行案——告发者，俗姓严。流放路上，沈家七口尽殁，只剩一个十一岁的小儿，被远房舅父收养——就是后来的沈砚秋。」",
-        "「沈兄查的根本不是赈灾粮——那只是顺手。他真正要为之昭雪的，是他亲生父亲。」",
-        "「大人，凶手不在县衙——在临川某处寺院的香火里。」",
-        { "speaker": "凌瑶", "text": "……二十年前的事？沈砚秋一直在暗查自己家的旧案？那杀他的人……是不想让旧事被翻出来。" }
+        { "speaker": "旁白", "text": "顾清玄在春风楼上邀你吃茶。他从怀中抽出一卷誊本——" },
+        { "speaker": "顾清玄", "text": "这是邻县按察司里的副本。万历四年的米行案——告发者，俗姓严。流放路上，沈家七口尽殁。只剩一个十一岁的小儿——就是后来的沈砚秋。" },
+        { "speaker": "顾清玄", "text": "沈兄查的根本不是赈灾粮——那只是顺手。他真正要为之昭雪的，是他亲生父亲。凶手不在县衙——在临川某处寺院的香火里。" },
+        { "speaker": "凌瑶", "text": "……二十年前的事？等等——他怎么知道得这么清楚？" },
+        { "speaker": "旁白", "text": "顾清玄的消息来源看似合理——按察司幕僚的身份能接触旧档。但凌瑶的话也有道理：他为什么知道得这么清楚？" }
       ],
       "effects": {
-        "set_flag": "gu_revealed_old_case"
+        "set_flag": "gu_provided_dossier"
+      }
+    },
+    {
+      "id": "evt_ma_reveals_gu_identity",
+      "trigger": {
+        "all": [
+          { "flag": "ma_bridge_met_done" },
+          { "not": { "flag": "evt_ma_reveals_gu_done" } }
+        ]
+      },
+      "title": "马三的秘密",
+      "hint": "（马三悄悄递来字条）「那个白衣公子……不是什么游学的。」",
+      "narration": [
+        { "speaker": "旁白", "text": "马三趁着无人，低声对你说——" },
+        { "speaker": "马三", "text": "大人，那个白衣公子顾清玄——我上个月在县衙见过他。穿的可不是白衣，是州府按察司的官服。他跟柳知县密谈了半日。" },
+        { "speaker": "马三", "text": "怎么现在变成『游学路过』了？卑职觉得不对劲，但不敢声张。大人您自己留心。" },
+        { "speaker": "凌瑶", "text": "！！！他骗我们！他根本不是什么书生！陆大人——" },
+        { "speaker": "陆昭", "text": "……先不要打草惊蛇。知道他的真实身份，反而是我们的优势。" }
+      ],
+      "effects": {
+        "set_flag": "gu_identity_exposed",
+        "gain_clue": "clue_gu_background"
       }
     },
     {
       "id": "evt_day3_liu_pressure",
       "trigger": {
         "all": [
-          { "total_periods_used_gte": 14 },
+          { "total_periods_used_gte": 20 },
           { "visited": "liu_wenqing.show_account" },
           { "not": { "flag": "evt_day3_done" } }
         ]
@@ -76,11 +122,12 @@
         "马三趁着无人，将一张折迭的字条塞到你手里。",
         "「县老爷今晨发了好大的火，说御史多事。卑职劝大人，要查就快查——夜里出门也要小心。」",
         "字条上只有一行：「今夜守在城南石桥下，可见有趣事。」",
-        { "speaker": "凌瑶", "text": "这个马捕头……看着凶巴巴的，居然还偷偷递字条？他到底是站哪边的？" },
+        { "speaker": "凌瑶", "text": "这个马捕头……他到底是站哪边的？不过他说的'有趣事'……是什么？" },
         "（看来夜里时辰，他会等在城南石桥下与你相见。）"
       ],
       "effects": {
-        "set_flag": ["liu_alarmed", "ma_bridge_invite"]
+        "set_flag": ["liu_alarmed", "ma_bridge_invite"],
+        "unlock_phase": "phase_3"
       }
     },
     {
@@ -98,11 +145,34 @@
         "苏婉来到你住处，眼眶通红。",
         "「大人，我这两日反复想，前夜与砚秋见面时，他塞给我一物，让我若事不便交给「见朱砂之人」。我不知何意——」",
         "她将一个小布包递给你，里面是半截染了朱砂的麻线。",
-        { "speaker": "凌瑶", "text": "「见朱砂之人」……他知道自己可能出事，提前留了后手？这个人心思可真深。陆大人，这麻线一定要仔细看看！" }
+        { "speaker": "凌瑶", "text": "「见朱砂之人」……他知道自己可能出事，提前留了后手？这个人心思可真深。" }
       ],
       "effects": {
         "set_flag": "su_handed_thread",
         "gain_clue": "clue_red_thread"
+      }
+    },
+    {
+      "id": "evt_daoming_confesses",
+      "trigger": {
+        "all": [
+          { "flag": "gu_provided_dossier" },
+          { "visited": "daoming.old_case_ask" },
+          { "not": { "flag": "evt_daoming_confesses_done" } }
+        ]
+      },
+      "title": "道明法师的坦白",
+      "hint": "（道明法师在佛前等你）「施主，贫僧有话要说。」",
+      "narration": [
+        { "speaker": "道明法师", "text": "施主。贫僧确实二十年前出面告发了沈家米行。但——贫僧是被人逼的。" },
+        { "speaker": "道明法师", "text": "当年有人拿着一份伪造的账簿，逼贫僧以庙的名义出面告发。贫僧……贫僧至今不知那人是谁。只记得他年轻、说话文雅、一身白衣。" },
+        { "speaker": "凌瑶", "text": "……白衣？年轻？二十年前？那时候顾清玄多大？等等不对——" },
+        { "speaker": "陆昭", "text": "二十年前顾清玄还是个孩子。但如果他家族里有人参与呢？或者……他继承了某个人未竟的事。" },
+        { "speaker": "道明法师", "text": "贫僧欠了沈家一条命。如果大人能查明真相，贫僧甘愿伏法。" }
+      ],
+      "effects": {
+        "set_flag": "daoming_confessed",
+        "gain_clue": "clue_daoming_old_case"
       }
     },
     {
@@ -118,7 +188,9 @@
       "narration": [
         "天色暗了下来。明日便是三日之期。",
         "若不能结案，你这御史的官印恐怕也要落到案宗夹页里。",
-        { "speaker": "凌瑶", "text": "明天就是最后期限了……陆大人，您有把握吗？不管怎样，本姑娘跟您站在一起！大不了……大不了回镖局挨顿骂呗。" },
+        { "speaker": "凌瑶", "text": "明天就是最后期限了……陆大人，您有把握吗？" },
+        { "speaker": "陆昭", "text": "有。" },
+        { "speaker": "凌瑶", "text": "……就一个字？行吧，本姑娘信您！大不了……大不了回镖局挨顿骂呗。" },
         "证据若已齐全，便可前往县衙公开指证。"
       ],
       "effects": {}

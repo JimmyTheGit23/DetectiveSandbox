@@ -92,7 +92,31 @@ func _build() -> void:
 
 
 func _on_pressed(menu_id: String) -> void:
+	# 检查面板是否锁定
+	if not GameManager.is_panel_unlocked(menu_id):
+		var hint := GameManager.get_panel_locked_hint(menu_id)
+		if hint != "":
+			_flash_locked_hint(hint)
+		return
 	menu_clicked.emit(menu_id)
+
+
+func _flash_locked_hint(text: String) -> void:
+	# 在菜单上方短暂显示提示
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.add_theme_font_size_override("font_size", 16)
+	lbl.add_theme_color_override("font_color", Color(1, 0.7, 0.4, 1))
+	lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+	lbl.add_theme_constant_override("outline_size", 3)
+	lbl.position = Vector2(-200, -30)
+	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD
+	lbl.custom_minimum_size = Vector2(220, 0)
+	add_child(lbl)
+	var tw := create_tween()
+	tw.tween_interval(2.5)
+	tw.tween_property(lbl, "modulate:a", 0.0, 1.0)
+	tw.tween_callback(lbl.queue_free)
 
 
 func _on_location_changed(_loc_id: String) -> void:
@@ -111,6 +135,7 @@ func refresh_visibility() -> void:
 
 ## 刷新按钮显隐：move 按钮只在当前地点有 sub_locations 时显示
 ## discuss 按钮只在有助手时显示
+## 渐进系统：锁定面板灰显示
 func _refresh_visibility() -> void:
 	if not _btn_map.has("move"):
 		return
@@ -121,3 +146,8 @@ func _refresh_visibility() -> void:
 	if _btn_map.has("discuss"):
 		var cs = get_node_or_null("/root/CompanionService")
 		_btn_map["discuss"].visible = cs != null and cs.has_method("has_companion") and cs.has_companion()
+	# 渐进系统：对锁定面板设灰色透明度
+	for menu_id in ["accuse", "notebook"]:
+		if _btn_map.has(menu_id):
+			var unlocked := GameManager.is_panel_unlocked(menu_id)
+			_btn_map[menu_id].modulate.a = 1.0 if unlocked else 0.45

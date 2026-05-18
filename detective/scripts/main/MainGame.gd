@@ -40,6 +40,8 @@ func _ready() -> void:
 	GameManager.evidence_added.connect(_on_evidence_added)
 	GameManager.clue_added.connect(_on_clue_added)
 	GameManager.day_event_available.connect(_on_day_event_available)
+	GameManager.phase_unlocked.connect(_on_phase_unlocked)
+	GameManager.progression_hint.connect(_on_progression_hint)
 	DialogueManager.dialogue_started.connect(_on_dialogue_started)
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 	DialogueManager.narration_started.connect(_on_narration_started)
@@ -287,6 +289,27 @@ func _on_evidence_added(eid: String) -> void:
 func _on_clue_added(cid: String) -> void:
 	var cl = GameManager.evidence_data.get(cid, {})
 	_flash_notification("【获得线索】" + cl.get("name", cid))
+
+
+func _on_phase_unlocked(phase_id: String) -> void:
+	var phase: Dictionary = {}
+	for p in GameManager.progression_data.get("phases", []):
+		if p.get("id", "") == phase_id:
+			phase = p
+			break
+	if phase.is_empty():
+		return
+	_flash_notification("【调查进展】" + phase.get("title", "新阶段解锁"))
+	# 刷新菜单和地图
+	if menu_panel.has_method("refresh_visibility"):
+		menu_panel.refresh_visibility()
+
+
+func _on_progression_hint(speaker: String, text: String) -> void:
+	if text == "":
+		return
+	var lines: Array = [{ "speaker": speaker, "text": text }]
+	DialogueManager.play_adhoc_narration(lines, func(): pass)
 
 
 func _on_lie_exposed(npc_id: String, lie_node: String) -> void:

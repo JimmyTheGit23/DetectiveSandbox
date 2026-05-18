@@ -33,10 +33,19 @@ func _build_list() -> void:
 		btn.custom_minimum_size = Vector2(0, 50)
 		btn.add_theme_font_size_override("font_size", 18)
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		var done_mark := "  ✓" if done > 0 else ""
-		btn.text = "  %s    [耗时 %d 段]%s" % [pname, cost, done_mark]
-		btn.disabled = _is_searching
-		btn.pressed.connect(_on_search.bind(pid))
+		# 渐进系统：检查搜索点是否解锁
+		var unlocked := GameManager.is_search_point_unlocked(loc_id, pid)
+		if unlocked:
+			var done_mark := "  ✓" if done > 0 else ""
+			btn.text = "  %s    [耗时 %d 段]%s" % [pname, cost, done_mark]
+			btn.disabled = _is_searching
+			btn.pressed.connect(_on_search.bind(pid))
+		else:
+			var hint := GameManager.get_search_point_locked_hint(loc_id, pid)
+			btn.text = "  🔒 %s" % pname
+			btn.disabled = true
+			btn.tooltip_text = hint
+			btn.modulate.a = 0.5
 		list_vbox.add_child(btn)
 
 

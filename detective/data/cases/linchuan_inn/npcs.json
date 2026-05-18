@@ -8,13 +8,19 @@
     "name": "柳文卿",
     "title": "临川知县",
     "portrait": "res://assets/cn/portraits/liu_wenqing.png",
-    "intro": "三十八岁，进士出身。沈砚秋的顶头上司。"
+    "intro": "三十八岁，进士出身。沈砚秋的顶头上司。",
+    "hidden_name": true,
+    "unknown_label": "知县",
+    "reveal_name_condition": { "visited": "liu_wenqing.intro" }
   },
   "su_wan": {
     "name": "苏婉",
     "title": "妇人",
     "portrait": "res://assets/cn/portraits/su_wan.png",
-    "intro": "自称是沈砚秋的故旧。一身素白，眼眶通红。"
+    "intro": "自称是沈砚秋的故旧。一身素白，眼眶通红。",
+    "hidden_name": true,
+    "unknown_label": "素衣妇人",
+    "reveal_name_condition": { "any": [{ "visited": "su_wan.intro" }, { "clue": "clue_handkerchief" }] }
   },
   "zhao_dayou": {
     "name": "赵大有",
@@ -26,19 +32,28 @@
     "name": "顾清玄",
     "title": "白衣公子",
     "portrait": "res://assets/cn/portraits/gu_qingxuan.png",
-    "intro": "春风楼常客。自称游学路过临川。一身白衣，气度不凡。"
+    "intro": "沈砚秋的故交，自称游学路过临川。一身白衣，气度不凡。听闻好友遇害主动求见，表示愿意协助调查。",
+    "hidden_name": true,
+    "unknown_label": "白衣公子",
+    "reveal_name_condition": { "any": [{ "visited": "gu_qingxuan.intro" }, { "flag": "gu_introduced_self" }] }
   },
   "xiao_cui": {
     "name": "小翠",
     "title": "春风楼花魁",
     "portrait": "res://assets/cn/portraits/xiao_cui.png",
-    "intro": "春风楼当家花魁。据说跟沈砚秋认识。"
+    "intro": "春风楼当家花魁。据说跟沈砚秋认识。",
+    "hidden_name": true,
+    "unknown_label": "花魁娘子",
+    "reveal_name_condition": { "visited": "xiao_cui.intro" }
   },
   "daoming": {
     "name": "道明法师",
     "title": "观音庙住持",
     "portrait": "res://assets/cn/portraits/daoming.png",
-    "intro": "观音庙的住持。六十多岁，眼神清明。说话温和，但似乎不愿主动谈起出家前的事。"
+    "intro": "观音庙的住持。六十多岁，眼神清明。说话温和，但似乎不愿主动谈起出家前的事。",
+    "hidden_name": true,
+    "unknown_label": "老僧",
+    "reveal_name_condition": { "visited": "daoming.intro" }
   },
   "ma_san": {
     "name": "马三",

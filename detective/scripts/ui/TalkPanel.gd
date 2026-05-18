@@ -58,16 +58,17 @@ func _make_npc_button(npc_id: String, data: Dictionary) -> Button:
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		hb.add_child(icon)
 	
-	# 文字（角色姓名/头衔走 AssetResolver，casting 优先于 npcs 字段）
+	# 文字（角色姓名走 display_name 系统，支持名字解锁）
+	var display_name: String = GameManager.get_npc_display_name(npc_id)
 	var role_info: Dictionary = AssetResolver.get_role_info(npc_id, GameManager.npcs_data)
-	var role_name: String = role_info.get("name", "")
-	if role_name == "":
-		role_name = data.get("name", npc_id)
 	var role_title: String = role_info.get("title", "")
 	if role_title == "":
 		role_title = data.get("title", "")
 	var lbl := Label.new()
-	lbl.text = "%s   （%s）" % [role_name, role_title]
+	if GameManager.is_npc_name_revealed(npc_id):
+		lbl.text = "%s   （%s）" % [display_name, role_title]
+	else:
+		lbl.text = "%s" % display_name
 	lbl.add_theme_font_size_override("font_size", 22)
 	lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE

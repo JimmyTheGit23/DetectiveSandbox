@@ -103,10 +103,7 @@ func _collect_npcs_for(loc_id: String, out: Array) -> void:
 		var nid_s := str(nid)
 		if nid_s == "lu_zhao":
 			continue
-		var role := AssetResolver.get_role_info(nid_s, GameManager.npcs_data)
-		var nm: String = role.get("name", "")
-		if nm == "":
-			nm = GameManager.get_npc_data(nid_s).get("name", nid_s)
+		var nm: String = GameManager.get_npc_display_name(nid_s)
 		if not out.has(nm):
 			out.append(nm)
 
@@ -167,8 +164,11 @@ func _case_location_ids() -> Array:
 	var ids: Array = []
 	for loc_id in GameManager.locations_data.keys():
 		var data := GameManager.get_location_data(loc_id)
-		if not data.is_empty():
-			ids.append(loc_id)
+		if data.is_empty():
+			continue
+		if not GameManager.is_location_unlocked(loc_id):
+			continue
+		ids.append(loc_id)
 	ids.sort()
 	if ids.has(GameManager.current_location):
 		ids.erase(GameManager.current_location)

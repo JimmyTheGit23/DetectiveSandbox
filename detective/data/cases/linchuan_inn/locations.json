@@ -4,6 +4,7 @@
     "description": "案发地。古井旁还残留着沈砚秋的血迹和一段散乱的麻绳。",
     "scene_type": "scene_post_station",
     "background": "res://assets/cn/scenes/post_station.png",
+    "unlock_phase": "phase_1",
     "npcs": ["zhao_dayou"],
     "search_points": [
       { "id": "well", "name": "古井", "time_cost": 1 },
@@ -18,6 +19,7 @@
     "description": "死者独居的住处。屋里灯还没熄，茶水洒了一桌。",
     "scene_type": "scene_private_residence",
     "background": "res://assets/cn/scenes/shen_residence.png",
+    "unlock_phase": "phase_2",
     "npcs": [],
     "search_points": [
       { "id": "desk", "name": "书桌", "time_cost": 1 },
@@ -32,6 +34,7 @@
     "description": "临川县衙门所在。明镜高悬之下，知县柳文卿正等着你的回话。",
     "scene_type": "scene_government_hall",
     "background": "res://assets/cn/scenes/yamen.png",
+    "unlock_phase": "phase_1",
     "npcs": ["liu_wenqing", "ma_san"],
     "search_points": [
       { "id": "archive", "name": "卷宗架", "time_cost": 2 },
@@ -43,6 +46,7 @@
     "description": "临川有名的酒楼。死者生前常来。红绸金灯，胭脂香气里似乎藏着话。",
     "scene_type": "scene_pleasure_house",
     "background": "res://assets/cn/scenes/spring_wind_tower.png",
+    "unlock_phase": "phase_2",
     "npcs": ["xiao_cui", "gu_qingxuan"],
     "search_points": [
       { "id": "private_room", "name": "雅间的桌子", "time_cost": 2 },
@@ -55,6 +59,7 @@
     "description": "镇北的古庙，香烟缥缈。道明法师独自住在这里。",
     "scene_type": "scene_temple",
     "background": "res://assets/cn/scenes/guanyin_temple.png",
+    "unlock_phase": "phase_2",
     "npcs": ["daoming"],
     "search_points": [
       { "id": "incense", "name": "香炉", "time_cost": 1 },
@@ -67,6 +72,7 @@
     "description": "临川镇的中心。布庄、茶摊、米行都在这里，三教九流都来。",
     "scene_type": "scene_market",
     "background": "res://assets/cn/scenes/market.png",
+    "unlock_phase": "phase_3",
     "npcs": ["su_wan"],
     "search_points": [
       { "id": "drug_shop", "name": "药铺门口", "time_cost": 2 },

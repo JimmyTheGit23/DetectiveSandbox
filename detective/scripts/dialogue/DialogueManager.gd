@@ -166,9 +166,9 @@ func _emit_current() -> void:
 	# 通过 AssetResolver 解析立绘和角色名（先走 casting → actor → portrait，回退到 npcs.json）
 	var portrait: String = AssetResolver.get_portrait(_current_npc_id, GameManager.npcs_data)
 	var role_info: Dictionary = AssetResolver.get_role_info(_current_npc_id, GameManager.npcs_data)
-	var npc_name: String = role_info.get("name", "")
+	var npc_name: String = GameManager.get_npc_display_name(_current_npc_id)
 	if npc_name == "":
-		npc_name = npc.get("name", _current_npc_id)
+		npc_name = role_info.get("name", npc.get("name", _current_npc_id))
 	var text: String = _resolve_text(node)
 	var options := _filter_options(node.get("options", []))
 	VoicePlayer.play_dialogue(_current_npc_id, _current_node_id)

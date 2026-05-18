@@ -31,7 +31,8 @@
       "actor_id": "actor_white_robed_scholar",
       "role_name": "顾清玄",
       "role_title": "白衣公子",
-      "role_intro": "春风楼常客。自称游学路过临川。一身白衣，气度不凡。"
+      "role_intro": "沈砚秋的故交，自称游学路过临川。一身白衣，气度不凡。",
+      "is_culprit": true
     },
     "xiao_cui": {
       "actor_id": "actor_courtesan_top",
@@ -43,8 +44,7 @@
       "actor_id": "actor_elder_monk",
       "role_name": "道明法师",
       "role_title": "观音庙住持",
-      "role_intro": "观音庙的住持。六十多岁，眼神清明。说话温和，但似乎不愿主动谈起出家前的事。",
-      "is_culprit": true
+      "role_intro": "观音庙的住持。六十多岁，眼神清明。说话温和，但似乎不愿主动谈起出家前的事。"
     },
     "ma_san": {
       "actor_id": "actor_scarred_constable",

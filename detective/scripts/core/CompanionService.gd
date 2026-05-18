@@ -210,9 +210,22 @@ func _match_banter_rules(context: Dictionary) -> Array:
 		var lines_pool: Array = rule.get("lines", [])
 		if lines_pool.is_empty():
 			continue
-		# 随机取一条或全部返回
-		var pick: String = lines_pool[randi() % lines_pool.size()]
-		return [{"text": pick, "speaker": _role_name}]
+		# 随机取一条
+		var pick = lines_pool[randi() % lines_pool.size()]
+		# 支持两种格式：
+		#   1) String — 助手独白（旧格式）
+		#   2) Array of {speaker, text} — 多轮对话（新格式）
+		if pick is String:
+			return [{"text": pick, "speaker": _role_name}]
+		if pick is Array:
+			var result: Array = []
+			for line in pick:
+				if line is Dictionary:
+					result.append(line)
+				elif line is String:
+					result.append({"speaker": _role_name, "text": line})
+			return result
+		return [{"text": str(pick), "speaker": _role_name}]
 	return []
 
 
@@ -305,7 +318,17 @@ func _resolve_discussion(topic_id: String) -> Array:
 		var pool: Array = topic_data.get("pool", [])
 		if pool.is_empty():
 			return [{"speaker": _role_name, "text": "陆大人，歇歇吧。"}]
-		var item = pool[randi() % pool.size()]
+		# 过滤有 condition 但不满足条件的条目
+		var eligible: Array = []
+		for item in pool:
+			if item is Dictionary:
+				var cond = item.get("condition", null)
+				if cond != null and not GameManager.evaluate_condition(cond):
+					continue
+			eligible.append(item)
+		if eligible.is_empty():
+			return [{"speaker": _role_name, "text": "陆大人，歇歇吧。"}]
+		var item = eligible[randi() % eligible.size()]
 		if item is String:
 			return [{"speaker": _role_name, "text": item}]
 		if item is Dictionary:
@@ -343,6 +366,10 @@ func _evaluate_discussion_condition(when) -> bool:
 	if d.get("default", false):
 		return true
 
+	# 复合条件：委托给 GameManager.evaluate_condition
+	if d.has("all") or d.has("any") or d.has("not"):
+		return GameManager.evaluate_condition(d)
+
 	# day 条件
 	if d.has("day"):
 		if GameManager.current_day != int(d["day"]):
@@ -372,6 +399,26 @@ func _evaluate_discussion_condition(when) -> bool:
 	if d.has("not_flag"):
 		if GameManager.has_flag(d["not_flag"]):
 			return false
+
+	# 支持 GameManager 风格的条件键
+	if d.has("flag"):
+		if not GameManager.has_flag(d["flag"]):
+			return false
+	if d.has("evidence"):
+		if not GameManager.has_evidence(d["evidence"]):
+			return false
+	if d.has("clue"):
+		if not GameManager.has_clue(d["clue"]):
+			return false
+	if d.has("visited"):
+		var v: String = d["visited"]
+		var parts := v.split(".")
+		if parts.size() == 2:
+			if not GameManager.has_visited(parts[0], parts[1]):
+				return false
+		else:
+			if not GameManager.visited_locations.has(v):
+				return false
 
 	# 未访问地点
 	if d.has("not_visited"):
