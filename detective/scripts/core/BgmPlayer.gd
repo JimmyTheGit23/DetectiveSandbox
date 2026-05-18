@@ -1,8 +1,7 @@
 extends Node
 ## 全局背景音乐播放器
 ##
-## 强力版：绕过 .import 系统，从 wav 原始字节流手动构造 AudioStreamWAV
-## 避免 Godot 在 import 阶段做任何意外处理。
+## 使用标准 load() 加载已导入的 AudioStreamWAV 资源，兼容编辑器和导出版本。
 
 @export var enabled: bool = true
 @export var default_volume_db: float = -12.0
@@ -16,7 +15,7 @@ var _current_id: String = ""
 var _audio_ready: bool = false
 var _pending_play: String = ""
 
-# 流缓存（手动加载的 wav）
+# 流缓存
 var _stream_cache: Dictionary = {}
 
 ## 旧的硬编码映射，作为 AssetResolver 不可用时的兜底（迁移期保留，迁移完成后可删除）。
@@ -110,77 +109,27 @@ func set_enabled(v: bool) -> void:
 		stop()
 
 
-## 直接从源 WAV 文件字节流构造 AudioStreamWAV，绕过 import 系统
+## 使用标准 load() 加载已导入的 AudioStreamWAV 资源
 func _load_stream_raw(bgm_name: String) -> AudioStreamWAV:
 	if _stream_cache.has(bgm_name):
 		return _stream_cache[bgm_name]
 	var path := "res://assets/cn/bgm/%s.wav" % bgm_name
-	if not FileAccess.file_exists(path):
+	if not ResourceLoader.exists(path):
 		if debug_log:
-			print("[BGM] file not found: ", path)
+			print("[BGM] resource not found: ", path)
 		return null
-	var f := FileAccess.open(path, FileAccess.READ)
-	if f == null:
-		return null
-	var bytes := f.get_buffer(f.get_length())
-	f.close()
-	
-	var stream := _parse_wav_to_stream(bytes)
+	var stream := load(path) as AudioStreamWAV
 	if stream == null:
 		if debug_log:
-			print("[BGM] WAV parse failed: ", path)
+			print("[BGM] load failed: ", path)
 		return null
-	_stream_cache[bgm_name] = stream
-	if debug_log:
-		print("[BGM] loaded raw WAV ", path, " stereo=", stream.stereo, " rate=", stream.mix_rate, " data_len=", stream.data.size())
-	return stream
-
-
-func _parse_wav_to_stream(bytes: PackedByteArray) -> AudioStreamWAV:
-	# 极简 RIFF/WAVE 解析，只支持 PCM16 / mono+stereo
-	if bytes.size() < 44:
-		return null
-	if bytes.slice(0, 4).get_string_from_ascii() != "RIFF":
-		return null
-	if bytes.slice(8, 12).get_string_from_ascii() != "WAVE":
-		return null
-	# 找 fmt 和 data chunk
-	var pos := 12
-	var channels := 0
-	var rate := 0
-	var bits := 0
-	var data_offset := -1
-	var data_len := 0
-	while pos + 8 <= bytes.size():
-		var chunk_id := bytes.slice(pos, pos + 4).get_string_from_ascii()
-		var chunk_size := bytes.decode_u32(pos + 4)
-		if chunk_id == "fmt ":
-			# format = bytes[pos+8..]:  fmt_tag(2), channels(2), rate(4), byterate(4), block(2), bits(2)
-			channels = bytes.decode_u16(pos + 8 + 2)
-			rate = bytes.decode_u32(pos + 8 + 4)
-			bits = bytes.decode_u16(pos + 8 + 14)
-		elif chunk_id == "data":
-			data_offset = pos + 8
-			data_len = int(chunk_size)
-			break
-		pos += 8 + int(chunk_size)
-		# chunk_size 奇数时需要 pad 1 字节
-		if chunk_size % 2 == 1:
-			pos += 1
-	if data_offset < 0 or bits != 16:
-		return null
-	var pcm := bytes.slice(data_offset, data_offset + data_len)
-	var stream := AudioStreamWAV.new()
-	stream.format = AudioStreamWAV.FORMAT_16_BITS
-	stream.stereo = (channels == 2)
-	stream.mix_rate = rate
-	# 重要：不要在这里设置 LOOP_FORWARD + loop_end=0。
-	# Godot 会把 loop_begin==loop_end 当成 0 长度循环，导致 play() 后立刻停止。
-	# 先正常播放；循环由 _on_bgm_finished 手动重播。
+	# 确保循环模式正确：导入的资源可能有 loop 设置，统一使用手动循环
 	stream.loop_mode = AudioStreamWAV.LOOP_DISABLED
 	stream.loop_begin = 0
 	stream.loop_end = 0
-	stream.data = pcm
+	_stream_cache[bgm_name] = stream
+	if debug_log:
+		print("[BGM] loaded ", path, " stereo=", stream.stereo, " rate=", stream.mix_rate, " data_len=", stream.data.size())
 	return stream
 
 

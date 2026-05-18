@@ -13,3 +13,6 @@
 
 # ChatTTS local model cache if source=local is accidentally used
 asset/
+
+# Export presets (local build config, not for repo)
+export_presets.cfg

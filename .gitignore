@@ -1,0 +1,5 @@
+# Build output
+build/
+
+# CodeBuddy workspace metadata
+.codebuddy/
