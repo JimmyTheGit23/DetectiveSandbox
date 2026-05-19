@@ -11,6 +11,11 @@ const TypewriterEffectScript = preload("res://scripts/ui/TypewriterEffect.gd")
 
 var _typewriter: Node = null
 
+const DEFAULT_PORTRAIT_POSITION := Vector2(20, -200)
+const DEFAULT_PORTRAIT_SIZE := Vector2(200, 500)
+const OPERA_PERFORMER_PORTRAIT_POSITION := Vector2(-80, -200)
+const OPERA_PERFORMER_PORTRAIT_SIZE := Vector2(300, 500)
+
 
 func _ready() -> void:
 	exit_btn.pressed.connect(_on_exit_pressed)
@@ -39,6 +44,13 @@ func _on_exit_pressed() -> void:
 
 func show_dialogue(speaker: String, portrait_path: String, text: String, options: Array) -> void:
 	speaker_label.text = speaker
+	portrait_rect.position = DEFAULT_PORTRAIT_POSITION
+	portrait_rect.size = DEFAULT_PORTRAIT_SIZE
+	portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	if portrait_path.ends_with("actor_opera_performer.png"):
+		portrait_rect.position = OPERA_PERFORMER_PORTRAIT_POSITION
+		portrait_rect.size = OPERA_PERFORMER_PORTRAIT_SIZE
+		portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	if portrait_path != "" and ResourceLoader.exists(portrait_path):
 		portrait_rect.texture = load(portrait_path)
 		portrait_rect.visible = true

@@ -171,6 +171,10 @@ func switch_case(case_id: String) -> bool:
 	culprit_actions_witnessed.clear()
 	unlocked_phases = ["phase_1"]
 	reroll_case_seed()
+	# 切换案件时刷新助手系统数据
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs and cs.has_method("reload_for_case"):
+		cs.reload_for_case()
 	return true
 
 

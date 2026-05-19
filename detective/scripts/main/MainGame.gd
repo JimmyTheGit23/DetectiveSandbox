@@ -30,6 +30,7 @@ var _active_subpanel: Control = null
 var _pending_events: Array[String] = []
 var _pending_adhoc_lines: Array = []
 var _title_layer: Control = null
+var _title_props_layer: Control = null
 var _scene_fx: Node = null
 #var _npc_layer: Control = null
 
@@ -104,6 +105,9 @@ func _show_title() -> void:
 		scene_bg.texture = load(bg)
 	BgmPlayer.play("main_theme")
 	
+	# 标题前景漂浮物件层
+	_spawn_title_props()
+	
 	if _title_layer and is_instance_valid(_title_layer):
 		_title_layer.queue_free()
 	_title_layer = Control.new()
@@ -176,6 +180,71 @@ func _hide_title() -> void:
 	if _title_layer and is_instance_valid(_title_layer):
 		_title_layer.queue_free()
 	_title_layer = null
+	if _title_props_layer and is_instance_valid(_title_props_layer):
+		_title_props_layer.queue_free()
+	_title_props_layer = null
+
+
+func _spawn_title_props() -> void:
+	if _title_props_layer and is_instance_valid(_title_props_layer):
+		_title_props_layer.queue_free()
+
+	_title_props_layer = Control.new()
+	_title_props_layer.name = "TitlePropsLayer"
+	_title_props_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_title_props_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_title_props_layer)
+	# 放在背景与 UI 之间
+	if scene_bg:
+		move_child(_title_props_layer, scene_bg.get_index() + 1)
+
+	var PropScript = load("res://scripts/ui/TitleFloatingProp.gd")
+	if PropScript == null:
+		return
+
+	var vp := get_viewport_rect().size
+	var cx := vp.x * 0.5
+	var cy := vp.y * 0.5
+
+	# 中央水晶球（脉动呼吸）
+	_add_title_prop("res://assets/cn/title_props/orb.png",
+		Vector2(cx - 150, cy - 150), Vector2(300, 300),
+		{"breathe_scale": true, "breathe_speed": 1.0, "breathe_amount": 0.03, "float_speed": 0.0})
+
+	# 左侧物件（扇形分布，避免重叠）
+	_add_title_prop("res://assets/cn/title_props/magnifier.png",
+		Vector2(cx - 400, cy - 100), Vector2(130, 130),
+		{"float_speed": 1.0, "float_amplitude": 4.0, "rot_amplitude": 4.0, "phase_offset": 0.5})
+	_add_title_prop("res://assets/cn/title_props/scroll.png",
+		Vector2(cx - 460, cy + 40), Vector2(140, 140),
+		{"float_speed": 0.8, "float_amplitude": 5.0, "rot_amplitude": 3.0, "phase_offset": 1.2})
+	_add_title_prop("res://assets/cn/title_props/lantern.png",
+		Vector2(cx - 280, cy + 180), Vector2(110, 110),
+		{"float_speed": 1.3, "float_amplitude": 6.0, "rot_amplitude": 2.0, "phase_offset": 2.0})
+
+	# 右侧物件（扇形分布，避免重叠）
+	_add_title_prop("res://assets/cn/title_props/compass.png",
+		Vector2(cx + 300, cy - 100), Vector2(120, 120),
+		{"float_speed": 1.1, "float_amplitude": 5.0, "rot_amplitude": 3.0, "phase_offset": 3.5})
+	_add_title_prop("res://assets/cn/title_props/ink_brush.png",
+		Vector2(cx + 420, cy + 30), Vector2(120, 120),
+		{"float_speed": 0.9, "float_amplitude": 4.0, "rot_amplitude": 4.0, "phase_offset": 4.0})
+	_add_title_prop("res://assets/cn/title_props/pocket_watch.png",
+		Vector2(cx + 240, cy + 200), Vector2(110, 110),
+		{"float_speed": 1.2, "float_amplitude": 5.0, "rot_amplitude": 2.0, "phase_offset": 5.5})
+
+
+func _add_title_prop(path: String, pos: Vector2, prop_size: Vector2, params: Dictionary) -> void:
+	if not ResourceLoader.exists(path):
+		return
+	var prop := TextureRect.new()
+	prop.set_script(load("res://scripts/ui/TitleFloatingProp.gd"))
+	prop.texture = load(path)
+	prop.position = pos
+	prop.custom_minimum_size = prop_size
+	for k in params.keys():
+		prop.set(k, params[k])
+	_title_props_layer.add_child(prop)
 
 
 func _on_start_game_pressed() -> void:
@@ -490,6 +559,10 @@ func _open_subpanel(menu_id: String) -> void:
 		return
 	if menu_id == "accuse":
 		BgmPlayer.play("accuse")
+	# ── 探索面板：优先使用场景热点叠加模式 ──
+	if menu_id == "search" and _has_hint_rects():
+		_open_search_overlay()
+		return
 	var scene_path: String = SubPanels[menu_id]
 	if not ResourceLoader.exists(scene_path):
 		push_warning("Panel scene missing: " + scene_path)
@@ -519,14 +592,58 @@ func _on_return_to_title() -> void:
 
 
 func _close_subpanel() -> void:
+	var was_search_overlay := _active_subpanel != null and _active_subpanel.name == "SearchOverlay"
 	var was_active = _active_subpanel
 	if _active_subpanel and is_instance_valid(_active_subpanel):
 		_active_subpanel.queue_free()
 		_active_subpanel = null
 	subpanel_container.visible = false
+	if was_search_overlay:
+		menu_panel.visible = true
 	# 关闭指证面板后恢复地点 BGM
 	if was_active and BgmPlayer.current_bgm_id() == "accuse":
 		BgmPlayer.play(GameManager.current_location)
+
+
+func _has_hint_rects() -> bool:
+	var loc := GameManager.current_location_data()
+	for sp in loc.get("search_points", []):
+		if sp.get("hint_rect", null) != null:
+			return true
+	return false
+
+
+func _open_search_overlay() -> void:
+	var OverlayScript = load("res://scripts/ui/SearchOverlay.gd")
+	if OverlayScript == null:
+		push_warning("SearchOverlay.gd not found, falling back to SearchPanel")
+		var scene_path: String = SubPanels["search"]
+		if ResourceLoader.exists(scene_path):
+			var packed: PackedScene = load(scene_path)
+			var panel: Control = packed.instantiate()
+			subpanel_container.add_child(panel)
+			subpanel_container.visible = true
+			_active_subpanel = panel
+			if panel.has_signal("close_requested"):
+				panel.close_requested.connect(_close_subpanel)
+			if panel.has_signal("search_result_acknowledged"):
+				panel.search_result_acknowledged.connect(_on_search_result_acknowledged)
+		return
+	var overlay := Control.new()
+	overlay.set_script(OverlayScript)
+	overlay.name = "SearchOverlay"
+	overlay.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	overlay.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	overlay.custom_minimum_size = subpanel_container.size
+	subpanel_container.add_child(overlay)
+	subpanel_container.visible = true
+	_active_subpanel = overlay
+	# 隐藏右侧菜单，让场景图完全可见
+	menu_panel.visible = false
+	if overlay.has_signal("close_requested"):
+		overlay.close_requested.connect(_close_subpanel)
+	if overlay.has_signal("search_result_acknowledged"):
+		overlay.search_result_acknowledged.connect(_on_search_result_acknowledged)
 
 
 func _on_npc_selected(npc_id: String) -> void:

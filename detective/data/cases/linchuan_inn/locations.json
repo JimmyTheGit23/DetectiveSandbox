@@ -7,11 +7,11 @@
     "unlock_phase": "phase_1",
     "npcs": ["zhao_dayou"],
     "search_points": [
-      { "id": "well", "name": "古井", "time_cost": 1 },
-      { "id": "rope", "name": "井旁的麻绳", "time_cost": 1 },
-      { "id": "body", "name": "尸体所在处", "time_cost": 2 },
-      { "id": "barrels", "name": "墙边的木桶", "time_cost": 1 },
-      { "id": "lantern", "name": "屋檐下的灯笼", "time_cost": 1 }
+      { "id": "well", "name": "古井", "time_cost": 1, "hint_rect": [0.52, 0.34, 0.10, 0.14] },
+      { "id": "rope", "name": "井旁的麻绳", "time_cost": 1, "hint_rect": [0.46, 0.52, 0.10, 0.08] },
+      { "id": "body", "name": "尸体所在处", "time_cost": 2, "hint_rect": [0.34, 0.52, 0.12, 0.10] },
+      { "id": "barrels", "name": "墙边的木桶", "time_cost": 1, "hint_rect": [0.26, 0.36, 0.08, 0.14] },
+      { "id": "lantern", "name": "屋檐下的灯笼", "time_cost": 1, "hint_rect": [0.74, 0.20, 0.06, 0.10] }
     ]
   },
   "shen_residence": {
@@ -22,11 +22,11 @@
     "unlock_phase": "phase_2",
     "npcs": [],
     "search_points": [
-      { "id": "desk", "name": "书桌", "time_cost": 1 },
-      { "id": "drawer", "name": "抽屉", "time_cost": 2 },
-      { "id": "bed", "name": "床榻", "time_cost": 1 },
-      { "id": "scrolls", "name": "墙上的字画", "time_cost": 1 },
-      { "id": "teacup", "name": "翻倒的茶盏", "time_cost": 1 }
+      { "id": "desk", "name": "书桌", "time_cost": 1, "hint_rect": [0.10, 0.60, 0.38, 0.22] },
+      { "id": "drawer", "name": "抽屉", "time_cost": 2, "hint_rect": [0.64, 0.45, 0.16, 0.20] },
+      { "id": "bed", "name": "床榻", "time_cost": 1, "hint_rect": [0.72, 0.55, 0.22, 0.28] },
+      { "id": "scrolls", "name": "墙上的字画", "time_cost": 1, "hint_rect": [0.02, 0.08, 0.38, 0.38] },
+      { "id": "teacup", "name": "翻倒的茶盏", "time_cost": 1, "hint_rect": [0.12, 0.72, 0.10, 0.10] }
     ]
   },
   "yamen": {
@@ -37,8 +37,8 @@
     "unlock_phase": "phase_1",
     "npcs": ["liu_wenqing", "ma_san"],
     "search_points": [
-      { "id": "archive", "name": "卷宗架", "time_cost": 2 },
-      { "id": "evidence_table", "name": "证物台", "time_cost": 1 }
+      { "id": "archive", "name": "卷宗架", "time_cost": 2, "hint_rect": [0.02, 0.40, 0.14, 0.28] },
+      { "id": "evidence_table", "name": "证物台", "time_cost": 1, "hint_rect": [0.72, 0.50, 0.16, 0.22] }
     ]
   },
   "spring_wind_tower": {
@@ -49,9 +49,9 @@
     "unlock_phase": "phase_2",
     "npcs": ["xiao_cui", "gu_qingxuan"],
     "search_points": [
-      { "id": "private_room", "name": "雅间的桌子", "time_cost": 2 },
-      { "id": "stage", "name": "戏台幕后", "time_cost": 2 },
-      { "id": "ledger", "name": "酒楼帐簿", "time_cost": 2 }
+      { "id": "private_room", "name": "雅间的桌子", "time_cost": 2, "hint_rect": [0.58, 0.30, 0.30, 0.35] },
+      { "id": "stage", "name": "戏台幕后", "time_cost": 2, "hint_rect": [0.30, 0.10, 0.40, 0.30] },
+      { "id": "ledger", "name": "酒楼帐簿", "time_cost": 2, "hint_rect": [0.02, 0.45, 0.20, 0.30] }
     ]
   },
   "guanyin_temple": {
@@ -62,9 +62,9 @@
     "unlock_phase": "phase_2",
     "npcs": ["daoming"],
     "search_points": [
-      { "id": "incense", "name": "香炉", "time_cost": 1 },
-      { "id": "ribbons", "name": "红绸祈福", "time_cost": 1 },
-      { "id": "altar", "name": "佛龛", "time_cost": 2 }
+      { "id": "incense", "name": "香炉", "time_cost": 1, "hint_rect": [0.38, 0.62, 0.24, 0.22] },
+      { "id": "ribbons", "name": "红绸祈福", "time_cost": 1, "hint_rect": [0.14, 0.20, 0.18, 0.28] },
+      { "id": "altar", "name": "佛龛", "time_cost": 2, "hint_rect": [0.48, 0.12, 0.36, 0.38] }
     ]
   },
   "market": {
@@ -75,9 +75,9 @@
     "unlock_phase": "phase_3",
     "npcs": ["su_wan"],
     "search_points": [
-      { "id": "drug_shop", "name": "药铺门口", "time_cost": 2 },
-      { "id": "bridge", "name": "石桥下", "time_cost": 1 },
-      { "id": "stalls", "name": "摊位之间", "time_cost": 1 }
+      { "id": "drug_shop", "name": "布庄", "time_cost": 2, "hint_rect": [0.06, 0.28, 0.18, 0.24] },
+      { "id": "bridge", "name": "石桥下", "time_cost": 1, "hint_rect": [0.50, 0.55, 0.20, 0.14] },
+      { "id": "stalls", "name": "摊位之间", "time_cost": 1, "hint_rect": [0.72, 0.35, 0.16, 0.22] }
     ]
   }
 }

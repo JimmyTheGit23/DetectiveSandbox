@@ -1,9 +1,9 @@
 extends Node
-class_name TypewriterEffect
 ## 逐字显示文本效果。支持语气节奏控制和音效标记。
 ##
 ## 用法：
-##   var tw = TypewriterEffect.new()
+##   var TypewriterEffectScript = preload("res://scripts/ui/TypewriterEffect.gd")
+##   var tw = TypewriterEffectScript.new()
 ##   add_child(tw)
 ##   tw.play(rich_text_label, "你好……世界！")
 ##   await tw.finished

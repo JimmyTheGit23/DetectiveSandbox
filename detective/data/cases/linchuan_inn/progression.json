@@ -34,6 +34,8 @@
           { "clue": "clue_drug_buyer_hint" },
           { "clue": "clue_temple_paper" },
           { "evidence": "evidence_red_powder" },
+          { "flag": "met_ma_at_bridge" },
+          { "flag": "ma_bridge_invite" },
           { "total_periods_used_gte": 14 }
         ]
       }
