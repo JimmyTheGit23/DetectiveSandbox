@@ -1,5 +1,8 @@
 extends Control
 ## 序章/叙述框：支持底部对话框与居中提示框两种显示，有 speaker 时显示立绘
+## 逐字显示：点击一次 = 显示全文；再次点击 = 翻页
+
+const TypewriterEffectScript = preload("res://scripts/ui/TypewriterEffect.gd")
 
 @onready var box: PanelContainer = $Box
 @onready var speaker_label: Label = $Box/VBox/SpeakerName
@@ -8,12 +11,15 @@ extends Control
 
 var _has_next: bool = true
 var _portrait_rect: TextureRect = null
+var _typewriter: Node = null
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	set_process_input(true)
 	_create_portrait_rect()
+	_typewriter = TypewriterEffectScript.new()
+	add_child(_typewriter)
 
 
 func _create_portrait_rect() -> void:
@@ -38,22 +44,34 @@ func _create_portrait_rect() -> void:
 func _input(event: InputEvent) -> void:
 	if not visible:
 		return
+	var clicked := false
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		DialogueManager.narration_advance()
-		get_viewport().set_input_as_handled()
+		clicked = true
 	elif event is InputEventKey and event.pressed and (event.keycode == KEY_SPACE or event.keycode == KEY_ENTER):
-		DialogueManager.narration_advance()
+		clicked = true
+	
+	if clicked:
+		if _typewriter.is_playing():
+			# 文字还在出，点击 = 立即显示全文
+			_typewriter.skip()
+		else:
+			# 文字已全部显示，点击 = 翻到下一页
+			DialogueManager.narration_advance()
 		get_viewport().set_input_as_handled()
 
 
 func show_narration(speaker: String, text: String, has_next: bool, centered := false) -> void:
 	speaker_label.text = speaker
 	speaker_label.visible = (speaker != "")
-	text_label.text = text
 	_has_next = has_next
 	continue_label.text = "▼ 点击继续" if has_next else "▼ 点击进入游戏"
+	continue_label.visible = false
 	_apply_layout(centered)
 	_update_portrait(speaker)
+	# 逐字显示
+	_typewriter.play(text_label, text)
+	await _typewriter.finished
+	continue_label.visible = true
 
 
 func _apply_layout(centered: bool) -> void:

@@ -56,24 +56,24 @@
     "description": "后院青石板上除了死者坠落的血迹外，还有一串从楼梯口到栏边再折返的脚印。脚印偏小——不像男子的。"
   },
   "evidence_silk_purchase_receipt": {
+    "type": "evidence",
     "name": "新购红绸单据",
-    "description": "布庄账册上一笔临时手写记录。买方栏只写了一个字。字迹歪斜匆忙——可能是任何人。",
-    "category": "物证"
+    "description": "布庄账册上一笔临时手写记录。买方栏只写了一个字。字迹歪斜匆忙——可能是任何人。"
   },
   "evidence_dock_disturbed": {
+    "type": "evidence",
     "name": "江畔水阁的乱痕",
-    "description": "湿木板上一道新鲜的鞋印拖痕，缆绳被打了一个奇怪的扣。有人凌晨独自来此丢弃了什么——脚印大小中等，无法确定性别。",
-    "category": "物证"
+    "description": "湿木板上一道新鲜的鞋印拖痕，缆绳被打了一个奇怪的扣。有人凌晨独自来此丢弃了什么——脚印大小中等，无法确定性别。"
   },
   "evidence_chamber_redisturbed": {
+    "type": "evidence",
     "name": "闺阁被翻动的痕迹",
-    "description": "案发后封锁的闺阁，妆台抽屉被重新拉开，几张纸笺凌乱。不止一个人在案发后回来过。",
-    "category": "物证"
+    "description": "案发后封锁的闺阁，妆台抽屉被重新拉开，几张纸笺凌乱。不止一个人在案发后回来过。"
   },
   "evidence_nun_visited_by_stranger": {
+    "type": "evidence",
     "name": "深夜来庵的陌生人",
-    "description": "无尘师太提到——案发后的夜里有人敲庵门，问她那夜是否听见对楼有动静。来人戴了兜帽，师太没看清面貌。",
-    "category": "证词"
+    "description": "无尘师太提到——案发后的夜里有人敲庵门，问她那夜是否听见对楼有动静。来人戴了兜帽，师太没看清面貌。"
   },
   "clue_courtyard_drag": {
     "type": "clue",

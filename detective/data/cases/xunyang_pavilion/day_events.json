@@ -1,28 +1,25 @@
 {
-  "_comment": "日程事件。auto_play 遭遇中，玩家可能撞见真凶，也可能撞见红鲱鱼——两者都行为可疑。",
+  "_comment": "日程事件。真凶青姐。凌瑶在关键事件中有即时反应。按时段触发。3天×14时段=42总时段。",
   "events": [
     {
       "id": "evt_redemption_revealed",
       "trigger": {
         "all": [
-          {
-            "evidence": "evidence_courtesan_redemption"
-          },
-          {
-            "not": {
-              "flag": "evt_redemption_revealed_done"
-            }
-          }
+          { "evidence": "evidence_courtesan_redemption" },
+          { "not": { "flag": "evt_redemption_revealed_done" } }
         ]
       },
       "title": "赎身故案",
-      "hint": "你发现了赎身契",
+      "hint": "（你发现了赎身契）",
       "narration": [
         "一封赎身契。三百两白银，赎秋菱归故里。",
-        "若此契生效，浔阳楼将失去头牌——这对楼里的人意味着什么？"
+        { "speaker": "凌瑶", "text": "三百两！这可不是小数目……有人愿意花这么多钱替她赎身？" },
+        { "speaker": "陆昭", "text": "问题不在谁愿意赎她——在谁不愿意让她走。" },
+        { "speaker": "凌瑶", "text": "……浔阳楼的头牌要走了，那楼里的生意不得砍一大半？青姐她——" },
+        { "speaker": "陆昭", "text": "先不下结论。但这条线很关键。" }
       ],
       "effects": {
-        "set_flag": "redemption_known"
+        "set_flag": ["evt_redemption_revealed_done", "redemption_known"]
       }
     },
     {
@@ -32,31 +29,27 @@
         "all": [
           {
             "any": [
-              {
-                "flag": "qingjie_seen_at_dock"
-              },
-              {
-                "flag": "qing_xuan_seen_at_dock"
-              }
+              { "flag": "qingjie_seen_at_dock" },
+              { "flag": "qing_xuan_seen_at_dock" }
             ]
           },
-          {
-            "not": {
-              "flag": "evt_encounter_dock_done"
-            }
-          }
+          { "not": { "flag": "evt_encounter_dock_done" } }
         ]
       },
       "title": "水阁夜影",
-      "hint": "你在水阁撞见一个人影",
+      "hint": "（你在水阁撞见一个人影）",
       "narration": [
         "夜色未深，江面起了薄雾。你踏上那段湿木板，忽见水阁那头有一个人影背对着你站着。",
         "那人手里提着个不大的包袱，正欲俯身把它系在缆绳上。听见脚步，那人猛地一僵——随即转过身来。",
         "灯笼微光下，你只看清一个被兜帽遮住半面的轮廓。那人低声说了句什么，便松手让包袱落入江中，绳一抽，顺水而去。",
-        "你来不及看清那人的脸。但你记住了——那人的身形、那人走路的姿态。"
+        "你来不及看清那人的脸。但你记住了——那人的身形、那人走路的姿态。",
+        { "speaker": "凌瑶", "text": "（气喘吁吁赶上来）大人——！刚才那人……！您看清了吗！" },
+        { "speaker": "陆昭", "text": "只看到身形。兜帽遮了脸。" },
+        { "speaker": "凌瑶", "text": "那人身高……中等偏矮。步子碎，不像男人。还有——那包袱丢进江里了！肯定是在销毁什么！" },
+        { "speaker": "陆昭", "text": "记住了。明天去问问刘船家，他夜里泊在这一带。" }
       ],
       "effects": {
-        "set_flag": "dock_encounter_seen"
+        "set_flag": ["evt_encounter_dock_done", "dock_encounter_seen"]
       }
     },
     {
@@ -66,30 +59,26 @@
         "all": [
           {
             "any": [
-              {
-                "flag": "qingjie_caught_altering"
-              },
-              {
-                "flag": "qing_xuan_caught_at_chamber"
-              }
+              { "flag": "qingjie_caught_altering" },
+              { "flag": "qing_xuan_caught_at_chamber" }
             ]
           },
-          {
-            "not": {
-              "flag": "evt_encounter_chamber_done"
-            }
-          }
+          { "not": { "flag": "evt_encounter_chamber_done" } }
         ]
       },
       "title": "闺阁来客",
-      "hint": "闺阁里有人",
+      "hint": "（闺阁里有人翻动）",
       "narration": [
         "你推开闺阁门，正撞见一个人影从妆台前直起身——抽屉半开着，里面的物什被翻乱了。",
         "那人转过身，表情一闪而过——是意外，还是心虚？",
-        "那人说自己是来'整理秋菱遗物'的。但你注意到桌上的内账册翻开在赎身那一页。"
+        "那人说自己是来'整理秋菱遗物'的。但你注意到桌上的内账册翻开在赎身那一页。",
+        { "speaker": "凌瑶", "text": "（低声）案发后还有人回来翻东西——这人胆子也太大了吧！" },
+        { "speaker": "陆昭", "text": "说明有东西比命案更让他怕。" },
+        { "speaker": "凌瑶", "text": "比命案还怕……什么东西会比杀人更怕被发现？" },
+        { "speaker": "陆昭", "text": "动机。" }
       ],
       "effects": {
-        "set_flag": "chamber_intruder_seen"
+        "set_flag": ["evt_encounter_chamber_done", "chamber_intruder_seen"]
       }
     },
     {
@@ -97,26 +86,90 @@
       "auto_play": true,
       "trigger": {
         "all": [
-          {
-            "flag": "qingjie_seen_at_convent"
-          },
-          {
-            "not": {
-              "flag": "evt_encounter_convent_done"
-            }
-          }
+          { "flag": "qingjie_seen_at_convent" },
+          { "not": { "flag": "evt_encounter_convent_done" } }
         ]
       },
       "title": "庵前来客",
-      "hint": "有人在庵里问话",
+      "hint": "（有人在庵里打听案发夜的事）",
       "narration": [
         "你立在庵前石阶下，听见里面传来低低的话音。",
         "「……师太昨夜何时熄灯？可有听见对楼有人说话？」",
         "声音压得很低，你分辨不出是谁。但问的分明是案发夜的事。",
-        "你退到山门后柱影里，看着那人戴着兜帽从侧门匆匆离去。"
+        "你退到山门后柱影里，看着那人戴着兜帽从侧门匆匆离去。",
+        { "speaker": "凌瑶", "text": "……又是兜帽！跟水阁那次一样！同一个人？" },
+        { "speaker": "陆昭", "text": "很可能。这人在打探目击证人的口供——怕无尘师太说出什么。" },
+        { "speaker": "凌瑶", "text": "那就是凶手在灭口前先探底！师太那边会不会有危险？" },
+        { "speaker": "陆昭", "text": "……明天去提醒一声。" }
       ],
       "effects": {
-        "set_flag": "convent_visitor_seen"
+        "set_flag": ["evt_encounter_convent_done", "convent_visitor_seen"]
+      }
+    },
+    {
+      "id": "evt_silk_clue_points_south",
+      "trigger": {
+        "all": [
+          { "evidence": "evidence_torn_silk" },
+          { "not": { "flag": "evt_silk_south_done" } },
+          { "total_periods_used_gte": 6 }
+        ]
+      },
+      "title": "红绸出处",
+      "hint": "（孙娘提起城南布庄）",
+      "narration": [
+        { "speaker": "孙娘", "text": "哎呀大人，那段红绸我认得！绛红云纹——全城就城南卜掌柜家卖这个花色。浔阳楼前些日子刚采办过一匹呢。" },
+        { "speaker": "凌瑶", "text": "城南布庄？那咱们去问问！如果案发前又有人急着买这种绸子……" },
+        { "speaker": "陆昭", "text": "走。" }
+      ],
+      "effects": {
+        "set_flag": "evt_silk_south_done",
+        "gain_clue": "clue_silk_seller"
+      }
+    },
+    {
+      "id": "evt_lu_pressures_closing",
+      "trigger": {
+        "all": [
+          { "total_periods_used_gte": 20 },
+          { "not": { "flag": "evt_lu_pressure_done" } }
+        ]
+      },
+      "title": "知府催结",
+      "hint": "（鲁知府遣人来催）",
+      "narration": [
+        "马三匆匆赶来，面色不善。",
+        { "speaker": "马三", "text": "大人，鲁知府催了——他说'醉后失足'那份结案稿明日就要盖印发回京，请大人不要'再多事'。" },
+        { "speaker": "凌瑶", "text": "什么叫多事！人都死了他怕什么——怕查到他头上吗！" },
+        { "speaker": "陆昭", "text": "（沉默片刻）明天之前。必须有结果。" },
+        { "speaker": "凌瑶", "text": "……好。那本姑娘今晚不睡了，帮您再把线索理一遍！" },
+        { "speaker": "马三", "text": "卑职也帮着跑。大人您吩咐。" }
+      ],
+      "effects": {
+        "set_flag": "evt_lu_pressure_done"
+      }
+    },
+    {
+      "id": "evt_final_day_warning",
+      "trigger": {
+        "all": [
+          { "total_periods_used_gte": 30 },
+          { "not": { "flag": "evt_final_warning_done" } }
+        ]
+      },
+      "title": "最后时限",
+      "hint": "（明日便是三天之期）",
+      "narration": [
+        "天色暗了下来。明日便是结案稿发京的最后期限。",
+        { "speaker": "凌瑶", "text": "陆大人……时间不多了。您有把握吗？" },
+        { "speaker": "陆昭", "text": "证据链还差最后一环——但方向已经很明确了。" },
+        { "speaker": "凌瑶", "text": "是青姐对不对？泥底绣鞋、涂改的账册、赎身契……全指向她。" },
+        { "speaker": "陆昭", "text": "证据指向不等于定罪。还需要她自己的口供——或者一个无法辩驳的物证。" },
+        { "speaker": "凌瑶", "text": "那……明天一早，咱们再去搜一遍？或者——直接把她叫到公堂上？" },
+        "若证据齐全，可前往府衙公开指证。"
+      ],
+      "effects": {
+        "set_flag": "evt_final_warning_done"
       }
     }
   ]

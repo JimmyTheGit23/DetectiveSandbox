@@ -14,8 +14,8 @@ const TOPIC_LABELS := {
 const TOPIC_COST_TEXT := {
 	"next_direction": "消耗 1 时段",
 	"suspect_now": "消耗 1 时段",
-	"evidence_ready": "每日 1 次，免费",
-	"chitchat": "免费",
+	"evidence_ready": "每日 1 次，无消耗",
+	"chitchat": "不限次数",
 }
 
 var _vbox: VBoxContainer

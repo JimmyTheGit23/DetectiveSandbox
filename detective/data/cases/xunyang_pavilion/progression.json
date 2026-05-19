@@ -1,0 +1,141 @@
+{
+  "_comment": "渐进式信息开放系统。真凶为青姐。3日为限，分三阶段开放。",
+
+  "phases": [
+    {
+      "id": "phase_1",
+      "title": "初勘现场",
+      "description": "勘察案发后院与浔阳楼内部，询问在场人员",
+      "hint": "先仔细查看后院坠落现场和秋菱闺阁，听听楼里人怎么说。",
+      "locations": ["pavilion_courtyard", "pavilion_main", "qiu_chamber", "yamen"],
+      "unlock_condition": null
+    },
+    {
+      "id": "phase_2",
+      "title": "扩大走访",
+      "description": "红绸线索指向城南，江畔水阁有人深夜活动",
+      "hint": "红绸的出处在城南布庄，江畔水阁也有蹊跷。对面慈航庵的师太可能看到了什么。",
+      "locations": ["convent", "riverside_dock", "silk_shop"],
+      "unlock_condition": {
+        "any": [
+          { "evidence": "evidence_torn_silk" },
+          { "clue": "clue_silk_seller" },
+          { "total_periods_used_gte": 8 }
+        ]
+      }
+    },
+    {
+      "id": "phase_3",
+      "title": "收网锁凶",
+      "description": "证据指向楼内人，账册涂改暴露动机",
+      "hint": "赎身契、涂改的账册、泥底绣鞋……证据链已逐渐成形。",
+      "locations": ["marketplace"],
+      "unlock_condition": {
+        "any": [
+          { "evidence": "evidence_qingjie_altered_ledger" },
+          { "evidence": "evidence_courtesan_redemption" },
+          { "clue": "clue_wine_cup_lipstick" },
+          { "total_periods_used_gte": 18 }
+        ]
+      }
+    }
+  ],
+
+  "panel_unlock": {
+    "accuse": {
+      "condition": {
+        "all": [
+          { "total_periods_used_gte": 14 },
+          {
+            "any": [
+              { "evidence_count_gte": 5 },
+              { "evidence": "evidence_qingjie_mud_shoes" }
+            ]
+          }
+        ]
+      },
+      "locked_hint": "证据不足，尚无法指证。继续搜集线索和证据。"
+    },
+    "notebook": {
+      "condition": {
+        "any": [
+          { "evidence_count_gte": 1 },
+          { "clue_count_gte": 2 }
+        ]
+      },
+      "locked_hint": "尚无记录。先去调查现场搜集线索。"
+    }
+  },
+
+  "search_point_unlock": {
+    "pavilion_main.wine_cellar": {
+      "condition": {
+        "any": [
+          { "flag": "qingjie_knew_redemption" },
+          { "visited": "qing_jie.intro" }
+        ]
+      },
+      "locked_hint": "酒窖账册青姐管着，贸然翻动不合适。需要先跟她搭上话。"
+    },
+    "pavilion_main.qingjie_room": {
+      "condition": {
+        "any": [
+          { "evidence": "evidence_courtyard_second_figure" },
+          { "flag": "chamber_intruder_seen" },
+          { "total_periods_used_gte": 16 }
+        ]
+      },
+      "locked_hint": "青姐的私人房间，没有理由强行搜查。"
+    },
+    "riverside_dock.ferry_boat": {
+      "condition": {
+        "any": [
+          { "flag": "dock_encounter_seen" },
+          { "flag": "liu_saw_cloaked_figure" }
+        ]
+      },
+      "locked_hint": "渡船看上去普普通通，没有搜查理由。"
+    }
+  },
+
+  "npc_unlock": {
+    "bu_zhang": {
+      "condition": {
+        "any": [
+          { "clue": "clue_silk_seller" },
+          { "evidence": "evidence_torn_silk" },
+          { "total_periods_used_gte": 10 }
+        ]
+      }
+    },
+    "liu_chuan": {
+      "condition": {
+        "any": [
+          { "flag": "dock_encounter_seen" },
+          { "evidence": "evidence_dock_disturbed" },
+          { "total_periods_used_gte": 12 }
+        ]
+      }
+    },
+    "lady_zhou": {
+      "condition": {
+        "any": [
+          { "clue": "clue_pawn_ticket" },
+          { "evidence": "evidence_unpaid_loan" },
+          { "total_periods_used_gte": 18 }
+        ]
+      }
+    }
+  },
+
+  "phase_notifications": {
+    "phase_2": {
+      "speaker": "凌瑶",
+      "text": "陆大人，那红绸的出处咱们得查清楚。城南布庄是全城唯一卖绛红云纹绸的，去看看！对面那个小庵的师太说不定也看到了什么。"
+    },
+    "phase_3": {
+      "speaker": "凌瑶",
+      "text": "陆大人，赎身契……这才是关键！谁最不希望秋菱走？账册还被人涂改了——是谁在销毁证据？"
+    }
+  }
+}

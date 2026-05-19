@@ -28,6 +28,7 @@ const SubPanels = {
 
 var _active_subpanel: Control = null
 var _pending_events: Array[String] = []
+var _pending_adhoc_lines: Array = []
 var _title_layer: Control = null
 var _scene_fx: Node = null
 #var _npc_layer: Control = null
@@ -200,18 +201,87 @@ func _on_title_settings_pressed() -> void:
 
 
 func _show_restart_confirm() -> void:
-	var dialog := ConfirmationDialog.new()
-	dialog.title = "重新开始？"
-	dialog.dialog_text = "当前已有存档。开始新游戏会覆盖现有进度，确定要重新开始吗？"
-	dialog.ok_button_text = "重新开始"
-	dialog.cancel_button_text = "取消"
-	add_child(dialog)
-	dialog.confirmed.connect(func():
-		dialog.queue_free()
+	var overlay := ColorRect.new()
+	overlay.name = "RestartConfirmOverlay"
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.color = Color(0.02, 0.02, 0.03, 0.70)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(overlay)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(480, 0)
+	center.add_child(panel)
+
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.10, 0.09, 0.07, 0.95)
+	panel_style.border_color = Color(0.55, 0.42, 0.22, 0.85)
+	panel_style.set_border_width_all(2)
+	panel_style.corner_radius_top_left = 10
+	panel_style.corner_radius_top_right = 10
+	panel_style.corner_radius_bottom_left = 10
+	panel_style.corner_radius_bottom_right = 10
+	panel_style.content_margin_left = 28
+	panel_style.content_margin_right = 28
+	panel_style.content_margin_top = 24
+	panel_style.content_margin_bottom = 24
+	panel.add_theme_stylebox_override("panel", panel_style)
+
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 18)
+	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	panel.add_child(vbox)
+
+	var title := Label.new()
+	title.text = "重新开始？"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 26)
+	title.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1))
+	vbox.add_child(title)
+
+	var body := Label.new()
+	body.text = "当前已有存档。开始新游戏会覆盖现有进度，\n确定要重新开始吗？"
+	body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	body.add_theme_font_size_override("font_size", 16)
+	body.add_theme_color_override("font_color", Color(0.82, 0.78, 0.70, 1))
+	vbox.add_child(body)
+
+	var btn_hbox := HBoxContainer.new()
+	btn_hbox.add_theme_constant_override("separation", 24)
+	btn_hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	vbox.add_child(btn_hbox)
+
+	var cancel_btn := Button.new()
+	cancel_btn.text = "取  消"
+	cancel_btn.custom_minimum_size = Vector2(110, 42)
+	cancel_btn.flat = true
+	cancel_btn.add_theme_font_size_override("font_size", 16)
+	cancel_btn.add_theme_color_override("font_color", Color(0.65, 0.62, 0.55, 1))
+	cancel_btn.add_theme_color_override("font_hover_color", Color(0.85, 0.80, 0.72, 1))
+	cancel_btn.add_theme_color_override("font_pressed_color", Color(0.55, 0.50, 0.42, 1))
+	btn_hbox.add_child(cancel_btn)
+
+	var confirm_btn := Button.new()
+	confirm_btn.text = "重新开始"
+	confirm_btn.custom_minimum_size = Vector2(130, 42)
+	confirm_btn.flat = true
+	confirm_btn.add_theme_font_size_override("font_size", 16)
+	confirm_btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.55, 1))
+	confirm_btn.add_theme_color_override("font_hover_color", Color(1.0, 1.0, 0.78, 1))
+	confirm_btn.add_theme_color_override("font_pressed_color", Color(0.95, 0.68, 0.28, 1))
+	btn_hbox.add_child(confirm_btn)
+
+	var close_dialog := func():
+		overlay.queue_free()
+
+	cancel_btn.pressed.connect(close_dialog)
+	confirm_btn.pressed.connect(func():
+		close_dialog.call()
 		_start_new_game()
 	)
-	dialog.canceled.connect(dialog.queue_free)
-	dialog.popup_centered(Vector2i(460, 180))
 
 
 func _start_new_game() -> void:
@@ -267,6 +337,7 @@ func _on_location_changed(loc_id: String) -> void:
 	if menu_panel.has_method("refresh_visibility"):
 		menu_panel.refresh_visibility()
 	_close_subpanel()
+	_try_companion_banter("arrive_location:" + loc_id)
 
 
 func _on_time_advanced(_day: int, _period: int) -> void:
@@ -303,13 +374,14 @@ func _on_phase_unlocked(phase_id: String) -> void:
 	# 刷新菜单和地图
 	if menu_panel.has_method("refresh_visibility"):
 		menu_panel.refresh_visibility()
+	_try_companion_banter("phase_unlocked:" + phase_id)
 
 
 func _on_progression_hint(speaker: String, text: String) -> void:
 	if text == "":
 		return
 	var lines: Array = [{ "speaker": speaker, "text": text }]
-	DialogueManager.play_adhoc_narration(lines, func(): pass)
+	_play_or_queue_adhoc(lines)
 
 
 func _on_lie_exposed(npc_id: String, lie_node: String) -> void:
@@ -356,7 +428,10 @@ func _play_event_now(evt_id: String) -> void:
 			var voice_path: String = AssetResolver.resolve_event_voice_path(evt_id, idx)
 			lines.append({ "speaker": "", "text": str(line), "voice_path": voice_path })
 		idx += 1
-	DialogueManager.play_adhoc_narration(lines, func(): _refresh_event_hint())
+	DialogueManager.play_adhoc_narration(lines, func():
+		_refresh_event_hint()
+		_try_companion_banter("after_event:" + evt_id)
+	)
 
 
 func _refresh_event_hint() -> void:
@@ -390,7 +465,10 @@ func _on_event_hint_clicked() -> void:
 			var voice_path: String = AssetResolver.resolve_event_voice_path(evt_id, idx)
 			lines.append({ "speaker": "", "text": str(line), "voice_path": voice_path })
 		idx += 1
-	DialogueManager.play_adhoc_narration(lines, func(): _refresh_event_hint())
+	DialogueManager.play_adhoc_narration(lines, func():
+		_refresh_event_hint()
+		_try_companion_banter("after_event:" + evt_id)
+	)
 
 
 # ─── 菜单 ───
@@ -431,6 +509,8 @@ func _open_subpanel(menu_id: String) -> void:
 		panel.accuse_submitted.connect(_on_accuse_submitted)
 	if panel.has_signal("return_to_title_requested"):
 		panel.return_to_title_requested.connect(_on_return_to_title)
+	if panel.has_signal("search_result_acknowledged"):
+		panel.search_result_acknowledged.connect(_on_search_result_acknowledged)
 
 
 func _on_return_to_title() -> void:
@@ -650,6 +730,19 @@ func _prompt_codename(iv: Node, codename_lbl: Label) -> void:
 
 # ─── 助手系统集成 ─────────────────────────────────────────────────────────
 
+func _try_companion_banter(trigger: String, npc_id: String = "", node_id: String = "") -> void:
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs == null:
+		return
+	if not cs.has_method("try_emit_banter"):
+		return
+	cs.try_emit_banter({
+		"trigger": trigger,
+		"npc_id": npc_id,
+		"node_id": node_id,
+	})
+
+
 func _open_discuss_panel() -> void:
 	var DiscussPanelScript = load("res://scripts/ui/DiscussPanel.gd")
 	if DiscussPanelScript == null:
@@ -685,4 +778,35 @@ func _on_companion_banter(lines: Array) -> void:
 	# 播放助手被动旁白（adhoc narration 方式）
 	if lines.is_empty():
 		return
+	_play_or_queue_adhoc(lines)
+
+
+func _is_search_panel_busy() -> bool:
+	if _active_subpanel == null or not is_instance_valid(_active_subpanel):
+		return false
+	if not _active_subpanel.has_method("is_searching"):
+		return false
+	return bool(_active_subpanel.call("is_searching"))
+
+
+func _play_or_queue_adhoc(lines: Array) -> void:
+	if lines.is_empty():
+		return
+	# 搜索流程中，必须先让玩家阅读“探索结果”并点“知道了”，再播放助手对话。
+	if _is_search_panel_busy():
+		_pending_adhoc_lines.append(lines)
+		return
 	DialogueManager.play_adhoc_narration(lines)
+
+
+func _on_search_result_acknowledged() -> void:
+	_flush_pending_adhoc_lines()
+
+
+func _flush_pending_adhoc_lines() -> void:
+	if _pending_adhoc_lines.is_empty():
+		return
+	if _is_search_panel_busy():
+		return
+	var lines: Array = _pending_adhoc_lines.pop_front()
+	DialogueManager.play_adhoc_narration(lines, func(): _flush_pending_adhoc_lines())

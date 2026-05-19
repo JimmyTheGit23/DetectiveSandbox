@@ -4,6 +4,7 @@
     "name": "浔阳楼·后院",
     "description": "案发后院。青石板上还留着死者坠落的痕迹，一段红绸斜搭在墙角。",
     "scene_type": "scene_xunyang_courtyard",
+    "unlock_phase": "phase_1",
     "npcs": [
       "sun_laoliu"
     ],
@@ -47,6 +48,7 @@
     "name": "秋菱闺阁",
     "description": "死者私室。妆台尚有未拭的胭脂，案上一本未送出的小笺。",
     "scene_type": "scene_xunyang_qiu_chamber",
+    "unlock_phase": "phase_1",
     "npcs": [],
     "search_points": [
       {
@@ -88,6 +90,7 @@
     "name": "府衙",
     "description": "本府衙门。鲁知府和马捕头在此等你议案。",
     "scene_type": "scene_government_hall",
+    "unlock_phase": "phase_1",
     "npcs": [
       "magistrate_lu",
       "ma_san"
@@ -109,6 +112,7 @@
     "name": "浔阳楼·正厅",
     "description": "灯笼摇曳的酒楼正厅。当家青姐和借宿的白衣公子都在此。",
     "scene_type": "scene_xunyang_main_hall",
+    "unlock_phase": "phase_1",
     "npcs": [
       "qing_jie",
       "qing_xuan"
@@ -159,6 +163,7 @@
     "name": "慈航庵",
     "description": "浔阳楼对面的小庵。无尘老僧夜夜诵经守门。",
     "scene_type": "scene_temple",
+    "unlock_phase": "phase_2",
     "npcs": [
       "wuchen"
     ],
@@ -179,6 +184,7 @@
     "name": "城南市集",
     "description": "本城最热闹的集市。布庄、茶肆、当铺一字排开。",
     "scene_type": "scene_market",
+    "unlock_phase": "phase_3",
     "npcs": [
       "lady_zhou"
     ],
@@ -199,6 +205,7 @@
     "name": "江畔水阁",
     "description": "浔阳楼后的江畔水阁。泊船摇晃，雾深。案发夜可能有人在此销毁证物。",
     "scene_type": "scene_xunyang_dock",
+    "unlock_phase": "phase_2",
     "npcs": [
       "liu_chuan"
     ],
@@ -232,6 +239,7 @@
     "name": "城南布庄",
     "description": "城南老字号布庄。绛红云纹绸的卖出之处，柜上账册有名。",
     "scene_type": "scene_xunyang_silk_shop",
+    "unlock_phase": "phase_2",
     "npcs": [
       "bu_zhang"
     ],

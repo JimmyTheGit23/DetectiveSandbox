@@ -1,0 +1,288 @@
+{
+  "_comment": "浔阳楼案 - 助手被动旁白。trigger 对应 CompanionService 支持的触发类型。lines 支持字符串（助手独白）或对象数组（多人对话）。",
+  "rules": [
+    {
+      "id": "lie_exposed_generic_1",
+      "when": { "trigger": "lie_exposed" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "又说谎！这楼里的人，一个比一个嘴硬！" },
+          { "speaker": "陆昭", "text": "……人越多的地方，真话越少。" },
+          { "speaker": "凌瑶", "text": "行叭，本姑娘继续听您审。" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "嘿——露馅了吧！陆大人果然厉害！" },
+          { "speaker": "陆昭", "text": "别急着高兴。说谎的人不一定杀人。" },
+          { "speaker": "凌瑶", "text": "唔……也是。但为什么要撒这个谎呢？" }
+        ]
+      ]
+    },
+    {
+      "id": "gain_evidence_generic",
+      "when": { "trigger": "gain_evidence" },
+      "lines": [
+        "嘶……这东西放在这儿可不对劲。",
+        "陆大人！又找到一样——本姑娘帮您收着！",
+        "这是证据吧？感觉很关键。",
+        [
+          { "speaker": "凌瑶", "text": "这个……是不是跟红绸那条有关系？" },
+          { "speaker": "陆昭", "text": "先收好。" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "陆大人，又一样。证据越来越多了。" },
+          { "speaker": "陆昭", "text": "多不代表够。缺一环都不行。" },
+          { "speaker": "凌瑶", "text": "……您这人，就不会说句'进展不错'？" }
+        ]
+      ]
+    },
+    {
+      "id": "gain_clue_generic",
+      "when": { "trigger": "gain_clue" },
+      "lines": [
+        "有意思……这条线牵着谁？",
+        "唔，本姑娘虽然不太懂酒楼里的弯弯绕绕，但感觉这很关键。",
+        "又多了一条线。陆大人您脑子里是不是已经有数了？",
+        "嗯嗯，记住了。本姑娘帮您记着。",
+        [
+          { "speaker": "凌瑶", "text": "这个……会不会跟赎身那件事有关？" },
+          { "speaker": "陆昭", "text": "可能。先不下结论。" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_qing_jie",
+      "when": { "trigger": "dialogue_end", "npc_id": "qing_jie" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "青姐这人……哭得真伤心。可是——" },
+          { "speaker": "陆昭", "text": "可是什么？" },
+          { "speaker": "凌瑶", "text": "可是本姑娘以前见过镖局里有人假哭，那架势，跟她有点像。" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "她口口声声说秋菱是她'妹妹'。可妹妹要走，她不该高兴吗？" },
+          { "speaker": "陆昭", "text": "要看她是'姐姐'还是'老板'。" },
+          { "speaker": "凌瑶", "text": "……好尖锐。" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_qing_xuan",
+      "when": { "trigger": "dialogue_end", "npc_id": "qing_xuan" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "这位公子……总觉得他在藏什么。" },
+          { "speaker": "陆昭", "text": "藏东西的人不一定有罪。" },
+          { "speaker": "凌瑶", "text": "可他那眼神——像做了什么自己也后悔的事。" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "他跟死者到底什么关系？'清郎'……不会就是他吧？" },
+          { "speaker": "陆昭", "text": "目前是合理的推测。但还需要证据。" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_wuchen",
+      "when": { "trigger": "dialogue_end", "npc_id": "wuchen" },
+      "lines": [
+        "无尘师太……出家人说话倒是直。她看到的那一幕很关键啊。",
+        [
+          { "speaker": "凌瑶", "text": "对面庵里守夜的人——这不就是天然的目击证人么！" },
+          { "speaker": "陆昭", "text": "可惜雨夜看不清面目。" },
+          { "speaker": "凌瑶", "text": "哎……老天不帮忙。" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_sun_laoliu",
+      "when": { "trigger": "dialogue_end", "npc_id": "sun_laoliu" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "孙娘话虽然多，但她是真看见了东西。后院方向、楼里的衣裳……" },
+          { "speaker": "陆昭", "text": "她跟青姐的说法对不上。" },
+          { "speaker": "凌瑶", "text": "对啊！青姐说从楼上下来，孙娘看见的是从后院回来——这差距可大了！" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "孙娘这人胆小，不敢直说那人是谁。但她话里话外——" },
+          { "speaker": "陆昭", "text": "她说了'楼里的衣裳'。" },
+          { "speaker": "凌瑶", "text": "那就是自己人干的呗！她怕得罪人，才不敢指名。" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "黄昏披斗篷往江边走那个……跟刘船家说的兜帽人是同一个人吧？" },
+          { "speaker": "陆昭", "text": "很有可能。雨夜、江边、兜帽——同一个人在做同一件事。" },
+          { "speaker": "凌瑶", "text": "销毁证据！对不对？那包袱丢江里了！" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_lady_zhou",
+      "when": { "trigger": "dialogue_end", "npc_id": "lady_zhou" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "周老夫人真是个好人……自己掏五十两帮秋菱赎身。" },
+          { "speaker": "陆昭", "text": "她说青姐的脸色'不好看'。" },
+          { "speaker": "凌瑶", "text": "不好看就是不愿意呗！秋菱一走，浔阳楼的摇钱树没了——谁最心疼？" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "老夫人的意思很明白了——她怀疑青姐。" },
+          { "speaker": "陆昭", "text": "望族遗孀不会随便指认人，她一定是看了什么才敢说这话。" },
+          { "speaker": "凌瑶", "text": "嗯……那青姐案发前去见了周老夫人，回来就脸色不好看。说明她早就知道赎身的事了！" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "五十两……加上陈老客人的三百两，赎身银都凑齐了。秋菱本来可以走的。" },
+          { "speaker": "陆昭", "text": "本来可以。但有人不让她走。" },
+          { "speaker": "凌瑶", "text": "……太可恨了。" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_ma_san",
+      "when": { "trigger": "dialogue_end", "npc_id": "ma_san" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "马三这人说话直，本姑娘喜欢。至少他不是在搪塞咱们。" },
+          { "speaker": "陆昭", "text": "他是自己人。但也要分清帮忙和越权——有些事还得你自己查。" },
+          { "speaker": "凌瑶", "text": "明白！本姑娘两条腿跑得可比他快！" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "鲁知府前年那案子……原来他怕'名头不好'比怕'冤案'还厉害。" },
+          { "speaker": "陆昭", "text": "官场中人，怕的不是冤案，是舆情。" },
+          { "speaker": "凌瑶", "text": "哼！那咱们就用证据堵他的嘴——让他想压也压不住！" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "马捕头说楼里不止一个人有心事……本姑娘觉得他说得对。" },
+          { "speaker": "陆昭", "text": "心事归心事，杀人的只有一个。" },
+          { "speaker": "凌瑶", "text": "嗯，但其他人藏着的事也许能帮咱们找到那个人！" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_magistrate_lu",
+      "when": { "trigger": "dialogue_end", "npc_id": "magistrate_lu" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "这个知府……本姑娘真想给他一镖！明明有疑点还要硬结案！" },
+          { "speaker": "陆昭", "text": "他怕的不是真相，是麻烦。" },
+          { "speaker": "凌瑶", "text": "人命关天的案子他嫌麻烦？！……好，那咱们就用证据让他更麻烦！" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "鲁知府这态度……一看就是想快快了事。'醉酒失足'四个字说得可真轻松。" },
+          { "speaker": "陆昭", "text": "他有权力，但我们有真相。只要证据够硬，他不得不松口。" },
+          { "speaker": "凌瑶", "text": "那就赶紧把证据攒齐！本姑娘可不想看他那张脸再久了。" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "大人，他刚才是不是有点松动了？那个'存疑'……" },
+          { "speaker": "陆昭", "text": "算是一步。但还不够，必须让他彻底承认不是失足。" },
+          { "speaker": "凌瑶", "text": "要是师太的证词能让他认呢？'阁中有第二人'——这话他听了也沉默了吧。" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_bu_zhang",
+      "when": { "trigger": "dialogue_end", "npc_id": "bu_zhang" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "案发后又买了一匹同款红绸……这不就是补货吗？谁在案发后还要补红绸？" },
+          { "speaker": "陆昭", "text": "想用新绸替换断裂的旧绸，让'失足'的说法更可信。" },
+          { "speaker": "凌瑶", "text": "聪明！可惜——绸子断了就是断了，换一匹新的也瞒不住。" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "卜掌柜说'买主栏写了一个字'——那人到底是谁？" },
+          { "speaker": "陆昭", "text": "收据上的笔迹，跟楼里的人对一对就知道了。" },
+          { "speaker": "凌瑶", "text": "这个容易！马三能帮咱们找笔迹比对吧？" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "绛红云纹绸，全城就这一家卖。那浔阳楼之前取的那一匹……" },
+          { "speaker": "陆昭", "text": "秋菱身上那段红绸就是浔阳楼原有的。" },
+          { "speaker": "凌瑶", "text": "案发后又买一匹——肯定是想把断的换掉！做贼心虚！" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_liu_chuan",
+      "when": { "trigger": "dialogue_end", "npc_id": "liu_chuan" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "刘船家说的那个兜帽人……又出现了！跟孙娘说的斗篷人应该是同一个！" },
+          { "speaker": "陆昭", "text": "身形不高，不像大男人。这个特征很关键。" },
+          { "speaker": "凌瑶", "text": "中等偏矮、步子碎……大人，您是不是已经有数了？" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "那缆绳上的扣子不是渔人打的——说明去水阁的人不常下水。" },
+          { "speaker": "陆昭", "text": "是酒楼里的人，不是江上的人。" },
+          { "speaker": "凌瑶", "text": "对！谁大半夜跑去水阁丢包袱？肯定是在销毁什么！" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "刘船家这人……胆子小，但说的都是实话。他看见了就是看见了。" },
+          { "speaker": "陆昭", "text": "怕事的人反而不敢撒谎。他的证词可信。" },
+          { "speaker": "凌瑶", "text": "那三更天、兜帽、水阁——这些全对上了！" }
+        ]
+      ]
+    },
+    {
+      "id": "arrive_riverside_dock",
+      "when": { "trigger": "arrive_location:riverside_dock" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "水阁……雾好大。案发那夜要是有人在这儿干什么，旁人也看不清。" },
+          { "speaker": "陆昭", "text": "所以才选在这里。" }
+        ],
+        "好冷……江风吹得本姑娘直打哆嗦。这破地方，谁大半夜跑这来？肯定有鬼。"
+      ]
+    },
+    {
+      "id": "arrive_silk_shop",
+      "when": { "trigger": "arrive_location:silk_shop" },
+      "lines": [
+        "布庄……绛红云纹绸，全城就这一家卖。查这布的去向，就能查到买红绸的人。",
+        [
+          { "speaker": "凌瑶", "text": "好漂亮的绸子……啊不对，本姑娘是来查案的！" },
+          { "speaker": "陆昭", "text": "……" },
+          { "speaker": "凌瑶", "text": "别用那种眼神看我！" }
+        ]
+      ]
+    },
+    {
+      "id": "phase_unlocked_2",
+      "when": { "trigger": "phase_unlocked:phase_2" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "陆大人，那红绸的出处咱们得查清楚。城南布庄是全城唯一卖绛红云纹绸的，去看看！对面那个小庵的师太说不定也看到了什么。" },
+          { "speaker": "陆昭", "text": "走。" }
+        ]
+      ]
+    },
+    {
+      "id": "phase_unlocked_3",
+      "when": { "trigger": "phase_unlocked:phase_3" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "陆大人，赎身契……这才是关键！谁最不希望秋菱走？账册还被人涂改了——是谁在销毁证据？" },
+          { "speaker": "陆昭", "text": "问得好。答案就在楼里。" }
+        ]
+      ]
+    },
+    {
+      "id": "dock_encounter",
+      "when": { "trigger": "after_event:evt_encounter_dock_figure" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "刚才那人——！！大人您看清了吗！" },
+          { "speaker": "陆昭", "text": "只看到身形。兜帽遮了脸。" },
+          { "speaker": "凌瑶", "text": "那人身高……中等偏矮。步子碎。不像男人。" },
+          { "speaker": "陆昭", "text": "……记住了。" }
+        ]
+      ]
+    },
+    {
+      "id": "chamber_intruder",
+      "when": { "trigger": "after_event:evt_encounter_chamber_intruder" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "案发后还有人回来翻东西——这人胆子也太大了吧！" },
+          { "speaker": "陆昭", "text": "说明有东西比命案更让他怕。" },
+          { "speaker": "凌瑶", "text": "比命案还怕……什么东西？" }
+        ]
+      ]
+    }
+  ]
+}

@@ -4,37 +4,145 @@
     "scene1": {
       "background": "res://assets/cn/scenes/xunyang_prologue.png",
       "speaker": "",
-      "text": "万历二十四年，三月。江南细雨。\n\n这是个风疏雨骤的夜晚，本府名楼——浔阳楼。",
+      "text": "万历二十四年，三月。江南细雨。\n\n浔阳楼，本府名楼。今夜灯火通明，楼中丝竹隐隐。",
       "next": "scene2"
     },
     "scene2": {
       "background": "res://assets/cn/scenes/xunyang_prologue.png",
-      "speaker": "",
-      "text": "巡按御史陆昭借宿楼中，明日一早便要启程回京。",
+      "speaker": "凌瑶",
+      "text": "（趴在窗边看雨）哇——陆大人，这浔阳楼可比临川那破驿站气派多了！这是咱们查完上回那案子的犒赏吗？",
+      "next": "scene2b"
+    },
+    "scene2b": {
+      "background": "res://assets/cn/scenes/xunyang_prologue.png",
+      "speaker": "陆昭",
+      "text": "……只是路过借宿一夜。明日还要启程回京。",
+      "next": "scene2c"
+    },
+    "scene2c": {
+      "background": "res://assets/cn/scenes/xunyang_prologue.png",
+      "speaker": "凌瑶",
+      "text": "切，您就不能享受一下吗。这楼里的酒闻着就香——对了，刚才楼下那个弹琵琶的姑娘，好漂亮啊！听说是这儿的头牌，叫什么来着……",
+      "next": "scene2d"
+    },
+    "scene2d": {
+      "background": "res://assets/cn/scenes/xunyang_prologue.png",
+      "speaker": "陆昭",
+      "text": "秋菱。浔阳楼当家花魁。",
+      "next": "scene2e"
+    },
+    "scene2e": {
+      "background": "res://assets/cn/scenes/xunyang_prologue.png",
+      "speaker": "凌瑶",
+      "text": "秋菱！对！本姑娘刚才在楼下还跟她打了个照面——那气质，跟咱们镖局的人完全不是一个路子……行了行了，早点睡吧，明天赶路呢。",
       "next": "scene3"
     },
     "scene3": {
       "background": "res://assets/cn/scenes/xunyang_pavilion_main.png",
       "speaker": "",
-      "text": "夜里三更。楼下传来一声闷响，紧接着是短促的惊叫——",
+      "text": "夜里三更。\n\n楼下突然传来一声闷响——紧接着是短促的惊叫。",
+      "next": "scene3b"
+    },
+    "scene3b": {
+      "background": "res://assets/cn/scenes/xunyang_pavilion_main.png",
+      "speaker": "凌瑶",
+      "text": "（猛然坐起）什么声音！？",
+      "next": "scene3c"
+    },
+    "scene3c": {
+      "background": "res://assets/cn/scenes/xunyang_pavilion_main.png",
+      "speaker": "陆昭",
+      "text": "（已经披衣下楼）走。",
       "next": "scene4"
     },
     "scene4": {
       "background": "res://assets/cn/scenes/xunyang_courtyard.png",
       "speaker": "",
-      "text": "后院青石板上躺着一位女子。颈间缠着一段绛红云纹绸。\n\n这便是浔阳楼的当家花魁，秋菱。",
+      "text": "后院青石板上躺着一位女子。颈间缠着一段绛红云纹绸。\n\n这便是方才还在弹琵琶的秋菱。",
+      "next": "scene4b"
+    },
+    "scene4b": {
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "speaker": "凌瑶",
+      "text": "（捂住嘴）这、这不是刚才那个姑娘吗……！她怎么……从楼上掉下来的？！",
+      "next": "scene4c"
+    },
+    "scene4c": {
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "speaker": "陆昭",
+      "text": "（蹲下查看）指甲缝里干净，手心却握着一段红绸。红绸的断口是横向的——这与失足坠落的受力方向不一致。",
+      "next": "scene4d"
+    },
+    "scene4d": {
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "speaker": "凌瑶",
+      "text": "您是说……不是失足？是被人……",
+      "next": "scene4e"
+    },
+    "scene4e": {
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "speaker": "陆昭",
+      "text": "还不能确定。但这红绸的断口方向——是从背后往下拽的。自己抓栏不会留这种痕迹。",
       "next": "scene5"
     },
     "scene5": {
       "background": "res://assets/cn/scenes/xunyang_courtyard.png",
       "speaker": "",
-      "text": "她的指甲缝里干净，手心却握着一段红绸。红绸的断口是横向的——这与失足坠落的受力方向不一致。\n\n鲁知府已经拍板：醉后凭栏，失足跌下。",
+      "text": "天亮后，鲁知府赶来。只看了一眼便拍板：醉后凭栏，失足跌下。结案。",
+      "next": "scene5b"
+    },
+    "scene5b": {
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "speaker": "凌瑶",
+      "text": "（小声，气鼓鼓）醉酒失足？！那红绸他不看看吗！本姑娘都看出来不对了——",
+      "next": "scene5c"
+    },
+    "scene5c": {
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "speaker": "陆昭",
+      "text": "……所以，这案子我接了。",
+      "next": "scene5d"
+    },
+    "scene5d": {
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "speaker": "凌瑶",
+      "text": "又来了！上次临川也是这样——您一句'我接了'，就多了三天苦差事。",
+      "next": "scene5e"
+    },
+    "scene5e": {
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "speaker": "陆昭",
+      "text": "三天。结案稿发还京之前。",
+      "next": "scene5f"
+    },
+    "scene5f": {
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "speaker": "凌瑶",
+      "text": "（叹气，然后拍胸脯）行吧！本姑娘上回陪您查了个毒杀案，这回坠楼——总比朱砂那些弯弯绕绕好懂吧？陆大人，您吩咐！",
       "next": "scene6"
     },
     "scene6": {
       "background": "res://assets/cn/scenes/xunyang_courtyard.png",
-      "speaker": "",
-      "text": "三日为限。结案稿送回京之前，也许还有值得追问的事。\n\n浔阳楼里的人，都还在。",
+      "speaker": "陆昭",
+      "text": "浔阳楼里的人都还在。案发时楼里至少有五六个人——先把他们的话都听一遍。",
+      "next": "scene6b"
+    },
+    "scene6b": {
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "speaker": "凌瑶",
+      "text": "明白！本姑娘负责竖耳朵！……对了陆大人，这回能不能别什么都'嗯'一个字就打发我？",
+      "next": "scene6c"
+    },
+    "scene6c": {
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "speaker": "陆昭",
+      "text": "……嗯。",
+      "next": "scene6d"
+    },
+    "scene6d": {
+      "background": "res://assets/cn/scenes/xunyang_courtyard.png",
+      "speaker": "凌瑶",
+      "text": "！！您故意的吧！！",
       "next": "scene7"
     },
     "scene7": {
@@ -42,7 +150,7 @@
       "speaker": "",
       "centered": true,
       "silent": true,
-      "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 指证\n• 跨地点移动花费一个时段；探索某处也要花时段\n• 在时间用完前指出真凶",
+      "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 指证\n• 「讨论」：随时与凌瑶交流，获取下一步方向建议\n• 跨地点移动花费一个时段；探索某处也要花时段\n• 三天内找出真凶——否则鲁知府的「醉后失足」就是定论",
       "end": true
     }
   }

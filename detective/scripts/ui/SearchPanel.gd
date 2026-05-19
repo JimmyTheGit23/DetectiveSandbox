@@ -2,6 +2,7 @@ extends Control
 ## 探索面板：列出当前地点所有可探索点，点击后先播放探索仪式感，再消耗时间并弹出结果对话框
 
 signal close_requested()
+signal search_result_acknowledged()
 
 @onready var title_label: Label = $Panel/VBox/Title
 @onready var list_vbox: VBoxContainer = $Panel/VBox/List
@@ -9,6 +10,10 @@ signal close_requested()
 @onready var close_btn: Button = $Panel/VBox/CloseBtn
 
 var _is_searching := false
+
+
+func is_searching() -> bool:
+	return _is_searching
 
 
 func _ready() -> void:
@@ -79,6 +84,7 @@ func _on_search(point_id: String) -> void:
 	await _show_result_dialog(point_name, result, cost)
 	if not is_inside_tree():
 		return
+	search_result_acknowledged.emit()
 	
 	_build_list()
 	result_box.text = "[i]请选择下一处可疑点继续探索。[/i]"
