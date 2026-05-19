@@ -1,183 +1,182 @@
 #!/usr/bin/env python3
 """
-Generate evidence/clue icons using Gemini API.
-Usage: python3 tools/generate_evidence_icons.py --api-key YOUR_KEY
+Generate evidence/clue icons using MiniMax CLI (mmx).
+Usage: python3 tools/generate_evidence_icons.py [--case linchuan_inn|xunyang_pavilion|all]
+Requires: mmx CLI installed and configured with API key.
 """
 
-import argparse
 import json
 import os
+import subprocess
 import sys
-import base64
 import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
+import argparse
 
-try:
-    import requests
-except ImportError:
-    print("Installing requests...")
-    os.system(f"{sys.executable} -m pip install requests -q")
-    import requests
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+OUTPUT_DIR = os.path.join(PROJECT_ROOT, "assets", "ai_processed", "objects", "evidence_icons")
 
-API_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
-DEFAULT_MODEL = "gemini-2.5-flash-image"
+# Ensure mmx is on PATH
+NODE_BIN = os.path.expanduser("~/.workbuddy/binaries/node/versions/20.18.0/bin")
+MMX = os.path.join(NODE_BIN, "mmx")
+
+CASES = {
+    "linchuan_inn": {
+        "evidence": os.path.join(PROJECT_ROOT, "data", "cases", "linchuan_inn", "evidence.json"),
+    },
+    "xunyang_pavilion": {
+        "evidence": os.path.join(PROJECT_ROOT, "data", "cases", "xunyang_pavilion", "evidence.json"),
+    },
+}
+
+STYLE = (
+    "Traditional Chinese Ming dynasty ink wash painting style, "
+    "game inventory icon on solid magenta #FF00FF background, "
+    "dark sepia and aged paper tones, centered single object composition, "
+    "Do NOT include any text, letters, or characters in the image. "
+    "highly detailed miniature illustration."
+)
 
 
-def generate_icon(item_id, name, description, item_type, api_key, model, output_dir):
-    """Generate a single icon using Gemini API."""
-
-    style = (
-        "Traditional Chinese Ming dynasty ink wash painting style, "
-        "small square game inventory icon, dark sepia and aged paper tones, "
-        "centered composition, no text labels, highly detailed miniature illustration."
-    )
-
+def build_prompt(item_id: str, name: str, description: str, item_type: str) -> str:
     if item_type == "evidence":
         context = (
             f"Physical evidence item from a Chinese detective game set in Ming dynasty: '{name}'. "
-            f"Context: {description[:180]}"
+            f"Context: {description[:150]}"
         )
     else:
         context = (
             f"Investigation clue/note from a Chinese detective game set in Ming dynasty: '{name}'. "
-            f"Context: {description[:180]}"
+            f"Context: {description[:150]}"
         )
+    return f"{context}. Visual style: {STYLE}"
 
-    prompt = f"{context}. Visual style: {style}"
 
-    url = f"{API_BASE}/{model}:generateContent"
-    payload = {
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "responseModalities": ["TEXT", "IMAGE"],
-            "responseFormat": {"image": {"aspectRatio": "1:1"}},
-        },
-    }
+def generate_icon(item_id: str, prompt: str, output_dir: str) -> tuple:
+    """Generate a single icon using mmx CLI. Returns (path, error)."""
+    output_path = os.path.join(output_dir, f"{item_id}.png")
+
+    cmd = [
+        MMX, "image", "generate",
+        "--prompt", prompt,
+        "--aspect-ratio", "1:1",
+        "--out", output_path,
+    ]
+
+    env = os.environ.copy()
+    env["PATH"] = NODE_BIN + ":" + env.get("PATH", "")
 
     try:
-        resp = requests.post(
-            url,
-            headers={
-                "Content-Type": "application/json",
-                "x-goog-api-key": api_key,
-            },
-            json=payload,
-            timeout=60,
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=180,
+            env=env,
         )
-        resp.raise_for_status()
-        data = resp.json()
+        if result.returncode != 0:
+            return None, f"mmx exit {result.returncode}: {result.stderr[:200]}"
 
-        candidates = data.get("candidates", [])
-        if not candidates:
-            return None, "No candidates in response"
-
-        parts = candidates[0].get("content", {}).get("parts", [])
-        image_data = None
-
-        for part in parts:
-            inline_data = part.get("inline_data")
-            if inline_data and inline_data.get("mime_type", "").startswith("image/"):
-                image_data = base64.b64decode(inline_data["data"])
-                break
-
-        if not image_data:
-            return None, "No image data in response"
-
-        output_path = os.path.join(output_dir, f"{item_id}.png")
-        with open(output_path, "wb") as f:
-            f.write(image_data)
+        if not os.path.exists(output_path) or os.path.getsize(output_path) < 100:
+            return None, f"Output file missing or too small: {result.stdout[:200]}"
 
         return output_path, None
-
+    except subprocess.TimeoutExpired:
+        return None, "Timeout after 180s"
     except Exception as e:
         return None, str(e)
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--api-key", required=True, help="Gemini API key")
-    parser.add_argument("--model", default=DEFAULT_MODEL, help="Gemini model name")
+    parser = argparse.ArgumentParser(description="Generate evidence icons using MiniMax CLI")
     parser.add_argument(
-        "--evidence",
-        default="data/cases/linchuan_inn/evidence.json",
-        help="Path to evidence JSON file",
+        "--case",
+        default="all",
+        choices=["linchuan_inn", "xunyang_pavilion", "all"],
+        help="Which case to generate icons for (default: all)",
     )
     parser.add_argument(
-        "--output-dir",
-        default="assets/ai_processed/objects/evidence_icons",
-        help="Output directory for generated icons",
+        "--delay",
+        type=float,
+        default=3.0,
+        help="Delay in seconds between API calls (default: 3.0)",
     )
     parser.add_argument(
-        "--max-workers",
-        type=int,
-        default=2,
-        help="Max concurrent API requests",
+        "--skip-existing",
+        action="store_true",
+        default=True,
+        help="Skip items that already have an icon file (default: True)",
     )
     args = parser.parse_args()
 
-    os.makedirs(args.output_dir, exist_ok=True)
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    with open(args.evidence, "r", encoding="utf-8") as f:
-        data = json.load(f)
+    # Verify mmx is available
+    env = os.environ.copy()
+    env["PATH"] = NODE_BIN + ":" + env.get("PATH", "")
+    try:
+        subprocess.run([MMX, "--version"], capture_output=True, check=True, env=env, timeout=10)
+    except Exception as e:
+        print(f"ERROR: mmx CLI not found or not working. Error: {e}")
+        print(f"Make sure mmx is installed and PATH includes: {NODE_BIN}")
+        sys.exit(1)
 
-    items = []
-    for key, value in data.items():
-        if key.startswith("_"):
+    cases_to_process = list(CASES.keys()) if args.case == "all" else [args.case]
+
+    all_items = []
+    for case_id in cases_to_process:
+        case_info = CASES[case_id]
+        evidence_path = case_info["evidence"]
+        if not os.path.exists(evidence_path):
+            print(f"WARNING: {evidence_path} not found, skipping {case_id}")
             continue
-        items.append(
-            (
-                key,
-                value.get("name", key),
-                value.get("description", ""),
-                value.get("type", "evidence"),
-            )
-        )
 
-    print(f"Generating {len(items)} icons using model '{args.model}'...")
+        with open(evidence_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
 
-    results = {}
-    with ThreadPoolExecutor(max_workers=args.max_workers) as executor:
-        futures = {
-            executor.submit(
-                generate_icon,
-                item_id,
-                name,
-                desc,
-                item_type,
-                args.api_key,
-                args.model,
-                args.output_dir,
-            ): item_id
-            for item_id, name, desc, item_type in items
-        }
+        for key, value in data.items():
+            if key.startswith("_"):
+                continue
 
-        for future in as_completed(futures):
-            item_id = futures[future]
-            try:
-                path, err = future.result()
-                if path:
-                    results[item_id] = path
-                    print(f"  OK [{item_id}]")
-                else:
-                    print(f"  FAIL [{item_id}]: {err}")
-            except Exception as e:
-                print(f"  FAIL [{item_id}]: {e}")
+            icon_path = os.path.join(OUTPUT_DIR, f"{key}.png")
+            if args.skip_existing and os.path.exists(icon_path) and os.path.getsize(icon_path) > 100:
+                print(f"  SKIP [{key}] (already exists)")
+                continue
 
-    # Update evidence.json with icon paths for successful generations
-    updated_count = 0
-    for key, value in data.items():
-        if key.startswith("_"):
-            continue
-        if key in results:
-            value["icon"] = f"res://{args.output_dir}/{key}.png"
-            updated_count += 1
+            all_items.append({
+                "id": key,
+                "name": value.get("name", key),
+                "description": value.get("description", ""),
+                "type": value.get("type", "evidence"),
+                "case": case_id,
+            })
 
-    with open(args.evidence, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    if not all_items:
+        print("No icons to generate. All items already have icons.")
+        return
 
-    print(
-        f"\nDone: {len(results)}/{len(items)} icons generated, {updated_count} entries updated in {args.evidence}"
-    )
+    print(f"Generating {len(all_items)} icons using MiniMax image-01...")
+    print(f"Output directory: {OUTPUT_DIR}")
+    print(f"Delay between calls: {args.delay}s")
+    print()
+
+    success = 0
+    failed = 0
+    for i, item in enumerate(all_items):
+        prompt = build_prompt(item["id"], item["name"], item["description"], item["type"])
+        print(f"  [{i+1}/{len(all_items)}] Generating [{item['id']}] ({item['name']})...")
+
+        path, err = generate_icon(item["id"], prompt, OUTPUT_DIR)
+        if path:
+            success += 1
+            print(f"    OK -> {path}")
+        else:
+            failed += 1
+            print(f"    FAIL: {err}")
+
+        if i < len(all_items) - 1:
+            time.sleep(args.delay)
+
+    print(f"\nDone: {success} generated, {failed} failed, {len(all_items) - success - failed} skipped")
 
 
 if __name__ == "__main__":

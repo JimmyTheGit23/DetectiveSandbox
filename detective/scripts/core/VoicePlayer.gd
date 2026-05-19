@@ -109,7 +109,6 @@ func stop() -> void:
 func _play_path(path: String) -> bool:
 	stop()
 	if not ResourceLoader.exists(path):
-		# 静默跳过：还没生成的台词不会报错
 		return false
 	var stream: AudioStream = load(path)
 	if stream == null:

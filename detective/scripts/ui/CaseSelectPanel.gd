@@ -1,7 +1,5 @@
 extends Control
-## 案件选择面板：以卡片形式列出所有可玩案件
-##
-## 数据源：GameManager.get_case_index_entries() + 每条 entry.manifest 指向的 manifest.json
+## 案件选择面板：全屏时代标签页 + 右侧角色背景图 + 左侧案件卡片
 ##
 ## 信号：
 ##   case_chosen(case_id)  — 玩家点了某张卡片
@@ -10,18 +8,35 @@ extends Control
 signal case_chosen(case_id: String)
 signal cancelled()
 
-const CARD_BG_NORMAL := Color(0.11, 0.10, 0.08, 0.92)
-const CARD_BG_HOVER  := Color(0.16, 0.14, 0.10, 0.96)
-const CARD_BG_CURRENT := Color(0.13, 0.16, 0.10, 0.94)
-const CARD_BORDER_NORMAL  := Color(0.42, 0.32, 0.18, 0.85)
+# ─── 时代配置 ───
+const ERAS := [
+	{ "id": "ancient",   "label": "古  代", "bg": "res://assets/cn/era_backgrounds/era_ancient.png" },
+	{ "id": "republic",  "label": "民  国", "bg": "res://assets/cn/era_backgrounds/era_republic.png" },
+	{ "id": "modern",    "label": "现  代", "bg": "" },
+	{ "id": "special",   "label": "？ ？", "bg": "" },
+]
+
+const CARD_BG_NORMAL := Color(0.08, 0.07, 0.06, 0.88)
+const CARD_BG_HOVER  := Color(0.14, 0.12, 0.09, 0.92)
+const CARD_BG_CURRENT := Color(0.10, 0.14, 0.08, 0.90)
+const CARD_BORDER_NORMAL  := Color(0.42, 0.32, 0.18, 0.80)
 const CARD_BORDER_HOVER   := Color(0.85, 0.66, 0.32, 1.0)
-const CARD_BORDER_CURRENT := Color(0.55, 0.85, 0.40, 0.95)
+const CARD_BORDER_CURRENT := Color(0.55, 0.85, 0.40, 0.90)
+const TAB_ACTIVE_COLOR   := Color(1.0, 0.92, 0.68, 1)
+const TAB_INACTIVE_COLOR := Color(0.55, 0.50, 0.42, 0.8)
+
+var _era_buttons: Array[Button] = []
+var _current_era: String = ""
+var _bg_texture: TextureRect
+var _cards_container: VBoxContainer
+var _tab_underlines: Dictionary = {}
 
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_build_ui()
+	_switch_era("ancient")
 
 
 func _input(event: InputEvent) -> void:
@@ -31,85 +46,200 @@ func _input(event: InputEvent) -> void:
 
 
 func _build_ui() -> void:
-	# 半透明遮罩
-	var dim := ColorRect.new()
-	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	dim.color = Color(0.02, 0.02, 0.04, 0.7)
-	dim.mouse_filter = Control.MOUSE_FILTER_STOP
-	add_child(dim)
+	# ── 1. 纯黑实色底（完全遮住主菜单）──
+	var solid_bg := ColorRect.new()
+	solid_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	solid_bg.color = Color(0.04, 0.04, 0.05, 1.0)
+	solid_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(solid_bg)
 
-	# 主容器
-	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	add_child(center)
+	# ── 2. 角色背景图（高度铺满，右对齐，只裁左边）──
+	# 使用 clip_children 裁切超出部分
+	var bg_clip := Control.new()
+	bg_clip.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg_clip.clip_children = CanvasItem.CLIP_CHILDREN_ONLY
+	bg_clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(bg_clip)
+	_bg_texture = TextureRect.new()
+	_bg_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_bg_texture.stretch_mode = TextureRect.STRETCH_SCALE
+	_bg_texture.modulate = Color(1, 1, 1, 0.7)
+	_bg_texture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bg_clip.add_child(_bg_texture)
+	# 延迟一帧设置位置（等容器大小确定后右对齐）
+	bg_clip.resized.connect(_on_bg_clip_resized.bind(bg_clip))
 
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(900, 560)
-	var stylebox := StyleBoxFlat.new()
-	stylebox.bg_color = Color(0.08, 0.07, 0.06, 0.96)
-	stylebox.border_color = Color(0.62, 0.46, 0.22, 0.95)
-	stylebox.set_border_width_all(2)
-	stylebox.corner_radius_top_left = 8
-	stylebox.corner_radius_top_right = 8
-	stylebox.corner_radius_bottom_left = 8
-	stylebox.corner_radius_bottom_right = 8
-	stylebox.content_margin_left = 28
-	stylebox.content_margin_right = 28
-	stylebox.content_margin_top = 22
-	stylebox.content_margin_bottom = 22
-	panel.add_theme_stylebox_override("panel", stylebox)
-	center.add_child(panel)
+	# ── 3. 渐变遮罩（从左到右逐渐透明，无硬边）──
+	var gradient_overlay := TextureRect.new()
+	gradient_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	gradient_overlay.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	gradient_overlay.stretch_mode = TextureRect.STRETCH_SCALE
+	gradient_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var grad_img := Image.create(256, 1, false, Image.FORMAT_RGBA8)
+	for x in range(256):
+		var alpha: float
+		if x < 140:
+			alpha = 0.82
+		elif x < 200:
+			alpha = lerpf(0.82, 0.0, float(x - 140) / 60.0)
+		else:
+			alpha = 0.0
+		grad_img.set_pixel(x, 0, Color(0.04, 0.04, 0.05, alpha))
+	var grad_tex := ImageTexture.create_from_image(grad_img)
+	gradient_overlay.texture = grad_tex
+	add_child(gradient_overlay)
 
-	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 14)
-	panel.add_child(vbox)
+	# ── 4. 左侧主内容区 ──
+	var left_margin := MarginContainer.new()
+	left_margin.set_anchors_preset(Control.PRESET_LEFT_WIDE)
+	left_margin.anchor_right = 0.60
+	left_margin.add_theme_constant_override("margin_left", 50)
+	left_margin.add_theme_constant_override("margin_right", 30)
+	left_margin.add_theme_constant_override("margin_top", 40)
+	left_margin.add_theme_constant_override("margin_bottom", 40)
+	add_child(left_margin)
 
-	# 标题栏
-	var hb_title := HBoxContainer.new()
-	hb_title.add_theme_constant_override("separation", 12)
-	vbox.add_child(hb_title)
+	var content_vbox := VBoxContainer.new()
+	content_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content_vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content_vbox.add_theme_constant_override("separation", 0)
+	left_margin.add_child(content_vbox)
 
+	# ── 5. 标题 ──
 	var title := Label.new()
 	title.text = "── 选 择 案 件 ──"
-	title.add_theme_font_size_override("font_size", 26)
+	title.add_theme_font_size_override("font_size", 28)
 	title.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1))
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hb_title.add_child(title)
+	content_vbox.add_child(title)
 
-	var close_btn := Button.new()
-	close_btn.text = "✕"
-	close_btn.flat = true
-	close_btn.add_theme_font_size_override("font_size", 22)
-	close_btn.custom_minimum_size = Vector2(40, 40)
-	close_btn.pressed.connect(func():
-		cancelled.emit()
-		queue_free()
-	)
-	hb_title.add_child(close_btn)
+	var sp1 := Control.new()
+	sp1.custom_minimum_size = Vector2(0, 18)
+	content_vbox.add_child(sp1)
 
-	# 卡片滚动区
+	# ── 6. 时代标签栏 ──
+	var tab_hb := HBoxContainer.new()
+	tab_hb.add_theme_constant_override("separation", 0)
+	content_vbox.add_child(tab_hb)
+
+	for era in ERAS:
+		var tab_wrapper := VBoxContainer.new()
+		tab_wrapper.add_theme_constant_override("separation", 3)
+		tab_hb.add_child(tab_wrapper)
+
+		var btn := Button.new()
+		btn.text = era.label
+		btn.flat = true
+		btn.add_theme_font_size_override("font_size", 17)
+		btn.add_theme_color_override("font_color", TAB_INACTIVE_COLOR)
+		btn.add_theme_color_override("font_hover_color", TAB_ACTIVE_COLOR)
+		btn.custom_minimum_size = Vector2(80, 34)
+		var eid: String = era.id
+		btn.pressed.connect(func(): _switch_era(eid))
+		tab_wrapper.add_child(btn)
+		_era_buttons.append(btn)
+
+		var underline := ColorRect.new()
+		underline.custom_minimum_size = Vector2(80, 2)
+		underline.color = Color(0.85, 0.66, 0.32, 0.0)
+		tab_wrapper.add_child(underline)
+		_tab_underlines[eid] = underline
+
+	# 分隔
+	var sep := HSeparator.new()
+	sep.add_theme_constant_override("separation", 6)
+	sep.modulate = Color(0.5, 0.4, 0.25, 0.5)
+	content_vbox.add_child(sep)
+
+	var sp2 := Control.new()
+	sp2.custom_minimum_size = Vector2(0, 14)
+	content_vbox.add_child(sp2)
+
+	# ── 7. 卡片滚动区 ──
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.custom_minimum_size = Vector2(840, 460)
-	vbox.add_child(scroll)
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	content_vbox.add_child(scroll)
 
-	var cards_vbox := VBoxContainer.new()
-	cards_vbox.add_theme_constant_override("separation", 12)
-	cards_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.add_child(cards_vbox)
+	_cards_container = VBoxContainer.new()
+	_cards_container.add_theme_constant_override("separation", 14)
+	_cards_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(_cards_container)
+
+	# ── 8. 右上角关闭按钮 ──
+	var close_btn := Button.new()
+	close_btn.text = "✕"
+	close_btn.flat = true
+	close_btn.add_theme_font_size_override("font_size", 24)
+	close_btn.add_theme_color_override("font_color", Color(0.7, 0.65, 0.55, 1))
+	close_btn.add_theme_color_override("font_hover_color", Color(1, 0.92, 0.68, 1))
+	close_btn.custom_minimum_size = Vector2(44, 44)
+	close_btn.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	close_btn.offset_left = -60
+	close_btn.offset_top = 16
+	close_btn.offset_right = -16
+	close_btn.offset_bottom = 60
+	close_btn.pressed.connect(func():
+		cancelled.emit()
+		queue_free()
+	)
+	add_child(close_btn)
+
+
+func _switch_era(era_id: String) -> void:
+	_current_era = era_id
+	var idx := 0
+	for era in ERAS:
+		var btn: Button = _era_buttons[idx]
+		var underline: ColorRect = _tab_underlines[era.id]
+		if era.id == era_id:
+			btn.add_theme_color_override("font_color", TAB_ACTIVE_COLOR)
+			underline.color = Color(0.85, 0.66, 0.32, 1.0)
+		else:
+			btn.add_theme_color_override("font_color", TAB_INACTIVE_COLOR)
+			underline.color = Color(0.85, 0.66, 0.32, 0.0)
+		idx += 1
+
+	var era_cfg := _get_era_config(era_id)
+	var bg_path: String = era_cfg.get("bg", "")
+	if bg_path != "" and ResourceLoader.exists(bg_path):
+		_bg_texture.texture = load(bg_path)
+	else:
+		_bg_texture.texture = null
+	_align_bg_right(_bg_texture.get_parent())
+
+	_refresh_cards()
+
+
+func _get_era_config(era_id: String) -> Dictionary:
+	for era in ERAS:
+		if era.id == era_id:
+			return era
+	return {}
+
+
+func _refresh_cards() -> void:
+	for child in _cards_container.get_children():
+		child.queue_free()
 
 	var entries: Array = GameManager.get_case_index_entries()
-	if entries.is_empty():
+	var era_entries: Array = []
+	for entry in entries:
+		if entry.get("era", "ancient") == _current_era:
+			era_entries.append(entry)
+
+	if era_entries.is_empty():
 		var empty := Label.new()
-		empty.text = "暂无可玩案件"
-		empty.add_theme_color_override("font_color", Color(0.7, 0.65, 0.55, 1))
-		cards_vbox.add_child(empty)
+		empty.text = "\n\n该时代暂无案件，敬请期待\n"
+		empty.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		empty.add_theme_font_size_override("font_size", 18)
+		empty.add_theme_color_override("font_color", Color(0.6, 0.55, 0.48, 0.7))
+		_cards_container.add_child(empty)
 		return
 
-	for entry in entries:
-		cards_vbox.add_child(_make_case_card(entry))
+	for entry in era_entries:
+		_cards_container.add_child(_make_case_card(entry))
 
 
 func _make_case_card(entry: Dictionary) -> Control:
@@ -117,12 +247,9 @@ func _make_case_card(entry: Dictionary) -> Control:
 	var manifest_path: String = entry.get("manifest", "")
 	var locked_field: bool = entry.get("locked", false)
 	var rank_required: int = int(entry.get("rank_required", 1))
-	var _style_tag: String = entry.get("style", "")
-	var _category: String = entry.get("category", "solo")
 	var tag: String = entry.get("tag", "")
 	var voice_status: String = entry.get("voice_status", "full")
 
-	# 调查员视角：是否解锁 / 是否已通关 / 最佳结局
 	var iv := get_node_or_null("/root/InvestigatorService")
 	var ss := get_node_or_null("/root/SettingsService")
 	var gm_mode: bool = ss != null and bool(ss.get("gm_unlock_all"))
@@ -141,7 +268,6 @@ func _make_case_card(entry: Dictionary) -> Control:
 			best_ending = rec.get("best_ending", "")
 			play_count = int(rec.get("play_count", 0))
 
-	# 加载 manifest
 	var manifest: Dictionary = {}
 	if manifest_path != "" and FileAccess.file_exists(manifest_path):
 		var f := FileAccess.open(manifest_path, FileAccess.READ)
@@ -152,7 +278,6 @@ func _make_case_card(entry: Dictionary) -> Control:
 
 	var is_current: bool = (case_id == GameManager.ACTIVE_CASE)
 
-	# 卡片根：PanelContainer——会自适应内容高度
 	var card := PanelContainer.new()
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	card.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -162,8 +287,8 @@ func _make_case_card(entry: Dictionary) -> Control:
 
 	var card_sb := StyleBoxFlat.new()
 	if locked:
-		card_sb.bg_color = Color(0.07, 0.06, 0.05, 0.85)
-		card_sb.border_color = Color(0.3, 0.28, 0.22, 0.7)
+		card_sb.bg_color = Color(0.05, 0.04, 0.03, 0.75)
+		card_sb.border_color = Color(0.3, 0.28, 0.22, 0.6)
 	elif is_current:
 		card_sb.bg_color = CARD_BG_CURRENT
 		card_sb.border_color = CARD_BORDER_CURRENT
@@ -182,43 +307,39 @@ func _make_case_card(entry: Dictionary) -> Control:
 	card.add_theme_stylebox_override("panel", card_sb)
 	card.set_meta("stylebox", card_sb)
 
-	# 内部布局：左图 + 右文字
 	var hb := HBoxContainer.new()
-	hb.add_theme_constant_override("separation", 16)
+	hb.add_theme_constant_override("separation", 14)
 	hb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card.add_child(hb)
 
-	# 左：预览图（固定尺寸，不让它撑垮卡片）
+	# 左：预览图
 	var preview_path: String = manifest.get("preview_image", "")
 	if preview_path != "" and ResourceLoader.exists(preview_path):
 		var tex_rect := TextureRect.new()
 		tex_rect.texture = load(preview_path)
 		tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-		tex_rect.custom_minimum_size = Vector2(180, 120)
+		tex_rect.custom_minimum_size = Vector2(160, 100)
 		tex_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		# 圆角通过 clip 实现（轻量做法：直接给个边）
 		hb.add_child(tex_rect)
 
-	# 右：文字 vbox
+	# 右：信息
 	var info_vb := VBoxContainer.new()
 	info_vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	info_vb.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	info_vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	info_vb.add_theme_constant_override("separation", 4)
 	hb.add_child(info_vb)
 
-	# 标题行：title + tag/current 标
+	# 标题行
 	var title_hb := HBoxContainer.new()
-	title_hb.add_theme_constant_override("separation", 10)
+	title_hb.add_theme_constant_override("separation", 8)
 	title_hb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	info_vb.add_child(title_hb)
 
 	var title_lbl := Label.new()
-	var title_text: String = manifest.get("title", case_id)
-	title_lbl.text = title_text
-	title_lbl.add_theme_font_size_override("font_size", 22)
+	title_lbl.text = manifest.get("title", case_id)
+	title_lbl.add_theme_font_size_override("font_size", 20)
 	title_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1))
 	title_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	title_hb.add_child(title_lbl)
@@ -226,7 +347,7 @@ func _make_case_card(entry: Dictionary) -> Control:
 	if is_current:
 		var cur_lbl := Label.new()
 		cur_lbl.text = "● 当前"
-		cur_lbl.add_theme_font_size_override("font_size", 13)
+		cur_lbl.add_theme_font_size_override("font_size", 12)
 		cur_lbl.add_theme_color_override("font_color", Color(0.6, 0.95, 0.6, 1))
 		cur_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		title_hb.add_child(cur_lbl)
@@ -234,17 +355,15 @@ func _make_case_card(entry: Dictionary) -> Control:
 	if tag != "":
 		var tag_lbl := Label.new()
 		tag_lbl.text = "[%s]" % tag
-		tag_lbl.add_theme_font_size_override("font_size", 13)
+		tag_lbl.add_theme_font_size_override("font_size", 12)
 		tag_lbl.add_theme_color_override("font_color", Color(0.85, 0.78, 0.62, 1))
 		tag_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		title_hb.add_child(tag_lbl)
 
-	# 通关徽章
 	if cleared:
 		var clear_lbl := Label.new()
-		var ending_name := _ending_label(best_ending)
-		clear_lbl.text = "✦ 已通关 · %s" % ending_name
-		clear_lbl.add_theme_font_size_override("font_size", 13)
+		clear_lbl.text = "✦ %s" % _ending_label(best_ending)
+		clear_lbl.add_theme_font_size_override("font_size", 12)
 		clear_lbl.add_theme_color_override("font_color", _ending_color(best_ending))
 		clear_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		title_hb.add_child(clear_lbl)
@@ -254,64 +373,53 @@ func _make_case_card(entry: Dictionary) -> Control:
 	if sub_text != "":
 		var sub_lbl := Label.new()
 		sub_lbl.text = sub_text
-		sub_lbl.add_theme_font_size_override("font_size", 14)
+		sub_lbl.add_theme_font_size_override("font_size", 13)
 		sub_lbl.add_theme_color_override("font_color", Color(0.78, 0.72, 0.58, 1))
 		sub_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		info_vb.add_child(sub_lbl)
 
-	# meta：难度 / 估计天数 / 语音
+	# meta
 	var meta_lbl := Label.new()
 	var diff: String = manifest.get("difficulty", "?")
 	var days: int = int(manifest.get("estimated_days", 0))
 	var voice_label := ""
 	if voice_status == "missing":
-		voice_label = "   ·   ⚠ 无语音"
+		voice_label = "  ·  ⚠ 无语音"
 	elif voice_status == "partial":
-		voice_label = "   ·   部分语音"
-	meta_lbl.text = "难度 %s   ·   预计 %d 时段%s" % [diff, days, voice_label]
-	meta_lbl.add_theme_font_size_override("font_size", 13)
+		voice_label = "  ·  部分语音"
+	meta_lbl.text = "难度 %s  ·  预计 %d 时段%s" % [diff, days, voice_label]
+	meta_lbl.add_theme_font_size_override("font_size", 12)
 	meta_lbl.add_theme_color_override("font_color", Color(0.7, 0.65, 0.5, 1))
 	meta_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	info_vb.add_child(meta_lbl)
 
-	# 简介——限制为 2 行 + 省略号，防止超框
+	# 简介
 	var intro_text: String = manifest.get("intro", "")
 	if intro_text != "":
-		# 把原文里硬换行换成空格，让 autowrap 接管
 		var oneline := intro_text.replace("\n", "  ").strip_edges()
 		var intro_lbl := Label.new()
 		intro_lbl.text = oneline
 		intro_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		intro_lbl.add_theme_font_size_override("font_size", 13)
-		intro_lbl.add_theme_color_override("font_color", Color(0.92, 0.86, 0.7, 1))
+		intro_lbl.add_theme_font_size_override("font_size", 12)
+		intro_lbl.add_theme_color_override("font_color", Color(0.88, 0.82, 0.68, 0.9))
 		intro_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		intro_lbl.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		intro_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		intro_lbl.clip_text = false
 		intro_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		intro_lbl.max_lines_visible = 2
-		intro_lbl.add_theme_constant_override("line_spacing", 2)
 		info_vb.add_child(intro_lbl)
 
 	if locked:
 		var lock_lbl := Label.new()
 		if iv and not rank_ok:
-			lock_lbl.text = "🔒 需 Lv.%d 解锁（%s）" % [rank_required, iv.get_rank_title(rank_required)]
+			lock_lbl.text = "🔒 需 Lv.%d 解锁" % rank_required
 		else:
 			lock_lbl.text = "🔒 暂未开放"
-		lock_lbl.add_theme_font_size_override("font_size", 13)
+		lock_lbl.add_theme_font_size_override("font_size", 12)
 		lock_lbl.add_theme_color_override("font_color", Color(0.55, 0.55, 0.55, 1))
 		lock_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		info_vb.add_child(lock_lbl)
-	elif cleared:
-		var replay_lbl := Label.new()
-		replay_lbl.text = "已玩 %d 次（重玩仅得 30%% 经验）" % play_count
-		replay_lbl.add_theme_font_size_override("font_size", 12)
-		replay_lbl.add_theme_color_override("font_color", Color(0.65, 0.62, 0.50, 1))
-		replay_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		info_vb.add_child(replay_lbl)
 
-	# 鼠标交互：hover 高亮 + 点击触发
+	# 鼠标交互
 	if not locked:
 		card.mouse_entered.connect(func():
 			var sb: StyleBoxFlat = card.get_meta("stylebox")
@@ -355,3 +463,26 @@ static func _ending_color(eid: String) -> Color:
 		"bad": return Color(0.92, 0.55, 0.45, 1)
 		"timeout": return Color(0.70, 0.62, 0.55, 1)
 	return Color(0.85, 0.78, 0.62, 1)
+
+
+func _on_bg_clip_resized(container: Control) -> void:
+	_align_bg_right(container)
+
+
+func _align_bg_right(container: Control) -> void:
+	if _bg_texture == null or _bg_texture.texture == null or container == null:
+		return
+	var tex_size := _bg_texture.texture.get_size()
+	if tex_size.x <= 0 or tex_size.y <= 0:
+		return
+	var cont_size := container.size
+	if cont_size.x <= 0 or cont_size.y <= 0:
+		return
+	# 高度铺满，按比例计算实际渲染宽度
+	var scale_factor := cont_size.y / tex_size.y
+	var rendered_w := tex_size.x * scale_factor
+	# TextureRect 全屏大小，但向右偏移让右边贴齐
+	# 如果 rendered_w > cont_size.x（图比屏宽），右对齐意味着左边裁
+	var offset_x := cont_size.x - rendered_w  # 负值=向左移
+	_bg_texture.position = Vector2(offset_x, 0)
+	_bg_texture.size = Vector2(rendered_w, cont_size.y)

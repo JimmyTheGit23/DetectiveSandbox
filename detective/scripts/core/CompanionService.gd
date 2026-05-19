@@ -79,6 +79,8 @@ func _init_for_case() -> void:
 
 	if _active:
 		companion_joined.emit()
+	else:
+		print("[CompanionService] NOT active (no companion_id)")
 
 
 func _read_json(path: String) -> Dictionary:
@@ -187,7 +189,7 @@ func _match_banter_rules(context: Dictionary) -> Array:
 			continue
 		var when: Dictionary = rule.get("when", {})
 		var rule_trigger: String = when.get("trigger", "")
-		if rule_trigger != "" and rule_trigger != trigger:
+		if rule_trigger != "" and not _trigger_matches(rule_trigger, trigger):
 			continue
 		# npc_id 条件匹配
 		var npc_id: String = when.get("npc_id", "")
@@ -211,19 +213,29 @@ func _match_banter_rules(context: Dictionary) -> Array:
 		if lines_pool.is_empty():
 			continue
 		# 随机取一条
-		var pick = lines_pool[randi() % lines_pool.size()]
+		var line_idx := randi() % lines_pool.size()
+		var pick = lines_pool[line_idx]
 		# 支持两种格式：
 		#   1) String — 助手独白（旧格式）
 		#   2) Array of {speaker, text} — 多轮对话（新格式）
 		if pick is String:
-			return [{"text": pick, "speaker": _role_name}]
+			var voice_path := _companion_voice_path(rule_id, line_idx, -1)
+			return [{"text": pick, "speaker": _role_name, "voice_path": voice_path}]
 		if pick is Array:
 			var result: Array = []
-			for line in pick:
+			for turn_idx in pick.size():
+				var line = pick[turn_idx]
+				var entry: Dictionary
 				if line is Dictionary:
-					result.append(line)
+					entry = line.duplicate()
 				elif line is String:
-					result.append({"speaker": _role_name, "text": line})
+					entry = {"speaker": _role_name, "text": line}
+				else:
+					entry = {"speaker": _role_name, "text": str(line)}
+				# 为助手台词添加语音路径
+				if entry.get("speaker", "") == _role_name:
+					entry["voice_path"] = _companion_voice_path(rule_id, line_idx, turn_idx)
+				result.append(entry)
 			return result
 		return [{"text": str(pick), "speaker": _role_name}]
 	return []
@@ -320,35 +332,48 @@ func _resolve_discussion(topic_id: String) -> Array:
 			return [{"speaker": _role_name, "text": "陆大人，歇歇吧。"}]
 		# 过滤有 condition 但不满足条件的条目
 		var eligible: Array = []
-		for item in pool:
-			if item is Dictionary:
-				var cond = item.get("condition", null)
+		var eligible_indices: Array = []  # 记录 eligible 项在 pool 中的原始索引
+		for i in pool.size():
+			var pool_item = pool[i]
+			if pool_item is Dictionary:
+				var cond = pool_item.get("condition", null)
 				if cond != null and not GameManager.evaluate_condition(cond):
 					continue
-			eligible.append(item)
+			eligible.append(pool_item)
+			eligible_indices.append(i)
 		if eligible.is_empty():
 			return [{"speaker": _role_name, "text": "陆大人，歇歇吧。"}]
-		var item = eligible[randi() % eligible.size()]
+		var pick_idx := randi() % eligible.size()
+		var pool_idx: int = eligible_indices[pick_idx]
+		var item = eligible[pick_idx]
+		var disc_rule_id := "chitchat_pool_%d" % pool_idx
 		if item is String:
-			return [{"speaker": _role_name, "text": item}]
+			var voice_path := _companion_voice_path(disc_rule_id, 0, -1)
+			return [{"speaker": _role_name, "text": item, "voice_path": voice_path}]
 		if item is Dictionary:
 			var lines_arr: Array = item.get("lines", [])
 			var result: Array = []
-			for l in lines_arr:
-				result.append({"speaker": _role_name, "text": l})
+			for l_idx in lines_arr.size():
+				var l = lines_arr[l_idx]
+				var voice_path := _companion_voice_path(disc_rule_id, l_idx, -1)
+				result.append({"speaker": _role_name, "text": l, "voice_path": voice_path})
 			return result
 		return [{"speaker": _role_name, "text": str(item)}]
 
 	# 规则匹配
-	for rule in rules:
+	for rule_idx in rules.size():
+		var rule = rules[rule_idx]
 		if typeof(rule) != TYPE_DICTIONARY:
 			continue
 		var when = rule.get("when", {})
 		if _evaluate_discussion_condition(when):
+			var rule_id: String = rule.get("id", "%s_rule_%d" % [topic_id, rule_idx])
 			var lines_arr: Array = rule.get("lines", [])
 			var result: Array = []
-			for l in lines_arr:
-				result.append({"speaker": _role_name, "text": l})
+			for l_idx in lines_arr.size():
+				var l = lines_arr[l_idx]
+				var voice_path := _companion_voice_path(rule_id, l_idx, -1)
+				result.append({"speaker": _role_name, "text": l, "voice_path": voice_path})
 			return result
 
 	# 兜底
@@ -445,8 +470,45 @@ func _evaluate_discussion_condition(when) -> bool:
 
 # ─── 日切换重置 ────────────────────────────────────────────────────────────
 
+## 触发器匹配：支持复合触发器（如 "arrive_location:riverside_dock"）
+## rule_trigger 可以是 "visit_location" 或 "arrive_location:loc_id"
+## actual_trigger 可以是 "visit_location" 或 "arrive_location:loc_id"
+## 匹配规则：精确匹配，或者前缀匹配（冒号分隔的基础触发器相同）
+func _trigger_matches(rule_trigger: String, actual_trigger: String) -> bool:
+	if rule_trigger == actual_trigger:
+		return true
+	# 复合触发器：arrive_location:loc_id 匹配 arrive_location（通用规则）
+	# 也支持 visit_location 匹配 arrive_location:loc_id（兼容）
+	var rule_base := rule_trigger.split(":")[0]
+	var actual_base := actual_trigger.split(":")[0]
+	# 同义触发器映射
+	var synonyms := {
+		"visit_location": ["arrive_location"],
+		"arrive_location": ["visit_location"],
+	}
+	if rule_base == actual_base:
+		return true
+	if synonyms.has(rule_base) and actual_base in synonyms[rule_base]:
+		return true
+	return false
+
+
 func _on_day_changed(_new_day: int) -> void:
 	topic_state_changed.emit()
+
+
+## 构造助手语音文件路径
+## rule_id: 规则 ID（如 "lie_exposed_generic_1"）
+## line_idx: lines 数组中选中的索引
+## turn_idx: 多轮对话中的轮次索引，-1 表示独白/单行
+func _companion_voice_path(rule_id: String, line_idx: int, turn_idx: int) -> String:
+	var case_id: String = GameManager.ACTIVE_CASE
+	var filename: String
+	if turn_idx >= 0:
+		filename = "%s_%s_%d_%d.wav" % [case_id, rule_id, line_idx, turn_idx]
+	else:
+		filename = "%s_%s_%d.wav" % [case_id, rule_id, line_idx]
+	return "res://assets/cn/voices/%s/%s/%s" % [_actor_id, case_id, filename]
 
 
 # ─── 存档 / 读档 ──────────────────────────────────────────────────────────

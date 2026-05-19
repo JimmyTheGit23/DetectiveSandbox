@@ -414,9 +414,12 @@ func _on_time_advanced(_day: int, _period: int) -> void:
 	top_bar_label.text = "%s    距下一日 %d 时段    总剩余 %d 时段" % [GameManager.current_time_text(), GameManager.periods_until_next_day(), GameManager.remaining_periods()]
 	if GameManager.is_time_up():
 		_show_ending("timeout")
+	elif GameManager.remaining_periods() <= 2:
+		_try_companion_banter("period_late")
 
 
 func _on_day_changed(new_day: int) -> void:
+	_try_companion_banter("new_day")
 	# 如果对话或叙述正在进行，延迟日期过场，等说话完毕再显示
 	if narration_box.visible or dialogue_box.visible:
 		var sub := "临川镇 · %s" % GameManager.PERIOD_NAMES[GameManager.current_period]
@@ -668,6 +671,8 @@ func _on_location_selected(loc_id: String) -> void:
 func _on_accuse_submitted(suspect: String, motive: String, method: String, ev_list: Array) -> void:
 	_close_subpanel()
 	var ending_id := GameManager.judge_accusation(suspect, motive, method, ev_list)
+	if ending_id == "bad" or ending_id == "partial":
+		_try_companion_banter("accuse_fail")
 	_show_ending(ending_id)
 
 
