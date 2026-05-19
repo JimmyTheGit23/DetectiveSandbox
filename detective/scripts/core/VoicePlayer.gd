@@ -49,14 +49,18 @@ func play_dialogue(npc_id: String, node_id: String) -> void:
 	# 完全委托给 AssetResolver。返回 "" 即视为本节点无语音，静默。
 	var resolver := get_node_or_null("/root/AssetResolver")
 	if resolver == null or not resolver.has_method("resolve_voice_path"):
+		_try_tts_fallback(npc_id, node_id)
 		return
 	var path: String = resolver.resolve_voice_path(npc_id, node_id)
 	if path == "":
-		# 没有语音就静默 —— 绝不播跨案件的错位语音
-		stop()
+		# 没有预录语音 → 尝试 TTS 回退
+		_try_tts_fallback(npc_id, node_id)
 		return
 	if _play_path(path):
 		_played_in_session[key] = true
+	else:
+		# 预录文件路径有但加载失败 → 尝试 TTS
+		_try_tts_fallback(npc_id, node_id)
 
 
 func play_narration(node_id: String) -> void:
@@ -113,4 +117,19 @@ func _play_path(path: String) -> bool:
 	_player.stream = stream
 	_player.play()
 	return true
+
+
+## 当没有预录音频时，尝试 TTS 回退
+func _try_tts_fallback(npc_id: String, node_id: String) -> void:
+	var tts := get_node_or_null("/root/TTSService")
+	if tts == null or not tts.is_available():
+		stop()
+		return
+	# 先尝试缓存
+	if tts.try_play_cached(npc_id, node_id):
+		var key := "dlg:%s:%s" % [npc_id, node_id]
+		_played_in_session[key] = true
+		return
+	# 没有缓存 → 请求异步生成（需要当前对话文本）
+	# DialogueManager 会负责传递文本
 

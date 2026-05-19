@@ -29,6 +29,7 @@ const SubPanels = {
 var _active_subpanel: Control = null
 var _pending_events: Array[String] = []
 var _pending_adhoc_lines: Array = []
+var _pending_day_info: Dictionary = {}   # 延迟的日期过场 { "day": int, "sub": String }
 var _title_layer: Control = null
 var _title_props_layer: Control = null
 var _scene_fx: Node = null
@@ -416,9 +417,17 @@ func _on_time_advanced(_day: int, _period: int) -> void:
 
 
 func _on_day_changed(new_day: int) -> void:
-	# 跨日 → 播日期过场
+	# 如果对话或叙述正在进行，延迟日期过场，等说话完毕再显示
+	if narration_box.visible or dialogue_box.visible:
+		var sub := "临川镇 · %s" % GameManager.PERIOD_NAMES[GameManager.current_period]
+		_pending_day_info = { "day": new_day, "sub": sub }
+		return
+	_show_day_transition(new_day)
+
+
+func _show_day_transition(day: int) -> void:
 	var sub := "临川镇 · %s" % GameManager.PERIOD_NAMES[GameManager.current_period]
-	day_transition.show_day(new_day, sub)
+	day_transition.show_day(day, sub)
 
 
 func _on_evidence_added(eid: String) -> void:
@@ -675,6 +684,7 @@ func _on_dialogue_ended() -> void:
 	dialogue_box.visible = false
 	menu_panel.visible = true
 	_refresh_event_hint()
+	_try_show_pending_day_transition()
 	#if _npc_layer and _npc_layer.has_method("show_npcs"):
 	#	_npc_layer.show_npcs()
 
@@ -698,8 +708,18 @@ func _on_narration_ended() -> void:
 		_on_time_advanced(GameManager.current_day, GameManager.current_period)
 	menu_panel.visible = true
 	_refresh_event_hint()
+	_try_show_pending_day_transition()
 	#if _npc_layer and _npc_layer.has_method("show_npcs"):
 	#	_npc_layer.show_npcs()
+
+
+## 检查是否有延迟的日期过场等待显示（对话/叙述结束后调用）
+func _try_show_pending_day_transition() -> void:
+	if _pending_day_info.is_empty():
+		return
+	var info := _pending_day_info
+	_pending_day_info = {}
+	_show_day_transition(info.get("day", 1))
 
 
 # ─── 选择案件 ───

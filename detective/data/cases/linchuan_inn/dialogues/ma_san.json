@@ -12,13 +12,13 @@
         { "text": "你什么时候到的现场？", "goto": "when_arrived", "hide_after_visit": true },
         { "text": "你怎么看这案子？", "goto": "your_opinion", "hide_after_visit": true },
         { "text": "（出示证据）把「赈灾粮帐目稿」摆出来", "goto": "show_account", "requires": { "evidence": "evidence_account_draft" }, "cost_time": 1, "hide_after_visit": true },
-        { "text": "（约他出来）今晚城外石桥下面见。", "goto": "set_bridge_meet", "requires": { "visited": "ma_san.your_opinion" }, "hide_after_visit": true }
+        { "text": "（约他出来）今晚城外石桥下面见。", "goto": "set_bridge_meet", "requires": { "all": [ { "visited": "ma_san.your_opinion" }, { "location_unlocked": "market" } ] }, "hide_after_visit": true }
       ]
     },
     "intro_trust": {
       "text": "（马三压低声）大人在县衙问，卑职不敢说太多。大人若有事，最好换个地方。",
       "options": [
-        { "text": "（约他出来）今晚城外石桥下面见。", "goto": "set_bridge_meet", "hide_after_visit": true }
+        { "text": "（约他出来）今晚城外石桥下面见。", "goto": "set_bridge_meet", "requires": { "location_unlocked": "market" }, "hide_after_visit": true }
       ]
     },
     "intro_waiting": {

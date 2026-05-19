@@ -560,6 +560,7 @@ func _apply_transitions_for_npc(npc_id: String, event_key: String) -> void:
 ##   { "visited": "npc_id.node_id" }
 ##   { "day_gte": N }  / { "day_lte": N } / { "day_eq": N }
 ##   { "period_gte": N }
+##   { "location_unlocked": "loc_id" }  地点已解锁
 ##   { "state": "npc.stat", "lt": N } / "lte" / "gt" / "gte" / "eq"
 ##   { "not": <cond> }
 ##   { "all": [cond1, cond2, ...] }
@@ -645,6 +646,8 @@ func evaluate_condition(cond) -> bool:
 		return total_periods_used() >= int(d["total_periods_used_gte"])
 	if d.has("total_periods_used_lte"):
 		return total_periods_used() <= int(d["total_periods_used_lte"])
+	if d.has("location_unlocked"):
+		return is_location_unlocked(str(d["location_unlocked"]))
 	if d.has("state"):
 		var sk: String = d["state"]
 		var p := sk.split(".")

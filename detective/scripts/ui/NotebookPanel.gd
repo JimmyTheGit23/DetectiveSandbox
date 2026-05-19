@@ -9,13 +9,24 @@ signal close_requested()
 @onready var tab_container: TabContainer = $Panel/Tabs
 @onready var close_btn: Button = $Panel/CloseBtn
 
+var _detail_overlay: PanelContainer
+
 
 func _ready() -> void:
 	_style_root()
 	close_btn.pressed.connect(func(): close_requested.emit())
+	_create_detail_overlay()
 	_build_evidence_tab()
 	_build_clue_tab()
 	_build_people_tab()
+
+
+func _input(event: InputEvent) -> void:
+	if _detail_overlay.visible and event is InputEventMouseButton:
+		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			var rect := _detail_overlay.get_global_rect()
+			if not rect.has_point(event.global_position):
+				_detail_overlay.visible = false
 
 
 func _style_root() -> void:
@@ -389,23 +400,11 @@ func _add_empty_state(parent: Container, text: String) -> void:
 
 
 func _build_evidence_tab() -> void:
-	var flow := _make_scroll_panel("证 物")
-	if GameManager.collected_evidence.is_empty():
-		_add_empty_state(flow, "尚无证物")
-		return
-	for eid in GameManager.collected_evidence:
-		var data = GameManager.evidence_data.get(eid, {})
-		_add_entry(flow, data.get("name", eid), data.get("description", ""), Color(1, 0.67, 0.46, 1), "证物")
+	_build_grid_tab("证 物", GameManager.collected_evidence, Color(1, 0.67, 0.46, 1), "证物", "尚无证物")
 
 
 func _build_clue_tab() -> void:
-	var flow := _make_scroll_panel("线 索")
-	if GameManager.collected_clues.is_empty():
-		_add_empty_state(flow, "尚无线索")
-		return
-	for cid in GameManager.collected_clues:
-		var data = GameManager.evidence_data.get(cid, {})
-		_add_entry(flow, data.get("name", cid), data.get("description", ""), Color(1, 0.84, 0.50, 1), "线索")
+	_build_grid_tab("线 索", GameManager.collected_clues, Color(1, 0.84, 0.50, 1), "线索", "尚无线索")
 
 
 func _build_people_tab() -> void:
@@ -439,4 +438,200 @@ func _build_people_tab() -> void:
 			body += "\n\n[color=#ffaa55]【已识破谎言】[/color]"
 			for ln in lies_exposed:
 				body += "\n  · %s" % ln
-		_add_entry(flow, "%s ｜ %s" % [role_name, role_title], body, Color(0.72, 0.95, 0.72, 1), "人物", portrait_path)
+		_add_entry(vbox, "%s ｜ %s" % [role_name, role_title], body, Color(0.72, 0.95, 0.72, 1), "人物", portrait_path)
+
+
+func _build_grid_tab(title: String, items: Array, color: Color, tag: String, empty_text: String) -> void:
+	var scroll := ScrollContainer.new()
+	scroll.name = title
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	tab_container.add_child(scroll)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 18)
+	margin.add_theme_constant_override("margin_right", 18)
+	margin.add_theme_constant_override("margin_top", 18)
+	margin.add_theme_constant_override("margin_bottom", 18)
+	scroll.add_child(margin)
+
+	if items.is_empty():
+		var vbox := VBoxContainer.new()
+		margin.add_child(vbox)
+		_add_empty_state(vbox, empty_text)
+		return
+
+	var flow := HFlowContainer.new()
+	flow.add_theme_constant_override("h_separation", 14)
+	flow.add_theme_constant_override("v_separation", 14)
+	flow.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	margin.add_child(flow)
+
+	for item_id in items:
+		var data = GameManager.evidence_data.get(item_id, {})
+		_add_grid_item(flow, item_id, data.get("name", item_id), data.get("description", ""), color, tag, data.get("icon", ""))
+
+
+func _add_grid_item(parent: HFlowContainer, id: String, name_text: String, desc: String, color: Color, tag: String, icon_path: String) -> void:
+	var btn := Button.new()
+	btn.custom_minimum_size = Vector2(100, 130)
+	btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	btn.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+	btn.add_theme_constant_override("icon_max_width", 64)
+	btn.add_theme_font_size_override("font_size", 14)
+	btn.add_theme_color_override("font_color", Color(0.88, 0.84, 0.74, 1))
+	btn.add_theme_color_override("font_hover_color", Color(1, 0.95, 0.72, 1))
+	btn.add_theme_color_override("font_pressed_color", Color(0.7, 0.65, 0.55, 1))
+	btn.clip_text = true
+
+	# 默认图标
+	var default_icon := "res://assets/ai_processed/objects/evidence_marker.png"
+	if icon_path == "" or not ResourceLoader.exists(icon_path):
+		icon_path = default_icon
+	if ResourceLoader.exists(icon_path):
+		btn.icon = load(icon_path)
+
+	btn.text = name_text
+	btn.pressed.connect(func(): _show_detail(id, name_text, desc, color, tag))
+
+	# 样式
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.13, 0.10, 0.07, 0.92)
+	style.border_color = Color(0.48, 0.36, 0.18, 0.9)
+	style.set_border_width_all(1)
+	style.corner_radius_top_left = 7
+	style.corner_radius_top_right = 7
+	style.corner_radius_bottom_left = 7
+	style.corner_radius_bottom_right = 7
+	style.content_margin_left = 8
+	style.content_margin_right = 8
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
+	btn.add_theme_stylebox_override("normal", style)
+
+	var hover_style := style.duplicate()
+	hover_style.bg_color = Color(0.22, 0.17, 0.10, 0.95)
+	hover_style.border_color = Color(0.72, 0.55, 0.27, 0.95)
+	btn.add_theme_stylebox_override("hover", hover_style)
+
+	var pressed_style := style.duplicate()
+	pressed_style.bg_color = Color(0.08, 0.06, 0.04, 0.95)
+	btn.add_theme_stylebox_override("pressed", pressed_style)
+
+	parent.add_child(btn)
+
+
+func _create_detail_overlay() -> void:
+	_detail_overlay = PanelContainer.new()
+	_detail_overlay.visible = false
+	_detail_overlay.anchors_preset = Control.PRESET_CENTER
+	_detail_overlay.custom_minimum_size = Vector2(440, 0)
+	add_child(_detail_overlay)
+
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.08, 0.06, 0.04, 0.98)
+	style.border_color = Color(0.72, 0.55, 0.27, 0.95)
+	style.set_border_width_all(2)
+	style.corner_radius_top_left = 12
+	style.corner_radius_top_right = 12
+	style.corner_radius_bottom_left = 12
+	style.corner_radius_bottom_right = 12
+	style.shadow_color = Color(0, 0, 0, 0.8)
+	style.shadow_size = 20
+	_detail_overlay.add_theme_stylebox_override("panel", style)
+
+	var margin := MarginContainer.new()
+	margin.name = "DetailMargin"
+	margin.add_theme_constant_override("margin_left", 24)
+	margin.add_theme_constant_override("margin_right", 24)
+	margin.add_theme_constant_override("margin_top", 20)
+	margin.add_theme_constant_override("margin_bottom", 20)
+	_detail_overlay.add_child(margin)
+
+	var vbox := VBoxContainer.new()
+	vbox.name = "DetailVBox"
+	vbox.add_theme_constant_override("separation", 12)
+	margin.add_child(vbox)
+
+	# 关闭按钮行
+	var close_hbox := HBoxContainer.new()
+	vbox.add_child(close_hbox)
+
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	close_hbox.add_child(spacer)
+
+	var close_btn2 := Button.new()
+	close_btn2.flat = true
+	close_btn2.text = "✕"
+	close_btn2.add_theme_font_size_override("font_size", 22)
+	close_btn2.add_theme_color_override("font_color", Color(0.9, 0.78, 0.55, 1))
+	close_btn2.add_theme_color_override("font_hover_color", Color(1.0, 0.95, 0.72, 1))
+	close_btn2.pressed.connect(func(): _detail_overlay.visible = false)
+	close_hbox.add_child(close_btn2)
+
+	# 标题
+	var title_label2 := Label.new()
+	title_label2.name = "DetailTitle"
+	title_label2.add_theme_font_size_override("font_size", 24)
+	vbox.add_child(title_label2)
+
+	# 标签
+	var tag_label := Label.new()
+	tag_label.name = "DetailTag"
+	tag_label.add_theme_font_size_override("font_size", 14)
+	vbox.add_child(tag_label)
+
+	# 分隔线
+	var line := ColorRect.new()
+	line.custom_minimum_size = Vector2(0, 1)
+	line.color = Color(0.72, 0.55, 0.27, 0.35)
+	vbox.add_child(line)
+
+	# 描述
+	var desc_rtl := RichTextLabel.new()
+	desc_rtl.name = "DetailDesc"
+	desc_rtl.bbcode_enabled = true
+	desc_rtl.fit_content = true
+	desc_rtl.scroll_active = false
+	desc_rtl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desc_rtl.add_theme_font_size_override("normal_font_size", 17)
+	desc_rtl.add_theme_color_override("default_color", Color(0.88, 0.84, 0.74, 1))
+	vbox.add_child(desc_rtl)
+
+
+func _show_detail(_id: String, title: String, desc: String, color: Color, tag: String) -> void:
+	var title_lbl: Label = _detail_overlay.find_child("DetailTitle", true, false)
+	var tag_lbl: Label = _detail_overlay.find_child("DetailTag", true, false)
+	var desc_rtl: RichTextLabel = _detail_overlay.find_child("DetailDesc", true, false)
+
+	title_lbl.text = title
+	title_lbl.add_theme_color_override("font_color", color)
+
+	tag_lbl.text = "  %s  " % tag
+	tag_lbl.add_theme_color_override("font_color", Color(0.18, 0.12, 0.05, 1))
+	var tag_style := StyleBoxFlat.new()
+	tag_style.bg_color = color
+	tag_style.corner_radius_top_left = 10
+	tag_style.corner_radius_top_right = 10
+	tag_style.corner_radius_bottom_left = 10
+	tag_style.corner_radius_bottom_right = 10
+	tag_lbl.add_theme_stylebox_override("normal", tag_style)
+
+	desc_rtl.text = desc
+
+	_update_overlay_layout.call_deferred()
+
+
+func _update_overlay_layout() -> void:
+	var min_size := _detail_overlay.get_combined_minimum_size()
+	var w := max(min_size.x, 440)
+	var h := min_size.y
+	_detail_overlay.size = Vector2(w, h)
+	_detail_overlay.offset_left = -w / 2
+	_detail_overlay.offset_right = w / 2
+	_detail_overlay.offset_top = -h / 2
+	_detail_overlay.offset_bottom = h / 2
+	_detail_overlay.visible = true

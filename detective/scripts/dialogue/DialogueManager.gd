@@ -172,6 +172,8 @@ func _emit_current() -> void:
 	var text: String = _resolve_text(node)
 	var options := _filter_options(node.get("options", []))
 	VoicePlayer.play_dialogue(_current_npc_id, _current_node_id)
+	# TTS 异步请求：如果 VoicePlayer 没有命中预录或缓存，发起 TTS 生成
+	_try_tts_for_dialogue(_current_npc_id, _current_node_id, text)
 	dialogue_started.emit(npc_name, portrait, text, options)
 
 
@@ -295,6 +297,9 @@ func _emit_adhoc() -> void:
 		speaker = item.get("speaker", "")
 		text = item.get("text", "")
 	var has_next := _adhoc_idx < _adhoc_lines.size() - 1
+	# 为叙述中有 speaker 的行触发 TTS
+	if speaker != "" and speaker != "旁白" and text != "":
+		_try_tts_for_narration(speaker, text)
 	var centered := false
 	if item is Dictionary:
 		centered = item.get("centered", false)
@@ -340,3 +345,23 @@ func _try_companion_banter(context: Dictionary) -> void:
 	if not cs.has_method("try_emit_banter"):
 		return
 	cs.try_emit_banter(context)
+
+
+# ─── TTS 集成 ───
+func _try_tts_for_dialogue(npc_id: String, node_id: String, text: String) -> void:
+	var tts := get_node_or_null("/root/TTSService")
+	if tts == null or not tts.is_available():
+		return
+	# 如果已有缓存，VoicePlayer._try_tts_fallback 已经播放了
+	# 这里负责发起异步 TTS 请求（无缓存时）
+	if tts.try_play_cached(npc_id, node_id):
+		return
+	# 异步请求 TTS，生成后自动播放
+	tts.request_tts(npc_id, node_id, text)
+
+
+func _try_tts_for_narration(speaker: String, text: String) -> void:
+	var tts := get_node_or_null("/root/TTSService")
+	if tts == null or not tts.is_available():
+		return
+	tts.request_tts_speaker(speaker, text)

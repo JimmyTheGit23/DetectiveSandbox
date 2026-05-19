@@ -1,6 +1,5 @@
 {
   "_comment": "证据与线索定义。type: evidence(实物证据可指证), clue(线索文本)。凶手为顾清玄。",
-
   "evidence_letter_draft": {
     "type": "evidence",
     "name": "未写完的信",
@@ -65,25 +64,95 @@
     "type": "evidence",
     "name": "药铺购买记录",
     "description": "药铺掌柜翻出了半年来的出货底册：购买朱砂最多的客人不是「化缘的师父」——那位师父每次只取一钱（画佛像用量）。真正大量购买的是一位「白衣公子」，每旬来取二两，自称「替友人养生炼丹」。时间跨度恰好覆盖沈砚秋的中毒期。"
-
   },
-
-  "clue_well_disturbed": { "type": "clue", "name": "井栏的水渍", "description": "井栏被人匆忙拨弄过，看起来像是死者临死前曾扑到井边。" },
-  "clue_rope_cut": { "type": "clue", "name": "断绳异常", "description": "井绳一截是刀切的，一截是被扯断的——不像自杀的样子。" },
-  "clue_handkerchief": { "type": "clue", "name": "「婉」字手帕", "description": "沈宅床下藏着一条绣「婉」字的妇人手帕——苏婉？" },
-  "clue_poem": { "type": "clue", "name": "讽刺诗", "description": "沈砚秋的自题诗：「朱砂三两印朱痕，何故年年减半分」——表面讽刺贪墨，但诗的最后两句被人用墨涂掉了。涂墨的痕迹很新，不是沈砚秋自己涂的。" },
-  "clue_missing_archive": { "type": "clue", "name": "卷宗失踪", "description": "县衙卷宗里今年的赈灾粮明细被人抽走了。" },
-  "clue_shen_to_xiaocui": { "type": "clue", "name": "未送出的信", "description": "沈砚秋写给小翠：「县里的事快了结了，过不了几天就来接你出这火坑。但是清玄那边，我还不确定——他帮我查旧案，可有些事太巧了。」" },
-  "clue_temple_paper": { "type": "clue", "name": "庙里的纸屑", "description": "观音庙香灰里有一片黄色纸屑，上面有半枚朱砂印章——但纸质精细，不是寺庙用品。" },
-  "clue_drug_question": { "type": "clue", "name": "庙里的字条", "description": "佛龛底下藏着字条：「朱砂入水，三月半两可致……」——有人在打听朱砂致死的剂量。字条纸质精良，与观音庙常用黄裱纸完全不同。" },
-  "clue_drug_buyer_hint": { "type": "clue", "name": "药铺有买家", "description": "镇上的药铺最近有人频繁买朱砂。" },
-  "clue_drug_buyers": { "type": "clue", "name": "朱砂的买主", "description": "药铺承认：上个月十五，有位穿青袍的官老爷来抓过一钱朱砂——是印泥用的；有位「化缘的师父」隔三差五来取一点，说画佛像；但量最大的是一位白衣公子，每旬取二两，说是「替友人养生」。" },
-  "clue_market_gossip": { "type": "clue", "name": "市井流言", "description": "集市摊主低声说：「沈主簿最近跟一位白衣公子走得近。那公子说是他同窗，但临川哪来的同窗？听口音倒像是州府那边的人。」" },
-  "clue_red_thread": { "type": "clue", "name": "朱砂麻线", "description": "苏婉转交，沈砚秋遗物。一段染了朱砂的麻线——他对她说：「若事不顺，便交给见朱砂之人。」此线的朱砂与茶盏中红粉成分一致。" },
-  "clue_gu_fan_poem": { "type": "clue", "name": "顾清玄的题扇诗", "description": "春风楼小翠保存的一把折扇，上有顾清玄亲笔题诗。字迹清秀，运笔与庙里那张字条惊人相似——但一个在庙里，一个在酒楼，为什么会是同一人？" },
-  "clue_gu_background": { "type": "clue", "name": "顾清玄的身份疑点", "description": "马三私下透露：那位「游学公子」顾清玄，他上个月在县衙见过——是跟着州府按察司的人一起来的，穿的官服。怎么现在变成游学了？" },
-  "clue_shen_father_old_case": { "type": "clue", "name": "沈父往事", "description": "沈砚秋曾在春风楼酒后对小翠说过：他十一岁那年，父亲被人告发「私吞捐粮」流放岭南。一家人全死在路上，只有他被一位远房舅父收养。「告发我家的，是临川一座庙。」——但他又说：「最近查下来，旧案另有内情。」" },
-  "clue_daoming_old_case": { "type": "clue", "name": "道明法师与旧案", "description": "道明法师确实在二十年前告发过沈家米行。但他向你坦白：当年有人拿着伪造的账簿逼他出面告发，他只是被利用的棋子。「施主，贫僧欠了沈家一条命。这些年一直在打听当年那人是谁……」" },
-  "clue_temple_visits": { "type": "clue", "name": "沈砚秋的庙访", "description": "沈砚秋这两个月常去观音庙——不是礼佛，是在和道明法师核对旧事。庙中知客僧说：「沈大人上次来时，还带着一位白衣公子。那公子还帮沈大人抄了好些东西。」" },
-  "clue_gu_alibi_broken": { "type": "clue", "name": "顾清玄的不在场证明破绽", "description": "顾清玄说案发夜他在春风楼喝酒到子时。但小翠回忆：那晚亥时三刻，顾公子说要出去「透透气」，回来时已经过了子时二刻。中间消失了整整一个时辰。" }
+  "clue_well_disturbed": {
+    "type": "clue",
+    "name": "井栏的水渍",
+    "description": "井栏被人匆忙拨弄过，看起来像是死者临死前曾扑到井边。"
+  },
+  "clue_rope_cut": {
+    "type": "clue",
+    "name": "断绳异常",
+    "description": "井绳一截是刀切的，一截是被扯断的——不像自杀的样子。"
+  },
+  "clue_handkerchief": {
+    "type": "clue",
+    "name": "「婉」字手帕",
+    "description": "沈宅床下藏着一条绣「婉」字的妇人手帕——苏婉？"
+  },
+  "clue_poem": {
+    "type": "clue",
+    "name": "讽刺诗",
+    "description": "沈砚秋的自题诗：「朱砂三两印朱痕，何故年年减半分」——表面讽刺贪墨，但诗的最后两句被人用墨涂掉了。涂墨的痕迹很新，不是沈砚秋自己涂的。"
+  },
+  "clue_missing_archive": {
+    "type": "clue",
+    "name": "卷宗失踪",
+    "description": "县衙卷宗里今年的赈灾粮明细被人抽走了。"
+  },
+  "clue_shen_to_xiaocui": {
+    "type": "clue",
+    "name": "未送出的信",
+    "description": "沈砚秋写给小翠：「县里的事快了结了，过不了几天就来接你出这火坑。但是清玄那边，我还不确定——他帮我查旧案，可有些事太巧了。」"
+  },
+  "clue_temple_paper": {
+    "type": "clue",
+    "name": "庙里的纸屑",
+    "description": "观音庙香灰里有一片黄色纸屑，上面有半枚朱砂印章——但纸质精细，不是寺庙用品。"
+  },
+  "clue_drug_question": {
+    "type": "clue",
+    "name": "庙里的字条",
+    "description": "佛龛底下藏着字条：「朱砂入水，三月半两可致……」——有人在打听朱砂致死的剂量。字条纸质精良，与观音庙常用黄裱纸完全不同。"
+  },
+  "clue_drug_buyer_hint": {
+    "type": "clue",
+    "name": "药铺有买家",
+    "description": "镇上的药铺最近有人频繁买朱砂。"
+  },
+  "clue_drug_buyers": {
+    "type": "clue",
+    "name": "朱砂的买主",
+    "description": "药铺承认：上个月十五，有位穿青袍的官老爷来抓过一钱朱砂——是印泥用的；有位「化缘的师父」隔三差五来取一点，说画佛像；但量最大的是一位白衣公子，每旬取二两，说是「替友人养生」。"
+  },
+  "clue_market_gossip": {
+    "type": "clue",
+    "name": "市井流言",
+    "description": "集市摊主低声说：「沈主簿最近跟一位白衣公子走得近。那公子说是他同窗，但临川哪来的同窗？听口音倒像是州府那边的人。」"
+  },
+  "clue_red_thread": {
+    "type": "clue",
+    "name": "朱砂麻线",
+    "description": "苏婉转交，沈砚秋遗物。一段染了朱砂的麻线——他对她说：「若事不顺，便交给见朱砂之人。」此线的朱砂与茶盏中红粉成分一致。"
+  },
+  "clue_gu_fan_poem": {
+    "type": "clue",
+    "name": "顾清玄的题扇诗",
+    "description": "春风楼小翠保存的一把折扇，上有顾清玄亲笔题诗。字迹清秀，运笔与庙里那张字条惊人相似——但一个在庙里，一个在酒楼，为什么会是同一人？"
+  },
+  "clue_gu_background": {
+    "type": "clue",
+    "name": "顾清玄的身份疑点",
+    "description": "马三私下透露：那位「游学公子」顾清玄，他上个月在县衙见过——是跟着州府按察司的人一起来的，穿的官服。怎么现在变成游学了？"
+  },
+  "clue_shen_father_old_case": {
+    "type": "clue",
+    "name": "沈父往事",
+    "description": "沈砚秋曾在春风楼酒后对小翠说过：他十一岁那年，父亲被人告发「私吞捐粮」流放岭南。一家人全死在路上，只有他被一位远房舅父收养。「告发我家的，是临川一座庙。」——但他又说：「最近查下来，旧案另有内情。」"
+  },
+  "clue_daoming_old_case": {
+    "type": "clue",
+    "name": "道明法师与旧案",
+    "description": "道明法师确实在二十年前告发过沈家米行。但他向你坦白：当年有人拿着伪造的账簿逼他出面告发，他只是被利用的棋子。「施主，贫僧欠了沈家一条命。这些年一直在打听当年那人是谁……」"
+  },
+  "clue_temple_visits": {
+    "type": "clue",
+    "name": "沈砚秋的庙访",
+    "description": "沈砚秋这两个月常去观音庙——不是礼佛，是在和道明法师核对旧事。庙中知客僧说：「沈大人上次来时，还带着一位白衣公子。那公子还帮沈大人抄了好些东西。」"
+  },
+  "clue_gu_alibi_broken": {
+    "type": "clue",
+    "name": "顾清玄的不在场证明破绽",
+    "description": "顾清玄说案发夜他在春风楼喝酒到子时。但小翠回忆：那晚亥时三刻，顾公子说要出去「透透气」，回来时已经过了子时二刻。中间消失了整整一个时辰。"
+  }
 }
