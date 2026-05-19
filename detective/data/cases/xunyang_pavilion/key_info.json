@@ -1,0 +1,93 @@
+{
+  "_comment": "浔阳阁案件关键信息，通过 dialogue_flags 解锁。requires 支持 {flag:xxx} 或 {all:[...]}。",
+  "key_qingjie_redemption": {
+    "name": "青姐：知情赎身之事",
+    "source": "青姐",
+    "description": "青姐承认知道秋菱即将赎身——外地客人三百两为聘。她说劝过秋菱留下，但秋菱主意已定。浔阳楼离了秋菱，下一个头牌不知几年才能养出来。",
+    "requires": { "flag": "qingjie_knew_redemption" }
+  },
+  "key_qingjie_altered_ledger": {
+    "name": "青姐：涂改账册",
+    "source": "青姐",
+    "description": "青姐承认涂改了赎身账册——把已付的三百两改成「待议」。她说只是想让秋菱想清楚再走，但赎身契写得清楚，她改的其实是「抹掉」。",
+    "requires": { "flag": "qingjie_emotional_break" }
+  },
+  "key_zhou_suspicion": {
+    "name": "周老夫人：怀疑青姐",
+    "source": "周老夫人",
+    "description": "周老夫人案发前一日去浔阳楼告知青姐赎身银即将凑齐，当时青姐脸色不好看。周老夫人认为秋菱是摇钱树，走了生意少折三成，青姐不会心甘。",
+    "requires": { "flag": "zhou_suspected_qingjie" }
+  },
+  "key_sun_contradicts_qingjie": {
+    "name": "孙娘：青姐不在场证词矛盾",
+    "source": "孙娘",
+    "description": "青姐声称三更听到响动才下楼，但孙娘看到青姐是从后院方向走回来，并非从楼梯口下来。青姐的不在场证明站不住脚。",
+    "requires": { "flag": "sun_contradicts_qingjie_alibi" }
+  },
+  "key_sun_insider_yard": {
+    "name": "孙娘：楼内之人深夜从后院回来",
+    "source": "孙娘",
+    "description": "孙娘三更被响动惊醒，看到有人穿楼内衣裳从后院方向急急走回。雨大灯暗，她不敢确认是谁，但可以确定不是客人。",
+    "requires": { "flag": "sun_saw_insider_from_yard" }
+  },
+  "key_wuchen_figure": {
+    "name": "无尘师太：目击阁中两人",
+    "source": "无尘师太",
+    "description": "无尘师太那夜诵经至三更，望见对楼阁中有两个人影——一个后退，另一个逼近，前者从栏边坠下。逼近者身形偏矮偏瘦。",
+    "requires": { "flag": "wuchen_figure_short" }
+  },
+  "key_wuchen_insider_step": {
+    "name": "无尘师太：夜访者脚步像楼内之人",
+    "source": "无尘师太",
+    "description": "案发后有人戴兜帽深夜来慈航庵敲门，问师太是否听见动静。师太觉得那人的步子轻快利落，像是常在楼里走动的人，不像是外来客商或书生。",
+    "requires": { "flag": "wuchen_step_insider" }
+  },
+  "key_qingxuan_at_chamber": {
+    "name": "顾清玄：承认案发时在秋菱房中",
+    "source": "顾清玄",
+    "description": "顾清玄承认那夜去找过秋菱，求她不要走。他说自己离开三步后又回去，但回去时阁子里已只有她一人。他声称离开不到一刻钟就听见了响动。",
+    "requires": { "flag": "qx_was_at_chamber" }
+  },
+  "key_qingxuan_motive": {
+    "name": "顾清玄：情书暴露私情",
+    "source": "顾清玄",
+    "description": "小笺中的「清郎」正是顾清玄。他承认与秋菱深陷情爱，案后烧了一封同样的告别信，并去布庄买了一匹同款红绸企图伪装成「失足」——他宁肯背嫌疑也不愿她的名声被议论。",
+    "requires": { "flag": "qx_motive_exposed" }
+  },
+  "key_liu_cloaked_figure": {
+    "name": "刘船家：戴兜帽人影丢包袱",
+    "source": "刘船家",
+    "description": "刘船家三更惊醒，看见一个戴兜帽的人影从水阁走出来往江边丢了个包袱。身形不高，不像大男人，但也可能缩着肩膀。走得急，怕被人看见。",
+    "requires": { "flag": "liu_saw_cloaked_figure" }
+  },
+  "key_liu_amateur_knot": {
+    "name": "刘船家：缆绳扣是生手所为",
+    "source": "刘船家",
+    "description": "水阁缆绳上的扣子不是渔家打法，而是生手扣——说明来水阁的人不常下水，不是惯于江上作业之人。",
+    "requires": { "flag": "liu_confirmed_amateur_knot" }
+  },
+  "key_lu_yielded": {
+    "name": "鲁知府：移交全案",
+    "source": "鲁知府",
+    "description": "鲁知府原本坚持「醉酒失足」结案，在得知阁中有第二人后不得不承认不是失足，将全案移交陆昭彻查。此前本府出过伶人醉死案，鲁知府怕再闹大。",
+    "requires": { "flag": "lu_yielded" }
+  },
+  "key_lie_qingjie_shoes": {
+    "name": "识破谎言：青姐的泥鞋借口",
+    "source": "青姐",
+    "description": "青姐声称泥底绣鞋是白日去后院上香沾的泥，但鞋底泥是夜间湿泥，不是白日干泥。她那夜确实去过案发现场。",
+    "requires": { "flag": "lie_exposed:qing_jie.mud_shoes" }
+  },
+  "key_lie_qingjie_alibi": {
+    "name": "识破谎言：青姐的不在场证明",
+    "source": "青姐",
+    "description": "青姐声称三更听到响动才下楼，但孙娘看见她是从后院方向回来，并非从楼上下来。她那夜在案发后从后院走回，却谎称在房中。",
+    "requires": { "flag": "lie_exposed:qing_jie.alibi" }
+  },
+  "key_lie_qingxuan_relation": {
+    "name": "识破谎言：顾清玄否认与秋菱私交",
+    "source": "顾清玄",
+    "description": "顾清玄声称与秋菱只是「点头之交」，实际上两人深陷情爱，书信往来频繁。情书中称他为「清郎」，案后他还烧毁信件、购买红绸替她掩饰。",
+    "requires": { "flag": "lie_exposed:qing_xuan.relation" }
+  }
+}

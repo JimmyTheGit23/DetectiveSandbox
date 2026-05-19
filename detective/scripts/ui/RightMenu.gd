@@ -147,7 +147,7 @@ func _refresh_visibility() -> void:
 		var cs = get_node_or_null("/root/CompanionService")
 		_btn_map["discuss"].visible = cs != null and cs.has_method("has_companion") and cs.has_companion()
 	# 渐进系统：对锁定面板设灰色透明度
-	for menu_id in ["accuse", "notebook"]:
+	for menu_id in ["accuse"]:
 		if _btn_map.has(menu_id):
 			var unlocked := GameManager.is_panel_unlocked(menu_id)
 			_btn_map[menu_id].modulate.a = 1.0 if unlocked else 0.45

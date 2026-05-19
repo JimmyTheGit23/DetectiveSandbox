@@ -107,6 +107,7 @@
         "is_lie": true,
         "reason": "她说的是早上，但鞋底的泥是夜间湿泥，不是白日干泥"
       },
+      "reveal_lie": { "lie_node": "mud_shoes" },
       "options": [
         {
           "text": "（先记下）",
@@ -148,6 +149,7 @@
         "is_lie": true,
         "reason": "孙娘看见她是从后院方向回来，不是从楼上下来"
       },
+      "reveal_lie": { "lie_node": "alibi" },
       "options": [
         {
           "text": "（先记下）",

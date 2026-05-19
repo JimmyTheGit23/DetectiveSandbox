@@ -56,16 +56,8 @@
         ]
       },
       "locked_hint": "证据不足，尚无法指证。继续搜集线索和证据。"
-    },
-    "notebook": {
-      "condition": {
-        "any": [
-          { "evidence_count_gte": 1 },
-          { "clue_count_gte": 2 }
-        ]
-      },
-      "locked_hint": "尚无记录。先去调查现场搜集线索。"
     }
+
   },
 
   "search_point_unlock": {

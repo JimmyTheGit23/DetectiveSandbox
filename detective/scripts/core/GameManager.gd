@@ -58,6 +58,7 @@ var current_location: String = "post_station"
 var locations_data: Dictionary = {}
 var npcs_data: Dictionary = {}
 var evidence_data: Dictionary = {}
+var key_info_data: Dictionary = {}
 var search_results_data: Dictionary = {}
 var case_data: Dictionary = {}
 var day_events_data: Dictionary = {}
@@ -191,6 +192,7 @@ func _load_data() -> void:
 	locations_data = _read_json(_case_path("locations.json"))
 	npcs_data = _read_json(_case_path("npcs.json"))
 	evidence_data = _read_json(_case_path("evidence.json"))
+	key_info_data = _read_json(_case_path("key_info.json"))
 	search_results_data = _read_json(_case_path("search_results.json"))
 	case_data = _read_json(_case_path("case.json"))
 	day_events_data = _read_json(_case_path("day_events.json"))
@@ -501,6 +503,20 @@ func set_flag(flag_id: String) -> void:
 
 func has_flag(flag_id: String) -> bool:
 	return dialogue_flags.get(flag_id, false)
+
+
+## 检查 key_info 的 requires 条件是否满足
+func check_key_info_requires(requires: Dictionary) -> bool:
+	if requires.is_empty():
+		return true
+	if requires.has("flag"):
+		return has_flag(requires["flag"])
+	if requires.has("all"):
+		for cond in requires["all"]:
+			if cond.has("flag") and not has_flag(cond["flag"]):
+				return false
+		return true
+	return false
 
 
 func mark_node_visited(npc_id: String, node_id: String) -> void:

@@ -1,0 +1,75 @@
+{
+  "_comment": "嫌疑人对话关键信息，通过 dialogue_flags 解锁显示在笔记本中。requires 支持单条件 {flag:xxx} 或组合 {all:[...]}。",
+  "key_ma_bridge": {
+    "name": "马三：石桥密会",
+    "source": "马三",
+    "description": "马三在城外石桥下私下透露：沈砚秋死的那天夜里，他巡夜时看见柳文卿从沈宅方向匆匆走回县衙，时辰大约在亥时。柳文卿声称是去查看沈主簿，可马三觉得——那更像是「从沈宅出来的」而非「去查看的」。",
+    "requires": { "flag": "ma_bridge_met_done" }
+  },
+  "key_ma_witness_liu": {
+    "name": "马三：柳知县的夜行",
+    "source": "马三",
+    "description": "马三确认：柳文卿在案发前几日，每到深夜便会悄悄去沈宅。柳文卿说是「关心下属」，但每次回来都面带忧色。",
+    "requires": { "flag": "ma_witness_liu" }
+  },
+  "key_ma_witness_monk": {
+    "name": "马三：道明法师的可疑行踪",
+    "source": "马三",
+    "description": "马三注意到道明法师最近几日频繁出入观音庙后院——那里平时无人问津。但更值得注意的是，他还看见一位白衣公子在同一时段出入。",
+    "requires": { "flag": "ma_witness_monk" }
+  },
+  "key_previous_death": {
+    "name": "旧案：二十年前沈家灭门",
+    "source": "综合",
+    "description": "沈砚秋的父亲二十年前被人告发「私吞捐粮」，全家流放岭南，仅沈砚秋一人生还。沈砚秋一直在暗中调查此案，并发现旧案另有内情——当年的告发者只是一枚棋子。",
+    "requires": { "flag": "learned_previous_death" }
+  },
+  "key_liu_confessed": {
+    "name": "柳文卿：认罪供述",
+    "source": "柳文卿",
+    "description": "柳文卿最终崩溃认罪，承认贪墨赈灾粮，但否认杀沈砚秋——他说杀人的不是他，他只是被人利用了。真正在幕后操控一切的人，他不敢说出名字。",
+    "requires": { "flag": "liu_confessed" }
+  },
+  "key_zhao_confessed": {
+    "name": "赵大勇：承认偷窃",
+    "source": "赵大勇",
+    "description": "赵大勇承认自己偷过沈砚秋书房里的东西——但不是他杀的人。他说那晚去偷东西时，沈砚秋已经不对劲了，茶盏翻倒在地，嘴角发黑。",
+    "requires": { "flag": "zhao_confessed_theft" }
+  },
+  "key_daoming_cornered": {
+    "name": "道明法师：被迫告发的真相",
+    "source": "道明法师",
+    "description": "道明法师坦白：二十年前，有人拿着伪造的账簿逼他出面告发沈家米行。他只是被利用的棋子。「贫僧欠了沈家一条命。这些年一直在打听当年那人是谁……」",
+    "requires": { "flag": "daoming_cornered" }
+  },
+  "key_su_quarrel": {
+    "name": "苏婉：承认与沈砚秋争吵",
+    "source": "苏婉",
+    "description": "苏婉承认在沈砚秋死前一天与他争吵过——因为她发现沈砚秋在偷偷调查旧案，她害怕他出事。临走时沈砚秋塞给她一截染了朱砂的麻线，说：「若事不顺，便交给见朱砂之人。」",
+    "requires": { "flag": "su_admitted_quarrel" }
+  },
+  "key_gu_identity": {
+    "name": "顾清玄：身份暴露",
+    "source": "顾清玄",
+    "description": "顾清玄并非他自称的「游学书生」——他实际上来自州府按察司，以某种身份出入县衙。他为什么要隐藏真实身份？「游学」只是他的掩护。",
+    "requires": { "flag": "gu_revealed_identity" }
+  },
+  "key_xiaocui_bottle": {
+    "name": "小翠：朱砂瓷瓶物证",
+    "source": "小翠",
+    "description": "小翠交出沈砚秋生前托她保管的瓷瓶——内含纯朱砂粉。封纸内层粘着一张极薄的纸条，字迹与顾清玄的笔迹如出一辙。沈砚秋似乎早已怀疑有人在给他下毒。",
+    "requires": { "flag": "xiao_cui_gave_bottle" }
+  },
+  "key_liu_lie_dinner": {
+    "name": "识破谎言：柳文卿否认共餐",
+    "source": "柳文卿",
+    "description": "柳文卿声称与沈砚秋「只是公事往来」、从未一起吃过饭。但春风楼帐簿清楚记载两人上月二十三号坐到深夜。柳文卿在隐瞒与沈砚秋的私交。",
+    "requires": { "flag": "lie_exposed:liu_wenqing.shared_dinner" }
+  },
+  "key_gu_lie_knew_shen": {
+    "name": "识破谎言：顾清玄否认认识沈砚秋",
+    "source": "顾清玄",
+    "description": "顾清玄声称「与沈砚秋素不相识」，但春风楼帐簿记录他多次与沈砚秋在雅间密会。他显然在说谎——他与沈砚秋的关系远比他承认的深。",
+    "requires": { "flag": "lie_exposed:gu_qingxuan.knew_shen" }
+  }
+}

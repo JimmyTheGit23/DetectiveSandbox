@@ -80,6 +80,7 @@
         "is_lie": true,
         "reason": "实际深陷情爱"
       },
+      "reveal_lie": { "lie_node": "relation" },
       "options": [
         {
           "text": "（先放放）",
