@@ -1,0 +1,126 @@
+{
+  "_comment": "钱里正对话树。圆滑地方小吏，提供背景信息和侧面线索。",
+  "start": "hub",
+  "nodes": {
+    "hub": {
+      "text": "（钱里正搓着手迎上来）哎呀陆大人！您能管管这事儿，真是太好了！小人这石矶渡从来没出过命案，闹得人心惶惶的……",
+      "options": [
+        {
+          "text": "这件事你怎么看？",
+          "goto": "intro"
+        },
+        {
+          "text": "那片礁石，本地人都知道？",
+          "goto": "ask_reef",
+          "requires": [
+            {
+              "flag": "lizheng_talked_once"
+            }
+          ]
+        },
+        {
+          "text": "老范这个人怎么样？",
+          "goto": "ask_fan",
+          "requires": [
+            {
+              "flag": "lizheng_talked_once"
+            }
+          ]
+        },
+        {
+          "text": "阿贵这两天有什么异常吗？",
+          "goto": "ask_agui_spending",
+          "requires": [
+            {
+              "flag": "lizheng_talked_once"
+            }
+          ]
+        },
+        {
+          "text": "周德茂你了解吗？",
+          "goto": "ask_victim",
+          "requires": [
+            {
+              "flag": "lizheng_talked_once"
+            }
+          ]
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "intro": {
+      "text": "钱里正：依小人看呐——这就是意外。冬天涨水，夜里走船本来就险。\n\n钱里正：那老范跑了二十年船都没出过事，这次栽了——也是老天爷不长眼。\n\n凌瑶：（小声）这老滑头，净替人开脱。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "set_flags": [
+        "lizheng_talked_once"
+      ]
+    },
+    "ask_reef": {
+      "text": "钱里正：那可不是！小人从小在这儿长大，那片礁石连小孩儿都知道要绕着走。\n\n钱里正：涨水了也不保险——石头尖的很，水面下照样能把船底划烂。\n\n凌瑶：（看着你）那老范二十年老船家，他不知道？",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "gain_clue": "clue_reef_common_knowledge"
+    },
+    "ask_fan": {
+      "text": "钱里正：老范嘛……人还行。就是爱赌。以前小赌怡情，这两年越赌越大。\n\n钱里正：听说欠了赌坊不少钱。前阵子还有人来找他要账，闹得挺凶。\n\n钱里正：不过他水性是真好。年轻时候还救过落水的孩子，全渡口都知道。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "gain_clue": "clue_fan_boat_skill"
+    },
+    "ask_agui_spending": {
+      "text": "钱里正：异常嘛……嗐，也不能说异常。就是——\n\n钱里正：他昨天在客栈买了壶好酒，又打了半斤卤肉。出手挺阔的。\n\n钱里正：按说刚死了主人的仆从……哪有心情喝酒吃肉啊？而且他马上要被遣散了，身上能有几个钱？",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "gain_clue": "clue_agui_spending"
+    },
+    "ask_victim": {
+      "text": "钱里正：知道知道。做布匹生意的，来往走水路常歇在咱这儿。\n\n钱里正：人嘛……精明是精明的。就是待下人刻薄了些。动不动呵斥，小人听过好几回了。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "_comment": "阿贵对话树。主犯。初始伪装悲痛，被质问后逐渐露出马脚。",
+  "start": "hub",
+  "nodes": {
+    "hub": {
+      "text": "（阿贵蹲在墙角，眼睛红肿）大人……小的、小的实在是太害怕了……那一晚上的事，小的到现在还没缓过来……",
+      "options": [
+        {
+          "text": "问问当晚发生了什么",
+          "goto": "intro"
+        },
+        {
+          "text": "你和周德茂关系怎样？",
+          "goto": "ask_relationship",
+          "requires": [
+            {
+              "flag": "agui_talked_once"
+            }
+          ]
+        },
+        {
+          "text": "你是怎么从水里活下来的？",
+          "goto": "press_alibi",
+          "requires": [
+            {
+              "flag": "agui_talked_once"
+            }
+          ]
+        },
+        {
+          "text": "【出示遣散字据】这是什么？",
+          "goto": "show_dismissal",
+          "requires": [
+            {
+              "evidence": "evidence_dismissal_note"
+            }
+          ]
+        },
+        {
+          "text": "【出示浮囊】这东西从你包袱里翻出来的",
+          "goto": "show_bladder",
+          "requires": [
+            {
+              "evidence": "evidence_float_bladder"
+            }
+          ]
+        },
+        {
+          "text": "说实话吧。",
+          "goto": "confession",
+          "requires": [
+            {
+              "flag": "agui_bladder_confronted"
+            }
+          ]
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "intro": {
+      "text": "阿贵：那天……那天夜里，老爷说要赶路，非坐夜船不可。小的劝了，老爷不听。\n\n阿贵：到了江心，突然船就晃得厉害——然后水就涌进来了！什么都看不见，什么都抓不住！\n\n阿贵：小的只记得呛了好多水……等醒过来的时候已经在岸上了。（哽咽）老爷他……老爷他不在了……",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "set_flags": [
+        "agui_talked_once"
+      ]
+    },
+    "ask_relationship": {
+      "text": "阿贵：老爷对小的很好。十二年了，吃住都是老爷供的。\n\n阿贵：小的这辈子都感激老爷的大恩。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "press_alibi": {
+      "text": "阿贵：小的……小的也不知道。命大吧。抱着一块船板就飘上来了。\n\n凌瑶：（小声）冬天的江水，不会游泳的人抱块板子就能活？",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "show_dismissal": {
+      "text": "阿贵：！……那、那是……\n\n阿贵：老爷他……他是说过要把小的遣散。但小的没有怨恨！真的没有！\n\n阿贵：二两银子……十二年……\n\n阿贵：（声音颤抖）小的没有怨恨。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "set_flags": [
+        "agui_dismissal_confronted"
+      ]
+    },
+    "show_bladder": {
+      "text": "阿贵：（猛地站起来）那——那不是小的的！是、是……\n\n阿贵：……\n\n阿贵：（沉默良久）\n\n阿贵：大人。小的想说实话。\n\n凌瑶：哟——这才对嘛。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "set_flags": [
+        "agui_bladder_confronted"
+      ]
+    },
+    "confession": {
+      "text": "阿贵：是小的做的。\n\n阿贵：十二年。十二年跟前跟后伺候。从他一文不名的时候就跟着。\n\n阿贵：发达了。发达了就嫌小的碍眼。二两银子——打发叫花子呢？\n\n阿贵：老范缺钱，小的缺一条出路。一拍即合。\n\n阿贵：……小的不后悔。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "set_flags": [
+        "agui_confessed"
+      ]
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "_comment": "序章「渡口沉舟」证据与线索。运行时使用扁平 evidence_id/clue_id 字典。",
+  "evidence_hull_hole": {
+    "type": "evidence",
+    "name": "船底人工破洞",
+    "description": "沉船底部有一处明显的人工凿痕。木板边缘整齐，不像撞击所致——更像是被人从内侧用凿子打开的活板。"
+  },
+  "evidence_float_bladder": {
+    "type": "evidence",
+    "name": "牛皮浮囊",
+    "description": "在阿贵的包袱底层发现一只充了气的水牛皮浮囊。这种东西是水上救命用的——为什么一个不会游泳的仆从要带这个？"
+  },
+  "evidence_gambling_iou": {
+    "type": "evidence",
+    "name": "赌债字据",
+    "description": "一张皱巴巴的借据：老范欠赌坊四十二两白银，限腊月底还清，否则断指抵债。日期是上月。"
+  },
+  "evidence_dismissal_note": {
+    "type": "evidence",
+    "name": "遣散字据",
+    "description": "周德茂亲笔写的字据：兹遣仆人阿贵，给银二两，各不相欠。落款日期是出发前三日。"
+  },
+  "evidence_cargo_silver": {
+    "type": "evidence",
+    "name": "失踪的货银",
+    "description": "周氏说丈夫随身带了五十两货银。但沉船中找不到这笔钱，岸边也没有。五十两银子不会被水冲走。"
+  },
+  "evidence_nail_marks": {
+    "type": "evidence",
+    "name": "船底钉痕",
+    "description": "破洞周围的木板上有两圈钉眼——旧钉眼和新钉眼。说明这块板被拆下来过，又重新钉了回去。"
+  },
+  "evidence_wet_letter": {
+    "type": "evidence",
+    "name": "泡烂的密信",
+    "description": "一封被江水泡得几乎看不清的书信。仅能辨认出关于沈氏旧案、按察司与棋盘的零碎字句。",
+    "meta_clue": true
+  },
+  "clue_wife_suspicion": {
+    "type": "clue",
+    "name": "周氏的怀疑",
+    "description": "周氏说：阿贵这两天表现很反常。案发后他哭得比谁都凶，但平时他跟老爷关系并不好——上船前还被老爷骂了一顿。"
+  },
+  "clue_wrong_channel": {
+    "type": "clue",
+    "name": "错误的航道",
+    "description": "王老汉说：老范走的那条水道，本地船家都知道有暗礁。涨水时更危险。跑了二十年船的人不可能不知道。"
+  },
+  "clue_agui_dry_inner": {
+    "type": "clue",
+    "name": "阿贵内衣干燥",
+    "description": "腊月落水，棉衣湿了要好几天才干。但阿贵的里衣摸上去只是微潮——不像在冰水里泡过的人。"
+  },
+  "clue_fan_alibi_hole": {
+    "type": "clue",
+    "name": "老范时间矛盾",
+    "description": "老范说自己是半个时辰后被下游渔民救起。但王老汉说他不到一刻钟就自己爬上岸了。"
+  },
+  "clue_secret_meeting": {
+    "type": "clue",
+    "name": "深夜密谈",
+    "description": "王老汉说：翻船前一晚，他在江上看到两个人在码头角落蹲着说话。虽然看不清脸，但一高一矮——高的像那仆从，矮的像船家。"
+  },
+  "clue_agui_spending": {
+    "type": "clue",
+    "name": "阿贵的新钱",
+    "description": "钱里正说：案发后第二天，阿贵在客栈买了一壶好酒、打了半斤卤肉。一个被遣散的仆从哪来这么多闲钱？"
+  },
+  "clue_fan_boat_skill": {
+    "type": "clue",
+    "name": "老范的水性",
+    "description": "渡口的人都知道：老范水里功夫了得，早年还在江里救过人。这种人翻船了会淹死？难以置信。"
+  },
+  "clue_reef_common_knowledge": {
+    "type": "clue",
+    "name": "暗礁是常识",
+    "description": "钱里正说：那片礁石连小孩都知道要绕开。老范在这跑了二十年，除非瞎了眼，否则不可能走那条路。"
+  },
+  "clue_victim_cant_swim": {
+    "type": "clue",
+    "name": "死者不识水性",
+    "description": "周氏说：老爷是旱鸭子，连洗澡都怕水深。这也是他平时不坐夜船的原因——这次是急着赶路才破了例。"
+  }
+}

@@ -1,184 +1,203 @@
 {
+  "_comment": "临川驿案开场剧本。需衔接浔阳楼案，交代陆昭为何来临川、凌瑶为何仍在同行。修复凌瑶动机矛盾。",
   "start": "scene1",
   "nodes": {
     "scene1": {
-      "background": "res://assets/cn/scenes/prologue.png",
+      "background": "res://assets/cn/scenes/xunyang_riverside_dock.png",
       "speaker": "",
-      "text": "万历二十三年，秋。江南。\n\n这是个下大雨的夜晚，临川镇外的石桥上。",
+      "text": "浔阳楼案结了。青姐被押解上京，鲁知府撕了那份'醉酒失足'结案稿。\n\n陆昭离开浔阳楼时雨已停，江上月色清亮。",
+      "next": "scene1a"
+    },
+    "scene1a": {
+      "background": "res://assets/cn/scenes/xunyang_riverside_dock.png",
+      "speaker": "",
+      "text": "但他的行程没有结束——巡按的下一站，是临川。\n\n州府公文说临川近年税赋异常，让他顺路核查账目。本是一件例行公事。但特意挑了这个时节派他来——京里可能还有别的意思。",
+      "next": "scene1b"
+    },
+    "scene1b": {
+      "background": "res://assets/cn/scenes/linchuan_approach.png",
+      "speaker": "",
+      "text": "万历二十三年，秋。\n\n从浔阳到临川，走水路半日可到。\n\n船行江上，秋雨又起。暮色四合，岸上树木已换了秋色——橙红橘黄，衬着灰蓝的天，像是谁打翻了一盘颜料。\n\n远处，一座小城的轮廓在雨雾中浮现。",
       "next": "scene2"
     },
     "scene2": {
-      "background": "res://assets/cn/scenes/prologue.png",
-      "speaker": "陆昭",
-      "text": "（提着灯笼走在桥上）这就是临川了……州府说这地方多年太平。可这场雨下得，倒像是有什么旧事要被冲出来似的。",
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "",
+      "text": "临川驿。\n\n一座不大不小的驿站，青砖灰瓦，院中一棵老槐树。驿丞赵大有已经掌了灯，在门廊下候着。",
       "next": "scene2a"
     },
     "scene2a": {
-      "background": "res://assets/cn/scenes/prologue.png",
+      "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "凌瑶",
-      "text": "（缩着脖子小声嘟囔）太平不好吗……非得不太平才来查，这官场的人脑子都有问题。",
+      "text": "（抹了把脸上的雨水，四处打量）这驿站比浔阳楼差远了——不过比石矶渡那个破客栈还是强点。\n\n陆大人，您说咱这次来临川是巡按？可我怎么看这地方……太平得很啊？",
       "next": "scene2b"
     },
     "scene2b": {
-      "background": "res://assets/cn/scenes/prologue.png",
-      "speaker": "凌瑶",
-      "text": "（小跑着跟上来，抹了把脸上的雨水）陆大人！您走那么快干嘛！本姑娘差点踩进水坑里！",
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "陆昭",
+      "text": "……先安顿下来。明天开始查账。",
       "next": "scene2c"
     },
     "scene2c": {
-      "background": "res://assets/cn/scenes/prologue.png",
-      "speaker": "陆昭",
-      "text": "……凌姑娘，你这身都湿透了，先顾顾自己。",
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "凌瑶",
+      "text": "又是那种弯弯绕绕的官场门道。上回浔阳楼那事儿本姑娘到现在还做噩梦呢——不过好歹算帮上忙了吧？\n\n这回查账而已，应该不会出人命了吧……",
       "next": "scene2d"
     },
     "scene2d": {
-      "background": "res://assets/cn/scenes/prologue.png",
-      "speaker": "凌瑶",
-      "text": "嗨，反正都湿透了，管它呢。话说陆大人，咱这次来临川到底查什么呀？首座只说让我跟着您，别的什么都没交代。",
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "陆昭",
+      "text": "……先安顿下来。明天开始查账。\n\n凌姑娘，你要是想走——",
       "next": "scene2e"
     },
     "scene2e": {
-      "background": "res://assets/cn/scenes/prologue.png",
-      "speaker": "陆昭",
-      "text": "暂时还不清楚。州府派我巡按此地，说是例行公事……但特意挑了这个时节，怕是没那么简单。",
-      "next": "scene2f"
-    },
-    "scene2f": {
-      "background": "res://assets/cn/scenes/prologue.png",
+      "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "凌瑶",
-      "text": "切，又是那种弯弯绕绕的官场门道。上回浔阳楼那事儿本姑娘还没缓过来呢……反正有什么事您吩咐就是，打架我在行！查案嘛……我可以帮您跑腿！",
+      "text": "走走走，走什么走！本姑娘跟着您跑了两个案子了，这时候走算什么？\n\n再说了，镖局那边的差事早就交待清楚了——首座知道我在帮您，说让我继续跟着。\n\n（小声嘀咕）反正回去也是跑腿送信……",
       "next": "scene3"
     },
     "scene3": {
-      "background": "res://assets/cn/scenes/prologue.png",
+      "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "",
-      "text": "第二天一大早，临川驿的后院。",
+      "text": "当夜无事。\n\n第二天一早，天还蒙蒙亮。陆昭照例早起，打算先去驿站后院看看地形。",
       "next": "scene3b"
     },
     "scene3b": {
       "background": "res://assets/cn/scenes/post_station.png",
-      "speaker": "凌瑶",
-      "text": "（打着哈欠走出来）陆大人，大清早的您就——",
+      "speaker": "",
+      "text": "他穿过回廊，推开后院角门——\n\n井边躺着一个人。\n\n晨雾还未散尽，那人的轮廓模糊不清。但姿势不对。不是蹲着，不是靠着——是瘫倒的。",
       "next": "scene3c"
     },
     "scene3c": {
       "background": "res://assets/cn/scenes/post_station.png",
-      "speaker": "凌瑶",
-      "text": "……！",
+      "speaker": "陆昭",
+      "text": "……",
       "next": "scene4"
     },
     "scene4": {
       "background": "res://assets/cn/scenes/post_station.png",
-      "speaker": "陆昭",
-      "text": "井边躺着一个人。\n\n嘴唇发黑，指甲青紫——这分明是中毒的样子。",
+      "speaker": "",
+      "text": "陆昭快步走过去。蹲下。\n\n是个男子，三十出头，身穿青布官袍——是低级文官的常服。面朝上，双目半睁。嘴唇颜色不对，发暗发紫。指甲也是。\n\n他伸手翻开死者的衣领——颈上没有勒痕，身上没有外伤。",
       "next": "scene4a"
     },
     "scene4a": {
       "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "凌瑶",
-      "text": "（凑近看了看，又猛地退回来）嘴唇这个颜色……不像是急病吧？我以前跑镖见过喝毒药的，就是这个样子。",
+      "text": "（打着哈欠走出来）陆大人，大清早的您就——",
       "next": "scene4b"
     },
     "scene4b": {
       "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "凌瑶",
-      "text": "（后退两步，脸色发白）这、这人……死了？！天哪……本姑娘虽然不怕打架，但尸体这种东西……",
+      "text": "……！",
       "next": "scene4c"
     },
     "scene4c": {
       "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "",
+      "text": "凌瑶的哈欠卡在喉咙里。她看清了地上的人，倒退两步，背靠住了廊柱。\n\n嘴唇发黑，指甲青紫。她见过这种死法。",
+      "next": "scene4d"
+    },
+    "scene4d": {
+      "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "凌瑶",
-      "text": "（深吸一口气，握拳）不、不怕！本姑娘不怕！陆大人您接着看，我就站在……稍微远一点的地方……替您望风！",
+      "text": "（声音发紧）这个嘴唇的颜色……我以前跑镖见过。是中毒。\n\n陆大人，这人——是被人毒死的？",
+      "next": "scene4e"
+    },
+    "scene4e": {
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "陆昭",
+      "text": "还不能确定。但唇色青黑、指甲紫暗，确是中毒的表征。\n\n（翻开死者袖口）\n\n等等——袖子里有东西。",
       "next": "scene5"
     },
     "scene5": {
       "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "",
-      "text": "死的是临川县主簿沈砚秋，三十二岁。袖子里还藏着一封没写完的信：\n\n「……朱砂的事，恐怕已经……」",
+      "text": "一张纸。折了两折，塞在袖口内侧。像是写字的人来不及收好，随手一塞。\n\n陆昭小心地展开——\n\n「……朱砂的事，恐怕已经……」\n\n信写到一半。墨迹未干。后面是空的。",
       "next": "scene5a"
     },
     "scene5a": {
       "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "凌瑶",
-      "text": "县主簿……那不是管文书的小官吗？三十二岁，跟我差不多大……怎么会死在这口井边？",
+      "text": "（凑近看了一眼，又退回去）朱砂？那不是画画用的颜料吗……还是入药的那种？\n\n一个当官的在信里写朱砂干什么？而且——信都没写完，人就死了？",
       "next": "scene5b"
     },
     "scene5b": {
       "background": "res://assets/cn/scenes/post_station.png",
-      "speaker": "凌瑶",
-      "text": "朱砂？那不是画画用的吗？还是……入药的那种？一个当官的在信里写朱砂干嘛？",
+      "speaker": "陆昭",
+      "text": "信写到一半人就死了……这恐怕不是普通的自尽。\n\n谁自尽还特意把信塞袖子里？分明是写到一半——被人发现了。",
       "next": "scene5c"
     },
     "scene5c": {
       "background": "res://assets/cn/scenes/post_station.png",
-      "speaker": "陆昭",
-      "text": "信写到一半人就死了……这恐怕不是普通的自尽。",
-      "next": "scene5c2"
-    },
-    "scene5c2": {
-      "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "凌瑶",
-      "text": "对啊！谁自尽还特意把信塞袖子里？分明是写到一半被人发现了吧……",
+      "text": "（深吸一口气，攥紧拳头）所以……是被人杀的？\n\n那凶手不会还在这驿站里面吧？！",
       "next": "scene5d"
     },
     "scene5d": {
       "background": "res://assets/cn/scenes/post_station.png",
-      "speaker": "凌瑶",
-      "text": "所以……是被人杀的？！那凶手不会还在这驿站里面吧？！",
+      "speaker": "陆昭",
+      "text": "（站起来，环顾四周）驿站不大，住的人有限。\n\n先搞清楚这人是谁。衣袍是低级文官的——临川的小吏？",
       "next": "scene5e"
     },
     "scene5e": {
       "background": "res://assets/cn/scenes/post_station.png",
-      "speaker": "陆昭",
-      "text": "（站起来）不排除这种可能。从今天起，这件案子由我来查。",
+      "speaker": "",
+      "text": "这时驿丞赵大有听到了动静，从廊下跑过来。看清地上的人，脸色一变。",
       "next": "scene5f"
     },
     "scene5f": {
       "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "赵大有",
+      "text": "这、这不是沈主簿吗？！沈砚秋——县衙的主簿！昨天傍晚还说今天要来驿站取公文——怎么就……",
+      "next": "scene5g"
+    },
+    "scene5g": {
+      "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "凌瑶",
-      "text": "陆大人，您一个人查会不会人手不够？虽然本姑娘查案不太行……但多个人多双眼睛嘛。反正首座让我跟着您，总不能干站着。",
+      "text": "县主簿？三十二岁，跟我差不多大……怎么死在这口井边？",
       "next": "scene6"
     },
     "scene6": {
       "background": "res://assets/cn/scenes/post_station.png",
-      "speaker": "陆昭",
-      "text": "（看向凌瑶）凌姑娘，恐怕要辛苦你了。接下来你跟着我，有什么看到的、听到的随时告诉我。",
+      "speaker": "",
+      "text": "消息传到县衙，知县柳文卿带人赶来。\n\n他看了一眼尸体，又看了一眼陆昭。表情很复杂——像是恼怒，又像是紧张。",
+      "next": "scene6a"
+    },
+    "scene6a": {
+      "background": "res://assets/cn/scenes/post_station.png",
+      "speaker": "柳文卿",
+      "text": "沈主簿素来体弱，想必是旧疾发作，毒火攻心——陆大人远道而来，此事本县自理即可。",
       "next": "scene6b"
     },
     "scene6b": {
       "background": "res://assets/cn/scenes/post_station.png",
-      "speaker": "凌瑶",
-      "text": "（拍胸脯）交给本姑娘！虽然查案我不太在行，但跑腿、打探消息、必要时候揍人——这些我都行！",
+      "speaker": "陆昭",
+      "text": "知县大人。袖中未写完的信、唇色青黑的毒征——这不像旧疾。",
       "next": "scene6c"
     },
     "scene6c": {
       "background": "res://assets/cn/scenes/post_station.png",
-      "speaker": "凌瑶",
-      "text": "不过陆大人……您到时候可得告诉我查到哪一步了啊。我跟着您总得知道大致方向吧？不然本姑娘光站着也帮不上忙。",
+      "speaker": "柳文卿",
+      "text": "（沉默片刻）……陆大人若执意插手，本县自然不便阻拦。只是案宗三日之内须发还州府。\n\n若是查不出结果——「擅自越权」的罪名，本县可担不起。",
       "next": "scene6d"
     },
     "scene6d": {
       "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "陆昭",
-      "text": "好。随时可以找我讨论。不过切记——在人前莫要声张。",
+      "text": "三天够了。\n\n（看向凌瑶）凌姑娘，恐怕又要辛苦你了。",
       "next": "scene6e"
     },
     "scene6e": {
       "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "凌瑶",
-      "text": "明白！保密这事儿我最擅长了！……大概。",
+      "text": "（拍胸脯，但声音还有点抖）第三回了！本姑娘查案也算有点经验了——虽然上回在浔阳楼差点被吓死……\n\n不过陆大人您放心，跑腿打探消息我在行！必要时候……必要时候我也能壮壮胆！",
       "next": "scene6f"
     },
     "scene6f": {
       "background": "res://assets/cn/scenes/post_station.png",
       "speaker": "陆昭",
-      "text": "（皱眉）当地知县已经断成自尽了。可要真是自杀——这袖子里写到一半的信，又是要写给谁看的？\n\n……三天内查不出真相，案宗就要发还州府。到时候我这个「擅自越权」的罪名也跑不掉了。",
-      "next": "scene6g"
-    },
-    "scene6g": {
-      "background": "res://assets/cn/scenes/post_station.png",
-      "speaker": "凌瑶",
-      "text": "三天？！那可太赶了……不过陆大人您放心，本姑娘一定全力帮忙！再说了，要是您被扣了罪名，我这个跟着跑的也脱不了干系啊……",
+      "text": "好。有什么看到的、听到的随时告诉我。切记——在人前莫要声张。\n\n柳知县断成旧疾。但一个写到一半就死了的人，信是要写给谁看的？\n\n……三天内查不出真相，这个案子就真成「旧疾」了。",
       "next": "scene7"
     },
     "scene7": {
@@ -186,7 +205,7 @@
       "speaker": "",
       "centered": true,
       "silent": true,
-      "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 指证\n• 「讨论」：随时与凌瑶交流，获取下一步方向（每日有次数限制）\n• 跨地点移动会花掉一个时段；探索某处也要花时段\n• 时间用完前要找出真凶\n\n记住：每一点朱砂、每一句寒暄，都有它的含义。",
+      "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 指证\n• 「讨论」：随时与凌瑶交流，获取下一步方向（每日有次数限制）\n• 跨地点移动会花掉一个时段；探索某处也要花时段\n• 三天内找出真凶——否则柳知县的「旧疾」就是定论\n\n记住：每一点朱砂、每一句寒暄，都有它的含义。",
       "end": true
     }
   }

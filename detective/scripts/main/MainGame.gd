@@ -33,6 +33,7 @@ var _pending_day_info: Dictionary = {}   # 延迟的日期过场 { "day": int, "
 var _title_layer: Control = null
 var _title_props_layer: Control = null
 var _scene_fx: Node = null
+var _playing_case_epilogue := false
 #var _npc_layer: Control = null
 
 
@@ -673,7 +674,47 @@ func _on_accuse_submitted(suspect: String, motive: String, method: String, ev_li
 	var ending_id := GameManager.judge_accusation(suspect, motive, method, ev_list)
 	if ending_id == "bad" or ending_id == "partial":
 		_try_companion_banter("accuse_fail")
+	if _try_play_case_epilogue(ending_id):
+		return
 	_show_ending(ending_id)
+
+
+func _try_play_case_epilogue(ending_id: String) -> bool:
+	var path := "res://data/cases/%s/epilogue_meta.json" % GameManager.ACTIVE_CASE
+	if not FileAccess.file_exists(path):
+		return false
+	var f := FileAccess.open(path, FileAccess.READ)
+	if f == null:
+		return false
+	var root = JSON.parse_string(f.get_as_text())
+	if typeof(root) != TYPE_DICTIONARY:
+		return false
+	var triggers: Array = root.get("trigger_endings", [])
+	if not triggers.has(ending_id):
+		return false
+	var lines: Array = []
+	for scene in root.get("scenes", []):
+		if typeof(scene) != TYPE_DICTIONARY:
+			continue
+		var bg: String = scene.get("background", "")
+		var bgm: String = scene.get("bgm", "")
+		if bgm != "":
+			BgmPlayer.play(bgm)
+		for line in scene.get("lines", []):
+			if typeof(line) != TYPE_DICTIONARY:
+				continue
+			var item: Dictionary = line.duplicate(true)
+			if bg != "" and item.get("background", "") == "":
+				item["background"] = bg
+			lines.append(item)
+	if lines.is_empty():
+		return false
+	_playing_case_epilogue = true
+	DialogueManager.play_adhoc_narration(lines, func():
+		_playing_case_epilogue = false
+		_show_ending(ending_id)
+	)
+	return true
 
 
 # ─── 对话 ───
@@ -707,6 +748,9 @@ func _on_narration_started(background: String, _speaker: String, text: String, h
 
 func _on_narration_ended() -> void:
 	narration_box.visible = false
+	if _playing_case_epilogue:
+		menu_panel.visible = false
+		return
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:
 		GameManager.set_state(GameManager.STATE_PLAYING)
 		GameManager.change_location(GameManager.case_main_scene, false)

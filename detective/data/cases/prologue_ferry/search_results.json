@@ -1,0 +1,66 @@
+{
+  "_comment": "序章探索结果。教学案搜索点较少，描述只陈述事实。",
+  "wreck_site.wreck_hull_bottom": {
+    "default": {
+      "narration": "你蹲下仔细查看船底。一块木板明显与周围不同——边缘有整齐的凿痕，不像是撞击造成的。更像是从内侧被人打开的活板。板子周围有两圈钉眼：一圈旧的已经生锈，一圈新的还泛着白茬。",
+      "evidence": "evidence_hull_hole"
+    }
+  },
+  "wreck_site.wreck_cargo_area": {
+    "default": {
+      "narration": "货舱区域空空如也。按周氏所说，丈夫带了五十两货银上船。但这里除了几块泡烂的布匹，什么值钱东西都没有。五十两白银不可能被水冲走。",
+      "evidence": "evidence_cargo_silver"
+    }
+  },
+  "wreck_site.wreck_debris": {
+    "default": {
+      "narration": "散落的残骸中有断裂的船桨、泡水的草席，还有几截断钉。断钉上的痕迹新旧不一——有人在出事前不久动过这条船的结构。",
+      "evidence": "evidence_nail_marks"
+    }
+  },
+  "ferry_inn.inn_agui_room": {
+    "default": {
+      "narration": "阿贵住的小房间。床上被褥凌乱。枕头下压着一个旧包袱，打开一看——底层藏着一只鼓鼓囊囊的皮囊。是水牛皮缝制的浮囊，充了气，还是满的。",
+      "evidence": "evidence_float_bladder"
+    }
+  },
+  "ferry_inn.inn_agui_clothes": {
+    "default": {
+      "narration": "墙角晾着阿贵的外衣，确实还没干透。但你顺手摸了摸挂在旁边的里衣——奇怪，只是微微潮湿。腊月落水的人，棉里衣不该干得这么快。",
+      "clue": "clue_agui_dry_inner"
+    }
+  },
+  "ferry_inn.inn_zhou_room": {
+    "default": {
+      "narration": "周氏的房间。桌上摊着几张文书——其中一张是周德茂的亲笔字据：「兹遣仆人阿贵，给银二两，各不相欠。」落款日期是出发前三天。旁边还有一张货单，列着五十两的布匹预付银。",
+      "evidence": "evidence_dismissal_note"
+    }
+  },
+  "ferry_inn.inn_lobby": {
+    "default": {
+      "narration": "客栈大堂。几个滞留旅客缩在角落烤火。掌柜的在擦桌子。看起来没什么特别——只是掌柜的随口说了句「那仆从昨晚买了壶好酒，出手挺阔绰的嘛」。",
+      "clue": "clue_agui_spending"
+    }
+  },
+  "ferry_dock.dock_wreck_hull": {
+    "default": {
+      "narration": "被拖上岸的破船。船底朝天。你凑近看——确实能看到一处破洞的边缘，但大部分被淤泥糊住了。需要去下游打捞处看完整的残骸。"
+    }
+  },
+  "ferry_dock.dock_fan_boat": {
+    "default": {
+      "narration": "老范自己的那条小船停在码头边。船身干净、保养得不错。船舱里有渔网、绳索，还有一个空酒坛。"
+    }
+  },
+  "ferry_dock.dock_fan_belongings": {
+    "default": {
+      "narration": "码头角落的竹棚下，堆着老范的杂物。翻了翻——一堆渔具底下压着一张皱巴巴的纸：「借银四十二两整……限腊月底还清……否则断指抵债。」是赌坊的借据。",
+      "evidence": "evidence_gambling_iou"
+    }
+  },
+  "river_bend.village_wang_home": {
+    "default": {
+      "narration": "王老汉的小屋里挂满了渔网。老人坐在门口补网，看到你来并不意外：「我就知道会有人来问。那天夜里的事……我全看到了。」"
+    }
+  }
+}

@@ -1,7 +1,21 @@
 {
   "_comment": "案件索引：列出本游戏所有可玩案件。CaseSelectPanel 用此驱动卡片列表。每条引用 data/cases/<id>/manifest.json 作为详细元信息。",
-  "default_case": "xunyang_pavilion",
+  "default_case": "prologue_ferry",
   "cases": [
+    {
+      "id": "prologue_ferry",
+      "manifest": "res://data/cases/prologue_ferry/manifest.json",
+      "order": 0,
+      "locked": false,
+      "tag": "序章",
+      "voice_status": "missing",
+      "rank_required": 0,
+      "style": "ming_qing",
+      "category": "solo",
+      "era": "ancient",
+      "is_tutorial": true,
+      "preview_blurb": "万历廿二年冬，荆江暴雨。商人溺亡石矶渡，是天灾还是人祸？"
+    },
     {
       "id": "xunyang_pavilion",
       "manifest": "res://data/cases/xunyang_pavilion/manifest.json",

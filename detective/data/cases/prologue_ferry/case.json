@@ -1,0 +1,95 @@
+{
+  "_comment": "指证答案。真凶阿贵，共犯老范。教学案，证据门槛低。",
+  "culprit": "agui",
+  "motive": "revenge_greed",
+  "method": "scuttle_drown",
+  "key_evidence": [
+    "evidence_hull_hole",
+    "evidence_float_bladder",
+    "evidence_gambling_iou",
+    "evidence_dismissal_note"
+  ],
+  "min_evidence_required": 3,
+  "suspects": [
+    {
+      "id": "agui",
+      "name": "阿贵（死者仆从）",
+      "unlock": [],
+      "unlock_hint": ""
+    },
+    {
+      "id": "lao_fan",
+      "name": "老范（船家）",
+      "unlock": [],
+      "unlock_hint": ""
+    },
+    {
+      "id": "zhou_wife",
+      "name": "周氏（死者妻子）",
+      "unlock": [{ "clue": "clue_wife_suspicion" }],
+      "unlock_hint": "继续调查后解锁"
+    }
+  ],
+  "motives": [
+    {
+      "id": "revenge_greed",
+      "name": "图财报复（十二年换二两银）",
+      "unlock": [{ "evidence": "evidence_dismissal_note" }],
+      "unlock_hint": "继续调查后解锁"
+    },
+    {
+      "id": "gambling_debt",
+      "name": "偿还赌债",
+      "unlock": [{ "evidence": "evidence_gambling_iou" }],
+      "unlock_hint": "继续调查后解锁"
+    },
+    {
+      "id": "accident",
+      "name": "暗礁意外（原始说法）",
+      "unlock": [],
+      "unlock_hint": ""
+    }
+  ],
+  "methods": [
+    {
+      "id": "scuttle_drown",
+      "name": "合谋凿船溺杀",
+      "unlock": [{ "evidence": "evidence_hull_hole" }],
+      "unlock_hint": "继续调查后解锁"
+    },
+    {
+      "id": "natural_wreck",
+      "name": "暗礁翻船（意外）",
+      "unlock": [],
+      "unlock_hint": ""
+    },
+    {
+      "id": "pushed_overboard",
+      "name": "推人落水",
+      "unlock": [{ "clue": "clue_agui_dry_inner" }],
+      "unlock_hint": "继续调查后解锁"
+    }
+  ],
+  "endings": {
+    "perfect": {
+      "title": "「舟覆人明」结局",
+      "narration": "你揭破了全部真相。\n\n十二年忠仆，换来一纸二两银的遣散。阿贵在码头等了一夜又一夜，直到那个赌鬼船家成了他唯一能抓住的稻草。\n\n老范凿开船底的那一刻，阿贵按住了熟睡主人的肩膀。江水涌入，冰冷刺骨。那个曾对他说「跟我走，少不了你饭吃」的人，在黑暗中挣扎了不到一炷香的时间。\n\n阿贵抱着牛皮浮囊浮出水面时，看到天边第一丝亮光。他以为那是新生。\n\n——但你来了。\n\n两人被押往县衙。周氏在人群外远远看着，没有哭。\n\n石矶渡恢复了平静。只是江上的船家们从此多了一条规矩：不接独行客的夜船。"
+    },
+    "good": {
+      "title": "「水落石出」结局",
+      "narration": "你抓对了人，但证据链不算完整。阿贵在堂上只承认了「心存不满」，对凿船一事推说是老范独断。\n\n老范咬死了是「意外中的意外」。判了流配，没有偿命。\n\n周德茂的尸体下葬那天，江上起了大雾。"
+    },
+    "partial": {
+      "title": "「半截真相」结局",
+      "narration": "你指对了凶手，但既不清楚他为何动手，也没弄明白船是怎么沉的。\n\n阿贵只判了杖刑。他揉着青紫的后背走出衙门时，嘴角似乎在笑。"
+    },
+    "bad": {
+      "title": "「沉冤江底」结局",
+      "narration": "你指错了人。\n\n真正的凶手站在人群里看着无辜者被带走，低下头，攥紧了袖中那几锭还带着水气的银子。\n\n石矶渡的江水一如既往地浑浊。它吞没了真相，也吞没了一个人最后的挣扎。"
+    },
+    "timeout": {
+      "title": "「雨停人散」结局",
+      "narration": "两天过去，雨停了。\n\n路还是要赶的。你启程时回头看了一眼石矶渡——码头上那条破船还搁在那里，没人管它。\n\n后来你偶尔会想起这桩小案子。一个商人死在江里，也许是意外，也许不是。\n\n你永远不会知道了。"
+    }
+  }
+}

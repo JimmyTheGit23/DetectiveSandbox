@@ -1,0 +1,158 @@
+{
+  "_comment": "序章「渡口沉舟」开场剧本。运行时使用 start/nodes 叙述树结构。",
+  "start": "scene1",
+  "nodes": {
+    "scene1": {
+      "background": "res://assets/cn/scenes/prologue_cold_open.png",
+      "speaker": "",
+      "text": "黑暗中，只有江水的声音。\n\n风裹着雨，劈头盖脸地打下来。",
+      "next": "scene2"
+    },
+    "scene2": {
+      "background": "res://assets/cn/scenes/prologue_cold_open.png",
+      "speaker": "",
+      "text": "然后——\n\n一声巨响。木头断裂。人的惨叫被江水吞没。",
+      "next": "scene3"
+    },
+    "scene3": {
+      "background": "res://assets/cn/scenes/prologue_cold_open.png",
+      "speaker": "",
+      "text": "万历廿二年。腊月。荆江。\n\n冬雨如刀。石矶渡。黎明。",
+      "next": "scene4"
+    },
+    "scene4": {
+      "background": "res://assets/cn/scenes/prologue_cold_open.png",
+      "speaker": "",
+      "text": "一具尸体被江水冲到岸边。面朝下，半截身子还泡在浑黄的水里。\n\n围观的人站了一圈。没人敢上前。",
+      "next": "scene5"
+    },
+    "scene5": {
+      "background": "res://assets/cn/scenes/prologue_cold_open.png",
+      "speaker": "陆昭",
+      "text": "……又是人命。\n\n我只是路过石矶渡换船，本该今夜就走的。",
+      "next": "scene6"
+    },
+    "scene6": {
+      "background": "res://assets/cn/scenes/prologue_cold_open.png",
+      "speaker": "",
+      "text": "雨幕之中，一个身穿暗蓝官袍的年轻人站在渡口栈道尽头。\n\n他是陆昭，巡按御史。奉旨巡江，本该在昨天抵达武昌——却被这场连绵冬雨困在了石矶渡。\n\n如今，一具尸体又把他拖得更深。",
+      "next": "scene7"
+    },
+    "scene7": {
+      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
+      "speaker": "",
+      "text": "正要转身，衣袍被人死死拽住。\n\n一个披头散发的女人跪在泥水里，浑身湿透。",
+      "next": "scene8"
+    },
+    "scene8": {
+      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
+      "speaker": "周氏",
+      "text": "大人！大人您是京里来的官吧？！\n\n求您做主啊——我家老爷死得冤枉！那不是什么意外！",
+      "next": "scene9"
+    },
+    "scene9": {
+      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
+      "speaker": "陆昭",
+      "text": "你是死者的什么人？",
+      "next": "scene10"
+    },
+    "scene10": {
+      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
+      "speaker": "周氏",
+      "text": "贱妾周氏，死的是我家老爷周德茂！做布匹生意的！昨夜他坐船过江——\n\n今早就被人从水里捞上来了！他是不会水的人，怎么会半夜坐船？一定是被人害的！",
+      "next": "scene11"
+    },
+    "scene11": {
+      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
+      "speaker": "陆昭",
+      "text": "……你说的'被人害的'，有什么依据？",
+      "next": "scene12"
+    },
+    "scene12": {
+      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
+      "speaker": "周氏",
+      "text": "老爷从不坐夜船！他怕水怕得厉害，连洗澡水深过膝都不肯下——\n\n而且他的仆从阿贵，昨夜也一起上船了，人却好好的！\n\n大人求您查一查……求您了！",
+      "next": "scene13"
+    },
+    "scene13": {
+      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
+      "speaker": "",
+      "text": "陆昭沉默片刻。雨打在斗笠上，沙沙作响。\n\n一个不会水的人，深夜上船。同行者安然无恙。\n\n确实不像是意外。",
+      "next": "scene14"
+    },
+    "scene14": {
+      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
+      "speaker": "陆昭",
+      "text": "我会查。先起来。",
+      "next": "scene15"
+    },
+    "scene15": {
+      "background": "res://assets/cn/scenes/prologue_cg_lingyao_rush.png",
+      "speaker": "",
+      "text": "话音未落，一道人影从雨幕中冲了出来——险些撞上陆昭。\n\n是个年轻女子，一身利落的暗蓝劲装，背上斜挎着一只信筒。雨水顺着她额前的碎发淌下来，她浑然不顾。",
+      "next": "scene16"
+    },
+    "scene16": {
+      "background": "res://assets/cn/scenes/prologue_cg_lingyao_rush.png",
+      "speaker": "凌瑶",
+      "text": "让让让让——！\n\n那位大人！您是来查案的吧？我昨晚住在渡口客栈，半夜亲眼看见那个船家干了件怪事！",
+      "next": "scene17"
+    },
+    "scene17": {
+      "background": "res://assets/cn/scenes/prologue_cg_lingyao_rush.png",
+      "speaker": "陆昭",
+      "text": "你是……？",
+      "next": "scene18"
+    },
+    "scene18": {
+      "background": "res://assets/cn/scenes/prologue_cg_lingyao_rush.png",
+      "speaker": "凌瑶",
+      "text": "金鳞镖局的信使，凌瑶！我昨晚住这客栈等天亮过江——半夜起来上茅房，看见那个姓范的船家蹲在码头角落，鬼鬼祟祟不知道在捣鼓什么！\n\n当时天黑我也没多想，今天一早听说出了人命——那肯定是他在船上动了手脚！",
+      "next": "scene19"
+    },
+    "scene19": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "",
+      "text": "陆昭看了一眼渡口——江水浑黄，大雨倾盆，一条船也看不见。\n\n这场雨至少还要下三天。走不了。",
+      "next": "scene20"
+    },
+    "scene20": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "陆昭",
+      "text": "凌姑娘，你是唯一的目击证人。这个案子，我需要一个帮手——你看得仔细，跑得也快。",
+      "next": "scene21"
+    },
+    "scene21": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "凌瑶",
+      "text": "等等等等！我是送信的不是查案的！本姑娘的信还没送完呢！",
+      "next": "scene22"
+    },
+    "scene22": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "陆昭",
+      "text": "雨三天内不会停。你走不了。\n\n而且……你说你看见船家半夜蹲在码头。如果你不帮忙，那个人就这么逍遥了？",
+      "next": "scene23"
+    },
+    "scene23": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "凌瑶",
+      "text": "……\n\n……行吧。反正闲着也是闲着。而且那家伙半夜鬼鬼祟祟的样子确实让人来气！\n\n那我们先去哪？码头还是找那仆从？",
+      "next": "scene24"
+    },
+    "scene24": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "陆昭",
+      "text": "先搞清楚死者是谁、那条船出了什么问题。\n\n周氏说死者叫周德茂，布商，带了个仆从叫阿贵。船家姓范。\n\n从码头那条船查起——如果船本身有问题，一切就都说得通了。",
+      "next": "scene25"
+    },
+    "scene25": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "凌瑶",
+      "text": "【操作说明】\n\n右侧菜单可以打开地图、对话、探索、笔记本和指证。\n\n我建议先去码头和沉船打捞处看看那条船。船底如果有问题，那一切都说得通了。",
+      "centered": true,
+      "silent": true,
+      "end": true
+    }
+  }
+}

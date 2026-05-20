@@ -1,0 +1,18 @@
+{
+  "_comment": "序章 BGM 配置。冬雨江畔氛围。",
+  "locations": {
+    "ferry_inn": "mood:rain_suspense",
+    "ferry_dock": "mood:rain_suspense",
+    "wreck_site": "mood:suspense",
+    "river_bend": "mood:vigil"
+  },
+  "states": {
+    "prologue": "mood:rainy_night",
+    "main_theme": "mood:rain_suspense",
+    "accuse": "mood:climax",
+    "ending_perfect": "mood:ending_good",
+    "ending_good": "mood:ending_good",
+    "ending_bad": "mood:ending_bad",
+    "epilogue_meta": "mood:mystery"
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "_comment": "序章凌瑶被动旁白。格式与浔阳楼案一致：rules + when + lines。",
+  "rules": [
+    {
+      "id": "after_talk_agui",
+      "when": { "trigger": "dialogue_end", "npc_id": "agui" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "那个阿贵……哭得也太假了吧？我见过镖局里装哭骗赏钱的，都比他演得好。" },
+          { "speaker": "陆昭", "text": "演技不好，不代表杀过人。" },
+          { "speaker": "凌瑶", "text": "那也不代表他没杀！反正他肯定在藏什么。" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "他说抱着船板飘上来的——冬天的江水啊！一个不会水的人能抱得住？" },
+          { "speaker": "陆昭", "text": "嗯，这条疑点先记下。" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_lao_fan",
+      "when": { "trigger": "dialogue_end", "npc_id": "lao_fan" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "跑了二十年船、水性一流的人——翻船了还能淹死别人自己没事？骗鬼呢。" },
+          { "speaker": "陆昭", "text": "水性好不代表不会翻船。但他说自己泡了半个时辰……" },
+          { "speaker": "凌瑶", "text": "对！王老汉说不到一刻钟他就上岸了！这人在撒谎！" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "老范那态度……太淡定了。翻了船死了人，他连急都不急？" },
+          { "speaker": "陆昭", "text": "要么是真淡定，要么是心里有底。" },
+          { "speaker": "凌瑶", "text": "我赌是后者。" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_zhou_wife",
+      "when": { "trigger": "dialogue_end", "npc_id": "zhou_wife" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "周氏说的那条——'旱鸭子半夜坐船'——确实蹊跷。怕水的人天黑上船，不是被人催的就是被人骗的。" },
+          { "speaker": "陆昭", "text": "而且她丈夫上船前刚骂了阿贵。当晚就出事……" },
+          { "speaker": "凌瑶", "text": "这也太巧了吧！" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "二两银子遣散费……十二年。换谁都得寒心。" },
+          { "speaker": "陆昭", "text": "寒心不等于杀人。但确实给了他动机。" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_li_zheng",
+      "when": { "trigger": "dialogue_end", "npc_id": "li_zheng" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "钱里正这人……净替人开脱。'意外''天灾'说得可真轻松。" },
+          { "speaker": "陆昭", "text": "地方小吏，怕事。" },
+          { "speaker": "凌瑶", "text": "怕事就别当官啊！哼。" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "他说阿贵昨天买了好酒好肉——刚死了主人就大吃大喝？" },
+          { "speaker": "陆昭", "text": "这不正常。" },
+          { "speaker": "凌瑶", "text": "太不正常了！而且他马上要被遣散，哪来的钱？" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_fisherman_wang",
+      "when": { "trigger": "dialogue_end", "npc_id": "fisherman_wang" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "王老汉说的跟老范完全对不上！一个说不到一刻钟就上岸了，一个说泡了半个时辰——" },
+          { "speaker": "陆昭", "text": "谁在撒谎，一目了然。" },
+          { "speaker": "凌瑶", "text": "老范那个老滑头！他根本不是被困在水里，他是自己游上岸的！" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "案发前一晚，一高一矮两个人在码头角落嘀咕……高的像仆从，矮的像船家。" },
+          { "speaker": "陆昭", "text": "阿贵和老范。他们在预谋。" },
+          { "speaker": "凌瑶", "text": "这下对上了！" }
+        ]
+      ]
+    },
+    {
+      "id": "lie_exposed_generic",
+      "when": { "trigger": "lie_exposed" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "露馅了吧！我就说他在撒谎！" },
+          { "speaker": "陆昭", "text": "别急着高兴。撒谎不一定等于杀人。" },
+          { "speaker": "凌瑶", "text": "可是——为什么要撒这个谎？撒谎的人心里肯定有鬼！" }
+        ]
+      ]
+    },
+    {
+      "id": "gain_evidence_generic",
+      "when": { "trigger": "gain_evidence" },
+      "lines": [
+        "又找到一样东西！本姑娘帮您收着！",
+        "这是证据吧？感觉很关键。",
+        [
+          { "speaker": "凌瑶", "text": "陆大人，又一样。证据越来越多了。" },
+          { "speaker": "陆昭", "text": "多不代表够。缺一环都不行。" },
+          { "speaker": "凌瑶", "text": "……您这人，就不会说句'进展不错'？" }
+        ]
+      ]
+    },
+    {
+      "id": "gain_clue_generic",
+      "when": { "trigger": "gain_clue" },
+      "lines": [
+        "有意思……这条线牵着谁？",
+        "又多了一条线索。陆大人您脑子里是不是已经有数了？",
+        [
+          { "speaker": "凌瑶", "text": "嗯……这条线索很重要吧？" },
+          { "speaker": "陆昭", "text": "先记下来。" }
+        ]
+      ]
+    },
+    {
+      "id": "arrive_ferry_inn",
+      "when": { "trigger": "arrive_location:ferry_inn" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "这雨下得没完没了的……我那封信都快发霉了。" },
+          { "speaker": "陆昭", "text": "先办案。信晚几天送不碍事。" },
+          { "speaker": "凌瑶", "text": "您倒是说得轻巧，那收信人要是等急了……算了算了，查案查案。" }
+        ]
+      ]
+    },
+    {
+      "id": "arrive_ferry_dock",
+      "when": { "trigger": "arrive_location:ferry_dock" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "码头这味儿……鱼腥味加泥巴味。真香。" },
+          { "speaker": "陆昭", "text": "……走吧。" }
+        ]
+      ]
+    },
+    {
+      "id": "arrive_wreck_site",
+      "when": { "trigger": "arrive_location:wreck_site" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "这船烂成这样……那人在里头得多绝望啊。冬天的江水，冰到骨头里。" },
+          { "speaker": "凌瑶", "text": "……算了不想了。查案查案。" }
+        ]
+      ]
+    },
+    {
+      "id": "arrive_river_bend",
+      "when": { "trigger": "arrive_location:river_bend" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "这渔村好小啊。感觉全村加一块儿不到十户人。" },
+          { "speaker": "凌瑶", "text": "不过空气比码头好闻多了。" }
+        ]
+      ]
+    },
+    {
+      "id": "phase_unlocked_2",
+      "when": { "trigger": "phase_unlocked:phase_2" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "陆大人，听说下游渔村有个老渔民，那晚也在江上——说不定他看见了什么！去那边看看？" }
+        ]
+      ]
+    }
+  ]
+}

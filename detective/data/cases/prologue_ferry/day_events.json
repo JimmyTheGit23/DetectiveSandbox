@@ -1,0 +1,86 @@
+{
+  "_comment": "序章日程事件。教学案较少事件，主要用于推进节奏和教学。",
+  "events": [
+    {
+      "id": "evt_hull_discovered",
+      "trigger": {
+        "all": [
+          { "evidence": "evidence_hull_hole" },
+          { "not": { "flag": "evt_hull_discovered_done" } }
+        ]
+      },
+      "title": "人为破坏",
+      "hint": "（你发现了船底的人工破洞）",
+      "narration": [
+        "船底那个洞——边缘整齐，凿痕清晰。这不是暗礁撞出来的。",
+        { "speaker": "凌瑶", "text": "等等等等……这是被人凿开的？！那不是意外翻船——是有人故意弄沉的！" },
+        { "speaker": "陆昭", "text": "活板。事先做好了手脚，到了地方打开，水就涌进来了。" },
+        { "speaker": "凌瑶", "text": "那……谁能在船上动这种手脚？只有船上的人啊——船家和那个仆从！" },
+        { "speaker": "陆昭", "text": "先别急着下结论。去找更多证据。" }
+      ],
+      "effects": {
+        "set_flag": ["evt_hull_discovered_done", "hull_sabotage_known"]
+      }
+    },
+    {
+      "id": "evt_bladder_found",
+      "trigger": {
+        "all": [
+          { "evidence": "evidence_float_bladder" },
+          { "not": { "flag": "evt_bladder_found_done" } }
+        ]
+      },
+      "title": "预谋逃生",
+      "hint": "（你在阿贵的包袱里发现了浮囊）",
+      "narration": [
+        "牛皮浮囊。充了气，藏在包袱最底层。",
+        { "speaker": "凌瑶", "text": "浮囊！这东西是水上救命用的——他一个不会游泳的仆从带这个干什么？" },
+        { "speaker": "陆昭", "text": "除非他知道自己会落水。" },
+        { "speaker": "凌瑶", "text": "……他提前知道船要翻！陆大人，这个人有问题！绝对有问题！" }
+      ],
+      "effects": {
+        "set_flag": ["evt_bladder_found_done", "agui_premeditation_known"]
+      }
+    },
+    {
+      "id": "evt_dismissal_revealed",
+      "trigger": {
+        "all": [
+          { "evidence": "evidence_dismissal_note" },
+          { "not": { "flag": "evt_dismissal_revealed_done" } }
+        ]
+      },
+      "title": "二两遣散银",
+      "hint": "（你发现了遣散字据）",
+      "narration": [
+        "「兹遣仆人阿贵，给银二两，各不相欠。」",
+        { "speaker": "凌瑶", "text": "二两银子？！跟了十二年就给二两？这也太……" },
+        { "speaker": "陆昭", "text": "十二年青春换来一纸遣散。换了谁都会恨。" },
+        { "speaker": "凌瑶", "text": "所以……阿贵的动机有了。他恨那个主人。" }
+      ],
+      "effects": {
+        "set_flag": ["evt_dismissal_revealed_done", "agui_motive_known"]
+      }
+    },
+    {
+      "id": "evt_gambling_debt",
+      "trigger": {
+        "all": [
+          { "evidence": "evidence_gambling_iou" },
+          { "not": { "flag": "evt_gambling_debt_done" } }
+        ]
+      },
+      "title": "赌鬼的绝路",
+      "hint": "（你发现了老范的赌债借据）",
+      "narration": [
+        "四十二两赌债。腊月底还不上就断指。",
+        { "speaker": "凌瑶", "text": "四十二两！怪不得他铤而走险……这已经不是一般欠钱了，是要命的债！" },
+        { "speaker": "陆昭", "text": "阿贵许给他一半货银——二十五两。加上船家的活计还能接着干。对一个走投无路的人来说，这买卖合算。" },
+        { "speaker": "凌瑶", "text": "一条人命换四十二两银子……" }
+      ],
+      "effects": {
+        "set_flag": ["evt_gambling_debt_done", "fan_motive_known"]
+      }
+    }
+  ]
+}

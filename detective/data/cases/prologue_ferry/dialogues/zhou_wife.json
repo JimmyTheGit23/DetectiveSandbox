@@ -1,0 +1,153 @@
+{
+  "_comment": "周氏对话树。死者妻子。悲痛但清醒，提供关键背景信息。",
+  "start": "hub",
+  "nodes": {
+    "hub": {
+      "text": "（周氏擦了擦红肿的眼睛）大人……您一定要查清楚。我家老爷死得不明不白。",
+      "options": [
+        {
+          "text": "说说你丈夫",
+          "goto": "intro"
+        },
+        {
+          "text": "阿贵这个人怎么样？",
+          "goto": "ask_agui",
+          "requires": [
+            {
+              "flag": "zhou_talked_once"
+            }
+          ]
+        },
+        {
+          "text": "你为什么觉得不是意外？",
+          "goto": "ask_suspicion",
+          "requires": [
+            {
+              "flag": "zhou_talked_once"
+            }
+          ]
+        },
+        {
+          "text": "你丈夫会游泳吗？",
+          "goto": "ask_swimming",
+          "requires": [
+            {
+              "flag": "zhou_talked_once"
+            }
+          ]
+        },
+        {
+          "text": "节哀。我一定查清楚。",
+          "goto": "comfort",
+          "requires": [
+            {
+              "flag": "zhou_talked_once"
+            }
+          ]
+        },
+        {
+          "text": "能看看你丈夫的文书吗？",
+          "goto": "ask_documents",
+          "requires": [
+            {
+              "flag": "zhou_revealed_dismissal"
+            }
+          ]
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "intro": {
+      "text": "周氏：老爷做布匹生意。这次是去武昌府进一批棉布，过了年好卖。\n\n周氏：他带了五十两货银。还有阿贵跟着。\n\n周氏：我劝他别坐夜船。他说急着赶路……（哽咽）",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "set_flags": [
+        "zhou_talked_once"
+      ]
+    },
+    "ask_agui": {
+      "text": "周氏：阿贵跟了老爷十二年了。以前什么都好——忠心、勤快。\n\n周氏：可这两年……老爷嫌他笨手笨脚，动不动就骂。上船前一天还当着外人面骂了他一顿。\n\n周氏：（犹豫）而且……老爷上船前跟我说过，到了武昌就把阿贵打发走。\n\n凌瑶：打发走？给多少遣散银？\n\n周氏：老爷写了字据……二两。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "set_flags": [
+        "zhou_revealed_dismissal"
+      ]
+    },
+    "ask_suspicion": {
+      "text": "周氏：阿贵不对劲。案发后他哭得比我都凶——可他跟老爷关系好吗？不好。\n\n周氏：上船前还被骂了一通，当晚就哭天抹泪？我不信。\n\n周氏：还有——老爷是旱鸭子。连洗澡都怕水深。让他坐夜船，一定是阿贵催的。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "set_flags": [
+        "zhou_suspicion_heard"
+      ],
+      "gain_clue": "clue_wife_suspicion"
+    },
+    "ask_swimming": {
+      "text": "周氏：不会！完全不会！他连河边都不敢走太近。\n\n周氏：以前在家洗澡，水深过膝盖他就不下去。别人笑他，他也不改。\n\n周氏：这也是他平时从不坐夜船的原因——白天能看到岸。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "gain_clue": "clue_victim_cant_swim"
+    },
+    "comfort": {
+      "text": "周氏：（深吸一口气）多谢大人。我知道老爷平时待人不算厚道……可他不该这么死。\n\n周氏：大人要看什么东西尽管说。老爷的文书都在我这里。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_documents": {
+      "text": "周氏：都在房间里。大人自己去看吧——遣散字据、货单都在桌上。\n\n周氏给了你她房间的方向。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    }
+  }
+}

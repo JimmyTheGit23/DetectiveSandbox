@@ -465,6 +465,14 @@ func _evaluate_discussion_condition(when) -> bool:
 		if ratio < float(d["evidence_ratio_gte"]):
 			return false
 
+	# 证据数量条件
+	if d.has("evidence_count_gte"):
+		if GameManager.collected_evidence.size() < int(d["evidence_count_gte"]):
+			return false
+	if d.has("clue_count_gte"):
+		if GameManager.collected_clues.size() < int(d["clue_count_gte"]):
+			return false
+
 	return true
 
 

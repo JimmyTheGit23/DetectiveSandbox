@@ -129,6 +129,21 @@ func _emit_current() -> void:
 		GameManager.mark_node_visited(_current_npc_id, _current_node_id)
 		for f in node.get("set_flags", []):
 			GameManager.set_flag(f)
+		# 兼容旧对话格式 effects: { set_flag/add_clue/add_evidence }
+		var effects: Dictionary = node.get("effects", {})
+		if not effects.is_empty():
+			var flags = effects.get("set_flag", effects.get("set_flags", []))
+			if flags is String:
+				GameManager.set_flag(flags)
+			elif flags is Array:
+				for fx_flag in flags:
+					GameManager.set_flag(str(fx_flag))
+			var old_gc: String = effects.get("add_clue", "")
+			if old_gc != "":
+				GameManager.add_clue(old_gc)
+			var old_ge: String = effects.get("add_evidence", "")
+			if old_ge != "":
+				GameManager.add_evidence(old_ge)
 		# 通过对话直接获得线索/证据
 		var gc: String = node.get("gain_clue", "")
 		if gc != "":
@@ -190,7 +205,27 @@ func _resolve_text(node: Dictionary) -> String:
 		for v in node["text_variants"]:
 			if v.get("default", false):
 				return v.get("text", "")
-	return node.get("text", "")
+	var text: String = node.get("text", "")
+	if text != "":
+		return text
+	# 兼容旧对话格式：{ lines: [{speaker,text}, ...] }
+	var lines: Array = node.get("lines", [])
+	if not lines.is_empty():
+		var parts: Array[String] = []
+		for line in lines:
+			if typeof(line) != TYPE_DICTIONARY:
+				continue
+			var line_text: String = str(line.get("text", "")).strip_edges()
+			if line_text == "":
+				continue
+			var speaker: String = str(line.get("speaker", "")).strip_edges()
+			var line_type: String = str(line.get("type", "")).strip_edges()
+			if speaker == "" or line_type == "narration":
+				parts.append(line_text)
+			else:
+				parts.append("%s：%s" % [speaker, line_text])
+		return "\n\n".join(parts)
+	return "（此处暂无可显示的对话内容。）"
 
 
 func _filter_options(options: Array) -> Array:

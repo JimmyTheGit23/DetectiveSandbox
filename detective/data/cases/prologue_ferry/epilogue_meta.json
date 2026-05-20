@@ -1,0 +1,36 @@
+{
+  "_comment": "序章 META 钩子 — 结案后播放的密信+神秘旁白。仅 perfect/good 结局触发。",
+  "trigger_endings": ["perfect", "good"],
+  "scenes": [
+    {
+      "id": "meta_letter",
+      "type": "cinematic",
+      "background": "res://assets/cn/scenes/prologue_cg_letter.png",
+      "bgm": "epilogue_meta",
+      "lines": [
+        { "speaker": "", "text": "案件结束了。阿贵和老范被五花大绑，押往县衙。" },
+        { "speaker": "凌瑶", "text": "陆大人——你看这个！夹在两块船板中间，差点就被水冲走了。" },
+        { "speaker": "陆昭", "text": "这是……从船上的货物里冲出来的？" },
+        { "speaker": "", "text": "那是一片被江水泡烂的纸。字迹几乎全毁，只剩几处断痕。" },
+        { "speaker": "", "text": "陆昭看见其中几个残字时，手指微不可察地停了一下。" },
+        { "speaker": "凌瑶", "text": "啥东西？看上去挺重要的。" },
+        { "speaker": "陆昭", "text": "……没什么。" },
+        { "speaker": "", "text": "他将那片湿纸收进袖中。两人走出石矶渡时，雨彻底停了。江面上浮着一层薄雾。" }
+      ]
+    },
+    {
+      "id": "meta_narrator",
+      "type": "cinematic",
+      "background": "res://assets/cn/scenes/prologue_wreck_site.png",
+      "bgm": "epilogue_meta",
+      "lines": [
+        { "speaker": "", "text": "画面淡出。" },
+        { "speaker": "", "text": "黑暗中，一个声音响起。" },
+        { "speaker": "???", "text": "……第一步棋，落下了。" },
+        { "speaker": "???", "text": "不要急。让他先走完这段路。" },
+        { "speaker": "???", "text": "浔阳楼的事……很快就会发生。" },
+        { "speaker": "", "text": "【第一案 · 浔阳楼】" }
+      ]
+    }
+  ]
+}

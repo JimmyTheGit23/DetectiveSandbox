@@ -1,0 +1,151 @@
+{
+  "_comment": "老范对话树。共犯。起初老油条姿态，被戳穿后狡辩到底。",
+  "start": "hub",
+  "nodes": {
+    "hub": {
+      "text": "（老范靠在船舷上抽旱烟，看到你来不紧不慢地磕了磕烟灰）哟，大人来了。问啥您说。",
+      "options": [
+        {
+          "text": "说说当晚的事",
+          "goto": "intro"
+        },
+        {
+          "text": "为什么走那条航道？",
+          "goto": "ask_route",
+          "requires": [
+            {
+              "flag": "fan_talked_once"
+            }
+          ]
+        },
+        {
+          "text": "本地人都知道那条路危险，你跑了二十年不知道？",
+          "goto": "press_route",
+          "requires": [
+            {
+              "clue": "clue_reef_common_knowledge"
+            }
+          ]
+        },
+        {
+          "text": "你是怎么获救的？",
+          "goto": "ask_rescue",
+          "requires": [
+            {
+              "flag": "fan_talked_once"
+            }
+          ]
+        },
+        {
+          "text": "【出示船底破洞证据】船底这个洞你怎么解释？",
+          "goto": "show_hull",
+          "requires": [
+            {
+              "evidence": "evidence_hull_hole"
+            }
+          ]
+        },
+        {
+          "text": "【出示赌债字据】四十二两。腊月底。断指。",
+          "goto": "show_iou",
+          "requires": [
+            {
+              "evidence": "evidence_gambling_iou"
+            }
+          ]
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "intro": {
+      "text": "老范：唉，天灾啊大人。那夜雨大浪急，老汉跑了二十年船没见过那阵仗。\n\n老范：到了礁石那段，一个浪头打过来——'咔嚓'一声船底就裂了。\n\n老范：老汉水性好，自己扒着船板上了岸。那主仆两个……唉，没能救上来。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "set_flags": [
+        "fan_talked_once"
+      ]
+    },
+    "ask_route": {
+      "text": "老范：那客人催得急啊！说要赶武昌的早市。走大路绕远，走那条——\n\n老范：嗐，老汉也知道有礁石。但水涨了以后，以前那礁石应该没过去了嘛。谁知道还露着。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "press_route": {
+      "text": "老范：大人这话说的……涨水嘛，水面高了礁石就该没了。老汉判断失误，这、这能怪老汉？\n\n凌瑶：（小声）怪不怪你，船底那个洞会告诉我们。",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_rescue": {
+      "text": "老范：老汉自己爬上岸的——不对，是在水里扒了半个时辰，被下游渔民拉上去的。\n\n凌瑶：（低声对你）半个时辰？王老汉说不到一刻钟他就自己上岸了……",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "set_flags": [
+        "fan_alibi_contradiction"
+      ]
+    },
+    "show_hull": {
+      "text": "老范：（手一抖，烟灰落了一地）那……那是礁石撞的！\n\n老范：大人您看那些痕，都是石头尖刮的嘛！\n\n凌瑶：礁石刮的？那为什么凿痕这么整齐？还有两圈新旧钉眼？\n\n老范：……",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "show_iou": {
+      "text": "老范：（烟杆掉在地上）你——！你翻老汉的东西！\n\n老范：那、那是以前的账！早还完了！\n\n凌瑶：还完了？日期写着上个月。\n\n老范：……\n\n老范：（双手撑着膝盖，低下头）大人。是阿贵那小子来找的老汉。是他出的主意。老汉只是……只是动了动船板……",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "set_flags": [
+        "fan_confessed"
+      ]
+    }
+  }
+}

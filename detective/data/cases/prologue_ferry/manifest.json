@@ -1,0 +1,43 @@
+{
+  "id": "prologue_ferry",
+  "title": "渡口沉舟",
+  "subtitle": "万历廿二年 · 腊月 · 荆江",
+  "order": 0,
+  "rank_required": 0,
+  "difficulty": "simple",
+  "estimated_days": 2,
+  "max_days": 2,
+  "main_scene": "ferry_inn",
+  "preview_image": "res://assets/cn/scenes/prologue_ferry_dock.png",
+  "synopsis": "荆江石矶渡，商人溺亡。是暗礁翻船的意外，还是另有蹊跷？",
+  "intro": "教学序章：石矶渡冬雨命案。",
+  "era": "ming_wanli",
+  "locale": "cn",
+  "companion": "xia_lingyao",
+  "is_tutorial": true,
+  "voice_status": "missing",
+  "scenes": {
+    "prologue": "prologue.json",
+    "epilogue_meta": "epilogue_meta.json"
+  },
+  "files": {
+    "case": "case.json",
+    "casting": "casting.json",
+    "npcs": "npcs.json",
+    "npc_states": "npc_states.json",
+    "evidence": "evidence.json",
+    "locations": "locations.json",
+    "search_results": "search_results.json",
+    "progression": "progression.json",
+    "day_events": "day_events.json",
+    "bgm_config": "bgm_config.json"
+  },
+  "directories": {
+    "dialogues": "dialogues/",
+    "companion": "companion/"
+  },
+  "rewards": {
+    "xp": 50,
+    "unlock_cases": ["xunyang_pavilion"]
+  }
+}

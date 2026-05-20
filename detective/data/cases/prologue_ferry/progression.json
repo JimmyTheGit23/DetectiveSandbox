@@ -1,0 +1,77 @@
+{
+  "_comment": "渐进式信息开放。教学案仅2阶段，门槛低。真凶阿贵。",
+
+  "phases": [
+    {
+      "id": "phase_1",
+      "title": "初步调查",
+      "description": "勘察沉船残骸，走访滞留人员",
+      "hint": "先去码头和打捞处看看那条船，再问问死者妻子和那个仆从。",
+      "locations": ["ferry_inn", "ferry_dock", "wreck_site"],
+      "unlock_condition": null
+    },
+    {
+      "id": "phase_2",
+      "title": "深入追查",
+      "description": "船底的破洞说明这不是意外。下游渔村有人知道更多。",
+      "hint": "有个老渔翁住在下游江湾，案发当夜他在江上。去找他。",
+      "locations": ["river_bend"],
+      "unlock_condition": {
+        "any": [
+          { "evidence": "evidence_hull_hole" },
+          { "clue": "clue_wrong_channel" },
+          { "total_periods_used_gte": 10 }
+        ]
+      }
+    }
+  ],
+
+  "panel_unlock": {
+    "accuse": {
+      "condition": {
+        "all": [
+          { "total_periods_used_gte": 6 },
+          {
+            "any": [
+              { "evidence_count_gte": 3 },
+              { "evidence": "evidence_float_bladder" }
+            ]
+          }
+        ]
+      },
+      "locked_hint": "证据不足，尚无法指证。继续搜集线索。"
+    }
+  },
+
+  "search_point_unlock": {
+    "ferry_inn.inn_agui_room": {
+      "condition": {
+        "any": [
+          { "clue": "clue_wife_suspicion" },
+          { "clue": "clue_agui_dry_inner" },
+          { "total_periods_used_gte": 8 }
+        ]
+      },
+      "locked_hint": "没有理由搜查别人的房间。得先有些根据。"
+    }
+  },
+
+  "npc_unlock": {
+    "fisherman_wang": {
+      "condition": {
+        "any": [
+          { "evidence": "evidence_hull_hole" },
+          { "clue": "clue_reef_common_knowledge" },
+          { "total_periods_used_gte": 10 }
+        ]
+      }
+    }
+  },
+
+  "phase_notifications": {
+    "phase_2": {
+      "speaker": "凌瑶",
+      "text": "陆大人！船底那个洞……肯定是人为的！我听客栈的人说，下游渔村有个王老汉，那天夜里他在江上——说不定看到了什么！"
+    }
+  }
+}

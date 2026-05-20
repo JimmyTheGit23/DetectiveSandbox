@@ -1,0 +1,25 @@
+{
+  "_comment": "序章助手配置。凌瑶作为教学案助手，引导更积极。",
+  "companion_id": "xia_lingyao",
+  "role_name": "凌瑶",
+  "actor_id": "actor_tomboy_courier",
+  "available_topics": ["next_direction", "suspect_now", "evidence_ready", "chitchat"],
+  "limits": {
+    "next_direction": { "per_day": 2, "cost_period": 0, "cost_cognitive": 3 },
+    "suspect_now":    { "per_day": 2, "cost_period": 0, "cost_cognitive": 3 },
+    "evidence_ready": { "per_day": 2, "cost_period": 0, "cost_cognitive": 0 },
+    "chitchat":       { "per_day": 99, "cost_period": 0, "cost_cognitive": 0 }
+  },
+  "lock_on_final_day": false,
+  "banter_max_per_day": 30,
+  "intro_hint": "凌瑶是金鳞镖局的信使，被暴雨困在石矶渡。这是她头一回参与查案——好奇心旺盛，嘴巴停不下来，但眼睛很尖。",
+  "tutorial_mode": true,
+  "tutorial_hints": {
+    "map": "陆大人，右边那个就是地图。想去哪儿点哪儿。",
+    "search": "这地方能搜搜看吧？点一下那些亮的地方试试！",
+    "notebook": "哎，这东西重要吧？看看您那小本本——就是左边那个册子图标。",
+    "discuss": "陆大人，要不咱们合计合计？点我头像就能聊。",
+    "accuse": "证据够了吧？该抓人了——看右下角那个惊堂木！",
+    "present": "您不是拿到那东西了吗？对话的时候可以拿出来问他！"
+  }
+}

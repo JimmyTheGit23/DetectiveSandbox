@@ -367,11 +367,12 @@ func _make_portrait_avatar(texture: Texture2D, output_size: int = 96) -> Texture
 	if has_alpha_region:
 		var bbox_h: float = float(max_y - min_y + 1)
 		var bbox_w: float = float(max_x - min_x + 1)
-		var side: float = min(bbox_h * 0.42, bbox_w)
+		# 头像裁切不要贴着头顶，否则只能看到头发/额头；取头部中上段，保证脸完整可见。
+		var side: float = min(bbox_h * 0.38, bbox_w * 0.86)
 		crop_w = int(side)
 		var center_x: float = float(min_x + max_x) * 0.5
 		crop_x = int(center_x - side * 0.5)
-		crop_y = int(float(min_y) - bbox_h * 0.02)
+		crop_y = int(float(min_y) + bbox_h * 0.08)
 		if crop_x < 0: crop_x = 0
 		if crop_y < 0: crop_y = 0
 		if crop_x + crop_w > w: crop_x = w - crop_w
@@ -391,6 +392,10 @@ func _build_people_tab() -> void:
 	var margin := _make_margin(scroll)
 
 	var seen: Array = []
+	for nid in GameManager.npcs_data.keys():
+		var npc_def = GameManager.npcs_data[nid]
+		if typeof(npc_def) == TYPE_DICTIONARY and bool(npc_def.get("always_in_notebook", false)):
+			seen.append(nid)
 	for loc_id in GameManager.visited_locations:
 		var npcs: Array = GameManager.get_location_data(loc_id).get("npcs", [])
 		for n in npcs:
@@ -403,9 +408,9 @@ func _build_people_tab() -> void:
 		return
 
 	var people_grid := GridContainer.new()
-	people_grid.columns = 3
-	people_grid.add_theme_constant_override("h_separation", 12)
-	people_grid.add_theme_constant_override("v_separation", 12)
+	people_grid.columns = 2
+	people_grid.add_theme_constant_override("h_separation", 14)
+	people_grid.add_theme_constant_override("v_separation", 14)
 	people_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	margin.add_child(people_grid)
 
@@ -434,7 +439,7 @@ func _build_people_tab() -> void:
 
 func _add_person_entry(parent: Container, name_text: String, body: String, color: Color, tag: String, portrait_path: String) -> void:
 	var btn := Button.new()
-	btn.custom_minimum_size = Vector2(0, 130)
+	btn.custom_minimum_size = Vector2(0, 118)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
@@ -462,21 +467,21 @@ func _add_person_entry(parent: Container, name_text: String, body: String, color
 	pressed_style.border_color = Color(1.0, 0.78, 0.35, 1)
 	btn.add_theme_stylebox_override("pressed", pressed_style)
 
-	# 内部布局：垂直排列（头像在上，名字在下）
-	var vbox := VBoxContainer.new()
-	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	vbox.anchor_right = 1.0
-	vbox.anchor_bottom = 1.0
-	vbox.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_KEEP_SIZE)
-	vbox.offset_left = 10
-	vbox.offset_right = -10
-	vbox.offset_top = 10
-	vbox.offset_bottom = -10
-	vbox.add_theme_constant_override("separation", 6)
-	btn.add_child(vbox)
+	# 内部布局：横向排列，头像完整显示在左侧，身份文字在右侧。
+	var hbox := HBoxContainer.new()
+	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	hbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hbox.anchor_right = 1.0
+	hbox.anchor_bottom = 1.0
+	hbox.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_KEEP_SIZE)
+	hbox.offset_left = 12
+	hbox.offset_right = -12
+	hbox.offset_top = 12
+	hbox.offset_bottom = -12
+	hbox.add_theme_constant_override("separation", 14)
+	btn.add_child(hbox)
 
-	# 上方头像
+	# 左侧头像
 	if portrait_path != "" and ResourceLoader.exists(portrait_path):
 		var portrait_frame := PanelContainer.new()
 		portrait_frame.custom_minimum_size = Vector2(72, 72)
@@ -494,31 +499,67 @@ func _add_person_entry(parent: Container, name_text: String, body: String, color
 		pstyle.content_margin_top = 3
 		pstyle.content_margin_bottom = 3
 		portrait_frame.add_theme_stylebox_override("panel", pstyle)
-		vbox.add_child(portrait_frame)
+		portrait_frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		portrait_frame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		hbox.add_child(portrait_frame)
 
 		var portrait := TextureRect.new()
-		portrait.custom_minimum_size = Vector2(66, 66)
+		portrait.custom_minimum_size = Vector2(78, 78)
 		portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-		portrait.texture = _make_portrait_avatar(load(portrait_path), 66)
+		portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		portrait.texture = _make_portrait_avatar(load(portrait_path), 78)
 		portrait_frame.add_child(portrait)
 	else:
-		var spacer := Control.new()
-		spacer.custom_minimum_size = Vector2(72, 72)
-		spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		vbox.add_child(spacer)
+		var portrait_frame := PanelContainer.new()
+		portrait_frame.custom_minimum_size = Vector2(86, 86)
+		portrait_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var pstyle := StyleBoxFlat.new()
+		pstyle.bg_color = Color(0.04, 0.035, 0.025, 1)
+		pstyle.border_color = Color(0.62, 0.46, 0.22, 0.95)
+		pstyle.set_border_width_all(1)
+		pstyle.corner_radius_top_left = 6
+		pstyle.corner_radius_top_right = 6
+		pstyle.corner_radius_bottom_left = 6
+		pstyle.corner_radius_bottom_right = 6
+		portrait_frame.add_theme_stylebox_override("panel", pstyle)
+		hbox.add_child(portrait_frame)
+		var placeholder := Label.new()
+		placeholder.text = "殁"
+		placeholder.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		placeholder.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		placeholder.custom_minimum_size = Vector2(78, 78)
+		placeholder.add_theme_font_size_override("font_size", 32)
+		placeholder.add_theme_color_override("font_color", Color(0.72, 0.66, 0.55, 1))
+		portrait_frame.add_child(placeholder)
 
-	# 下方名字
+	# 右侧名字与简介
+	var text_vbox := VBoxContainer.new()
+	text_vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	text_vbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	text_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hbox.add_child(text_vbox)
+
 	var name_lbl := Label.new()
 	name_lbl.text = name_text
-	name_lbl.add_theme_font_size_override("font_size", 15)
+	name_lbl.add_theme_font_size_override("font_size", 17)
 	name_lbl.add_theme_color_override("font_color", color)
 	name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	name_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	name_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD
-	vbox.add_child(name_lbl)
+	name_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text_vbox.add_child(name_lbl)
+
+	var intro_lbl := Label.new()
+	intro_lbl.text = body.strip_edges().split("\n")[0]
+	intro_lbl.add_theme_font_size_override("font_size", 13)
+	intro_lbl.add_theme_color_override("font_color", Color(0.78, 0.72, 0.58, 0.95))
+	intro_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	intro_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	intro_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	intro_lbl.max_lines_visible = 2
+	intro_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text_vbox.add_child(intro_lbl)
 
 	parent.add_child(btn)
 

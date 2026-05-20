@@ -21,6 +21,12 @@ const CASE_MAP_POSITIONS := {
 		"marketplace": Vector2(330, 330),
 		"silk_shop": Vector2(280, 460),
 	},
+	"prologue_ferry": {
+		"ferry_inn": Vector2(430, 330),
+		"ferry_dock": Vector2(620, 430),
+		"wreck_site": Vector2(830, 390),
+		"river_bend": Vector2(900, 220),
+	},
 }
 
 # 未配置坐标的新案件：按网格临时排布，避免英文 id 漏到界面上。
