@@ -465,9 +465,9 @@ func _on_progression_hint(speaker: String, text: String) -> void:
 	_play_or_queue_adhoc(lines)
 
 
-func _on_lie_exposed(npc_id: String, lie_node: String) -> void:
+func _on_lie_exposed(npc_id: String, _lie_node: String) -> void:
 	var npc = GameManager.get_npc_data(npc_id)
-	_flash_notification("【揭穿谎言】%s 的「%s」" % [npc.get("name", npc_id), lie_node])
+	_flash_notification("【揭穿谎言】发现 %s 在说谎" % npc.get("name", npc_id))
 
 
 func _flash_notification(text: String) -> void:

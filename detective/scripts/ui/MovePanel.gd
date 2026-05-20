@@ -67,11 +67,16 @@ func _build() -> void:
 			var target: String = sub.get("target", "")
 			var btn_name: String = sub.get("name", target)
 			var desc: String = sub.get("description", "")
+			var unlocked: bool = GameManager.is_location_unlocked(target)
 
 			var row := PanelContainer.new()
 			var style := StyleBoxFlat.new()
-			style.bg_color = Color(0.15, 0.12, 0.08, 0.7)
-			style.border_color = CLR_BORDER
+			if unlocked:
+				style.bg_color = Color(0.15, 0.12, 0.08, 0.7)
+				style.border_color = CLR_BORDER
+			else:
+				style.bg_color = Color(0.08, 0.07, 0.06, 0.5)
+				style.border_color = Color(0.35, 0.30, 0.22, 0.4)
 			style.set_border_width_all(1)
 			style.set_corner_radius_all(5)
 			style.set_content_margin_all(12)
@@ -85,9 +90,9 @@ func _build() -> void:
 
 			var arrow := Label.new()
 			arrow.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			arrow.text = "▸"
+			arrow.text = "▸" if unlocked else "🔒"
 			arrow.add_theme_font_size_override("font_size", 20)
-			arrow.add_theme_color_override("font_color", CLR_GOLD)
+			arrow.add_theme_color_override("font_color", CLR_GOLD if unlocked else CLR_DIM)
 			arrow.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			hbox.add_child(arrow)
 
@@ -100,23 +105,26 @@ func _build() -> void:
 			name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			name_lbl.text = btn_name
 			name_lbl.add_theme_font_size_override("font_size", 19)
-			name_lbl.add_theme_color_override("font_color", CLR_GOLD)
+			name_lbl.add_theme_color_override("font_color", CLR_GOLD if unlocked else CLR_DIM)
 			text_vbox.add_child(name_lbl)
 
 			if desc != "":
 				var desc_lbl := Label.new()
 				desc_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-				desc_lbl.text = desc
+				desc_lbl.text = desc if unlocked else "（尚未解锁）"
 				desc_lbl.add_theme_font_size_override("font_size", 14)
 				desc_lbl.add_theme_color_override("font_color", CLR_DIM)
 				text_vbox.add_child(desc_lbl)
 
-			var tid := target
-			row.gui_input.connect(func(event: InputEvent):
-				if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-					location_selected.emit(tid)
-			)
-			row.mouse_filter = Control.MOUSE_FILTER_STOP
+			if unlocked:
+				var tid := target
+				row.gui_input.connect(func(event: InputEvent):
+					if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+						location_selected.emit(tid)
+				)
+				row.mouse_filter = Control.MOUSE_FILTER_STOP
+			else:
+				row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			vbox.add_child(row)
 
 	# 关闭按钮
