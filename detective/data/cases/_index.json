@@ -1,32 +1,32 @@
 {
   "_comment": "案件索引：列出本游戏所有可玩案件。CaseSelectPanel 用此驱动卡片列表。每条引用 data/cases/<id>/manifest.json 作为详细元信息。",
-  "default_case": "linchuan_inn",
+  "default_case": "xunyang_pavilion",
   "cases": [
     {
-      "id": "linchuan_inn",
-      "manifest": "res://data/cases/linchuan_inn/manifest.json",
+      "id": "xunyang_pavilion",
+      "manifest": "res://data/cases/xunyang_pavilion/manifest.json",
       "order": 1,
       "locked": false,
       "tag": "首部曲",
-      "voice_status": "full",
+      "voice_status": "missing",
       "rank_required": 1,
       "style": "ming_qing",
       "category": "solo",
       "era": "ancient",
-      "preview_blurb": "万历廿三年，临川夜雨。古井旁的诡案，等你来明断。"
+      "preview_blurb": "万历廿三年春，浔阳夜雨。红绸断处，是失足还是被推下楼？"
     },
     {
-      "id": "xunyang_pavilion",
-      "manifest": "res://data/cases/xunyang_pavilion/manifest.json",
+      "id": "linchuan_inn",
+      "manifest": "res://data/cases/linchuan_inn/manifest.json",
       "order": 2,
       "locked": false,
       "tag": "二部曲",
-      "voice_status": "missing",
+      "voice_status": "full",
       "rank_required": 2,
       "style": "ming_qing",
       "category": "solo",
       "era": "ancient",
-      "preview_blurb": "浔阳夜雨，红绸断处。是失足，还是被推下楼？"
+      "preview_blurb": "万历廿三年秋，临川夜雨。古井旁的诡案，等你来明断。"
     }
   ]
 }

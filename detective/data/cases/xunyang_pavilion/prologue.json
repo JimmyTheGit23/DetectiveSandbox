@@ -4,13 +4,13 @@
     "scene1": {
       "background": "res://assets/cn/scenes/xunyang_prologue.png",
       "speaker": "",
-      "text": "万历二十四年，三月。江南细雨。\n\n浔阳楼，本府名楼。今夜灯火通明，楼中丝竹隐隐。",
+      "text": "万历二十三年，三月。江南细雨。\n\n浔阳楼，本府名楼。今夜灯火通明，楼中丝竹隐隐。",
       "next": "scene2"
     },
     "scene2": {
       "background": "res://assets/cn/scenes/xunyang_prologue.png",
       "speaker": "凌瑶",
-      "text": "（趴在窗边看雨）哇——陆大人，这浔阳楼可比临川那破驿站气派多了！这是咱们查完上回那案子的犒赏吗？",
+      "text": "（趴在窗边看雨）哇——陆大人，这浔阳楼也太气派了吧！本姑娘跟着您出差还能住这种地方？赚到了赚到了！",
       "next": "scene2b"
     },
     "scene2b": {
@@ -106,7 +106,7 @@
     "scene5d": {
       "background": "res://assets/cn/scenes/xunyang_courtyard.png",
       "speaker": "凌瑶",
-      "text": "又来了！上次临川也是这样——您一句'我接了'，就多了三天苦差事。",
+      "text": "又来了！您一句'我接了'，本姑娘就又多了三天苦差事是吧！",
       "next": "scene5e"
     },
     "scene5e": {
@@ -118,7 +118,7 @@
     "scene5f": {
       "background": "res://assets/cn/scenes/xunyang_courtyard.png",
       "speaker": "凌瑶",
-      "text": "（叹气，然后拍胸脯）行吧！本姑娘上回陪您查了个毒杀案，这回坠楼——总比朱砂那些弯弯绕绕好懂吧？陆大人，您吩咐！",
+      "text": "（叹气，然后拍胸脯）行吧！本姑娘头一回碰上命案——坠楼嘛，总比什么下毒之类的弯弯绕绕好懂吧？陆大人，您吩咐！",
       "next": "scene6"
     },
     "scene6": {

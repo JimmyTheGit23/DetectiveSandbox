@@ -28,6 +28,7 @@ const TAB_INACTIVE_COLOR := Color(0.55, 0.50, 0.42, 0.8)
 var _era_buttons: Array[Button] = []
 var _current_era: String = ""
 var _bg_texture: TextureRect
+var _bg_clip: Control
 var _cards_container: VBoxContainer
 var _tab_underlines: Dictionary = {}
 
@@ -54,20 +55,20 @@ func _build_ui() -> void:
 	add_child(solid_bg)
 
 	# ── 2. 角色背景图（高度铺满，右对齐，只裁左边）──
-	# 使用 clip_children 裁切超出部分
-	var bg_clip := Control.new()
-	bg_clip.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg_clip.clip_children = CanvasItem.CLIP_CHILDREN_ONLY
-	bg_clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(bg_clip)
+	_bg_clip = Control.new()
+	_bg_clip.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_bg_clip.clip_children = CanvasItem.CLIP_CHILDREN_ONLY
+	_bg_clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_bg_clip)
+
 	_bg_texture = TextureRect.new()
 	_bg_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_bg_texture.stretch_mode = TextureRect.STRETCH_SCALE
-	_bg_texture.modulate = Color(1, 1, 1, 0.7)
+	_bg_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	_bg_texture.modulate = Color(1, 1, 1, 0.85)
 	_bg_texture.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bg_clip.add_child(_bg_texture)
-	# 延迟一帧设置位置（等容器大小确定后右对齐）
-	bg_clip.resized.connect(_on_bg_clip_resized.bind(bg_clip))
+	_bg_clip.add_child(_bg_texture)
+	# 延迟一帧让锚点生效后再对齐
+	_bg_clip.resized.connect(_do_align_bg)
 
 	# ── 3. 渐变遮罩（从左到右逐渐透明，无硬边）──
 	var gradient_overlay := TextureRect.new()
@@ -207,7 +208,7 @@ func _switch_era(era_id: String) -> void:
 		_bg_texture.texture = load(bg_path)
 	else:
 		_bg_texture.texture = null
-	_align_bg_right(_bg_texture.get_parent())
+	_do_align_bg()
 
 	_refresh_cards()
 
@@ -465,24 +466,20 @@ static func _ending_color(eid: String) -> Color:
 	return Color(0.85, 0.78, 0.62, 1)
 
 
-func _on_bg_clip_resized(container: Control) -> void:
-	_align_bg_right(container)
-
-
-func _align_bg_right(container: Control) -> void:
-	if _bg_texture == null or _bg_texture.texture == null or container == null:
+func _do_align_bg() -> void:
+	if _bg_texture == null or _bg_texture.texture == null or _bg_clip == null:
 		return
-	var tex_size := _bg_texture.texture.get_size()
+	var tex_size: Vector2 = _bg_texture.texture.get_size()
 	if tex_size.x <= 0 or tex_size.y <= 0:
 		return
-	var cont_size := container.size
+	var cont_size: Vector2 = _bg_clip.size
 	if cont_size.x <= 0 or cont_size.y <= 0:
 		return
-	# 高度铺满，按比例计算实际渲染宽度
-	var scale_factor := cont_size.y / tex_size.y
-	var rendered_w := tex_size.x * scale_factor
-	# TextureRect 全屏大小，但向右偏移让右边贴齐
-	# 如果 rendered_w > cont_size.x（图比屏宽），右对齐意味着左边裁
-	var offset_x := cont_size.x - rendered_w  # 负值=向左移
+	# 高度铺满，按比例计算宽度
+	var scale_f: float = cont_size.y / tex_size.y
+	var rendered_w: float = tex_size.x * scale_f
+	# 右对齐：图片右边贴容器右边，左边溢出裁切
+	var offset_x: float = cont_size.x - rendered_w
 	_bg_texture.position = Vector2(offset_x, 0)
 	_bg_texture.size = Vector2(rendered_w, cont_size.y)
+

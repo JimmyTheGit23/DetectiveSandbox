@@ -4,7 +4,7 @@
     "scene1": {
       "background": "res://assets/cn/scenes/prologue.png",
       "speaker": "",
-      "text": "万历二十三年，江南。\n\n这是个下大雨的夜晚，临川镇外的石桥上。",
+      "text": "万历二十三年，秋。江南。\n\n这是个下大雨的夜晚，临川镇外的石桥上。",
       "next": "scene2"
     },
     "scene2": {
@@ -46,7 +46,7 @@
     "scene2f": {
       "background": "res://assets/cn/scenes/prologue.png",
       "speaker": "凌瑶",
-      "text": "切，又是那种弯弯绕绕的官场门道。本姑娘最烦这种了。反正有什么事您吩咐就是，打架我在行！查案嘛……我可以帮您跑腿！",
+      "text": "切，又是那种弯弯绕绕的官场门道。上回浔阳楼那事儿本姑娘还没缓过来呢……反正有什么事您吩咐就是，打架我在行！查案嘛……我可以帮您跑腿！",
       "next": "scene3"
     },
     "scene3": {
