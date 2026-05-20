@@ -10,6 +10,68 @@
     "evidence_dismissal_note"
   ],
   "min_evidence_required": 3,
+  "confrontation": {
+    "suspect": "agui",
+    "confidence": 3,
+    "intro_dialogue": [
+      {"speaker": "你", "text": "「阿贵，你跟随周老爷十二年，该你说话的时候到了。」"},
+      {"speaker": "阿贵", "text": "「大人……小的什么都没做，老爷是翻船落水的……」"}
+    ],
+    "rounds": [
+      {
+        "id": "round_1",
+        "lie": "那夜我一直守在船舱里，根本没出去过！",
+        "counter_evidence": "evidence_float_bladder",
+        "alt_evidence": ["clue_agui_dry_inner"],
+        "break_dialogue": [
+          {"speaker": "你", "text": "「你说整夜都在舱里……那这牛皮浮囊怎么解释？」"},
+          {"speaker": "阿贵", "text": "「……！」"},
+          {"speaker": "你", "text": "「这种水上救命的东西，一个不会游泳的仆从，上船前特意藏在包袱底层——你不是去伺候主人，是给自己留了条后路！」"}
+        ],
+        "fail_dialogue": [
+          {"speaker": "阿贵", "text": "「这……这跟那晚有什么关系？大人别冤枉好人。」"}
+        ]
+      },
+      {
+        "id": "round_2",
+        "lie": "船是撞了暗礁翻的，跟我没关系！那是天灾！",
+        "counter_evidence": "evidence_hull_hole",
+        "alt_evidence": ["evidence_nail_marks", "clue_wrong_channel"],
+        "break_dialogue": [
+          {"speaker": "你", "text": "「天灾？那你看看这破洞——木板边缘整齐，是从内侧凿开的。」"},
+          {"speaker": "阿贵", "text": "「那、那是撞的……」"},
+          {"speaker": "你", "text": "「撞礁不会留下这种痕迹。更何况，这块板被人拆下来又钉回去过——钉眼新旧两圈，做不了假。这不是天灾，是人为。」"}
+        ],
+        "fail_dialogue": [
+          {"speaker": "阿贵", "text": "「江上翻船的事多了去了，凭什么就是人干的？」"}
+        ]
+      },
+      {
+        "id": "round_3",
+        "lie": "就算凿了船……也不是我主动要害他！是他先不要我的！",
+        "counter_evidence": "evidence_dismissal_note",
+        "alt_evidence": ["evidence_gambling_iou"],
+        "break_dialogue": [
+          {"speaker": "你", "text": "「他不要你？这张遣散字据写的是'给银二两，各不相欠'。十二年，二两。」"},
+          {"speaker": "阿贵", "text": "「……十二年……就值二两……」"},
+          {"speaker": "你", "text": "「你恨他。恨他薄情寡义，恨他把你当用完就扔的工具。所以你和老范串通——你负责凿船，他负责选那条暗礁水道。事成分银子，各取所需。对不对？」"}
+        ],
+        "fail_dialogue": [
+          {"speaker": "阿贵", "text": "「我……我只是个下人，哪敢害人性命……大人您搞错了！」"}
+        ]
+      }
+    ],
+    "victory_dialogue": [
+      {"speaker": "你", "text": "「阿贵。浮囊、凿痕、遣散字据——三条证据，三重铁证。你还有话说？」"},
+      {"speaker": "阿贵", "text": "「……我……我认了……都是他逼我的……是老范找的我，说只要凿个洞……」"},
+      {"speaker": "你", "text": "「从头交代。一个字都不许漏。」"}
+    ],
+    "defeat_dialogue": [
+      {"speaker": "阿贵", "text": "「大人，您说的这些……都只是猜测。没有实证，您不能定我的罪。」"},
+      {"speaker": "你", "text": "「……」"},
+      {"speaker": "阿贵", "text": "「小的冤枉。老爷的事，跟小的无关。」"}
+    ]
+  },
   "suspects": [
     {
       "id": "agui",

@@ -23,6 +23,7 @@ const SubPanels = {
 	"search": "res://scenes/ui/SearchPanel.tscn",
 	"notebook": "res://scenes/ui/NotebookPanel.tscn",
 	"accuse": "res://scenes/ui/AccusePanel.tscn",
+	"confrontation": "res://scenes/ui/ConfrontationPanel.tscn",
 	"settings": "res://scenes/ui/SettingsPanel.tscn",
 }
 
@@ -686,6 +687,8 @@ func _open_subpanel(menu_id: String) -> void:
 		panel.location_selected.connect(_on_location_selected)
 	if panel.has_signal("accuse_submitted"):
 		panel.accuse_submitted.connect(_on_accuse_submitted)
+	if panel.has_signal("confrontation_requested"):
+		panel.confrontation_requested.connect(_on_confrontation_requested)
 	if panel.has_signal("return_to_title_requested"):
 		panel.return_to_title_requested.connect(_on_return_to_title)
 	if panel.has_signal("game_reset_requested"):
@@ -783,6 +786,37 @@ func _on_location_selected(loc_id: String) -> void:
 func _on_accuse_submitted(suspect: String, motive: String, method: String, ev_list: Array) -> void:
 	_close_subpanel()
 	var ending_id := GameManager.judge_accusation(suspect, motive, method, ev_list)
+	if ending_id == "bad" or ending_id == "partial":
+		_try_companion_banter("accuse_fail")
+	if _try_play_case_epilogue(ending_id):
+		return
+	_show_ending(ending_id)
+
+
+func _on_confrontation_requested(_suspect: String) -> void:
+	_close_subpanel()
+	_open_confrontation_panel()
+
+
+func _open_confrontation_panel() -> void:
+	_close_subpanel()
+	BgmPlayer.play("accuse")
+	var scene_path: String = SubPanels["confrontation"]
+	if not ResourceLoader.exists(scene_path):
+		push_warning("Panel scene missing: " + scene_path)
+		return
+	var packed: PackedScene = load(scene_path)
+	var panel: Control = packed.instantiate()
+	subpanel_container.add_child(panel)
+	subpanel_container.visible = true
+	_active_subpanel = panel
+	if panel.has_signal("confrontation_finished"):
+		panel.confrontation_finished.connect(_on_confrontation_finished)
+
+
+func _on_confrontation_finished(result: String, mistakes: int) -> void:
+	_close_subpanel()
+	var ending_id := GameManager.judge_confrontation(result, mistakes)
 	if ending_id == "bad" or ending_id == "partial":
 		_try_companion_banter("accuse_fail")
 	if _try_play_case_epilogue(ending_id):

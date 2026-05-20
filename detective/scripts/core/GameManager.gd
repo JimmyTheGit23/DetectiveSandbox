@@ -947,6 +947,20 @@ func judge_accusation(suspect: String, motive: String, method: String, selected_
 	return "bad"
 
 
+## 根据对峙结果判定结局等级
+## result: "victory" / "defeat"
+## mistakes: 选错证据的次数
+func judge_confrontation(result: String, mistakes: int) -> String:
+	if result != "victory":
+		return "bad"
+	# 全部击破，根据失误次数定等级
+	if mistakes == 0:
+		return "perfect"
+	if mistakes <= 1:
+		return "good"
+	return "partial"
+
+
 func get_ending(ending_id: String) -> Dictionary:
 	return case_data.get("endings", {}).get(ending_id, {})
 
