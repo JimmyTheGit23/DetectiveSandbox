@@ -32,8 +32,7 @@
   "qiu_chamber.letter_box": {
     "default": {
       "narration": "桌案抽屉被人拉开过。昨日见到的那张小笺还在——但位置变了，像是有人拿起看过又放回。",
-      "evidence": "evidence_chamber_redisturbed",
-      "time_cost": 2
+      "evidence": "evidence_chamber_redisturbed"
     }
   },
   "qiu_chamber.incense_burner": {
@@ -95,7 +94,8 @@
   },
   "marketplace.pawnshop": {
     "default": {
-      "narration": "城南当铺。掌柜翻了翻簿子：上月有人典当了几件玉器换银。但当铺有规矩，不能直接告诉你典当人的身份——需要拿到府衙的令状。"
+      "narration": "城南当铺。掌柜翻了翻簿子：上月有人典当了几件玉器换银。但当铺有规矩，不能直接告诉你典当人的身份——需要拿到府衙的令状。 账房另取出一张欠债字据，秋菱向周家借过五十两银，到期日就在明日。",
+      "evidence": "evidence_unpaid_loan"
     }
   },
   "marketplace.alley": {
@@ -107,29 +107,36 @@
   "silk_shop.sales_ledger": {
     "default": {
       "narration": "账册上一笔临时手写的记录：「绛红云纹绸一匹，急用」。买方栏只有一个字，笔迹潦草难辨。",
-      "evidence": "evidence_silk_purchase_receipt",
-      "time_cost": 2
+      "evidence": "evidence_silk_purchase_receipt"
     }
   },
   "silk_shop.back_curtain": {
     "default": {
       "narration": "帘后私账里有一行附注：案发当日急购红绸之人「付银后未等收据便走」。正常采办不会如此仓促。",
-      "clue": "clue_back_curtain_rush",
-      "time_cost": 1
+      "clue": "clue_back_curtain_rush"
     }
   },
   "riverside_dock.wet_planks": {
     "default": {
       "narration": "湿木板上一道鞋印拖痕，方向朝江面。缆绳上多了一个生手打的扣。脚印大小中等。",
-      "evidence": "evidence_dock_disturbed",
-      "time_cost": 1
+      "evidence": "evidence_dock_disturbed"
     }
   },
   "riverside_dock.ferry_boat": {
     "default": {
       "narration": "渡船舱底翻出一角被水浸透的绛红衣料，像是急匆匆塞入、没来得及收拾。颜色与浔阳楼红绸一致。",
-      "clue": "clue_ferry_boat_item",
-      "time_cost": 2
+      "clue": "clue_ferry_boat_item"
+    }
+  },
+  "riverside_dock.mooring_post": {
+    "default": {
+      "narration": "石桩上的缆绳打了两重结。外层是船家常用的活扣，内层却是仓促绕上的死结，绳股间还夹着一点暗红色的纤维。"
+    }
+  },
+  "silk_shop.silk_shelf": {
+    "default": {
+      "narration": "红绸架上还挂着几匹绛红云纹绸。掌柜说这种纹样全城只此一家在卖，浔阳楼三日前刚采办过同色绸料。",
+      "clue": "clue_silk_seller"
     }
   }
 }

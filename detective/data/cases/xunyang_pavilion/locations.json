@@ -12,22 +12,46 @@
       {
         "id": "fall_spot",
         "name": "坠落处",
-        "time_cost": 2
+        "time_cost": 2,
+        "hint_rect": [
+          0.34,
+          0.55,
+          0.18,
+          0.14
+        ]
       },
       {
         "id": "torn_silk",
         "name": "墙角红绸",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.62,
+          0.28,
+          0.3,
+          0.2
+        ]
       },
       {
         "id": "courtyard_well",
         "name": "后院老井",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.12,
+          0.24,
+          0.24,
+          0.3
+        ]
       },
       {
         "id": "lantern_spot",
         "name": "屋檐风灯",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.48,
+          0.04,
+          0.12,
+          0.16
+        ]
       }
     ],
     "sub_locations": [
@@ -42,7 +66,8 @@
         "description": "沿院后石径通往水阁码头。"
       }
     ],
-    "parent": "pavilion_main"
+    "parent": "pavilion_main",
+    "background": "res://assets/cn/scenes/xunyang_courtyard.png"
   },
   "qiu_chamber": {
     "name": "秋菱闺阁",
@@ -54,22 +79,46 @@
       {
         "id": "dressing_table",
         "name": "妆台",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.08,
+          0.55,
+          0.24,
+          0.25
+        ]
       },
       {
         "id": "letter_box",
         "name": "桌上小笺",
-        "time_cost": 2
+        "time_cost": 2,
+        "hint_rect": [
+          0.33,
+          0.48,
+          0.18,
+          0.18
+        ]
       },
       {
         "id": "incense_burner",
         "name": "床头香炉",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.68,
+          0.28,
+          0.18,
+          0.24
+        ]
       },
       {
         "id": "wine_cup",
         "name": "翻倒的酒盏",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.48,
+          0.62,
+          0.12,
+          0.12
+        ]
       }
     ],
     "sub_locations": [
@@ -84,7 +133,8 @@
         "description": "从阁子后窗可以看到后院。"
       }
     ],
-    "parent": "pavilion_main"
+    "parent": "pavilion_main",
+    "background": "res://assets/cn/scenes/xunyang_qiu_chamber.png"
   },
   "yamen": {
     "name": "府衙",
@@ -99,14 +149,27 @@
       {
         "id": "case_file",
         "name": "卷宗架",
-        "time_cost": 2
+        "time_cost": 2,
+        "hint_rect": [
+          0.08,
+          0.32,
+          0.22,
+          0.38
+        ]
       },
       {
         "id": "evidence_table",
         "name": "证物台",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.55,
+          0.58,
+          0.24,
+          0.22
+        ]
       }
-    ]
+    ],
+    "background": "res://assets/cn/scenes/yamen.png"
   },
   "pavilion_main": {
     "name": "浔阳楼·正厅",
@@ -121,22 +184,46 @@
       {
         "id": "private_room",
         "name": "雅间桌案",
-        "time_cost": 2
+        "time_cost": 2,
+        "hint_rect": [
+          0.6,
+          0.45,
+          0.28,
+          0.28
+        ]
       },
       {
         "id": "wine_cellar",
         "name": "酒窖账册",
-        "time_cost": 2
+        "time_cost": 2,
+        "hint_rect": [
+          0.05,
+          0.56,
+          0.2,
+          0.25
+        ]
       },
       {
         "id": "stage",
         "name": "戏台幕后",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.3,
+          0.12,
+          0.4,
+          0.28
+        ]
       },
       {
         "id": "qingjie_room",
         "name": "青姐房间",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.72,
+          0.2,
+          0.2,
+          0.3
+        ]
       }
     ],
     "sub_locations": [
@@ -157,7 +244,8 @@
       "pavilion_courtyard",
       "qiu_chamber",
       "riverside_dock"
-    ]
+    ],
+    "background": "res://assets/cn/scenes/xunyang_pavilion_main.png"
   },
   "convent": {
     "name": "慈航庵",
@@ -171,14 +259,27 @@
       {
         "id": "altar",
         "name": "佛龛",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.48,
+          0.12,
+          0.36,
+          0.38
+        ]
       },
       {
         "id": "window",
         "name": "面街小窗",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.08,
+          0.18,
+          0.24,
+          0.3
+        ]
       }
-    ]
+    ],
+    "background": "res://assets/cn/scenes/guanyin_temple.png"
   },
   "marketplace": {
     "name": "城南市集",
@@ -192,14 +293,27 @@
       {
         "id": "pawnshop",
         "name": "当铺前",
-        "time_cost": 2
+        "time_cost": 2,
+        "hint_rect": [
+          0.06,
+          0.28,
+          0.22,
+          0.28
+        ]
       },
       {
         "id": "alley",
         "name": "巷尾石阶",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.62,
+          0.45,
+          0.22,
+          0.26
+        ]
       }
-    ]
+    ],
+    "background": "res://assets/cn/scenes/market.png"
   },
   "riverside_dock": {
     "name": "江畔水阁",
@@ -213,17 +327,35 @@
       {
         "id": "mooring_post",
         "name": "石桩缆绳",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.08,
+          0.48,
+          0.14,
+          0.22
+        ]
       },
       {
         "id": "wet_planks",
         "name": "湿木板",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.34,
+          0.58,
+          0.3,
+          0.18
+        ]
       },
       {
         "id": "ferry_boat",
         "name": "渡船舱底",
-        "time_cost": 2
+        "time_cost": 2,
+        "hint_rect": [
+          0.6,
+          0.45,
+          0.28,
+          0.3
+        ]
       }
     ],
     "sub_locations": [
@@ -233,7 +365,8 @@
         "description": "沿石径返回浔阳楼后院。"
       }
     ],
-    "parent": "pavilion_main"
+    "parent": "pavilion_main",
+    "background": "res://assets/cn/scenes/xunyang_riverside_dock.png"
   },
   "silk_shop": {
     "name": "城南布庄",
@@ -247,18 +380,37 @@
       {
         "id": "silk_shelf",
         "name": "红绸架",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.07,
+          0.25,
+          0.25,
+          0.42
+        ]
       },
       {
         "id": "sales_ledger",
         "name": "账册",
-        "time_cost": 2
+        "time_cost": 2,
+        "hint_rect": [
+          0.42,
+          0.56,
+          0.22,
+          0.18
+        ]
       },
       {
         "id": "back_curtain",
         "name": "内帐帘后",
-        "time_cost": 1
+        "time_cost": 1,
+        "hint_rect": [
+          0.68,
+          0.18,
+          0.24,
+          0.45
+        ]
       }
-    ]
+    ],
+    "background": "res://assets/cn/scenes/xunyang_silk_shop.png"
   }
 }

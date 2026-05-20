@@ -17,6 +17,11 @@ func _ready() -> void:
 
 
 func _build() -> void:
+	# 清理场景模板里的占位 VBox/按钮，避免旧 CloseBtn 盖在移动项上吞掉点击。
+	for child in panel.get_children():
+		panel.remove_child(child)
+		child.queue_free()
+	
 	var vbox := VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 14)
 	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -74,10 +79,12 @@ func _build() -> void:
 			row.custom_minimum_size = Vector2(0, 52)
 
 			var hbox := HBoxContainer.new()
+			hbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			hbox.add_theme_constant_override("separation", 14)
 			row.add_child(hbox)
 
 			var arrow := Label.new()
+			arrow.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			arrow.text = "▸"
 			arrow.add_theme_font_size_override("font_size", 20)
 			arrow.add_theme_color_override("font_color", CLR_GOLD)
@@ -85,10 +92,12 @@ func _build() -> void:
 			hbox.add_child(arrow)
 
 			var text_vbox := VBoxContainer.new()
+			text_vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			text_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			hbox.add_child(text_vbox)
 
 			var name_lbl := Label.new()
+			name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			name_lbl.text = btn_name
 			name_lbl.add_theme_font_size_override("font_size", 19)
 			name_lbl.add_theme_color_override("font_color", CLR_GOLD)
@@ -96,6 +105,7 @@ func _build() -> void:
 
 			if desc != "":
 				var desc_lbl := Label.new()
+				desc_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				desc_lbl.text = desc
 				desc_lbl.add_theme_font_size_override("font_size", 14)
 				desc_lbl.add_theme_color_override("font_color", CLR_DIM)

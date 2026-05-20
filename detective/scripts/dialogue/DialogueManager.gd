@@ -107,15 +107,16 @@ func _apply_node_entry(node_id: String) -> void:
 		lie_exposed.emit(_current_npc_id, lie_node)
 
 
-func end_dialogue() -> void:
+func end_dialogue(suppress_companion_banter := false) -> void:
 	var ended_npc := _current_npc_id
 	_current_tree = {}
 	_current_npc_id = ""
 	VoicePlayer.end_session()
 	GameManager.set_state(GameManager.STATE_PLAYING)
 	dialogue_ended.emit()
-	# 助手被动旁白：对话结束时尝试触发
-	_try_companion_banter({"trigger": "dialogue_end", "npc_id": ended_npc, "node_id": ""})
+	# 助手被动旁白：主动中断/没聊完时不触发点评
+	if not suppress_companion_banter:
+		_try_companion_banter({"trigger": "dialogue_end", "npc_id": ended_npc, "node_id": ""})
 
 
 func _emit_current() -> void:
@@ -206,12 +207,10 @@ func _filter_options(options: Array) -> Array:
 		if o.has("requires"):
 			if not GameManager.evaluate_condition(o["requires"]):
 				continue
-		# hide_after_visit: 一次性选项
-		if o.get("hide_after_visit", false):
-			var goto: String = o.get("goto", "")
-			if goto != "" and GameManager.has_visited(_current_npc_id, goto):
-				continue
-		out.append(o)
+		var option_copy: Dictionary = o.duplicate(true)
+		var goto: String = option_copy.get("goto", "")
+		option_copy["_visited"] = goto != "" and goto != "__exit__" and GameManager.has_visited(_current_npc_id, goto)
+		out.append(option_copy)
 	return out
 
 

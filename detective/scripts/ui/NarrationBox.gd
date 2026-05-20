@@ -12,11 +12,14 @@ const TypewriterEffectScript = preload("res://scripts/ui/TypewriterEffect.gd")
 var _has_next: bool = true
 var _portrait_rect: TextureRect = null
 var _typewriter: Node = null
+var _centered_layout: bool = false
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	set_process_input(true)
+	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text_label.scroll_active = false
 	_create_portrait_rect()
 	_typewriter = TypewriterEffectScript.new()
 	add_child(_typewriter)
@@ -75,16 +78,17 @@ func show_narration(speaker: String, text: String, has_next: bool, centered := f
 
 
 func _apply_layout(centered: bool) -> void:
+	_centered_layout = centered
 	if centered:
 		box.anchor_left = 0.5
 		box.anchor_top = 0.5
 		box.anchor_right = 0.5
 		box.anchor_bottom = 0.5
-		box.offset_left = -470
-		box.offset_top = -170
-		box.offset_right = 470
-		box.offset_bottom = 170
-		text_label.custom_minimum_size = Vector2(880, 220)
+		box.offset_left = -410
+		box.offset_top = -230
+		box.offset_right = 410
+		box.offset_bottom = 230
+		text_label.custom_minimum_size = Vector2(760, 330)
 		text_label.add_theme_font_size_override("normal_font_size", 22)
 		text_label.add_theme_color_override("default_color", Color(0.92, 0.88, 0.76, 1))
 	else:
@@ -100,8 +104,10 @@ func _apply_layout(centered: bool) -> void:
 		text_label.add_theme_color_override("default_color", Color(0.92, 0.88, 0.76, 1))
 
 
-## 有立绘时文字框左移，避免遮挡
+## 有立绘时文字框左移，避免遮挡；居中提示框不受立绘布局逻辑影响。
 func _adjust_box_for_portrait(has_portrait: bool) -> void:
+	if _centered_layout:
+		return
 	if has_portrait:
 		box.offset_left = 230
 	else:
