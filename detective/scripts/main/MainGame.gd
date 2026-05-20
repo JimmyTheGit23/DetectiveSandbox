@@ -34,6 +34,9 @@ var _title_layer: Control = null
 var _title_props_layer: Control = null
 var _scene_fx: Node = null
 var _playing_case_epilogue := false
+var _bg_fade_rect: ColorRect = null
+var _bg_transition_id: int = 0
+var _current_bg_path: String = ""
 #var _npc_layer: Control = null
 
 
@@ -54,6 +57,9 @@ func _ready() -> void:
 	
 	menu_panel.menu_clicked.connect(_on_menu_clicked)
 	event_hint_btn.pressed.connect(_on_event_hint_clicked)
+	if ending_screen.has_signal("return_to_case_select_requested"):
+		ending_screen.return_to_case_select_requested.connect(_on_return_to_case_select_after_ending)
+	_style_event_hint_button()
 	
 	dialogue_box.visible = false
 	narration_box.visible = false
@@ -80,6 +86,7 @@ func _ready() -> void:
 	#	if _scene_fx:
 	#		move_child(_npc_layer, _scene_fx.get_index() + 1)
 	
+	_build_bg_fade_layer()
 	BgmPlayer.register_players(bgm_a, bgm_b)
 	
 	# 助手系统：被动旁白信号
@@ -88,6 +95,45 @@ func _ready() -> void:
 		cs.banter_ready.connect(_on_companion_banter)
 	
 	_show_title()
+
+
+func _build_bg_fade_layer() -> void:
+	_bg_fade_rect = ColorRect.new()
+	_bg_fade_rect.name = "BackgroundFade"
+	_bg_fade_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_bg_fade_rect.color = Color(0, 0, 0, 0)
+	_bg_fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_bg_fade_rect)
+	if _scene_fx:
+		move_child(_bg_fade_rect, _scene_fx.get_index() + 1)
+	else:
+		move_child(_bg_fade_rect, scene_bg.get_index() + 1)
+
+
+func _set_background(path: String, use_fade := true) -> void:
+	if path == "" or not ResourceLoader.exists(path):
+		return
+	# 背景没有变化时不做 fade，避免同场景连续叙述闪黑。
+	if path == _current_bg_path:
+		return
+	var tex := load(path)
+	if tex == null:
+		return
+	if not use_fade or _bg_fade_rect == null or scene_bg.texture == null:
+		scene_bg.texture = tex
+		_current_bg_path = path
+		return
+	_bg_transition_id += 1
+	var tid := _bg_transition_id
+	var tw_out := create_tween()
+	tw_out.tween_property(_bg_fade_rect, "color:a", 0.72, 0.16)
+	await tw_out.finished
+	if tid != _bg_transition_id:
+		return
+	scene_bg.texture = tex
+	_current_bg_path = path
+	var tw_in := create_tween()
+	tw_in.tween_property(_bg_fade_rect, "color:a", 0.0, 0.22)
 
 
 # ─── 标题界面 ───
@@ -103,8 +149,7 @@ func _show_title() -> void:
 	var bg := AssetResolver.get_scene_background_by_id("scene_title")
 	if bg == "":
 		bg = "res://assets/cn/scenes/title_screen.png"
-	if ResourceLoader.exists(bg):
-		scene_bg.texture = load(bg)
+	_set_background(bg, scene_bg.texture != null)
 	BgmPlayer.play("main_theme")
 	
 	# 标题前景漂浮物件层
@@ -151,8 +196,10 @@ func _show_title() -> void:
 	if iv:
 		vbox.add_child(_make_investigator_strip(iv))
 
-	vbox.add_child(_make_title_button("开 始 游 戏", _on_start_game_pressed, false))
-	if GameManager.has_save():
+	var case_cleared := _is_active_case_cleared()
+	var start_label := "重 玩 本 案" if case_cleared else "开 始 游 戏"
+	vbox.add_child(_make_title_button(start_label, _on_start_game_pressed, false))
+	if GameManager.has_save() and not case_cleared:
 		vbox.add_child(_make_title_button("继 续 游 戏", _continue_game, false))
 	# 仅当案件索引中有 ≥ 2 个案件时显示"选择案件"
 	var case_count: int = GameManager.get_case_index_entries().size()
@@ -161,6 +208,11 @@ func _show_title() -> void:
 		vbox.add_child(_make_title_button("选 择 案 件 （当前：%s）" % current_title, _on_select_case_pressed, false))
 	vbox.add_child(_make_title_button("设 置", _on_title_settings_pressed, false))
 	vbox.add_child(_make_title_button("退 出 游 戏", func(): get_tree().quit(), false))
+
+
+func _is_active_case_cleared() -> bool:
+	var iv := get_node_or_null("/root/InvestigatorService")
+	return iv != null and iv.has_method("is_case_cleared") and iv.is_case_cleared(GameManager.ACTIVE_CASE)
 
 
 func _make_title_button(text: String, cb: Callable, disabled := false) -> Button:
@@ -250,6 +302,10 @@ func _add_title_prop(path: String, pos: Vector2, prop_size: Vector2, params: Dic
 
 
 func _on_start_game_pressed() -> void:
+	# 已完成案件再次进入即视为重玩：保留通关档案，只重置本案游玩进度。
+	if _is_active_case_cleared():
+		_start_new_game()
+		return
 	if GameManager.has_save():
 		_show_restart_confirm()
 		return
@@ -396,8 +452,7 @@ func _on_location_changed(loc_id: String) -> void:
 	location_label.text = data.get("name", loc_id)
 	# 通过 AssetResolver 解析背景（scene_type → registry → background，回退到 data.background）
 	var bg_path: String = AssetResolver.get_scene_background(data)
-	if bg_path != "" and ResourceLoader.exists(bg_path):
-		scene_bg.texture = load(bg_path)
+	_set_background(bg_path, true)
 	# 同步场景动态特效层
 	if _scene_fx and _scene_fx.has_method("apply_for_scene_id"):
 		_scene_fx.apply_for_scene_id(data.get("scene_type", ""))
@@ -522,9 +577,49 @@ func _refresh_event_hint() -> void:
 		return
 	var evt_id = _pending_events[0]
 	var evt = GameManager.get_day_event(evt_id)
-	event_hint_btn.text = "  ★  " + evt.get("title", "新事件")
+	var title: String = evt.get("title", "新事件")
+	event_hint_btn.text = "  ✦  关键发现 · %s  ✦" % title
 	event_hint_btn.tooltip_text = evt.get("hint", "")
 	event_hint_btn.visible = true
+	_pulse_event_hint_button()
+
+
+func _style_event_hint_button() -> void:
+	event_hint_btn.custom_minimum_size = Vector2(390, 48)
+	event_hint_btn.add_theme_font_size_override("font_size", 20)
+	event_hint_btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.46, 1))
+	event_hint_btn.add_theme_color_override("font_hover_color", Color(1.0, 0.96, 0.70, 1))
+	event_hint_btn.add_theme_color_override("font_pressed_color", Color(1.0, 0.74, 0.28, 1))
+	event_hint_btn.add_theme_constant_override("outline_size", 3)
+	event_hint_btn.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 1))
+	var normal := _make_event_hint_style(Color(0.12, 0.08, 0.04, 0.88), Color(0.86, 0.64, 0.25, 0.95), 14)
+	var hover := _make_event_hint_style(Color(0.16, 0.10, 0.045, 0.94), Color(1.0, 0.78, 0.32, 1.0), 20)
+	var pressed := _make_event_hint_style(Color(0.08, 0.055, 0.03, 0.96), Color(1.0, 0.88, 0.48, 1.0), 10)
+	event_hint_btn.add_theme_stylebox_override("normal", normal)
+	event_hint_btn.add_theme_stylebox_override("hover", hover)
+	event_hint_btn.add_theme_stylebox_override("pressed", pressed)
+
+
+func _make_event_hint_style(bg: Color, border: Color, shadow_size: int) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg
+	style.border_color = border
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(6)
+	style.shadow_color = Color(0.95, 0.62, 0.18, 0.28)
+	style.shadow_size = shadow_size
+	style.content_margin_left = 18
+	style.content_margin_right = 18
+	style.content_margin_top = 8
+	style.content_margin_bottom = 8
+	return style
+
+
+func _pulse_event_hint_button() -> void:
+	event_hint_btn.scale = Vector2(1.0, 1.0)
+	var tw := create_tween()
+	tw.tween_property(event_hint_btn, "scale", Vector2(1.025, 1.025), 0.18)
+	tw.tween_property(event_hint_btn, "scale", Vector2(1.0, 1.0), 0.22)
 
 
 func _on_event_hint_clicked() -> void:
@@ -718,8 +813,8 @@ func _try_play_case_epilogue(ending_id: String) -> bool:
 
 
 # ─── 对话 ───
-func _on_dialogue_started(speaker: String, portrait: String, text: String, options: Array) -> void:
-	dialogue_box.show_dialogue(speaker, portrait, text, options)
+func _on_dialogue_started(speaker: String, portrait: String, text: String, options: Array, pages: Array) -> void:
+	dialogue_box.show_dialogue(speaker, portrait, text, options, pages)
 	dialogue_box.visible = true
 	menu_panel.visible = false
 	#if _npc_layer and _npc_layer.has_method("hide_npcs"):
@@ -737,8 +832,11 @@ func _on_dialogue_ended() -> void:
 
 # ─── 序章 / 叙述 ───
 func _on_narration_started(background: String, _speaker: String, text: String, has_next: bool, centered: bool) -> void:
-	if background != "" and ResourceLoader.exists(background):
-		scene_bg.texture = load(background)
+	if background != "":
+		_set_background(background, true)
+	# 进入游戏前的过场不叠加场景特效；无背景的助手短评不打断当前地点特效。
+	if background != "" and _scene_fx:
+		_scene_fx.clear_layers()
 	narration_box.show_narration(_speaker, text, has_next, centered)
 	narration_box.visible = true
 	menu_panel.visible = false
@@ -774,23 +872,42 @@ func _try_show_pending_day_transition() -> void:
 # ─── 选择案件 ───
 func _on_select_case_pressed() -> void:
 	# 弹出案件选择面板（在标题层之上）
+	_open_case_select_panel(false)
+
+
+func _open_case_select_panel(return_to_title_on_cancel: bool) -> void:
 	var packed: PackedScene = load("res://scenes/ui/CaseSelectPanel.tscn")
 	if packed == null:
 		push_error("CaseSelectPanel.tscn missing")
 		return
 	var panel: Control = packed.instantiate()
 	add_child(panel)
+	move_child(panel, get_child_count() - 1)
 	panel.case_chosen.connect(_on_case_chosen)
-	panel.cancelled.connect(func(): panel.queue_free())
+	if return_to_title_on_cancel:
+		panel.cancelled.connect(_show_title)
 
 
 func _on_case_chosen(case_id: String) -> void:
 	# 玩家选了一个案件
 	if case_id != GameManager.ACTIVE_CASE:
-		# 切到新案件，回标题
 		GameManager.switch_case(case_id)
-		_show_title()
-	# 同案件不需要切，UI 已经会自动 close
+	_show_title()
+
+
+func _on_return_to_case_select_after_ending() -> void:
+	BgmPlayer.stop()
+	ending_screen.visible = false
+	menu_panel.visible = false
+	dialogue_box.visible = false
+	narration_box.visible = false
+	subpanel_container.visible = false
+	event_hint_btn.visible = false
+	top_bar_label.get_parent().visible = false
+	_hide_title()
+	if _scene_fx and _scene_fx.has_method("clear_layers"):
+		_scene_fx.clear_layers()
+	_open_case_select_panel(true)
 
 
 # ─── 结局 ───

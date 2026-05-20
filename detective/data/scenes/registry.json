@@ -77,6 +77,40 @@
         "falling_leaves"
       ]
     },
+    "scene_xunyang_temple": {
+      "name": "浔阳·慈航庵（雨天）",
+      "background": "res://assets/cn/scenes/guanyin_temple.png",
+      "tags": [
+        "indoor",
+        "religious",
+        "quiet",
+        "secluded",
+        "rain"
+      ],
+      "mood": "solemn",
+      "description": "雨中的小庵。香烟缥缈，窗外雨声淅沥。可作为隐居地、宗教场所、密谈地。",
+      "effects": [
+        "rain_drip",
+        "candle_flicker",
+        "curtain_sway"
+      ]
+    },
+    "scene_xunyang_yamen": {
+      "name": "浔阳·府衙（雨天）",
+      "background": "res://assets/cn/scenes/yamen.png",
+      "tags": [
+        "indoor",
+        "official",
+        "formal",
+        "large",
+        "rain"
+      ],
+      "mood": "tense",
+      "description": "雨中的府衙大堂。明镜高悬，窗外雨声阵阵。可作为审讯、议事、卷宗查阅地。",
+      "effects": [
+        "candle_flicker"
+      ]
+    },
     "scene_market": {
       "name": "集市",
       "background": "res://assets/cn/scenes/market.png",
@@ -121,6 +155,38 @@
       ],
       "mood": "neutral",
       "description": "用于场景切换的小镇全景地图。"
+    },
+    "scene_prologue_ferry_inn": {
+      "name": "石矶渡·客栈（冬雨）",
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "tags": ["indoor", "inn", "riverside", "rain", "winter"],
+      "mood": "tense",
+      "description": "冬雨不停的渡口客栈。屋檐漏雨、门外泥泞，滞留旅客挤在大堂。",
+      "effects": ["candle_flicker"]
+    },
+    "scene_prologue_ferry_dock": {
+      "name": "石矶渡·码头（冬雨）",
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "tags": ["outdoor", "dock", "river", "rain", "winter"],
+      "mood": "tense",
+      "description": "大雨中的渡口码头。乌篷船、竹棚和被拖上岸的破船都浸在雨雾里。",
+      "effects": ["rain_light", "mist_slow", "water_ripple"]
+    },
+    "scene_prologue_wreck_site": {
+      "name": "沉船打捞处（冬雨）",
+      "background": "res://assets/cn/scenes/prologue_wreck_site.png",
+      "tags": ["outdoor", "river", "wreck", "reef", "rain", "winter"],
+      "mood": "danger",
+      "description": "下游暗礁旁的沉船残骸。雨打江面，船板和货物碎片在浑水边漂浮。",
+      "effects": ["rain_light", "mist_slow", "water_ripple"]
+    },
+    "scene_prologue_river_bend": {
+      "name": "江湾渔村（冬雨）",
+      "background": "res://assets/cn/scenes/prologue_river_bend.png",
+      "tags": ["outdoor", "fishing_village", "river", "rain", "mist", "winter"],
+      "mood": "cold",
+      "description": "下游江湾的小渔村。茅屋、渔网和柳树笼在薄雨冷雾里。",
+      "effects": ["rain_light", "mist_slow"]
     },
     "scene_xunyang_prologue": {
       "name": "浔阳楼序章·夜雨远景",
@@ -185,7 +251,8 @@
         "social",
         "entertainment",
         "warm",
-        "night"
+        "night",
+        "rain"
       ],
       "mood": "warm",
       "description": "浔阳楼内堂：红灯戏台、雅间、酒桌，夜雨打窗。",
@@ -202,11 +269,13 @@
         "water",
         "secret",
         "dusk",
-        "transit"
+        "transit",
+        "rain"
       ],
       "mood": "tense",
-      "description": "浔阳楼后江畔的小码头与水阁，泊船、灯笼、雾江。可作为销证地、夜间目击点。",
+      "description": "浔阳楼后江畔的小码头与水阁，泊船、灯笼、雾江。雨中更显萧瑟。可作为销证地、夜间目击点。",
       "effects": [
+        "rain_light",
         "mist_slow",
         "lantern_flicker"
       ]
@@ -226,6 +295,23 @@
         "dust_motes",
         "light_shaft",
         "curtain_sway"
+      ]
+    },
+    "scene_xunyang_market": {
+      "name": "浔阳·城南市集（雨天）",
+      "background": "res://assets/cn/scenes/market.png",
+      "tags": [
+        "outdoor",
+        "public",
+        "bustling",
+        "trade",
+        "rain"
+      ],
+      "mood": "tense",
+      "description": "雨中的城南市集。布庄、茶肆、当铺一字排开，行人稀少，檐下滴水。",
+      "effects": [
+        "rain_light",
+        "mist_slow"
       ]
     }
   }

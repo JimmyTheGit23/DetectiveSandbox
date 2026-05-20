@@ -22,10 +22,10 @@ const CASE_MAP_POSITIONS := {
 		"silk_shop": Vector2(280, 460),
 	},
 	"prologue_ferry": {
-		"ferry_inn": Vector2(430, 330),
-		"ferry_dock": Vector2(620, 430),
-		"wreck_site": Vector2(830, 390),
-		"river_bend": Vector2(900, 220),
+		"ferry_inn": Vector2(330, 350),
+		"ferry_dock": Vector2(585, 430),
+		"wreck_site": Vector2(860, 390),
+		"river_bend": Vector2(970, 235),
 	},
 }
 
@@ -43,11 +43,38 @@ const FALLBACK_POSITIONS := [
 @onready var close_btn: Button = $Panel/CloseBtn
 
 
+# 各案件专属地图背景
+const CASE_MAP_IMAGES := {
+	"xunyang_pavilion": "res://assets/cn/scenes/xunyang_map.png",
+	"prologue_ferry": "res://assets/cn/scenes/prologue_ferry_map.png",
+}
+
 func _ready() -> void:
 	close_btn.pressed.connect(func(): close_requested.emit())
-	map_image.texture = load("res://assets/cn/scenes/town_map.png")
+	# 加载案件专属地图，否则使用默认城镇地图；新生成图片若尚未完成 Godot 导入，则用 Image 兜底读取。
+	var map_path: String = CASE_MAP_IMAGES.get(GameManager.ACTIVE_CASE, "res://assets/cn/scenes/town_map.png")
+	map_image.texture = _load_map_texture(map_path)
+	if map_image.texture == null:
+		map_image.texture = _load_map_texture("res://assets/cn/scenes/town_map.png")
 	info_label.text = "[center][color=#fae9b3]点击标记前往 · 数字=在场人数[/color][/center]"
 	_build_points()
+
+
+func _load_map_texture(path: String) -> Texture2D:
+	if path == "":
+		return null
+	if ResourceLoader.exists(path):
+		var tex := load(path)
+		if tex is Texture2D:
+			return tex
+	var abs_path := ProjectSettings.globalize_path(path)
+	if not FileAccess.file_exists(abs_path):
+		return null
+	var img := Image.new()
+	var err := img.load(abs_path)
+	if err != OK:
+		return null
+	return ImageTexture.create_from_image(img)
 
 
 func _build_points() -> void:

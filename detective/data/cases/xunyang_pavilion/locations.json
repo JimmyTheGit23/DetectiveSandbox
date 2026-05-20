@@ -249,8 +249,8 @@
   },
   "convent": {
     "name": "慈航庵",
-    "description": "浔阳楼对面的小庵。无尘老僧夜夜诵经守门。",
-    "scene_type": "scene_temple",
+    "description": "浔阳楼对面的小庵。无尘老僧夜夜诵经守门。窗外雨声淅沥。",
+    "scene_type": "scene_xunyang_temple",
     "unlock_phase": "phase_2",
     "npcs": [
       "wuchen"
@@ -283,8 +283,8 @@
   },
   "marketplace": {
     "name": "城南市集",
-    "description": "本城最热闹的集市。布庄、茶肆、当铺一字排开。",
-    "scene_type": "scene_market",
+    "description": "本城最热闹的集市。布庄、茶肆、当铺一字排开。雨天行人稀少，檐下滴水。",
+    "scene_type": "scene_xunyang_market",
     "unlock_phase": "phase_3",
     "npcs": [
       "lady_zhou"

@@ -5,6 +5,7 @@
     "description": "江畔一间简陋的客栈，土墙木梁，屋顶漏雨。冬雨绵绵，门口泥泞不堪。滞留旅客挤满了大堂。",
     "unlock_phase": "phase_1",
     "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+    "scene_type": "scene_prologue_ferry_inn",
     "npcs": ["agui", "zhou_wife"],
     "search_points": [
       { "id": "inn_agui_clothes", "name": "阿贵晾着的衣物", "time_cost": 1, "hint_rect": [0.08, 0.48, 0.22, 0.28] },
@@ -18,6 +19,7 @@
     "description": "渡口码头。几条乌篷船歪歪斜斜泊在岸边。一条破船被拖上了岸，船底朝天——那就是出事的船。",
     "unlock_phase": "phase_1",
     "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+    "scene_type": "scene_prologue_ferry_dock",
     "npcs": ["lao_fan", "li_zheng"],
     "search_points": [
       { "id": "dock_wreck_hull", "name": "拖上岸的破船", "time_cost": 1, "hint_rect": [0.37, 0.35, 0.28, 0.28] },
@@ -30,6 +32,7 @@
     "description": "下游礁石群旁。半截船身卡在两块大石之间，船底被江水冲得只剩骨架。周围散落着货物残骸。",
     "unlock_phase": "phase_1",
     "background": "res://assets/cn/scenes/prologue_wreck_site.png",
+    "scene_type": "scene_prologue_wreck_site",
     "npcs": [],
     "search_points": [
       { "id": "wreck_hull_bottom", "name": "船底破洞", "time_cost": 2, "hint_rect": [0.38, 0.28, 0.28, 0.24] },
@@ -42,6 +45,7 @@
     "description": "下游一个小渔村。几间茅屋散落在江湾，渔网晾在竹竿上。冬日清冷，江面上飘着薄雾。",
     "unlock_phase": "phase_2",
     "background": "res://assets/cn/scenes/prologue_river_bend.png",
+    "scene_type": "scene_prologue_river_bend",
     "npcs": ["fisherman_wang"],
     "search_points": [
       { "id": "village_wang_home", "name": "王老汉家门口", "time_cost": 1, "hint_rect": [0.68, 0.52, 0.22, 0.25] }

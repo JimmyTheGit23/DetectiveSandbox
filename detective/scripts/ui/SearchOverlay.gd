@@ -167,24 +167,29 @@ func _apply_hotspot_style(btn: Button) -> void:
 
 func _apply_done_style(btn: Button) -> void:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.02, 0.05, 0.10, 0.45)
-	style.border_color = Color(0.3, 0.6, 0.9, 0.35)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(4)
+	style.bg_color = Color(0.10, 0.07, 0.035, 0.62)
+	style.border_color = Color(0.95, 0.76, 0.32, 0.72)
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(5)
+	style.shadow_color = Color(0.95, 0.62, 0.18, 0.24)
+	style.shadow_size = 10
 	btn.add_theme_stylebox_override("normal", style)
 
 	var hover := StyleBoxFlat.new()
-	hover.bg_color = Color(0.02, 0.05, 0.10, 0.55)
-	hover.border_color = Color(0.3, 0.6, 0.9, 0.55)
-	hover.set_border_width_all(1)
-	hover.set_corner_radius_all(4)
+	hover.bg_color = Color(0.14, 0.09, 0.04, 0.78)
+	hover.border_color = Color(1.0, 0.86, 0.42, 0.95)
+	hover.set_border_width_all(2)
+	hover.set_corner_radius_all(5)
+	hover.shadow_color = Color(1.0, 0.72, 0.28, 0.40)
+	hover.shadow_size = 14
 	btn.add_theme_stylebox_override("hover", hover)
 
-	btn.add_theme_font_size_override("font_size", 16)
-	btn.add_theme_color_override("font_color", Color(0.55, 0.75, 0.95, 1))
-	btn.add_theme_color_override("font_hover_color", Color(0.65, 0.85, 1.0, 1))
+	btn.add_theme_font_size_override("font_size", 17)
+	btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.50, 1))
+	btn.add_theme_color_override("font_hover_color", Color(1.0, 0.97, 0.72, 1))
 	btn.add_theme_constant_override("outline_size", 3)
-	btn.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+	btn.add_theme_color_override("font_outline_color", Color(0.02, 0.015, 0.01, 1))
+
 
 
 func _apply_locked_style(btn: Button) -> void:
@@ -205,11 +210,15 @@ func _apply_locked_style(btn: Button) -> void:
 func _build_side_panel() -> void:
 	var side_panel := PanelContainer.new()
 	side_panel.name = "SidePanel"
+	# 固定贴右但保留右侧安全边距，避免窄窗口/缩放时伸到屏幕外。
 	side_panel.anchor_left = 1.0
 	side_panel.anchor_right = 1.0
-	side_panel.offset_left = -200.0
+	var panel_w: float = min(260.0, get_viewport_rect().size.x * 0.34)
+	side_panel.offset_left = -panel_w - 16.0
+	side_panel.offset_right = -16.0
 	side_panel.offset_top = 56.0
 	side_panel.offset_bottom = -16.0
+
 
 	var side_style := StyleBoxFlat.new()
 	side_style.bg_color = Color(0.06, 0.05, 0.04, 0.85)
@@ -235,7 +244,8 @@ func _build_side_panel() -> void:
 	vbox.add_child(title)
 
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(0, 200)
+	scroll.custom_minimum_size = Vector2(panel_w - 28.0, 200)
+
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	vbox.add_child(scroll)
 
@@ -245,7 +255,8 @@ func _build_side_panel() -> void:
 	scroll.add_child(_side_list_vbox)
 
 	_result_box = RichTextLabel.new()
-	_result_box.custom_minimum_size = Vector2(0, 80)
+	_result_box.custom_minimum_size = Vector2(panel_w - 28.0, 96)
+
 	_result_box.bbcode_enabled = true
 	_result_box.add_theme_font_size_override("normal_font_size", 16)
 	_result_box.add_theme_color_override("default_color", Color(0.9, 0.86, 0.76, 1))
@@ -254,7 +265,8 @@ func _build_side_panel() -> void:
 
 	_close_btn = Button.new()
 	_close_btn.text = "关  闭"
-	_close_btn.custom_minimum_size = Vector2(0, 40)
+	_close_btn.custom_minimum_size = Vector2(panel_w - 28.0, 40)
+
 	_close_btn.add_theme_font_size_override("font_size", 18)
 	_close_btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.58, 1))
 	_close_btn.pressed.connect(func(): close_requested.emit())
@@ -288,10 +300,12 @@ func _build_side_list() -> void:
 			btn.disabled = _is_searching
 			btn.pressed.connect(_on_hotspot_clicked.bind(pid))
 			if done > 0:
-				btn.add_theme_color_override("font_color", Color(0.5, 0.7, 0.9, 0.75))
+				btn.add_theme_color_override("font_color", Color(1.0, 0.82, 0.42, 0.95))
+				btn.add_theme_color_override("font_hover_color", Color(1.0, 0.95, 0.68, 1))
 			else:
 				btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.55, 1))
 				btn.add_theme_color_override("font_hover_color", Color(1.0, 1.0, 0.8, 1))
+
 		else:
 			var hint := GameManager.get_search_point_locked_hint(loc_id, pid)
 			btn.text = "  🔒 %s" % pname

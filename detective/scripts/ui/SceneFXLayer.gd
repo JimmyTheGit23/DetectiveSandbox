@@ -39,21 +39,39 @@ func apply_for_scene_id(scene_id: String) -> void:
 	var resolver := get_node_or_null("/root/AssetResolver")
 	if resolver == null:
 		return
-	var effects: Array = _get_effects_for_scene(scene_id)
+	var entry := _get_scene_entry(scene_id)
+	var effects: Array = entry.get("effects", [])
+	# 安全兜底：凡是标记为 indoor 的场景，绝不生成全屏雨/雾粒子。
+	var tags: Array = entry.get("tags", [])
+	if tags.has("indoor"):
+		effects = effects.filter(func(fx): return not _is_weather_fx(str(fx)))
+	apply_effects(effects, false)
+
+
+func apply_effects(effects: Array, clear_existing := true) -> void:
+	if clear_existing:
+		clear_layers()
 	for fx_id in effects:
 		_spawn_layer(str(fx_id))
 
 
-func _get_effects_for_scene(scene_id: String) -> Array:
+func _is_weather_fx(fx_id: String) -> bool:
+	return fx_id.begins_with("rain_") or fx_id == "mist_slow" or fx_id == "water_ripple"
+
+
+func _get_scene_entry(scene_id: String) -> Dictionary:
 	var f := FileAccess.open("res://data/scenes/registry.json", FileAccess.READ)
 	if f == null:
-		return []
+		return {}
 	var parsed = JSON.parse_string(f.get_as_text())
 	if typeof(parsed) != TYPE_DICTIONARY:
-		return []
+		return {}
 	var scenes: Dictionary = parsed.get("scenes", {})
-	var entry: Dictionary = scenes.get(scene_id, {})
-	return entry.get("effects", [])
+	return scenes.get(scene_id, {})
+
+
+func _get_effects_for_scene(scene_id: String) -> Array:
+	return _get_scene_entry(scene_id).get("effects", [])
 
 
 func clear_layers() -> void:

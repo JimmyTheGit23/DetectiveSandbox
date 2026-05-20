@@ -24,7 +24,6 @@
       "background": "res://assets/cn/scenes/prologue_wreck_site.png",
       "bgm": "epilogue_meta",
       "lines": [
-        { "speaker": "", "text": "画面淡出。" },
         { "speaker": "", "text": "黑暗中，一个声音响起。" },
         { "speaker": "???", "text": "……第一步棋，落下了。" },
         { "speaker": "???", "text": "不要急。让他先走完这段路。" },

@@ -363,9 +363,11 @@ func _make_case_card(entry: Dictionary) -> Control:
 
 	if cleared:
 		var clear_lbl := Label.new()
-		clear_lbl.text = "✦ %s" % _ending_label(best_ending)
-		clear_lbl.add_theme_font_size_override("font_size", 12)
+		clear_lbl.text = "✓ 已完成 · %s" % _ending_label(best_ending)
+		clear_lbl.add_theme_font_size_override("font_size", 13)
 		clear_lbl.add_theme_color_override("font_color", _ending_color(best_ending))
+		clear_lbl.add_theme_color_override("font_outline_color", Color(0.02, 0.02, 0.01, 1))
+		clear_lbl.add_theme_constant_override("outline_size", 2)
 		clear_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		title_hb.add_child(clear_lbl)
 
@@ -388,7 +390,8 @@ func _make_case_card(entry: Dictionary) -> Control:
 		voice_label = "  ·  ⚠ 无语音"
 	elif voice_status == "partial":
 		voice_label = "  ·  部分语音"
-	meta_lbl.text = "难度 %s  ·  预计 %d 时段%s" % [diff, days, voice_label]
+	var replay_label := "  ·  已通关%d次，再次选择将从头开始" % play_count if cleared else ""
+	meta_lbl.text = "难度 %s  ·  预计 %d 时段%s%s" % [diff, days, voice_label, replay_label]
 	meta_lbl.add_theme_font_size_override("font_size", 12)
 	meta_lbl.add_theme_color_override("font_color", Color(0.7, 0.65, 0.5, 1))
 	meta_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE

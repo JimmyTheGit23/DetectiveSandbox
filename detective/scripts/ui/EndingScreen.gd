@@ -1,5 +1,7 @@
 extends Control
-## 结局画面：标题 + 文案 + 进度结算（XP / 升级 / 解锁）+ 重玩按钮
+## 结局画面：标题 + 文案 + 进度结算（XP / 升级 / 解锁）+ 返回案件选择按钮
+
+signal return_to_case_select_requested()
 
 @onready var title_label: Label = $Center/VBox/Title
 @onready var text_label: RichTextLabel = $Center/VBox/Text
@@ -9,16 +11,31 @@ var _progression_container: VBoxContainer = null
 
 
 func _ready() -> void:
-	restart_btn.pressed.connect(_on_restart)
+	restart_btn.text = "返回案件选择"
+	restart_btn.pressed.connect(_on_return_to_case_select)
+	text_label.fit_content = false
+	text_label.scroll_active = true
+	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 
 func show_ending(title: String, text: String) -> void:
 	title_label.text = title
+	_apply_compact_layout()
 	text_label.text = "[center]" + text + "[/center]"
+	text_label.scroll_to_line(0)
 	# 每次显示先清空旧的进度结算
 	if _progression_container and is_instance_valid(_progression_container):
 		_progression_container.queue_free()
 		_progression_container = null
+
+
+func _apply_compact_layout() -> void:
+	var vp_h := get_viewport_rect().size.y
+	var text_h: float = clamp(vp_h * 0.38, 220.0, 310.0)
+	text_label.custom_minimum_size = Vector2(0, text_h)
+	text_label.add_theme_font_size_override("normal_font_size", 20)
+	title_label.add_theme_font_size_override("font_size", 36)
+	restart_btn.custom_minimum_size = Vector2(0, 44)
 
 
 ## summary: { earned_xp, first_clear, rank_up, old_rank, new_rank, unlocked: [case_id,...] }
@@ -45,7 +62,7 @@ func show_progression_summary(summary: Dictionary, iv: Node) -> void:
 	var xp_lbl := Label.new()
 	xp_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	xp_lbl.text = "本案经验：+%d XP%s" % [earned, "  （首次通关 +50 奖励）" if first_clear else "  （重玩 30%）"]
-	xp_lbl.add_theme_font_size_override("font_size", 20)
+	xp_lbl.add_theme_font_size_override("font_size", 18)
 	xp_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1))
 	_progression_container.add_child(xp_lbl)
 
@@ -56,7 +73,7 @@ func show_progression_summary(summary: Dictionary, iv: Node) -> void:
 		bar.min_value = 0
 		bar.max_value = 100
 		bar.value = iv.rank_progress() * 100.0
-		bar.custom_minimum_size = Vector2(480, 14)
+		bar.custom_minimum_size = Vector2(480, 12)
 		bar.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		_progression_container.add_child(bar)
 
@@ -105,5 +122,5 @@ static func _case_title(case_id: String) -> String:
 	return parsed.get("title", case_id)
 
 
-func _on_restart() -> void:
-	get_tree().reload_current_scene()
+func _on_return_to_case_select() -> void:
+	return_to_case_select_requested.emit()

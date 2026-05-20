@@ -1,7 +1,7 @@
 extends Node
 ## 对话管理：加载 JSON 对话树（支持条件分支、动态文本、flag）
 
-signal dialogue_started(speaker: String, portrait: String, text: String, options: Array)
+signal dialogue_started(speaker: String, portrait: String, text: String, options: Array, pages: Array)
 signal dialogue_ended()
 signal narration_started(background: String, speaker: String, text: String, has_next: bool, centered: bool)
 signal narration_ended()
@@ -10,6 +10,7 @@ signal lie_exposed(npc_id: String, lie_node: String)
 var _current_tree: Dictionary = {}
 var _current_node_id: String = ""
 var _current_npc_id: String = ""
+var _dialogue_had_content_node: bool = false
 var _narration_mode: bool = false
 var _narration_node: String = ""
 
@@ -44,6 +45,7 @@ func start_dialogue_at(npc_id: String, node_id: String) -> void:
 		return
 	_current_tree = parsed
 	_current_npc_id = npc_id
+	_dialogue_had_content_node = false
 	_current_node_id = node_id
 	VoicePlayer.begin_session()
 	GameManager.set_state(GameManager.STATE_DIALOGUE)
@@ -109,13 +111,15 @@ func _apply_node_entry(node_id: String) -> void:
 
 func end_dialogue(suppress_companion_banter := false) -> void:
 	var ended_npc := _current_npc_id
+	var had_content := _dialogue_had_content_node
 	_current_tree = {}
 	_current_npc_id = ""
+	_dialogue_had_content_node = false
 	VoicePlayer.end_session()
 	GameManager.set_state(GameManager.STATE_PLAYING)
 	dialogue_ended.emit()
-	# 助手被动旁白：主动中断/没聊完时不触发点评
-	if not suppress_companion_banter:
+	# 助手被动旁白：至少听过一个实质询问节点后，结束对话才触发总结。
+	if not suppress_companion_banter and had_content:
 		_try_companion_banter({"trigger": "dialogue_end", "npc_id": ended_npc, "node_id": ""})
 
 
@@ -124,6 +128,8 @@ func _emit_current() -> void:
 	if node.is_empty():
 		end_dialogue()
 		return
+	if _current_node_id != "hub":
+		_dialogue_had_content_node = true
 	# 第一次进入此节点（choose_option 进来时已 mark；start 进来时这里 mark）
 	if not GameManager.has_visited(_current_npc_id, _current_node_id):
 		GameManager.mark_node_visited(_current_npc_id, _current_node_id)
@@ -185,47 +191,100 @@ func _emit_current() -> void:
 	var npc_name: String = GameManager.get_npc_display_name(_current_npc_id)
 	if npc_name == "":
 		npc_name = role_info.get("name", npc.get("name", _current_npc_id))
-	var text: String = _resolve_text(node)
+	var pages: Array = _resolve_dialogue_pages(node, npc_name, portrait)
+	var text: String = _pages_to_text(pages)
 	var options := _filter_options(node.get("options", []))
 	VoicePlayer.play_dialogue(_current_npc_id, _current_node_id)
 	# TTS 异步请求：如果 VoicePlayer 没有命中预录或缓存，发起 TTS 生成
 	_try_tts_for_dialogue(_current_npc_id, _current_node_id, text)
-	dialogue_started.emit(npc_name, portrait, text, options)
+	dialogue_started.emit(npc_name, portrait, text, options, pages)
 
 
 func _resolve_text(node: Dictionary) -> String:
-	# 优先 text_variants（按条件取）
-	if node.has("text_variants"):
-		for v in node["text_variants"]:
-			if v.get("default", false):
-				continue
-			if GameManager.evaluate_condition(v.get("when", {})):
-				return v.get("text", "")
-		# 没有匹配的，找 default
-		for v in node["text_variants"]:
-			if v.get("default", false):
-				return v.get("text", "")
-	var text: String = node.get("text", "")
-	if text != "":
-		return text
-	# 兼容旧对话格式：{ lines: [{speaker,text}, ...] }
+	return _pages_to_text(_resolve_dialogue_pages(node, "", ""))
+
+
+func _resolve_dialogue_pages(node: Dictionary, default_speaker: String, default_portrait: String) -> Array:
 	var lines: Array = node.get("lines", [])
 	if not lines.is_empty():
-		var parts: Array[String] = []
+		var out: Array = []
 		for line in lines:
 			if typeof(line) != TYPE_DICTIONARY:
 				continue
 			var line_text: String = str(line.get("text", "")).strip_edges()
 			if line_text == "":
 				continue
-			var speaker: String = str(line.get("speaker", "")).strip_edges()
 			var line_type: String = str(line.get("type", "")).strip_edges()
-			if speaker == "" or line_type == "narration":
-				parts.append(line_text)
-			else:
-				parts.append("%s：%s" % [speaker, line_text])
-		return "\n\n".join(parts)
-	return "（此处暂无可显示的对话内容。）"
+			var speaker: String = str(line.get("speaker", "")).strip_edges()
+			var speaker_id: String = str(line.get("speaker_id", line.get("npc_id", ""))).strip_edges()
+			if speaker == "" and speaker_id != "":
+				speaker = _display_name_for_speaker_id(speaker_id)
+			if speaker == "" and line_type != "narration":
+				speaker = default_speaker
+			var portrait: String = str(line.get("portrait", "")).strip_edges()
+			if portrait == "" and line_type != "narration":
+				portrait = _portrait_for_speaker(speaker, speaker_id, default_speaker, default_portrait)
+			out.append({"speaker": speaker, "portrait": portrait, "text": line_text, "type": line_type})
+		if not out.is_empty():
+			return out
+	# 优先 text_variants（按条件取）
+	if node.has("text_variants"):
+		for v in node["text_variants"]:
+			if v.get("default", false):
+				continue
+			if GameManager.evaluate_condition(v.get("when", {})):
+				return _single_page(default_speaker, default_portrait, v.get("text", ""))
+		# 没有匹配的，找 default
+		for v in node["text_variants"]:
+			if v.get("default", false):
+				return _single_page(default_speaker, default_portrait, v.get("text", ""))
+	var text: String = node.get("text", "")
+	if text != "":
+		return _single_page(default_speaker, default_portrait, text)
+	return _single_page(default_speaker, default_portrait, "（此处暂无可显示的对话内容。）")
+
+
+func _single_page(speaker: String, portrait: String, text: String) -> Array:
+	return [{"speaker": speaker, "portrait": portrait, "text": text}]
+
+
+func _pages_to_text(pages: Array) -> String:
+	var parts: Array[String] = []
+	for page in pages:
+		if typeof(page) != TYPE_DICTIONARY:
+			continue
+		var line_text: String = str(page.get("text", "")).strip_edges()
+		if line_text != "":
+			parts.append(line_text)
+	return "\n\n".join(parts)
+
+
+func _display_name_for_speaker_id(speaker_id: String) -> String:
+	if speaker_id == "xia_lingyao" or speaker_id == "lingyao":
+		return "凌瑶"
+	var display_name := GameManager.get_npc_display_name(speaker_id)
+	if display_name != "":
+		return display_name
+	var role_info: Dictionary = AssetResolver.get_role_info(speaker_id, GameManager.npcs_data)
+	return role_info.get("name", speaker_id)
+
+
+func _portrait_for_speaker(speaker: String, speaker_id: String, default_speaker: String, default_portrait: String) -> String:
+	if speaker_id == "xia_lingyao" or speaker_id == "lingyao" or speaker == "凌瑶":
+		var cs = get_node_or_null("/root/CompanionService")
+		if cs != null and cs.has_method("get_companion_portrait"):
+			return cs.get_companion_portrait()
+		return "res://assets/cn/portraits/companion_lingyao.png"
+	if speaker_id != "":
+		return AssetResolver.get_portrait(speaker_id, GameManager.npcs_data)
+	if speaker == "陆昭":
+		return AssetResolver.get_portrait("lu_zhao", GameManager.npcs_data)
+	if speaker == default_speaker:
+		return default_portrait
+	for npc_id in GameManager.npcs_data.keys():
+		if GameManager.get_npc_display_name(str(npc_id)) == speaker:
+			return AssetResolver.get_portrait(str(npc_id), GameManager.npcs_data)
+	return ""
 
 
 func _filter_options(options: Array) -> Array:
