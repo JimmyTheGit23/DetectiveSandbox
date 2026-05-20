@@ -196,16 +196,9 @@ func _show_title() -> void:
 	if iv:
 		vbox.add_child(_make_investigator_strip(iv))
 
-	var case_cleared := _is_active_case_cleared()
-	var start_label := "重 玩 本 案" if case_cleared else "开 始 游 戏"
-	vbox.add_child(_make_title_button(start_label, _on_start_game_pressed, false))
-	if GameManager.has_save() and not case_cleared:
+	vbox.add_child(_make_title_button("开 始 调 查", _on_start_investigation_pressed, false))
+	if GameManager.has_save() and not _is_active_case_cleared():
 		vbox.add_child(_make_title_button("继 续 游 戏", _continue_game, false))
-	# 仅当案件索引中有 ≥ 2 个案件时显示"选择案件"
-	var case_count: int = GameManager.get_case_index_entries().size()
-	if case_count >= 2:
-		var current_title: String = GameManager.case_manifest.get("title", GameManager.ACTIVE_CASE)
-		vbox.add_child(_make_title_button("选 择 案 件 （当前：%s）" % current_title, _on_select_case_pressed, false))
 	vbox.add_child(_make_title_button("设 置", _on_title_settings_pressed, false))
 	vbox.add_child(_make_title_button("退 出 游 戏", func(): get_tree().quit(), false))
 
@@ -301,15 +294,20 @@ func _add_title_prop(path: String, pos: Vector2, prop_size: Vector2, params: Dic
 	_title_props_layer.add_child(prop)
 
 
-func _on_start_game_pressed() -> void:
-	# 已完成案件再次进入即视为重玩：保留通关档案，只重置本案游玩进度。
-	if _is_active_case_cleared():
+func _on_start_investigation_pressed() -> void:
+	var case_count: int = GameManager.get_case_index_entries().size()
+	if case_count <= 1:
+		# 单案件：走原有逻辑
+		if _is_active_case_cleared():
+			_start_new_game()
+			return
+		if GameManager.has_save():
+			_show_restart_confirm()
+			return
 		_start_new_game()
 		return
-	if GameManager.has_save():
-		_show_restart_confirm()
-		return
-	_start_new_game()
+	# 多案件：打开选案面板
+	_open_case_select_panel(false)
 
 
 func _on_title_settings_pressed() -> void:
@@ -690,12 +688,30 @@ func _open_subpanel(menu_id: String) -> void:
 		panel.accuse_submitted.connect(_on_accuse_submitted)
 	if panel.has_signal("return_to_title_requested"):
 		panel.return_to_title_requested.connect(_on_return_to_title)
+	if panel.has_signal("game_reset_requested"):
+		panel.game_reset_requested.connect(_on_game_reset)
 	if panel.has_signal("search_result_acknowledged"):
 		panel.search_result_acknowledged.connect(_on_search_result_acknowledged)
 
 
 func _on_return_to_title() -> void:
 	_close_subpanel()
+	_show_title()
+
+
+func _on_game_reset() -> void:
+	_close_subpanel()
+	# 不调用 GameManager.reset_progress()（它会 save_game 重新创建存档）
+	# 只重置内存中的游戏状态，存档已在 SettingsPanel._do_reset 中删除
+	GameManager.current_state = GameManager.STATE_PROLOGUE
+	GameManager.current_day = 1
+	GameManager.current_period = 0
+	GameManager.collected_evidence.clear()
+	GameManager.collected_clues.clear()
+	GameManager.dialogue_flags.clear()
+	GameManager.triggered_events.clear()
+	GameManager.unlocked_phases = ["phase_1"]
+	GameManager.ACTIVE_CASE = ""
 	_show_title()
 
 
@@ -870,11 +886,6 @@ func _try_show_pending_day_transition() -> void:
 
 
 # ─── 选择案件 ───
-func _on_select_case_pressed() -> void:
-	# 弹出案件选择面板（在标题层之上）
-	_open_case_select_panel(false)
-
-
 func _open_case_select_panel(return_to_title_on_cancel: bool) -> void:
 	var packed: PackedScene = load("res://scenes/ui/CaseSelectPanel.tscn")
 	if packed == null:
@@ -883,16 +894,19 @@ func _open_case_select_panel(return_to_title_on_cancel: bool) -> void:
 	var panel: Control = packed.instantiate()
 	add_child(panel)
 	move_child(panel, get_child_count() - 1)
-	panel.case_chosen.connect(_on_case_chosen)
+	panel.case_chosen_with_action.connect(_on_case_chosen_with_action)
 	if return_to_title_on_cancel:
 		panel.cancelled.connect(_show_title)
 
 
-func _on_case_chosen(case_id: String) -> void:
-	# 玩家选了一个案件
+func _on_case_chosen_with_action(case_id: String, action: String) -> void:
 	if case_id != GameManager.ACTIVE_CASE:
 		GameManager.switch_case(case_id)
-	_show_title()
+	match action:
+		"continue":
+			_continue_game()
+		"new", _:
+			_start_new_game()
 
 
 func _on_return_to_case_select_after_ending() -> void:

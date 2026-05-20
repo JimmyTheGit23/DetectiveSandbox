@@ -30,29 +30,38 @@
     "accuse": {
       "condition": {
         "all": [
-          { "total_periods_used_gte": 6 },
-          {
-            "any": [
-              { "evidence_count_gte": 3 },
-              { "evidence": "evidence_float_bladder" }
-            ]
-          }
+          { "total_periods_used_gte": 8 },
+          { "evidence_count_gte": 4 },
+          { "evidence": "evidence_hull_hole" }
         ]
       },
-      "locked_hint": "证据不足，尚无法指证。继续搜集线索。"
+      "locked_hint": "证据不足，尚无法指证。需要更多物证和至少证明船被人为破坏。"
     }
   },
 
   "search_point_unlock": {
     "ferry_inn.inn_agui_room": {
       "condition": {
-        "any": [
-          { "clue": "clue_wife_suspicion" },
-          { "clue": "clue_agui_dry_inner" },
-          { "total_periods_used_gte": 8 }
+        "all": [
+          { "evidence": "evidence_hull_hole" },
+          {
+            "any": [
+              { "clue": "clue_wife_suspicion" },
+              { "clue": "clue_agui_dry_inner" }
+            ]
+          }
         ]
       },
-      "locked_hint": "没有理由搜查别人的房间。得先有些根据。"
+      "locked_hint": "没有理由搜查别人的房间。也许先找到船被动手脚的证据，再回来找嫌疑人的破绽。"
+    },
+    "wreck_site.wreck_shore_bag": {
+      "condition": {
+        "any": [
+          { "clue": "clue_agui_suspicious_bag" },
+          { "evidence": "evidence_hull_hole" }
+        ]
+      },
+      "locked_hint": "芦苇丛似乎有什么东西，但太远了看不清。需要更多线索才能确定该不该去翻。"
     }
   },
 

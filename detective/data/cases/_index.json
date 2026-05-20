@@ -1,5 +1,5 @@
 {
-  "_comment": "案件索引：列出本游戏所有可玩案件。CaseSelectPanel 用此驱动卡片列表。每条引用 data/cases/<id>/manifest.json 作为详细元信息。",
+  "_comment": "案件索引：列出本游戏所有可玩案件。CaseSelectPanel 用此驱动卡片列表。每条引用 data/cases/<id>/manifest.json 作为详细元信息。解锁逻辑：unlock_after 为空则初始可用，否则需通关指定案件后才解锁。",
   "default_case": "prologue_ferry",
   "cases": [
     {
@@ -9,7 +9,7 @@
       "locked": false,
       "tag": "序章",
       "voice_status": "missing",
-      "rank_required": 0,
+      "unlock_after": "",
       "style": "ming_qing",
       "category": "solo",
       "era": "ancient",
@@ -23,7 +23,7 @@
       "locked": false,
       "tag": "首部曲",
       "voice_status": "missing",
-      "rank_required": 1,
+      "unlock_after": "prologue_ferry",
       "style": "ming_qing",
       "category": "solo",
       "era": "ancient",
@@ -36,7 +36,7 @@
       "locked": false,
       "tag": "二部曲",
       "voice_status": "full",
-      "rank_required": 2,
+      "unlock_after": "xunyang_pavilion",
       "style": "ming_qing",
       "category": "solo",
       "era": "ancient",

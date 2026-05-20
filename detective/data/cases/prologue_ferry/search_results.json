@@ -20,8 +20,8 @@
   },
   "ferry_inn.inn_agui_room": {
     "default": {
-      "narration": "阿贵住的小房间。床上被褥凌乱。枕头下压着一个旧包袱，打开一看——底层藏着一只鼓鼓囊囊的皮囊。是水牛皮缝制的浮囊，充了气，还是满的。",
-      "evidence": "evidence_float_bladder"
+      "narration": "阿贵住的小房间。床上被褥凌乱。枕头下压着一个旧包袱，翻了一遍——散碎银两不少，不像一个被遣散仆从该有的。包袱底层有个鼓鼓的东西，裹在油布里，但系了死结，现在打不开。得找个理由再来搜。",
+      "clue": "clue_agui_suspicious_bag"
     }
   },
   "ferry_inn.inn_agui_clothes": {
@@ -60,7 +60,14 @@
   },
   "river_bend.village_wang_home": {
     "default": {
-      "narration": "王老汉的小屋里挂满了渔网。老人坐在门口补网，看到你来并不意外：「我就知道会有人来问。那天夜里的事……我全看到了。」"
+      "narration": "王老汉的小屋里挂满了渔网。老人坐在门口补网，看到你来并不意外：「我就知道会有人来问。那天夜里的事……我全看到了。」他从墙角翻出一卷泡烂的纸：「那天在江边捡到的，一直不知道该给谁。」",
+      "evidence": "evidence_wet_letter"
+    }
+  },
+  "wreck_site.wreck_shore_bag": {
+    "default": {
+      "narration": "在沉船下游的芦苇丛中，你发现一只被江水冲到岸上的包袱——和阿贵在客栈用的是同一种粗布。打开一看，底层藏着一只鼓鼓囊囊的皮囊。是水牛皮缝制的浮囊，充了气，还是满的。落水的人不会带着这种东西随波逐流——这是提前准备好的逃生工具。",
+      "evidence": "evidence_float_bladder"
     }
   }
 }

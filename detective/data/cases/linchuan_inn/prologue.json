@@ -21,43 +21,43 @@
       "next": "scene2"
     },
     "scene2": {
-      "background": "res://assets/cn/scenes/post_station.png",
+      "background": "res://assets/cn/scenes/linchuan_approach.png",
       "speaker": "",
       "text": "临川驿。\n\n一座不大不小的驿站，青砖灰瓦，院中一棵老槐树。驿丞赵大有已经掌了灯，在门廊下候着。",
       "next": "scene2a"
     },
     "scene2a": {
-      "background": "res://assets/cn/scenes/post_station.png",
+      "background": "res://assets/cn/scenes/linchuan_approach.png",
       "speaker": "凌瑶",
       "text": "（抹了把脸上的雨水，四处打量）这驿站比浔阳楼差远了——不过比石矶渡那个破客栈还是强点。\n\n陆大人，您说咱这次来临川是巡按？可我怎么看这地方……太平得很啊？",
       "next": "scene2b"
     },
     "scene2b": {
-      "background": "res://assets/cn/scenes/post_station.png",
+      "background": "res://assets/cn/scenes/linchuan_approach.png",
       "speaker": "陆昭",
       "text": "……先安顿下来。明天开始查账。",
       "next": "scene2c"
     },
     "scene2c": {
-      "background": "res://assets/cn/scenes/post_station.png",
+      "background": "res://assets/cn/scenes/linchuan_approach.png",
       "speaker": "凌瑶",
       "text": "又是那种弯弯绕绕的官场门道。上回浔阳楼那事儿本姑娘到现在还做噩梦呢——不过好歹算帮上忙了吧？\n\n这回查账而已，应该不会出人命了吧……",
       "next": "scene2d"
     },
     "scene2d": {
-      "background": "res://assets/cn/scenes/post_station.png",
+      "background": "res://assets/cn/scenes/linchuan_approach.png",
       "speaker": "陆昭",
       "text": "……先安顿下来。明天开始查账。\n\n凌姑娘，你要是想走——",
       "next": "scene2e"
     },
     "scene2e": {
-      "background": "res://assets/cn/scenes/post_station.png",
+      "background": "res://assets/cn/scenes/linchuan_approach.png",
       "speaker": "凌瑶",
       "text": "走走走，走什么走！本姑娘跟着您跑了两个案子了，这时候走算什么？\n\n再说了，镖局那边的差事早就交待清楚了——首座知道我在帮您，说让我继续跟着。\n\n（小声嘀咕）反正回去也是跑腿送信……",
       "next": "scene3"
     },
     "scene3": {
-      "background": "res://assets/cn/scenes/post_station.png",
+      "background": "res://assets/cn/scenes/linchuan_approach.png",
       "speaker": "",
       "text": "当夜无事。\n\n第二天一早，天还蒙蒙亮。陆昭照例早起，打算先去驿站后院看看地形。",
       "next": "scene3b"

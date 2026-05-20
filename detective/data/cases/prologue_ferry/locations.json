@@ -37,7 +37,8 @@
     "search_points": [
       { "id": "wreck_hull_bottom", "name": "船底破洞", "time_cost": 2, "hint_rect": [0.38, 0.28, 0.28, 0.24] },
       { "id": "wreck_cargo_area", "name": "货舱残骸", "time_cost": 1, "hint_rect": [0.18, 0.52, 0.24, 0.20] },
-      { "id": "wreck_debris", "name": "水边断钉木屑", "time_cost": 1, "hint_rect": [0.55, 0.62, 0.28, 0.18] }
+      { "id": "wreck_debris", "name": "水边断钉木屑", "time_cost": 1, "hint_rect": [0.55, 0.62, 0.28, 0.18] },
+      { "id": "wreck_shore_bag", "name": "岸边芦苇丛", "time_cost": 2, "hint_rect": [0.75, 0.55, 0.20, 0.20] }
     ]
   },
   "river_bend": {
@@ -48,7 +49,7 @@
     "scene_type": "scene_prologue_river_bend",
     "npcs": ["fisherman_wang"],
     "search_points": [
-      { "id": "village_wang_home", "name": "王老汉家门口", "time_cost": 1, "hint_rect": [0.68, 0.52, 0.22, 0.25] }
+      { "id": "village_wang_home", "name": "王老汉家", "time_cost": 1, "hint_rect": [0.68, 0.52, 0.22, 0.25] }
     ]
   }
 }

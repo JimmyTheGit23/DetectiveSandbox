@@ -12,6 +12,7 @@ var _player_a: AudioStreamPlayer
 var _player_b: AudioStreamPlayer
 var _active_player: AudioStreamPlayer
 var _current_id: String = ""
+var _current_bgm_name: String = ""
 var _audio_ready: bool = false
 var _pending_play: String = ""
 
@@ -65,8 +66,6 @@ func play(id: String) -> void:
 	if not _audio_ready:
 		_pending_play = id
 		return
-	if id == _current_id and _active_player and _active_player.playing:
-		return
 	# 优先走 AssetResolver：location_id / mood_tag / track_id 都能解析
 	var bgm_name: String = ""
 	var resolver := get_node_or_null("/root/AssetResolver")
@@ -75,14 +74,20 @@ func play(id: String) -> void:
 	# 回退到旧的硬编码映射（迁移期兜底）
 	if bgm_name == "":
 		bgm_name = BGM_MAP.get(id, id)
+	# 同一首曲目不重播，即使 id 不同（如不同地点映射到同一 BGM）
+	if bgm_name == _current_bgm_name and _active_player and _active_player.playing:
+		_current_id = id
+		return
 	var stream := _load_stream_raw(bgm_name)
 	if debug_log:
 		print("[BGM] play('", id, "') → bgm_name='", bgm_name, "', stream=", stream)
 	if stream == null:
 		fade_out()
 		_current_id = id
+		_current_bgm_name = ""
 		return
 	_current_id = id
+	_current_bgm_name = bgm_name
 	_play_stream(stream)
 
 
@@ -97,6 +102,7 @@ func stop() -> void:
 	if _player_a: _player_a.stop()
 	if _player_b: _player_b.stop()
 	_current_id = ""
+	_current_bgm_name = ""
 
 
 func current_bgm_id() -> String:

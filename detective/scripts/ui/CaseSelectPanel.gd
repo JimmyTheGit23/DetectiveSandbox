@@ -2,10 +2,10 @@ extends Control
 ## 案件选择面板：全屏时代标签页 + 右侧角色背景图 + 左侧案件卡片
 ##
 ## 信号：
-##   case_chosen(case_id)  — 玩家点了某张卡片
-##   cancelled()            — 玩家取消（关闭按钮 / Esc）
+##   case_chosen_with_action(case_id, action)  — 玩家选了案件并决定操作（"new"/"continue"）
+##   cancelled()                                 — 玩家取消（关闭按钮 / Esc）
 
-signal case_chosen(case_id: String)
+signal case_chosen_with_action(case_id: String, action: String)
 signal cancelled()
 
 # ─── 时代配置 ───
@@ -31,6 +31,7 @@ var _bg_texture: TextureRect
 var _bg_clip: Control
 var _cards_container: VBoxContainer
 var _tab_underlines: Dictionary = {}
+var _action_bubble: Control = null
 
 
 func _ready() -> void:
@@ -247,21 +248,17 @@ func _make_case_card(entry: Dictionary) -> Control:
 	var case_id: String = entry.get("id", "")
 	var manifest_path: String = entry.get("manifest", "")
 	var locked_field: bool = entry.get("locked", false)
-	var rank_required: int = int(entry.get("rank_required", 1))
+	var unlock_after: String = entry.get("unlock_after", "")
 	var tag: String = entry.get("tag", "")
 	var voice_status: String = entry.get("voice_status", "full")
 
 	var iv := get_node_or_null("/root/InvestigatorService")
-	var ss := get_node_or_null("/root/SettingsService")
-	var gm_mode: bool = ss != null and bool(ss.get("gm_unlock_all"))
 	var locked := locked_field
-	var rank_ok := true
 	var cleared := false
 	var best_ending := ""
 	var play_count := 0
 	if iv:
-		rank_ok = gm_mode or iv.get_rank() >= rank_required
-		if not rank_ok:
+		if not iv.is_case_unlocked(case_id):
 			locked = true
 		var rec: Dictionary = iv.get_case_record(case_id)
 		if not rec.is_empty():
@@ -414,10 +411,25 @@ func _make_case_card(entry: Dictionary) -> Control:
 
 	if locked:
 		var lock_lbl := Label.new()
-		if iv and not rank_ok:
-			lock_lbl.text = "🔒 需 Lv.%d 解锁" % rank_required
-		else:
+		if locked_field:
 			lock_lbl.text = "🔒 暂未开放"
+		elif unlock_after != "":
+			# 找前置案件标题
+			var prereq_title := unlock_after
+			var entries := GameManager.get_case_index_entries() if GameManager else []
+			for e in entries:
+				if e.get("id", "") == unlock_after:
+					var mp: String = e.get("manifest", "")
+					if mp != "" and FileAccess.file_exists(mp):
+						var mf := FileAccess.open(mp, FileAccess.READ)
+						if mf:
+							var pm = JSON.parse_string(mf.get_as_text())
+							if typeof(pm) == TYPE_DICTIONARY:
+								prereq_title = pm.get("title", unlock_after)
+					break
+			lock_lbl.text = "🔒 通关「%s」后解锁" % prereq_title
+		else:
+			lock_lbl.text = "🔒 暂未解锁"
 		lock_lbl.add_theme_font_size_override("font_size", 12)
 		lock_lbl.add_theme_color_override("font_color", Color(0.55, 0.55, 0.55, 1))
 		lock_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -442,8 +454,8 @@ func _make_case_card(entry: Dictionary) -> Control:
 		)
 		card.gui_input.connect(func(ev: InputEvent):
 			if ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT:
-				case_chosen.emit(case_id)
-				queue_free()
+				var case_title: String = manifest.get("title", case_id)
+				_show_action_bubble(case_id, case_title, _case_has_save(case_id), cleared)
 		)
 
 	return card
@@ -485,4 +497,113 @@ func _do_align_bg() -> void:
 	var offset_x: float = cont_size.x - rendered_w
 	_bg_texture.position = Vector2(offset_x, 0)
 	_bg_texture.size = Vector2(rendered_w, cont_size.y)
+
+
+func _case_has_save(case_id: String) -> bool:
+	return FileAccess.file_exists("user://saves/%s.json" % case_id)
+
+
+func _show_action_bubble(case_id: String, case_title: String, has_save: bool, is_cleared: bool) -> void:
+	_remove_action_bubble()
+
+	# 已通关或无存档：直接开始新游戏
+	if is_cleared or not has_save:
+		case_chosen_with_action.emit(case_id, "new")
+		queue_free()
+		return
+
+	# 有存档：弹出气泡选择
+	var overlay := ColorRect.new()
+	overlay.name = "ActionBubbleOverlay"
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.color = Color(0, 0, 0, 0.50)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(overlay)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(400, 0)
+	center.add_child(panel)
+
+	var panel_sb := StyleBoxFlat.new()
+	panel_sb.bg_color = Color(0.10, 0.09, 0.07, 0.96)
+	panel_sb.border_color = Color(0.55, 0.42, 0.22, 0.85)
+	panel_sb.set_border_width_all(2)
+	panel_sb.set_corner_radius_all(10)
+	panel_sb.content_margin_left = 28
+	panel_sb.content_margin_right = 28
+	panel_sb.content_margin_top = 22
+	panel_sb.content_margin_bottom = 22
+	panel.add_theme_stylebox_override("panel", panel_sb)
+
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 16)
+	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	panel.add_child(vbox)
+
+	var title_lbl := Label.new()
+	title_lbl.text = case_title
+	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title_lbl.add_theme_font_size_override("font_size", 22)
+	title_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1))
+	vbox.add_child(title_lbl)
+
+	var hint := Label.new()
+	hint.text = "检测到存档，选择操作："
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.add_theme_font_size_override("font_size", 14)
+	hint.add_theme_color_override("font_color", Color(0.75, 0.70, 0.55, 1))
+	vbox.add_child(hint)
+
+	var btn_hbox := HBoxContainer.new()
+	btn_hbox.add_theme_constant_override("separation", 24)
+	btn_hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	vbox.add_child(btn_hbox)
+
+	var continue_btn := Button.new()
+	continue_btn.text = "继 续 上 次"
+	continue_btn.custom_minimum_size = Vector2(140, 44)
+	continue_btn.flat = true
+	continue_btn.add_theme_font_size_override("font_size", 18)
+	continue_btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.55, 1))
+	continue_btn.add_theme_color_override("font_hover_color", Color(1.0, 1.0, 0.78, 1))
+	continue_btn.add_theme_color_override("font_pressed_color", Color(0.95, 0.68, 0.28, 1))
+	continue_btn.pressed.connect(func():
+		_remove_action_bubble()
+		case_chosen_with_action.emit(case_id, "continue")
+		queue_free()
+	)
+	btn_hbox.add_child(continue_btn)
+
+	var new_btn := Button.new()
+	new_btn.text = "从 头 开 始"
+	new_btn.custom_minimum_size = Vector2(140, 44)
+	new_btn.flat = true
+	new_btn.add_theme_font_size_override("font_size", 18)
+	new_btn.add_theme_color_override("font_color", Color(0.65, 0.62, 0.55, 1))
+	new_btn.add_theme_color_override("font_hover_color", Color(0.85, 0.80, 0.72, 1))
+	new_btn.add_theme_color_override("font_pressed_color", Color(0.55, 0.50, 0.42, 1))
+	new_btn.pressed.connect(func():
+		_remove_action_bubble()
+		case_chosen_with_action.emit(case_id, "new")
+		queue_free()
+	)
+	btn_hbox.add_child(new_btn)
+
+	# 点击遮罩取消
+	overlay.gui_input.connect(func(ev: InputEvent):
+		if ev is InputEventMouseButton and ev.pressed:
+			_remove_action_bubble()
+	)
+
+	_action_bubble = overlay
+
+
+func _remove_action_bubble() -> void:
+	if _action_bubble and is_instance_valid(_action_bubble):
+		_action_bubble.queue_free()
+		_action_bubble = null
 

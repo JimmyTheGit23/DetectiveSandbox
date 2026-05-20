@@ -33,7 +33,7 @@
   "evidence_wet_letter": {
     "type": "evidence",
     "name": "泡烂的密信",
-    "description": "一封被江水泡得几乎看不清的书信。仅能辨认出关于沈氏旧案、按察司与棋盘的零碎字句。",
+    "description": "一封被江水泡得几乎看不清的书信。仅能辨认出关于沈氏旧案、按察司与棋盘的零碎字句。这封信为何出现在沉船附近？",
     "meta_clue": true
   },
   "clue_wife_suspicion": {
@@ -65,6 +65,11 @@
     "type": "clue",
     "name": "阿贵的新钱",
     "description": "钱里正说：案发后第二天，阿贵在客栈买了一壶好酒、打了半斤卤肉。一个被遣散的仆从哪来这么多闲钱？"
+  },
+  "clue_agui_suspicious_bag": {
+    "type": "clue",
+    "name": "阿贵可疑的包袱",
+    "description": "阿贵的包袱里有不少散碎银两，底层还裹着一件系了死结的东西。他不愿让人看见——那到底是什么？"
   },
   "clue_fan_boat_skill": {
     "type": "clue",

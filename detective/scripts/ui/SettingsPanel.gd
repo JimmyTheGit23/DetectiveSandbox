@@ -3,6 +3,7 @@ extends Control
 
 signal close_requested()
 signal return_to_title_requested()
+signal game_reset_requested()
 
 @onready var panel: PanelContainer = $Panel
 
@@ -107,6 +108,20 @@ func _build_ui() -> void:
 	btn_title.pressed.connect(_on_return_title)
 	btn_box.add_child(btn_title)
 	
+	var btn_reset := Button.new()
+	btn_reset.text = "重置游戏进度"
+	btn_reset.custom_minimum_size = Vector2(0, 48)
+	btn_reset.add_theme_font_size_override("font_size", 20)
+	btn_reset.add_theme_color_override("font_color", Color(0.9, 0.35, 0.3))
+	btn_reset.pressed.connect(_on_reset_game)
+	btn_box.add_child(btn_reset)
+	
+	var reset_hint := Label.new()
+	reset_hint.text = "（清除所有案件进度、经验和存档，不可恢复）"
+	reset_hint.add_theme_font_size_override("font_size", 12)
+	reset_hint.add_theme_color_override("font_color", Color(0.55, 0.50, 0.42, 0.8))
+	btn_box.add_child(reset_hint)
+	
 	var btn_close := Button.new()
 	btn_close.text = "关闭设置"
 	btn_close.custom_minimum_size = Vector2(0, 44)
@@ -180,3 +195,66 @@ func _on_return_title() -> void:
 func _on_gm_unlock_toggled(pressed: bool) -> void:
 	if _settings and _settings.has_method("set_gm_unlock_all"):
 		_settings.set_gm_unlock_all(pressed)
+
+
+var _reset_confirm_step: int = 0
+
+func _on_reset_game() -> void:
+	if _reset_confirm_step == 0:
+		_reset_confirm_step = 1
+		# 找到重置按钮并修改文本作为确认提示
+		var btn_box: VBoxContainer = null
+		for child in panel.get_children():
+			if child is VBoxContainer:
+				for sub in child.get_children():
+					if sub is VBoxContainer:
+						btn_box = sub
+						break
+		if btn_box:
+			for child in btn_box.get_children():
+				if child is Button and child.text == "重置游戏进度":
+					child.text = "确认重置？（再次点击执行）"
+					child.add_theme_color_override("font_color", Color(1.0, 0.2, 0.15))
+					break
+		# 3秒后自动恢复
+		get_tree().create_timer(3.0).timeout.connect(_reset_confirm_timeout)
+	elif _reset_confirm_step == 1:
+		_reset_confirm_step = 0
+		_do_reset()
+
+
+func _reset_confirm_timeout() -> void:
+	_reset_confirm_step = 0
+	# 恢复按钮文本
+	for child in panel.get_children():
+		if child is VBoxContainer:
+			for sub in child.get_children():
+				if sub is VBoxContainer:
+					for btn in sub.get_children():
+						if btn is Button and btn.text.begins_with("确认重置"):
+							btn.text = "重置游戏进度"
+							btn.add_theme_color_override("font_color", Color(0.9, 0.35, 0.3))
+							return
+
+
+func _do_reset() -> void:
+	# 1. 重置调查员档案（等级、XP、通关记录等）
+	var inv := get_node_or_null("/root/InvestigatorService")
+	if inv and inv.has_method("reset_profile"):
+		inv.reset_profile()
+	# 2. 删除所有单案存档 + current_case.json
+	var saves_dir := ProjectSettings.globalize_path("user://saves")
+	if DirAccess.dir_exists_absolute(saves_dir):
+		var da := DirAccess.open(saves_dir)
+		if da:
+			da.list_dir_begin()
+			var fname := da.get_next()
+			while fname != "":
+				if fname.ends_with(".json"):
+					da.remove(fname)
+				fname = da.get_next()
+	var cc_path := ProjectSettings.globalize_path("user://current_case.json")
+	if FileAccess.file_exists("user://current_case.json"):
+		DirAccess.remove_absolute(cc_path)
+	# 3. 发出信号，由 MainGame 处理返回标题
+	game_reset_requested.emit()

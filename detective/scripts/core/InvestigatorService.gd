@@ -114,7 +114,7 @@ func save_profile() -> void:
 		f.store_string(JSON.stringify(data, "  "))
 
 
-## 启动时根据案件索引补全已自然解锁的案件（rank_required <= 当前 rank）
+## 启动时根据案件索引补全已自然解锁的案件（unlock_after 为空 或 前置案件已通关）
 func _apply_initial_unlocks() -> void:
 	var entries: Array = GameManager.get_case_index_entries() if GameManager else []
 	var changed := false
@@ -122,8 +122,13 @@ func _apply_initial_unlocks() -> void:
 		if typeof(entry) != TYPE_DICTIONARY:
 			continue
 		var cid: String = entry.get("id", "")
-		var req: int = int(entry.get("rank_required", 1))
-		if rank >= req and not unlocked_cases.has(cid):
+		var prereq: String = entry.get("unlock_after", "")
+		var can_unlock := false
+		if prereq == "":
+			can_unlock = true
+		elif cleared_cases.has(prereq):
+			can_unlock = true
+		if can_unlock and not unlocked_cases.has(cid):
 			unlocked_cases.append(cid)
 			changed = true
 	if changed:
@@ -256,16 +261,15 @@ func record_case_cleared(case_id: String, ending_id: String) -> Dictionary:
 	# 加 XP（可能触发升级，进而解锁更多案件）
 	var xp_result := add_xp(earned_int)
 
-	# 收集本次新解锁的案件 ID
+	# 收集本次新解锁的案件 ID（通关后，后续案件自动解锁）
 	var newly_unlocked: Array = []
-	# add_xp 内部会调 _apply_initial_unlocks 但不知道哪些是"新"解锁，这里再扫一遍
 	var entries: Array = GameManager.get_case_index_entries() if GameManager else []
 	for entry in entries:
 		if typeof(entry) != TYPE_DICTIONARY:
 			continue
 		var cid: String = entry.get("id", "")
-		var req: int = int(entry.get("rank_required", 1))
-		if rank >= req and not unlocked_cases.has(cid):
+		var prereq: String = entry.get("unlock_after", "")
+		if prereq == case_id and not unlocked_cases.has(cid):
 			unlocked_cases.append(cid)
 			newly_unlocked.append(cid)
 	# manifest.rewards.unlock_cases 显式追加（不看 rank）
@@ -317,11 +321,14 @@ func is_case_unlocked(case_id: String) -> bool:
 		return true
 	if unlocked_cases.has(case_id):
 		return true
-	# 额外按 rank 即时判断（防档案漂移）
+	# 按线性前置判断（防档案漂移）
 	var entries: Array = GameManager.get_case_index_entries() if GameManager else []
 	for entry in entries:
 		if entry.get("id", "") == case_id:
-			return rank >= int(entry.get("rank_required", 1))
+			var prereq: String = entry.get("unlock_after", "")
+			if prereq == "":
+				return true  # 无前置，始终可用
+			return cleared_cases.has(prereq)
 	return false
 
 
@@ -344,13 +351,18 @@ func get_visible_cases() -> Array:
 		if typeof(entry) != TYPE_DICTIONARY:
 			continue
 		var cid: String = entry.get("id", "")
-		var req: int = int(entry.get("rank_required", 1))
-		var locked: bool = (not gm_mode) and ((rank < req) or bool(entry.get("locked", false)))
+		var prereq: String = entry.get("unlock_after", "")
+		var is_locked: bool = false
+		if not gm_mode:
+			if bool(entry.get("locked", false)):
+				is_locked = true
+			elif prereq != "" and not cleared_cases.has(prereq):
+				is_locked = true
 		var record: Dictionary = cleared_cases.get(cid, {})
 		out.append({
 			"entry": entry,
-			"locked": locked,
-			"rank_required": req,
+			"locked": is_locked,
+			"unlock_after": prereq,
 			"cleared": not record.is_empty(),
 			"best_ending": record.get("best_ending", ""),
 			"play_count": int(record.get("play_count", 0)),
@@ -362,6 +374,7 @@ func get_visible_cases() -> Array:
 
 func reset_profile() -> void:
 	_create_default_profile()
+	_apply_initial_unlocks()
 
 
 func snapshot() -> Dictionary:

@@ -48,7 +48,8 @@ func _make_npc_button(npc_id: String, data: Dictionary) -> Button:
 		icon.custom_minimum_size = Vector2(72, 72)
 		icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		# 找人物的实际包围盒（避免居底对齐的透明 PNG 裁到画布顶部空白）
 		var rect: Rect2 = _compute_head_region(tex)
 		var atlas := AtlasTexture.new()
