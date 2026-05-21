@@ -485,12 +485,12 @@ func _make_portrait_avatar(texture: Texture2D, output_size: int = 96) -> Texture
 	if has_alpha_region:
 		var bbox_h: float = float(max_y - min_y + 1)
 		var bbox_w: float = float(max_x - min_x + 1)
-		# 头像裁切不要贴着头顶，否则只能看到头发/额头；取头部中上段，保证脸完整可见。
-		var side: float = min(bbox_h * 0.38, bbox_w * 0.86)
+		# 头像裁切：取头部区域的正方形，保证脸完整可见。
+		var side: float = min(bbox_h * 0.58, bbox_w * 0.95)
 		crop_w = int(side)
 		var center_x: float = float(min_x + max_x) * 0.5
 		crop_x = int(center_x - side * 0.5)
-		crop_y = int(float(min_y) + bbox_h * 0.08)
+		crop_y = int(float(min_y) + bbox_h * 0.02)
 		if crop_x < 0: crop_x = 0
 		if crop_y < 0: crop_y = 0
 		if crop_x + crop_w > w: crop_x = w - crop_w
@@ -602,7 +602,7 @@ func _add_person_entry(parent: Container, name_text: String, body: String, color
 	# 左侧头像
 	if portrait_path != "" and ResourceLoader.exists(portrait_path):
 		var portrait_frame := PanelContainer.new()
-		portrait_frame.custom_minimum_size = Vector2(72, 72)
+		portrait_frame.custom_minimum_size = Vector2(86, 86)
 		portrait_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var pstyle := StyleBoxFlat.new()
 		pstyle.bg_color = Color(0.04, 0.035, 0.025, 1)
@@ -612,10 +612,10 @@ func _add_person_entry(parent: Container, name_text: String, body: String, color
 		pstyle.corner_radius_top_right = 6
 		pstyle.corner_radius_bottom_left = 6
 		pstyle.corner_radius_bottom_right = 6
-		pstyle.content_margin_left = 3
-		pstyle.content_margin_right = 3
-		pstyle.content_margin_top = 3
-		pstyle.content_margin_bottom = 3
+		pstyle.content_margin_left = 4
+		pstyle.content_margin_right = 4
+		pstyle.content_margin_top = 4
+		pstyle.content_margin_bottom = 4
 		portrait_frame.add_theme_stylebox_override("panel", pstyle)
 		portrait_frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		portrait_frame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -624,7 +624,7 @@ func _add_person_entry(parent: Container, name_text: String, body: String, color
 		var portrait := TextureRect.new()
 		portrait.custom_minimum_size = Vector2(78, 78)
 		portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		portrait.texture = _make_portrait_avatar(load(portrait_path), 78)
 		portrait_frame.add_child(portrait)
 	else:

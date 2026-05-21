@@ -303,6 +303,7 @@ func _build_log_controls() -> void:
 			_log_button.accept_event()
 	)
 	_apply_plain_button_style(_log_button, Color(0.09, 0.055, 0.025, 0.9), Color(0.58, 0.42, 0.2, 0.55))
+	_log_button.visible = false
 	$Box.add_child(_log_button)
 
 	_log_panel = PanelContainer.new()
@@ -429,8 +430,6 @@ func _position_top_options(option_count: int) -> void:
 func _hide_options() -> void:
 	legacy_options.visible = false
 	exit_btn.visible = false
-	if _log_button != null:
-		_log_button.visible = true
 	if _top_options_panel:
 		_top_options_panel.visible = false
 	if _top_options_vbox:
