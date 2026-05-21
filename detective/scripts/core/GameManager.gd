@@ -86,6 +86,8 @@ var dialogue_flags: Dictionary = {}     # flag_id -> true
 var visited_nodes: Dictionary = {}      # "npc_id.node_id" -> count
 var triggered_events: Dictionary = {}   # event_id -> true
 var npc_states: Dictionary = {}         # npc_id -> { stat_name: value }
+var case_records: Array[Dictionary] = []       # 证词 / 疑点 / 关键信息记录
+var dialogue_records: Array[Dictionary] = []   # 对话卷宗回看
 
 
 func _ready() -> void:
@@ -169,6 +171,8 @@ func switch_case(case_id: String) -> bool:
 	dialogue_flags.clear()
 	visited_nodes.clear()
 	triggered_events.clear()
+	case_records.clear()
+	dialogue_records.clear()
 	culprit_actions_witnessed.clear()
 	unlocked_phases = ["phase_1"]
 	reroll_case_seed()
@@ -249,6 +253,8 @@ func reset_progress() -> void:
 	dialogue_flags.clear()
 	visited_nodes.clear()
 	triggered_events.clear()
+	case_records.clear()
+	dialogue_records.clear()
 	culprit_actions_witnessed.clear()
 	unlocked_phases = ["phase_1"]
 	reroll_case_seed()
@@ -296,6 +302,8 @@ func save_game() -> void:
 		"visited_nodes": visited_nodes,
 		"triggered_events": triggered_events,
 		"npc_states": npc_states,
+		"case_records": case_records,
+		"dialogue_records": dialogue_records,
 		"case_seed": case_seed,
 		"culprit_actions_witnessed": culprit_actions_witnessed,
 		"unlocked_phases": unlocked_phases,
@@ -310,6 +318,11 @@ func save_game() -> void:
 
 
 func load_game() -> bool:
+	if not FileAccess.file_exists(SAVE_PATH):
+		# 兼容旧存档路径：选案界面可能先检测到旧存档，再进入读取。
+		var legacy := "user://%s_save.json" % ACTIVE_CASE
+		if FileAccess.file_exists(legacy):
+			_migrate_legacy_save(legacy)
 	if not FileAccess.file_exists(SAVE_PATH):
 		return false
 	var f := FileAccess.open(SAVE_PATH, FileAccess.READ)
@@ -331,6 +344,8 @@ func load_game() -> bool:
 	visited_nodes = data.get("visited_nodes", {})
 	triggered_events = data.get("triggered_events", {})
 	npc_states = data.get("npc_states", {})
+	case_records.assign(data.get("case_records", []))
+	dialogue_records.assign(data.get("dialogue_records", []))
 	case_seed = int(data.get("case_seed", 0))
 	culprit_actions_witnessed = data.get("culprit_actions_witnessed", {})
 	var saved_phases = data.get("unlocked_phases", ["phase_1"])
@@ -487,6 +502,51 @@ func has_clue(cid: String) -> bool:
 
 func has_evidence(eid: String) -> bool:
 	return collected_evidence.has(eid)
+
+
+# ─── 卷宗 / 对话记录 ───
+func add_case_record(record: Dictionary) -> bool:
+	var title: String = str(record.get("title", record.get("record_title", ""))).strip_edges()
+	var text: String = str(record.get("text", record.get("record_text", ""))).strip_edges()
+	if title == "" and text == "":
+		return false
+	var record_id: String = str(record.get("id", record.get("record_id", ""))).strip_edges()
+	if record_id == "":
+		record_id = "%s|%s" % [title, text]
+	for existing in case_records:
+		if str(existing.get("id", "")) == record_id:
+			return false
+	var entry := {
+		"id": record_id,
+		"type": str(record.get("type", record.get("record_type", "key"))),
+		"title": title if title != "" else "卷宗记录",
+		"text": text,
+		"source": str(record.get("source", "")),
+		"day": current_day,
+		"period": current_period,
+	}
+	case_records.append(entry)
+	save_game()
+	return true
+
+
+func add_dialogue_record(speaker: String, text: String) -> void:
+	var clean_text := text.strip_edges()
+	if clean_text == "":
+		return
+	if not dialogue_records.is_empty():
+		var last: Dictionary = dialogue_records[dialogue_records.size() - 1]
+		if last.get("speaker", "") == speaker and last.get("text", "") == clean_text:
+			return
+	dialogue_records.append({
+		"speaker": speaker if speaker != "" else "旁白",
+		"text": clean_text,
+		"day": current_day,
+		"period": current_period,
+	})
+	while dialogue_records.size() > 240:
+		dialogue_records.pop_front()
+	save_game()
 
 
 # ─── Flags / 访问记录 ───

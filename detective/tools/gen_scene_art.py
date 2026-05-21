@@ -15,8 +15,9 @@ from pathlib import Path
 import sys
 import time
 import argparse
+import os
 
-API_KEY = "AIzaSyBr9RWOwk643l6eG0Fv91sshiU67IurMxo"
+API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
 MODEL = "gemini-2.5-flash-image"
 
 # 项目路径
@@ -52,6 +53,8 @@ def generate_image(prompt: str, output_path: Path, reference_images: list[tuple[
     reference_images: [(图片路径, mime_type), ...] 用于 img2img
     aspect_ratio: "1:1" 立绘, "16:9" 场景/CG
     """
+    if not API_KEY:
+        raise RuntimeError("请先设置环境变量 GEMINI_API_KEY 或 GOOGLE_API_KEY")
     client = genai.Client(api_key=API_KEY)
     
     # 构建输入

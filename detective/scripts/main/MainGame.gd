@@ -29,6 +29,7 @@ const SubPanels = {
 
 var _active_subpanel: Control = null
 var _pending_events: Array[String] = []
+var _event_hint_auto_pending := false
 var _pending_adhoc_lines: Array = []
 var _pending_day_info: Dictionary = {}   # 延迟的日期过场 { "day": int, "sub": String }
 var _title_layer: Control = null
@@ -198,7 +199,8 @@ func _show_title() -> void:
 		vbox.add_child(_make_investigator_strip(iv))
 
 	vbox.add_child(_make_title_button("开 始 调 查", _on_start_investigation_pressed, false))
-	if GameManager.has_save() and not _is_active_case_cleared():
+	# 只要当前案件存在存档，就必须保留继续入口；即使案件已通关，也可能是在重玩途中。
+	if GameManager.has_save():
 		vbox.add_child(_make_title_button("继 续 游 戏", _continue_game, false))
 	vbox.add_child(_make_title_button("设 置", _on_title_settings_pressed, false))
 	vbox.add_child(_make_title_button("退 出 游 戏", func(): get_tree().quit(), false))
@@ -581,6 +583,30 @@ func _refresh_event_hint() -> void:
 	event_hint_btn.tooltip_text = evt.get("hint", "")
 	event_hint_btn.visible = true
 	_pulse_event_hint_button()
+	_schedule_event_hint_autoplay()
+
+
+func _schedule_event_hint_autoplay() -> void:
+	if _event_hint_auto_pending:
+		return
+	_event_hint_auto_pending = true
+	_auto_play_event_after_hint()
+
+
+func _auto_play_event_after_hint() -> void:
+	await get_tree().create_timer(1.05).timeout
+	_event_hint_auto_pending = false
+	if _pending_events.is_empty():
+		event_hint_btn.visible = false
+		return
+	var evt_id: String = _pending_events.pop_front()
+	# 先关闭关键发现弹窗，再进入助手/旁白对话，避免 UI 重叠。
+	event_hint_btn.visible = false
+	await get_tree().process_frame
+	# 若触发点发生在普通对话/叙述中，等当前说话完全结束后再插入关键发现对话。
+	while dialogue_box.visible or narration_box.visible or GameManager.current_state == GameManager.STATE_DIALOGUE:
+		await get_tree().process_frame
+	_play_event_now(evt_id)
 
 
 func _style_event_hint_button() -> void:
@@ -622,29 +648,12 @@ func _pulse_event_hint_button() -> void:
 
 
 func _on_event_hint_clicked() -> void:
+	# 保留手动入口兼容调试；正常流程已自动关闭提示并播放事件对话。
 	if _pending_events.is_empty():
 		return
 	var evt_id: String = _pending_events.pop_front()
 	event_hint_btn.visible = false
-	var evt = GameManager.get_day_event(evt_id)
-	# 应用效果
-	GameManager.apply_event_effects(evt)
-	# 播放叙述：支持字符串，也支持 {speaker,text,voice_path}
-	# 注意：事件叙述的 voice_path 必须按案件隔离。data 中显式写的 voice_path 视为'已确认正确'，
-	# 否则通过 AssetResolver.resolve_event_voice_path 严格按当前案件查找；找不到就传空（静默）。
-	var lines: Array = []
-	var idx := 0
-	for line in evt.get("narration", []):
-		if line is Dictionary:
-			lines.append(line)
-		else:
-			var voice_path: String = AssetResolver.resolve_event_voice_path(evt_id, idx)
-			lines.append({ "speaker": "", "text": str(line), "voice_path": voice_path })
-		idx += 1
-	DialogueManager.play_adhoc_narration(lines, func():
-		_refresh_event_hint()
-		_try_companion_banter("after_event:" + evt_id)
-	)
+	_play_event_now(evt_id)
 
 
 # ─── 菜单 ───

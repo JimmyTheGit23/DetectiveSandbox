@@ -63,61 +63,26 @@ def _defringe_visible_chroma(data: np.ndarray) -> np.ndarray:
     r, g, b, a = data[:, :, 0], data[:, :, 1], data[:, :, 2], data[:, :, 3]
     transparent = a < 8
     transparent_img = Image.fromarray((transparent.astype(np.uint8) * 255), mode="L")
-    edge_band = np.array(transparent_img.filter(ImageFilter.MaxFilter(size=17)), dtype=np.uint8) > 0
+    # 放宽边缘带：Gemini img2img 常把纯紫底压成一圈暗紫/灰紫半透明边。
+    edge_band = np.array(transparent_img.filter(ImageFilter.MaxFilter(size=27)), dtype=np.uint8) > 0
 
-    purple = (a > 8) & edge_band & (r > g + 10) & (b > g + 10) & (((r + b) * 0.5) > g + 18)
+    purple = (a > 8) & edge_band & (r > g + 8) & (b > g + 8) & (((r + b) * 0.5) > g + 12)
+    blue_purple = (a > 8) & edge_band & (b > g + 10) & (r > g + 2)
     green = (a > 8) & edge_band & (g > r + 12) & (g > b + 12)
-    fringe = purple | green
+    fringe = purple | blue_purple | green
     if not np.any(fringe):
         return data
 
-    valid = (a > 80) & (~fringe) & (~transparent)
-    for _ in range(10):
-        if not np.any(fringe):
-            break
-        fillable = np.zeros(fringe.shape, dtype=bool)
-        color_sum = np.zeros((*fringe.shape, 3), dtype=np.float32)
-        count = np.zeros(fringe.shape, dtype=np.float32)
-        for dy, dx in ((-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)):
-            shifted_valid = np.roll(valid, shift=(dy, dx), axis=(0, 1))
-            shifted_color = np.roll(data[:, :, :3], shift=(dy, dx), axis=(0, 1))
-            if dy < 0:
-                shifted_valid[dy:, :] = False
-            elif dy > 0:
-                shifted_valid[:dy, :] = False
-            if dx < 0:
-                shifted_valid[:, dx:] = False
-            elif dx > 0:
-                shifted_valid[:, :dx] = False
-            use = fringe & shifted_valid
-            color_sum[use] += shifted_color[use]
-            count[use] += 1.0
-            fillable |= use
-        if not np.any(fillable):
-            break
-        for c in range(3):
-            data[:, :, c][fillable] = color_sum[:, :, c][fillable] / count[fillable]
-        valid |= fillable
-        fringe &= ~fillable
+    # 最外层色键污染不做灰化，直接透明，避免在深色背景上出现灰边。
+    data[:, :, 3][fringe] = 0
 
-    # 仍没法用邻近颜色修复的像素，直接去饱和并轻微降透明度。
-    if np.any(fringe):
-        gray = data[:, :, :3].mean(axis=2)
-        for c in range(3):
-            data[:, :, c][fringe] = gray[fringe]
-        data[:, :, 3][fringe] *= 0.65
-
-    # 最后一遍：AI 有时会把紫底污染成不透明的紫色描边/发丝阴影。
-    # 对所有可见的紫偏像素做低饱和中和，避免游戏里在深色背景上露紫边。
+    # 对紧邻透明区域的低 alpha 雾边再收一次。
     r, g, b, a = data[:, :, 0], data[:, :, 1], data[:, :, 2], data[:, :, 3]
-    purple_cast = (a > 8) & (r > g + 5) & (b > g + 5) & (((r + b) * 0.5) > g + 10)
-    if np.any(purple_cast):
-        luma = 0.299 * r + 0.587 * g + 0.114 * b
-        # 暗部更接近墨线，亮部保留为中性灰/白边。
-        neutral = np.where(luma < 96, luma * 0.72, luma)
-        data[:, :, 0][purple_cast] = neutral[purple_cast]
-        data[:, :, 1][purple_cast] = neutral[purple_cast]
-        data[:, :, 2][purple_cast] = neutral[purple_cast]
+    transparent = a < 8
+    transparent_img = Image.fromarray((transparent.astype(np.uint8) * 255), mode="L")
+    tight_edge = np.array(transparent_img.filter(ImageFilter.MaxFilter(size=9)), dtype=np.uint8) > 0
+    edge_haze = tight_edge & (a > 0) & (a < 96)
+    data[:, :, 3][edge_haze] = 0
 
     return data
 
@@ -143,6 +108,12 @@ def remove_chroma_background(path: str, out_path: str | None = None) -> None:
     alpha = data[:, :, 3]
     alpha = alpha * (1.0 - bg_alpha)
     data[:, :, 3] = np.clip(alpha, 0, 255)
+
+    # 全局色键：处理人物手臂/烟杆/发丝围出的内部孔洞；这些区域不连到画布边缘，不能只靠 flood fill。
+    r, g, b, a = data[:, :, 0], data[:, :, 1], data[:, :, 2], data[:, :, 3]
+    global_purple = (a > 0) & (r > g + 18) & (b > g + 18) & (((r + b) * 0.5) > g + 32)
+    global_green = (a > 0) & (g > r + 28) & (g > b + 28)
+    data[:, :, 3][global_purple | global_green] = 0
 
     # 第一遍：处理半透明色边。
     r, g, b, a = data[:, :, 0], data[:, :, 1], data[:, :, 2], data[:, :, 3]

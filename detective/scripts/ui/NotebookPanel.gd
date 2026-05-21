@@ -14,6 +14,7 @@ func _ready() -> void:
 	close_btn.pressed.connect(func(): close_requested.emit())
 	_build_evidence_tab()
 	_build_clue_tab()
+	_build_record_tab()
 	_build_key_info_tab()
 	_build_people_tab()
 
@@ -296,6 +297,109 @@ func _build_item_list_tab(title: String, items: Array, color: Color, tag: String
 		_add_list_item(list_vbox, data.get("name", item_id), data.get("description", ""), color, tag)
 
 
+# ─── 卷宗 Tab ───
+
+func _build_record_tab() -> void:
+	var scroll := _make_scroll_container("卷 宗")
+	var margin := _make_margin(scroll)
+	var records: Array = GameManager.get("case_records") if GameManager != null else []
+	var dialogues: Array = GameManager.get("dialogue_records") if GameManager != null else []
+	if records.is_empty() and dialogues.is_empty():
+		var empty_vbox := VBoxContainer.new()
+		margin.add_child(empty_vbox)
+		_add_empty_state(empty_vbox, "尚无卷宗记录")
+		return
+	var list_vbox := VBoxContainer.new()
+	list_vbox.add_theme_constant_override("separation", 8)
+	list_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	margin.add_child(list_vbox)
+	for record in records:
+		if typeof(record) != TYPE_DICTIONARY:
+			continue
+		var rtype: String = record.get("type", "key")
+		var tag := "情报"
+		if rtype == "testimony":
+			tag = "证词"
+		elif rtype == "suspicion":
+			tag = "疑点"
+		_add_list_item(list_vbox, record.get("title", "卷宗记录"), record.get("text", ""), Color(1.0, 0.74, 0.48, 1), tag, record.get("source", ""))
+	var summaries := _build_dialogue_summaries(dialogues)
+	if not summaries.is_empty():
+		var sep := HSeparator.new()
+		sep.add_theme_constant_override("separation", 10)
+		list_vbox.add_child(sep)
+		var title := Label.new()
+		title.text = "── 角色对话卷宗 ──"
+		title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		title.add_theme_font_size_override("font_size", 18)
+		title.add_theme_color_override("font_color", Color(1.0, 0.86, 0.48, 1))
+		list_vbox.add_child(title)
+		for summary in summaries:
+			var speaker: String = summary.get("speaker", "旁白")
+			var lines: Array = summary.get("lines", [])
+			var body := ""
+			for line in lines:
+				body += "· %s\n" % str(line)
+			_add_list_item(
+				list_vbox,
+				"%s（%d条关键对话）" % [speaker, lines.size()],
+				body.strip_edges(),
+				Color(0.86, 0.82, 0.68, 1),
+				"对话",
+				"角色卷宗"
+			)
+
+
+func _build_dialogue_summaries(dialogues: Array) -> Array:
+	var speaker_order: Array[String] = []
+	var key_lines_by_speaker: Dictionary = {}
+	var fallback_by_speaker: Dictionary = {}
+	var start: int = max(0, dialogues.size() - 180)
+	for i in range(start, dialogues.size()):
+		var d = dialogues[i]
+		if typeof(d) != TYPE_DICTIONARY:
+			continue
+		var speaker: String = str(d.get("speaker", "旁白")).strip_edges()
+		var text: String = str(d.get("text", "")).strip_edges()
+		if speaker == "" or text == "":
+			continue
+		if not speaker_order.has(speaker):
+			speaker_order.append(speaker)
+			key_lines_by_speaker[speaker] = []
+			fallback_by_speaker[speaker] = []
+		_add_unique_limited(fallback_by_speaker[speaker], text, 4)
+		if _is_key_dialogue_line(text):
+			_add_unique_limited(key_lines_by_speaker[speaker], text, 8)
+	var result: Array = []
+	for speaker in speaker_order:
+		var lines: Array = key_lines_by_speaker.get(speaker, [])
+		if lines.is_empty():
+			lines = fallback_by_speaker.get(speaker, [])
+		if not lines.is_empty():
+			result.append({"speaker": speaker, "lines": lines})
+	return result
+
+
+func _add_unique_limited(lines: Array, text: String, limit: int) -> void:
+	if lines.has(text):
+		return
+	lines.append(text)
+	while lines.size() > limit:
+		lines.pop_front()
+
+
+func _is_key_dialogue_line(text: String) -> bool:
+	var terms := [
+		"船板", "撞礁", "暗礁", "水涨", "破洞", "凿痕", "钉眼", "浮囊", "包袱",
+		"二两", "十二年", "遣散", "赌债", "四十二两", "不到一刻钟", "半个时辰",
+		"不会游泳", "不识水性", "夜船", "老范", "阿贵", "动机", "证据"
+	]
+	for term in terms:
+		if text.find(term) >= 0:
+			return true
+	return false
+
+
 # ─── 关键信息 Tab ───
 
 func _build_key_info_tab() -> void:
@@ -311,7 +415,13 @@ func _build_key_info_tab() -> void:
 		if GameManager.check_key_info_requires(requires):
 			unlocked.append(key)
 
-	if unlocked.is_empty():
+	var dynamic_records: Array = []
+	var saved_records: Array = GameManager.get("case_records") if GameManager != null else []
+	for record in saved_records:
+		if typeof(record) == TYPE_DICTIONARY:
+			dynamic_records.append(record)
+
+	if unlocked.is_empty() and dynamic_records.is_empty():
 		var empty_vbox := VBoxContainer.new()
 		margin.add_child(empty_vbox)
 		_add_empty_state(empty_vbox, "尚未获得关键信息")
@@ -332,6 +442,14 @@ func _build_key_info_tab() -> void:
 			"情报",
 			entry.get("source", "")
 		)
+	for record in dynamic_records:
+		var rtype: String = record.get("type", "key")
+		var tag := "情报"
+		if rtype == "testimony":
+			tag = "证词"
+		elif rtype == "suspicion":
+			tag = "疑点"
+		_add_list_item(info_vbox, record.get("title", "卷宗记录"), record.get("text", ""), Color(1.0, 0.78, 0.48, 1), tag, record.get("source", ""))
 
 
 # ─── 人物 Tab ───

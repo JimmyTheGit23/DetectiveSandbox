@@ -7,7 +7,8 @@
       "options": [
         {
           "text": "问问当晚发生了什么",
-          "goto": "intro"
+          "goto": "intro",
+          "type": "ask"
         },
         {
           "text": "你和周德茂关系怎样？",
@@ -16,7 +17,8 @@
             {
               "flag": "agui_talked_once"
             }
-          ]
+          ],
+          "type": "press"
         },
         {
           "text": "你是怎么从水里活下来的？",
@@ -25,7 +27,8 @@
             {
               "flag": "agui_talked_once"
             }
-          ]
+          ],
+          "type": "press"
         },
         {
           "text": "【出示遣散字据】这是什么？",
@@ -34,7 +37,8 @@
             {
               "evidence": "evidence_dismissal_note"
             }
-          ]
+          ],
+          "type": "evidence"
         },
         {
           "text": "【出示浮囊】这东西从你包袱里翻出来的",
@@ -43,7 +47,8 @@
             {
               "evidence": "evidence_float_bladder"
             }
-          ]
+          ],
+          "type": "evidence"
         },
         {
           "text": "说实话吧。",
@@ -52,7 +57,8 @@
             {
               "flag": "agui_bladder_confronted"
             }
-          ]
+          ],
+          "type": "probe"
         },
         {
           "text": "先告辞",
@@ -62,11 +68,32 @@
     },
     "intro": {
       "lines": [
-        { "speaker_id": "agui", "text": "那天……那天夜里，老爷说要赶路，非坐夜船不可。小的劝了，老爷不听。" },
-        { "speaker_id": "agui", "text": "到了江心，突然船就晃得厉害——然后水就涌进来了！什么都看不见，什么都抓不住！" },
-        { "speaker_id": "agui", "text": "小的只记得呛了好多水……等醒过来的时候已经在岸上了。（哽咽）老爷他……老爷他不在了……" },
-        { "speaker_id": "xia_lingyao", "text": "哭得倒凶，可他说得太空了。" },
-        { "speaker_id": "lu_zhao", "text": "空话多，细节少。继续问。" }
+        {
+          "speaker_id": "agui",
+          "text": "那天……那天夜里，老爷说要赶路，非坐夜船不可。小的劝了，老爷不听。",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "到了江心，突然船就晃得厉害——然后水就涌进来了！什么都看不见，什么都抓不住！",
+          "emotion": "panic",
+          "highlight": [
+            "水涌进来"
+          ]
+        },
+        {
+          "speaker_id": "agui",
+          "text": "小的只记得呛了好多水……等醒过来的时候已经在岸上了。（哽咽）老爷他……老爷他不在了……",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "哭得倒凶，可他说得太空了。"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "空话多，细节少。继续问。"
+        }
       ],
       "options": [
         {
@@ -97,9 +124,26 @@
     },
     "press_alibi": {
       "lines": [
-        { "speaker_id": "agui", "text": "小的……小的也不知道。命大吧。抱着一块船板就飘上来了。" },
-        { "speaker_id": "xia_lingyao", "text": "冬天的江水，不会游泳的人抱块板子就能活？" },
-        { "speaker_id": "lu_zhao", "text": "先记下。他的说法站不稳。" }
+        {
+          "speaker_id": "agui",
+          "text": "小的……小的也不知道。命大吧。抱着一块船板就飘上来了。",
+          "emotion": "defensive",
+          "highlight": [
+            "抱着一块船板"
+          ],
+          "record_type": "testimony",
+          "record_title": "证词记录：阿贵的生还说法",
+          "record_text": "阿贵声称自己抱着一块船板漂上岸。"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "冬天的江水，不会游泳的人抱块板子就能活？",
+          "emotion": "thinking"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "先记下。他的说法站不稳。"
+        }
       ],
       "options": [
         {
@@ -130,12 +174,30 @@
     },
     "show_bladder": {
       "lines": [
-        { "speaker_id": "agui", "text": "（猛地站起来）那——那不是小的的！是、是……" },
-        { "speaker_id": "agui", "text": "……" },
-        { "speaker_id": "agui", "text": "（沉默良久）" },
-        { "speaker_id": "agui", "text": "大人。小的想说实话。" },
-        { "speaker_id": "xia_lingyao", "text": "哟——这才对嘛。" },
-        { "speaker_id": "lu_zhao", "text": "说。" }
+        {
+          "speaker_id": "agui",
+          "text": "（猛地站起来）那——那不是小的的！是、是……"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "……"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "（沉默良久）"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "大人。小的想说实话。"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "哟——这才对嘛。"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "说。"
+        }
       ],
       "options": [
         {
@@ -153,13 +215,34 @@
     },
     "confession": {
       "lines": [
-        { "speaker_id": "agui", "text": "是小的做的。" },
-        { "speaker_id": "agui", "text": "十二年。十二年跟前跟后伺候。从他一文不名的时候就跟着。" },
-        { "speaker_id": "agui", "text": "发达了。发达了就嫌小的碍眼。二两银子——打发叫花子呢？" },
-        { "speaker_id": "agui", "text": "老范缺钱，小的缺一条出路。一拍即合。" },
-        { "speaker_id": "agui", "text": "……小的不后悔。" },
-        { "speaker_id": "xia_lingyao", "text": "不后悔？那水里挣扎的人呢？" },
-        { "speaker_id": "lu_zhao", "text": "供词记下。案子到这里，已经合上了。" }
+        {
+          "speaker_id": "agui",
+          "text": "是小的做的。"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "十二年。十二年跟前跟后伺候。从他一文不名的时候就跟着。"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "发达了。发达了就嫌小的碍眼。二两银子——打发叫花子呢？"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "老范缺钱，小的缺一条出路。一拍即合。"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "……小的不后悔。"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "不后悔？那水里挣扎的人呢？"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "供词记下。案子到这里，已经合上了。"
+        }
       ],
       "options": [
         {

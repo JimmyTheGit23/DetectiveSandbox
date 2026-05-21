@@ -500,14 +500,17 @@ func _do_align_bg() -> void:
 
 
 func _case_has_save(case_id: String) -> bool:
-	return FileAccess.file_exists("user://saves/%s.json" % case_id)
+	if FileAccess.file_exists("user://saves/%s.json" % case_id):
+		return true
+	# 兼容旧存档路径，避免旧版本中途进度在选案界面消失。
+	return FileAccess.file_exists("user://%s_save.json" % case_id)
 
 
-func _show_action_bubble(case_id: String, case_title: String, has_save: bool, is_cleared: bool) -> void:
+func _show_action_bubble(case_id: String, case_title: String, has_save: bool, _is_cleared: bool) -> void:
 	_remove_action_bubble()
 
-	# 已通关或无存档：直接开始新游戏
-	if is_cleared or not has_save:
+	# 无存档：直接开始新游戏。已通关但正在重玩且有存档时，仍必须允许继续。
+	if not has_save:
 		case_chosen_with_action.emit(case_id, "new")
 		queue_free()
 		return

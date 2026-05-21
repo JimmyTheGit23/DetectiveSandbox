@@ -7,7 +7,8 @@
       "options": [
         {
           "text": "说说你丈夫",
-          "goto": "intro"
+          "goto": "intro",
+          "type": "ask"
         },
         {
           "text": "阿贵这个人怎么样？",
@@ -16,7 +17,8 @@
             {
               "flag": "zhou_talked_once"
             }
-          ]
+          ],
+          "type": "ask"
         },
         {
           "text": "你为什么觉得不是意外？",
@@ -25,7 +27,8 @@
             {
               "flag": "zhou_talked_once"
             }
-          ]
+          ],
+          "type": "press"
         },
         {
           "text": "你丈夫会游泳吗？",
@@ -34,7 +37,8 @@
             {
               "flag": "zhou_talked_once"
             }
-          ]
+          ],
+          "type": "ask"
         },
         {
           "text": "节哀。我一定查清楚。",
@@ -43,7 +47,8 @@
             {
               "flag": "zhou_talked_once"
             }
-          ]
+          ],
+          "type": "observe"
         },
         {
           "text": "能看看你丈夫的文书吗？",
@@ -52,7 +57,8 @@
             {
               "flag": "zhou_revealed_dismissal"
             }
-          ]
+          ],
+          "type": "ask"
         },
         {
           "text": "先告辞",
@@ -78,13 +84,43 @@
     },
     "ask_agui": {
       "lines": [
-        { "speaker_id": "zhou_wife", "text": "阿贵跟了老爷十二年了。以前什么都好——忠心、勤快。" },
-        { "speaker_id": "zhou_wife", "text": "可这两年……老爷嫌他笨手笨脚，动不动就骂。上船前一天还当着外人面骂了他一顿。" },
-        { "speaker_id": "zhou_wife", "text": "（犹豫）而且……老爷上船前跟我说过，到了武昌就把阿贵打发走。" },
-        { "speaker_id": "lu_zhao", "text": "打发走？给多少遣散银？" },
-        { "speaker_id": "zhou_wife", "text": "老爷写了字据……二两。" },
-        { "speaker_id": "xia_lingyao", "text": "二两？十二年就换二两？这也太寒碜了。" },
-        { "speaker_id": "lu_zhao", "text": "寒心不等于杀人。但确实是动机。" }
+        {
+          "speaker_id": "zhou_wife",
+          "text": "阿贵跟了老爷十二年了。以前什么都好——忠心、勤快。"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "可这两年……老爷嫌他笨手笨脚，动不动就骂。上船前一天还当着外人面骂了他一顿。"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "（犹豫）而且……老爷上船前跟我说过，到了武昌就把阿贵打发走。",
+          "emotion": "suspicious"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "打发走？给多少遣散银？"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "老爷写了字据……二两。",
+          "emotion": "grief",
+          "highlight": [
+            "二两"
+          ],
+          "record_type": "testimony",
+          "record_title": "证词记录：阿贵被遣散",
+          "record_text": "周氏证实周德茂准备到武昌后遣散阿贵，遣散银只有二两。"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "二两？十二年就换二两？这也太寒碜了。"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "寒心不等于杀人。但确实是动机。",
+          "emotion": "thinking"
+        }
       ],
       "options": [
         {
@@ -119,11 +155,33 @@
     },
     "ask_swimming": {
       "lines": [
-        { "speaker_id": "zhou_wife", "text": "不会！完全不会！他连河边都不敢走太近。" },
-        { "speaker_id": "zhou_wife", "text": "以前在家洗澡，水深过膝盖他就不下去。别人笑他，他也不改。" },
-        { "speaker_id": "zhou_wife", "text": "这也是他平时从不坐夜船的原因——白天能看到岸。" },
-        { "speaker_id": "xia_lingyao", "text": "怕水的人深夜上船，不是被催的，就是被骗的。" },
-        { "speaker_id": "lu_zhao", "text": "这点可以和阿贵的说法互证。" }
+        {
+          "speaker_id": "zhou_wife",
+          "text": "不会！完全不会！他连河边都不敢走太近。",
+          "emotion": "grief",
+          "highlight": [
+            "不会"
+          ],
+          "record_type": "testimony",
+          "record_title": "证词记录：死者不识水性",
+          "record_text": "周氏确认周德茂完全不会游泳，平时也畏惧深水。"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "以前在家洗澡，水深过膝盖他就不下去。别人笑他，他也不改。"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "这也是他平时从不坐夜船的原因——白天能看到岸。"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "怕水的人深夜上船，不是被催的，就是被骗的。"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "这点可以和阿贵的说法互证。"
+        }
       ],
       "options": [
         {

@@ -224,7 +224,11 @@ func _resolve_dialogue_pages(node: Dictionary, default_speaker: String, default_
 			var portrait: String = str(line.get("portrait", "")).strip_edges()
 			if portrait == "" and line_type != "narration":
 				portrait = _portrait_for_speaker(speaker, speaker_id, default_speaker, default_portrait)
-			out.append({"speaker": speaker, "portrait": portrait, "text": line_text, "type": line_type})
+			var page := {"speaker": speaker, "portrait": portrait, "text": line_text, "type": line_type}
+			for meta_key in ["emotion", "mood", "highlight", "record", "record_type", "record_title", "record_text", "record_id"]:
+				if line.has(meta_key):
+					page[meta_key] = line[meta_key]
+			out.append(page)
 		if not out.is_empty():
 			return out
 	# 优先 text_variants（按条件取）

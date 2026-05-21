@@ -7,7 +7,8 @@
       "options": [
         {
           "text": "你看到了什么？",
-          "goto": "intro"
+          "goto": "intro",
+          "type": "ask"
         },
         {
           "text": "他们走的哪条航道？",
@@ -16,7 +17,8 @@
             {
               "flag": "wang_talked_once"
             }
-          ]
+          ],
+          "type": "ask"
         },
         {
           "text": "案发前一晚你看到什么了？",
@@ -25,7 +27,8 @@
             {
               "flag": "wang_talked_once"
             }
-          ]
+          ],
+          "type": "press"
         },
         {
           "text": "你为什么愿意说？",
@@ -34,7 +37,8 @@
             {
               "flag": "wang_talked_once"
             }
-          ]
+          ],
+          "type": "observe"
         },
         {
           "text": "先告辞",
@@ -44,11 +48,36 @@
     },
     "intro": {
       "lines": [
-        { "speaker_id": "fisherman_wang", "text": "那天夜里，老汉在江上收夜网。" },
-        { "speaker_id": "fisherman_wang", "text": "先是听到一声巨响——木头裂开的声音。然后是人喊。" },
-        { "speaker_id": "fisherman_wang", "text": "老汉划过去的时候，船已经翻了。看到一个人趴在水里。另一个——自己扒着船板游上了岸。利索得很。" },
-        { "speaker_id": "xia_lingyao", "text": "自己游上岸？那就是老范了。他说自己泡了半个时辰才被人救上来——" },
-        { "speaker_id": "fisherman_wang", "text": "放屁。不到一刻钟他就上岸了。老汉看得清清楚楚。" }
+        {
+          "speaker_id": "fisherman_wang",
+          "text": "那天夜里，老汉在江上收夜网。"
+        },
+        {
+          "speaker_id": "fisherman_wang",
+          "text": "先是听到一声巨响——木头裂开的声音。然后是人喊。"
+        },
+        {
+          "speaker_id": "fisherman_wang",
+          "text": "老汉划过去的时候，船已经翻了。看到一个人趴在水里。另一个——自己扒着船板游上了岸。利索得很。",
+          "highlight": [
+            "自己扒着船板游上了岸"
+          ]
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "自己游上岸？那就是老范了。他说自己泡了半个时辰才被人救上来——"
+        },
+        {
+          "speaker_id": "fisherman_wang",
+          "text": "放屁。不到一刻钟他就上岸了。老汉看得清清楚楚。",
+          "emotion": "angry",
+          "highlight": [
+            "不到一刻钟"
+          ],
+          "record_type": "testimony",
+          "record_title": "证词记录：老范获救时间矛盾",
+          "record_text": "王老汉说老范不到一刻钟就自己上岸，与老范“半个时辰后被救”的说法冲突。"
+        }
       ],
       "options": [
         {
