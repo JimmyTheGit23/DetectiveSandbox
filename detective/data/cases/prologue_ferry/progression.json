@@ -26,18 +26,7 @@
     }
   ],
 
-  "panel_unlock": {
-    "accuse": {
-      "condition": {
-        "all": [
-          { "total_periods_used_gte": 8 },
-          { "evidence_count_gte": 4 },
-          { "evidence": "evidence_hull_hole" }
-        ]
-      },
-      "locked_hint": "证据不足，尚无法指证。需要更多物证和至少证明船被人为破坏。"
-    }
-  },
+  "panel_unlock": {},
 
   "search_point_unlock": {
     "ferry_inn.inn_agui_room": {

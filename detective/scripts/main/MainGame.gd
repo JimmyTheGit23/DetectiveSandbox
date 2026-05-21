@@ -53,6 +53,7 @@ func _ready() -> void:
 	GameManager.progression_hint.connect(_on_progression_hint)
 	DialogueManager.dialogue_started.connect(_on_dialogue_started)
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
+	DialogueManager.confrontation_triggered.connect(_on_confrontation_from_dialogue)
 	DialogueManager.narration_started.connect(_on_narration_started)
 	DialogueManager.narration_ended.connect(_on_narration_ended)
 	DialogueManager.lie_exposed.connect(_on_lie_exposed)
@@ -807,9 +808,15 @@ func _on_confrontation_requested(_suspect: String) -> void:
 	_open_confrontation_panel()
 
 
+func _on_confrontation_from_dialogue() -> void:
+	# 从对话触发对峙（新流程）
+	_open_confrontation_panel()
+
+
 func _open_confrontation_panel() -> void:
 	_close_subpanel()
 	BgmPlayer.play("accuse")
+	menu_panel.visible = false
 	var scene_path: String = SubPanels["confrontation"]
 	if not ResourceLoader.exists(scene_path):
 		push_warning("Panel scene missing: " + scene_path)
@@ -890,13 +897,13 @@ func _on_dialogue_ended() -> void:
 
 
 # ─── 序章 / 叙述 ───
-func _on_narration_started(background: String, _speaker: String, text: String, has_next: bool, centered: bool) -> void:
+func _on_narration_started(background: String, _speaker: String, text: String, has_next: bool, centered: bool, portrait: String = "") -> void:
 	if background != "":
 		_set_background(background, true)
 	# 进入游戏前的过场不叠加场景特效；无背景的助手短评不打断当前地点特效。
 	if background != "" and _scene_fx:
 		_scene_fx.clear_layers()
-	narration_box.show_narration(_speaker, text, has_next, centered)
+	narration_box.show_narration(_speaker, text, has_next, centered, portrait)
 	narration_box.visible = true
 	menu_panel.visible = false
 	#if _npc_layer and _npc_layer.has_method("hide_npcs"):

@@ -51,14 +51,29 @@
           "type": "evidence"
         },
         {
-          "text": "说实话吧。",
+          "text": "（对峙）证据够了。说实话吧。",
           "goto": "confession",
-          "requires": [
-            {
-              "flag": "agui_bladder_confronted"
-            }
-          ],
-          "type": "probe"
+          "requires": {
+            "all": [
+              {
+                "evidence": "evidence_hull_hole"
+              },
+              {
+                "evidence": "evidence_float_bladder"
+              },
+              {
+                "any": [
+                  {
+                    "evidence": "evidence_dismissal_note"
+                  },
+                  {
+                    "evidence": "evidence_gambling_iou"
+                  }
+                ]
+              }
+            ]
+          },
+          "type": "confrontation"
         },
         {
           "text": "先告辞",
@@ -88,11 +103,13 @@
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "哭得倒凶，可他说得太空了。"
+          "text": "哭得倒凶，可他说得太空了。",
+          "emotion": "thinking"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "空话多，细节少。继续问。"
+          "text": "空话多，细节少。继续问。",
+          "emotion": "normal"
         }
       ],
       "options": [
@@ -110,7 +127,18 @@
       ]
     },
     "ask_relationship": {
-      "text": "老爷对小的很好。十二年了，吃住都是老爷供的。\n\n小的这辈子都感激老爷的大恩。",
+      "lines": [
+        {
+          "speaker_id": "agui",
+          "text": "老爷对小的很好。十二年了，吃住都是老爷供的。",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "小的这辈子都感激老爷的大恩。",
+          "emotion": "defensive"
+        }
+      ],
       "options": [
         {
           "text": "继续询问",
@@ -142,7 +170,8 @@
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "先记下。他的说法站不稳。"
+          "text": "先记下。他的说法站不稳。",
+          "emotion": "normal"
         }
       ],
       "options": [
@@ -157,7 +186,38 @@
       ]
     },
     "show_dismissal": {
-      "text": "！……那、那是……\n\n老爷他……他是说过要把小的遣散。但小的没有怨恨！真的没有！\n\n二两银子……十二年……\n\n（声音颤抖）小的没有怨恨。",
+      "lines": [
+        {
+          "speaker_id": "agui",
+          "text": "！……那、那是……",
+          "emotion": "panic"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "老爷他……他是说过要把小的遣散。但小的没有怨恨！真的没有！",
+          "emotion": "defensive"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "二两银子……十二年……",
+          "emotion": "shaken"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "（声音颤抖）小的没有怨恨。",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "十二年只值二两——换了谁都咽不下这口气。",
+          "emotion": "thinking"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "记下了。",
+          "emotion": "normal"
+        }
+      ],
       "options": [
         {
           "text": "继续询问",
@@ -176,27 +236,33 @@
       "lines": [
         {
           "speaker_id": "agui",
-          "text": "（猛地站起来）那——那不是小的的！是、是……"
+          "text": "（猛地站起来）那——那不是小的的！是、是……",
+          "emotion": "panic"
         },
         {
           "speaker_id": "agui",
-          "text": "……"
+          "text": "……",
+          "emotion": "nervous"
         },
         {
           "speaker_id": "agui",
-          "text": "（沉默良久）"
+          "text": "（沉默良久，蹲在地上发抖）",
+          "emotion": "shaken"
         },
         {
           "speaker_id": "agui",
-          "text": "大人。小的想说实话。"
+          "text": "大人……小的真的什么都没做……请……请明察……",
+          "emotion": "nervous"
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "哟——这才对嘛。"
+          "text": "（冷笑）证据都翻出来了，嘴还这么硬。",
+          "emotion": "thinking"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "说。"
+          "text": "不急。还有话要问你。",
+          "emotion": "normal"
         }
       ],
       "options": [
@@ -216,47 +282,31 @@
     "confession": {
       "lines": [
         {
-          "speaker_id": "agui",
-          "text": "是小的做的。"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "十二年。十二年跟前跟后伺候。从他一文不名的时候就跟着。"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "发达了。发达了就嫌小的碍眼。二两银子——打发叫花子呢？"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "老范缺钱，小的缺一条出路。一拍即合。"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "……小的不后悔。"
-        },
-        {
-          "speaker_id": "xia_lingyao",
-          "text": "不后悔？那水里挣扎的人呢？"
+          "speaker_id": "lu_zhao",
+          "text": "阿贵。我不想再绕弯子了。",
+          "emotion": "accusatory"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "供词记下。案子到这里，已经合上了。"
-        }
-      ],
-      "options": [
-        {
-          "text": "继续询问",
-          "goto": "hub"
+          "text": "浮囊、船底的洞、你那身衣服——所有证据都指向你。",
+          "emotion": "piercing"
         },
         {
-          "text": "先告辞",
-          "goto": "__exit__"
+          "speaker_id": "agui",
+          "text": "（猛然站起）大人！小的——小的是冤枉的！",
+          "emotion": "panic"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "那好。一条一条过。你说的每一句话——我都有东西反驳。",
+          "emotion": "normal"
         }
       ],
       "set_flags": [
-        "agui_confessed"
-      ]
+        "confrontation_triggered"
+      ],
+      "trigger_confrontation": true,
+      "options": []
     }
   }
 }

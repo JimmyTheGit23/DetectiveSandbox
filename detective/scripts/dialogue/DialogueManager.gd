@@ -3,7 +3,9 @@ extends Node
 
 signal dialogue_started(speaker: String, portrait: String, text: String, options: Array, pages: Array)
 signal dialogue_ended()
-signal narration_started(background: String, speaker: String, text: String, has_next: bool, centered: bool)
+signal confrontation_triggered()
+signal narration_started(background: String, speaker: String, text: String, has_next: bool, centered: bool, portrait: String)
+signal narration_choices_ready(choices: Array)
 signal narration_ended()
 signal lie_exposed(npc_id: String, lie_node: String)
 
@@ -11,6 +13,7 @@ var _current_tree: Dictionary = {}
 var _current_node_id: String = ""
 var _current_npc_id: String = ""
 var _dialogue_had_content_node: bool = false
+var _will_trigger_confrontation: bool = false
 var _narration_mode: bool = false
 var _narration_node: String = ""
 
@@ -112,12 +115,18 @@ func _apply_node_entry(node_id: String) -> void:
 func end_dialogue(suppress_companion_banter := false) -> void:
 	var ended_npc := _current_npc_id
 	var had_content := _dialogue_had_content_node
+	var should_confront := _will_trigger_confrontation
 	_current_tree = {}
 	_current_npc_id = ""
 	_dialogue_had_content_node = false
+	_will_trigger_confrontation = false
 	VoicePlayer.end_session()
 	GameManager.set_state(GameManager.STATE_PLAYING)
 	dialogue_ended.emit()
+	# 对峙触发：对话结束后立即进入对峙
+	if should_confront:
+		confrontation_triggered.emit()
+		return
 	# 助手被动旁白：至少听过一个实质询问节点后，结束对话才触发总结。
 	if not suppress_companion_banter and had_content:
 		_try_companion_banter({"trigger": "dialogue_end", "npc_id": ended_npc, "node_id": ""})
@@ -194,9 +203,18 @@ func _emit_current() -> void:
 	var pages: Array = _resolve_dialogue_pages(node, npc_name, portrait)
 	var text: String = _pages_to_text(pages)
 	var options := _filter_options(node.get("options", []))
+	# 优化：如果当前节点的选项只是"回 hub"+"退出"这种中转，直接跳到 hub
+	# 这样 choose_option 读的选项和玩家看到的一致（解决索引不匹配导致的卡死）
+	if _should_skip_to_hub(options):
+		_current_node_id = "hub"
+		var hub_node: Dictionary = _current_tree.get("nodes", {}).get("hub", {})
+		options = _filter_options(hub_node.get("options", []))
 	VoicePlayer.play_dialogue(_current_npc_id, _current_node_id)
 	# TTS 异步请求：如果 VoicePlayer 没有命中预录或缓存，发起 TTS 生成
 	_try_tts_for_dialogue(_current_npc_id, _current_node_id, text)
+	# 检查是否触发对峙：对话播完后自动进入对峙流程
+	if node.get("trigger_confrontation", false):
+		_will_trigger_confrontation = true
 	dialogue_started.emit(npc_name, portrait, text, options, pages)
 
 
@@ -211,6 +229,10 @@ func _resolve_dialogue_pages(node: Dictionary, default_speaker: String, default_
 		for line in lines:
 			if typeof(line) != TYPE_DICTIONARY:
 				continue
+			# 支持单行条件：requires 不满足则跳过该行
+			if line.has("requires"):
+				if not GameManager.evaluate_condition(line["requires"]):
+					continue
 			var line_text: String = str(line.get("text", "")).strip_edges()
 			if line_text == "":
 				continue
@@ -312,6 +334,24 @@ func _filter_options(options: Array) -> Array:
 	return out
 
 
+## 检测：当前节点选项是否只有"回 hub + 退出"的无意义中转
+func _should_skip_to_hub(options: Array) -> bool:
+	if _current_node_id == "hub":
+		return false
+	if not _current_tree.get("nodes", {}).has("hub"):
+		return false
+	var has_hub_goto := false
+	for o in options:
+		var goto: String = o.get("goto", "")
+		if goto == "hub":
+			has_hub_goto = true
+		elif goto == "__exit__" or goto == "":
+			pass
+		else:
+			return false
+	return has_hub_goto
+
+
 # ─── 序章 / 叙述模式 ───
 func start_narration(json_path: String) -> void:
 	if not FileAccess.file_exists(json_path):
@@ -334,6 +374,9 @@ func narration_next() -> void:
 	if node.get("end", false):
 		_end_narration()
 		return
+	# 有选项的节点不走 narration_next，等 narration_choose
+	if node.has("choices") and not node.get("choices", []).is_empty():
+		return
 	var nxt: String = node.get("next", "")
 	if nxt == "":
 		_end_narration()
@@ -342,20 +385,65 @@ func narration_next() -> void:
 	_emit_narration()
 
 
+## 叙述中选择选项（密室逃脱等交互场景用）
+func narration_choose(index: int) -> void:
+	if not _narration_mode:
+		return
+	var node: Dictionary = _current_tree.get("nodes", {}).get(_narration_node, {})
+	var choices: Array = node.get("choices", [])
+	if index < 0 or index >= choices.size():
+		return
+	var choice: Dictionary = choices[index]
+	# 应用选项效果
+	_apply_narration_effects(choice.get("effect", {}))
+	var goto: String = choice.get("goto", "")
+	if goto == "" or goto == "__end__":
+		_end_narration()
+		return
+	_narration_node = goto
+	_emit_narration()
+
+
 func _emit_narration() -> void:
 	var node: Dictionary = _current_tree.get("nodes", {}).get(_narration_node, {})
 	if node.is_empty():
 		_end_narration()
 		return
+	# 应用节点自身效果（进入即触发）
+	_apply_narration_effects(node.get("effect", {}))
 	if not node.get("silent", false):
 		VoicePlayer.play_narration(_narration_node)
 	else:
 		VoicePlayer.stop()
 	var centered: bool = node.get("centered", false)
+	var has_choices: bool = node.has("choices") and not node.get("choices", []).is_empty()
+	var node_portrait: String = node.get("portrait", "")
 	if node.get("end", false):
-		narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), false, centered)
+		narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), false, centered, node_portrait)
 		return
-	narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), true, centered)
+	# 有选项时 has_next 设为 false（不显示"点击继续"），改为等选项
+	var has_next: bool = not has_choices
+	narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), has_next, centered, node_portrait)
+	if has_choices:
+		narration_choices_ready.emit(node.get("choices", []))
+
+
+## 应用叙述节点/选项的效果
+func _apply_narration_effects(effects) -> void:
+	if effects == null or typeof(effects) != TYPE_DICTIONARY:
+		return
+	var d: Dictionary = effects
+	if d.has("set_flag"):
+		var f = d["set_flag"]
+		if f is String:
+			GameManager.set_flag(f)
+		elif f is Array:
+			for x in f:
+				GameManager.set_flag(str(x))
+	if d.has("gain_clue"):
+		GameManager.add_clue(str(d["gain_clue"]))
+	if d.has("gain_evidence"):
+		GameManager.add_evidence(str(d["gain_evidence"]))
 
 
 func _end_narration() -> void:
@@ -403,7 +491,7 @@ func _emit_adhoc() -> void:
 		VoicePlayer.play_voice_path(item.get("voice_path", ""))
 	else:
 		VoicePlayer.stop()
-	narration_started.emit(background, speaker, text, has_next, centered)
+	narration_started.emit(background, speaker, text, has_next, centered, "")
 
 
 func adhoc_next() -> void:

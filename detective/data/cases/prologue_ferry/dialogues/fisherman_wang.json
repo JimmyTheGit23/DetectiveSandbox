@@ -65,7 +65,19 @@
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "自己游上岸？那就是老范了。他说自己泡了半个时辰才被人救上来——"
+          "text": "自己游上岸？那就是老范了。他说自己泡了半个时辰才被人救上来——",
+          "requires": {
+            "visited": "lao_fan.ask_rescue"
+          }
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "自己游上岸？利索得很？那跟落水求救的样子可对不上啊——",
+          "requires": {
+            "not": {
+              "visited": "lao_fan.ask_rescue"
+            }
+          }
         },
         {
           "speaker_id": "fisherman_wang",

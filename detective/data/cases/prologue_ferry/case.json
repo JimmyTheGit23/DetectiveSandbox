@@ -14,62 +14,517 @@
     "suspect": "agui",
     "confidence": 3,
     "intro_dialogue": [
-      {"speaker": "你", "text": "「阿贵，你跟随周老爷十二年，该你说话的时候到了。」"},
-      {"speaker": "阿贵", "text": "「大人……小的什么都没做，老爷是翻船落水的……」"}
+      {
+        "speaker": "你",
+        "text": "阿贵，你跟随周老爷十二年。现在——该你说话了。",
+        "emotion": "accusatory"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "大人……小的什么都没做，老爷是翻船落水的……",
+        "emotion": "nervous"
+      },
+      {
+        "speaker": "你",
+        "text": "翻船？那我们就从那晚说起。你把当时的情况，一句一句说清楚。",
+        "emotion": "normal"
+      }
     ],
-    "rounds": [
+    "testimonies": [
       {
-        "id": "round_1",
-        "lie": "那夜我一直守在船舱里，根本没出去过！",
-        "counter_evidence": "evidence_float_bladder",
-        "alt_evidence": ["clue_agui_dry_inner"],
-        "break_dialogue": [
-          {"speaker": "你", "text": "「你说整夜都在舱里……那这牛皮浮囊怎么解释？」"},
-          {"speaker": "阿贵", "text": "「……！」"},
-          {"speaker": "你", "text": "「这种水上救命的东西，一个不会游泳的仆从，上船前特意藏在包袱底层——你不是去伺候主人，是给自己留了条后路！」"}
+        "id": "testimony_1",
+        "title": "— 证词其一：那晚的行踪 —",
+        "statements": [
+          {
+            "id": "s1_1",
+            "speaker": "阿贵",
+            "text": "那晚老爷说要坐船赶路，叫我一起伺候。",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "是你主动要跟的？还是周老爷命令你上船？",
+                "emotion": "normal"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "是……老爷吾咐的。说船上要人伺候。",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "一个不会水的人，被安排上夜船——正常主家不会这么干。",
+                "emotion": "thinking"
+              }
+            ]
+          },
+          {
+            "id": "s1_2",
+            "speaker": "阿贵",
+            "text": "上了船我就在船舱里待着，一步都没出去过。",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "一步都没出去？从上船到翻船，整夜？",
+                "emotion": "piercing"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "对……我晕船，不敢出去。外头风大水急的。",
+                "emotion": "defensive"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "晕船的人，包裱里带浮囊？越说越不对劲。",
+                "emotion": "thinking"
+              }
+            ],
+            "press_adds": {
+              "after": "s1_2",
+              "statement": {
+                "id": "s1_2b",
+                "speaker": "阿贵",
+                "text": "……好吧，我承认中间出去过一次。去船头透了口气，但马上就回来了。",
+                "is_contradiction": true,
+                "counter_evidence": "evidence_float_bladder",
+                "alt_evidence": [
+                  "clue_agui_dry_inner"
+                ],
+                "press": [
+                  {
+                    "speaker": "你",
+                    "text": "透气？大冬天、夜里、江上——你跑出去透气？",
+                    "emotion": "accusatory"
+                  },
+                  {
+                    "speaker": "阿贵",
+                    "text": "舱里……舱里太闷了。",
+                    "emotion": "nervous"
+                  },
+                  {
+                    "speaker": "凌瑶",
+                    "text": "腊月江上冷得要命。闷？你在撒谎。",
+                    "emotion": "alert"
+                  }
+                ],
+                "break_dialogue": [
+                  {
+                    "speaker": "你",
+                    "text": "透气？（甩出浮囊）带着这个东西？",
+                    "emotion": "accusatory"
+                  },
+                  {
+                    "speaker": "你",
+                    "text": "这是牛皮浮囊——水上救命用的。一个自称不会水的人，为什么随身藏着它？",
+                    "emotion": "piercing"
+                  },
+                  {
+                    "speaker": "阿贵",
+                    "text": "那……那是……",
+                    "emotion": "panic"
+                  },
+                  {
+                    "speaker": "你",
+                    "text": "你不是去透气。你出去确认船底已经在漏——然后套上浮囊，等着弃船。",
+                    "emotion": "accusatory"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "s1_3",
+            "speaker": "阿贵",
+            "text": "然后船突然就翻了，我也落了水，差点没命。",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "你说差点没命——那你怎么活下来的？",
+                "emotion": "normal"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "我……抱着一块船板，飘到岸边。运气好。",
+                "emotion": "defensive"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "冬天的江水！不会游泳的人能抱住船板不松手？",
+                "emotion": "alert"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "是……是老天开眼……",
+                "emotion": "nervous"
+              }
+            ]
+          },
+          {
+            "id": "s1_4",
+            "speaker": "阿贵",
+            "text": "上了岸就去找人求救。天亮才到的客栈。",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "你到客栈的时候，身上穿着什么？",
+                "emotion": "normal"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "就……湿透的棉衣。冻得不行。",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "可周氏说你到的时候里衣是干的。腊月落水，外衣三天不干——里衣却只微潮？",
+                "emotion": "thinking"
+              }
+            ]
+          }
         ],
         "fail_dialogue": [
-          {"speaker": "阿贵", "text": "「这……这跟那晚有什么关系？大人别冤枉好人。」"}
+          {
+            "speaker": "阿贵",
+            "text": "大人……这跟那晚有什么关系？您别冒枉好人啊。",
+            "emotion": "defensive"
+          }
         ]
       },
       {
-        "id": "round_2",
-        "lie": "船是撞了暗礁翻的，跟我没关系！那是天灾！",
-        "counter_evidence": "evidence_hull_hole",
-        "alt_evidence": ["evidence_nail_marks", "clue_wrong_channel"],
-        "break_dialogue": [
-          {"speaker": "你", "text": "「天灾？那你看看这破洞——木板边缘整齐，是从内侧凿开的。」"},
-          {"speaker": "阿贵", "text": "「那、那是撞的……」"},
-          {"speaker": "你", "text": "「撞礁不会留下这种痕迹。更何况，这块板被人拆下来又钉回去过——钉眼新旧两圈，做不了假。这不是天灾，是人为。」"}
+        "id": "testimony_2",
+        "title": "— 证词其二：关于沉船原因 —",
+        "statements": [
+          {
+            "id": "s2_1",
+            "speaker": "阿贵",
+            "text": "船是撞了暗礁才翻的。老范说那段水路有石头。",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "老范跟你说过那条水路有暗礁？什么时候说的？",
+                "emotion": "normal"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "不是……是翻船之后他说的。事后解释。",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "你",
+                "text": "事后才说？你上船之前不知道要走哪条路？",
+                "emotion": "piercing"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "小的不懂水路的事……",
+                "emotion": "defensive"
+              }
+            ]
+          },
+          {
+            "id": "s2_2",
+            "speaker": "阿贵",
+            "text": "船底被暗礁撞了个大洞，水灌进来就没救了。",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_hull_hole",
+            "alt_evidence": [
+              "evidence_nail_marks",
+              "clue_wrong_channel"
+            ],
+            "press": [
+              {
+                "speaker": "你",
+                "text": "你怎么知道是“大洞”？你亲眼看到了？",
+                "emotion": "piercing"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "是……是后来打捞上来才看到的。",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "打捞上来的船底——那破洞边缘整齐得不像撞击。",
+                "emotion": "thinking"
+              }
+            ],
+            "break_dialogue": [
+              {
+                "speaker": "你",
+                "text": "暗礁撞的？（拍出证据）那你看看这个。",
+                "emotion": "accusatory"
+              },
+              {
+                "speaker": "你",
+                "text": "木板边缘整齐——是从内侧凿开的。撞礁绝不会留下这种痕迹。",
+                "emotion": "piercing"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "那、那是……",
+                "emotion": "panic"
+              },
+              {
+                "speaker": "你",
+                "text": "而且周围有新旧两圈钉眼——这块板被人事先拆下，又钉回去伪装。不是天灾，阿贵。是人凿的。",
+                "emotion": "accusatory"
+              }
+            ]
+          },
+          {
+            "id": "s2_3",
+            "speaker": "阿贵",
+            "text": "冬天的江水涨得快，翻船的事也不少见。",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "说得倒轻巧。一条人命没了，你觉得稀松平常？",
+                "emotion": "accusatory"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "小的……小的不是那个意思。只是说这种事常有……",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "常有？跑了二十年船的老范走暗礁水道——这可不常有。",
+                "emotion": "alert"
+              }
+            ]
+          },
+          {
+            "id": "s2_4",
+            "speaker": "阿贵",
+            "text": "反正跟我没关系！我也是受害者！",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "受害者？你活着，主人死了。你倒活得挺滋润。",
+                "emotion": "piercing"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "大人……话不能这么说吧……",
+                "emotion": "defensive"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "案发后第二天就买酒打肉——哪个受害者是你这副德行？",
+                "emotion": "alert"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "那……那是压惊！小的也吓坏了……",
+                "emotion": "nervous"
+              }
+            ]
+          }
         ],
         "fail_dialogue": [
-          {"speaker": "阿贵", "text": "「江上翻船的事多了去了，凭什么就是人干的？」"}
+          {
+            "speaker": "阿贵",
+            "text": "江上翻船的事多了去了，凭什么就说是人干的？大人您讲道理啊！",
+            "emotion": "defensive"
+          }
         ]
       },
       {
-        "id": "round_3",
-        "lie": "就算凿了船……也不是我主动要害他！是他先不要我的！",
-        "counter_evidence": "evidence_dismissal_note",
-        "alt_evidence": ["evidence_gambling_iou"],
-        "break_dialogue": [
-          {"speaker": "你", "text": "「他不要你？这张遣散字据写的是'给银二两，各不相欠'。十二年，二两。」"},
-          {"speaker": "阿贵", "text": "「……十二年……就值二两……」"},
-          {"speaker": "你", "text": "「你恨他。恨他薄情寡义，恨他把你当用完就扔的工具。所以你和老范串通——你负责凿船，他负责选那条暗礁水道。事成分银子，各取所需。对不对？」"}
+        "id": "testimony_3",
+        "title": "— 证词其三：关于主仆关系 —",
+        "statements": [
+          {
+            "id": "s3_1",
+            "speaker": "阿贵",
+            "text": "老爷对我不薄。跟了十二年，我怎么会害他？",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "不薄？具体怎么个不薄法？",
+                "emotion": "normal"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "管吃管住……逢年过节也给赏钱……",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "你",
+                "text": "那他为什么突然要遣散你？",
+                "emotion": "piercing"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "……那是老爷的事。小的不该多问。",
+                "emotion": "defensive"
+              }
+            ]
+          },
+          {
+            "id": "s3_2",
+            "speaker": "阿贵",
+            "text": "遣散嘛……是老爷体恤我，说放我自由。还给了路费银子。",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_dismissal_note",
+            "alt_evidence": [
+              "evidence_gambling_iou"
+            ],
+            "press": [
+              {
+                "speaker": "你",
+                "text": "路费银子？多少？",
+                "emotion": "normal"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "这……几两吧。够我回乡的。",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "“几两”——十二年就值几两银子？这叫体恤？",
+                "emotion": "thinking"
+              }
+            ],
+            "break_dialogue": [
+              {
+                "speaker": "你",
+                "text": "体恤你？（掏出字据）你自己看。",
+                "emotion": "accusatory"
+              },
+              {
+                "speaker": "你",
+                "text": "「给银二两，各不相欠。」十二年——就值二两银子。",
+                "emotion": "piercing"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "…………",
+                "emotion": "shaken"
+              },
+              {
+                "speaker": "你",
+                "text": "你恨他。恨他薄情寡义。所以你跟老范合谋——你凿船，他选暗礁水道。事成之后分了五十两货银。",
+                "emotion": "accusatory"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "我……我……",
+                "emotion": "broken"
+              }
+            ]
+          },
+          {
+            "id": "s3_3",
+            "speaker": "阿贵",
+            "text": "就算心里有怨，我也不敢动手啊。杀人是要偿命的！",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "不敢动手？你倒是很清楚杀人的后果。",
+                "emotion": "piercing"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "任谁……任谁都知道吧。",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "你知道后果还做了——说明你觉得不会被人发现。翻船嘛，多好的借口。",
+                "emotion": "alert"
+              }
+            ]
+          },
+          {
+            "id": "s3_4",
+            "speaker": "阿贵",
+            "text": "小的冤枉！请大人明察！",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "冒枉？包裱里藏着浮囊，身上带着散碎银子——你说的每句话都有破绽。",
+                "emotion": "accusatory"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "那、那都是巧合……",
+                "emotion": "panic"
+              },
+              {
+                "speaker": "你",
+                "text": "世上没有这么多巧合。",
+                "emotion": "normal"
+              }
+            ]
+          }
         ],
         "fail_dialogue": [
-          {"speaker": "阿贵", "text": "「我……我只是个下人，哪敢害人性命……大人您搞错了！」"}
+          {
+            "speaker": "阿贵",
+            "text": "大人……小的只是个下人，哪有本事害人性命……您搞错了！",
+            "emotion": "defensive"
+          }
         ]
       }
     ],
     "victory_dialogue": [
-      {"speaker": "你", "text": "「阿贵。浮囊、凿痕、遣散字据——三条证据，三重铁证。你还有话说？」"},
-      {"speaker": "阿贵", "text": "「……我……我认了……都是他逼我的……是老范找的我，说只要凿个洞……」"},
-      {"speaker": "你", "text": "「从头交代。一个字都不许漏。」"}
+      {
+        "speaker": "你",
+        "text": "阿贵。浮囊、凿痕、遣散字据——三段证词，三重铁证。你还有话说吗？",
+        "emotion": "normal"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "……",
+        "emotion": "shaken"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "我……我认了。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "都是他逼我的……十二年啊……十二年……就给我二两银子打发了……",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "是老范找的我。他说只要凿个洞，等船沉了把货银捞走，谁也查不出来……",
+        "emotion": "nervous"
+      },
+      {
+        "speaker": "你",
+        "text": "从头交代。一个字都不许漏。",
+        "emotion": "normal"
+      }
     ],
     "defeat_dialogue": [
-      {"speaker": "阿贵", "text": "「大人，您说的这些……都只是猜测。没有实证，您不能定我的罪。」"},
-      {"speaker": "你", "text": "「……」"},
-      {"speaker": "阿贵", "text": "「小的冤枉。老爷的事，跟小的无关。」"}
+      {
+        "speaker": "阿贵",
+        "text": "大人，您说了这么多……都只是猜测吧。",
+        "emotion": "defensive"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "没有实证，您不能定小的罪。",
+        "emotion": "nervous"
+      },
+      {
+        "speaker": "你",
+        "text": "……",
+        "emotion": "normal"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "小的冒枉。老爷的事，跟小的真的没关系。",
+        "emotion": "defensive"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "不甘心……但现在确实拿不出关键证据……",
+        "emotion": "thinking"
+      }
     ]
   },
   "suspects": [
@@ -88,7 +543,11 @@
     {
       "id": "zhou_wife",
       "name": "周氏（死者妻子）",
-      "unlock": [{ "clue": "clue_wife_suspicion" }],
+      "unlock": [
+        {
+          "clue": "clue_wife_suspicion"
+        }
+      ],
       "unlock_hint": "继续调查后解锁"
     }
   ],
@@ -96,13 +555,21 @@
     {
       "id": "revenge_greed",
       "name": "图财报复（十二年换二两银）",
-      "unlock": [{ "evidence": "evidence_dismissal_note" }],
+      "unlock": [
+        {
+          "evidence": "evidence_dismissal_note"
+        }
+      ],
       "unlock_hint": "继续调查后解锁"
     },
     {
       "id": "gambling_debt",
       "name": "偿还赌债",
-      "unlock": [{ "evidence": "evidence_gambling_iou" }],
+      "unlock": [
+        {
+          "evidence": "evidence_gambling_iou"
+        }
+      ],
       "unlock_hint": "继续调查后解锁"
     },
     {
@@ -116,7 +583,11 @@
     {
       "id": "scuttle_drown",
       "name": "合谋凿船溺杀",
-      "unlock": [{ "evidence": "evidence_hull_hole" }],
+      "unlock": [
+        {
+          "evidence": "evidence_hull_hole"
+        }
+      ],
       "unlock_hint": "继续调查后解锁"
     },
     {
@@ -128,7 +599,11 @@
     {
       "id": "pushed_overboard",
       "name": "推人落水",
-      "unlock": [{ "clue": "clue_agui_dry_inner" }],
+      "unlock": [
+        {
+          "clue": "clue_agui_dry_inner"
+        }
+      ],
       "unlock_hint": "继续调查后解锁"
     }
   ],
@@ -154,5 +629,4 @@
       "narration": "两天过去，雨停了。\n\n你错过了查清此案的时机。相关人等各自散去，残船也被匆匆处理。\n\n周德茂之死最终被记作一场夜船意外。真相没有浮出水面。"
     }
   }
-
 }

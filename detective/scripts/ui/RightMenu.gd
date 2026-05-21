@@ -25,7 +25,7 @@ const LABELS = {
 	"settings": "设  置",
 }
 
-const ORDER = ["map", "talk", "move", "search", "notebook", "discuss", "accuse", "settings"]
+const ORDER = ["map", "talk", "move", "search", "notebook", "discuss", "settings"]
 
 var _btn_map: Dictionary = {}  # menu_id -> Button
 
