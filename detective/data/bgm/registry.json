@@ -172,6 +172,46 @@
       "tempo": "slow",
       "loop_friendly": true,
       "description": "慈航庵守夜：洞箫古琴、轻木鱼，绝无刺耳钟声。"
+    },
+    "ferry_prologue_escape": {
+      "file": "res://assets/cn/bgm/ferry_prologue_escape.mp3",
+      "tags": ["prologue", "tense", "underwater", "ferry"],
+      "mood": "cabin_panic",
+      "tempo": "fast",
+      "loop_friendly": false,
+      "description": "序章沉船逃生：低弦乐急促、金属嘎吱、水涌环境音，密闭恐慌感。"
+    },
+    "ferry_prologue_shore": {
+      "file": "res://assets/cn/bgm/ferry_prologue_shore.mp3",
+      "tags": ["prologue", "relief", "rain", "cold", "ferry"],
+      "mood": "cold_relief",
+      "tempo": "slow",
+      "loop_friendly": true,
+      "description": "序章获救：冬雨江畔、二胡独奏哀而不伤、劫后余生的寂静。"
+    },
+    "ferry_inn_investigation": {
+      "file": "res://assets/cn/bgm/ferry_inn_investigation.mp3",
+      "tags": ["investigation", "rain", "quiet", "ferry"],
+      "mood": "ferry_inn",
+      "tempo": "slow",
+      "loop_friendly": true,
+      "description": "石矶渡客栈调查：古筝轻拨、雨声环境、淡淡疑云。"
+    },
+    "ferry_dock_investigation": {
+      "file": "res://assets/cn/bgm/ferry_dock_investigation.mp3",
+      "tags": ["investigation", "wind", "ominous", "ferry"],
+      "mood": "ferry_dock",
+      "tempo": "slow",
+      "loop_friendly": true,
+      "description": "码头调查：笛声远空、江风阴冷、沉船阴影笼罩。"
+    },
+    "ferry_confrontation": {
+      "file": "res://assets/cn/bgm/ferry_confrontation.mp3",
+      "tags": ["climax", "confrontation", "intense", "ferry"],
+      "mood": "ferry_climax",
+      "tempo": "fast",
+      "loop_friendly": true,
+      "description": "渡口对峙：激烈弦乐太鼓、二胡急奏、逼供逆转高潮。"
     }
   },
   "mood_index": {
@@ -218,6 +258,21 @@
     "vigil": [
       "xunyang_convent_vigil",
       "temple_quiet"
+    ],
+    "cabin_panic": [
+      "ferry_prologue_escape"
+    ],
+    "cold_relief": [
+      "ferry_prologue_shore"
+    ],
+    "ferry_inn": [
+      "ferry_inn_investigation"
+    ],
+    "ferry_dock": [
+      "ferry_dock_investigation"
+    ],
+    "ferry_climax": [
+      "ferry_confrontation"
     ]
   }
 }

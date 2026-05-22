@@ -37,10 +37,26 @@
       "when": { "trigger": "dialogue_end", "npc_id": "zhou_wife" },
       "lines": [
         [
+          { "speaker": "凌瑶", "text": "她丈夫刚死……看她那样子，不像是装出来的。" },
+          { "speaker": "陆昭", "text": "嗯。但悲伤不代表没有隐情。先记下她说的。" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_zhou_wife_duck",
+      "when": { "trigger": "dialogue_end", "npc_id": "zhou_wife", "requires": { "clue": "clue_victim_cant_swim" } },
+      "lines": [
+        [
           { "speaker": "凌瑶", "text": "周氏说的那条——'旱鸭子半夜坐船'——确实蹊跷。怕水的人天黑上船，不是被人催的就是被人骗的。" },
           { "speaker": "陆昭", "text": "而且她丈夫上船前刚骂了阿贵。当晚就出事……" },
           { "speaker": "凌瑶", "text": "这也太巧了吧！" }
-        ],
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_zhou_wife_money",
+      "when": { "trigger": "dialogue_end", "npc_id": "zhou_wife", "requires": { "evidence": "evidence_dismissal_note" } },
+      "lines": [
         [
           { "speaker": "凌瑶", "text": "二两银子遣散费……十二年。换谁都得寒心。" },
           { "speaker": "陆昭", "text": "寒心不等于杀人。但确实给了他动机。" }
@@ -117,12 +133,33 @@
     },
     {
       "id": "arrive_ferry_inn",
-      "when": { "trigger": "arrive_location:ferry_inn" },
+      "when": { "trigger": "arrive_location:ferry_inn", "requires": { "not_flag": "visited_ferry_inn_banter" } },
+      "effect": { "set_flag": "visited_ferry_inn_banter" },
       "lines": [
         [
           { "speaker": "凌瑶", "text": "这雨下得没完没了的……我那封信都快发霉了。" },
           { "speaker": "陆昭", "text": "先办案。信晚几天送不碍事。" },
           { "speaker": "凌瑶", "text": "您倒是说得轻巧，那收信人要是等急了……算了算了，查案查案。" }
+        ]
+      ]
+    },
+    {
+      "id": "arrive_zhou_room",
+      "when": { "trigger": "arrive_location:zhou_room", "requires": { "location": "zhou_room" } },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "（压低声音）这是周氏住的屋子？桌上有东西……小心翻，别弄乱了。" },
+          { "speaker": "陆昭", "text": "注意看笔迹和落款。" }
+        ]
+      ]
+    },
+    {
+      "id": "arrive_agui_room",
+      "when": { "trigger": "arrive_location:agui_room", "requires": { "location": "agui_room" } },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "好潮……这地方能住人？难怪他一身怨气。" },
+          { "speaker": "凌瑶", "text": "哎，那衣服还在滴水呢。你看那个包袱——系得真紧，像是故意不让人打开。" }
         ]
       ]
     },

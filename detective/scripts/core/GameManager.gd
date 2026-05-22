@@ -778,6 +778,8 @@ func resolve_search(location_id: String, point_id: String) -> Dictionary:
 		"trigger_dialogue": chosen.get("trigger_dialogue", ""),
 		"trigger_dialogue_start": chosen.get("trigger_dialogue_start", ""),
 		"already_done": done_count > 0,
+		"intro_text": chosen.get("intro_text", ""),
+		"sub_choices": chosen.get("sub_choices", []),
 	}
 	if done_count == 0:
 		var ev: String = chosen.get("evidence", "")

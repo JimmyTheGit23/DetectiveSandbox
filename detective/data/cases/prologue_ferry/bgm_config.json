@@ -1,15 +1,17 @@
 {
-  "_comment": "序章 BGM 配置。冬雨江畔氛围。",
+  "_comment": "序章「渡口沉舟」BGM 配置。使用专属生成的冬雨江畔氛围音乐。",
   "locations": {
-    "ferry_inn": "mood:rain_suspense",
-    "ferry_dock": "mood:rain_suspense",
-    "wreck_site": "mood:suspense",
-    "river_bend": "mood:vigil"
+    "ferry_inn": "mood:ferry_inn",
+    "zhou_room": "mood:ferry_inn",
+    "agui_room": "mood:ferry_inn",
+    "ferry_dock": "mood:ferry_dock",
+    "wreck_site": "mood:ferry_dock",
+    "river_bend": "mood:ferry_dock"
   },
   "states": {
-    "prologue": "mood:rainy_night",
-    "main_theme": "mood:rain_suspense",
-    "accuse": "mood:climax",
+    "prologue": "mood:cabin_panic",
+    "main_theme": "mood:cold_relief",
+    "accuse": "mood:ferry_climax",
     "ending_perfect": "mood:ending_good",
     "ending_good": "mood:ending_good",
     "ending_bad": "mood:ending_bad",

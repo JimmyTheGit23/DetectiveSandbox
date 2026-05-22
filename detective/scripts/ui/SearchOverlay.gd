@@ -116,7 +116,8 @@ func _build_hotspots(parent: Control) -> void:
 				btn.text = pname + "  ✓"
 				_apply_done_style(btn)
 			else:
-				btn.text = pname
+				var sp_cost: int = int(sp.get("time_cost", 1))
+				btn.text = pname + "  [%d时段]" % sp_cost
 				_apply_hotspot_style(btn)
 				_pulsing_buttons.append(btn)
 			btn.pressed.connect(_on_hotspot_clicked.bind(pid))
@@ -328,25 +329,25 @@ func _on_hotspot_clicked(point_id: String) -> void:
 	var point_name := _point_name(point_id)
 	var planned_cost := _point_cost(point_id)
 
-	_result_box.text = "[center][color=#ead48a]你开始调查「%s」……[/color][/center]" % point_name
-	await get_tree().create_timer(0.9).timeout
-	if not is_inside_tree():
-		return
-
-	_result_box.text = "[center][color=#ead48a]探索中……[/color]\n[i]你放慢脚步，重新检查每一个细节。[/i][/center]"
-	await get_tree().create_timer(1.2).timeout
-	if not is_inside_tree():
-		return
-
 	var result := GameManager.resolve_search(GameManager.current_location, point_id)
 	var cost: int = int(result.get("time_cost", planned_cost))
-	GameManager.advance_period(cost)
-	_result_box.text = "[center][color=#d8c08a]本次探索消耗了 %d 段时辰。[/color][/center]" % cost
-	await get_tree().create_timer(1.0).timeout
-	if not is_inside_tree():
-		return
 
-	await _show_result_dialog(point_name, result, cost)
+	# 多步骤调查：有 sub_choices 则展示选项面板
+	var sub_choices: Array = result.get("sub_choices", [])
+	if not sub_choices.is_empty() and not result.get("already_done", false):
+		var intro: String = result.get("intro_text", "")
+		if intro == "":
+			intro = result.get("narration", "")
+		# 先显示消耗确认（时段消耗在选择后才扣）
+		_result_box.text = "[center][color=#e8a844]调查「%s」—— 消耗 %d 个时段[/color][/center]" % [point_name, cost]
+		GameManager.advance_period(cost)
+		await _show_sub_choices_dialog(point_name, intro, sub_choices, cost)
+	else:
+		# 普通结果：直接显示
+		_result_box.text = "[center][color=#e8a844]调查「%s」—— 消耗 %d 个时段[/color][/center]" % [point_name, cost]
+		GameManager.advance_period(cost)
+		await _show_result_dialog(point_name, result, cost)
+
 	if not is_inside_tree():
 		return
 
@@ -487,3 +488,193 @@ func _result_dialog_text(result: Dictionary, cost: int) -> String:
 		var cl = GameManager.evidence_data.get(result.gained_clue, {})
 		txt += "\n\n【获得线索：%s】" % cl.get("name", "")
 	return txt
+
+
+# ─── 多步骤调查选项弹窗 ─────────────────────────────────────────────────────
+
+func _show_sub_choices_dialog(point_name: String, intro_text: String, sub_choices: Array, cost: int) -> void:
+	# 隐藏侧边面板，让调查选项弹窗全屏展示
+	var side_panel := get_node_or_null("SidePanel")
+	if side_panel:
+		side_panel.visible = false
+
+	var overlay := Control.new()
+	overlay.name = "SubChoicesOverlay"
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(overlay)
+
+	var dim := ColorRect.new()
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dim.color = Color(0.0, 0.0, 0.0, 0.50)
+	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(dim)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(780, 0)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.08, 0.065, 0.045, 0.96)
+	style.border_color = Color(0.72, 0.56, 0.28, 0.95)
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(8)
+	style.shadow_color = Color(0, 0, 0, 0.55)
+	style.shadow_size = 18
+	style.content_margin_left = 28
+	style.content_margin_right = 28
+	style.content_margin_top = 22
+	style.content_margin_bottom = 22
+	panel.add_theme_stylebox_override("panel", style)
+	center.add_child(panel)
+
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 14)
+	panel.add_child(vbox)
+
+	# 标题
+	var title := Label.new()
+	title.text = "── 调查 · %s ──" % point_name
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 24)
+	title.add_theme_color_override("font_color", Color(1.0, 0.86, 0.48, 1))
+	vbox.add_child(title)
+
+	# 引入文本
+	var intro_label := RichTextLabel.new()
+	intro_label.custom_minimum_size = Vector2(720, 80)
+	intro_label.bbcode_enabled = true
+	intro_label.fit_content = true
+	intro_label.scroll_active = false
+	intro_label.add_theme_font_size_override("normal_font_size", 19)
+	intro_label.add_theme_color_override("default_color", Color(0.9, 0.86, 0.76, 1))
+	intro_label.text = intro_text
+	vbox.add_child(intro_label)
+
+	# 时段消耗提示
+	var cost_label := Label.new()
+	cost_label.text = "⏳ 本次调查将消耗 %d 个时段" % cost
+	cost_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	cost_label.add_theme_font_size_override("font_size", 15)
+	cost_label.add_theme_color_override("font_color", Color(0.9, 0.55, 0.3, 0.9))
+	vbox.add_child(cost_label)
+
+	# 分隔
+	var sep := HSeparator.new()
+	sep.add_theme_color_override("separator", Color(0.55, 0.42, 0.22, 0.6))
+	vbox.add_child(sep)
+
+	# 提示
+	var hint := Label.new()
+	hint.text = "你打算怎么做？"
+	hint.add_theme_font_size_override("font_size", 16)
+	hint.add_theme_color_override("font_color", Color(0.75, 0.68, 0.52, 1))
+	vbox.add_child(hint)
+
+	# 选项按钮 — 用数组包装索引（GDScript 闭包对基础类型按值捕获，数组按引用）
+	var chosen := [-1]
+	var choice_btns: Array[Button] = []
+	for i in range(sub_choices.size()):
+		var choice: Dictionary = sub_choices[i]
+		var btn := Button.new()
+		btn.text = "  ▸  " + choice.get("text", "")
+		btn.custom_minimum_size = Vector2(0, 48)
+		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		btn.add_theme_font_size_override("font_size", 19)
+		btn.add_theme_color_override("font_color", Color(1.0, 0.92, 0.65, 1))
+		btn.add_theme_color_override("font_hover_color", Color(1.0, 1.0, 0.85, 1))
+		btn.add_theme_color_override("font_pressed_color", Color(0.95, 0.68, 0.28, 1))
+		btn.add_theme_constant_override("outline_size", 3)
+		btn.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+		var btn_style := StyleBoxFlat.new()
+		btn_style.bg_color = Color(0.10, 0.07, 0.04, 0.75)
+		btn_style.border_color = Color(0.62, 0.48, 0.22, 0.6)
+		btn_style.set_border_width_all(1)
+		btn_style.set_corner_radius_all(5)
+		btn_style.content_margin_left = 12
+		btn_style.content_margin_right = 12
+		btn.add_theme_stylebox_override("normal", btn_style)
+		var hover_style := btn_style.duplicate() as StyleBoxFlat
+		hover_style.bg_color = Color(0.14, 0.10, 0.05, 0.90)
+		hover_style.border_color = Color(0.88, 0.68, 0.30, 0.9)
+		btn.add_theme_stylebox_override("hover", hover_style)
+		var idx := i
+		btn.pressed.connect(func():
+			chosen[0] = idx
+			for b in choice_btns:
+				b.disabled = true
+		)
+		vbox.add_child(btn)
+		choice_btns.append(btn)
+
+	# 等待玩家选择
+	while chosen[0] < 0:
+		await get_tree().process_frame
+		if not is_inside_tree():
+			return
+
+	# 玩家选择了一个选项 → 应用效果并显示结果
+	var chosen_choice: Dictionary = sub_choices[chosen[0]]
+	_apply_sub_choice_effects(chosen_choice)
+
+	# 替换面板内容为结果
+	for child in vbox.get_children():
+		child.queue_free()
+	await get_tree().process_frame
+
+	var result_title := Label.new()
+	result_title.text = "── 调查结果 ──"
+	result_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	result_title.add_theme_font_size_override("font_size", 24)
+	result_title.add_theme_color_override("font_color", Color(1.0, 0.86, 0.48, 1))
+	vbox.add_child(result_title)
+
+	var result_body := RichTextLabel.new()
+	result_body.custom_minimum_size = Vector2(720, 160)
+	result_body.bbcode_enabled = true
+	result_body.fit_content = true
+	result_body.scroll_active = false
+	result_body.add_theme_font_size_override("normal_font_size", 20)
+	result_body.add_theme_color_override("default_color", Color(0.9, 0.86, 0.76, 1))
+	var result_text: String = chosen_choice.get("narration", "")
+	result_text += "\n\n—— 本次探索消耗了 %d 段时辰。" % cost
+	var ev_id: String = chosen_choice.get("evidence", "")
+	if ev_id != "":
+		var ev = GameManager.evidence_data.get(ev_id, {})
+		result_text += "\n\n【获得证据：%s】" % ev.get("name", ev_id)
+	var cl_id: String = chosen_choice.get("clue", "")
+	if cl_id != "":
+		var cl = GameManager.evidence_data.get(cl_id, {})
+		result_text += "\n\n【获得线索：%s】" % cl.get("name", cl_id)
+	result_body.text = result_text
+	vbox.add_child(result_body)
+
+	var ok_btn := Button.new()
+	ok_btn.text = "知 道 了"
+	ok_btn.custom_minimum_size = Vector2(180, 44)
+	ok_btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	ok_btn.add_theme_font_size_override("font_size", 20)
+	ok_btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.58, 1))
+	vbox.add_child(ok_btn)
+
+	await ok_btn.pressed
+	if is_instance_valid(overlay):
+		overlay.queue_free()
+	# 恢复侧边面板
+	if side_panel and is_instance_valid(side_panel):
+		side_panel.visible = true
+
+
+## 应用多步骤调查选项的效果
+func _apply_sub_choice_effects(choice: Dictionary) -> void:
+	var ev: String = choice.get("evidence", "")
+	if ev != "":
+		GameManager.add_evidence(ev)
+	var cl: String = choice.get("clue", "")
+	if cl != "":
+		GameManager.add_clue(cl)
+	for f in choice.get("set_flags", []):
+		GameManager.set_flag(str(f))

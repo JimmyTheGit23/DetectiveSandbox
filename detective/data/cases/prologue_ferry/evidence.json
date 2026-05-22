@@ -85,5 +85,63 @@
     "type": "clue",
     "name": "死者不识水性",
     "description": "周氏说：老爷是旱鸭子，连洗澡都怕水深。这也是他平时不坐夜船的原因——这次是急着赶路才破了例。"
+  },
+
+  "_comment_meta": "以下为暗线线索（meta_clue），不影响表层案件结案，连接后续案件。",
+
+  "clue_cabin_hole_memory": {
+    "type": "clue",
+    "name": "沉船记忆：方形的洞",
+    "description": "逃生时你在黑暗中摸到了船底的洞——边缘整齐得不像是撞击。那时来不及细想，但这个触感一直留在指尖。",
+    "meta_clue": true
+  },
+  "clue_route_change": {
+    "type": "clue",
+    "name": "改道的建议",
+    "description": "平水驿的驿丞好心建议你改走水路夜船。当时没多想——但如果有人提前知道这条船会沉……那个建议就不是好心了。驿丞叫什么来着？姓什么？……记不清了。",
+    "meta_clue": true
+  },
+  "clue_lingyao_dock_witness": {
+    "type": "clue",
+    "name": "码头的三个人影",
+    "description": "凌瑶说：翻船前一晚，她在码头等天亮时，看见两三个人蹲在码头角落说话。天太暗没看清——但她记得有一高一矮，还有第三个人来了就走了。第三人穿着似乎比船家和仆从讲究得多。",
+    "meta_clue": true
+  },
+  "clue_cargo_money_record": {
+    "type": "clue",
+    "name": "五十两货银记录",
+    "description": "周氏行李中的货单，列着五十两布匹预付银。这笔钱本应在周德茂身上——现在连人带钱都沉了江。"
+  },
+  "clue_zhou_unfinished_letter": {
+    "type": "clue",
+    "name": "周氏未完成的家信",
+    "description": "写给娘家的求助信，只写到一半：「夫君近日疑心甚重，说账上的银子对不上。阿贵那边……怕是要出事……」墨迹未干。"
+  },
+  "clue_third_handwriting": {
+    "type": "clue",
+    "name": "第三种笔迹",
+    "description": "遣散字据旁有一张小纸条，上面的字既不是周德茂的也不是周氏的——是第三个人写的。笔迹工整有力，像读书人。"
+  },
+  "clue_agui_red_mud": {
+    "type": "clue",
+    "name": "外袍上的红泥",
+    "description": "阿贵外袍角上的泥渍颜色发红，不像河岸的黄土。更像码头竹棚下那种红粘土——他落水前去过码头？"
+  },
+  "clue_agui_sailor_knot": {
+    "type": "clue",
+    "name": "水手绳结",
+    "description": "阿贵包袱上系的是止索结——船上人才用的绳法。一个声称不会水的仆从，会系这种扣？"
+  },
+  "evidence_torn_note_fragment": {
+    "type": "evidence",
+    "name": "撕碎的纸角",
+    "description": "砚台底部粘着一小片纸角，像是匆忙撕掉的。上面残留几个字，笔迹和第三种笔迹一致。"
+  },
+  "evidence_anonymous_note": {
+    "type": "evidence",
+    "name": "匿名字条残片",
+    "description": "一张被揉皱后又展平的纸条，藏在老范杂物最底层。半截被水泡模糊了，能辨认的字：'……事成……浔阳……兑……二十两……莫留活口……'字迹工整有力，绝非阿贵或老范所写——像是读书人或官员的手笔。",
+    "meta_clue": true,
+    "hidden": true
   }
 }

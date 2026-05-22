@@ -40,9 +40,12 @@ var _playing: bool = false
 var _skip_requested: bool = false
 var _current_speed: float = 1.0
 var _in_parenthesis: bool = false
+var _run_id: int = 0                 # 用于使旧协程失效，防止闪烁
 
 
 func play(target: RichTextLabel, text: String) -> void:
+	_run_id += 1
+	var current_run := _run_id
 	_target = target
 	_raw_text = text
 	_playing = true
@@ -52,7 +55,7 @@ func play(target: RichTextLabel, text: String) -> void:
 	_parse_commands()
 	_target.text = _display_text
 	_target.visible_characters = 0
-	_run_typewriter()
+	_run_typewriter(current_run)
 
 
 func skip() -> void:
@@ -93,21 +96,26 @@ func _parse_commands() -> void:
 		i += 1
 
 
-func _run_typewriter() -> void:
+func _run_typewriter(run_id: int) -> void:
 	var char_index := 0
 	var total := _target.get_total_character_count()
-	
+
 	while char_index < total:
+		# 如果有新的 play() 调用，旧协程立即退出（防止闪烁）
+		if run_id != _run_id:
+			return
 		if _skip_requested:
 			_target.visible_characters = -1
 			break
-		
+
 		# 执行该位置的所有命令
 		for cmd in _commands:
 			if cmd["pos"] == char_index:
 				match cmd["type"]:
 					"pause":
 						await get_tree().create_timer(cmd["value"]).timeout
+						if run_id != _run_id:
+							return
 						if _skip_requested:
 							_target.visible_characters = -1
 							_finish()
@@ -116,20 +124,28 @@ func _run_typewriter() -> void:
 						_current_speed = cmd["value"]
 					"sfx":
 						sfx_requested.emit(cmd["value"])
-		
+
+		# 再次检查，避免 await 后状态已变
+		if run_id != _run_id:
+			return
+
 		# 显示下一个字符
 		char_index += 1
 		_target.visible_characters = char_index
-		
+
 		# 计算延迟
 		var delay := _get_char_delay(char_index - 1)
 		if delay > 0.0:
 			await get_tree().create_timer(delay).timeout
+			if run_id != _run_id:
+				return
 			if _skip_requested:
 				_target.visible_characters = -1
 				break
-	
-	_finish()
+
+	# 只有当前活跃的协程才能 finish
+	if run_id == _run_id:
+		_finish()
 
 
 func _finish() -> void:

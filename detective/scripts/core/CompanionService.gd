@@ -485,15 +485,25 @@ func _evaluate_discussion_condition(when) -> bool:
 func _trigger_matches(rule_trigger: String, actual_trigger: String) -> bool:
 	if rule_trigger == actual_trigger:
 		return true
-	# 复合触发器：arrive_location:loc_id 匹配 arrive_location（通用规则）
-	# 也支持 visit_location 匹配 arrive_location:loc_id（兼容）
-	var rule_base := rule_trigger.split(":")[0]
-	var actual_base := actual_trigger.split(":")[0]
-	# 同义触发器映射
+	var rule_parts := rule_trigger.split(":")
+	var actual_parts := actual_trigger.split(":")
+	var rule_base := rule_parts[0]
+	var actual_base := actual_parts[0]
 	var synonyms := {
 		"visit_location": ["arrive_location"],
 		"arrive_location": ["visit_location"],
 	}
+	# rule 有具体后缀（如 "arrive_location:zhou_room"）→ 必须精确匹配后缀
+	if rule_parts.size() > 1 and rule_parts[1] != "":
+		# 同 base 或同义 base 时，比较后缀
+		var base_ok: bool = (rule_base == actual_base)
+		if not base_ok and synonyms.has(rule_base):
+			base_ok = actual_base in synonyms[rule_base]
+		if not base_ok:
+			return false
+		var actual_suffix: String = actual_parts[1] if actual_parts.size() > 1 else ""
+		return rule_parts[1] == actual_suffix
+	# rule 无后缀（如 "arrive_location"）→ 通配所有同 base 触发器
 	if rule_base == actual_base:
 		return true
 	if synonyms.has(rule_base) and actual_base in synonyms[rule_base]:

@@ -95,12 +95,14 @@ static func _compute_head_region(tex: Texture2D) -> Rect2:
 	var max_x: int = -1
 	var max_y: int = -1
 	# 性能：只采样网格点（每 4 像素）足够找包围盒
+	# alpha 阈值用 0.15 (≈38/255) 跳过边缘噪点/抗锯齿残留
 	var step: int = 4
+	var alpha_threshold: float = 0.15
 	var y: int = 0
 	while y < h:
 		var x: int = 0
 		while x < w:
-			if img.get_pixel(x, y).a > 0.04:
+			if img.get_pixel(x, y).a > alpha_threshold:
 				if x < min_x: min_x = x
 				if y < min_y: min_y = y
 				if x > max_x: max_x = x
@@ -113,10 +115,10 @@ static func _compute_head_region(tex: Texture2D) -> Rect2:
 		# 旧实心立绘：仍按画布顶部 36% 裁
 		var fh: float = float(h) * 0.36
 		return Rect2((w - fh) * 0.5, h * 0.02, fh, fh)
-	# 包围盒高度，取顶部约 42% 作为头部
+	# 包围盒高度，取顶部约 55% 作为头部（宽松裁切，避免截掉面部）
 	var bbox_h: float = float(max_y - min_y + 1)
 	var bbox_w: float = float(max_x - min_x + 1)
-	var crop_h: float = bbox_h * 0.42
+	var crop_h: float = bbox_h * 0.55
 	# 头像取正方形，但限制不超过包围盒宽度
 	var crop_size: float = min(crop_h, bbox_w)
 	# 留少量顶部安全边

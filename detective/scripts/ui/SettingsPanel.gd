@@ -92,6 +92,29 @@ func _build_ui() -> void:
 	gm_hint.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	gm_box.add_child(gm_hint)
 
+	# 快速跳转按钮（调试用）
+	var debug_box := HBoxContainer.new()
+	debug_box.add_theme_constant_override("separation", 10)
+	vbox.add_child(debug_box)
+
+	var btn_confront := Button.new()
+	btn_confront.text = "⚡ 快速进入对峙"
+	btn_confront.custom_minimum_size = Vector2(0, 40)
+	btn_confront.add_theme_font_size_override("font_size", 16)
+	btn_confront.add_theme_color_override("font_color", Color(1.0, 0.7, 0.3, 1))
+	btn_confront.add_theme_color_override("font_hover_color", Color(1.0, 0.9, 0.5, 1))
+	btn_confront.pressed.connect(_on_debug_confrontation)
+	debug_box.add_child(btn_confront)
+
+	var btn_accuse := Button.new()
+	btn_accuse.text = "⚡ 快速进入指证"
+	btn_accuse.custom_minimum_size = Vector2(0, 40)
+	btn_accuse.add_theme_font_size_override("font_size", 16)
+	btn_accuse.add_theme_color_override("font_color", Color(1.0, 0.7, 0.3, 1))
+	btn_accuse.add_theme_color_override("font_hover_color", Color(1.0, 0.9, 0.5, 1))
+	btn_accuse.pressed.connect(_on_debug_accuse)
+	debug_box.add_child(btn_accuse)
+
 	var spacer2 := Control.new()
 	spacer2.custom_minimum_size = Vector2(0, 12)
 	vbox.add_child(spacer2)
@@ -190,6 +213,66 @@ func _on_close() -> void:
 
 func _on_return_title() -> void:
 	return_to_title_requested.emit()
+
+
+func _on_debug_confrontation() -> void:
+	_unlock_all_evidence()
+	GameManager.set_state(GameManager.STATE_PLAYING)
+	GameManager.current_location = GameManager.case_main_scene
+	var main = get_tree().current_scene
+	# 隐藏标题
+	if main and main.has_method("_hide_title"):
+		main._hide_title()
+	# 隐藏菜单
+	var menu = main.get_node_or_null("RightMenu")
+	if menu:
+		menu.visible = false
+	# 直接实例化对峙面板到主场景
+	var scene_path := "res://scenes/ui/ConfrontationPanel.tscn"
+	if ResourceLoader.exists(scene_path):
+		var packed: PackedScene = load(scene_path)
+		var confrontation_panel: Control = packed.instantiate()
+		main.add_child(confrontation_panel)
+		main.move_child(confrontation_panel, main.get_child_count() - 1)
+		if confrontation_panel.has_signal("confrontation_finished"):
+			confrontation_panel.confrontation_finished.connect(func(result, mistakes):
+				confrontation_panel.queue_free()
+				if main.has_method("_show_ending"):
+					var ending_id = GameManager.judge_confrontation(result, mistakes)
+					main._show_ending(ending_id)
+			)
+	# 关闭设置面板
+	queue_free()
+
+
+func _on_debug_accuse() -> void:
+	_unlock_all_evidence()
+	GameManager.set_state(GameManager.STATE_PLAYING)
+	GameManager.current_location = GameManager.case_main_scene
+	var main = get_tree().current_scene
+	if main and main.has_method("_hide_title"):
+		main._hide_title()
+	close_requested.emit()
+	get_tree().create_timer(0.05).timeout.connect(func():
+		if main and main.has_method("_open_subpanel"):
+			main._open_subpanel("accuse")
+	)
+
+
+func _unlock_all_evidence() -> void:
+	# 给玩家解锁本案所有证据和线索
+	for eid in GameManager.evidence_data.keys():
+		if eid.begins_with("_"):
+			continue
+		var entry: Dictionary = GameManager.evidence_data[eid]
+		var etype: String = entry.get("type", "")
+		if etype == "evidence":
+			GameManager.add_evidence(eid)
+		elif etype == "clue":
+			GameManager.add_clue(eid)
+	# 确保游戏状态为 playing
+	if GameManager.current_state == GameManager.STATE_PROLOGUE:
+		GameManager.set_state(GameManager.STATE_PLAYING)
 
 
 func _on_gm_unlock_toggled(pressed: bool) -> void:

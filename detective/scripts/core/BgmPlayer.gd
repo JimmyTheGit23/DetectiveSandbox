@@ -115,31 +115,44 @@ func set_enabled(v: bool) -> void:
 		stop()
 
 
-## 使用标准 load() 加载已导入的 AudioStreamWAV 资源
-func _load_stream_raw(bgm_name: String) -> AudioStreamWAV:
+## 加载 BGM 音频资源，支持 .wav 和 .mp3 格式
+func _load_stream_raw(bgm_name: String) -> AudioStream:
 	if _stream_cache.has(bgm_name):
 		return _stream_cache[bgm_name]
-	var path := "res://assets/cn/bgm/%s.wav" % bgm_name
+	# 优先从 AssetResolver 的 registry 获取完整路径
+	var path := ""
+	var resolver := get_node_or_null("/root/AssetResolver")
+	if resolver and resolver.has_method("get_bgm_file"):
+		path = resolver.get_bgm_file(bgm_name)
+	# 回退：按 track_id 尝试 wav / mp3
+	if path == "" or not ResourceLoader.exists(path):
+		path = "res://assets/cn/bgm/%s.wav" % bgm_name
+	if not ResourceLoader.exists(path):
+		path = "res://assets/cn/bgm/%s.mp3" % bgm_name
 	if not ResourceLoader.exists(path):
 		if debug_log:
-			print("[BGM] resource not found: ", path)
+			print("[BGM] resource not found: ", bgm_name)
 		return null
-	var stream := load(path) as AudioStreamWAV
+	var stream: AudioStream = load(path)
 	if stream == null:
 		if debug_log:
 			print("[BGM] load failed: ", path)
 		return null
-	# 确保循环模式正确：导入的资源可能有 loop 设置，统一使用手动循环
-	stream.loop_mode = AudioStreamWAV.LOOP_DISABLED
-	stream.loop_begin = 0
-	stream.loop_end = 0
+	# WAV 格式：禁用内置循环（手动循环）
+	if stream is AudioStreamWAV:
+		stream.loop_mode = AudioStreamWAV.LOOP_DISABLED
+		stream.loop_begin = 0
+		stream.loop_end = 0
 	_stream_cache[bgm_name] = stream
 	if debug_log:
-		print("[BGM] loaded ", path, " stereo=", stream.stereo, " rate=", stream.mix_rate, " data_len=", stream.data.size())
+		if stream is AudioStreamWAV:
+			print("[BGM] loaded ", path, " stereo=", stream.stereo, " rate=", stream.mix_rate, " data_len=", stream.data.size())
+		else:
+			print("[BGM] loaded ", path, " (", stream.get_class(), ")")
 	return stream
 
 
-func _play_stream(stream: AudioStreamWAV) -> void:
+func _play_stream(stream: AudioStream) -> void:
 	var old_player := _active_player
 	var next_player: AudioStreamPlayer = _player_b if _active_player == _player_a else _player_a
 	next_player.stream = stream

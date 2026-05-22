@@ -1,5 +1,119 @@
 {
-  "_comment": "序章探索结果。教学案搜索点较少，描述只陈述事实。",
+  "_comment": "序章探索结果。子房间(zhou_room/agui_room)使用 sub_choices 多步骤调查。",
+
+  "zhou_room.zhou_desk": {
+    "default": {
+      "intro_text": "桌上散着几张文书和信纸。一方砚台搁在角上，墨迹有的干了有的还新鲜。几封信似乎是周氏在写但没寄出的。",
+      "sub_choices": [
+        {
+          "text": "翻看正式文书",
+          "narration": "你翻开最上面那张——是一份亲笔字据：\n\n「兹遣仆人阿贵，给银二两，各不相欠。」\n\n落款日期是出发前三天。周德茂在出事前刚刚辞退了阿贵。",
+          "evidence": "evidence_dismissal_note"
+        },
+        {
+          "text": "检查未寄出的信件",
+          "narration": "一封写了一半的信，收信人是周氏的娘家：\n\n「……夫君近日疑心甚重，说账上的银子对不上。阿贵那边……怕是要出事……」\n\n写到这里就断了。墨迹还没干——是昨天写的。",
+          "clue": "clue_zhou_unfinished_letter",
+          "set_flags": ["read_zhou_letter"]
+        },
+        {
+          "text": "对比桌上各张纸的笔迹",
+          "narration": "你仔细对比——遣散字据的字迹刚劲有力，是周德茂本人的手笔。信件的字迹娟秀细腻，是周氏的。\n\n但是——字据旁边有一张小纸条，上面的字既不是周德茂的也不是周氏的。是第三个人的笔迹。",
+          "clue": "clue_third_handwriting",
+          "set_flags": ["noticed_third_handwriting"]
+        }
+      ]
+    }
+  },
+
+  "zhou_room.zhou_luggage": {
+    "default": {
+      "narration": "周氏的行李包袱。里面是几件换洗衣裳和一些碎银。没什么异常——但包袱底层有一张货单，列着五十两的布匹预付银。这笔钱现在不知所踪。",
+      "clue": "clue_cargo_money_record"
+    }
+  },
+
+  "agui_room.agui_clothes": {
+    "default": {
+      "intro_text": "绳上晾着阿贵的衣物——一件厚棉外袍还在往下滴水，旁边是一件薄里衣和一条腰带。",
+      "sub_choices": [
+        {
+          "text": "仔细检查湿外袍",
+          "narration": "外袍确实湿透了。你凑近看——袍角的泥渍颜色发红，不像河岸的黄土。更像是……码头竹棚下那种红粘土。\n\n他落水之前去过码头？",
+          "clue": "clue_agui_red_mud",
+          "set_flags": ["noticed_red_mud"]
+        },
+        {
+          "text": "摸摸里衣的干湿程度",
+          "narration": "你伸手捏了捏里衣——奇怪，只是微微潮湿。\n\n腊月的江水冰彻骨。真落水的人，棉里衣泡透了，三天都干不了。可这件……\n\n他根本没被完全浸泡过。他事先脱了外衣才下的水。",
+          "clue": "clue_agui_dry_inner",
+          "set_flags": ["agui_inner_dry_known"]
+        },
+        {
+          "text": "翻翻腰带和口袋",
+          "narration": "腰带内侧有个暗兜，里面塞着十几颗碎银——加起来少说有五六两。\n\n一个刚被遣散、据说身无分文的仆从，哪来这些银子？",
+          "clue": "clue_agui_spending"
+        }
+      ]
+    }
+  },
+
+  "agui_room.agui_bundle": {
+    "default": {
+      "intro_text": "床下有个旧包袱，系了死结，像是故意不让人轻易打开的。",
+      "sub_choices": [
+        {
+          "text": "强行解开死结",
+          "narration": "你费了好大力气把死结解开——里面除了几件旧衣，底层裹着一小坛酒和……散碎银两。足有二十多两。\n\n一个被辞退的仆从，包袱里藏着这些。",
+          "clue": "clue_agui_suspicious_bag",
+          "set_flags": ["searched_agui_bundle"]
+        },
+        {
+          "text": "检查包袱布料和绳结",
+          "narration": "包袱是常见的粗麻布，但绑法很讲究——是水手常用的止索结。普通仆从不会系这种扣。\n\n阿贵说自己不会水……可他系的是船上人才用的绳结。",
+          "clue": "clue_agui_sailor_knot",
+          "set_flags": ["noticed_sailor_knot"]
+        },
+        {
+          "text": "闻闻包袱的气味",
+          "narration": "凑近一闻——酒味。浓烈的烧酒味，从包袱布上渗出来。\n\n里面大概藏了酒。一个差点淹死的人，行李里第一时间塞的是酒？还是说……酒是事先准备好的？",
+          "set_flags": ["noticed_alcohol_smell"]
+        }
+      ]
+    }
+  },
+
+  "ferry_inn.inn_lobby": {
+    "default": {
+      "narration": "客栈大堂。几个滞留旅客缩在角落烤火。掌柜的在擦桌子。看起来没什么特别——只是掌柜的随口说了句「那仆从昨晚买了壶好酒，出手挺阔绰的嘛」。",
+      "clue": "clue_agui_spending"
+    }
+  },
+
+  "ferry_dock.dock_wreck_hull": {
+    "default": {
+      "narration": "被拖上岸的破船。船底朝天。你凑近看——确实能看到一处破洞的边缘，但大部分被淤泥糊住了。需要去下游打捞处看完整的残骸。"
+    }
+  },
+  "ferry_dock.dock_fan_boat": {
+    "default": {
+      "narration": "老范自己的那条小船停在码头边。船身干净、保养得不错。船舱里有渔网、绳索，还有一个空酒坛。"
+    }
+  },
+  "ferry_dock.dock_fan_belongings": {
+    "default": {
+      "narration": "码头角落的竹棚下，堆着老范的杂物。翻了翻——一堆渔具底下压着一张皱巴巴的纸：「借银四十二两整……限腊月底还清……否则断指抵债。」是赌坊的借据。",
+      "evidence": "evidence_gambling_iou"
+    },
+    "conditional": [
+      {
+        "when": { "all": [{ "flag": "hull_sabotage_known" }, { "flag": "agui_motive_known" }] },
+        "narration": "你再次翻检老范的杂物——这次更仔细了。渔具最底层，压在一块油布下面：一张被揉皱又展平的纸条。半截泡糊了，但能看出几个字……'事成……浔阳……兑……二十两……莫留活口'。字迹工整、有力，和阿贵那种粗人完全不同。这不是阿贵写的——有第三个人在指挥这场谋杀。",
+        "evidence": "evidence_anonymous_note"
+      }
+    ]
+  },
+
   "wreck_site.wreck_hull_bottom": {
     "default": {
       "narration": "你蹲下仔细查看船底。一块木板明显与周围不同——边缘有整齐的凿痕，不像是撞击造成的。更像是从内侧被人打开的活板。板子周围有两圈钉眼：一圈旧的已经生锈，一圈新的还泛着白茬。",
@@ -18,56 +132,16 @@
       "evidence": "evidence_nail_marks"
     }
   },
-  "ferry_inn.inn_agui_room": {
+  "wreck_site.wreck_shore_bag": {
     "default": {
-      "narration": "阿贵住的小房间。床上被褥凌乱。枕头下压着一个旧包袱，翻了一遍——散碎银两不少，不像一个被遣散仆从该有的。包袱底层有个鼓鼓的东西，裹在油布里，但系了死结，现在打不开。得找个理由再来搜。",
-      "clue": "clue_agui_suspicious_bag"
-    }
-  },
-  "ferry_inn.inn_agui_clothes": {
-    "default": {
-      "narration": "墙角晾着阿贵的外衣，确实还没干透。但你顺手摸了摸挂在旁边的里衣——奇怪，只是微微潮湿。腊月落水的人，棉里衣不该干得这么快。",
-      "clue": "clue_agui_dry_inner"
-    }
-  },
-  "ferry_inn.inn_zhou_room": {
-    "default": {
-      "narration": "周氏的房间。桌上摊着几张文书——其中一张是周德茂的亲笔字据：「兹遣仆人阿贵，给银二两，各不相欠。」落款日期是出发前三天。旁边还有一张货单，列着五十两的布匹预付银。",
-      "evidence": "evidence_dismissal_note"
-    }
-  },
-  "ferry_inn.inn_lobby": {
-    "default": {
-      "narration": "客栈大堂。几个滞留旅客缩在角落烤火。掌柜的在擦桌子。看起来没什么特别——只是掌柜的随口说了句「那仆从昨晚买了壶好酒，出手挺阔绰的嘛」。",
-      "clue": "clue_agui_spending"
-    }
-  },
-  "ferry_dock.dock_wreck_hull": {
-    "default": {
-      "narration": "被拖上岸的破船。船底朝天。你凑近看——确实能看到一处破洞的边缘，但大部分被淤泥糊住了。需要去下游打捞处看完整的残骸。"
-    }
-  },
-  "ferry_dock.dock_fan_boat": {
-    "default": {
-      "narration": "老范自己的那条小船停在码头边。船身干净、保养得不错。船舱里有渔网、绳索，还有一个空酒坛。"
-    }
-  },
-  "ferry_dock.dock_fan_belongings": {
-    "default": {
-      "narration": "码头角落的竹棚下，堆着老范的杂物。翻了翻——一堆渔具底下压着一张皱巴巴的纸：「借银四十二两整……限腊月底还清……否则断指抵债。」是赌坊的借据。",
-      "evidence": "evidence_gambling_iou"
+      "narration": "在沉船下游的芦苇丛中，你发现一只被江水冲到岸上的包袱——和阿贵在客栈用的是同一种粗布。打开一看，底层藏着一只鼓鼓囊囊的皮囊。是水牛皮缝制的浮囊，充了气，还是满的。落水的人不会带着这种东西随波逐流——这是提前准备好的逃生工具。",
+      "evidence": "evidence_float_bladder"
     }
   },
   "river_bend.village_wang_home": {
     "default": {
       "narration": "王老汉的小屋里挂满了渔网。老人坐在门口补网，看到你来并不意外：「我就知道会有人来问。那天夜里的事……我全看到了。」他从墙角翻出一卷泡烂的纸：「那天在江边捡到的，一直不知道该给谁。」",
       "evidence": "evidence_wet_letter"
-    }
-  },
-  "wreck_site.wreck_shore_bag": {
-    "default": {
-      "narration": "在沉船下游的芦苇丛中，你发现一只被江水冲到岸上的包袱——和阿贵在客栈用的是同一种粗布。打开一看，底层藏着一只鼓鼓囊囊的皮囊。是水牛皮缝制的浮囊，充了气，还是满的。落水的人不会带着这种东西随波逐流——这是提前准备好的逃生工具。",
-      "evidence": "evidence_float_bladder"
     }
   }
 }
