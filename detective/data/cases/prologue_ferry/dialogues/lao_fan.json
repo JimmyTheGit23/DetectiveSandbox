@@ -41,24 +41,24 @@
           "type": "press"
         },
         {
-          "text": "【出示船底破洞证据】船底这个洞你怎么解释？",
+          "text": "你那条船，船底以前修过没有？",
           "goto": "show_hull",
           "requires": [
             {
               "evidence": "evidence_hull_hole"
             }
           ],
-          "type": "evidence"
+          "type": "press"
         },
         {
-          "text": "【出示赌债字据】四十二两。腊月底。断指。",
+          "text": "听说你最近手头有点紧？",
           "goto": "show_iou",
           "requires": [
             {
               "evidence": "evidence_gambling_iou"
             }
           ],
-          "type": "evidence"
+          "type": "press"
         },
         {
           "text": "先告辞",
@@ -191,26 +191,21 @@
       "lines": [
         {
           "speaker_id": "lao_fan",
-          "text": "（手一抖，烟灰落了一地）那……那是礁石撞的！",
-          "emotion": "shaken"
+          "text": "修……修过？哪条船不修呢，跑久了总要补补的嘛。",
+          "emotion": "nervous"
         },
         {
           "speaker_id": "lao_fan",
-          "text": "大人您看那些痕，都是石头尖刮的嘛！",
+          "text": "不过翻船之前没动过！那是礁石撞的！",
           "emotion": "defensive"
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "礁石刮的？那为什么凿痕这么整齐？还有两圈新旧钉眼？"
-        },
-        {
-          "speaker_id": "lao_fan",
-          "text": "……"
+          "text": "（低声）他急了。一问船底就急——心里有鬼。"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "你解释不了。",
-          "emotion": "cornered"
+          "text": "好。先记下。"
         }
       ],
       "options": [
@@ -228,30 +223,21 @@
       "lines": [
         {
           "speaker_id": "lao_fan",
-          "text": "（烟杆掉在地上）你——！你翻老汉的东西！",
-          "emotion": "shaken"
-        },
-        {
-          "speaker_id": "lao_fan",
-          "text": "那、那是以前的账！早还完了！",
+          "text": "手头紧？谁、谁跟你说的？老汉日子过得好好的！",
           "emotion": "defensive"
         },
         {
+          "speaker_id": "lao_fan",
+          "text": "跑船嘛，有时多赚有时少赚……不至于！",
+          "emotion": "nervous"
+        },
+        {
           "speaker_id": "xia_lingyao",
-          "text": "还完了？日期写着上个月。"
-        },
-        {
-          "speaker_id": "lao_fan",
-          "text": "……"
-        },
-        {
-          "speaker_id": "lao_fan",
-          "text": "（双手撑着膝盖，低下头）大人。是阿贵那小子来找的老汉。是他出的主意。老汉只是……只是动了动船板……",
-          "emotion": "cornered"
+          "text": "（低声）瞧他那样，跟踩了尾巴似的。赌债的事八成是真的。"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "你承认动过船。接下来，该问阿贵了。"
+          "text": "不急。之后再说。"
         }
       ],
       "options": [
@@ -263,9 +249,6 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "fan_confessed"
       ]
     }
   }

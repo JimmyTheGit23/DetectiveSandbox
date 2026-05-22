@@ -31,24 +31,24 @@
           "type": "press"
         },
         {
-          "text": "【出示遣散字据】这是什么？",
+          "text": "你被遣散的时候，心里没怨气？",
           "goto": "show_dismissal",
           "requires": [
             {
               "evidence": "evidence_dismissal_note"
             }
           ],
-          "type": "evidence"
+          "type": "press"
         },
         {
-          "text": "【出示浮囊】这东西从你包袱里翻出来的",
+          "text": "你包袱里的东西，都是你自己的？",
           "goto": "show_bladder",
           "requires": [
             {
               "evidence": "evidence_float_bladder"
             }
           ],
-          "type": "evidence"
+          "type": "press"
         },
         {
           "text": "（对峙）证据够了。说实话吧。",
@@ -189,33 +189,23 @@
       "lines": [
         {
           "speaker_id": "agui",
-          "text": "！……那、那是……",
-          "emotion": "panic"
+          "text": "怨……怨气？小的不敢有怨气。老爷要遣散就遣散呗，小的能说什么……",
+          "emotion": "nervous"
         },
         {
           "speaker_id": "agui",
-          "text": "老爷他……他是说过要把小的遣散。但小的没有怨恨！真的没有！",
-          "emotion": "defensive"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "二两银子……十二年……",
+          "text": "（攥紧拳头）十二年……十二年……",
           "emotion": "shaken"
         },
         {
           "speaker_id": "agui",
-          "text": "（声音颤抖）小的没有怨恨。",
-          "emotion": "nervous"
+          "text": "（突然松开手）小的没有怨恨。真的。",
+          "emotion": "defensive"
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "十二年只值二两——换了谁都咽不下这口气。",
+          "text": "（低声）嘴上说没有，拳头都攥白了。记下来，动机有了。",
           "emotion": "thinking"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "记下了。",
-          "emotion": "normal"
         }
       ],
       "options": [
@@ -236,33 +226,18 @@
       "lines": [
         {
           "speaker_id": "agui",
-          "text": "（猛地站起来）那——那不是小的的！是、是……",
+          "text": "包袱？当、当然都是小的的……衣服被褥什么的……",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "（眼神飘忽）大人为什么突然问这个……",
           "emotion": "panic"
         },
         {
-          "speaker_id": "agui",
-          "text": "……",
-          "emotion": "nervous"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "（沉默良久，蹲在地上发抖）",
-          "emotion": "shaken"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "大人……小的真的什么都没做……请……请明察……",
-          "emotion": "nervous"
-        },
-        {
           "speaker_id": "xia_lingyao",
-          "text": "（冷笑）证据都翻出来了，嘴还这么硬。",
+          "text": "（低声）心虚了。他包袱里肯定有鬼，回头正式审的时候再拿出来——打他个措手不及。",
           "emotion": "thinking"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "不急。还有话要问你。",
-          "emotion": "normal"
         }
       ],
       "options": [
@@ -299,14 +274,20 @@
         {
           "speaker_id": "lu_zhao",
           "text": "那好。一条一条过。你说的每一句话——我都有东西反驳。",
-          "emotion": "normal"
+          "emotion": "cold"
         }
       ],
       "set_flags": [
         "confrontation_triggered"
       ],
       "trigger_confrontation": true,
-      "options": []
+      "options": [
+        {
+          "text": "开始对峙",
+          "goto": "__confront__",
+          "type": "confrontation"
+        }
+      ]
     }
   }
 }

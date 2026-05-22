@@ -705,6 +705,10 @@ func _on_option_pressed(idx: int, opt: Dictionary) -> void:
 
 
 func _is_evidence_option(opt: Dictionary) -> bool:
+	# 如果已显式指定 type 为非 evidence，则不视为呈证选项
+	var explicit_type: String = opt.get("type", "")
+	if explicit_type != "" and explicit_type != "evidence":
+		return false
 	var option_text: String = opt.get("text", "")
 	if option_text.find("出示") >= 0 or option_text.find("证据") >= 0:
 		return true

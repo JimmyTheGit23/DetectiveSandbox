@@ -7,6 +7,8 @@ extends Control
 
 signal confrontation_finished(result: String, mistakes: int)
 
+const TypewriterEffectScript = preload("res://scripts/ui/TypewriterEffect.gd")
+
 # ─── 状态机 ───
 enum State {
 	TITLE_ANIM,         # "开始对峙" 大字特效
@@ -38,6 +40,11 @@ var _selected_evidence_id: String = ""
 var _dialogue_queue: Array = []
 var _dialogue_idx: int = 0
 var _click_callback: Callable = Callable()
+var _typewriter: Node = null
+var _typewriter_playing: bool = false
+
+# ─── 对话头像 ───
+var _dlg_portrait_rect: TextureRect = null
 
 # ─── 节点引用 ───
 var _panel: Control
@@ -82,12 +89,27 @@ func _ready() -> void:
 			menu.visible = false
 
 	_confrontation_data = GameManager.case_data.get("confrontation", {})
+	if _confrontation_data.is_empty():
+		push_warning("ConfrontationPanel: No confrontation data in case_data!")
+		# 尝试直接读取 case.json
+		var path := "res://data/cases/%s/case.json" % GameManager.ACTIVE_CASE
+		if FileAccess.file_exists(path):
+			var f := FileAccess.open(path, FileAccess.READ)
+			var parsed = JSON.parse_string(f.get_as_text())
+			if parsed is Dictionary:
+				_confrontation_data = parsed.get("confrontation", {})
 	_testimonies = _confrontation_data.get("testimonies", [])
 	_max_confidence = int(_confrontation_data.get("confidence", 3))
 	_confidence = _max_confidence
 	_current_testimony_idx = 0
 	_mistakes = 0
 	_portrait_state = PortraitState.NORMAL
+	_typewriter = TypewriterEffectScript.new()
+	add_child(_typewriter)
+	# 确保对峙BGM播放
+	var bgm_player := get_node_or_null("/root/BgmPlayer")
+	if bgm_player and bgm_player.has_method("play"):
+		bgm_player.play("accuse")
 	_build_ui()
 	_enter_state(State.TITLE_ANIM)
 
@@ -315,7 +337,7 @@ func _build_ui() -> void:
 	_evidence_panel.add_child(_evidence_ev_vbox)
 
 	var ev_title := Label.new()
-	ev_title.text = "── 选择证据反驳当前证词 ──"
+	ev_title.text = "── 选择证物反驳当前证词 ──"
 	ev_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	ev_title.add_theme_font_size_override("font_size", 17)
 	ev_title.add_theme_color_override("font_color", CLR_GOLD)
@@ -352,7 +374,7 @@ func _build_ui() -> void:
 	_evidence_info_label.scroll_active = false
 	_evidence_info_label.add_theme_font_size_override("normal_font_size", 15)
 	_evidence_info_label.add_theme_color_override("default_color", Color(0.8, 0.75, 0.6))
-	_evidence_info_label.text = "[color=#666655]悬浮查看详情，点击选择证据[/color]"
+	_evidence_info_label.text = "[color=#666655]悬浮查看详情，点击选择证物[/color]"
 	_evidence_info_panel.add_child(_evidence_info_label)
 
 	# ── 按钮行（固定在滚动区外，始终可见） ──
@@ -371,7 +393,7 @@ func _build_ui() -> void:
 	dlg_style.border_color = Color(0.6, 0.45, 0.22, 0.8)
 	dlg_style.set_border_width_all(2)
 	dlg_style.border_width_top = 3
-	dlg_style.content_margin_left = 30
+	dlg_style.content_margin_left = 200
 	dlg_style.content_margin_right = 30
 	dlg_style.content_margin_top = 16
 	dlg_style.content_margin_bottom = 16
@@ -402,6 +424,30 @@ func _build_ui() -> void:
 	continue_hint.add_theme_font_size_override("font_size", 13)
 	continue_hint.add_theme_color_override("font_color", Color(0.6, 0.55, 0.42, 0.6))
 	dlg_vbox.add_child(continue_hint)
+
+	# ── 对话立绘（大半身，在对话框左侧向上延伸，类似 DialogueBox） ──
+	_dlg_portrait_rect = TextureRect.new()
+	_dlg_portrait_rect.anchor_left = 0.0
+	_dlg_portrait_rect.anchor_top = 1.0
+	_dlg_portrait_rect.anchor_right = 0.0
+	_dlg_portrait_rect.anchor_bottom = 1.0
+	_dlg_portrait_rect.offset_left = 20
+	_dlg_portrait_rect.offset_top = -420
+	_dlg_portrait_rect.offset_right = 200
+	_dlg_portrait_rect.offset_bottom = 0
+	_dlg_portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_dlg_portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_dlg_portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_dlg_portrait_rect.visible = false
+	# 底部渐变淡出 shader
+	var fade_shader := load("res://shaders/portrait_bottom_fade.gdshader")
+	if fade_shader:
+		var mat := ShaderMaterial.new()
+		mat.shader = fade_shader
+		mat.set_shader_parameter("fade_start", 0.55)
+		mat.set_shader_parameter("fade_end", 0.92)
+		_dlg_portrait_rect.material = mat
+	_panel.add_child(_dlg_portrait_rect)
 
 	# ── 异议特效层 ──
 	_objection_layer = Control.new()
@@ -521,7 +567,7 @@ func _play_testimony_intro() -> void:
 		_enter_state(State.VICTORY)
 		return
 	_set_browsing_visible(false)
-	_dialogue_box.visible = false
+	_hide_dialogue()
 
 	var testimony: Dictionary = _testimonies[_current_testimony_idx]
 	_statements = testimony.get("statements", []).duplicate(true)
@@ -566,7 +612,7 @@ func _play_testimony_readthrough() -> void:
 
 func _readthrough_next() -> void:
 	if _dialogue_idx >= _statements.size():
-		_dialogue_box.visible = false
+		_hide_dialogue()
 		_enter_state(State.BROWSING)
 		return
 	var stmt: Dictionary = _statements[_dialogue_idx]
@@ -574,8 +620,19 @@ func _readthrough_next() -> void:
 	if speaker == "你":
 		speaker = "陆昭"
 	_dialogue_speaker.text = speaker
-	_dialogue_text.text = "「" + stmt.get("text", "") + "」"
 	_dialogue_box.visible = true
+
+	# 更新对话头像
+	_update_dialogue_portrait(speaker, "")
+
+	# 打字机效果
+	var text: String = "「" + stmt.get("text", "") + "」"
+	_typewriter_playing = true
+	_typewriter.play(_dialogue_text, text)
+	if _typewriter.is_playing():
+		await _typewriter.finished
+	_typewriter_playing = false
+
 	_set_waiting_for_click(func():
 		_dialogue_idx += 1
 		_readthrough_next()
@@ -588,7 +645,7 @@ func _readthrough_next() -> void:
 
 func _enter_browsing() -> void:
 	_click_callback = Callable()  # 确保无残留回调吞掉点击
-	_dialogue_box.visible = false
+	_hide_dialogue()
 	_evidence_panel.visible = false
 	_set_browsing_visible(true)
 	_refresh_stmt_display()
@@ -733,13 +790,11 @@ var _evidence_info_panel: PanelContainer = null  # 悬浮信息面板（固定�
 var _evidence_btn_row: HBoxContainer = null  # 按钮行（固定在滚动区外）
 var _evidence_ev_vbox: VBoxContainer = null  # 证据面板主布局
 var _evidence_tab_content: HFlowContainer = null  # 当前标签页内容
-var _evidence_tab_current: String = "evidence"  # 当前标签
 
 func _open_evidence() -> void:
 	_set_browsing_visible(false)
 	_evidence_panel.visible = true
 	_selected_evidence_id = ""
-	_evidence_tab_current = "evidence"
 	_refresh_evidence_list()
 
 
@@ -767,123 +822,30 @@ func _refresh_evidence_list() -> void:
 	for c in _evidence_container.get_children():
 		c.queue_free()
 
-	# 按类型分类
+	# 只显示证物（不显示线索标签页），过滤隐藏条目
 	var evidences: Array = []
-	var clues: Array = []
 	for eid in GameManager.collected_evidence:
 		var data: Dictionary = GameManager.evidence_data.get(eid, {})
-		if not data.is_empty():
+		if not data.is_empty() and data.get("type", "") == "evidence" and not data.get("hidden", false):
 			evidences.append(eid)
-	for cid in GameManager.collected_clues:
-		var data: Dictionary = GameManager.evidence_data.get(cid, {})
-		if not data.is_empty() and not evidences.has(cid):
-			clues.append(cid)
 
-	# ── 标签页按钮行 ──
-	var tab_row := HBoxContainer.new()
-	tab_row.add_theme_constant_override("separation", 0)
-	_evidence_container.add_child(tab_row)
+	# ── 标题 ──
+	var title_label := Label.new()
+	title_label.text = "── 证  物 ── (%d)" % evidences.size()
+	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title_label.add_theme_font_size_override("font_size", 17)
+	title_label.add_theme_color_override("font_color", CLR_GOLD)
+	_evidence_container.add_child(title_label)
 
-	# 证据标签
-	var tab_ev := Button.new()
-	tab_ev.text = "【证  据】 (" + str(evidences.size()) + ")"
-	tab_ev.custom_minimum_size = Vector2(160, 38)
-	tab_ev.add_theme_font_size_override("font_size", 16)
-	var tab_ev_active: bool = (_evidence_tab_current == "evidence")
-	if tab_ev_active:
-		tab_ev.add_theme_color_override("font_color", Color(1.0, 0.85, 0.4))
-		var ts := StyleBoxFlat.new()
-		ts.bg_color = Color(0.1, 0.07, 0.03, 0.98)
-		ts.border_color = Color(0.85, 0.6, 0.15, 0.9)
-		ts.border_width_bottom = 3
-		ts.set_corner_radius_all(0)
-		ts.corner_radius_top_left = 4
-		ts.corner_radius_top_right = 4
-		ts.content_margin_top = 6
-		ts.content_margin_bottom = 6
-		ts.content_margin_left = 12
-		ts.content_margin_right = 12
-		tab_ev.add_theme_stylebox_override("normal", ts)
-		tab_ev.add_theme_stylebox_override("hover", ts)
-	else:
-		tab_ev.add_theme_color_override("font_color", Color(0.6, 0.55, 0.4))
-		tab_ev.add_theme_color_override("font_hover_color", Color(0.85, 0.75, 0.5))
-		var ts := StyleBoxFlat.new()
-		ts.bg_color = Color(0.05, 0.04, 0.02, 0.8)
-		ts.border_color = Color(0.4, 0.3, 0.15, 0.4)
-		ts.border_width_bottom = 1
-		ts.set_corner_radius_all(0)
-		ts.corner_radius_top_left = 4
-		ts.corner_radius_top_right = 4
-		ts.content_margin_top = 6
-		ts.content_margin_bottom = 6
-		ts.content_margin_left = 12
-		ts.content_margin_right = 12
-		tab_ev.add_theme_stylebox_override("normal", ts)
-		var tsh := ts.duplicate() as StyleBoxFlat
-		tsh.bg_color = Color(0.08, 0.06, 0.03, 0.9)
-		tab_ev.add_theme_stylebox_override("hover", tsh)
-	tab_ev.pressed.connect(func():
-		_evidence_tab_current = "evidence"
-		_refresh_evidence_list()
-	)
-	tab_row.add_child(tab_ev)
-
-	# 线索标签
-	var tab_cl := Button.new()
-	tab_cl.text = "【线  索】 (" + str(clues.size()) + ")"
-	tab_cl.custom_minimum_size = Vector2(160, 38)
-	tab_cl.add_theme_font_size_override("font_size", 16)
-	var tab_cl_active: bool = (_evidence_tab_current == "clue")
-	if tab_cl_active:
-		tab_cl.add_theme_color_override("font_color", Color(0.5, 0.9, 1.0))
-		var ts := StyleBoxFlat.new()
-		ts.bg_color = Color(0.04, 0.06, 0.1, 0.98)
-		ts.border_color = Color(0.3, 0.6, 0.85, 0.9)
-		ts.border_width_bottom = 3
-		ts.set_corner_radius_all(0)
-		ts.corner_radius_top_left = 4
-		ts.corner_radius_top_right = 4
-		ts.content_margin_top = 6
-		ts.content_margin_bottom = 6
-		ts.content_margin_left = 12
-		ts.content_margin_right = 12
-		tab_cl.add_theme_stylebox_override("normal", ts)
-		tab_cl.add_theme_stylebox_override("hover", ts)
-	else:
-		tab_cl.add_theme_color_override("font_color", Color(0.4, 0.6, 0.7))
-		tab_cl.add_theme_color_override("font_hover_color", Color(0.5, 0.8, 0.95))
-		var ts := StyleBoxFlat.new()
-		ts.bg_color = Color(0.03, 0.04, 0.06, 0.8)
-		ts.border_color = Color(0.2, 0.35, 0.5, 0.4)
-		ts.border_width_bottom = 1
-		ts.set_corner_radius_all(0)
-		ts.corner_radius_top_left = 4
-		ts.corner_radius_top_right = 4
-		ts.content_margin_top = 6
-		ts.content_margin_bottom = 6
-		ts.content_margin_left = 12
-		ts.content_margin_right = 12
-		tab_cl.add_theme_stylebox_override("normal", ts)
-		var tsh := ts.duplicate() as StyleBoxFlat
-		tsh.bg_color = Color(0.05, 0.06, 0.09, 0.9)
-		tab_cl.add_theme_stylebox_override("hover", tsh)
-	tab_cl.pressed.connect(func():
-		_evidence_tab_current = "clue"
-		_refresh_evidence_list()
-	)
-	tab_row.add_child(tab_cl)
-
-	# ── 内容区：根据当前标签显示对应列表 ──
+	# ── 内容区 ──
 	var flow := HFlowContainer.new()
 	flow.add_theme_constant_override("h_separation", 10)
 	flow.add_theme_constant_override("v_separation", 8)
 	_evidence_container.add_child(flow)
 	_evidence_tab_content = flow
 
-	var items: Array = evidences if _evidence_tab_current == "evidence" else clues
-	for eid in items:
-		flow.add_child(_make_evidence_sheet(eid, _evidence_tab_current))
+	for eid in evidences:
+		flow.add_child(_make_evidence_sheet(eid, "evidence"))
 
 	# ── 更新固定按钮行 ──
 	for c in _evidence_btn_row.get_children():
@@ -917,7 +879,7 @@ func _refresh_evidence_list() -> void:
 	_evidence_btn_row.add_child(cancel_btn)
 
 	# ── 重置悬浮信息显示 ──
-	_evidence_info_label.text = "[center][color=#888870]— 将鼠标悬浮在证据/线索上查看详情 —[/color][/center]"
+	_evidence_info_label.text = "[center][color=#888870]— 将鼠标悬浮在证物上查看详情 —[/color][/center]"
 
 
 func _make_evidence_sheet(eid: String, category: String) -> Button:
@@ -998,7 +960,7 @@ func _on_sheet_hover(ename: String, edesc: String, category: String) -> void:
 func _on_sheet_hover_exit() -> void:
 	if _evidence_info_label == null:
 		return
-	_evidence_info_label.text = "[center][color=#888870]— 将鼠标悬浮在证据/线索上查看详情 —[/color][/center]"
+	_evidence_info_label.text = "[center][color=#888870]— 将鼠标悬浮在证物上查看详情 —[/color][/center]"
 
 
 # ═══════════════════════════════════════════════════
@@ -1037,15 +999,36 @@ func _play_break_anim() -> void:
 	var break_dlg: Array = stmt.get("break_dialogue", [])
 	_dialogue_queue = break_dlg
 	_dialogue_idx = 0
-	_show_dialogue_queue(func():
-		_current_testimony_idx += 1
-		if _current_testimony_idx >= _testimonies.size():
-			_enter_state(State.VICTORY)
-		else:
-			_portrait_state = PortraitState.NORMAL
-			_update_portrait()
-			_enter_state(State.TESTIMONY_INTRO)
-	)
+	_show_dialogue_queue(func(): _after_break_dialogue())
+
+
+func _after_break_dialogue() -> void:
+	# 检查当前证词是否有过渡对话（transition_dialogue）
+	var testimony: Dictionary = _testimonies[_current_testimony_idx]
+	var transition_dlg: Array = testimony.get("transition_dialogue", [])
+	if not transition_dlg.is_empty():
+		_portrait_state = PortraitState.SHAKEN
+		_update_portrait()
+		_dialogue_queue = transition_dlg
+		_dialogue_idx = 0
+		_show_dialogue_queue(func(): _advance_to_next_testimony())
+	else:
+		_advance_to_next_testimony()
+
+
+func _advance_to_next_testimony() -> void:
+	_current_testimony_idx += 1
+	if _current_testimony_idx >= _testimonies.size():
+		_enter_state(State.VICTORY)
+	else:
+		_portrait_state = PortraitState.NORMAL
+		_update_portrait()
+		# 第三阶段切换BGM
+		if _current_testimony_idx == 2:
+			var bgm_player := get_node_or_null("/root/BgmPlayer")
+			if bgm_player and bgm_player.has_method("play"):
+				bgm_player.play("confrontation_final")
+		_enter_state(State.TESTIMONY_INTRO)
 
 
 # ═══════════════════════════════════════════════════
@@ -1084,8 +1067,99 @@ func _play_victory() -> void:
 	var victory_dlg: Array = _confrontation_data.get("victory_dialogue", [])
 	_dialogue_queue = victory_dlg
 	_dialogue_idx = 0
-	_show_dialogue_queue(func():
+	_show_dialogue_queue(func(): _play_epilogue_text())
+
+
+func _play_epilogue_text() -> void:
+	# 黑屏收尾文字（逐段显示）
+	var epilogue_lines: Array = _confrontation_data.get("epilogue_text", [])
+	if epilogue_lines.is_empty():
 		confrontation_finished.emit("victory", _mistakes)
+		return
+
+	_hide_dialogue()
+	# 隐藏所有UI元素，只留黑屏
+	_panel.visible = false
+
+	var epilogue_layer := Control.new()
+	epilogue_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(epilogue_layer)
+
+	# 纯黑背景
+	var black_bg := ColorRect.new()
+	black_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	black_bg.color = Color(0.02, 0.015, 0.01, 1.0)
+	epilogue_layer.add_child(black_bg)
+
+	# 居中文字区
+	var text_label := RichTextLabel.new()
+	text_label.bbcode_enabled = true
+	text_label.fit_content = true
+	text_label.scroll_active = false
+	text_label.anchor_left = 0.1
+	text_label.anchor_right = 0.9
+	text_label.anchor_top = 0.2
+	text_label.anchor_bottom = 0.8
+	text_label.offset_left = 0
+	text_label.offset_right = 0
+	text_label.offset_top = 0
+	text_label.offset_bottom = 0
+	text_label.add_theme_font_size_override("normal_font_size", 22)
+	text_label.add_theme_color_override("default_color", Color(0.85, 0.8, 0.65))
+	text_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	epilogue_layer.add_child(text_label)
+
+	# 提示
+	var hint_label := Label.new()
+	hint_label.text = "▼ 点击继续"
+	hint_label.anchor_left = 1.0
+	hint_label.anchor_right = 1.0
+	hint_label.anchor_top = 1.0
+	hint_label.anchor_bottom = 1.0
+	hint_label.offset_left = -150
+	hint_label.offset_top = -40
+	hint_label.offset_right = -20
+	hint_label.offset_bottom = -10
+	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	hint_label.add_theme_font_size_override("font_size", 14)
+	hint_label.add_theme_color_override("font_color", Color(0.6, 0.55, 0.42, 0.6))
+	epilogue_layer.add_child(hint_label)
+
+	# 逐段播放epilogue文字
+	_play_epilogue_lines(epilogue_lines, 0, text_label, epilogue_layer)
+
+
+func _play_epilogue_lines(lines: Array, idx: int, label: RichTextLabel, layer: Control) -> void:
+	if idx >= lines.size():
+		# 全部播完，发出结束信号
+		await get_tree().create_timer(1.0).timeout
+		confrontation_finished.emit("victory", _mistakes)
+		return
+
+	var line: String = lines[idx]
+	label.text = ""
+	label.modulate.a = 0.0
+
+	# 淡入
+	var tw := create_tween()
+	tw.tween_property(label, "modulate:a", 1.0, 0.5)
+	await tw.finished
+
+	# 打字机效果
+	_typewriter_playing = true
+	_typewriter.play(label, "[center]" + line + "[/center]")
+	if _typewriter.is_playing():
+		await _typewriter.finished
+	_typewriter_playing = false
+
+	# 等待点击
+	_set_waiting_for_click(func():
+		# 淡出
+		var tw_out := create_tween()
+		tw_out.tween_property(label, "modulate:a", 0.0, 0.3)
+		tw_out.tween_callback(func():
+			_play_epilogue_lines(lines, idx + 1, label, layer)
+		)
 	)
 
 
@@ -1107,17 +1181,25 @@ func _show_dialogue_queue(on_done: Callable) -> void:
 	_show_next_dialogue_line(on_done)
 
 
+func _hide_dialogue() -> void:
+	_dialogue_box.visible = false
+	if _dlg_portrait_rect:
+		_dlg_portrait_rect.visible = false
+
+
 func _show_next_dialogue_line(on_done: Callable) -> void:
 	if _dialogue_idx >= _dialogue_queue.size():
-		_dialogue_box.visible = false
+		_hide_dialogue()
 		on_done.call()
 		return
 	var line = _dialogue_queue[_dialogue_idx]
 	var speaker: String = ""
 	var text: String = ""
+	var emotion: String = ""
 	if line is Dictionary:
 		speaker = str(line.get("speaker", ""))
 		text = str(line.get("text", ""))
+		emotion = str(line.get("emotion", ""))
 	else:
 		text = str(line)
 
@@ -1125,8 +1207,17 @@ func _show_next_dialogue_line(on_done: Callable) -> void:
 		speaker = "陆昭"
 
 	_dialogue_speaker.text = speaker
-	_dialogue_text.text = text
 	_dialogue_box.visible = true
+
+	# 更新对话头像
+	_update_dialogue_portrait(speaker, emotion)
+
+	# 打字机效果
+	_typewriter_playing = true
+	_typewriter.play(_dialogue_text, text)
+	if _typewriter.is_playing():
+		await _typewriter.finished
+	_typewriter_playing = false
 
 	_set_waiting_for_click(func():
 		_dialogue_idx += 1
@@ -1147,18 +1238,24 @@ func _input(event: InputEvent) -> void:
 	if _state == State.BROWSING or _state == State.EVIDENCE_OPEN:
 		_click_callback = Callable()
 		return
-	if not _click_callback.is_valid():
-		return
 	var trigger: bool = false
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		trigger = true
 	elif event is InputEventKey and event.pressed and event.keycode == KEY_SPACE:
 		trigger = true
-	if trigger:
+	if not trigger:
+		return
+	# 打字机正在播放 → 跳过当前文字动画
+	if _typewriter_playing and _typewriter != null:
+		_typewriter.skip()
 		get_viewport().set_input_as_handled()
-		var cb := _click_callback
-		_click_callback = Callable()
-		cb.call()
+		return
+	if not _click_callback.is_valid():
+		return
+	get_viewport().set_input_as_handled()
+	var cb := _click_callback
+	_click_callback = Callable()
+	cb.call()
 
 
 # ═══════════════════════════════════════════════════
@@ -1293,3 +1390,58 @@ func _shake_portrait() -> void:
 		var offset_x := 10.0 if i % 2 == 0 else -10.0
 		_shake_tween.tween_property(_portrait_rect, "position:x", orig_x + offset_x, 0.035)
 	_shake_tween.tween_property(_portrait_rect, "position:x", orig_x, 0.05)
+
+
+# ═══════════════════════════════════════════════════
+#  对话头像（陆昭/凌瑶）
+# ═══════════════════════════════════════════════════
+
+func _update_dialogue_portrait(speaker: String, emotion: String) -> void:
+	if _dlg_portrait_rect == null:
+		return
+	var portrait_path: String = ""
+	if speaker == "陆昭" or speaker == "你":
+		# 对峙中陆昭默认表情为 serious
+		var emo: String = emotion if emotion != "" and emotion != "normal" else "serious"
+		portrait_path = _resolve_speaker_portrait("res://assets/cn/portraits/lu_zhao.png", emo)
+	elif speaker == "凌瑶":
+		portrait_path = _resolve_speaker_portrait("res://assets/cn/portraits/companion_lingyao.png", emotion)
+
+	if portrait_path != "" and ResourceLoader.exists(portrait_path):
+		_dlg_portrait_rect.texture = load(portrait_path)
+		_dlg_portrait_rect.visible = true
+	else:
+		_dlg_portrait_rect.visible = false
+
+
+func _resolve_speaker_portrait(base_path: String, emotion: String) -> String:
+	if emotion == "" or emotion == "normal":
+		return base_path
+	# 尝试直接匹配情绪变体文件
+	var variant := base_path.replace(".png", "_%s.png" % emotion)
+	if ResourceLoader.exists(variant):
+		return variant
+	# 映射到近似情绪
+	var mapped_emotion: String = ""
+	match emotion:
+		"accusatory", "piercing", "serious", "firm":
+			mapped_emotion = "serious"
+		"cold", "stern", "angry":
+			mapped_emotion = "cold"
+		"thinking", "alert", "ponder":
+			mapped_emotion = "worried"
+		"determined", "resolute":
+			mapped_emotion = "determined"
+		"nervous", "panic", "anxious", "uneasy":
+			mapped_emotion = "anxious"
+		"surprised", "shock", "startled":
+			mapped_emotion = "shocked"
+		"worried", "concerned", "sad":
+			mapped_emotion = "worried"
+		"cheerful", "happy", "relief":
+			mapped_emotion = "cheerful"
+	if mapped_emotion != "":
+		variant = base_path.replace(".png", "_%s.png" % mapped_emotion)
+		if ResourceLoader.exists(variant):
+			return variant
+	return base_path

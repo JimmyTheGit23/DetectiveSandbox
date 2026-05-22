@@ -78,7 +78,7 @@ func choose_option(index: int) -> void:
 	for f in opt.get("set_flags", []):
 		GameManager.set_flag(f)
 	var goto: String = opt.get("goto", "")
-	if goto == "" or goto == "__exit__":
+	if goto == "" or goto == "__exit__" or goto == "__confront__":
 		end_dialogue()
 		return
 	_current_node_id = goto

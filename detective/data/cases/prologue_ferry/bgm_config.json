@@ -15,6 +15,7 @@
     "ending_perfect": "mood:ending_good",
     "ending_good": "mood:ending_good",
     "ending_bad": "mood:ending_bad",
-    "epilogue_meta": "mood:mystery"
+    "epilogue_meta": "mood:mystery",
+    "confrontation_final": "mood:ferry_climax_final"
   }
 }

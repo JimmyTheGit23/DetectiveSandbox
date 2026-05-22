@@ -175,7 +175,12 @@
     },
     "ferry_prologue_escape": {
       "file": "res://assets/cn/bgm/ferry_prologue_escape.mp3",
-      "tags": ["prologue", "tense", "underwater", "ferry"],
+      "tags": [
+        "prologue",
+        "tense",
+        "underwater",
+        "ferry"
+      ],
       "mood": "cabin_panic",
       "tempo": "fast",
       "loop_friendly": false,
@@ -183,7 +188,13 @@
     },
     "ferry_prologue_shore": {
       "file": "res://assets/cn/bgm/ferry_prologue_shore.mp3",
-      "tags": ["prologue", "relief", "rain", "cold", "ferry"],
+      "tags": [
+        "prologue",
+        "relief",
+        "rain",
+        "cold",
+        "ferry"
+      ],
       "mood": "cold_relief",
       "tempo": "slow",
       "loop_friendly": true,
@@ -191,7 +202,12 @@
     },
     "ferry_inn_investigation": {
       "file": "res://assets/cn/bgm/ferry_inn_investigation.mp3",
-      "tags": ["investigation", "rain", "quiet", "ferry"],
+      "tags": [
+        "investigation",
+        "rain",
+        "quiet",
+        "ferry"
+      ],
       "mood": "ferry_inn",
       "tempo": "slow",
       "loop_friendly": true,
@@ -199,7 +215,12 @@
     },
     "ferry_dock_investigation": {
       "file": "res://assets/cn/bgm/ferry_dock_investigation.mp3",
-      "tags": ["investigation", "wind", "ominous", "ferry"],
+      "tags": [
+        "investigation",
+        "wind",
+        "ominous",
+        "ferry"
+      ],
       "mood": "ferry_dock",
       "tempo": "slow",
       "loop_friendly": true,
@@ -207,11 +228,29 @@
     },
     "ferry_confrontation": {
       "file": "res://assets/cn/bgm/ferry_confrontation.mp3",
-      "tags": ["climax", "confrontation", "intense", "ferry"],
+      "tags": [
+        "climax",
+        "confrontation",
+        "intense",
+        "ferry"
+      ],
       "mood": "ferry_climax",
       "tempo": "fast",
       "loop_friendly": true,
       "description": "渡口对峙：激烈弦乐太鼓、二胡急奏、逼供逆转高潮。"
+    },
+    "confrontation_final": {
+      "file": "res://assets/cn/bgm/confrontation_final.mp3",
+      "tags": [
+        "climax",
+        "confrontation",
+        "final",
+        "intense"
+      ],
+      "mood": "ferry_climax_final",
+      "tempo": "fast",
+      "loop_friendly": true,
+      "description": "对峙终章：最终击破阶段，高潮中的高潮。"
     }
   },
   "mood_index": {
@@ -273,6 +312,9 @@
     ],
     "ferry_climax": [
       "ferry_confrontation"
+    ],
+    "ferry_climax_final": [
+      "confrontation_final"
     ]
   }
 }
