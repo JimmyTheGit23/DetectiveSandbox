@@ -92,11 +92,13 @@
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "他说得倒顺。翻船死了人，他一点都不慌。"
+          "text": "他说得倒顺。翻船死了人，他一点都不慌。",
+          "emotion": "worried"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "水性好的人能自救，不奇怪。奇怪的是他说得太稳。"
+          "text": "水性好的人能自救，不奇怪。奇怪的是他说得太稳。",
+          "emotion": "serious"
         }
       ],
       "options": [
@@ -142,11 +144,13 @@
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "怪不怪你，船底那个洞会告诉我们。"
+          "text": "怪不怪你，船底那个洞会告诉我们。",
+          "emotion": "determined"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "先看证据。"
+          "text": "先看证据。",
+          "emotion": "serious"
         }
       ],
       "options": [
@@ -201,11 +205,13 @@
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "（低声）他急了。一问船底就急——心里有鬼。"
+          "text": "（低声）他急了。一问船底就急——心里有鬼。",
+          "emotion": "determined"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "好。先记下。"
+          "text": "好。先记下。",
+          "emotion": "serious"
         }
       ],
       "options": [
@@ -233,11 +239,13 @@
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "（低声）瞧他那样，跟踩了尾巴似的。赌债的事八成是真的。"
+          "text": "（低声）瞧他那样，跟踩了尾巴似的。赌债的事八成是真的。",
+          "emotion": "determined"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "不急。之后再说。"
+          "text": "不急。之后再说。",
+          "emotion": "serious"
         }
       ],
       "options": [

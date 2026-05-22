@@ -97,7 +97,8 @@
   },
   "ferry_dock.dock_fan_boat": {
     "default": {
-      "narration": "老范自己的那条小船停在码头边。船身干净、保养得不错。船舱里有渔网、绳索，还有一个空酒坛。"
+      "narration": "老范自己的那条小船停在码头边。船身干净、保养得不错。船舱里有渔网、绳索，还有一个空酒坛。\n\n码头上一个搬货的脚夫凑过来：'翻船前一天下午，老范一个人在那条大船上忙了两三个时辰。说是补漏。'\n\n补漏？还是在做别的手脚？",
+      "clue": "clue_fan_night_work"
     }
   },
   "ferry_dock.dock_fan_belongings": {

@@ -13,10 +13,9 @@
       "hint": "（你发现了船底的人工破洞）",
       "narration": [
         "船底那个洞——边缘整齐，凿痕清晰。这不是暗礁撞出来的。",
-        { "speaker": "凌瑶", "text": "等等等等……这是被人凿开的？！那不是意外翻船——是有人故意弄沉的！" },
-        { "speaker": "陆昭", "text": "活板。事先做好了手脚，到了地方打开，水就涌进来了。" },
-        { "speaker": "凌瑶", "text": "那……谁能在船上动这种手脚？只有船上的人啊——船家和那个仆从！" },
-        { "speaker": "陆昭", "text": "先别急着下结论。去找更多证据。" }
+        { "speaker": "凌瑶", "text": "等等……这是被人凿开的？！那不是翻船——是有人故意弄沉的！" },
+        { "speaker": "凌瑶", "text": "那是老范的船！只有他能在自己船上动这种手脚！那个赌鬼——他要弄死人捞钱！" },
+        { "speaker": "陆昭", "text": "是人为。但谁动的手，现在还不能下结论。继续查。" }
       ],
       "effects": {
         "set_flag": ["evt_hull_discovered_done", "hull_sabotage_known"]
@@ -34,9 +33,10 @@
       "hint": "（你在沉船下游的芦苇丛中发现了阿贵的包袱和浮囊）",
       "narration": [
         "粗布包袱，和阿贵在客栈用的是同一种。里面是一只充了气的牛皮浮囊。",
-        { "speaker": "凌瑶", "text": "浮囊！这东西是水上救命用的——他一个不会游泳的仆从带这个干什么？" },
-        { "speaker": "陆昭", "text": "而且被江水冲到了这里。他提前把包袱扔出船外——除非他知道自己会落水，而且需要浮着。" },
-        { "speaker": "凌瑶", "text": "……他提前知道船要翻！陆大人，这个人有问题！绝对有问题！" }
+        { "speaker": "凌瑶", "text": "等等……这是阿贵的包袱？浮囊？他一个不会游泳的仆从——为什么会有这种东西？！" },
+        { "speaker": "陆昭", "text": "而且被江水冲到了这里。他提前把包袱扔出船外——除非他知道自己会落水，需要靠它活命。" },
+        { "speaker": "凌瑶", "text": "陆大人！如果阿贵也提前知道船要沉——那就不只是老范一个人的事了！他们……他们是一伙的？！" },
+        { "speaker": "陆昭", "text": "看起来……这案子比我们以为的要复杂。" }
       ],
       "effects": {
         "set_flag": ["evt_bladder_found_done", "agui_premeditation_known"]
@@ -80,6 +80,27 @@
       ],
       "effects": {
         "set_flag": ["evt_gambling_debt_done", "fan_motive_known"]
+      }
+    },
+    {
+      "id": "evt_evidence_ready",
+      "trigger": {
+        "all": [
+          { "evidence_count_gte": 3 },
+          { "flag": "agui_premeditation_known" },
+          { "not": { "flag": "evt_evidence_ready_done" } }
+        ]
+      },
+      "title": "证据齐了",
+      "hint": "（证据已经足够指证凶手）",
+      "narration": [
+        { "speaker": "凌瑶", "text": "陆大人！我算了算——船底的洞、浮囊、动机……证据链差不多了！" },
+        { "speaker": "凌瑶", "text": "这案子拖不得。趁他还没反应过来，现在就去找阿贵对峙！" },
+        { "speaker": "陆昭", "text": "好。准备一下——去找阿贵当面对质。" },
+        { "speaker": "凌瑶", "text": "去客栈找阿贵说话，选【对峙】那个选项就行！我跟你一起去！" }
+      ],
+      "effects": {
+        "set_flag": ["evt_evidence_ready_done"]
       }
     }
   ]

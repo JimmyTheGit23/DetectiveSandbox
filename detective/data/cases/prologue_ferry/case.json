@@ -16,17 +16,17 @@
     "intro_dialogue": [
       {
         "speaker": "凌瑶",
-        "text": "（低声）瞧他那手抖的——做贼心虚写脸上了。",
-        "emotion": "thinking"
+        "text": "（低声）一开始我以为是老范那赌鬼自己干的……没想到这仆从也陷得这么深。",
+        "emotion": "worried"
       },
       {
         "speaker": "你",
-        "text": "阿贵，你跟随周老爷十二年。现在——该你说话了。",
-        "emotion": "accusatory"
+        "text": "阿贵，证据已经不只是指向老范了。该你说话了。",
+        "emotion": "cold"
       },
       {
         "speaker": "阿贵",
-        "text": "大人……小的什么都没做，老爷是翻船落水的……",
+        "text": "大人……小的什么都没做，那都是老范……老爷是翻船落水的……",
         "emotion": "nervous"
       },
       {
@@ -37,7 +37,7 @@
       {
         "speaker": "凌瑶",
         "text": "（小声）陆大人，他现在会一句一句陈述。你可以逐句浏览他的证词。",
-        "emotion": "thinking"
+        "emotion": "worried"
       },
       {
         "speaker": "凌瑶",
@@ -47,7 +47,7 @@
       {
         "speaker": "凌瑶",
         "text": "拿不准的时候也可以【威慑】——追问他细节，逼他露出更多马脚。不过威慑不扣信心，举证错了才扣。",
-        "emotion": "thinking"
+        "emotion": "worried"
       },
       {
         "speaker": "凌瑶",
@@ -68,7 +68,7 @@
               {
                 "speaker": "你",
                 "text": "你上船之前，有没有做什么特别的准备？",
-                "emotion": "piercing"
+                "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
@@ -78,7 +78,7 @@
               {
                 "speaker": "凌瑶",
                 "text": "包袱里到底有什么，待会儿再说。先让他接着编。",
-                "emotion": "thinking"
+                "emotion": "worried"
               }
             ]
           },
@@ -93,7 +93,7 @@
               {
                 "speaker": "你",
                 "text": "完全没有准备？一点预感都没有？",
-                "emotion": "piercing"
+                "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
@@ -103,19 +103,19 @@
               {
                 "speaker": "凌瑶",
                 "text": "不懂水路、毫无预感、完全措手不及……那包袱底下那个东西怎么解释？",
-                "emotion": "alert"
+                "emotion": "anxious"
               }
             ],
             "break_dialogue": [
               {
                 "speaker": "你",
                 "text": "完全没有准备？（甩出浮囊）那这个是什么？",
-                "emotion": "accusatory"
+                "emotion": "cold"
               },
               {
                 "speaker": "你",
                 "text": "牛皮浮囊——水上救命用的。从你包袱底层翻出来的。",
-                "emotion": "piercing"
+                "emotion": "cold"
               },
               {
                 "speaker": "你",
@@ -162,7 +162,7 @@
               {
                 "speaker": "凌瑶",
                 "text": "冬天的江水冻得能要命，一个旱鸭子抱着船板就飘到岸了？话本子都不敢这么写。",
-                "emotion": "alert"
+                "emotion": "anxious"
               }
             ]
           },
@@ -174,7 +174,7 @@
               {
                 "speaker": "你",
                 "text": "湿透？可有人说你到客栈时里衣是干的。",
-                "emotion": "piercing"
+                "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
@@ -184,7 +184,7 @@
               {
                 "speaker": "凌瑶",
                 "text": "腊月落水，外衣三天干不了，你里衣倒只微潮？你是会隐身术还是根本没下过水？",
-                "emotion": "thinking"
+                "emotion": "worried"
               }
             ]
           }
@@ -198,7 +198,7 @@
           {
             "speaker": "凌瑶",
             "text": "（低声）出错了……想想——他上船前就做了准备，咱手里哪样东西能揭穿他？",
-            "emotion": "thinking"
+            "emotion": "worried"
           }
         ],
         "transition_dialogue": [
@@ -210,7 +210,7 @@
           {
             "speaker": "凌瑶",
             "text": "瞧他那样——像被踩了尾巴的耗子。",
-            "emotion": "alert"
+            "emotion": "anxious"
           },
           {
             "speaker": "你",
@@ -230,7 +230,7 @@
           {
             "speaker": "你",
             "text": "保命？",
-            "emotion": "piercing"
+            "emotion": "cold"
           },
           {
             "speaker": "阿贵",
@@ -245,7 +245,7 @@
           {
             "speaker": "凌瑶",
             "text": "（低声）他把浮囊说成'怕死才带的'……那暗礁的事就成了他的保护伞。得把那个'暗礁'的谎也拆了才行。",
-            "emotion": "thinking"
+            "emotion": "worried"
           },
           {
             "speaker": "你",
@@ -266,7 +266,7 @@
               {
                 "speaker": "你",
                 "text": "什么时候跟你说的？上船之前？",
-                "emotion": "piercing"
+                "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
@@ -276,7 +276,7 @@
               {
                 "speaker": "凌瑶",
                 "text": "明知道险还走？跑了二十年船的人故意走暗礁水道——你觉得正常？",
-                "emotion": "alert"
+                "emotion": "anxious"
               }
             ]
           },
@@ -293,7 +293,7 @@
               {
                 "speaker": "你",
                 "text": "你亲眼看到礁石撞的？",
-                "emotion": "piercing"
+                "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
@@ -303,19 +303,19 @@
               {
                 "speaker": "凌瑶",
                 "text": "暗礁？暗礁能把木板凿出方方正正的洞来？它上辈子是木匠？",
-                "emotion": "thinking"
+                "emotion": "worried"
               }
             ],
             "break_dialogue": [
               {
                 "speaker": "你",
                 "text": "暗礁撞的？（拍出证据）你仔细看看这个洞。",
-                "emotion": "accusatory"
+                "emotion": "cold"
               },
               {
                 "speaker": "你",
                 "text": "边缘整齐——是从内侧用工具凿开的。而且周围有新旧两圈钉眼。",
-                "emotion": "piercing"
+                "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
@@ -328,24 +328,39 @@
                 "emotion": "cold"
               },
               {
+                "speaker": "你",
+                "text": "而且凿痕是从船舱内侧——乘客那一侧——凿出来的。老范在外面掌舵。船舱里只有你和周德茂。",
+                "emotion": "cold"
+              },
+              {
                 "speaker": "阿贵",
                 "text": "……",
                 "emotion": "shaken"
               },
               {
                 "speaker": "阿贵",
-                "text": "就算……就算是人凿的……那也不是我干的！我只是个仆从——连船都不会开！动手脚的是老范！是他自己的船！",
+                "text": "就算……就算是人凿的……那也不是我干的！我不会那种活计——！",
                 "emotion": "panic"
               },
               {
                 "speaker": "阿贵",
-                "text": "老爷对我不薄！我为什么要害他？我没有理由！是老范——他欠了赌债，逼急了才动的歪心思！",
-                "emotion": "defensive"
+                "text": "是有人教我的！不是我自己——！",
+                "emotion": "panic"
               },
               {
                 "speaker": "凌瑶",
-                "text": "又改口了——从'天灾'变成'别人干的'。行啊，那就问问你跟主子的关系到底怎么样。",
-                "emotion": "determined"
+                "text": "！教你？谁教你的？！",
+                "emotion": "shocked"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "（猛然闭嘴，像是意识到说错了话）……没、没有。是老范。是老范教的。他说把那块板卸了再钉回去就行……",
+                "emotion": "shaken"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）他刚才差点说出第三个人……陆大人，这案子底下怕是还有东西。但先把眼前的审完。",
+                "emotion": "worried"
               }
             ]
           },
@@ -367,7 +382,7 @@
               {
                 "speaker": "凌瑶",
                 "text": "怕就别上船啊。上了船还藏浮囊——这不叫谨慎，叫有预谋。",
-                "emotion": "alert"
+                "emotion": "anxious"
               }
             ]
           }
@@ -381,7 +396,7 @@
           {
             "speaker": "凌瑶",
             "text": "（低声）他在死撑'暗礁'的谎。咱们手里有能证明船底是人凿的东西——用它堵他的嘴。",
-            "emotion": "thinking"
+            "emotion": "worried"
           }
         ],
         "transition_dialogue": [
@@ -392,12 +407,12 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "两次了——两次被当场戳穿。看他还能编出什么花来。",
+            "text": "两次了——两次被当场戳穿。而且他刚才差点说出个'教他的人'……",
             "emotion": "determined"
           },
           {
             "speaker": "你",
-            "text": "凿痕、钉眼、工具痕迹——全指向人为。你还有什么话说？",
+            "text": "凿痕在船舱内侧。那晚只有你在船舱里。阿贵——你还有什么话说？",
             "emotion": "cold"
           },
           {
@@ -407,38 +422,28 @@
           },
           {
             "speaker": "阿贵",
-            "text": "（突然抬头）就算……就算是人凿的——那也不是我！",
+            "text": "就算……就算小的动了手脚——那也是被逼的！",
             "emotion": "panic"
           },
           {
             "speaker": "阿贵",
-            "text": "大人您想想——那是老范的船！他天天在上头！要动手脚也是他动的！小的连船舱在哪儿都摸不清！",
-            "emotion": "defensive"
-          },
-          {
-            "speaker": "凌瑶",
-            "text": "开始甩锅了。",
-            "emotion": "alert"
-          },
-          {
-            "speaker": "阿贵",
-            "text": "老范欠了赌坊四十二两银子！腊月底还不上就断指！他才是被逼到绝路的人！",
+            "text": "老范欠了赌坊四十二两银子！腊月底还不上就断指！是他来求小的帮忙的！小的只是……只是没拒绝！",
             "emotion": "defensive"
           },
           {
             "speaker": "阿贵",
-            "text": "小的跟老爷十二年，吃穿不愁——小的为什么要害老爷？小的没有理由！",
+            "text": "小的跟老爷十二年，吃穿不愁——小的为什么要主动害老爷？小的没有理由！",
             "emotion": "nervous"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）他说'没有理由'……呵。咱们手里可有个东西，能证明他恨透了主子。",
-            "emotion": "thinking"
+            "text": "（低声）他说'没有理由'，说'是老范求他的'……可刚才他那反应——像是主动参与的。咱们手里那个东西，能证明他自己就有杀人的理由。",
+            "emotion": "worried"
           },
           {
             "speaker": "你",
-            "text": "没有理由？好——那我们就来说说你跟周老爷的关系。一个字一个字说清楚。",
-            "emotion": "piercing"
+            "text": "没有理由？只是被动帮忙？好——那我们来说说你跟周老爷的关系。一个字一个字说清楚。",
+            "emotion": "cold"
           }
         ]
       },
@@ -464,7 +469,7 @@
               {
                 "speaker": "凌瑶",
                 "text": "管吃管住？那是狗的待遇。十二年啊——就没想过给你个前程？",
-                "emotion": "alert"
+                "emotion": "anxious"
               }
             ]
           },
@@ -481,7 +486,7 @@
               {
                 "speaker": "你",
                 "text": "路费银子——多少？",
-                "emotion": "piercing"
+                "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
@@ -491,19 +496,19 @@
               {
                 "speaker": "凌瑶",
                 "text": "哈？'几两'？十二年啊大哥！狗跟了主人十二年都不止给根骨头吧？",
-                "emotion": "thinking"
+                "emotion": "worried"
               }
             ],
             "break_dialogue": [
               {
                 "speaker": "你",
                 "text": "体恤你？（掏出字据）你自己看看这个。",
-                "emotion": "accusatory"
+                "emotion": "cold"
               },
               {
                 "speaker": "你",
                 "text": "'给银二两，各不相欠。'——十二年，就值二两银子。",
-                "emotion": "piercing"
+                "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
@@ -511,18 +516,33 @@
                 "emotion": "shaken"
               },
               {
+                "speaker": "阿贵",
+                "text": "（突然抬头，眼睛通红）二两？！大人您知道为什么只给二两吗？！",
+                "emotion": "broken"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "因为他说——十二年的吃住穿用都算在里头了！我的工钱？他说早就抵完了！",
+                "emotion": "broken"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "我算过——十二年！他欠我至少三十两！三十两啊！他克扣了我十二年——最后反过来说我欠他的！",
+                "emotion": "broken"
+              },
+              {
                 "speaker": "凌瑶",
-                "text": "……十二年换二两银。这叫'体恤'？这叫把人当垃圾扫地出门。",
-                "emotion": "worried"
+                "text": "三十两……被扣了十二年的工钱？那字据不是'遣散'——是'赖账'。",
+                "emotion": "shocked"
               },
               {
                 "speaker": "你",
-                "text": "你恨他。恨他薄情寡义。所以你跟老范合谋——你凿船，他选暗礁水道。事成之后分了五十两货银。",
+                "text": "所以你恨他。不只是赶你走——是吞了你十二年的血汗钱，还要你感恩戴德。",
                 "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
-                "text": "我……我……",
+                "text": "……",
                 "emotion": "broken"
               }
             ]
@@ -535,7 +555,7 @@
               {
                 "speaker": "你",
                 "text": "你怎么知道老范欠赌债？",
-                "emotion": "piercing"
+                "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
@@ -545,7 +565,7 @@
               {
                 "speaker": "凌瑶",
                 "text": "渡口的人都知道——那你俩串通起来也不难吧？一个有技术一个有仇恨，天作之合。",
-                "emotion": "alert"
+                "emotion": "anxious"
               }
             ]
           },
@@ -557,7 +577,7 @@
               {
                 "speaker": "你",
                 "text": "没胆子？浮囊藏好了、船底凿好了、退路也想好了——这叫没胆子？",
-                "emotion": "accusatory"
+                "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
@@ -567,7 +587,7 @@
               {
                 "speaker": "凌瑶",
                 "text": "世上哪来这么多巧合？你是没胆子还是胆大包天？",
-                "emotion": "alert"
+                "emotion": "anxious"
               }
             ]
           }
@@ -581,7 +601,7 @@
           {
             "speaker": "凌瑶",
             "text": "（低声）他装孝子呢。好主仆？那咱们手里那张字据怎么说？拿出来打他脸。",
-            "emotion": "thinking"
+            "emotion": "worried"
           }
         ]
       }
@@ -624,68 +644,88 @@
       },
       {
         "speaker": "阿贵",
-        "text": "都是他逼我的……十二年啊……十二年……",
+        "text": "但你们都搞错了一件事。",
         "emotion": "broken"
       },
       {
         "speaker": "阿贵",
-        "text": "我阿贵十六岁进周家的门。洗衣、劈柴、端茶、倒夜壶……什么脏活累活没干过？",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "逢年过节，人家的仆从拿三两五两赏钱——我呢？给个几十文打发叫花子似的。",
-        "emotion": "nervous"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "我忍了。想着总有一天老爷良心发现……总有一天……",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "结果呢？'给银二两，各不相欠。'十二年——两个字就打发了。",
-        "emotion": "shaken"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "（声音颤抖）两……两……你知道二两银子在浔阳能买什么吗？两袋粗米。连间破屋都租不起。",
+        "text": "不是老范找的我。是我找的他。",
         "emotion": "broken"
       },
       {
         "speaker": "凌瑶",
-        "text": "……",
-        "emotion": "worried"
+        "text": "什么……？！",
+        "emotion": "shocked"
       },
       {
         "speaker": "阿贵",
-        "text": "那天晚上老范来找我。他说——周德茂随身带着五十两货银。",
+        "text": "那个赌鬼欠了四十二两——我知道。我算准了他走投无路。那天晚上是我去码头找他说的。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "我跟了那条船三天。哪里有暗礁、哪段水流急、什么时候动手……全是我算好的。老范不过是个……听话的工具。",
         "emotion": "nervous"
       },
       {
-        "speaker": "阿贵",
-        "text": "他说只要把船底的板子卸了，等船沉了，把银子捞走……谁也查不出来。",
-        "emotion": "nervous"
+        "speaker": "凌瑶",
+        "text": "……原来不是老范主导的。是他。从头到尾都是他在策划。",
+        "emotion": "shocked"
       },
       {
         "speaker": "阿贵",
-        "text": "我当时……我当时想的是——五十两。我十二年都没见过这么多钱。",
-        "emotion": "shaken"
+        "text": "十二年……十二年我像条狗一样伺候他。洗衣、劈柴、端茶、倒夜壶……",
+        "emotion": "broken"
       },
       {
         "speaker": "阿贵",
-        "text": "（突然抬头）可我没想过要他死！我以为他会游泳——我以为……",
+        "text": "他许我的月钱——十二年，一文没兑现过。'等年底一起算'，年年都是这句话。然后遣散的时候——'各不相欠'！",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "（声音颤抖）三十两……他欠我三十两……他不但不给，还要把我像烂抹布一样甩掉——！",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "你",
+        "text": "所以你要他的命。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "我要的是我的钱！五十两货银——我该得的那份！",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "（突然抬头）可我没想过要他死！我以为他会被人救上来——我以为……",
         "emotion": "panic"
       },
       {
         "speaker": "你",
-        "text": "你以为？你知道他是旱鸭子。你知道那是腊月的冰水。",
+        "text": "你知道他是旱鸭子。你知道那是腊月的冰水。你选了最深的江面。",
         "emotion": "cold"
       },
       {
         "speaker": "阿贵",
         "text": "……",
         "emotion": "broken"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "等等——你之前说有人'教'你凿船。那个人到底是谁？",
+        "emotion": "anxious"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "（身体一僵）……没有。没有人。是我自己想的。",
+        "emotion": "shaken"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "（低声）……他在保护什么人。看他那表情——明显在撒谎。",
+        "emotion": "worried"
       },
       {
         "speaker": "你",
@@ -699,17 +739,17 @@
       },
       {
         "speaker": "凌瑶",
-        "text": "……十二年。为了二两银子逼出一条人命。",
+        "text": "……十二年。被克扣了一辈子的工钱，最后连命都搭进去了。",
         "emotion": "worried"
       },
       {
         "speaker": "凌瑶",
-        "text": "也不知道该恨谁。恨阿贵心狠？还是恨周德茂刻薄？",
-        "emotion": "thinking"
+        "text": "不过……那个'教他的人'——总觉得这案子底下还压着东西。",
+        "emotion": "worried"
       },
       {
         "speaker": "你",
-        "text": "法不容情。动机再委屈，杀人就是杀人。",
+        "text": "法不容情。动机再委屈，杀人就是杀人。至于那条线……以后再说。",
         "emotion": "serious"
       },
       {
@@ -732,7 +772,7 @@
       {
         "speaker": "你",
         "text": "……",
-        "emotion": "normal"
+        "emotion": "serious"
       },
       {
         "speaker": "凌瑶",
@@ -747,7 +787,7 @@
       {
         "speaker": "凌瑶",
         "text": "走吧。回去把证物翻出来一样一样对。这案子没那么难——是咱出牌的顺序不对。",
-        "emotion": "thinking"
+        "emotion": "worried"
       }
     ],
     "epilogue_text": [

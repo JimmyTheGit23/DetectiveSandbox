@@ -68,11 +68,13 @@
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "这老滑头，净替人开脱。"
+          "text": "这老滑头，净替人开脱。",
+          "emotion": "anxious"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "地方小吏怕事。先听他说完。"
+          "text": "地方小吏怕事。先听他说完。",
+          "emotion": "serious"
         }
       ],
       "options": [
@@ -108,11 +110,12 @@
         {
           "speaker_id": "xia_lingyao",
           "text": "那老范二十年老船家，他不知道？",
-          "emotion": "alert"
+          "emotion": "anxious"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "不可能不知道。"
+          "text": "不可能不知道。",
+          "emotion": "cold"
         }
       ],
       "options": [

@@ -3,7 +3,7 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "（阿贵蹲在墙角，眼睛红肿）大人……小的、小的实在是太害怕了……那一晚上的事，小的到现在还没缓过来……",
+      "text": "（阿贵跪在一张简陋的灵位前烧纸钱，听到脚步声抬头）大人……小的愿意配合调查。老爷的仇，一定要报。您尽管问。",
       "options": [
         {
           "text": "问问当晚发生了什么",
@@ -85,31 +85,32 @@
       "lines": [
         {
           "speaker_id": "agui",
-          "text": "那天……那天夜里，老爷说要赶路，非坐夜船不可。小的劝了，老爷不听。",
-          "emotion": "nervous"
+          "text": "那天晚上……老范说走捷径能快一个时辰。小的当时还劝老爷别坐夜船，老爷不听。",
+          "emotion": "grief"
         },
         {
           "speaker_id": "agui",
-          "text": "到了江心，突然船就晃得厉害——然后水就涌进来了！什么都看不见，什么都抓不住！",
-          "emotion": "panic",
+          "text": "到了江心，突然船就晃得厉害——然后水就涌进来了！什么都看不见！小的拼命去拉老爷的手，没拉住……",
+          "emotion": "grief",
           "highlight": [
-            "水涌进来"
+            "水涌进来",
+            "没拉住"
           ]
         },
         {
           "speaker_id": "agui",
-          "text": "小的只记得呛了好多水……等醒过来的时候已经在岸上了。（哽咽）老爷他……老爷他不在了……",
-          "emotion": "nervous"
+          "text": "（哽咽）小的对不起老爷……要是当时再使把劲……",
+          "emotion": "grief"
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "哭得倒凶，可他说得太空了。",
-          "emotion": "thinking"
+          "text": "他倒是把嫌疑全往船家那边推了。不过说得有鼻子有眼的……",
+          "emotion": "worried"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "空话多，细节少。继续问。",
-          "emotion": "normal"
+          "text": "先听着。看他后面怎么说。",
+          "emotion": "serious"
         }
       ],
       "options": [
@@ -130,13 +131,13 @@
       "lines": [
         {
           "speaker_id": "agui",
-          "text": "老爷对小的很好。十二年了，吃住都是老爷供的。",
-          "emotion": "nervous"
+          "text": "老爷对小的有知遇之恩。十六岁进的门，什么都不会——是老爷手把手教的。",
+          "emotion": "grief"
         },
         {
           "speaker_id": "agui",
-          "text": "小的这辈子都感激老爷的大恩。",
-          "emotion": "defensive"
+          "text": "十二年了……小的半条命都是老爷给的。（声音发颤）现在老爷没了……小的不知道该怎么办。",
+          "emotion": "grief"
         }
       ],
       "options": [
@@ -154,8 +155,8 @@
       "lines": [
         {
           "speaker_id": "agui",
-          "text": "小的……小的也不知道。命大吧。抱着一块船板就飘上来了。",
-          "emotion": "defensive",
+          "text": "小的不会水……当时什么都看不见，只觉得冷。手里好像抓到了一块板子——死死抱住不敢放。",
+          "emotion": "grief",
           "highlight": [
             "抱着一块船板"
           ],
@@ -164,14 +165,19 @@
           "record_text": "阿贵声称自己抱着一块船板漂上岸。"
         },
         {
+          "speaker_id": "agui",
+          "text": "后来就什么都不知道了。醒过来已经在岸上。命大吧……可老爷就没这么幸运了……",
+          "emotion": "grief"
+        },
+        {
           "speaker_id": "xia_lingyao",
-          "text": "冬天的江水，不会游泳的人抱块板子就能活？",
-          "emotion": "thinking"
+          "text": "冬天的江水，不会游泳的人抱块板子就能活？说得倒轻巧。",
+          "emotion": "worried"
         },
         {
           "speaker_id": "lu_zhao",
           "text": "先记下。他的说法站不稳。",
-          "emotion": "normal"
+          "emotion": "serious"
         }
       ],
       "options": [
@@ -189,23 +195,23 @@
       "lines": [
         {
           "speaker_id": "agui",
-          "text": "怨……怨气？小的不敢有怨气。老爷要遣散就遣散呗，小的能说什么……",
+          "text": "遣散？那是……那是老爷另有安排。老爷说让小的回乡置点田产，过自在日子。",
           "emotion": "nervous"
         },
         {
           "speaker_id": "agui",
-          "text": "（攥紧拳头）十二年……十二年……",
+          "text": "（攥紧拳头，声音微颤）老爷是为小的好。十二年了……也该放小的走了。",
           "emotion": "shaken"
         },
         {
           "speaker_id": "agui",
-          "text": "（突然松开手）小的没有怨恨。真的。",
+          "text": "（松开手）小的没有怨恨。真的。",
           "emotion": "defensive"
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "（低声）嘴上说没有，拳头都攥白了。记下来，动机有了。",
-          "emotion": "thinking"
+          "text": "（低声）嘴上说没有，拳头都攥白了。记下来——演技不错，但细节骗不了人。",
+          "emotion": "determined"
         }
       ],
       "options": [
@@ -237,7 +243,7 @@
         {
           "speaker_id": "xia_lingyao",
           "text": "（低声）心虚了。他包袱里肯定有鬼，回头正式审的时候再拿出来——打他个措手不及。",
-          "emotion": "thinking"
+          "emotion": "determined"
         }
       ],
       "options": [
@@ -259,12 +265,12 @@
         {
           "speaker_id": "lu_zhao",
           "text": "阿贵。我不想再绕弯子了。",
-          "emotion": "accusatory"
+          "emotion": "cold"
         },
         {
           "speaker_id": "lu_zhao",
           "text": "浮囊、船底的洞、你那身衣服——所有证据都指向你。",
-          "emotion": "piercing"
+          "emotion": "cold"
         },
         {
           "speaker_id": "agui",
@@ -274,7 +280,7 @@
         {
           "speaker_id": "lu_zhao",
           "text": "那好。一条一条过。你说的每一句话——我都有东西反驳。",
-          "emotion": "cold"
+          "emotion": "serious"
         }
       ],
       "set_flags": [

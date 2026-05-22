@@ -550,7 +550,7 @@
     "day2_body_4": {
       "background": "res://assets/cn/scenes/prologue_cold_open.png",
       "speaker": "陆昭",
-      "text": "周德茂。布商。昨夜跟我说过几句话——带着仆从阿贵，要过江进货。\n\n……他死了。但那个仆从呢？船家呢？",
+      "text": "周德茂。布商。昨夜跟我说过几句话——带着仆从阿贵，要过江进货。\n\n……他死了。仆从阿贵活着，在客栈歇着。船家老范也没事。",
       "next": "day2_body_5",
       "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
     },
@@ -563,7 +563,7 @@
     "day2_zhou_1": {
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
       "speaker": "周氏",
-      "text": "老爷！老爷——！\n\n（突然抬头，死死抓住你的袖子）你！你是跟他同船的对不对？！我昨晚看到你了——\n\n你知道的对不对！他怎么死的？！",
+      "text": "老爷！老爷——！\n\n（突然抬头，死死抓住你的袖子）你！你是跟他同船的对不对？！\n\n那个船家呢？！老范呢！他人在哪！",
       "next": "day2_zhou_2"
     },
     "day2_zhou_2": {
@@ -576,13 +576,13 @@
     "day2_zhou_3": {
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
       "speaker": "周氏",
-      "text": "不是意外……？！\n\n我就说！我就说那个阿贵有问题！老爷要遣散他——出发前还吵了一架！昨夜他明明一起上的船，怎么人好好的？！",
+      "text": "不是意外……？！\n\n那个船家！老范！他欠了一屁股赌债，整个码头都知道！老爷说过再也不坐他的船——是阿贵说这次赶路方便才坐的！\n\n出了事船家好好的人倒死了——他有问题！",
       "next": "day2_zhou_4"
     },
     "day2_zhou_4": {
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
       "speaker": "凌瑶",
-      "text": "（低声）陆昭——那个仆从活着？他怎么上岸的？\n\n还有那个船家……昨晚我在码头等船的时候，好像看到有两三个人蹲在码头角落说话。当时天太黑没看清……",
+      "text": "（低声）陆昭——那个船家……跑了二十年船的人翻船？还欠赌债？\n\n而且我昨晚在码头等船的时候，好像看到有两三个人蹲在码头角落说话。当时天太黑没看清……",
       "effect": {
         "gain_clue": "clue_lingyao_dock_witness"
       },
@@ -592,7 +592,7 @@
     "day2_resolve": {
       "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "陆昭",
-      "text": "船底的洞。活着的仆从。码头的密谈。\n\n这不是翻船——是谋杀。",
+      "text": "船底的洞。欠赌债的船家。码头的密谈。\n\n这不是翻船——是谋杀。",
       "next": "day2_resolve_2",
       "portrait": "res://assets/cn/portraits/lu_zhao_cold.png"
     },

@@ -35,7 +35,10 @@
           "goto": "ask_swimming",
           "requires": [
             {
-              "flag": "zhou_talked_once"
+              "any": [
+                { "flag": "zhou_revealed_dismissal" },
+                { "flag": "zhou_suspicion_heard" }
+              ]
             }
           ],
           "type": "ask"
@@ -45,7 +48,10 @@
           "goto": "comfort",
           "requires": [
             {
-              "flag": "zhou_talked_once"
+              "any": [
+                { "flag": "zhou_revealed_dismissal" },
+                { "flag": "zhou_suspicion_heard" }
+              ]
             }
           ],
           "type": "observe"
@@ -114,12 +120,13 @@
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "二两？十二年就换二两？这也太寒碜了。"
+          "text": "二两？十二年就换二两？这也太寒碜了。",
+          "emotion": "shocked"
         },
         {
           "speaker_id": "lu_zhao",
           "text": "寒心不等于杀人。但确实是动机。",
-          "emotion": "thinking"
+          "emotion": "serious"
         }
       ],
       "options": [
@@ -176,11 +183,13 @@
         },
         {
           "speaker_id": "xia_lingyao",
-          "text": "怕水的人深夜上船，不是被催的，就是被骗的。"
+          "text": "怕水的人深夜上船，不是被催的，就是被骗的。",
+          "emotion": "worried"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "这点可以和阿贵的说法互证。"
+          "text": "这点可以和阿贵的说法互证。",
+          "emotion": "serious"
         }
       ],
       "options": [
