@@ -83,7 +83,7 @@
     "scene_type": "scene_prologue_river_bend",
     "npcs": ["fisherman_wang"],
     "search_points": [
-      { "id": "village_wang_home", "name": "王老汉家", "time_cost": 0, "hint_rect": [0.68, 0.52, 0.22, 0.25] }
+      { "id": "village_wang_home", "name": "王大爷家", "time_cost": 0, "hint_rect": [0.68, 0.52, 0.22, 0.25] }
     ]
   },
   "shen_room": {

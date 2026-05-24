@@ -416,7 +416,7 @@ func _make_case_card(entry: Dictionary) -> Control:
 		elif unlock_after != "":
 			# 找前置案件标题
 			var prereq_title := unlock_after
-			var entries := GameManager.get_case_index_entries() if GameManager else []
+			var entries: Array = GameManager.get_case_index_entries() if GameManager else []
 			for e in entries:
 				if e.get("id", "") == unlock_after:
 					var mp: String = e.get("manifest", "")

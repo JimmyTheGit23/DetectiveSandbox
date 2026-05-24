@@ -41,7 +41,7 @@
           "type": "press"
         },
         {
-          "text": "王老汉在下游看到有人打捞东西。",
+          "text": "王大爷在下游看到有人打捞东西。",
           "goto": "press_salvage",
           "requires": [{ "evidence": "evidence_salvage_mark" }],
           "type": "press"

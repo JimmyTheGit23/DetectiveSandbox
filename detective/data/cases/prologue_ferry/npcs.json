@@ -40,7 +40,7 @@
     "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
   },
   "fisherman_wang": {
-    "name": "王老汉",
+    "name": "王大爷",
     "title": "打渔老翁",
     "intro": "下游渔村的老渔翁。",
     "dialogue": "fisherman_wang",

@@ -3,8 +3,10 @@ extends Control
 ## 支持多帧动画循环（说话/待机），为 AI 生成动画帧做准备。
 
 const TypewriterEffectScript = preload("res://scripts/ui/TypewriterEffect.gd")
+const UI_FONT = preload("res://assets/fonts/NotoSansSC.otf")
 
 @onready var dim_bg: PanelContainer = $DimBg
+@onready var box: Control = $Box
 @onready var portrait_rect: TextureRect = $Portrait
 @onready var speaker_label: Label = $Box/SpeakerName
 @onready var text_label: RichTextLabel = $Box/TextLabel
@@ -16,6 +18,7 @@ var _typewriter: Node = null
 var _top_options_panel: PanelContainer = null
 var _top_options_vbox: VBoxContainer = null
 var _choice_hint_label: Label = null
+var _choice_hint_plate: PanelContainer = null
 var _log_button: Button = null
 var _log_panel: PanelContainer = null
 var _log_text: RichTextLabel = null
@@ -35,6 +38,7 @@ var _current_center_portrait_speaker: String = ""
 var _current_center_portrait_path: String = ""
 var _current_center_emotion: String = ""
 var _avatar_rect: TextureRect = null
+var _speaker_plate: PanelContainer = null
 
 # ─── 动画帧系统 ───
 var _talk_frames: Array[Texture2D] = []
@@ -77,9 +81,11 @@ func _ready() -> void:
 	text_label.offset_bottom = -40.0
 	text_label.bbcode_enabled = true
 	text_label.scroll_active = false
+	text_label.add_theme_font_override("normal_font", UI_FONT)
 	text_label.add_theme_font_size_override("normal_font_size", 22)
 	text_label.add_theme_color_override("default_color", CLR_INK)
 	text_label.add_theme_constant_override("line_separation", 6)
+	_build_dialogue_frame()
 	_apply_dialogue_chrome()
 	_build_choice_hint()
 	_build_log_controls()
@@ -126,7 +132,7 @@ func show_dialogue(speaker: String, portrait_path: String, text: String, options
 	_hide_options()
 	if _log_panel != null:
 		_log_panel.visible = false
-	_choice_hint_label.visible = false
+	_set_choice_hint("", false)
 	_waiting_for_advance = false
 	_dialogue_options = options
 	_dialogue_pages = _build_dialogue_pages(speaker, portrait_path, text, pages)
@@ -140,7 +146,7 @@ func _play_current_page(run_id: int) -> void:
 	if run_id != _dialogue_run_id:
 		return
 	_hide_options()
-	_choice_hint_label.visible = false
+	_set_choice_hint("", false)
 	_waiting_for_advance = false
 	var page: Dictionary = _dialogue_pages[_dialogue_page_index]
 	_apply_speaker(page.get("speaker", ""), page.get("portrait", ""), page.get("emotion", ""))
@@ -158,12 +164,10 @@ func _play_current_page(run_id: int) -> void:
 	if run_id != _dialogue_run_id:
 		return
 	if _dialogue_page_index < _dialogue_pages.size() - 1:
-		_choice_hint_label.text = "▼ 点击继续"
-		_choice_hint_label.visible = true
+		_set_choice_hint("▼ 点击继续", true)
 		_waiting_for_advance = true
 	else:
-		_choice_hint_label.text = "▼ 请选择回应"
-		_choice_hint_label.visible = true
+		_set_choice_hint("▼ 请选择回应", true)
 		_show_options(_dialogue_options)
 
 
@@ -184,13 +188,13 @@ func _apply_speaker(speaker: String, portrait_path: String, emotion: String = ""
 	# 对于 NPC：正常显示中央肖像
 	speaker_label.text = speaker
 	speaker_label.visible = speaker != ""
-	var resolved_portrait := _resolve_emotion_portrait(portrait_path, emotion)
+	var _resolved_portrait := _resolve_emotion_portrait(portrait_path, emotion)
 	var was_returning_from_companion = _is_protagonist_or_companion(_last_speaker) and speaker == _current_center_portrait_speaker
 	_current_center_portrait_speaker = speaker
 	_current_center_portrait_path = portrait_path
 	_current_center_emotion = emotion
 	# 从同伴回到同一NPC时，不重放入场动画
-	var changed := not was_returning_from_companion and (speaker != _last_speaker or emotion != _last_emotion)
+	var _changed := not was_returning_from_companion and (speaker != _last_speaker or emotion != _last_emotion)
 	_last_speaker = speaker
 	_last_emotion = emotion
 	# 加载动画帧（如果有）
@@ -253,7 +257,7 @@ func _is_protagonist_or_companion(speaker_name: String) -> bool:
 	return false
 
 
-func _show_avatar(speaker: String, portrait_path: String, emotion: String = "") -> void:
+func _show_avatar(_speaker: String, portrait_path: String, emotion: String = "") -> void:
 	"""显示主角/同伴的大立绘（画面左下角），同时隐藏NPC中央立绘并右移文字"""
 	if _avatar_rect == null:
 		return
@@ -267,9 +271,9 @@ func _show_avatar(speaker: String, portrait_path: String, emotion: String = "") 
 			_portrait_tween = create_tween()
 			_portrait_tween.tween_property(portrait_rect, "modulate:a", 0.0, 0.15).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		# 右移文字区域，给立绘腾出空间
-		var box_node: Control = $Box
+		var box_node: Control = box
 		var box_tween := create_tween()
-		box_tween.tween_property(box_node, "offset_left", 240.0, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		box_tween.tween_property(box_node, "offset_left", 264.0, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		# 显示大立绘，从左侧滑入
 		if _avatar_tween != null and _avatar_tween.is_valid():
 			_avatar_tween.kill()
@@ -294,9 +298,9 @@ func _hide_avatar() -> void:
 	_avatar_tween.tween_property(_avatar_rect, "modulate:a", 0.0, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	_avatar_tween.tween_property(_avatar_rect, "position:x", _avatar_rect.position.x - 15, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	# 恢复文字区域到原始位置
-	var box_node: Control = $Box
+	var box_node: Control = box
 	var box_tween := create_tween()
-	box_tween.tween_property(box_node, "offset_left", 40.0, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	box_tween.tween_property(box_node, "offset_left", 48.0, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -316,7 +320,7 @@ func _setup_talk_timer() -> void:
 	add_child(_blink_timer)
 
 
-func _load_animation_frames(base_path: String, emotion: String) -> void:
+func _load_animation_frames(base_path: String, _emotion: String) -> void:
 	_talk_frames.clear()
 	_idle_frames.clear()
 	if base_path == "":
@@ -462,40 +466,135 @@ func zoom_character(target_scale: float = 1.08, duration: float = 0.3) -> void:
 # ███  底部文本框外观
 # ═══════════════════════════════════════════════════════════════
 
+func _build_dialogue_frame() -> void:
+	if _speaker_plate != null:
+		return
+	_speaker_plate = PanelContainer.new()
+	_speaker_plate.name = "SpeakerPlate"
+	_speaker_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_speaker_plate.anchor_left = 0.0
+	_speaker_plate.anchor_top = 0.0
+	_speaker_plate.anchor_right = 0.0
+	_speaker_plate.anchor_bottom = 0.0
+	_speaker_plate.offset_left = 8.0
+	_speaker_plate.offset_top = 4.0
+	_speaker_plate.offset_right = 252.0
+	_speaker_plate.offset_bottom = 52.0
+	_speaker_plate.visible = false
+	box.add_child(_speaker_plate)
+	box.move_child(_speaker_plate, 0)
+
+
 func _apply_dialogue_chrome() -> void:
-	var bg_style := StyleBoxFlat.new()
-	bg_style.bg_color = Color(0.035, 0.025, 0.015, 0.92)
-	bg_style.border_color = Color(0.72, 0.52, 0.24, 0.55)
-	bg_style.set_border_width_all(2)
-	bg_style.border_width_top = 2
-	bg_style.shadow_color = Color(0, 0, 0, 0.5)
-	bg_style.shadow_size = 20
-	bg_style.content_margin_left = 14
-	bg_style.content_margin_right = 14
-	bg_style.content_margin_top = 10
-	bg_style.content_margin_bottom = 10
+	dim_bg.offset_top = -204.0
+	var bg_style := _make_shell_style(
+		Color(0.032, 0.02, 0.01, 0.95),
+		Color(0.82, 0.62, 0.24, 0.78),
+		Color(0, 0, 0, 0.56),
+		30,
+		26
+	)
+	bg_style.corner_radius_bottom_left = 0
+	bg_style.corner_radius_bottom_right = 0
 	dim_bg.add_theme_stylebox_override("panel", bg_style)
-	speaker_label.add_theme_font_size_override("font_size", 28)
-	speaker_label.add_theme_color_override("font_color", CLR_GOLD)
-	speaker_label.add_theme_color_override("font_outline_color", Color(0.025, 0.012, 0.0, 1))
+
+	box.offset_left = 48.0
+	box.offset_top = -188.0
+	box.offset_right = -48.0
+	box.offset_bottom = -14.0
+
+	speaker_label.offset_left = 22.0
+	speaker_label.offset_top = 12.0
+	speaker_label.offset_right = 270.0
+	speaker_label.offset_bottom = 46.0
+	speaker_label.add_theme_font_override("font", UI_FONT)
+	speaker_label.add_theme_font_size_override("font_size", 30)
+	speaker_label.add_theme_color_override("font_color", Color(1.0, 0.87, 0.56, 1.0))
+	speaker_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 1.0))
 	speaker_label.add_theme_constant_override("outline_size", 4)
+
+	text_label.offset_left = 24.0
+	text_label.offset_top = 58.0
+	text_label.offset_right = -24.0
+	text_label.offset_bottom = -52.0
+	text_label.add_theme_font_override("normal_font", UI_FONT)
+	text_label.add_theme_font_size_override("normal_font_size", 24)
+	text_label.add_theme_color_override("default_color", Color(0.95, 0.90, 0.78, 1.0))
+	text_label.add_theme_constant_override("line_separation", 8)
+
+
+
+func _make_shell_style(bg: Color, border: Color, shadow: Color, shadow_size: int, radius: int) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg
+	style.border_color = border
+	style.border_width_left = 2
+	style.border_width_top = 3
+	style.border_width_right = 2
+	style.border_width_bottom = 2
+	style.set_corner_radius_all(radius)
+	style.shadow_color = shadow
+	style.shadow_size = shadow_size
+	style.content_margin_left = 22
+	style.content_margin_right = 22
+	style.content_margin_top = 18
+	style.content_margin_bottom = 20
+	return style
+
+
+func _make_badge_style(bg: Color, border: Color, shadow: Color, shadow_size: int) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg
+	style.border_color = border
+	style.border_width_left = 1
+	style.border_width_top = 2
+	style.border_width_right = 1
+	style.border_width_bottom = 1
+	style.corner_radius_top_left = 14
+	style.corner_radius_top_right = 14
+	style.corner_radius_bottom_left = 10
+	style.corner_radius_bottom_right = 10
+	style.shadow_color = shadow
+	style.shadow_size = shadow_size
+	style.content_margin_left = 14
+	style.content_margin_right = 14
+	style.content_margin_top = 8
+	style.content_margin_bottom = 8
+	return style
 
 
 func _build_choice_hint() -> void:
+	_choice_hint_plate = null
 	_choice_hint_label = Label.new()
 	_choice_hint_label.text = "▼ 请选择回应"
-	_choice_hint_label.anchor_left = 0.0
+	_choice_hint_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_choice_hint_label.anchor_left = 1.0
 	_choice_hint_label.anchor_top = 1.0
 	_choice_hint_label.anchor_right = 1.0
 	_choice_hint_label.anchor_bottom = 1.0
-	_choice_hint_label.offset_top = -34.0
-	_choice_hint_label.offset_bottom = -6.0
+	_choice_hint_label.offset_left = -220.0
+	_choice_hint_label.offset_top = -36.0
+	_choice_hint_label.offset_right = -8.0
+	_choice_hint_label.offset_bottom = -8.0
 	_choice_hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_choice_hint_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_choice_hint_label.add_theme_font_override("font", UI_FONT)
 	_choice_hint_label.add_theme_font_size_override("font_size", 16)
-	_choice_hint_label.add_theme_color_override("font_color", Color(0.85, 0.8, 0.6, 0.8))
-	_choice_hint_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_choice_hint_label.add_theme_color_override("font_color", Color(0.92, 0.82, 0.62, 0.96))
+	_choice_hint_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.9))
+	_choice_hint_label.add_theme_constant_override("outline_size", 2)
 	_choice_hint_label.visible = false
-	$Box.add_child(_choice_hint_label)
+	box.add_child(_choice_hint_label)
+
+
+func _set_choice_hint(text: String, is_visible: bool) -> void:
+	if _choice_hint_label != null:
+		if text != "":
+			_choice_hint_label.text = text
+	if _choice_hint_plate != null:
+		_choice_hint_plate.visible = is_visible
+	elif _choice_hint_label != null:
+		_choice_hint_label.visible = is_visible
 
 
 func _build_log_controls() -> void:
@@ -503,22 +602,26 @@ func _build_log_controls() -> void:
 	_log_button.text = "卷宗回看"
 	_log_button.anchor_left = 1.0
 	_log_button.anchor_right = 1.0
-	_log_button.offset_left = -118.0
-	_log_button.offset_top = 0.0
-	_log_button.offset_right = -2.0
-	_log_button.offset_bottom = 34.0
+	_log_button.offset_left = -142.0
+	_log_button.offset_top = 6.0
+	_log_button.offset_right = -6.0
+	_log_button.offset_bottom = 42.0
 	_log_button.mouse_filter = Control.MOUSE_FILTER_STOP
+	_log_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_log_button.z_index = 20
+	_log_button.add_theme_font_override("font", UI_FONT)
 	_log_button.add_theme_font_size_override("font_size", 15)
-	_log_button.add_theme_color_override("font_color", Color(0.92, 0.82, 0.58, 0.95))
+	_log_button.add_theme_color_override("font_color", Color(0.94, 0.84, 0.62, 0.96))
+	_log_button.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.84))
+	_log_button.add_theme_constant_override("outline_size", 2)
 	_log_button.gui_input.connect(func(event: InputEvent) -> void:
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			_toggle_dialogue_log()
 			_log_button.accept_event()
 	)
-	_apply_plain_button_style(_log_button, Color(0.09, 0.055, 0.025, 0.9), Color(0.58, 0.42, 0.2, 0.55))
+	_apply_plain_button_style(_log_button, Color(0.09, 0.055, 0.025, 0.94), Color(0.72, 0.54, 0.22, 0.72))
 	_log_button.visible = false
-	$Box.add_child(_log_button)
+	box.add_child(_log_button)
 
 	_log_panel = PanelContainer.new()
 	_log_panel.name = "DialogueLogPanel"
@@ -527,41 +630,41 @@ func _build_log_controls() -> void:
 	_log_panel.anchor_top = 0.0
 	_log_panel.anchor_right = 1.0
 	_log_panel.anchor_bottom = 0.0
-	_log_panel.offset_left = -500.0
-	_log_panel.offset_top = -390.0
-	_log_panel.offset_right = -22.0
-	_log_panel.offset_bottom = -28.0
+	_log_panel.offset_left = -540.0
+	_log_panel.offset_top = -404.0
+	_log_panel.offset_right = -24.0
+	_log_panel.offset_bottom = -24.0
 	_log_panel.visible = false
-	var panel_style := StyleBoxFlat.new()
-	panel_style.bg_color = Color(0.075, 0.048, 0.026, 0.96)
-	panel_style.border_color = Color(0.78, 0.56, 0.26, 0.72)
-	panel_style.set_border_width_all(2)
-	panel_style.set_corner_radius_all(8)
-	panel_style.shadow_color = Color(0, 0, 0, 0.55)
-	panel_style.shadow_size = 22
-	panel_style.content_margin_left = 18
-	panel_style.content_margin_right = 18
-	panel_style.content_margin_top = 14
-	panel_style.content_margin_bottom = 14
-	_log_panel.add_theme_stylebox_override("panel", panel_style)
+	_log_panel.add_theme_stylebox_override("panel", _make_shell_style(
+		Color(0.055, 0.034, 0.018, 0.97),
+		Color(0.84, 0.62, 0.24, 0.78),
+		Color(0, 0, 0, 0.60),
+		28,
+		20
+	))
 	add_child(_log_panel)
 
 	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 8)
+	vbox.add_theme_constant_override("separation", 10)
 	_log_panel.add_child(vbox)
 	var hb := HBoxContainer.new()
+	hb.add_theme_constant_override("separation", 10)
 	vbox.add_child(hb)
 	var title := Label.new()
-	title.text = "── 对话卷宗 ──"
+	title.text = "对话卷宗"
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.add_theme_font_size_override("font_size", 18)
+	title.add_theme_font_override("font", UI_FONT)
+	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_color_override("font_color", CLR_GOLD)
+	title.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.88))
+	title.add_theme_constant_override("outline_size", 2)
 	hb.add_child(title)
 	var close := Button.new()
 	close.text = "收起"
+	close.add_theme_font_override("font", UI_FONT)
 	close.add_theme_font_size_override("font_size", 14)
 	close.pressed.connect(func(): _log_panel.visible = false)
-	_apply_plain_button_style(close, Color(0.10, 0.06, 0.03, 0.9), Color(0.58, 0.42, 0.2, 0.55))
+	_apply_plain_button_style(close, Color(0.10, 0.06, 0.03, 0.94), Color(0.70, 0.52, 0.20, 0.68))
 	hb.add_child(close)
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -571,8 +674,10 @@ func _build_log_controls() -> void:
 	_log_text.bbcode_enabled = true
 	_log_text.fit_content = true
 	_log_text.scroll_active = false
+	_log_text.add_theme_font_override("normal_font", UI_FONT)
 	_log_text.add_theme_font_size_override("normal_font_size", 17)
-	_log_text.add_theme_color_override("default_color", Color(0.9, 0.84, 0.72, 1))
+	_log_text.add_theme_color_override("default_color", Color(0.92, 0.86, 0.74, 1.0))
+	_log_text.add_theme_constant_override("line_separation", 8)
 	scroll.add_child(_log_text)
 
 
@@ -580,56 +685,85 @@ func _build_top_options_panel() -> void:
 	_top_options_panel = PanelContainer.new()
 	_top_options_panel.name = "TopOptionsPanel"
 	_top_options_panel.mouse_filter = Control.MOUSE_FILTER_STOP
-	var panel_style := StyleBoxFlat.new()
-	panel_style.bg_color = Color(0, 0, 0, 0)
-	panel_style.border_color = Color(0, 0, 0, 0)
-	panel_style.set_border_width_all(0)
-	panel_style.content_margin_left = 0
-	panel_style.content_margin_right = 0
-	panel_style.content_margin_top = 0
-	panel_style.content_margin_bottom = 0
-	_top_options_panel.add_theme_stylebox_override("panel", panel_style)
-	add_child(_top_options_panel)
-	
-	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 0)
-	margin.add_theme_constant_override("margin_right", 0)
-	margin.add_theme_constant_override("margin_top", 0)
-	margin.add_theme_constant_override("margin_bottom", 0)
-	_top_options_panel.add_child(margin)
-	
-	_top_options_vbox = VBoxContainer.new()
-	_top_options_vbox.add_theme_constant_override("separation", 10)
-	margin.add_child(_top_options_vbox)
 	_top_options_panel.visible = false
+	_top_options_panel.add_theme_stylebox_override("panel", _make_shell_style(
+		Color(0.048, 0.03, 0.015, 0.96),
+		Color(0.84, 0.62, 0.22, 0.76),
+		Color(0, 0, 0, 0.58),
+		26,
+		24
+	))
+	add_child(_top_options_panel)
+
+	var shell := VBoxContainer.new()
+	shell.add_theme_constant_override("separation", 14)
+	_top_options_panel.add_child(shell)
+
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 10)
+	shell.add_child(header)
+
+	var badge := PanelContainer.new()
+	badge.custom_minimum_size = Vector2(112, 34)
+	badge.add_theme_stylebox_override("panel", _make_badge_style(
+		Color(0.11, 0.066, 0.028, 0.98),
+		Color(0.94, 0.70, 0.28, 0.94),
+		Color(0, 0, 0, 0.18),
+		10
+	))
+	header.add_child(badge)
+
+	var badge_label := Label.new()
+	badge_label.text = "问讯簿"
+	badge_label.anchor_right = 1.0
+	badge_label.anchor_bottom = 1.0
+	badge_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	badge_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	badge_label.add_theme_font_override("font", UI_FONT)
+	badge_label.add_theme_font_size_override("font_size", 18)
+	badge_label.add_theme_color_override("font_color", CLR_GOLD)
+	badge_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.9))
+	badge_label.add_theme_constant_override("outline_size", 2)
+	badge.add_child(badge_label)
+
+	var guide := Label.new()
+	guide.text = "挑一条线索继续推进"
+	guide.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	guide.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	guide.add_theme_font_override("font", UI_FONT)
+	guide.add_theme_font_size_override("font_size", 15)
+	guide.add_theme_color_override("font_color", Color(0.86, 0.76, 0.58, 0.86))
+	header.add_child(guide)
+
+	_top_options_vbox = VBoxContainer.new()
+	_top_options_vbox.add_theme_constant_override("separation", 12)
+	shell.add_child(_top_options_vbox)
 
 
 func _position_top_options(option_count: int) -> void:
 	var vp := get_viewport_rect().size
-	var panel_w: float = min(880.0, vp.x * 0.80)
-	var btn_height: float = 44.0
-	var separation: int = 10
+	var panel_w: float = minf(940.0, vp.x * 0.76)
+	var btn_height: float = 52.0
+	var separation: int = 12
 	if option_count > 6:
-		btn_height = 36.0
-		separation = 6
+		btn_height = 46.0
+		separation = 10
 	if option_count > 8:
-		btn_height = 32.0
-		separation = 4
+		btn_height = 42.0
+		separation = 8
 	_top_options_vbox.add_theme_constant_override("separation", separation)
 	for child in _top_options_vbox.get_children():
 		if child is Button:
 			child.custom_minimum_size = Vector2(0, btn_height)
-	var panel_h: float = min(380.0, max(1, option_count) * (btn_height + separation) + separation)
+	var visible_count: int = option_count if option_count > 0 else 1
+	var panel_h: float = minf(430.0, 84.0 + float(visible_count) * (btn_height + float(separation)))
 	_top_options_panel.size = Vector2(panel_w, panel_h)
-	# 选项靠下排列（在对话框上方，尽量不遮脸）
-	# 对话框大约占底部 25% (y≈540 on 720p)，选项面板底部对齐到对话框顶部
-	var dialogue_box_top: float = vp.y * 0.72  # 对话框顶部大约在72%处
-	var target_global_y: float = dialogue_box_top - panel_h - 8.0  # 面板底部贴着对话框上方
-	# 确保不超出屏幕顶部
-	if target_global_y < 40.0:
-		target_global_y = 40.0
-	var target_global_x := (vp.x - panel_w) * 0.5
-	_top_options_panel.position = Vector2(target_global_x - global_position.x, target_global_y - global_position.y)
+	var dialogue_box_top: float = dim_bg.get_rect().position.y
+	var target_y: float = dialogue_box_top - panel_h - 18.0
+	if target_y < 24.0:
+		target_y = 24.0
+	var target_x: float = (vp.x - panel_w) * 0.5
+	_top_options_panel.position = Vector2(target_x, target_y)
 
 
 func _hide_options() -> void:
@@ -666,7 +800,7 @@ func _show_options(options: Array) -> void:
 	close_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	close_btn.pressed.connect(func():
 		_hide_options()
-		_choice_hint_label.visible = false
+		_set_choice_hint("", false)
 		DialogueManager.end_dialogue(false)
 	)
 	_top_options_vbox.add_child(close_btn)
@@ -735,24 +869,24 @@ func _show_grouped_options(items: Array) -> int:
 func _make_option_group(title_text: String, items: Array) -> PanelContainer:
 	var group := PanelContainer.new()
 	group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.035, 0.022, 0.012, 0.30)
-	style.border_color = Color(0.62, 0.45, 0.22, 0.42)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(8)
-	style.content_margin_left = 10
-	style.content_margin_right = 10
-	style.content_margin_top = 8
-	style.content_margin_bottom = 10
-	group.add_theme_stylebox_override("panel", style)
+	group.add_theme_stylebox_override("panel", _make_shell_style(
+		Color(0.055, 0.034, 0.018, 0.82),
+		Color(0.68, 0.50, 0.20, 0.56),
+		Color(0, 0, 0, 0.22),
+		12,
+		18
+	))
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 7)
+	box.add_theme_constant_override("separation", 9)
 	group.add_child(box)
 	var title := Label.new()
-	title.text = "── %s ──" % title_text
+	title.text = title_text
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 16)
-	title.add_theme_color_override("font_color", Color(0.92, 0.78, 0.44, 0.92))
+	title.add_theme_font_override("font", UI_FONT)
+	title.add_theme_font_size_override("font_size", 17)
+	title.add_theme_color_override("font_color", Color(0.95, 0.82, 0.48, 0.96))
+	title.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.88))
+	title.add_theme_constant_override("outline_size", 2)
 	box.add_child(title)
 	for item in items:
 		var opt: Dictionary = item.get("opt", {})
@@ -785,8 +919,11 @@ func _make_option_button(text: String, opt: Dictionary = {}) -> Button:
 	var btn := Button.new()
 	btn.text = info.get("label", text)
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	btn.custom_minimum_size = Vector2(0, 44)
-	btn.add_theme_font_size_override("font_size", 18)
+	btn.custom_minimum_size = Vector2(0, 52)
+	btn.focus_mode = Control.FOCUS_NONE
+	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	btn.add_theme_font_override("font", UI_FONT)
+	btn.add_theme_font_size_override("font_size", 19)
 	_apply_option_button_style(btn, info.get("type", "ask"))
 	return btn
 
@@ -845,40 +982,42 @@ func _strip_option_prefix(text: String) -> String:
 
 
 func _apply_option_button_style(btn: Button, option_type: String) -> void:
-	var bg := Color(0.085, 0.055, 0.03, 0.88)
-	var border := Color(0.55, 0.42, 0.22, 0.66)
-	var font := Color(0.95, 0.86, 0.62, 1)
+	var bg := Color(0.13, 0.08, 0.038, 0.96)
+	var border := Color(0.72, 0.54, 0.22, 0.76)
+	var font := Color(0.96, 0.87, 0.64, 1.0)
 	match option_type:
 		"press":
-			bg = Color(0.12, 0.065, 0.032, 0.92)
-			border = Color(0.92, 0.56, 0.22, 0.88)
-			font = Color(1.0, 0.82, 0.48, 1)
+			bg = Color(0.16, 0.08, 0.035, 0.97)
+			border = Color(0.94, 0.58, 0.22, 0.92)
+			font = Color(1.0, 0.84, 0.50, 1.0)
 		"observe":
-			bg = Color(0.055, 0.075, 0.08, 0.9)
-			border = Color(0.48, 0.68, 0.72, 0.72)
-			font = Color(0.78, 0.92, 0.95, 1)
+			bg = Color(0.085, 0.10, 0.09, 0.96)
+			border = Color(0.60, 0.78, 0.76, 0.82)
+			font = Color(0.86, 0.96, 0.92, 1.0)
 		"probe":
-			bg = Color(0.11, 0.04, 0.035, 0.92)
-			border = Color(0.82, 0.28, 0.22, 0.76)
-			font = Color(1.0, 0.72, 0.58, 1)
+			bg = Color(0.15, 0.055, 0.045, 0.97)
+			border = Color(0.86, 0.36, 0.24, 0.86)
+			font = Color(1.0, 0.76, 0.62, 1.0)
 		"record":
-			bg = Color(0.10, 0.08, 0.045, 0.92)
-			border = Color(0.82, 0.66, 0.34, 0.78)
-			font = Color(0.98, 0.9, 0.62, 1)
+			bg = Color(0.13, 0.10, 0.05, 0.97)
+			border = Color(0.88, 0.70, 0.34, 0.84)
+			font = Color(0.98, 0.92, 0.68, 1.0)
 		"leave", "continue":
-			font = Color(0.72, 0.66, 0.54, 1)
+			bg = Color(0.09, 0.06, 0.035, 0.94)
+			border = Color(0.56, 0.44, 0.22, 0.58)
+			font = Color(0.80, 0.72, 0.58, 1.0)
 	btn.add_theme_color_override("font_color", font)
-	btn.add_theme_color_override("font_hover_color", Color(1.0, 0.95, 0.72, 1))
-	btn.add_theme_color_override("font_pressed_color", Color(0.95, 0.68, 0.28, 1))
-	btn.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 1))
+	btn.add_theme_color_override("font_hover_color", font.lightened(0.10))
+	btn.add_theme_color_override("font_pressed_color", Color(1.0, 0.92, 0.74, 1.0))
+	btn.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.94))
 	btn.add_theme_constant_override("outline_size", 2)
 	_apply_plain_button_style(btn, bg, border)
 
 
 func _apply_plain_button_style(btn: Button, bg: Color, border: Color) -> void:
-	var normal := _make_button_style(bg, border, 4)
-	var hover := _make_button_style(Color(bg.r + 0.035, bg.g + 0.025, bg.b + 0.015, bg.a), Color(border.r + 0.18, border.g + 0.14, border.b + 0.08, min(1.0, border.a + 0.2)), 10)
-	var pressed := _make_button_style(Color(bg.r * 0.72, bg.g * 0.72, bg.b * 0.72, min(1.0, bg.a + 0.06)), border, 2)
+	var normal := _make_button_style(bg, border, 10)
+	var hover := _make_button_style(bg.lightened(0.08), border.lightened(0.14), 18)
+	var pressed := _make_button_style(bg.darkened(0.14), border.lightened(0.06), 6)
 	btn.add_theme_stylebox_override("normal", normal)
 	btn.add_theme_stylebox_override("hover", hover)
 	btn.add_theme_stylebox_override("pressed", pressed)
@@ -889,20 +1028,26 @@ func _make_button_style(bg: Color, border: Color, shadow_size: int) -> StyleBoxF
 	var style := StyleBoxFlat.new()
 	style.bg_color = bg
 	style.border_color = border
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(6)
-	style.shadow_color = Color(0, 0, 0, 0.35)
+	style.border_width_left = 1
+	style.border_width_top = 2
+	style.border_width_right = 1
+	style.border_width_bottom = 1
+	style.corner_radius_top_left = 16
+	style.corner_radius_top_right = 16
+	style.corner_radius_bottom_left = 12
+	style.corner_radius_bottom_right = 12
+	style.shadow_color = Color(0, 0, 0, 0.42)
 	style.shadow_size = shadow_size
-	style.content_margin_left = 16
-	style.content_margin_right = 16
-	style.content_margin_top = 7
-	style.content_margin_bottom = 7
+	style.content_margin_left = 18
+	style.content_margin_right = 18
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
 	return style
 
 
 func _on_option_pressed(idx: int, opt: Dictionary) -> void:
 	_hide_options()
-	_choice_hint_label.visible = false
+	_set_choice_hint("", false)
 	if _is_evidence_option(opt):
 		await _play_evidence_present_fx(_evidence_title(opt))
 	DialogueManager.choose_option(idx)
@@ -938,14 +1083,15 @@ func _evidence_title(opt: Dictionary) -> String:
 func _apply_evidence_option_style(btn: Button) -> void:
 	var had_visited := btn.text.begins_with("✓")
 	btn.text = ("✓ " if had_visited else "") + "〔呈证〕  " + _strip_evidence_label(btn.text)
-	btn.add_theme_font_size_override("font_size", 19)
-	btn.add_theme_color_override("font_color", Color(1.0, 0.86, 0.44, 1))
-	btn.add_theme_color_override("font_hover_color", Color(1.0, 0.96, 0.68, 1))
+	btn.add_theme_font_override("font", UI_FONT)
+	btn.add_theme_font_size_override("font_size", 20)
+	btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.50, 1.0))
+	btn.add_theme_color_override("font_hover_color", Color(1.0, 0.97, 0.70, 1.0))
 	btn.add_theme_constant_override("outline_size", 3)
-	btn.add_theme_color_override("font_outline_color", Color(0.03, 0.015, 0.0, 1))
-	var normal := _make_evidence_button_style(Color(0.13, 0.07, 0.035, 0.90), Color(0.95, 0.58, 0.22, 0.80), 12)
-	var hover := _make_evidence_button_style(Color(0.18, 0.09, 0.04, 0.96), Color(1.0, 0.78, 0.34, 1.0), 18)
-	var pressed := _make_evidence_button_style(Color(0.09, 0.045, 0.025, 0.98), Color(1.0, 0.88, 0.46, 1.0), 10)
+	btn.add_theme_color_override("font_outline_color", Color(0.03, 0.015, 0.0, 0.96))
+	var normal := _make_evidence_button_style(Color(0.16, 0.08, 0.036, 0.96), Color(0.98, 0.62, 0.22, 0.90), 16)
+	var hover := _make_evidence_button_style(Color(0.22, 0.10, 0.04, 0.98), Color(1.0, 0.82, 0.36, 1.0), 22)
+	var pressed := _make_evidence_button_style(Color(0.11, 0.055, 0.028, 0.98), Color(1.0, 0.88, 0.46, 1.0), 10)
 	btn.add_theme_stylebox_override("normal", normal)
 	btn.add_theme_stylebox_override("hover", hover)
 	btn.add_theme_stylebox_override("pressed", pressed)
@@ -963,14 +1109,20 @@ func _make_evidence_button_style(bg: Color, border: Color, shadow_size: int) -> 
 	var style := StyleBoxFlat.new()
 	style.bg_color = bg
 	style.border_color = border
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	style.shadow_color = Color(1.0, 0.48, 0.18, 0.26)
+	style.border_width_left = 2
+	style.border_width_top = 3
+	style.border_width_right = 2
+	style.border_width_bottom = 2
+	style.corner_radius_top_left = 18
+	style.corner_radius_top_right = 18
+	style.corner_radius_bottom_left = 12
+	style.corner_radius_bottom_right = 12
+	style.shadow_color = Color(1.0, 0.54, 0.18, 0.30)
 	style.shadow_size = shadow_size
-	style.content_margin_left = 16
-	style.content_margin_right = 16
-	style.content_margin_top = 7
-	style.content_margin_bottom = 7
+	style.content_margin_left = 18
+	style.content_margin_right = 18
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
 	return style
 
 

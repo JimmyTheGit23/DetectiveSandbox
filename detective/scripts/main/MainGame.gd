@@ -27,6 +27,9 @@ const SubPanels = {
 	"settings": "res://scenes/ui/SettingsPanel.tscn",
 }
 
+const SettingsSealIcon = preload("res://scripts/ui/SettingsSealIcon.gd")
+const SETTINGS_BUTTON_ICON_PATH := "res://assets/cn/ui/icon_settings_seal.png"
+
 var _active_subpanel: Control = null
 var _pending_events: Array[String] = []
 var _event_hint_auto_pending := false
@@ -44,6 +47,10 @@ var _bg_transition_id: int = 0
 var _current_bg_path: String = ""
 var _npc_layer: Control = null
 var _settings_btn: Button = null
+var _settings_icon: Control = null
+var _settings_btn_tween: Tween = null
+var _settings_btn_hovered := false
+var _settings_btn_pressed_visual := false
 
 
 func _ready() -> void:
@@ -128,50 +135,175 @@ func _build_settings_button() -> void:
 	_settings_btn = Button.new()
 	_settings_btn.name = "SettingsBtn"
 	_settings_btn.flat = true
-	_settings_btn.custom_minimum_size = Vector2(40, 40)
+	_settings_btn.custom_minimum_size = Vector2(58, 58)
+	_settings_btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_settings_btn.tooltip_text = "设置"
 	_settings_btn.anchor_left = 1.0
 	_settings_btn.anchor_right = 1.0
 	_settings_btn.anchor_top = 0.0
 	_settings_btn.anchor_bottom = 0.0
-	_settings_btn.offset_left = -52.0
-	_settings_btn.offset_top = 12.0
-	_settings_btn.offset_right = -12.0
-	_settings_btn.offset_bottom = 52.0
-	var icon_path := "res://assets/cn/ui/icon_settings.png"
-	if ResourceLoader.exists(icon_path):
-		var icon := TextureRect.new()
-		icon.texture = load(icon_path)
-		icon.custom_minimum_size = Vector2(32, 32)
-		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		icon.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-		_settings_btn.add_child(icon)
-	var normal_style := StyleBoxFlat.new()
-	normal_style.bg_color = Color(0.08, 0.06, 0.05, 0.6)
-	normal_style.set_border_width_all(1)
-	normal_style.border_color = Color(0.45, 0.36, 0.22, 0.5)
-	normal_style.set_corner_radius_all(6)
-	_settings_btn.add_theme_stylebox_override("normal", normal_style)
-	var hover_style := StyleBoxFlat.new()
-	hover_style.bg_color = Color(0.14, 0.10, 0.06, 0.8)
-	hover_style.set_border_width_all(1)
-	hover_style.border_color = Color(0.75, 0.55, 0.28, 0.9)
-	hover_style.set_corner_radius_all(6)
-	_settings_btn.add_theme_stylebox_override("hover", hover_style)
+	_settings_btn.offset_left = -76.0
+	_settings_btn.offset_top = 14.0
+	_settings_btn.offset_right = -18.0
+	_settings_btn.offset_bottom = 72.0
+	_settings_btn.pivot_offset = _settings_btn.custom_minimum_size * 0.5
+	_settings_btn.add_theme_stylebox_override("normal", _make_settings_button_style(
+		Color(0.055, 0.037, 0.023, 0.94),
+		Color(0.62, 0.44, 0.17, 0.95),
+		Color(0, 0, 0, 0.34),
+		16
+	))
+	_settings_btn.add_theme_stylebox_override("hover", _make_settings_button_style(
+		Color(0.09, 0.055, 0.03, 0.97),
+		Color(0.88, 0.67, 0.28, 1.0),
+		Color(0.92, 0.66, 0.24, 0.22),
+		22
+	))
+	_settings_btn.add_theme_stylebox_override("pressed", _make_settings_button_style(
+		Color(0.045, 0.028, 0.016, 0.98),
+		Color(0.97, 0.80, 0.38, 1.0),
+		Color(0, 0, 0, 0.18),
+		10
+	))
+	_settings_btn.add_theme_stylebox_override("focus", _make_settings_button_style(
+		Color(0.075, 0.045, 0.028, 0.96),
+		Color(0.92, 0.72, 0.3, 1.0),
+		Color(0.85, 0.60, 0.2, 0.18),
+		20
+	))
+	_settings_btn.add_theme_stylebox_override("disabled", _make_settings_button_style(
+		Color(0.04, 0.03, 0.02, 0.55),
+		Color(0.36, 0.28, 0.16, 0.45),
+		Color(0, 0, 0, 0.12),
+		8
+	))
+
+	var inner_plate := Panel.new()
+	inner_plate.name = "InsetPlate"
+	inner_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	inner_plate.anchor_left = 0.0
+	inner_plate.anchor_top = 0.0
+	inner_plate.anchor_right = 1.0
+	inner_plate.anchor_bottom = 1.0
+	inner_plate.offset_left = 5.0
+	inner_plate.offset_top = 5.0
+	inner_plate.offset_right = -5.0
+	inner_plate.offset_bottom = -5.0
+	inner_plate.add_theme_stylebox_override("panel", _make_settings_inset_style())
+	_settings_btn.add_child(inner_plate)
+
+	_settings_icon = _create_settings_button_icon()
+	_settings_icon.name = "SettingsSealIcon"
+	_settings_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_settings_icon.anchor_left = 0.5
+	_settings_icon.anchor_top = 0.5
+	_settings_icon.anchor_right = 0.5
+	_settings_icon.anchor_bottom = 0.5
+	_settings_icon.offset_left = -17.0
+	_settings_icon.offset_top = -17.0
+	_settings_icon.offset_right = 17.0
+	_settings_icon.offset_bottom = 17.0
+	_settings_btn.add_child(_settings_icon)
+
+	_settings_btn.resized.connect(func():
+		if _settings_btn and is_instance_valid(_settings_btn):
+			_settings_btn.pivot_offset = _settings_btn.size * 0.5
+	)
+	_settings_btn.mouse_entered.connect(func():
+		_settings_btn_hovered = true
+		_sync_settings_button_visual_state()
+	)
+	_settings_btn.mouse_exited.connect(func():
+		_settings_btn_hovered = false
+		_settings_btn_pressed_visual = false
+		_sync_settings_button_visual_state()
+	)
+	_settings_btn.button_down.connect(func():
+		_settings_btn_pressed_visual = true
+		_sync_settings_button_visual_state()
+	)
+	_settings_btn.button_up.connect(func():
+		_settings_btn_pressed_visual = false
+		_sync_settings_button_visual_state()
+	)
 	_settings_btn.pressed.connect(_on_settings_btn_pressed)
 	_settings_btn.visible = false
 	add_child(_settings_btn)
+	_sync_settings_button_visual_state()
 	# 设置按钮跟随菜单栏同步显隐
 	menu_panel.visibility_changed.connect(func():
 		if _settings_btn and is_instance_valid(_settings_btn):
 			_settings_btn.visible = menu_panel.visible
+			if not menu_panel.visible:
+				_settings_btn.scale = Vector2.ONE
 	)
 
 
 func _on_settings_btn_pressed() -> void:
+	_settings_btn_pressed_visual = false
+	_sync_settings_button_visual_state()
 	_open_subpanel("settings")
+
+
+func _create_settings_button_icon() -> Control:
+	if ResourceLoader.exists(SETTINGS_BUTTON_ICON_PATH):
+		var icon := TextureRect.new()
+		icon.texture = load(SETTINGS_BUTTON_ICON_PATH)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		return icon
+	return SettingsSealIcon.new()
+
+
+func _make_settings_button_style(bg: Color, border: Color, shadow: Color, shadow_size: int) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg
+	style.border_color = border
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(14)
+	style.shadow_color = shadow
+	style.shadow_size = shadow_size
+	style.content_margin_left = 8
+	style.content_margin_top = 8
+	style.content_margin_right = 8
+	style.content_margin_bottom = 8
+	return style
+
+
+func _make_settings_inset_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.12, 0.075, 0.04, 0.72)
+	style.border_color = Color(0.42, 0.29, 0.13, 0.7)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(10)
+	return style
+
+
+func _sync_settings_button_visual_state() -> void:
+	if _settings_btn == null or not is_instance_valid(_settings_btn):
+		return
+	if _settings_icon and is_instance_valid(_settings_icon) and _settings_icon.has_method("set_visual_state"):
+		_settings_icon.call("set_visual_state", _settings_btn_hovered, _settings_btn_pressed_visual)
+	var target_scale := Vector2.ONE
+	var duration := 0.18
+	if _settings_btn_pressed_visual:
+		target_scale = Vector2(0.96, 0.96)
+		duration = 0.08
+	elif _settings_btn_hovered:
+		target_scale = Vector2(1.04, 1.04)
+		duration = 0.14
+	_animate_settings_button(target_scale, duration)
+
+
+func _animate_settings_button(target_scale: Vector2, duration: float) -> void:
+	if _settings_btn == null or not is_instance_valid(_settings_btn):
+		return
+	if _settings_btn_tween:
+		_settings_btn_tween.kill()
+	_settings_btn_tween = create_tween()
+	_settings_btn_tween.set_trans(Tween.TRANS_SINE)
+	_settings_btn_tween.set_ease(Tween.EASE_OUT)
+	_settings_btn_tween.tween_property(_settings_btn, "scale", target_scale, duration)
 
 
 func _set_background(path: String, use_fade := true) -> void:
