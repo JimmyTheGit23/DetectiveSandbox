@@ -76,6 +76,16 @@
           "type": "confrontation"
         },
         {
+          "text": "你跟了周德茂十二年……这些年过得怎么样？",
+          "goto": "ask_twelve_years",
+          "requires": [
+            {
+              "flag": "agui_talked_once"
+            }
+          ],
+          "type": "observe"
+        },
+        {
           "text": "先告辞",
           "goto": "__exit__"
         }
@@ -292,6 +302,87 @@
           "text": "开始对峙",
           "goto": "__confront__",
           "type": "confrontation"
+        }
+      ]
+    },
+    "ask_twelve_years": {
+      "lines": [
+        {
+          "speaker_id": "agui",
+          "text": "（愣了一下）十二年？……大人怎么突然问这个？"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "随便聊聊。十二年不短了。",
+          "emotion": "serious"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "……不短。（沉默了一会儿，开始搓手）",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "小的十六岁进周家。什么都不会。老爷说'跟着学三年就放你出师'。"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "三年……五年……八年。出师的事再没提过。"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "中间想走过。跟老爷说想回乡。他说'走可以，把这些年吃穿的钱还了再走'。小的哪还得起？只好继续待着。",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "……这不是卖身契？",
+          "emotion": "shocked"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "（苦笑）大约……算是吧。但小的没地方去。爹娘早没了。只有这一个主人。",
+          "emotion": "grief"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "前几年还好。老爷生意好的时候心情也好，偶尔给几十文赏钱。后来生意差了——骂的就多了。打也打过。",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "小的有个相好的——隔壁村的姑娘。存了两年钱想下聘。结果钱被老爷'借走'——说是补生意上的窟窿。",
+          "emotion": "grief"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "那姑娘等了一年……后来嫁别人了。",
+          "emotion": "grief"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "……",
+          "emotion": "serious"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "（低声）……",
+          "emotion": "worried"
+        },
+        {
+          "speaker_id": "agui",
+          "text": "大人，小的不是好人。但小的……这十二年过的也不是人过的日子。（低下头）",
+          "emotion": "grief"
+        }
+      ],
+      "options": [
+        {
+          "text": "我知道了。",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
         }
       ]
     }

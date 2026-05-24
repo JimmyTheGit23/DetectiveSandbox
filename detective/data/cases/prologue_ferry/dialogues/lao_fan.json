@@ -61,6 +61,16 @@
           "type": "press"
         },
         {
+          "text": "你跑船跑了二十年……怎么欠的赌债？",
+          "goto": "ask_gambling_story",
+          "requires": [
+            {
+              "clue": "clue_fan_boat_skill"
+            }
+          ],
+          "type": "observe"
+        },
+        {
           "text": "先告辞",
           "goto": "__exit__"
         }
@@ -245,6 +255,69 @@
         {
           "speaker_id": "lu_zhao",
           "text": "不急。之后再说。",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_gambling_story": {
+      "lines": [
+        {
+          "speaker_id": "lao_fan",
+          "text": "（深吸一口烟，许久才吐出来）……大人问这个干嘛。跟案子有关系？"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "随便聊聊。二十年的老船家，怎么沾上的赌？",
+          "emotion": "serious"
+        },
+        {
+          "speaker_id": "lao_fan",
+          "text": "（磕烟灰，手停了一下）……嗐。说来话长。",
+          "emotion": "dismissive"
+        },
+        {
+          "speaker_id": "lao_fan",
+          "text": "五年前。老汉的崽子——刚十二岁。一场急病。大夫说得用好药，开的方子贵得吓人。",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "lao_fan",
+          "text": "老汉攒了一辈子的钱不够。找人借——没人借。最后有人说'赌坊有快钱'……",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "……孩子后来怎样了？",
+          "emotion": "worried"
+        },
+        {
+          "speaker_id": "lao_fan",
+          "text": "（沉默了很久。用烟杆敲了敲船舷。）没了。药没凑齐。",
+          "emotion": "cornered"
+        },
+        {
+          "speaker_id": "lao_fan",
+          "text": "赌坊的钱没赚到——倒欠了一屁股。之后就……越赌越深。想翻本。翻不了。",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "lao_fan",
+          "text": "大人。老汉不是好人。但老汉也不是天生的赌鬼。（把烟杆别回腰间）",
+          "emotion": "cornered"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "（……为了孩子的药钱进了赌坊。和沈清月为父亲筹药钱——何其相似。）",
           "emotion": "serious"
         }
       ],

@@ -1,8 +1,14 @@
 {
   "_comment": "序章「渡口沉舟」：密室逃脱开场(3回合行动限制) → 被凌瑶救起 → 客栈暖场 → 次日发现尸体。",
   "_design_note": "逃脱需要铁撬+木箱(2回合)+使用(1回合)=刚好3回合。任何浪费导致逃脱质量下降。观察船洞=用1回合换关键线索(有意义的取舍)。",
-  "start": "cabin_1",
+  "start": "time_card_opening",
   "nodes": {
+    "time_card_opening": {
+      "type": "time_card",
+      "text": "万历廿二年 · 腊月 · 亥时",
+      "sub_text": "荆江 · 石矶渡",
+      "next": "cabin_1"
+    },
     "cabin_1": {
       "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
       "speaker": "",
@@ -12,7 +18,7 @@
     "cabin_2": {
       "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
       "speaker": "",
-      "text": "万历廿二年。腊月。荆江。夜。\n\n陆昭从睡梦中惊醒。船舱在晃——不是正常的颠簸，是倾斜。\n\n水已经到了小腿。",
+      "text": "陆昭从睡梦中惊醒。船舱在晃——不是正常的颠簸，是倾斜。\n\n水已经到了小腿。",
       "next": "cabin_3"
     },
     "cabin_3": {

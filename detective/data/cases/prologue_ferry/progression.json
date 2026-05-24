@@ -1,5 +1,5 @@
 {
-  "_comment": "渐进式信息开放。教学案仅2阶段，门槛低。真凶阿贵。",
+  "_comment": "渐进式信息开放。三阶段结构：调查A（指向阿贵）→ 阿贵对质 → 调查B（追查沈清月）→ 最终对质。",
 
   "phases": [
     {
@@ -23,10 +23,38 @@
           { "total_periods_used_gte": 10 }
         ]
       }
+    },
+    {
+      "id": "phase_3",
+      "title": "追查幕后",
+      "description": "阿贵不是主谋——他背后还有人。那个'教他的人'，就在这客栈里。",
+      "hint": "沈清月还在客栈二楼。现在需要找到能把她钉死的证据——阿贵的口供不够。查赌坊线索、码头时间线、还有那笔消失的货银。",
+      "locations": ["shen_room", "gambling_alley"],
+      "unlock_condition": {
+        "flag": "agui_confessed_mastermind"
+      }
     }
   ],
 
-  "panel_unlock": {},
+  "panel_unlock": {
+    "accuse": {
+      "condition": {
+        "any": [
+          {
+            "all": [
+              { "evidence": "evidence_hull_hole" },
+              { "evidence": "evidence_float_bladder" },
+              { "any": [
+                { "evidence": "evidence_dismissal_note" },
+                { "evidence": "evidence_gambling_iou" }
+              ]}
+            ]
+          },
+          { "flag": "agui_confessed_mastermind" }
+        ]
+      }
+    }
+  },
 
   "search_point_unlock": {
     "ferry_inn.inn_agui_room": {
@@ -51,6 +79,21 @@
         ]
       },
       "locked_hint": "芦苇丛似乎有什么东西，但太远了看不清。需要更多线索才能确定该不该去翻。"
+    },
+    "shen_room.shen_desk": {
+      "condition": {
+        "any": [
+          { "evidence": "evidence_shen_connection" },
+          { "clue": "clue_agui_spending" }
+        ]
+      },
+      "locked_hint": "没有搜查理由。需要先找到沈清月与本案有关的证据。"
+    },
+    "gambling_alley.gambling_den": {
+      "condition": {
+        "flag": "agui_confessed_mastermind"
+      },
+      "locked_hint": "赌坊在渡口后街。目前没有理由去那里。"
     }
   },
 
@@ -63,6 +106,35 @@
           { "total_periods_used_gte": 10 }
         ]
       }
+    },
+    "shen_qingyue": {
+      "_comment": "沈清月在phase_1就可以交谈（她是'追债的外地人'），但Phase 3后对话树会解锁新分支。",
+      "condition": null
+    }
+  },
+
+  "confrontation_unlock": {
+    "confrontation_a": {
+      "_comment": "阿贵中BOSS对质——需要至少3件Phase A证据",
+      "condition": {
+        "all": [
+          { "evidence": "evidence_hull_hole" },
+          { "evidence": "evidence_float_bladder" },
+          { "any": [
+            { "evidence": "evidence_dismissal_note" },
+            { "evidence": "evidence_gambling_iou" }
+          ]}
+        ]
+      }
+    },
+    "confrontation_final": {
+      "_comment": "沈清月FINAL BOSS对质——需要阿贵认罪 + 至少2件Phase B证据",
+      "condition": {
+        "all": [
+          { "flag": "agui_confessed_mastermind" },
+          { "evidence_count_gte": 2, "from": ["evidence_salvage_mark", "evidence_shen_connection", "evidence_dock_timing", "evidence_father_ledger"] }
+        ]
+      }
     }
   },
 
@@ -70,6 +142,10 @@
     "phase_2": {
       "speaker": "凌瑶",
       "text": "陆大人！船底那个洞……肯定是人为的！我听客栈的人说，下游渔村有个王老汉，那天夜里他在江上——说不定看到了什么！"
+    },
+    "phase_3": {
+      "speaker": "凌瑶",
+      "text": "等等——沈清月？！那个追债的女人？！她才是幕后主使？！\n……陆大人，光凭阿贵一个人的话不够。她要是咬定'诬告'——你拿她没办法。得找更多证据把她钉死！"
     }
   }
 }

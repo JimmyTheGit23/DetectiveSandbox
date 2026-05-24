@@ -1,12 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://cmaingame"]
+[gd_scene load_steps=10 format=3 uid="uid://cmaingame"]
 
-[ext_resource type="Script" path="res://scripts/main/MainGame.gd" id="1_main"]
-[ext_resource type="Script" path="res://scripts/ui/RightMenu.gd" id="2_menu"]
-[ext_resource type="Script" path="res://scripts/ui/DialogueBox.gd" id="3_dlg"]
-[ext_resource type="Script" path="res://scripts/ui/NarrationBox.gd" id="4_narr"]
-[ext_resource type="Script" path="res://scripts/ui/EndingScreen.gd" id="5_end"]
-[ext_resource type="Shader" path="res://assets/cn/portrait_fade.gdshader" id="6_fade"]
-[ext_resource type="Script" path="res://scripts/ui/DayTransition.gd" id="7_day"]
+[ext_resource type="Script" uid="uid://4ocs673kuhv0" path="res://scripts/main/MainGame.gd" id="1_main"]
+[ext_resource type="Script" uid="uid://cpseyashhxbu1" path="res://scripts/ui/RightMenu.gd" id="2_menu"]
+[ext_resource type="Script" uid="uid://bvsgq2omvt5k7" path="res://scripts/ui/DialogueBox.gd" id="3_dlg"]
+[ext_resource type="Script" uid="uid://c8r3ha1bixnl1" path="res://scripts/ui/NarrationBox.gd" id="4_narr"]
+[ext_resource type="Script" uid="uid://dtrshxk6ual6d" path="res://scripts/ui/EndingScreen.gd" id="5_end"]
+[ext_resource type="Shader" uid="uid://bly8a8rx4xfqj" path="res://assets/cn/portrait_fade.gdshader" id="6_fade"]
+[ext_resource type="Script" uid="uid://bl0uq7c5qd23a" path="res://scripts/ui/DayTransition.gd" id="7_day"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dlg"]
+bg_color = Color(0.04, 0.04, 0.06, 0.92)
+border_width_top = 2
+border_color = Color(0.55, 0.45, 0.25, 0.7)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_portrait"]
 shader = ExtResource("6_fade")
@@ -15,32 +20,30 @@ shader_parameter/fade_top = 0.05
 shader_parameter/fade_left = 0.12
 shader_parameter/fade_right = 0.12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dlg"]
-bg_color = Color(0.04, 0.04, 0.06, 0.92)
-border_width_top = 2
-border_color = Color(0.55, 0.45, 0.25, 0.7)
-
 [node name="MainGame" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_main")
 
 [node name="BackgroundDim" type="ColorRect" parent="."]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.05, 0.05, 0.07, 1)
 
 [node name="Background" type="TextureRect" parent="."]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 expand_mode = 1
 stretch_mode = 6
 
 [node name="TopBar" type="PanelContainer" parent="."]
-anchors_preset = 10
+layout_mode = 0
 anchor_right = 1.0
 offset_right = -220.0
 offset_bottom = 50.0
@@ -52,84 +55,84 @@ text = "    第 1 日 · 晨    剩余 42 时段"
 
 [node name="LocationLabel" type="Label" parent="TopBar"]
 layout_mode = 2
-anchors_preset = -1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -260.0
 theme_override_font_sizes/font_size = 22
 text = "临川驿    "
 horizontal_alignment = 2
 
 [node name="RightMenu" type="PanelContainer" parent="."]
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 0.0
-anchor_right = 1.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -220.0
-offset_top = 56.0
-offset_right = -10.0
-offset_bottom = -10.0
+offset_left = -360.0
+offset_top = -68.0
+offset_right = 360.0
 script = ExtResource("2_menu")
 
 [node name="SubPanelContainer" type="Control" parent="."]
-anchors_preset = 15
+anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 0
 
 [node name="DialogueBox" type="Control" parent="."]
-anchors_preset = -1
-anchor_left = 0.0
-anchor_top = 1.0
+anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -320.0
 script = ExtResource("3_dlg")
 
 [node name="DimBg" type="PanelContainer" parent="DialogueBox"]
-anchors_preset = 15
+layout_mode = 0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -170.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_dlg")
 
 [node name="Portrait" type="TextureRect" parent="DialogueBox"]
 material = SubResource("ShaderMaterial_portrait")
-offset_left = 20.0
-offset_top = -200.0
-offset_right = 220.0
-offset_bottom = 300.0
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = 60.0
+offset_right = 320.0
+offset_bottom = 0.0
+mouse_filter = 2
 expand_mode = 1
 stretch_mode = 6
-mouse_filter = 2
 
 [node name="Box" type="Control" parent="DialogueBox"]
-anchors_preset = 15
+anchors_preset = 0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 240.0
-offset_top = 10.0
-offset_right = -20.0
+offset_left = 40.0
+offset_top = -160.0
+offset_right = -40.0
 offset_bottom = -10.0
 mouse_filter = 2
 
 [node name="SpeakerName" type="Label" parent="DialogueBox/Box"]
+layout_mode = 0
 offset_right = 600.0
 offset_bottom = 36.0
-theme_override_font_sizes/font_size = 26
 theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 26
 
 [node name="TextLabel" type="RichTextLabel" parent="DialogueBox/Box"]
-anchors_preset = -1
+layout_mode = 0
 anchor_right = 1.0
 offset_top = 42.0
 offset_bottom = 124.0
-bbcode_enabled = true
 theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
 
 [node name="Options" type="ScrollContainer" parent="DialogueBox/Box"]
-anchors_preset = -1
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 130.0
@@ -137,38 +140,36 @@ offset_bottom = -50.0
 horizontal_scroll_mode = 0
 
 [node name="OptionsVBox" type="VBoxContainer" parent="DialogueBox/Box/Options"]
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
 [node name="ExitBtn" type="Button" parent="DialogueBox/Box"]
-anchors_preset = -1
+layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -42.0
-offset_right = 0.0
 offset_bottom = -4.0
-theme_override_font_sizes/font_size = 18
 theme_override_colors/font_color = Color(0.95, 0.75, 0.4, 1)
+theme_override_font_sizes/font_size = 18
 text = "（先告辞，待会再来）  ✕"
 
 [node name="NarrationBox" type="Control" parent="."]
-anchors_preset = 15
+anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 0
 script = ExtResource("4_narr")
 
 [node name="DimBg" type="ColorRect" parent="NarrationBox"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 color = Color(0, 0, 0, 0.45)
 
 [node name="Box" type="PanelContainer" parent="NarrationBox"]
-anchors_preset = -1
-anchor_left = 0.0
+layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -179,124 +180,123 @@ offset_bottom = -40.0
 mouse_filter = 2
 
 [node name="VBox" type="VBoxContainer" parent="NarrationBox/Box"]
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 10
 
 [node name="SpeakerName" type="Label" parent="NarrationBox/Box/VBox"]
 visible = false
-mouse_filter = 2
-theme_override_font_sizes/font_size = 24
+layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 24
 
 [node name="TextLabel" type="RichTextLabel" parent="NarrationBox/Box/VBox"]
 custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
 mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
 fit_content = true
-theme_override_font_sizes/normal_font_size = 22
-text = ""
 
 [node name="ContinueLabel" type="Label" parent="NarrationBox/Box/VBox"]
-mouse_filter = 2
-horizontal_alignment = 2
-theme_override_font_sizes/font_size = 16
+layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.8, 0.6, 0.8)
+theme_override_font_sizes/font_size = 16
 text = "▼ 点击继续"
+horizontal_alignment = 2
 
 [node name="NotificationLayer" type="Control" parent="."]
-anchors_preset = 15
+anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="EndingScreen" type="Control" parent="."]
-anchors_preset = 15
+anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("5_end")
 
 [node name="BgDim" type="ColorRect" parent="EndingScreen"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0.92)
 
 [node name="Center" type="CenterContainer" parent="EndingScreen"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="VBox" type="VBoxContainer" parent="EndingScreen/Center"]
 custom_minimum_size = Vector2(900, 0)
+layout_mode = 2
 
 [node name="Title" type="Label" parent="EndingScreen/Center/VBox"]
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 40
+layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
-text = ""
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 1
 
 [node name="Text" type="RichTextLabel" parent="EndingScreen/Center/VBox"]
 custom_minimum_size = Vector2(0, 360)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
 fit_content = true
-theme_override_font_sizes/normal_font_size = 22
 
 [node name="RestartBtn" type="Button" parent="EndingScreen/Center/VBox"]
 custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "再 来 一 局"
 
 [node name="EventHintBtn" type="Button" parent="."]
-anchors_preset = -1
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+layout_mode = 0
 offset_left = 16.0
 offset_top = 60.0
 offset_right = 360.0
 offset_bottom = 100.0
-theme_override_font_sizes/font_size = 18
 theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 18
 text = "  ★  新事件"
 
 [node name="DayTransition" type="Control" parent="."]
-anchors_preset = 15
+anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 0
 script = ExtResource("7_day")
 
 [node name="Bg" type="ColorRect" parent="DayTransition"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.02, 0.02, 0.03, 1)
 
 [node name="CenterBox" type="CenterContainer" parent="DayTransition"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="VBox" type="VBoxContainer" parent="DayTransition/CenterBox"]
 custom_minimum_size = Vector2(800, 200)
+layout_mode = 2
 
 [node name="DayLabel" type="Label" parent="DayTransition/CenterBox/VBox"]
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 96
+layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 96
 text = "第 X 日"
+horizontal_alignment = 1
 
 [node name="SubLabel" type="Label" parent="DayTransition/CenterBox/VBox"]
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 28
+layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.7, 0.5, 1)
-text = ""
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
 
 [node name="BgmA" type="AudioStreamPlayer" parent="."]
 volume_db = -80.0
-bus = "Master"
 
 [node name="BgmB" type="AudioStreamPlayer" parent="."]
 volume_db = -80.0
-bus = "Master"

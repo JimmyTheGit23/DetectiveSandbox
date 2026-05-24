@@ -596,6 +596,20 @@ func has_visited(npc_id: String, node_id: String) -> bool:
 	return node_visit_count(npc_id, node_id) > 0
 
 
+## 统计玩家在某个 NPC 的 hub 中访问过多少个不同的分支节点。
+## 用于 "min_hub_visits" 条件：对话选项循序渐进解锁。
+func hub_visited_count(npc_id: String) -> int:
+	var count := 0
+	var prefix := npc_id + "."
+	for key in visited_nodes.keys():
+		if key.begins_with(prefix):
+			var node_id: String = key.substr(prefix.length())
+			# 排除 hub 节点本身和 __exit__ 等系统节点
+			if node_id != "hub" and not node_id.begins_with("__"):
+				count += 1
+	return count
+
+
 # ─── NPC 状态机 ───
 func get_npc_state(npc_id: String, stat: String, default = 0):
 	var state: Dictionary = npc_states.get(npc_id, {})

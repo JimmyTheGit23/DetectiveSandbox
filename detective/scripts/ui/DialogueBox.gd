@@ -1,5 +1,6 @@
 extends Control
-## NPC 对话框：底部显示立绘、名字和文本；文字播完后才在画面上方显示选项。
+## NPC 对话框：全屏居中大立绘 + 底部窄条文本（逆转裁判风格）
+## 支持多帧动画循环（说话/待机），为 AI 生成动画帧做准备。
 
 const TypewriterEffectScript = preload("res://scripts/ui/TypewriterEffect.gd")
 
@@ -27,27 +28,53 @@ var _dialogue_log: Array[String] = []
 var _last_speaker: String = ""
 var _last_emotion: String = ""
 var _portrait_tween: Tween = null
+var _avatar_tween: Tween = null
 
-const DEFAULT_PORTRAIT_POSITION := Vector2(34, -200)
-const DEFAULT_PORTRAIT_SIZE := Vector2(200, 500)
-const OPERA_PERFORMER_PORTRAIT_POSITION := Vector2(-66, -200)
-const OPERA_PERFORMER_PORTRAIT_SIZE := Vector2(300, 500)
-const SENIOR_PREFECT_PORTRAIT_POSITION := Vector2(-18, -160)
-const SENIOR_PREFECT_PORTRAIT_SIZE := Vector2(250, 470)
+# ─── 立绘显示持久化系统 ───
+var _current_center_portrait_speaker: String = ""
+var _current_center_portrait_path: String = ""
+var _current_center_emotion: String = ""
+var _avatar_rect: TextureRect = null
+
+# ─── 动画帧系统 ───
+var _talk_frames: Array[Texture2D] = []
+var _idle_frames: Array[Texture2D] = []
+var _talk_timer: Timer = null
+var _talk_frame_index: int = 0
+var _is_talking: bool = false
+var _talk_bounce_tween: Tween = null
+var _blink_timer: Timer = null
+var _is_blinking: bool = false
+
+# ─── 全屏演出效果 ───
+var _flash_rect: ColorRect = null
+var _screen_shake_tween: Tween = null
+
 const CLR_GOLD := Color(0.96, 0.84, 0.46, 1.0)
 const CLR_PAPER := Color(0.12, 0.075, 0.04, 0.94)
 const CLR_INK := Color(0.92, 0.86, 0.72, 1.0)
 const KEYWORD_HIGHLIGHTS := [
 	"船板", "撞礁", "暗礁", "水涨", "破洞", "凿痕", "钉眼", "浮囊", "包袱",
-	"二两", "十二年", "遣散", "赌债", "四十二两", "不到一刻钟", "半个时辰", "夜船"
+	"二两", "十二两", "遣散", "赌债", "四十二两", "不到一刻钟", "半个时辰", "夜船"
 ]
+
+# 说话动画帧间隔（秒）
+const TALK_FRAME_INTERVAL := 0.12
+# 无多帧资源时说话微抖动幅度
+const TALK_BOUNCE_AMOUNT := 2.0
 
 
 func _ready() -> void:
 	legacy_options.visible = false
 	exit_btn.visible = false
+	# ── 立绘区域设置（全屏居中大图） ──
+	portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	portrait_rect.pivot_offset = Vector2(260, 340)
+	# ── 文本区域设置 ──
 	text_label.anchor_bottom = 1.0
-	text_label.offset_bottom = -46.0
+	text_label.offset_bottom = -40.0
 	text_label.bbcode_enabled = true
 	text_label.scroll_active = false
 	text_label.add_theme_font_size_override("normal_font_size", 22)
@@ -57,8 +84,11 @@ func _ready() -> void:
 	_build_choice_hint()
 	_build_log_controls()
 	_build_top_options_panel()
+	_build_flash_rect()
+	_setup_talk_timer()
 	_typewriter = TypewriterEffectScript.new()
 	add_child(_typewriter)
+	_setup_avatar_portrait()
 
 
 func _input(event: InputEvent) -> void:
@@ -116,8 +146,10 @@ func _play_current_page(run_id: int) -> void:
 	_apply_speaker(page.get("speaker", ""), page.get("portrait", ""), page.get("emotion", ""))
 	var page_text: String = page.get("text", "")
 	_append_dialogue_log(page.get("speaker", ""), page_text)
+	_start_talk_animation()
 	_typewriter.play(text_label, _decorate_text(page_text, page.get("highlight", [])))
 	await _typewriter.finished
+	_stop_talk_animation()
 	if run_id != _dialogue_run_id:
 		return
 	if _page_has_record(page):
@@ -135,133 +167,315 @@ func _play_current_page(run_id: int) -> void:
 		_show_options(_dialogue_options)
 
 
+# ═══════════════════════════════════════════════════════════════
+# ███  全屏居中角色展示（逆转裁判风格）
+# ═══════════════════════════════════════════════════════════════
+
 func _apply_speaker(speaker: String, portrait_path: String, emotion: String = "") -> void:
+	# 检查说话者是否为主角或同伴
+	if _is_protagonist_or_companion(speaker):
+		# 显示大立绘在画面左下角，同时隐藏NPC中央立绘
+		speaker_label.text = speaker
+		speaker_label.visible = speaker != ""
+		_last_speaker = speaker
+		_show_avatar(speaker, portrait_path, emotion)
+		return
+
+	# 对于 NPC：正常显示中央肖像
 	speaker_label.text = speaker
 	speaker_label.visible = speaker != ""
-	portrait_rect.position = DEFAULT_PORTRAIT_POSITION
-	portrait_rect.size = DEFAULT_PORTRAIT_SIZE
-	portrait_rect.pivot_offset = portrait_rect.size * 0.5
-	portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	if portrait_path.ends_with("actor_opera_performer.png"):
-		portrait_rect.position = OPERA_PERFORMER_PORTRAIT_POSITION
-		portrait_rect.size = OPERA_PERFORMER_PORTRAIT_SIZE
-		portrait_rect.pivot_offset = portrait_rect.size * 0.5
-		portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	elif portrait_path.ends_with("actor_senior_prefect.png"):
-		portrait_rect.position = SENIOR_PREFECT_PORTRAIT_POSITION
-		portrait_rect.size = SENIOR_PREFECT_PORTRAIT_SIZE
-		portrait_rect.pivot_offset = portrait_rect.size * 0.5
-		portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	var resolved_portrait := _resolve_emotion_portrait(portrait_path, emotion)
-	var target_modulate := _emotion_modulate(emotion)
-	var target_rotation := _emotion_rotation(emotion)
-	var target_scale := _emotion_scale(emotion)
-	var base_position := portrait_rect.position
-	var changed := speaker != _last_speaker or emotion != _last_emotion
+	var was_returning_from_companion = _is_protagonist_or_companion(_last_speaker) and speaker == _current_center_portrait_speaker
+	_current_center_portrait_speaker = speaker
+	_current_center_portrait_path = portrait_path
+	_current_center_emotion = emotion
+	# 从同伴回到同一NPC时，不重放入场动画
+	var changed := not was_returning_from_companion and (speaker != _last_speaker or emotion != _last_emotion)
 	_last_speaker = speaker
 	_last_emotion = emotion
+	# 加载动画帧（如果有）
+	_load_animation_frames(portrait_path, emotion)
+	_hide_avatar()  # 切换回 NPC 时隐藏头像
+	# 角色立绘由 NpcSceneLayer 负责显示（在对话框下面一层）
+	# DialogueBox 不再显示自己的 portrait
+	portrait_rect.visible = false
+
+
+# ═══════════════════════════════════════════════════════════════
+# ███  立绘显示持久化系统辅助方法
+# ═══════════════════════════════════════════════════════════════
+
+func _setup_avatar_portrait() -> void:
+	"""创建大立绘显示区域（用于主角/同伴），显示在画面左下角，带边缘渐隐"""
+	if _avatar_rect != null:
+		return
+	_avatar_rect = TextureRect.new()
+	_avatar_rect.name = "AvatarPortrait"
+	_avatar_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_avatar_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_avatar_rect.custom_minimum_size = Vector2(240, 420)
+	_avatar_rect.modulate.a = 0.0
+	_avatar_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# 位置：画面左下角大立绘（较小尺寸，不遮挡文字）
+	_avatar_rect.anchor_left = 0.0
+	_avatar_rect.anchor_top = 1.0
+	_avatar_rect.anchor_right = 0.0
+	_avatar_rect.anchor_bottom = 1.0
+	_avatar_rect.offset_left = -10
+	_avatar_rect.offset_top = -490
+	_avatar_rect.offset_right = 240
+	_avatar_rect.offset_bottom = 0
+	_avatar_rect.pivot_offset = Vector2(125, 420)
+	# 应用边缘渐隐 shader（与 NPC 立绘相同的 portrait_fade.gdshader）
+	var shader = load("res://assets/cn/portrait_fade.gdshader")
+	if shader:
+		var mat := ShaderMaterial.new()
+		mat.shader = shader
+		mat.set_shader_parameter("fade_bottom", 0.25)
+		mat.set_shader_parameter("fade_top", 0.03)
+		mat.set_shader_parameter("fade_left", 0.0)
+		mat.set_shader_parameter("fade_right", 0.18)
+		_avatar_rect.material = mat
+	# 插入到 DimBg 和 Box 之间（在暗背景之上，不影响文字渲染）
+	add_child(_avatar_rect)
+	var dim_idx := dim_bg.get_index()
+	move_child(_avatar_rect, dim_idx + 1)
+
+
+func _is_protagonist_or_companion(speaker_name: String) -> bool:
+	"""检查说话者是否为主角或同伴"""
+	if speaker_name == "陆昭" or speaker_name == "lu_zhao":
+		return true
+	var companion_role_name = CompanionService.get_companion_role_name()
+	var companion_id = CompanionService.get_companion_id()
+	if speaker_name == companion_role_name or speaker_name == companion_id:
+		return true
+	return false
+
+
+func _show_avatar(speaker: String, portrait_path: String, emotion: String = "") -> void:
+	"""显示主角/同伴的大立绘（画面左下角），同时隐藏NPC中央立绘并右移文字"""
+	if _avatar_rect == null:
+		return
+	var resolved_portrait := _resolve_emotion_portrait(portrait_path, emotion)
 	if resolved_portrait != "" and ResourceLoader.exists(resolved_portrait):
-		portrait_rect.texture = load(resolved_portrait)
-		portrait_rect.visible = true
-		if _portrait_tween != null and _portrait_tween.is_valid():
-			_portrait_tween.kill()
-		portrait_rect.rotation = target_rotation
-		portrait_rect.scale = target_scale
-		if changed:
-			portrait_rect.position = base_position + Vector2(-18, 0)
-			portrait_rect.modulate = Color(target_modulate.r, target_modulate.g, target_modulate.b, 0.45)
+		_avatar_rect.texture = load(resolved_portrait)
+		# 隐藏NPC中央立绘
+		if portrait_rect.visible:
+			if _portrait_tween != null and _portrait_tween.is_valid():
+				_portrait_tween.kill()
 			_portrait_tween = create_tween()
-			_portrait_tween.set_parallel(true)
-			_portrait_tween.tween_property(portrait_rect, "position", base_position, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			_portrait_tween.tween_property(portrait_rect, "modulate", target_modulate, 0.18)
+			_portrait_tween.tween_property(portrait_rect, "modulate:a", 0.0, 0.15).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		# 右移文字区域，给立绘腾出空间
+		var box_node: Control = $Box
+		var box_tween := create_tween()
+		box_tween.tween_property(box_node, "offset_left", 240.0, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		# 显示大立绘，从左侧滑入
+		if _avatar_tween != null and _avatar_tween.is_valid():
+			_avatar_tween.kill()
+		_avatar_tween = create_tween()
+		_avatar_tween.set_parallel(true)
+		_avatar_tween.tween_property(_avatar_rect, "modulate:a", 1.0, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		if _avatar_rect.modulate.a < 0.1:
+			# 首次出现：从左侧滑入 + 缩放
+			_avatar_rect.position.x -= 30
+			_avatar_rect.scale = Vector2(0.93, 0.93)
+			_avatar_tween.tween_property(_avatar_rect, "position:x", _avatar_rect.position.x + 30, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			_avatar_tween.tween_property(_avatar_rect, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+func _hide_avatar() -> void:
+	"""隐藏主角/同伴大立绘，恢复NPC中央立绘和文字位置"""
+	if _avatar_rect == null or _avatar_rect.modulate.a < 0.01:
+		return
+	if _avatar_tween != null and _avatar_tween.is_valid():
+		_avatar_tween.kill()
+	_avatar_tween = create_tween()
+	_avatar_tween.set_parallel(true)
+	_avatar_tween.tween_property(_avatar_rect, "modulate:a", 0.0, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	_avatar_tween.tween_property(_avatar_rect, "position:x", _avatar_rect.position.x - 15, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	# 恢复文字区域到原始位置
+	var box_node: Control = $Box
+	var box_tween := create_tween()
+	box_tween.tween_property(box_node, "offset_left", 40.0, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+
+# ═══════════════════════════════════════════════════════════════
+# ███  说话动画帧系统
+# ═══════════════════════════════════════════════════════════════
+
+func _setup_talk_timer() -> void:
+	_talk_timer = Timer.new()
+	_talk_timer.wait_time = TALK_FRAME_INTERVAL
+	_talk_timer.one_shot = false
+	_talk_timer.timeout.connect(_on_talk_frame_tick)
+	add_child(_talk_timer)
+	# 眨眼定时器
+	_blink_timer = Timer.new()
+	_blink_timer.one_shot = true
+	_blink_timer.timeout.connect(_do_blink)
+	add_child(_blink_timer)
+
+
+func _load_animation_frames(base_path: String, emotion: String) -> void:
+	_talk_frames.clear()
+	_idle_frames.clear()
+	if base_path == "":
+		return
+	# 尝试加载说话帧：actor_xxx_talk_0.png, _talk_1.png ...
+	var talk_base := base_path.replace(".png", "_talk_%d.png")
+	for i in range(10):
+		var path := talk_base % i
+		if ResourceLoader.exists(path):
+			_talk_frames.append(load(path))
 		else:
-			portrait_rect.position = base_position
-			portrait_rect.modulate = target_modulate
+			break
+	# 尝试加载待机帧：actor_xxx_idle_0.png, _idle_1.png ...
+	var idle_base := base_path.replace(".png", "_idle_%d.png")
+	for i in range(10):
+		var path := idle_base % i
+		if ResourceLoader.exists(path):
+			_idle_frames.append(load(path))
+		else:
+			break
+
+
+func _start_talk_animation() -> void:
+	_is_talking = true
+	_stop_blink_loop()
+	if not _talk_frames.is_empty():
+		# 有多帧说话动画 → 帧循环
+		_talk_frame_index = 0
+		_talk_timer.start()
 	else:
-		portrait_rect.visible = false
+		# 无多帧 → 微幅抖动模拟说话
+		_start_talk_bounce()
 
 
-func _build_dialogue_pages(default_speaker: String, default_portrait: String, text: String, raw_pages: Array) -> Array:
-	var pages: Array = []
-	if raw_pages.is_empty():
-		raw_pages = [{"speaker": default_speaker, "portrait": default_portrait, "text": text}]
-	for raw_page in raw_pages:
-		if typeof(raw_page) != TYPE_DICTIONARY:
-			continue
-		var speaker: String = raw_page.get("speaker", default_speaker)
-		var portrait: String = raw_page.get("portrait", default_portrait)
-		var line_text: String = raw_page.get("text", "")
-		var sentences := _split_dialogue_text(line_text)
-		for idx in range(sentences.size()):
-			var page := {
-				"speaker": speaker,
-				"portrait": portrait,
-				"text": sentences[idx],
-				"type": raw_page.get("type", ""),
-				"emotion": raw_page.get("emotion", raw_page.get("mood", "")),
-				"highlight": raw_page.get("highlight", [])
-			}
-			if idx == sentences.size() - 1:
-				_copy_record_meta(raw_page, page)
-			pages.append(page)
-	return pages
+func _stop_talk_animation() -> void:
+	_is_talking = false
+	_talk_timer.stop()
+	_stop_talk_bounce()
+	# 切回待机帧（如果有）并启动眨眼循环
+	if not _idle_frames.is_empty():
+		portrait_rect.texture = _idle_frames[0]
+		_start_blink_loop()
+	# 重置位置偏移
+	portrait_rect.position.y = 0
 
 
-func _copy_record_meta(src: Dictionary, dst: Dictionary) -> void:
-	for key in ["record", "record_type", "record_title", "record_text", "record_id"]:
-		if src.has(key):
-			dst[key] = src[key]
+func _on_talk_frame_tick() -> void:
+	if _talk_frames.is_empty() or not _is_talking:
+		_talk_timer.stop()
+		return
+	_talk_frame_index = (_talk_frame_index + 1) % _talk_frames.size()
+	portrait_rect.texture = _talk_frames[_talk_frame_index]
 
 
-func _split_dialogue_text(text: String) -> Array[String]:
-	var pages: Array[String] = []
-	var normalized := text.replace("\r\n", "\n").replace("\r", "\n")
-	for block in normalized.split("\n\n", false):
-		var block_text := str(block).strip_edges()
-		if block_text == "":
-			continue
-		for sentence in _split_block_into_sentences(block_text):
-			var clean_sentence := sentence.strip_edges()
-			if clean_sentence != "":
-				pages.append(clean_sentence)
-	return pages
+func _start_talk_bounce() -> void:
+	_stop_talk_bounce()
+	_talk_bounce_tween = create_tween()
+	_talk_bounce_tween.set_loops()
+	_talk_bounce_tween.tween_property(portrait_rect, "position:y", -TALK_BOUNCE_AMOUNT, 0.08)
+	_talk_bounce_tween.tween_property(portrait_rect, "position:y", 0.0, 0.08)
 
 
-func _split_block_into_sentences(block: String) -> Array[String]:
-	var sentences: Array[String] = []
-	var buf := ""
-	var i := 0
-	while i < block.length():
-		var ch := block[i]
-		buf += ch
-		if ch in ["。", "！", "？", "!", "?"]:
-			var next_i := i + 1
-			while next_i < block.length() and block[next_i] in ["”", "’", "）", ")"]:
-				buf += block[next_i]
-				next_i += 1
-			sentences.append(buf.strip_edges())
-			buf = ""
-			i = next_i
-			continue
-		i += 1
-	if buf.strip_edges() != "":
-		sentences.append(buf.strip_edges())
-	return sentences
+func _stop_talk_bounce() -> void:
+	if _talk_bounce_tween != null and _talk_bounce_tween.is_valid():
+		_talk_bounce_tween.kill()
+		_talk_bounce_tween = null
+	portrait_rect.position.y = 0
 
+
+## 眨眼循环：每 2-4 秒眨一次眼
+func _start_blink_loop() -> void:
+	_is_blinking = false
+	if _idle_frames.size() < 2:
+		return
+	var delay := randf_range(2.0, 4.0)
+	_blink_timer.start(delay)
+
+
+func _stop_blink_loop() -> void:
+	_blink_timer.stop()
+	_is_blinking = false
+
+
+func _do_blink() -> void:
+	if _is_talking or not visible or _idle_frames.size() < 2:
+		return
+	_is_blinking = true
+	# 显示闭眼帧
+	portrait_rect.texture = _idle_frames[1]
+	# 0.12 秒后恢复睁眼
+	await get_tree().create_timer(0.12).timeout
+	if not _is_talking and visible and not _idle_frames.is_empty():
+		portrait_rect.texture = _idle_frames[0]
+	_is_blinking = false
+	# 安排下一次眨眼
+	if not _is_talking and visible and _idle_frames.size() >= 2:
+		var next_delay := randf_range(2.5, 5.0)
+		_blink_timer.start(next_delay)
+
+
+# ═══════════════════════════════════════════════════════════════
+# ███  全屏演出效果
+# ═══════════════════════════════════════════════════════════════
+
+func _build_flash_rect() -> void:
+	_flash_rect = ColorRect.new()
+	_flash_rect.name = "FlashOverlay"
+	_flash_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_flash_rect.color = Color(1, 1, 1, 0)
+	_flash_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_flash_rect.z_index = 50
+	add_child(_flash_rect)
+
+
+## 全屏闪白/闪红（追问命中时）
+func flash_screen(color: Color = Color.WHITE, duration: float = 0.15) -> void:
+	_flash_rect.color = Color(color.r, color.g, color.b, 0.6)
+	var tw := create_tween()
+	tw.tween_property(_flash_rect, "color:a", 0.0, duration)
+
+
+## 角色震动（揭穿谎言时）
+func shake_character(intensity: float = 8.0, duration: float = 0.5) -> void:
+	if _screen_shake_tween != null and _screen_shake_tween.is_valid():
+		_screen_shake_tween.kill()
+	var original_x := portrait_rect.position.x
+	_screen_shake_tween = create_tween()
+	var steps := int(duration / 0.06)
+	for i in range(steps):
+		var offset: float = intensity * (1.0 if i % 2 == 0 else -1.0) * (1.0 - float(i) / steps)
+		_screen_shake_tween.tween_property(portrait_rect, "position:x", original_x + offset, 0.06)
+	_screen_shake_tween.tween_property(portrait_rect, "position:x", original_x, 0.06)
+
+
+## 角色特写放大（情绪高潮时）
+func zoom_character(target_scale: float = 1.08, duration: float = 0.3) -> void:
+	var tw := create_tween()
+	tw.tween_property(portrait_rect, "scale", Vector2(target_scale, target_scale), duration * 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(portrait_rect, "scale", Vector2(1.0, 1.0), duration * 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+
+
+# ═══════════════════════════════════════════════════════════════
+# ███  底部文本框外观
+# ═══════════════════════════════════════════════════════════════
 
 func _apply_dialogue_chrome() -> void:
 	var bg_style := StyleBoxFlat.new()
-	bg_style.bg_color = Color(0.045, 0.03, 0.018, 0.88)
-	bg_style.border_color = Color(0.66, 0.48, 0.22, 0.42)
-	bg_style.set_border_width_all(1)
-	bg_style.shadow_color = Color(0, 0, 0, 0.42)
-	bg_style.shadow_size = 18
-	bg_style.content_margin_left = 12
-	bg_style.content_margin_right = 12
+	bg_style.bg_color = Color(0.035, 0.025, 0.015, 0.92)
+	bg_style.border_color = Color(0.72, 0.52, 0.24, 0.55)
+	bg_style.set_border_width_all(2)
+	bg_style.border_width_top = 2
+	bg_style.shadow_color = Color(0, 0, 0, 0.5)
+	bg_style.shadow_size = 20
+	bg_style.content_margin_left = 14
+	bg_style.content_margin_right = 14
 	bg_style.content_margin_top = 10
 	bg_style.content_margin_bottom = 10
 	dim_bg.add_theme_stylebox_override("panel", bg_style)
-	speaker_label.add_theme_font_size_override("font_size", 27)
+	speaker_label.add_theme_font_size_override("font_size", 28)
 	speaker_label.add_theme_color_override("font_color", CLR_GOLD)
 	speaker_label.add_theme_color_override("font_outline_color", Color(0.025, 0.012, 0.0, 1))
 	speaker_label.add_theme_constant_override("outline_size", 4)
@@ -366,7 +580,6 @@ func _build_top_options_panel() -> void:
 	_top_options_panel = PanelContainer.new()
 	_top_options_panel.name = "TopOptionsPanel"
 	_top_options_panel.mouse_filter = Control.MOUSE_FILTER_STOP
-	# 顶部选项不使用外层底框，只保留按钮自身的边框。
 	var panel_style := StyleBoxFlat.new()
 	panel_style.bg_color = Color(0, 0, 0, 0)
 	panel_style.border_color = Color(0, 0, 0, 0)
@@ -394,7 +607,6 @@ func _build_top_options_panel() -> void:
 func _position_top_options(option_count: int) -> void:
 	var vp := get_viewport_rect().size
 	var panel_w: float = min(880.0, vp.x * 0.80)
-	# 根据选项数量动态调整按钮高度和间距
 	var btn_height: float = 44.0
 	var separation: int = 10
 	if option_count > 6:
@@ -409,20 +621,13 @@ func _position_top_options(option_count: int) -> void:
 			child.custom_minimum_size = Vector2(0, btn_height)
 	var panel_h: float = min(380.0, max(1, option_count) * (btn_height + separation) + separation)
 	_top_options_panel.size = Vector2(panel_w, panel_h)
-	# 选项少时，不贴顶显示；在顶部可用区域内尽量垂直居中。
-	var top_margin := 56.0
-	var bottom_margin := 18.0
-	var dialogue_top := global_position.y
-	if dialogue_top <= 0.0:
-		dialogue_top = vp.y - 320.0
-	var upper_area_h: float = max(panel_h, dialogue_top - top_margin - bottom_margin)
-	var target_global_y: float
-	if option_count <= 4:
-		target_global_y = top_margin + (upper_area_h - panel_h) * 0.5
-	elif option_count <= 6:
-		target_global_y = top_margin + (upper_area_h - panel_h) * 0.35
-	else:
-		target_global_y = top_margin
+	# 选项靠下排列（在对话框上方，尽量不遮脸）
+	# 对话框大约占底部 25% (y≈540 on 720p)，选项面板底部对齐到对话框顶部
+	var dialogue_box_top: float = vp.y * 0.72  # 对话框顶部大约在72%处
+	var target_global_y: float = dialogue_box_top - panel_h - 8.0  # 面板底部贴着对话框上方
+	# 确保不超出屏幕顶部
+	if target_global_y < 40.0:
+		target_global_y = 40.0
 	var target_global_x := (vp.x - panel_w) * 0.5
 	_top_options_panel.position = Vector2(target_global_x - global_position.x, target_global_y - global_position.y)
 
@@ -468,7 +673,6 @@ func _show_options(options: Array) -> void:
 	visible_count += 1
 	_position_top_options(visible_count)
 	_top_options_panel.visible = true
-	# 选项阶段隐藏卷宗回看按钮，避免和选项/对话文本抢视觉焦点。
 	if _log_button != null:
 		_log_button.visible = false
 	if _log_panel != null and _log_panel.visible:
@@ -705,7 +909,6 @@ func _on_option_pressed(idx: int, opt: Dictionary) -> void:
 
 
 func _is_evidence_option(opt: Dictionary) -> bool:
-	# 如果已显式指定 type 为非 evidence，则不视为呈证选项
 	var explicit_type: String = opt.get("type", "")
 	if explicit_type != "" and explicit_type != "evidence":
 		return false
@@ -771,6 +974,79 @@ func _make_evidence_button_style(bg: Color, border: Color, shadow_size: int) -> 
 	return style
 
 
+# ═══════════════════════════════════════════════════════════════
+# ███  对话页面构建
+# ═══════════════════════════════════════════════════════════════
+
+func _build_dialogue_pages(default_speaker: String, default_portrait: String, text: String, raw_pages: Array) -> Array:
+	var pages: Array = []
+	if raw_pages.is_empty():
+		raw_pages = [{"speaker": default_speaker, "portrait": default_portrait, "text": text}]
+	for raw_page in raw_pages:
+		if typeof(raw_page) != TYPE_DICTIONARY:
+			continue
+		var speaker: String = raw_page.get("speaker", default_speaker)
+		var portrait: String = raw_page.get("portrait", default_portrait)
+		var line_text: String = raw_page.get("text", "")
+		var sentences := _split_dialogue_text(line_text)
+		for idx in range(sentences.size()):
+			var page := {
+				"speaker": speaker,
+				"portrait": portrait,
+				"text": sentences[idx],
+				"type": raw_page.get("type", ""),
+				"emotion": raw_page.get("emotion", raw_page.get("mood", "")),
+				"highlight": raw_page.get("highlight", [])
+			}
+			if idx == sentences.size() - 1:
+				_copy_record_meta(raw_page, page)
+			pages.append(page)
+	return pages
+
+
+func _copy_record_meta(src: Dictionary, dst: Dictionary) -> void:
+	for key in ["record", "record_type", "record_title", "record_text", "record_id"]:
+		if src.has(key):
+			dst[key] = src[key]
+
+
+func _split_dialogue_text(text: String) -> Array[String]:
+	var pages: Array[String] = []
+	var normalized := text.replace("\r\n", "\n").replace("\r", "\n")
+	for block in normalized.split("\n\n", false):
+		var block_text := str(block).strip_edges()
+		if block_text == "":
+			continue
+		for sentence in _split_block_into_sentences(block_text):
+			var clean_sentence := sentence.strip_edges()
+			if clean_sentence != "":
+				pages.append(clean_sentence)
+	return pages
+
+
+func _split_block_into_sentences(block: String) -> Array[String]:
+	var sentences: Array[String] = []
+	var buf := ""
+	var i := 0
+	while i < block.length():
+		var ch := block[i]
+		buf += ch
+		if ch in ["。", "！", "？", "!", "?"]:
+			var next_i := i + 1
+			var _close_quotes := String.chr(0x201D) + String.chr(0x2019) + String.chr(0xFF09) + ")"
+			while next_i < block.length() and _close_quotes.find(block[next_i]) >= 0:
+				buf += block[next_i]
+				next_i += 1
+			sentences.append(buf.strip_edges())
+			buf = ""
+			i = next_i
+			continue
+		i += 1
+	if buf.strip_edges() != "":
+		sentences.append(buf.strip_edges())
+	return sentences
+
+
 func _decorate_text(text: String, extra_highlights = []) -> String:
 	var out := text
 	var words: Array = []
@@ -790,6 +1066,29 @@ func _decorate_text(text: String, extra_highlights = []) -> String:
 		out = "[color=#b9aa8a]%s[/color]" % out
 	return out
 
+
+# ═══════════════════════════════════════════════════════════════
+# ███  表情/动画资源解析
+# ═══════════════════════════════════════════════════════════════
+
+func _resolve_emotion_portrait(base_path: String, emotion: String) -> String:
+	if base_path == "" or emotion == "" or emotion == "normal":
+		return base_path
+	var candidates: Array[String] = []
+	candidates.append(base_path.replace(".png", "_%s.png" % emotion))
+	if emotion in ["nervous", "panic", "defensive", "cornered", "shaken"]:
+		candidates.append(base_path.replace(".png", "_shaken.png"))
+	if emotion in ["breakdown", "collapsed"]:
+		candidates.append(base_path.replace(".png", "_collapsed.png"))
+	for path in candidates:
+		if ResourceLoader.exists(path):
+			return path
+	return base_path
+
+
+# ═══════════════════════════════════════════════════════════════
+# ███  对话记录日志
+# ═══════════════════════════════════════════════════════════════
 
 func _append_dialogue_log(speaker: String, text: String) -> void:
 	if text.strip_edges() == "":
@@ -838,6 +1137,10 @@ func _raise_log_panel() -> void:
 	if _log_panel != null and _log_panel.get_parent() == self:
 		move_child(_log_panel, get_child_count() - 1)
 
+
+# ═══════════════════════════════════════════════════════════════
+# ███  笔记本记录
+# ═══════════════════════════════════════════════════════════════
 
 func _page_has_record(page: Dictionary) -> bool:
 	if page.has("record"):
@@ -938,54 +1241,9 @@ func _play_record_fx(page: Dictionary) -> void:
 		layer.queue_free()
 
 
-func _resolve_emotion_portrait(base_path: String, emotion: String) -> String:
-	if base_path == "" or emotion == "" or emotion == "normal":
-		return base_path
-	var candidates: Array[String] = []
-	candidates.append(base_path.replace(".png", "_%s.png" % emotion))
-	if emotion in ["nervous", "panic", "defensive", "cornered", "shaken"]:
-		candidates.append(base_path.replace(".png", "_shaken.png"))
-	if emotion in ["breakdown", "collapsed"]:
-		candidates.append(base_path.replace(".png", "_collapsed.png"))
-	for path in candidates:
-		if ResourceLoader.exists(path):
-			return path
-	return base_path
-
-
-func _emotion_modulate(emotion: String) -> Color:
-	match emotion:
-		"nervous", "panic":
-			return Color(1.0, 0.94, 0.78, 1.0)
-		"defensive", "angry":
-			return Color(1.0, 0.82, 0.74, 1.0)
-		"shaken", "cornered":
-			return Color(0.92, 0.9, 0.78, 1.0)
-		"breakdown", "collapsed":
-			return Color(0.74, 0.72, 0.68, 0.92)
-		_:
-			return Color(1, 1, 1, 1)
-
-
-func _emotion_rotation(emotion: String) -> float:
-	match emotion:
-		"shaken", "cornered":
-			return -0.025
-		"breakdown", "collapsed":
-			return -0.06
-		_:
-			return 0.0
-
-
-func _emotion_scale(emotion: String) -> Vector2:
-	match emotion:
-		"angry", "defensive":
-			return Vector2(1.025, 1.025)
-		"breakdown", "collapsed":
-			return Vector2(0.98, 0.98)
-		_:
-			return Vector2(1, 1)
-
+# ═══════════════════════════════════════════════════════════════
+# ███  呈证演出
+# ═══════════════════════════════════════════════════════════════
 
 func _play_evidence_present_fx(evidence_name: String) -> void:
 	var root := get_tree().current_scene

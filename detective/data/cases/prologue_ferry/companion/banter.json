@@ -201,6 +201,136 @@
           { "speaker": "凌瑶", "text": "陆大人，听说下游渔村有个老渔民，那晚也在江上——说不定他看见了什么！去那边看看？" }
         ]
       ]
+    },
+    {
+      "id": "phase_unlocked_3",
+      "when": { "trigger": "phase_unlocked:phase_3" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "等等——沈清月？！我说呢——她那种人怎么可能只是在追债！" },
+          { "speaker": "凌瑶", "text": "她一直在这客栈里！就在楼上！天哪……她一直在看着我们查案？！" },
+          { "speaker": "陆昭", "text": "冷静。阿贵的口供不够。我们需要实证。" },
+          { "speaker": "凌瑶", "text": "好好好……赌坊那条线、码头的时间、还有那五十两银子——我来帮你理！" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_shen_phase1",
+      "when": { "trigger": "dialogue_end", "npc_id": "shen_qingyue", "requires": { "not_flag": "agui_confessed_mastermind" } },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "这个沈清月……嘴挺利的。看着像个做生意的女强人——但嘴太快了。" },
+          { "speaker": "陆昭", "text": "嘴快不代表说的都是实话。" },
+          { "speaker": "凌瑶", "text": "嗯……不过暂时没看出什么破绽。她确实亏了——债收不回来了。" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "她说'杀他对我有什么好处'——这话乍一听……还真没毛病。" },
+          { "speaker": "凌瑶", "text": "但如果好处不只是那三十八两呢？嗯……先查别的。" }
+        ]
+      ]
+    },
+    {
+      "id": "after_talk_shen_phase3",
+      "when": { "trigger": "dialogue_end", "npc_id": "shen_qingyue", "requires": { "flag": "agui_confessed_mastermind" } },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "嘶——跟她说话真累。每句话都滴水不漏。比阿贵难对付十倍。" },
+          { "speaker": "陆昭", "text": "她比阿贵聪明得多。" },
+          { "speaker": "凌瑶", "text": "所以才更可恨。聪明到把别人当棋子——然后自己站在干岸上。" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "她那个眼神……真冷。刚才有一瞬间——我觉得她在打量你，像在估量'这个人能不能拦住我'。" },
+          { "speaker": "陆昭", "text": "能。" },
+          { "speaker": "凌瑶", "text": "（噗）好。本姑娘信你。" }
+        ]
+      ]
+    },
+    {
+      "id": "pre_confrontation_agui",
+      "when": { "trigger": "confrontation_start:agui" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "（深吸一口气）好……要上了。陆大人，我的手心在出汗。" },
+          { "speaker": "陆昭", "text": "别紧张。证据够了。" },
+          { "speaker": "凌瑶", "text": "我不紧张！就是……有点激动。头一次看审案呢。加油！" }
+        ]
+      ]
+    },
+    {
+      "id": "pre_confrontation_shen",
+      "when": { "trigger": "confrontation_start:shen_qingyue" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "（压低声音）陆大人。她不是阿贵——她不会崩溃哭着认罪。" },
+          { "speaker": "凌瑶", "text": "她会反咬。会用逻辑把你绕进去。你得比她更冷静。" },
+          { "speaker": "陆昭", "text": "嗯。" },
+          { "speaker": "凌瑶", "text": "……我在你旁边。有什么想法我会提醒你。别一个人扛。" }
+        ]
+      ]
+    },
+    {
+      "id": "confrontation_break_success",
+      "when": { "trigger": "confrontation_break" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "漂亮！打得他说不出话来！" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "这下没话说了吧！证据面前——你还怎么编？！" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "嘶——你看他那表情。裂了。继续！" }
+        ]
+      ]
+    },
+    {
+      "id": "confrontation_wrong_evidence",
+      "when": { "trigger": "confrontation_fail_evidence" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "嗯……这个好像不太对。别急——换个角度想想。" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "（小声）方向不对……那条证据不是用在这儿的。再看看他说的哪句有问题？" }
+        ],
+        [
+          { "speaker": "凌瑶", "text": "没事没事……出一次错不算什么。深呼吸——本姑娘信你。" }
+        ]
+      ]
+    },
+    {
+      "id": "arrive_shen_room",
+      "when": { "trigger": "arrive_location:shen_room" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "（环顾四周）她房间比楼下干净多了。桌上那本账——整整齐齐。" },
+          { "speaker": "凌瑶", "text": "窗户正对码头方向……嘶——她是不是每天都从这窗户看着下面？" }
+        ]
+      ]
+    },
+    {
+      "id": "arrive_gambling_alley",
+      "when": { "trigger": "arrive_location:gambling_alley" },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "好暗……这种地方白天都这么阴森？" },
+          { "speaker": "凌瑶", "text": "老范就是在这里欠了四十二两。嗯——进去问问，看有没有人认识那个'药材行的姑娘'。" }
+        ]
+      ]
+    },
+    {
+      "id": "moral_reflection_agui",
+      "when": { "trigger": "phase_unlocked:phase_3", "requires": { "flag": "agui_confessed_mastermind" } },
+      "lines": [
+        [
+          { "speaker": "凌瑶", "text": "大人……你说，阿贵算是坏人吗？" },
+          { "speaker": "陆昭", "text": "他杀了人。" },
+          { "speaker": "凌瑶", "text": "我知道。可是——十二年被人当牛马使，最后被二两银子打发。换我我也……" },
+          { "speaker": "凌瑶", "text": "……算了。我不会杀人。但我理解他为什么恨。" },
+          { "speaker": "陆昭", "text": "理解恨是一回事。原谅杀人是另一回事。" },
+          { "speaker": "凌瑶", "text": "嗯。……所以才需要大人这样的人吧。在'理解'和'不能原谅'之间——做出判断。" }
+        ]
+      ]
     }
   ]
 }

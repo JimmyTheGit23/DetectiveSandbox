@@ -25,6 +25,26 @@
     "name": "失踪的货银",
     "description": "周氏说丈夫随身带了五十两货银。但沉船中找不到这笔钱，岸边也没有。五十两银子不会被水冲走。"
   },
+  "evidence_salvage_mark": {
+    "type": "evidence",
+    "name": "下游打捞痕迹",
+    "description": "王老汉证词：天亮前他在下游浅滩看到有人用长竿探水打捞东西。那人穿深色衣裳，身量高挑——像个女子。天亮后那人就不见了。"
+  },
+  "evidence_shen_connection": {
+    "type": "evidence",
+    "name": "赌坊中间人",
+    "description": "老范被逼急后交代：当初不是阿贵来找的他——是一个'药材行的姑娘'先找到他，说有门发财的路子。那姑娘知道他欠赌债，问他'想不想一笔勾销'。"
+  },
+  "evidence_dock_timing": {
+    "type": "evidence",
+    "name": "码头时间矛盾",
+    "description": "沈清月说'我在码头盯着他上船就回客栈了'。但凌瑶的证词：船开出去之后至少一刻钟，码头边仍有一个穿男装的高挑身影没有离开——方向朝着下游。"
+  },
+  "evidence_father_ledger": {
+    "type": "evidence",
+    "name": "沈父药账",
+    "description": "从沈清月房间搜出的药铺账本。最后一页写着：'父病急需人参鹿茸，需银八十两。家中仅余四十二两。差额——另想办法。'日期是案发五天前。"
+  },
   "evidence_nail_marks": {
     "type": "evidence",
     "name": "船底钉痕",

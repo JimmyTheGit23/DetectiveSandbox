@@ -74,28 +74,14 @@ func _make_margin(parent: Control) -> MarginContainer:
 
 # ─── 通用列表项（无图标） ───
 
-func _add_list_item(parent: Container, name_text: String, desc: String, color: Color, tag: String, source: String = "") -> void:
+func _add_list_item(parent: Container, name_text: String, desc: String, color: Color, tag: String, source: String = "", item_id: String = "") -> void:
 	var btn := Button.new()
-	btn.custom_minimum_size = Vector2(0, 52)
+	btn.custom_minimum_size = Vector2(0, 72)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	btn.clip_text = true
-	
-	# 组合显示文字：标签 + 名称 + 来源
-	var display := ""
-	if tag != "":
-		display += "[%s] " % tag
-	display += name_text
-	if source != "":
-		display += "  —— %s" % source
-	btn.text = display
-	btn.add_theme_font_size_override("font_size", 16)
-	btn.add_theme_color_override("font_color", color)
-	btn.add_theme_color_override("font_hover_color", Color(1, 0.95, 0.72, 1))
-	btn.add_theme_color_override("font_pressed_color", Color(0.7, 0.65, 0.55, 1))
-	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	
+	btn.clip_text = false
+
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.13, 0.10, 0.07, 0.92)
 	style.border_color = Color(0.48, 0.36, 0.18, 0.9)
@@ -104,25 +90,95 @@ func _add_list_item(parent: Container, name_text: String, desc: String, color: C
 	style.corner_radius_top_right = 7
 	style.corner_radius_bottom_left = 7
 	style.corner_radius_bottom_right = 7
-	style.content_margin_left = 14
+	style.content_margin_left = 10
 	style.content_margin_right = 14
 	style.content_margin_top = 8
 	style.content_margin_bottom = 8
 	btn.add_theme_stylebox_override("normal", style)
-	
+
 	var hover_style := style.duplicate() as StyleBoxFlat
 	hover_style.bg_color = Color(0.22, 0.17, 0.10, 0.95)
 	hover_style.border_color = Color(0.72, 0.55, 0.27, 0.95)
 	btn.add_theme_stylebox_override("hover", hover_style)
-	
+
 	var pressed_style := style.duplicate() as StyleBoxFlat
 	pressed_style.bg_color = Color(0.08, 0.06, 0.04, 0.95)
 	btn.add_theme_stylebox_override("pressed", pressed_style)
-	
+
+	# 内部布局: HBox = [Icon] + [VBox: name + desc_preview]
+	var hbox := HBoxContainer.new()
+	hbox.anchor_right = 1.0
+	hbox.anchor_bottom = 1.0
+	hbox.offset_left = 10
+	hbox.offset_right = -14
+	hbox.offset_top = 8
+	hbox.offset_bottom = -8
+	hbox.add_theme_constant_override("separation", 12)
+	hbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	btn.add_child(hbox)
+
+	# 图标
+	var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % item_id
+	if item_id != "" and ResourceLoader.exists(icon_path):
+		var icon_rect := TextureRect.new()
+		icon_rect.texture = load(icon_path)
+		icon_rect.custom_minimum_size = Vector2(56, 56)
+		icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		icon_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		# 圆角裁切效果通过 clip_children
+		var icon_wrapper := PanelContainer.new()
+		icon_wrapper.custom_minimum_size = Vector2(56, 56)
+		icon_wrapper.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		icon_wrapper.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var icon_style := StyleBoxFlat.new()
+		icon_style.bg_color = Color(0.08, 0.06, 0.04, 1)
+		icon_style.corner_radius_top_left = 6
+		icon_style.corner_radius_top_right = 6
+		icon_style.corner_radius_bottom_left = 6
+		icon_style.corner_radius_bottom_right = 6
+		icon_style.set_content_margin_all(0)
+		icon_wrapper.add_theme_stylebox_override("panel", icon_style)
+		icon_wrapper.clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
+		icon_wrapper.add_child(icon_rect)
+		hbox.add_child(icon_wrapper)
+
+	# 文字区域
+	var text_vbox := VBoxContainer.new()
+	text_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text_vbox.add_theme_constant_override("separation", 4)
+	text_vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hbox.add_child(text_vbox)
+
+	# 名称行: [tag] + name
+	var name_label := Label.new()
+	var display := ""
+	if tag != "":
+		display += "[%s] " % tag
+	display += name_text
+	if source != "":
+		display += "  —— %s" % source
+	name_label.text = display
+	name_label.add_theme_font_size_override("font_size", 16)
+	name_label.add_theme_color_override("font_color", color)
+	name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	text_vbox.add_child(name_label)
+
+	# 描述预览行
+	var desc_preview := Label.new()
+	var preview_text := desc.substr(0, 40)
+	if desc.length() > 40:
+		preview_text += "……"
+	desc_preview.text = preview_text
+	desc_preview.add_theme_font_size_override("font_size", 13)
+	desc_preview.add_theme_color_override("font_color", Color(0.65, 0.60, 0.50, 0.85))
+	desc_preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	text_vbox.add_child(desc_preview)
+
 	parent.add_child(btn)
-	
+
 	btn.pressed.connect(func() -> void:
-		_show_detail_popup(name_text, desc, color, tag, source)
+		_show_detail_popup(name_text, desc, color, tag, source, item_id)
 	)
 
 
@@ -142,7 +198,7 @@ func _add_empty_state(parent: Container, text: String) -> void:
 
 # ─── 通用详情弹窗 ───
 
-func _show_detail_popup(title: String, body: String, color: Color, tag: String, source: String = "") -> void:
+func _show_detail_popup(title: String, body: String, color: Color, tag: String, source: String = "", item_id: String = "") -> void:
 	if has_node("DetailPopup"):
 		return
 
@@ -242,6 +298,32 @@ func _show_detail_popup(title: String, body: String, color: Color, tag: String, 
 		src_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		header.add_child(src_lbl)
 
+	# 图标（如果有）
+	var detail_icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % item_id
+	if item_id != "" and ResourceLoader.exists(detail_icon_path):
+		var icon_center := CenterContainer.new()
+		card_vbox.add_child(icon_center)
+		var icon_panel := PanelContainer.new()
+		icon_panel.custom_minimum_size = Vector2(128, 128)
+		var icon_bg := StyleBoxFlat.new()
+		icon_bg.bg_color = Color(0.06, 0.05, 0.03, 1)
+		icon_bg.corner_radius_top_left = 8
+		icon_bg.corner_radius_top_right = 8
+		icon_bg.corner_radius_bottom_left = 8
+		icon_bg.corner_radius_bottom_right = 8
+		icon_bg.border_color = Color(0.48, 0.36, 0.18, 0.7)
+		icon_bg.set_border_width_all(1)
+		icon_bg.set_content_margin_all(0)
+		icon_panel.add_theme_stylebox_override("panel", icon_bg)
+		icon_panel.clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
+		icon_center.add_child(icon_panel)
+		var icon_tex := TextureRect.new()
+		icon_tex.texture = load(detail_icon_path)
+		icon_tex.custom_minimum_size = Vector2(128, 128)
+		icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		icon_panel.add_child(icon_tex)
+
 	# 分隔线
 	var sep := ColorRect.new()
 	sep.custom_minimum_size = Vector2(0, 1)
@@ -265,10 +347,174 @@ func _show_detail_popup(title: String, body: String, color: Color, tag: String, 
 	)
 
 
-# ─── 证物 Tab ───
+# ─── 证物 Tab（横向翻页大图标） ───
+
+var _evidence_page_index: int = 0
+var _evidence_items_cache: Array = []
+var _evidence_card_container: Control = null
+var _evidence_page_label: Label = null
 
 func _build_evidence_tab() -> void:
-	_build_item_list_tab("证 物", GameManager.collected_evidence, Color(1, 0.67, 0.46, 1), "证物", "尚无证物")
+	var scroll := _make_scroll_container("证 物")
+	var margin := _make_margin(scroll)
+
+	_evidence_items_cache = GameManager.collected_evidence.duplicate()
+
+	if _evidence_items_cache.is_empty():
+		var empty_vbox := VBoxContainer.new()
+		margin.add_child(empty_vbox)
+		_add_empty_state(empty_vbox, "尚无证物")
+		return
+
+	_evidence_page_index = 0
+
+	var root_vbox := VBoxContainer.new()
+	root_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	root_vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	root_vbox.add_theme_constant_override("separation", 12)
+	margin.add_child(root_vbox)
+
+	# 卡片显示区域
+	_evidence_card_container = Control.new()
+	_evidence_card_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_evidence_card_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_evidence_card_container.custom_minimum_size = Vector2(0, 320)
+	root_vbox.add_child(_evidence_card_container)
+
+	# 底部导航栏: [<] page_label [>]
+	var nav_hbox := HBoxContainer.new()
+	nav_hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	nav_hbox.add_theme_constant_override("separation", 16)
+	nav_hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	root_vbox.add_child(nav_hbox)
+
+	var prev_btn := Button.new()
+	prev_btn.text = "◀ 上一件"
+	prev_btn.custom_minimum_size = Vector2(100, 38)
+	prev_btn.add_theme_font_size_override("font_size", 16)
+	prev_btn.add_theme_color_override("font_color", Color(0.9, 0.78, 0.55, 1))
+	prev_btn.add_theme_color_override("font_hover_color", Color(1, 0.95, 0.72, 1))
+	prev_btn.focus_mode = Control.FOCUS_NONE
+	var prev_style := StyleBoxFlat.new()
+	prev_style.bg_color = Color(0.15, 0.12, 0.08, 0.9)
+	prev_style.border_color = Color(0.48, 0.36, 0.18, 0.8)
+	prev_style.set_border_width_all(1)
+	prev_style.set_corner_radius_all(6)
+	prev_style.content_margin_left = 12
+	prev_style.content_margin_right = 12
+	prev_btn.add_theme_stylebox_override("normal", prev_style)
+	var prev_hover := prev_style.duplicate() as StyleBoxFlat
+	prev_hover.bg_color = Color(0.22, 0.17, 0.10, 0.95)
+	prev_btn.add_theme_stylebox_override("hover", prev_hover)
+	prev_btn.pressed.connect(func() -> void:
+		if _evidence_page_index > 0:
+			_evidence_page_index -= 1
+			_render_evidence_card()
+	)
+	nav_hbox.add_child(prev_btn)
+
+	_evidence_page_label = Label.new()
+	_evidence_page_label.add_theme_font_size_override("font_size", 15)
+	_evidence_page_label.add_theme_color_override("font_color", Color(0.75, 0.68, 0.55, 0.9))
+	_evidence_page_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_evidence_page_label.custom_minimum_size = Vector2(80, 0)
+	nav_hbox.add_child(_evidence_page_label)
+
+	var next_btn := Button.new()
+	next_btn.text = "下一件 ▶"
+	next_btn.custom_minimum_size = Vector2(100, 38)
+	next_btn.add_theme_font_size_override("font_size", 16)
+	next_btn.add_theme_color_override("font_color", Color(0.9, 0.78, 0.55, 1))
+	next_btn.add_theme_color_override("font_hover_color", Color(1, 0.95, 0.72, 1))
+	next_btn.focus_mode = Control.FOCUS_NONE
+	next_btn.add_theme_stylebox_override("normal", prev_style.duplicate())
+	next_btn.add_theme_stylebox_override("hover", prev_hover.duplicate())
+	next_btn.pressed.connect(func() -> void:
+		if _evidence_page_index < _evidence_items_cache.size() - 1:
+			_evidence_page_index += 1
+			_render_evidence_card()
+	)
+	nav_hbox.add_child(next_btn)
+
+	_render_evidence_card()
+
+
+func _render_evidence_card() -> void:
+	if _evidence_card_container == null:
+		return
+	# 清空旧卡片
+	for child in _evidence_card_container.get_children():
+		child.queue_free()
+
+	if _evidence_items_cache.is_empty():
+		return
+
+	var item_id: String = _evidence_items_cache[_evidence_page_index]
+	var data: Dictionary = GameManager.evidence_data.get(item_id, {})
+	var evidence_name: String = data.get("name", item_id)
+	var evidence_desc: String = data.get("description", "")
+
+	# 更新页码
+	if _evidence_page_label != null:
+		_evidence_page_label.text = "%d / %d" % [_evidence_page_index + 1, _evidence_items_cache.size()]
+
+	# 构建卡片
+	var card := VBoxContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.add_theme_constant_override("separation", 14)
+	_evidence_card_container.add_child(card)
+	card.anchor_right = 1.0
+	card.anchor_bottom = 1.0
+
+	# 居中大图标
+	var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % item_id
+	if ResourceLoader.exists(icon_path):
+		var icon_center := CenterContainer.new()
+		icon_center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		card.add_child(icon_center)
+
+		var icon_panel := PanelContainer.new()
+		icon_panel.custom_minimum_size = Vector2(180, 180)
+		var icon_bg := StyleBoxFlat.new()
+		icon_bg.bg_color = Color(0.06, 0.05, 0.03, 1)
+		icon_bg.corner_radius_top_left = 10
+		icon_bg.corner_radius_top_right = 10
+		icon_bg.corner_radius_bottom_left = 10
+		icon_bg.corner_radius_bottom_right = 10
+		icon_bg.border_color = Color(0.55, 0.42, 0.22, 0.8)
+		icon_bg.set_border_width_all(2)
+		icon_bg.set_content_margin_all(0)
+		icon_panel.add_theme_stylebox_override("panel", icon_bg)
+		icon_panel.clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
+		icon_center.add_child(icon_panel)
+
+		var icon_tex := TextureRect.new()
+		icon_tex.texture = load(icon_path)
+		icon_tex.custom_minimum_size = Vector2(180, 180)
+		icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		icon_panel.add_child(icon_tex)
+
+	# 名称（居中）
+	var name_lbl := Label.new()
+	name_lbl.text = evidence_name
+	name_lbl.add_theme_font_size_override("font_size", 22)
+	name_lbl.add_theme_color_override("font_color", Color(1, 0.72, 0.48, 1))
+	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.add_child(name_lbl)
+
+	# 描述
+	var desc_lbl := RichTextLabel.new()
+	desc_lbl.bbcode_enabled = true
+	desc_lbl.fit_content = true
+	desc_lbl.scroll_active = false
+	desc_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desc_lbl.text = evidence_desc
+	desc_lbl.add_theme_font_size_override("normal_font_size", 16)
+	desc_lbl.add_theme_color_override("default_color", Color(0.85, 0.80, 0.70, 0.95))
+	desc_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.add_child(desc_lbl)
 
 
 # ─── 线索 Tab ───
@@ -294,7 +540,7 @@ func _build_item_list_tab(title: String, items: Array, color: Color, tag: String
 
 	for item_id in items:
 		var data: Dictionary = GameManager.evidence_data.get(item_id, {})
-		_add_list_item(list_vbox, data.get("name", item_id), data.get("description", ""), color, tag)
+		_add_list_item(list_vbox, data.get("name", item_id), data.get("description", ""), color, tag, "", item_id)
 
 
 # ─── 卷宗 Tab ───

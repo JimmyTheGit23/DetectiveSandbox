@@ -28,6 +28,7 @@
               "flag": "lizheng_talked_once"
             }
           ],
+          "min_hub_visits": 1,
           "type": "ask"
         },
         {
@@ -38,6 +39,7 @@
               "flag": "lizheng_talked_once"
             }
           ],
+          "min_hub_visits": 2,
           "type": "ask"
         },
         {
@@ -48,6 +50,24 @@
               "flag": "lizheng_talked_once"
             }
           ],
+          "min_hub_visits": 2,
+          "type": "ask"
+        },
+        {
+          "text": "渡口最近有什么异常吗？",
+          "goto": "ask_recent_strangers",
+          "requires": [
+            {
+              "all": [
+                { "flag": "lizheng_talked_once" },
+                { "any": [
+                  { "flag": "zhou_letter_revealed" },
+                  { "evidence": "evidence_hull_hole" }
+                ]}
+              ]
+            }
+          ],
+          "min_hub_visits": 3,
           "type": "ask"
         },
         {
@@ -170,6 +190,75 @@
           "goto": "__exit__"
         }
       ]
+    },
+    "ask_recent_strangers": {
+      "lines": [
+        {
+          "speaker_id": "li_zheng",
+          "text": "异常嘛……（搓了搓手，压低声音）大人，这个不知道算不算——"
+        },
+        {
+          "speaker_id": "li_zheng",
+          "text": "半个月前吧。有个外地来的人在渡口打听事儿。穿得挺体面——长衫马褂，像个读书人。",
+          "emotion": "gossip"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "打听什么？"
+        },
+        {
+          "speaker_id": "li_zheng",
+          "text": "打听水路。问哪条航道夜里走、什么船什么时辰开。还问了——常走这条路的商客有哪些。"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "他自称什么人？",
+          "emotion": "cold"
+        },
+        {
+          "speaker_id": "li_zheng",
+          "text": "说是南京来的。做茶叶生意。名号嘛……小人不太记得了。姓——好像姓顾？还是姓谷？反正文绉绉的。",
+          "emotion": "evasive",
+          "highlight": ["南京来的"]
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "（低声）南京来的人，半个月前就在打听水路和常客？这时间点也太巧了……",
+          "emotion": "anxious"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "他后来呢？还在渡口吗？",
+          "emotion": "cold"
+        },
+        {
+          "speaker_id": "li_zheng",
+          "text": "待了两三天就走了。小人也没多想——过路的商人来打听行情嘛，正常。",
+          "emotion": "evasive"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "（……南京来的读书人。打听航道、时间、常客。半个月后——'南京来信'引诱周德茂走夜船。这两件事之间……）",
+          "emotion": "serious"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "（低声）大人……这事跟周氏说的那封信——会不会有关系？先记下来。",
+          "emotion": "determined"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "gain_clue": "clue_third_handwriting",
+      "set_flags": ["stranger_from_nanjing_known"]
     }
   }
 }

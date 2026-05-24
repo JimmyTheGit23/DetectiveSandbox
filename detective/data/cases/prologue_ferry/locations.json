@@ -6,13 +6,14 @@
     "unlock_phase": "phase_1",
     "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
     "scene_type": "scene_prologue_ferry_inn",
-    "npcs": ["agui", "zhou_wife"],
+    "npcs": ["li_zheng"],
     "sub_locations": [
       { "target": "zhou_room", "name": "周氏房间", "description": "死者妻子暂住的偏房" },
-      { "target": "agui_room", "name": "阿贵住处", "description": "仆从阿贵歇脚的小间" }
+      { "target": "agui_room", "name": "阿贵住处", "description": "仆从阿贵歇脚的小间" },
+      { "target": "shen_room", "name": "二楼客房", "description": "沈清月的房间", "requires": { "flag": "agui_confessed_mastermind" } }
     ],
     "search_points": [
-      { "id": "inn_lobby", "name": "客栈大堂", "time_cost": 1, "hint_rect": [0.0, 0.22, 0.75, 0.68] }
+      { "id": "inn_lobby", "name": "客栈大堂", "time_cost": 0, "hint_rect": [0.0, 0.22, 0.75, 0.68] }
     ]
   },
   "zhou_room": {
@@ -22,13 +23,13 @@
     "unlock_phase": "phase_1",
     "background": "res://assets/cn/scenes/prologue_zhou_room.png",
     "scene_type": "scene_prologue_zhou_room",
-    "npcs": [],
+    "npcs": ["zhou_wife"],
     "sub_locations": [
       { "target": "ferry_inn", "name": "返回大堂", "description": "回到客栈大堂" }
     ],
     "search_points": [
-      { "id": "zhou_desk", "name": "桌上纸笔砚台", "time_cost": 2, "hint_rect": [0.245, 0.45, 0.505, 0.45] },
-      { "id": "zhou_luggage", "name": "墙角包袱行李", "time_cost": 1, "hint_rect": [0.03, 0.59, 0.25, 0.36] }
+      { "id": "zhou_desk", "name": "桌上纸笔砚台", "time_cost": 0, "hint_rect": [0.245, 0.45, 0.505, 0.45] },
+      { "id": "zhou_luggage", "name": "墙角包袱行李", "time_cost": 0, "hint_rect": [0.03, 0.59, 0.25, 0.36] }
     ]
   },
   "agui_room": {
@@ -38,13 +39,13 @@
     "unlock_phase": "phase_1",
     "background": "res://assets/cn/scenes/prologue_agui_room.png",
     "scene_type": "scene_prologue_agui_room",
-    "npcs": [],
+    "npcs": ["agui"],
     "sub_locations": [
       { "target": "ferry_inn", "name": "返回大堂", "description": "回到客栈大堂" }
     ],
     "search_points": [
-      { "id": "agui_clothes", "name": "晾着的湿衣物", "time_cost": 1, "hint_rect": [0.057, 0.25, 0.77, 0.40] },
-      { "id": "agui_bundle", "name": "床下包袱", "time_cost": 2, "hint_rect": [0.55, 0.76, 0.20, 0.16] }
+      { "id": "agui_clothes", "name": "晾着的湿衣物", "time_cost": 0, "hint_rect": [0.057, 0.25, 0.77, 0.40] },
+      { "id": "agui_bundle", "name": "床下包袱", "time_cost": 0, "hint_rect": [0.55, 0.76, 0.20, 0.16] }
     ]
   },
   "ferry_dock": {
@@ -53,11 +54,11 @@
     "unlock_phase": "phase_1",
     "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
     "scene_type": "scene_prologue_ferry_dock",
-    "npcs": ["lao_fan", "li_zheng"],
+    "npcs": ["lao_fan"],
     "search_points": [
-      { "id": "dock_wreck_hull", "name": "拖上岸的破船", "time_cost": 1, "hint_rect": [0.36, 0.38, 0.40, 0.27] },
-      { "id": "dock_fan_boat", "name": "老范的小船", "time_cost": 1, "hint_rect": [0.05, 0.58, 0.30, 0.15] },
-      { "id": "dock_fan_belongings", "name": "码头竹棚杂物", "time_cost": 2, "hint_rect": [0.73, 0.38, 0.20, 0.20] }
+      { "id": "dock_wreck_hull", "name": "拖上岸的破船", "time_cost": 0, "hint_rect": [0.36, 0.38, 0.40, 0.27] },
+      { "id": "dock_fan_boat", "name": "老范的小船", "time_cost": 0, "hint_rect": [0.05, 0.58, 0.30, 0.15] },
+      { "id": "dock_fan_belongings", "name": "码头竹棚杂物", "time_cost": 0, "hint_rect": [0.73, 0.38, 0.20, 0.20] }
     ]
   },
   "wreck_site": {
@@ -68,10 +69,10 @@
     "scene_type": "scene_prologue_wreck_site",
     "npcs": [],
     "search_points": [
-      { "id": "wreck_hull_bottom", "name": "船底破洞", "time_cost": 2, "hint_rect": [0.38, 0.28, 0.28, 0.24] },
-      { "id": "wreck_cargo_area", "name": "货舱残骸", "time_cost": 1, "hint_rect": [0.18, 0.52, 0.24, 0.20] },
-      { "id": "wreck_debris", "name": "水边断钉木屑", "time_cost": 1, "hint_rect": [0.55, 0.62, 0.28, 0.18] },
-      { "id": "wreck_shore_bag", "name": "岸边芦苇丛", "time_cost": 2, "hint_rect": [0.75, 0.55, 0.20, 0.20] }
+      { "id": "wreck_hull_bottom", "name": "船底破洞", "time_cost": 0, "hint_rect": [0.38, 0.28, 0.28, 0.24] },
+      { "id": "wreck_cargo_area", "name": "货舱残骸", "time_cost": 0, "hint_rect": [0.18, 0.52, 0.24, 0.20] },
+      { "id": "wreck_debris", "name": "水边断钉木屑", "time_cost": 0, "hint_rect": [0.55, 0.62, 0.28, 0.18] },
+      { "id": "wreck_shore_bag", "name": "岸边芦苇丛", "time_cost": 0, "hint_rect": [0.75, 0.55, 0.20, 0.20] }
     ]
   },
   "river_bend": {
@@ -82,7 +83,35 @@
     "scene_type": "scene_prologue_river_bend",
     "npcs": ["fisherman_wang"],
     "search_points": [
-      { "id": "village_wang_home", "name": "王老汉家", "time_cost": 1, "hint_rect": [0.68, 0.52, 0.22, 0.25] }
+      { "id": "village_wang_home", "name": "王老汉家", "time_cost": 0, "hint_rect": [0.68, 0.52, 0.22, 0.25] }
+    ]
+  },
+  "shen_room": {
+    "name": "客栈二楼·沈清月房间",
+    "parent": "ferry_inn",
+    "description": "客栈二楼的客房。比楼下整洁得多——桌上整整齐齐摆着笔墨和一本账册。窗户正对着码头方向。",
+    "unlock_phase": "phase_3",
+    "background": "res://assets/cn/scenes/prologue_shen_room.png",
+    "scene_type": "scene_prologue_shen_room",
+    "npcs": ["shen_qingyue"],
+    "sub_locations": [
+      { "target": "ferry_inn", "name": "下楼", "description": "回到客栈大堂" }
+    ],
+    "search_points": [
+      { "id": "shen_desk", "name": "桌上账册", "time_cost": 0, "hint_rect": [0.30, 0.40, 0.30, 0.25] },
+      { "id": "shen_window", "name": "窗口（望向码头）", "time_cost": 0, "hint_rect": [0.65, 0.15, 0.25, 0.40] }
+    ]
+  },
+  "gambling_alley": {
+    "name": "渡口后街·赌坊",
+    "description": "渡口背面的窄巷子。一间挂着褪色招牌的赌坊，白天门半掩着。里面传出骰子声和低哑的争吵。",
+    "unlock_phase": "phase_3",
+    "background": "res://assets/cn/scenes/prologue_gambling_alley.png",
+    "scene_type": "scene_prologue_gambling_alley",
+    "npcs": [],
+    "search_points": [
+      { "id": "gambling_den", "name": "赌坊柜台", "time_cost": 0, "hint_rect": [0.25, 0.30, 0.50, 0.40] },
+      { "id": "gambling_alley_wall", "name": "后巷墙角", "time_cost": 0, "hint_rect": [0.80, 0.50, 0.15, 0.30] }
     ]
   }
 }

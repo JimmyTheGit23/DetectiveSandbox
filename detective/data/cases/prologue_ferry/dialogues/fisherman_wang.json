@@ -41,6 +41,26 @@
           "type": "observe"
         },
         {
+          "text": "天亮之前，你还看到别的什么了吗？",
+          "goto": "ask_dawn_sighting",
+          "requires": [
+            {
+              "flag": "agui_confessed_mastermind"
+            }
+          ],
+          "type": "press"
+        },
+        {
+          "text": "您在这江上多少年了？",
+          "goto": "ask_river_life",
+          "requires": [
+            {
+              "flag": "wang_talked_once"
+            }
+          ],
+          "type": "observe"
+        },
+        {
           "text": "先告辞",
           "goto": "__exit__"
         }

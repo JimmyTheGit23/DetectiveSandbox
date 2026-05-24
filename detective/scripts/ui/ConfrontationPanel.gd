@@ -780,8 +780,11 @@ func _insert_statement(after_id: String, new_stmt: Dictionary) -> void:
 # ═══════════════════════════════════════════════════
 
 func _on_present_clicked() -> void:
+	print("[DEBUG] 举证按钮被点击, 当前状态=", _state, " BROWSING=", State.BROWSING)
 	if _state != State.BROWSING:
+		print("[DEBUG] 状态不是BROWSING, 退出")
 		return
+	print("[DEBUG] 进入EVIDENCE_OPEN, 证据数量=", GameManager.collected_evidence.size())
 	_enter_state(State.EVIDENCE_OPEN)
 
 

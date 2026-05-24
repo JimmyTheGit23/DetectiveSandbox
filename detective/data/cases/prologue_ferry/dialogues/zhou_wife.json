@@ -67,6 +67,16 @@
           "type": "ask"
         },
         {
+          "text": "你丈夫为什么突然决定走夜船？",
+          "goto": "ask_why_night_ferry",
+          "requires": [
+            {
+              "flag": "zhou_suspicion_heard"
+            }
+          ],
+          "type": "press"
+        },
+        {
           "text": "先告辞",
           "goto": "__exit__"
         }
@@ -229,6 +239,74 @@
           "goto": "__exit__"
         }
       ]
+    },
+    "ask_why_night_ferry": {
+      "lines": [
+        {
+          "speaker_id": "lu_zhao",
+          "text": "你丈夫平时不坐夜船。这次为什么突然改了主意？"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "（皱眉）说起来……他收到了一封信。出发前两天。"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "什么信？",
+          "emotion": "cold"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "南京那边来的。说是有个大买家急着要货。'到了南京棉布能翻一倍'——老爷看了就坐不住了。",
+          "highlight": ["南京那边来的"],
+          "record_type": "testimony",
+          "record_title": "证词记录：南京来信",
+          "record_text": "周氏说周德茂出发前两天收到一封南京来信，称有大买家急需棉布，利润翻倍。这促使他改坐夜船赶路。"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "那封信现在在哪？"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "老爷带在身上了。应该……随船沉了。"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "（顿了顿）说起来——那封信的写法有点奇怪。"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "哪里奇怪？"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "字写得很工整——老爷平时来往的商人没几个字好看的。而且……没有署名。只说'故友知会'。老爷的故友里没有字写得那么好的。",
+          "emotion": "suspicious"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "（低声）匿名信把他引到夜船上……嘶——如果那封信本身就是诱饵呢？",
+          "emotion": "anxious"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "（……工整的字迹。匿名。精准地知道他做布匹生意、精准地用'翻倍利润'引诱他赶路。这不像是巧合——像是有人特意把他引到这条船上。）",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "gain_clue": "clue_route_change",
+      "set_flags": ["zhou_letter_revealed"]
     }
   }
 }

@@ -1,6 +1,6 @@
 {
-  "_comment": "指证答案。真凶阿贵，共犯老范。教学案，证据门槛低。",
-  "culprit": "agui",
+  "_comment": "指证答案。真凶沈清月（幕后主谋），阿贵为被操纵的执行者，老范为工具人。双重对峙结构：阿贵(中BOSS)→沈清月(FINAL BOSS)。",
+  "culprit": "shen_qingyue",
   "motive": "revenge_greed",
   "method": "scuttle_drown",
   "key_evidence": [
@@ -15,43 +15,108 @@
     "confidence": 3,
     "intro_dialogue": [
       {
+        "speaker": "",
+        "text": "客栈后院。雨还在下。\n\n阿贵跪坐在一张草席上，背对着门。听到脚步声，他的肩膀微微一缩。",
+        "emotion": "narration"
+      },
+      {
         "speaker": "凌瑶",
-        "text": "（低声）一开始我以为是老范那赌鬼自己干的……没想到这仆从也陷得这么深。",
-        "emotion": "worried"
+        "text": "（低声，拽了拽陆昭的袖子）嘶——你看他那后脖子上的汗。这大冬天的……心里有鬼才出汗。",
+        "emotion": "anxious"
+      },
+      {
+        "speaker": "",
+        "text": "（……她说得对。腊月天冷得人直打哆嗦。他却在出汗。）",
+        "emotion": "inner_thought"
       },
       {
         "speaker": "你",
-        "text": "阿贵，证据已经不只是指向老范了。该你说话了。",
+        "text": "阿贵。",
         "emotion": "cold"
       },
       {
         "speaker": "阿贵",
-        "text": "大人……小的什么都没做，那都是老范……老爷是翻船落水的……",
+        "text": "（猛地转身，膝行几步迎上来）大人！大人您来了！小的……小的等了好久……",
+        "emotion": "grief"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "（用袖子抹了一把脸）老爷的仇……小的做梦都想着要报……大人您尽管问，小的知无不言……",
+        "emotion": "grief"
+      },
+      {
+        "speaker": "",
+        "text": "（他的眼睛红肿。但哭过和刚哭完是两回事——这眼圈的红，像是反复揉出来的。）",
+        "emotion": "inner_thought"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "（低声）得了吧。一开始我以为是老范那赌鬼自己干的……可这位的戏，也太足了。",
+        "emotion": "worried"
+      },
+      {
+        "speaker": "你",
+        "text": "阿贵。证据已经不只是指向老范了。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "你",
+        "text": "该你说话了。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "（身体僵住，吞了一下口水）大人……大人这话是什么意思……小的、小的什么都没做啊……",
+        "emotion": "nervous"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "那都是老范……老爷是翻船落水的……跟小的没有关系……",
         "emotion": "nervous"
       },
       {
         "speaker": "你",
-        "text": "翻船？那我们就从那晚说起。你把当时的情况，一句一句说清楚。",
+        "text": "翻船？",
         "emotion": "cold"
       },
       {
-        "speaker": "凌瑶",
-        "text": "（小声）陆大人，他现在会一句一句陈述。你可以逐句浏览他的证词。",
-        "emotion": "worried"
+        "speaker": "",
+        "text": "（他说了三遍'小的'。一遍是谦卑，两遍是习惯，三遍——是心虚。）",
+        "emotion": "inner_thought"
+      },
+      {
+        "speaker": "你",
+        "text": "好。那我们就从那晚说起。你把当时的情况，一句一句说清楚。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "你",
+        "text": "一句一句——不要跳。不要省。我会逐句确认。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "（又吞了口口水，搓着手）是……是，大人您问。",
+        "emotion": "nervous"
       },
       {
         "speaker": "凌瑶",
-        "text": "觉得哪句有破绽，就【举证】——拿出证物直接反驳他。证物选对了就能击破他的谎话。",
+        "text": "（小声凑过来）陆大人！他现在会一句一句陈述。你可以逐句浏览他的证词。",
         "emotion": "determined"
       },
       {
         "speaker": "凌瑶",
-        "text": "拿不准的时候也可以【威慑】——追问他细节，逼他露出更多马脚。不过威慑不扣信心，举证错了才扣。",
+        "text": "觉得哪句有破绽——就【举证】！拿出证物直接打他脸。选对了就能击破他的谎话。",
+        "emotion": "determined"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "拿不准的时候也可以【威慑】——追问细节，逼他自己露马脚。威慑不扣信心，举证错了才扣。",
         "emotion": "worried"
       },
       {
         "speaker": "凌瑶",
-        "text": "别急，让他慢慢编。编得越多，漏洞越大。",
+        "text": "别急。让他慢慢编——编得越多，漏洞越大。本姑娘看好你。",
         "emotion": "determined"
       }
     ],
@@ -72,12 +137,27 @@
               },
               {
                 "speaker": "阿贵",
-                "text": "没……就带了换洗衣服和包袱。",
+                "text": "没……没什么特别的。就带了换洗衣服和包袱。（抠着指甲）跟往常出门一样。",
                 "emotion": "nervous"
               },
               {
+                "speaker": "你",
+                "text": "包袱里有什么？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "就、就是些……衣裳被褥。小的是仆从嘛……出门总得带身换洗的。大人问这个做什么……",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "",
+                "text": "（他说'带身换洗的'时眼神飘了一下——往左上方。回忆是往右上方看。往左上方，是编造。）",
+                "emotion": "inner_thought"
+              },
+              {
                 "speaker": "凌瑶",
-                "text": "包袱里到底有什么，待会儿再说。先让他接着编。",
+                "text": "（低声）包袱里到底有什么，待会儿再说。先让他接着编——编得越细，漏洞越好找。",
                 "emotion": "worried"
               }
             ]
@@ -101,8 +181,28 @@
                 "emotion": "defensive"
               },
               {
+                "speaker": "你",
+                "text": "……你说'完全没有准备'。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "那我换个问法——落水之后，你怎么没死？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "那、那是……运气！运气好抱到了块船板……（双手不自觉地攥紧袖口）",
+                "emotion": "panic"
+              },
+              {
+                "speaker": "",
+                "text": "（他攥袖口的动作——像在确认什么东西还在不在。或者……在回忆什么东西的触感。）",
+                "emotion": "inner_thought"
+              },
+              {
                 "speaker": "凌瑶",
-                "text": "不懂水路、毫无预感、完全措手不及……那包袱底下那个东西怎么解释？",
+                "text": "（低声）嘶——不懂水路、毫无预感、完全措手不及……那包袱底下那个东西怎么解释？他心里有数得很。",
                 "emotion": "anxious"
               }
             ],
@@ -156,13 +256,33 @@
               },
               {
                 "speaker": "阿贵",
-                "text": "我……抱着一块船板，飘到岸边。运气好。",
+                "text": "我……抱着一块船板，飘到岸边。运气好。（声音越来越小）",
                 "emotion": "defensive"
               },
               {
+                "speaker": "你",
+                "text": "腊月的江水。你说你什么都不知道了——那你怎么知道自己抱的是船板？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "……那、那是后来醒了才知道的。手底下摸着是木头……",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "",
+                "text": "（冬天的江水冻得能要命。一个'什么都不知道'的旱鸭子，昏迷中还能死死抱住船板飘到岸——这运气也未免太好了。）",
+                "emotion": "inner_thought"
+              },
+              {
                 "speaker": "凌瑶",
-                "text": "冬天的江水冻得能要命，一个旱鸭子抱着船板就飘到岸了？话本子都不敢这么写。",
+                "text": "（低声）嘶——冬天的江水冻得能要命，一个旱鸭子抱着船板就飘到岸了？话本子都不敢这么写。",
                 "emotion": "anxious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "要么他运气好到能中状元，要么——他根本没在水里泡多久。",
+                "emotion": "determined"
               }
             ]
           },
@@ -173,18 +293,48 @@
             "press": [
               {
                 "speaker": "你",
-                "text": "湿透？可有人说你到客栈时里衣是干的。",
+                "text": "湿透。那到客栈的时候，衣服还是湿的？",
                 "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
-                "text": "那……那是在火堆边烤干的！",
+                "text": "那……那肯定是！大冬天的嘛……干不了……",
                 "emotion": "nervous"
               },
               {
+                "speaker": "你",
+                "text": "可客栈掌柜说——你到的时候，外衣湿了，但里衣只是微潮。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "那……那是在火堆边烤干的！对！路上找了个避风处生了火……",
+                "emotion": "panic"
+              },
+              {
+                "speaker": "你",
+                "text": "腊月。落水。夜里。你一个冻僵的人，在哪里生的火？用什么引的火？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "……（嘴唇动了动，没说出话来）",
+                "emotion": "shaken"
+              },
+              {
+                "speaker": "",
+                "text": "（外衣湿、里衣干——有一种解释。他压根没有整个人泡进水里。他有准备。）",
+                "emotion": "inner_thought"
+              },
+              {
                 "speaker": "凌瑶",
-                "text": "腊月落水，外衣三天干不了，你里衣倒只微潮？你是会隐身术还是根本没下过水？",
+                "text": "（低声）腊月落水，外衣三天干不了，里衣倒只微潮？——要么他是有隐身术的仙人，要么他根本没完全下过水。",
                 "emotion": "worried"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "比如说……上半身始终露在水面上。比如有什么东西——托着他。",
+                "emotion": "determined"
               }
             ]
           }
@@ -192,25 +342,40 @@
         "fail_dialogue": [
           {
             "speaker": "阿贵",
-            "text": "大人……这跟那晚有什么关系？您别冒枉好人啊。",
+            "text": "大人……这、这跟那晚有什么关系？您别冤枉好人啊……（抬头看你，眼神里闪过一丝得意——随即消失）",
             "emotion": "defensive"
           },
           {
+            "speaker": "",
+            "text": "（那一闪而过的眼神——不是无辜者的委屈。是赌徒押对了的庆幸。）",
+            "emotion": "inner_thought"
+          },
+          {
             "speaker": "凌瑶",
-            "text": "（低声）出错了……想想——他上船前就做了准备，咱手里哪样东西能揭穿他？",
+            "text": "（低声拽了拽你袖子）嘶……出错了。想想——他上船前就做了准备，咱手里哪样东西能揭穿他？",
             "emotion": "worried"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "别慌，本姑娘相信你。再来。",
+            "emotion": "determined"
           }
         ],
         "transition_dialogue": [
           {
-            "speaker": "阿贵",
-            "text": "（瘫坐在地，喘着粗气）",
-            "emotion": "shaken"
+            "speaker": "",
+            "text": "阿贵像被抽掉了骨头——整个人瘫坐在地上，大口喘着粗气。额头上的汗比刚才更密了。",
+            "emotion": "narration"
           },
           {
             "speaker": "凌瑶",
-            "text": "瞧他那样——像被踩了尾巴的耗子。",
+            "text": "（小声）瞧他那样——像被踩了尾巴的耗子。喘成这样还嘴硬？",
             "emotion": "anxious"
+          },
+          {
+            "speaker": "",
+            "text": "（第一道防线破了。他现在知道我不是来走过场的——接下来他会更拼命地编。但越拼命，破绽越大。）",
+            "emotion": "inner_thought"
           },
           {
             "speaker": "你",
@@ -219,7 +384,7 @@
           },
           {
             "speaker": "阿贵",
-            "text": "大人……大人您听我说……",
+            "text": "大人……大人您听我说……（抬起手，手指在抖）",
             "emotion": "panic"
           },
           {
@@ -239,13 +404,23 @@
           },
           {
             "speaker": "阿贵",
-            "text": "小的怕死！就这么简单！这又不犯法！",
+            "text": "小的怕死！就这么简单！这又不犯法！（声音突然大了——随即又缩了回去）不犯法的……",
             "emotion": "defensive"
           },
           {
+            "speaker": "",
+            "text": "（'不犯法'——他在用法律术语替自己辩护。一个仆从。有意思。）",
+            "emotion": "inner_thought"
+          },
+          {
             "speaker": "凌瑶",
-            "text": "（低声）他把浮囊说成'怕死才带的'……那暗礁的事就成了他的保护伞。得把那个'暗礁'的谎也拆了才行。",
+            "text": "（低声）他把浮囊说成'怕死才带的'——那暗礁的事就成了他的保护伞。得把那个'暗礁'的谎也给拆了。",
             "emotion": "worried"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "对付他得一层一层剥。别急——本姑娘相信你。",
+            "emotion": "determined"
           },
           {
             "speaker": "你",
@@ -265,7 +440,7 @@
             "press": [
               {
                 "speaker": "你",
-                "text": "什么时候跟你说的？上船之前？",
+                "text": "什么时候跟你说的？上船之前？之后？",
                 "emotion": "cold"
               },
               {
@@ -274,9 +449,39 @@
                 "emotion": "nervous"
               },
               {
+                "speaker": "你",
+                "text": "上船那天。那你浮囊是上船那天买的？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "……不是。是、是之前就有的。小的走南闯北，带个防身也正常……",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "",
+                "text": "（'之前就有'——也就是说浮囊不是因为老范的提醒才带的。这两个说法自相矛盾。）",
+                "emotion": "inner_thought"
+              },
+              {
                 "speaker": "凌瑶",
-                "text": "明知道险还走？跑了二十年船的人故意走暗礁水道——你觉得正常？",
+                "text": "嘶——刚才说'老范告诉我有暗礁所以才带浮囊'，现在又说'之前就有'？到底是因为什么才带的？",
                 "emotion": "anxious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "而且——明知道险还走？跑了二十年船的老船工故意走暗礁水道——你觉得正常？",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "那……那是老范决定的！走哪条路是船家的事！跟我没关系！",
+                "emotion": "defensive"
+              },
+              {
+                "speaker": "",
+                "text": "（他越来越频繁地把责任推到老范身上。但一个'只是乘客'的人，怎么事先知道走的是哪条水路？）",
+                "emotion": "inner_thought"
               }
             ]
           },
@@ -301,9 +506,39 @@
                 "emotion": "defensive"
               },
               {
+                "speaker": "你",
+                "text": "后来打捞？你看过那块船板？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "……远远看了一眼。没仔细看。",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "你",
+                "text": "远远一眼就能看出是暗礁撞的？你倒是好眼力。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "",
+                "text": "（他说'没仔细看'——但刚才的描述却很确定：'石头尖利得很'。远远看一眼怎么知道石头尖不尖？）",
+                "emotion": "inner_thought"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "那……那是听别人说的！渡口的人都在议论……",
+                "emotion": "panic"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）嘶——先是'亲眼看的'，再是'远远看了一眼'，现在变'听说的'了。三句话三个版本。",
+                "emotion": "anxious"
+              },
+              {
                 "speaker": "凌瑶",
                 "text": "暗礁？暗礁能把木板凿出方方正正的洞来？它上辈子是木匠？",
-                "emotion": "worried"
+                "emotion": "determined"
               }
             ],
             "break_dialogue": [
@@ -371,18 +606,48 @@
             "press": [
               {
                 "speaker": "你",
-                "text": "谨慎？你连游泳都不会，带个浮囊就叫谨慎？",
+                "text": "谨慎？你连游泳都不会，一个浮囊就能保命？",
                 "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
-                "text": "就……就是害怕嘛……",
+                "text": "有总比没有好嘛……万一翻船了呢……",
                 "emotion": "nervous"
               },
               {
+                "speaker": "你",
+                "text": "'万一翻船'——你上船之前就想过翻船的事？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "那……谁上船不想啊！坐船的人谁不怕翻！",
+                "emotion": "defensive"
+              },
+              {
+                "speaker": "你",
+                "text": "那周德茂呢？他怕不怕？他带浮囊了吗？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "……（噎住）",
+                "emotion": "shaken"
+              },
+              {
+                "speaker": "",
+                "text": "（同一条船上。一个人准备了浮囊，另一个人什么都没准备——然后'恰好'没准备的那个死了。这不是谨慎。这是预谋。）",
+                "emotion": "inner_thought"
+              },
+              {
                 "speaker": "凌瑶",
-                "text": "怕就别上船啊。上了船还藏浮囊——这不叫谨慎，叫有预谋。",
+                "text": "怕翻船就别上船啊！上了船还偷偷藏浮囊——不告诉同船的主人——这不叫谨慎，叫知情不报。",
                 "emotion": "anxious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "或者换个说法——叫有预谋。",
+                "emotion": "determined"
               }
             ]
           }
@@ -458,18 +723,43 @@
             "press": [
               {
                 "speaker": "你",
-                "text": "不薄？具体怎么个不薄法？",
+                "text": "不薄？具体怎么个不薄法？给过你什么？",
                 "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
-                "text": "管吃管住……逢年过节也给赏钱……",
+                "text": "管吃管住……逢年过节也给赏钱……出门的时候……也带着我……",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "你",
+                "text": "赏钱？十二年赏了多少？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "……几、几百文吧。过年的时候……有时候有，有时候……",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "",
+                "text": "（几百文。十二年。按每年100文算——总共不到二两银子。他嘴上说'不薄'，但具体一算……）",
+                "emotion": "inner_thought"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "管吃管住？那是养狗的待遇。十二年啊——就没给你攒个前程？没帮你说门亲事？没给你置间屋子？",
+                "emotion": "anxious"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "那……那是老爷他忙……还没来得及……",
                 "emotion": "nervous"
               },
               {
                 "speaker": "凌瑶",
-                "text": "管吃管住？那是狗的待遇。十二年啊——就没想过给你个前程？",
-                "emotion": "anxious"
+                "text": "（低声）忙了十二年没来得及。最后一脚把你踹了——还倒欠你的。这叫'不薄'？",
+                "emotion": "determined"
               }
             ]
           },
@@ -490,13 +780,43 @@
               },
               {
                 "speaker": "阿贵",
-                "text": "这……几两吧。够我回乡的。",
+                "text": "这……几两吧。够我回乡的。（说话时手指不自觉地攥紧了袖口）",
                 "emotion": "nervous"
               },
               {
+                "speaker": "你",
+                "text": "'几两'。你跟他十二年——他给了你'几两'？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "那……已经不少了！小的一个仆从——",
+                "emotion": "defensive"
+              },
+              {
+                "speaker": "你",
+                "text": "你刚才说的是'几两'还是'足够回乡'？哪个是真的？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "……都是真的。就是……几两。（声音越来越小）",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "",
+                "text": "（他连具体数字都不敢说。说'几两'而不说'三两''五两'——要么是真的少到说不出口，要么是在犹豫该编多少。）",
+                "emotion": "inner_thought"
+              },
+              {
                 "speaker": "凌瑶",
-                "text": "哈？'几两'？十二年啊大哥！狗跟了主人十二年都不止给根骨头吧？",
+                "text": "哈？'几两'？十二年啊大哥！我们镖局的脚夫干一年都不止'几两'！狗跟了主人十二年都不止给根骨头吧？",
                 "emotion": "worried"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）他不敢说具体数字。说明这数字一说出来就会让人同情他——一同情就有了动机。",
+                "emotion": "determined"
               }
             ],
             "break_dialogue": [
@@ -563,9 +883,39 @@
                 "emotion": "nervous"
               },
               {
+                "speaker": "你",
+                "text": "渡口的人都知道。那你知道具体数目——四十二两。这数字是谁告诉你的？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "就……就是听人说的……大家都在传……",
+                "emotion": "panic"
+              },
+              {
+                "speaker": "",
+                "text": "（四十二两——这不是个整数。不是'几十两''五十两'这种模糊传言。精确到个位数的赌债金额，不是'听说'能知道的——是参与者才知道的细节。）",
+                "emotion": "inner_thought"
+              },
+              {
                 "speaker": "凌瑶",
-                "text": "渡口的人都知道——那你俩串通起来也不难吧？一个有技术一个有仇恨，天作之合。",
+                "text": "（低声）四十二两——精确到个位数。谁传闲话会传到这么精确？除非他亲眼见过那张借条。",
                 "emotion": "anxious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "渡口的人都知道——那你俩串通起来也不难吧？一个有门路、一个有仇恨，天作之合。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "不是串通！是他来求我的！——不对……不是……（噎住）",
+                "emotion": "panic"
+              },
+              {
+                "speaker": "",
+                "text": "（'是他来求我的'——他第二次说这话了。但第一次说的是'被逼的'，这次是'他来求'。越说越主动。）",
+                "emotion": "inner_thought"
               }
             ]
           },
@@ -576,18 +926,38 @@
             "press": [
               {
                 "speaker": "你",
-                "text": "没胆子？浮囊藏好了、船底凿好了、退路也想好了——这叫没胆子？",
+                "text": "没胆子？那浮囊是谁藏的？船底是谁凿的？",
                 "emotion": "cold"
               },
               {
                 "speaker": "阿贵",
-                "text": "那、那都是巧合……",
+                "text": "那、那是被逼的……小的心里也怕！手都在抖……",
                 "emotion": "panic"
               },
               {
+                "speaker": "你",
+                "text": "怕？一个'怕'的人——提前买好浮囊、选好位置凿船底、确保自己不会淹死——然后在冬夜的江水里按住周德茂？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "阿贵",
+                "text": "！——我没有按住他！我没有！！",
+                "emotion": "panic"
+              },
+              {
+                "speaker": "",
+                "text": "（他反应最激烈的不是'凿船'——是'按住'这两个字。凿船可以假装是技术活，按住一个人直到他溺死……那是实实在在的杀人。）",
+                "emotion": "inner_thought"
+              },
+              {
                 "speaker": "凌瑶",
-                "text": "世上哪来这么多巧合？你是没胆子还是胆大包天？",
-                "emotion": "anxious"
+                "text": "（低声）你看他的手——在抖。提到'按住'的时候他整个人都跳起来了。他做过。",
+                "emotion": "worried"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "没胆子？浮囊藏好了、船底凿好了、退路也想好了——这不叫没胆子，这叫蓄谋已久。有胆量做，没胆量认——这才是他。",
+                "emotion": "determined"
               }
             ]
           }
@@ -634,7 +1004,7 @@
       },
       {
         "speaker": "阿贵",
-        "text": "我认了。",
+        "text": "我认了。船底是我凿的。浮囊是我带的。",
         "emotion": "broken"
       },
       {
@@ -643,119 +1013,124 @@
         "emotion": "shocked"
       },
       {
-        "speaker": "阿贵",
-        "text": "但你们都搞错了一件事。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "不是老范找的我。是我找的他。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "凌瑶",
-        "text": "什么……？！",
-        "emotion": "shocked"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "那个赌鬼欠了四十二两——我知道。我算准了他走投无路。那天晚上是我去码头找他说的。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "我跟了那条船三天。哪里有暗礁、哪段水流急、什么时候动手……全是我算好的。老范不过是个……听话的工具。",
-        "emotion": "nervous"
-      },
-      {
-        "speaker": "凌瑶",
-        "text": "……原来不是老范主导的。是他。从头到尾都是他在策划。",
-        "emotion": "shocked"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "十二年……十二年我像条狗一样伺候他。洗衣、劈柴、端茶、倒夜壶……",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "他许我的月钱——十二年，一文没兑现过。'等年底一起算'，年年都是这句话。然后遣散的时候——'各不相欠'！",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "（声音颤抖）三十两……他欠我三十两……他不但不给，还要把我像烂抹布一样甩掉——！",
-        "emotion": "broken"
-      },
-      {
         "speaker": "你",
-        "text": "所以你要他的命。",
+        "text": "是你策划的整件事？",
         "emotion": "cold"
       },
       {
         "speaker": "阿贵",
-        "text": "我要的是我的钱！五十两货银——我该得的那份！",
+        "text": "……不是。",
         "emotion": "broken"
       },
       {
         "speaker": "阿贵",
-        "text": "（突然抬头）可我没想过要他死！我以为他会被人救上来——我以为……",
+        "text": "不是我想的。我——我不会想这种事。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "不是你？那是谁教你的？！",
+        "emotion": "shocked"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "（抬头，眼中有恐惧）有人来找我……那个人说——'你被克扣了十二年。你不恨他吗？'",
+        "emotion": "shaken"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "那个人什么都知道。知道遣散字据的事。知道我被赶走的事。连我心里想什么——她都知道。",
+        "emotion": "shaken"
+      },
+      {
+        "speaker": "你",
+        "text": "……她？",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "！等等——'她'？是个女人？！",
+        "emotion": "shocked"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "（猛然闭嘴，像是意识到说错了话）……不、不是……",
         "emotion": "panic"
       },
       {
         "speaker": "你",
-        "text": "你知道他是旱鸭子。你知道那是腊月的冰水。你选了最深的江面。",
+        "text": "阿贵。你已经认罪了。现在说出她是谁——不会让你的处境更差。但隐瞒——会。",
         "emotion": "cold"
       },
       {
         "speaker": "阿贵",
-        "text": "……",
+        "text": "（身体在发抖）是……是那个……药材行的姑娘。沈……沈姑娘。",
         "emotion": "broken"
       },
       {
         "speaker": "凌瑶",
-        "text": "等等——你之前说有人'教'你凿船。那个人到底是谁？",
-        "emotion": "anxious"
+        "text": "药材行——！那个追债的沈清月？！",
+        "emotion": "shocked"
       },
       {
         "speaker": "阿贵",
-        "text": "（身体一僵）……没有。没有人。是我自己想的。",
-        "emotion": "shaken"
+        "text": "她找的我。也是她去找的老范。连浮囊都是她帮我买的——她说'你不会水，这个保命用'。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "怎么凿船。凿哪里。什么时候动手——全是她教的。她连货银会漂到哪里都算好了……",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "小的只是……只是恨。恨了十二年。她给了我一个机会——我……我没忍住。",
+        "emotion": "broken"
       },
       {
         "speaker": "凌瑶",
-        "text": "（低声）……他在保护什么人。看他那表情——明显在撒谎。",
+        "text": "（低声）……所以她才是真正的主谋。利用阿贵的恨、利用老范的债——一个人导演了整出戏。",
         "emotion": "worried"
       },
       {
         "speaker": "你",
-        "text": "阿贵。从今日起，你的供述将呈交县衙。合谋害命——按律当斩。",
+        "text": "阿贵。你做了你该做的。来人——把阿贵先押下去。",
         "emotion": "cold"
       },
       {
-        "speaker": "阿贵",
-        "text": "（伏地痛哭）大人……大人……小的知错了……小的知错了……",
-        "emotion": "broken"
-      },
-      {
         "speaker": "凌瑶",
-        "text": "……十二年。被克扣了一辈子的工钱，最后连命都搭进去了。",
-        "emotion": "worried"
-      },
-      {
-        "speaker": "凌瑶",
-        "text": "不过……那个'教他的人'——总觉得这案子底下还压着东西。",
-        "emotion": "worried"
+        "text": "陆大人……沈清月现在还在客栈里。她不知道阿贵已经招了。",
+        "emotion": "determined"
       },
       {
         "speaker": "你",
-        "text": "法不容情。动机再委屈，杀人就是杀人。至于那条线……以后再说。",
+        "text": "（……不。她可能已经知道了。像她这种人——什么都算好了。）",
         "emotion": "serious"
       },
       {
+        "speaker": "凌瑶",
+        "text": "那怎么办？直接去抓她？",
+        "emotion": "anxious"
+      },
+      {
         "speaker": "你",
-        "text": "来人——把阿贵押下去。再去渡口拿老范。一个都跑不了。",
+        "text": "不。光凭阿贵一个人的口供不够。她会说阿贵在诬陷她。",
         "emotion": "cold"
+      },
+      {
+        "speaker": "你",
+        "text": "我们需要更多证据——能把她钉死的证据。然后——当面拆穿她。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "好。那我们现在去——查她！赌坊那条线、码头的时间、还有那五十两货银到底去了哪——",
+        "emotion": "determined"
+      },
+      {
+        "speaker": "",
+        "text": "阿贵被带走了。他的供述揭开了案件下面的第二层。\n\n真正的对手——还在客栈里等着你。",
+        "emotion": "narration"
       }
     ],
     "defeat_dialogue": [
@@ -799,6 +1174,942 @@
       "—— 序章「渡口沉舟」 终 ——"
     ]
   },
+  "confrontation_final": {
+    "_comment": "第二阶段对峙：沈清月（FINAL BOSS）。击破阿贵后进入。难度更高——她用逻辑防御而非哭诉。",
+    "suspect": "shen_qingyue",
+    "confidence": 3,
+    "intro_dialogue": [
+      {
+        "speaker": "",
+        "text": "客栈二楼。沈清月的房间。\n\n她坐在窗边，一条腿搁在椅子扶手上。看到你进门——她连姿势都没换。",
+        "emotion": "narration"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "来了啊。比我预计的快了半天。",
+        "emotion": "cold_fury"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "（低声）嘶——她一点都不慌。像是早就知道你会来。",
+        "emotion": "anxious"
+      },
+      {
+        "speaker": "你",
+        "text": "沈清月。阿贵已经招了。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（微微挑眉）哦？他说什么了？",
+        "emotion": "sharp"
+      },
+      {
+        "speaker": "你",
+        "text": "他说——是你教他凿船的。是你找的老范。是你策划了整件事。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（沉默了三息。然后她笑了——一种极冷的、带着赞赏的笑。）",
+        "emotion": "cold_smile"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "一个因谋杀被捕的人——为了减轻自己的罪，把锅推给别人。大人觉得这种供词有几分可信？",
+        "emotion": "cold_smile"
+      },
+      {
+        "speaker": "你",
+        "text": "所以我不只带了阿贵的供词。我带了证据。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（从椅子上站起来，理了理衣襟）好。那就来吧。——不过大人，'指向'和'证明'之间，隔着一条人命。",
+        "emotion": "cold_fury"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "你要定我的罪——就拿能让我闭嘴的东西出来。",
+        "emotion": "cold_fury"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "（低声）陆大人……她不是阿贵。她不会哭着认罪的。得一步步把她的逻辑全部拆碎。",
+        "emotion": "determined"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "她会用'反向逻辑'——'杀他对我没好处'。你得先证明她有好处。然后再堵她的退路。",
+        "emotion": "determined"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "准备好了？这次是真正的对手。",
+        "emotion": "determined"
+      }
+    ],
+    "testimonies": [
+      {
+        "id": "shen_testimony_1",
+        "title": "— 证词其一：我没有理由 —",
+        "statements": [
+          {
+            "id": "sf1_1",
+            "speaker": "沈清月",
+            "text": "周德茂欠我三十八两。他死了——这笔钱就永远要不回来了。我杀他等于杀自己的钱袋子。",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "三十八两对你很重要？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "当然重要。我爹躺在床上等着这笔钱治病。——你以为我追了三个月是闲得慌？",
+                "emotion": "sharp"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）她把'父亲治病'拿出来当挡箭牌了。确实——如果只为了三十八两，杀人不划算。",
+                "emotion": "worried"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "但如果不只是三十八两呢——如果还有别的利可图呢？",
+                "emotion": "determined"
+              }
+            ]
+          },
+          {
+            "id": "sf1_2",
+            "speaker": "沈清月",
+            "text": "我当着二十多人的面骂了他。你见过哪个凶手杀人之前先大张旗鼓地公开动机？",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "也许——正因为太明显了，所以反而没人怀疑。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "（嗤笑）大人这推理——也太阴谋论了吧？我吵架是因为气不过。没那么多弯弯绕绕。",
+                "emotion": "sharp"
+              },
+              {
+                "speaker": "你",
+                "text": "你骂他的时候说了句——'别想走'。当时很多人听到了。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "那是催他还钱！意思是'不还钱别想走'！不是'要你的命'！",
+                "emotion": "bold"
+              },
+              {
+                "speaker": "",
+                "text": "（'别想走'。如果她那时候已经知道计划——这句话就是双关。说给二十个人听的'追债'，和说给自己听的'死刑宣判'。）",
+                "emotion": "inner_thought"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）她说'没那么多弯弯绕绕'——可她做的每件事都弯弯绕绕的。公开骂人恰恰是最好的掩护——谁会怀疑一个吵了全码头的人？",
+                "emotion": "anxious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "但如果'公开动机'本身就是她布局的一部分呢？先让所有人看到她'太明显了'——然后没人信她真会动手。",
+                "emotion": "determined"
+              }
+            ]
+          },
+          {
+            "id": "sf1_3",
+            "speaker": "沈清月",
+            "text": "五十两货银随船沉了江。人死了，钱也没了——我是这件事里亏得最惨的人。",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_salvage_mark",
+            "alt_evidence": ["evidence_father_ledger"],
+            "press": [
+              {
+                "speaker": "你",
+                "text": "五十两沉了江。你确定？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "不然呢？船都碎了，五十两银锭还能长翅膀飞出来？",
+                "emotion": "bold"
+              },
+              {
+                "speaker": "你",
+                "text": "银锭很重。不会被水冲远。会沉在沉船附近的河底。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……那又怎样？跟我有什么关系？",
+                "emotion": "deflecting"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）她说'沉了江'说得很快——像是在强调'钱不在我手上'。心虚的人才会主动撇清。",
+                "emotion": "determined"
+              }
+            ],
+            "break_dialogue": [
+              {
+                "speaker": "你",
+                "text": "五十两沉了江？（拍出证词）你看看这个。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "王老汉——下游的渔翁。他亲眼看到，天亮前有人在浅滩打捞东西。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "打捞的人——身量高挑，穿深色衣裳。像个女子。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……",
+                "emotion": "cracking"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "（极快地恢复）身量高的女人多了。这能证明是我？",
+                "emotion": "sharp"
+              },
+              {
+                "speaker": "你",
+                "text": "在那个时间、那个地点——知道船沉在哪里、知道货银会漂到哪里的人——只有事先算好的人。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……巧合。",
+                "emotion": "cracking"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）第一道裂缝出现了。她说'巧合'——但声音跟刚才不一样了。继续！",
+                "emotion": "determined"
+              }
+            ]
+          },
+          {
+            "id": "sf1_4",
+            "speaker": "沈清月",
+            "text": "阿贵的供词？一个杀人犯为了脱罪什么都敢说。大人不会连这点都不明白吧？",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "阿贵供出你的时候——他已经认罪了。认了罪还攀咬别人——对他有什么好处？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "减轻罪责啊。'不是我主谋，是别人教唆的'——量刑不一样。他当然有动机说谎。",
+                "emotion": "sharp"
+              },
+              {
+                "speaker": "你",
+                "text": "量刑？一个仆从——他知道'教唆从重、被教唆从轻'这种律法？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……常识而已。",
+                "emotion": "deflecting"
+              },
+              {
+                "speaker": "",
+                "text": "（有意思。她脱口而出'量刑不一样'——说明她比阿贵更懂律法。一个药材商的女儿，对刑名律条这么熟？还是说……她事先研究过？）",
+                "emotion": "inner_thought"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）她说的……有道理。光凭阿贵一个人的口供确实不够。得有实证。",
+                "emotion": "worried"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "不过——她随口就说'量刑不一样'。做药材生意的姑娘怎么对律法这么清楚？除非她提前研究过……",
+                "emotion": "determined"
+              }
+            ]
+          }
+        ],
+        "fail_dialogue": [
+          {
+            "speaker": "沈清月",
+            "text": "大人。我说了——杀他对我只有坏处没有好处。你拿不出反驳这一点的东西。",
+            "emotion": "sharp"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）她的逻辑防线还没被破——得先证明'五十两没有沉江'。那个打捞证据——用它！",
+            "emotion": "worried"
+          }
+        ],
+        "transition_dialogue": [
+          {
+            "speaker": "",
+            "text": "沈清月的表情变了——只有一瞬间。嘴角的弧度消失了。她重新抱起双臂，但这次——手指攥得更紧了。",
+            "emotion": "narration"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）看到了吗？她在调整姿势——重新找站稳的方式。第一层壳被敲碎了。",
+            "emotion": "determined"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "……好。就算有人打捞了那笔钱。你能证明——是我捞的？",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "你",
+            "text": "你说你亥时前就回了客栈。但有人看到你一直待到船走远了才走。而天亮前你又出现在下游。",
+            "emotion": "cold"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "那是——（停了一下）别人。不是我。",
+            "emotion": "cracking"
+          },
+          {
+            "speaker": "你",
+            "text": "你之前说'看他上船就走了'。后来改成'多站了一会儿'。现在又说不是你——你到底在哪里？",
+            "emotion": "cold"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "（沉默了五息。然后她深吸一口气。）",
+            "emotion": "cracking"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "好。换个说法。就算那天晚上我在码头待得久了——盯着自己的债务人上船有什么问题？不犯法。",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）她在一步步退。从'不在场'退到'在场但合法'——跟阿贵一个套路。但她比阿贵冷静得多……",
+            "emotion": "anxious"
+          },
+          {
+            "speaker": "你",
+            "text": "好。那我们来说说——你跟老范和阿贵之间的关系。你说'不认识'。可他们不是这么说的。",
+            "emotion": "cold"
+          }
+        ]
+      },
+      {
+        "id": "shen_testimony_2",
+        "title": "— 证词其二：我跟他们没有关系 —",
+        "statements": [
+          {
+            "id": "sf2_1",
+            "speaker": "沈清月",
+            "text": "老范？见过。码头的人谁没见过？但我没跟他说过超过三句话。",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "三句话。你确定只有三句？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "我做药材生意。他跑船。我们能有什么交集？",
+                "emotion": "deflecting"
+              },
+              {
+                "speaker": "你",
+                "text": "你没回答我的问题。我问的是'确定只有三句'——不是'有没有交集'。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "（微微眯了眯眼）……差不多吧。打个招呼、问个路什么的。大人查案查到'跟船家说过几句话'这种地步了？",
+                "emotion": "sharp"
+              },
+              {
+                "speaker": "",
+                "text": "（她在反问。用攻击代替防守——把'我问她'变成'她质疑我'。聪明。但越是用这种手段的人，越说明那个问题触到了她的痛处。）",
+                "emotion": "inner_thought"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）她回避了——没有正面回答。而且'打个招呼问个路'？她在石矶渡住了快一个月追债，还需要问路？",
+                "emotion": "determined"
+              }
+            ]
+          },
+          {
+            "id": "sf2_2",
+            "speaker": "沈清月",
+            "text": "老范欠赌坊四十二两——这种事码头人尽皆知。我也是听说的。我跟赌坊没有任何来往。",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_shen_connection",
+            "alt_evidence": [],
+            "press": [
+              {
+                "speaker": "你",
+                "text": "你跟赌坊没来往。那你怎么知道具体数目——'四十二两'？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……码头闲话。这种八卦传得快。",
+                "emotion": "deflecting"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "嘶——'四十二两'这么精确的数字，街坊八卦能传到零头？",
+                "emotion": "anxious"
+              }
+            ],
+            "break_dialogue": [
+              {
+                "speaker": "你",
+                "text": "你跟赌坊没来往？（甩出证据）老范自己交代了。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "是一个'药材行的姑娘'先找到他——知道他欠赌债，给他指了一条'发财的路'。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……",
+                "emotion": "cracking"
+              },
+              {
+                "speaker": "你",
+                "text": "石矶渡方圆十里——做药材生意的女子，只有你一个。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "（长久的沉默。然后她抬起眼——目光变了。不再有之前的飒。是一种极冷的、计算的光。）",
+                "emotion": "cold_fury"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……一个赌鬼的话。跟一个杀人犯的话一样不可信。",
+                "emotion": "cold_fury"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）两个人指向同一个人——她还在硬撑。但声音已经不对了……",
+                "emotion": "determined"
+              }
+            ]
+          },
+          {
+            "id": "sf2_3",
+            "speaker": "沈清月",
+            "text": "阿贵？我甚至不认识他。一个商人的仆从——我为什么要跟他说话？",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "你不认识他。但你知道他被遣散——知道他被克扣工钱——知道他恨周德茂。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……周德茂待下人刻薄这种事，码头人都知道。那又怎样？",
+                "emotion": "deflecting"
+              },
+              {
+                "speaker": "你",
+                "text": "'码头人都知道'——你很喜欢这四个字。每次解释不了的事情，都推给'码头闲话'。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "（嘴角抽了一下）……事实如此。",
+                "emotion": "cracking"
+              },
+              {
+                "speaker": "你",
+                "text": "那我问你——阿贵被遣散时的'二两银子'。这个数目，码头有几个人知道？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……",
+                "emotion": "cracking"
+              },
+              {
+                "speaker": "",
+                "text": "（她沉默了。'二两银子'是遣散字据上的内容——那张字据一直在阿贵手里。外人不可能知道具体数目——除非她见过那张字据。见过字据——就意味着她接触过阿贵。）",
+                "emotion": "inner_thought"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）她知道的太多了——'遣散'的细节、'二两银子'的内幕——这不是八卦能听来的。她见过阿贵。",
+                "emotion": "determined"
+              }
+            ]
+          }
+        ],
+        "fail_dialogue": [
+          {
+            "speaker": "沈清月",
+            "text": "一个赌鬼和一个杀人犯的话——大人就凭这个定我的罪？传出去不怕人笑话吗？",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）她硬撑'别人的话不可信'——可老范亲口说了那个中间人。拿那条证据堵她！",
+            "emotion": "worried"
+          }
+        ],
+        "transition_dialogue": [
+          {
+            "speaker": "",
+            "text": "沈清月的呼吸节奏变了。不再是之前均匀的、控制着的呼吸。胸口有了微微的起伏。",
+            "emotion": "narration"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）两层防线都破了——打捞、中间人。她现在只剩最后一道了：'你没有直接证据证明我策划了谋杀'。",
+            "emotion": "determined"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "（声音变了——不再有演出的飒。是真正的她。极冷。极静。）",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "就算……就算我认识老范。就算那天夜里我没回客栈。",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "那也只能证明——我在场。我认识当事人。",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "你能证明是我策划了这一切吗？你能证明是我教阿贵凿船的吗？你有——直接证据吗？",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "你",
+            "text": "……",
+            "emotion": "cold"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）嘶……她反击了。她在把'认识'和'策划'之间的距离拉大——'就算我在场，也不能证明我指使了他们'……",
+            "emotion": "anxious"
+          },
+          {
+            "speaker": "你",
+            "text": "好。那我换一个问法。——你案发前一天骂周德茂'别想走'。你说那只是讨债。",
+            "emotion": "cold"
+          },
+          {
+            "speaker": "你",
+            "text": "但如果——你说那句话的时候，已经知道他走不了呢？",
+            "emotion": "cold"
+          }
+        ]
+      },
+      {
+        "id": "shen_testimony_3",
+        "title": "— 证词其三：你没有证据 —",
+        "statements": [
+          {
+            "id": "sf3_1",
+            "speaker": "沈清月",
+            "text": "就算我在码头待到深夜。盯着自己的债务人——合情合理。这不叫犯罪。",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "合情合理？亥时到寅时——五个时辰。冬雨。你站在码头淋了五个时辰的雨？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "我在码头棚子底下避雨。盯着他上船——确认他没跑。我的钱在他身上。",
+                "emotion": "cold_fury"
+              },
+              {
+                "speaker": "你",
+                "text": "他的船都开了——你为什么不走？船走了人就追不上了。你还盯什么？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……我在想对策。",
+                "emotion": "deflecting"
+              },
+              {
+                "speaker": "",
+                "text": "（'想对策'。船已经走了，债务人在江上——她留在岸上'想对策'？除非……她知道船不会走远。）",
+                "emotion": "inner_thought"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）她说'盯着他上船确认没跑'——可船都开了还留着？除非她在等什么。等船沉。等去下游收货银。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "她现在只剩反复说'不是我'了。逻辑已经没了——再给她一击。",
+                "emotion": "determined"
+              }
+            ]
+          },
+          {
+            "id": "sf3_2",
+            "speaker": "沈清月",
+            "text": "你有的只是：一个赌鬼的指认、一个杀人犯的攀咬、和一个老渔翁在黑夜里看到的模糊身影。这些——够判死刑吗？",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_dock_timing",
+            "alt_evidence": ["evidence_father_ledger"],
+            "press": [
+              {
+                "speaker": "你",
+                "text": "你把所有证人的证词都说成'不可信'。那——你自己的话呢？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "我的话？我说的每一句都可以查证。",
+                "emotion": "cold_fury"
+              },
+              {
+                "speaker": "你",
+                "text": "真的吗？你说'亥时前回了客栈'——我查过了。客栈掌柜说那天夜里没看到你。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "（瞳孔微缩）……他记错了。那么多客人——",
+                "emotion": "cracking"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "嘶——她自己的证词站不住了！三次改口——'马上回了'→'多站了一会儿'→'掌柜没看到'——哪个是真的？！",
+                "emotion": "shocked"
+              }
+            ],
+            "break_dialogue": [
+              {
+                "speaker": "你",
+                "text": "沈清月。你说你的话'都可以查证'。好——那我一条一条来。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "你说亥时前回客栈——客栈掌柜没看到你。你说船开了就走——凌瑶看到你一直没走。你说打捞的不是你——但那个时间段只有你不在客栈。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "三段时间。三个谎。你自己的证词——一句都立不住。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……",
+                "emotion": "cracking"
+              },
+              {
+                "speaker": "你",
+                "text": "（出示沈父药账）再看这个。你父亲治病需要八十两。你家只有四十二两。差额三十八——刚好是周德茂欠你的数。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "但三十八两不够。你需要更多。而周德茂身上——恰好有五十两货银。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "三十八加五十——八十八两。超过你需要的数。你不是'亏了'——你是要一口吃够。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "（整个人僵住。嘴唇微微颤抖。手指攥紧了袖口。）",
+                "emotion": "broken"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "……她算好了。从头到尾——她全都算好了。",
+                "emotion": "shocked"
+              }
+            ]
+          },
+          {
+            "id": "sf3_3",
+            "speaker": "沈清月",
+            "text": "就算……就算那笔账说得通。'有动机'和'做了'是两回事。你没有亲眼看到我教阿贵凿船——你永远证明不了。",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "我不需要亲眼看到。我只需要——你自己说的每一句话、做的每一件事、出现在每一个不该出现的地方——全部连成一条线。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "你案发前当众骂他——为了让所有人觉得你'太明显不像凶手'。你操纵阿贵和老范——让他们替你动手。你事后打捞货银——是你犯罪的直接获利。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "动机、手段、时间线、获利——全部指向同一个人。这不叫'巧合'。这叫——铁证如山。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……（长久的沉默）",
+                "emotion": "broken"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（屏住呼吸）……她没说话。她不反驳了。",
+                "emotion": "anxious"
+              }
+            ]
+          }
+        ],
+        "fail_dialogue": [
+          {
+            "speaker": "沈清月",
+            "text": "大人。巧合。全部都是巧合。——你带着这些'巧合'去县衙告我试试看？",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）嘶……她的谎说了三遍了，咱们得把她时间线上的矛盾砸在她脸上——！",
+            "emotion": "worried"
+          }
+        ]
+      }
+    ],
+    "victory_dialogue": [
+      {
+        "speaker": "沈清月",
+        "text": "……",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "",
+        "text": "很长的沉默。\n\n窗外的雨声变得清晰了。像是房间里所有其他的声音都消失了。",
+        "emotion": "narration"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（慢慢地——极慢地——她笑了。不是冷笑。是一种……释然的、疲惫的笑。）",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "……你赢了。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "！",
+        "emotion": "shocked"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "我没杀他。我只是让他死在他该死的地方。——你说这叫什么？",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "你",
+        "text": "叫谋杀。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（沉默了三息）……是。大约是吧。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（她转身看向窗外。雨沿着屋檐滴落。）",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "你知道我爹是怎么病倒的吗？",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "三个月前。周德茂不仅赖了我家三十八两——他还在上游散话，说沈家的药材'以次充好、坑骗客商'。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "那是谣言。三十年的字号——从来没有一笔假货。但谣言传开了。半个月里退了六笔大单。我爹去找他理论——他说'你有证据吗？没证据就别乱扣帽子'。",
+        "emotion": "cold_fury"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（声音开始颤抖）我爹气得……当场吐血。回来之后就起不了床了。大夫说——急火攻心，伤了五脏。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "八十两的药。我去哪找八十两？周德茂欠我的三十八两不还——还毁了我家的生路。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "……",
+        "emotion": "worried"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（转过身来，直视陆昭）你知道什么叫——一个人欠了另一个人的命吗？",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "不是三十八两。是我爹的命。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "阿贵恨了他十二年。老范被他逼到走投无路。我——",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "我只是那个——不愿意再忍了的人。我给了他们机会。也给了自己一个——交代。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "你",
+        "text": "……",
+        "emotion": "serious"
+      },
+      {
+        "speaker": "你",
+        "text": "你把阿贵当棋子用。一个被克扣了十二年的人——你利用了他的恨。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（身体一僵）……他也恨周德茂。我没有逼他。",
+        "emotion": "cracking"
+      },
+      {
+        "speaker": "你",
+        "text": "你教他凿船。教他藏浮囊。算好了沉船位置——然后你去捞钱。他去坐牢。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "你",
+        "text": "从头到尾——你的手是干净的。脏活是别人做的。牢是别人坐的。这叫什么？",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "……",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（垂下头。很久没有说话。当她再开口时——声音几乎听不清。）",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "……我知道。我对不起阿贵。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "但我不后悔周德茂的死。他活着一天——我爹就多痛一天。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "你",
+        "text": "法不容情。周德茂该受制裁——但不是这种制裁。你选择了杀人。这是你的罪。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "你",
+        "text": "来人。把沈清月带走。——另外，她父亲的药费……从查没的货银中扣出治病钱，转交沈家。",
+        "emotion": "serious"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（猛然抬头）……什么？",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "你",
+        "text": "她的罪归她。她父亲的病——不归。",
+        "emotion": "serious"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "……（看了看陆昭，又看了看沈清月。沈清月的眼眶终于红了——但她咬着牙，没让泪落下来。）",
+        "emotion": "worried"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（被带走时在门口停了一步。没有回头。）",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "……陆昭。你是个好官。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "可惜我遇到你——晚了三个月。",
+        "emotion": "broken"
+      },
+      {
+        "speaker": "",
+        "text": "门关上了。\n\n雨声又大了起来。",
+        "emotion": "narration"
+      }
+    ],
+    "defeat_dialogue": [
+      {
+        "speaker": "沈清月",
+        "text": "大人。你证据不够。——我可以走了吗？",
+        "emotion": "cold_fury"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "（低声）嘶——让她溜了……但别急。她还在渡口。证据不会消失——咱们回头再来。",
+        "emotion": "worried"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（走到门口时顿了顿）大人。下次来——带够东西。别浪费彼此的时间。",
+        "emotion": "cold_fury"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "走吧。把所有证据重新串一遍——时间线、中间人、打捞——肯定有我们漏了的环节。",
+        "emotion": "determined"
+      }
+    ]
+  },
   "suspects": [
     {
       "id": "agui",
@@ -811,6 +2122,16 @@
       "name": "老范（船家）",
       "unlock": [],
       "unlock_hint": ""
+    },
+    {
+      "id": "shen_qingyue",
+      "name": "沈清月（药材商之女）",
+      "unlock": [
+        {
+          "flag": "confrontation_triggered"
+        }
+      ],
+      "unlock_hint": "击破阿贵后解锁"
     },
     {
       "id": "zhou_wife",
@@ -882,15 +2203,15 @@
   "endings": {
     "perfect": {
       "title": "「舟覆人明」结局",
-      "narration": "你揭破了全部真相。\n\n周德茂之死并非暗礁意外，而是阿贵与老范合谋：老范预先改动船底活板，阿贵携带浮囊自保，又趁夜船沉没时害死主人。\n\n动机、手段、逃生准备与灭口过程彼此扣合，证据链完整。两人被押往县衙，等待正式审断。\n\n周氏终于得到了一个明确的交代。石矶渡也因此立下新规：不再接独行客的夜船。"
+      "narration": "你揭破了全部真相。\n\n周德茂之死并非暗礁意外——是一场精心策划的谋杀。沈清月利用阿贵十二年的积怨和老范的赌债，一手导演了凿船沉舟。\n\n执行者阿贵、工具人老范被押往县衙。真正的主谋沈清月——也没有逃脱。\n\n你从她的房间搜出了打捞上来的五十两货银。铁证如山。\n\n周氏终于得到了完整的交代。沈家老父的药钱从货银中拨出——法有法度，情有情理。\n\n石矶渡恢复了平静。渡口立了新规：不再接独行客的夜船。"
     },
     "good": {
       "title": "「水落石出」结局",
-      "narration": "你抓对了人，也证明沉船并非单纯意外。\n\n但证据链仍有缺口。阿贵只承认心存怨恨，老范也试图把凿船之事推成临时起意。\n\n案子得以结清，却留下了无法完全钉死的余地。周氏得到公道，但并不圆满。"
+      "narration": "你抓到了执行者阿贵和老范，也追查到了幕后主谋沈清月。\n\n但对沈清月的证据链仍有缺口。她承认了在场，但咬死否认直接参与策划。\n\n案子大体结清，但主谋的定罪仍需县衙进一步审理。真相已经浮出水面——只差最后一个铁钉。"
     },
     "partial": {
       "title": "「半截真相」结局",
-      "narration": "你指对了凶手，却没有完整证明动机与沉船手法。\n\n阿贵受到惩处，但关键链条未能闭合。老范与船底活板之间的关系仍有争议。\n\n这桩案子留下了半截真相，也留下了半截疑云。"
+      "narration": "你击破了阿贵的谎言，证明了沉船是人为。\n\n但幕后的沈清月——你没有来得及追查。阿贵供出了她的名字，却没有足够证据让她定罪。\n\n她带着五十两货银消失在了雨夜里。这案子——只挖出了一半。"
     },
     "bad": {
       "title": "「沉冤江底」结局",
@@ -898,7 +2219,7 @@
     },
     "timeout": {
       "title": "「雨停人散」结局",
-      "narration": "两天过去，雨停了。\n\n你错过了查清此案的时机。相关人等各自散去，残船也被匆匆处理。\n\n周德茂之死最终被记作一场夜船意外。真相没有浮出水面。"
+      "narration": "两天过去，雨停了。\n\n你错过了查清此案的时机。沈清月早已不动声色地离开了渡口。阿贵缩在客栈不敢出门。老范收拾行李跑了。\n\n周德茂之死最终被记作一场夜船意外。真相没有浮出水面。"
     }
   }
 }

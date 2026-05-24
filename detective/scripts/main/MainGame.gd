@@ -32,6 +32,9 @@ var _pending_events: Array[String] = []
 var _event_hint_auto_pending := false
 var _pending_adhoc_lines: Array = []
 var _pending_day_info: Dictionary = {}   # 延迟的日期过场 { "day": int, "sub": String }
+var _last_location_period: int = -1      # 上次进入场景时的 period
+var _last_location_day: int = -1         # 上次进入场景时的 day
+var _time_card_playing: bool = false     # 时间过场是否正在播放
 var _title_layer: Control = null
 var _title_props_layer: Control = null
 var _scene_fx: Node = null
@@ -39,7 +42,8 @@ var _playing_case_epilogue := false
 var _bg_fade_rect: ColorRect = null
 var _bg_transition_id: int = 0
 var _current_bg_path: String = ""
-#var _npc_layer: Control = null
+var _npc_layer: Control = null
+var _settings_btn: Button = null
 
 
 func _ready() -> void:
@@ -56,6 +60,7 @@ func _ready() -> void:
 	DialogueManager.confrontation_triggered.connect(_on_confrontation_from_dialogue)
 	DialogueManager.narration_started.connect(_on_narration_started)
 	DialogueManager.narration_ended.connect(_on_narration_ended)
+	DialogueManager.narration_time_card.connect(_on_narration_time_card)
 	DialogueManager.lie_exposed.connect(_on_lie_exposed)
 	
 	menu_panel.menu_clicked.connect(_on_menu_clicked)
@@ -79,17 +84,23 @@ func _ready() -> void:
 		# 紧贴 Background 之上：把它插入到 Background 之后的位置
 		add_child(_scene_fx)
 		move_child(_scene_fx, scene_bg.get_index() + 1)
-	
-	# NPC 场景立绘层（已禁用）
-	#var NpcLayer = load("res://scripts/ui/NpcSceneLayer.gd")
-	#if NpcLayer:
-	#	_npc_layer = NpcLayer.new()
-	#	_npc_layer.name = "NpcSceneLayer"
-	#	add_child(_npc_layer)
-	#	if _scene_fx:
-	#		move_child(_npc_layer, _scene_fx.get_index() + 1)
-	
+
 	_build_bg_fade_layer()
+
+	# NPC 场景立绘层：在非对话状态时常驻显示 NPC（放在 BackgroundFade 之后）
+	var NpcLayer = load("res://scripts/ui/NpcSceneLayer.gd")
+	if NpcLayer:
+		_npc_layer = NpcLayer.new()
+		_npc_layer.name = "NpcSceneLayer"
+		add_child(_npc_layer)
+		if _bg_fade_rect:
+			move_child(_npc_layer, _bg_fade_rect.get_index() + 1)
+		elif _scene_fx:
+			move_child(_npc_layer, _scene_fx.get_index() + 1)
+
+	# 右上角设置按钮
+	_build_settings_button()
+
 	BgmPlayer.register_players(bgm_a, bgm_b)
 	
 	# 助手系统：被动旁白信号
@@ -111,6 +122,56 @@ func _build_bg_fade_layer() -> void:
 		move_child(_bg_fade_rect, _scene_fx.get_index() + 1)
 	else:
 		move_child(_bg_fade_rect, scene_bg.get_index() + 1)
+
+
+func _build_settings_button() -> void:
+	_settings_btn = Button.new()
+	_settings_btn.name = "SettingsBtn"
+	_settings_btn.flat = true
+	_settings_btn.custom_minimum_size = Vector2(40, 40)
+	_settings_btn.tooltip_text = "设置"
+	_settings_btn.anchor_left = 1.0
+	_settings_btn.anchor_right = 1.0
+	_settings_btn.anchor_top = 0.0
+	_settings_btn.anchor_bottom = 0.0
+	_settings_btn.offset_left = -52.0
+	_settings_btn.offset_top = 12.0
+	_settings_btn.offset_right = -12.0
+	_settings_btn.offset_bottom = 52.0
+	var icon_path := "res://assets/cn/ui/icon_settings.png"
+	if ResourceLoader.exists(icon_path):
+		var icon := TextureRect.new()
+		icon.texture = load(icon_path)
+		icon.custom_minimum_size = Vector2(32, 32)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		icon.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+		_settings_btn.add_child(icon)
+	var normal_style := StyleBoxFlat.new()
+	normal_style.bg_color = Color(0.08, 0.06, 0.05, 0.6)
+	normal_style.set_border_width_all(1)
+	normal_style.border_color = Color(0.45, 0.36, 0.22, 0.5)
+	normal_style.set_corner_radius_all(6)
+	_settings_btn.add_theme_stylebox_override("normal", normal_style)
+	var hover_style := StyleBoxFlat.new()
+	hover_style.bg_color = Color(0.14, 0.10, 0.06, 0.8)
+	hover_style.set_border_width_all(1)
+	hover_style.border_color = Color(0.75, 0.55, 0.28, 0.9)
+	hover_style.set_corner_radius_all(6)
+	_settings_btn.add_theme_stylebox_override("hover", hover_style)
+	_settings_btn.pressed.connect(_on_settings_btn_pressed)
+	_settings_btn.visible = false
+	add_child(_settings_btn)
+	# 设置按钮跟随菜单栏同步显隐
+	menu_panel.visibility_changed.connect(func():
+		if _settings_btn and is_instance_valid(_settings_btn):
+			_settings_btn.visible = menu_panel.visible
+	)
+
+
+func _on_settings_btn_pressed() -> void:
+	_open_subpanel("settings")
 
 
 func _set_background(path: String, use_fade := true) -> void:
@@ -415,7 +476,7 @@ func _show_restart_confirm() -> void:
 
 func _start_new_game() -> void:
 	_hide_title()
-	top_bar_label.get_parent().visible = true
+	#top_bar_label.get_parent().visible = true  # 时间显示暂时关闭
 	_pending_events.clear()
 	GameManager.reset_progress()
 	GameManager.set_state(GameManager.STATE_PROLOGUE)
@@ -427,7 +488,7 @@ func _continue_game() -> void:
 	if not GameManager.load_game():
 		return
 	_hide_title()
-	top_bar_label.get_parent().visible = true
+	#top_bar_label.get_parent().visible = true  # 时间显示暂时关闭
 	_sync_pending_events_from_save()
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:
 		BgmPlayer.play("prologue")
@@ -452,20 +513,42 @@ func _sync_pending_events_from_save() -> void:
 func _on_location_changed(loc_id: String) -> void:
 	var data := GameManager.get_location_data(loc_id)
 	location_label.text = data.get("name", loc_id)
-	# 通过 AssetResolver 解析背景（scene_type → registry → background，回退到 data.background）
 	var bg_path: String = AssetResolver.get_scene_background(data)
-	_set_background(bg_path, true)
+	# 时间过场：仅在时间变化较大时显示（≥2个时段差异，避免单步移动触发）
+	var cur_period := GameManager.current_period
+	var cur_day := GameManager.current_day
+	var period_diff: int = abs(cur_period - _last_location_period) if _last_location_period >= 0 else 0
+	var day_diff: int = abs(cur_day - _last_location_day) if _last_location_day >= 0 else 0
+	var significant_change: bool = day_diff > 0 or period_diff >= 2
+	# 无论是否显示时间卡，都更新记录
+	_last_location_period = cur_period
+	_last_location_day = cur_day
+	var should_show_time: bool = significant_change and GameManager.current_state == GameManager.STATE_PLAYING and not day_transition.visible and not _time_card_playing
+	if should_show_time:
+		_time_card_playing = true
+		_set_background(bg_path, false)
+		var period_name: String = GameManager.PERIOD_NAMES[cur_period] if cur_period < GameManager.PERIOD_NAMES.size() else ""
+		var loc_name: String = data.get("name", "")
+		if period_name != "":
+			day_transition.show_period("%s · %s" % [period_name, loc_name])
+			day_transition.finished.connect(func():
+				_time_card_playing = false
+				_try_companion_banter("arrive_location:" + loc_id)
+			, CONNECT_ONE_SHOT)
+	else:
+		_set_background(bg_path, true)
 	# 同步场景动态特效层
 	if _scene_fx and _scene_fx.has_method("apply_for_scene_id"):
 		_scene_fx.apply_for_scene_id(data.get("scene_type", ""))
-	# 刷新 NPC 场景立绘层
-	#if _npc_layer and _npc_layer.has_method("refresh_npcs"):
-	#	_npc_layer.refresh_npcs(loc_id)
+	# 刷新 NPC 场景立绘层（始终显示，不隐藏）
+	if _npc_layer and _npc_layer.has_method("refresh_npcs"):
+		_npc_layer.refresh_npcs(loc_id)
 	BgmPlayer.play(loc_id)
 	if menu_panel.has_method("refresh_visibility"):
 		menu_panel.refresh_visibility()
 	_close_subpanel()
-	_try_companion_banter("arrive_location:" + loc_id)
+	if not should_show_time:
+		_try_companion_banter("arrive_location:" + loc_id)
 
 
 func _on_time_advanced(_day: int, _period: int) -> void:
@@ -664,8 +747,16 @@ func _on_menu_clicked(menu_id: String) -> void:
 		if npcs.is_empty():
 			_flash_notification("此处无人。")
 			return
+		# 只有一人时跳过 TalkPanel 直接进入对话
+		if npcs.size() == 1:
+			DialogueManager.start_dialogue(npcs[0])
+			return
 	if menu_id == "discuss":
 		_open_discuss_panel()
+		return
+	# 地图按钮打开地图面板
+	if menu_id == "map":
+		_open_subpanel("map")
 		return
 	_open_subpanel(menu_id)
 
@@ -737,6 +828,8 @@ func _close_subpanel() -> void:
 	subpanel_container.visible = false
 	if was_search_overlay:
 		menu_panel.visible = true
+		if _npc_layer and _npc_layer.has_method("show_npcs"):
+			_npc_layer.show_npcs()
 	# 关闭指证面板后恢复地点 BGM
 	if was_active and BgmPlayer.current_bgm_id() == "accuse":
 		BgmPlayer.play(GameManager.current_location)
@@ -777,6 +870,8 @@ func _open_search_overlay() -> void:
 	_active_subpanel = overlay
 	# 隐藏右侧菜单，让场景图完全可见
 	menu_panel.visible = false
+	if _npc_layer and _npc_layer.has_method("hide_npcs"):
+		_npc_layer.hide_npcs()
 	if overlay.has_signal("close_requested"):
 		overlay.close_requested.connect(_close_subpanel)
 	if overlay.has_signal("search_result_acknowledged"):
@@ -883,8 +978,8 @@ func _on_dialogue_started(speaker: String, portrait: String, text: String, optio
 	dialogue_box.show_dialogue(speaker, portrait, text, options, pages)
 	dialogue_box.visible = true
 	menu_panel.visible = false
-	#if _npc_layer and _npc_layer.has_method("hide_npcs"):
-	#	_npc_layer.hide_npcs()
+	# NPC 立绘保持显示（在 DialogueBox 下面一层，被对话框自然遮挡下半身）
+	# 不再 hide_npcs
 
 
 func _on_dialogue_ended() -> void:
@@ -892,8 +987,8 @@ func _on_dialogue_ended() -> void:
 	menu_panel.visible = true
 	_refresh_event_hint()
 	_try_show_pending_day_transition()
-	#if _npc_layer and _npc_layer.has_method("show_npcs"):
-	#	_npc_layer.show_npcs()
+	if _npc_layer and _npc_layer.has_method("show_npcs"):
+		_npc_layer.show_npcs()
 
 
 # ─── 序章 / 叙述 ───
@@ -906,8 +1001,8 @@ func _on_narration_started(background: String, _speaker: String, text: String, h
 	narration_box.show_narration(_speaker, text, has_next, centered, portrait)
 	narration_box.visible = true
 	menu_panel.visible = false
-	#if _npc_layer and _npc_layer.has_method("hide_npcs"):
-	#	_npc_layer.hide_npcs()
+	if _npc_layer and _npc_layer.has_method("hide_npcs"):
+		_npc_layer.hide_npcs()
 
 
 func _on_narration_ended() -> void:
@@ -922,8 +1017,73 @@ func _on_narration_ended() -> void:
 	menu_panel.visible = true
 	_refresh_event_hint()
 	_try_show_pending_day_transition()
-	#if _npc_layer and _npc_layer.has_method("show_npcs"):
-	#	_npc_layer.show_npcs()
+	if _npc_layer and _npc_layer.has_method("show_npcs"):
+		_npc_layer.show_npcs()
+
+
+## 叙述中遇到 time_card 节点：显示时间过场，结束后自动推进叙述
+func _on_narration_time_card(text: String, sub_text: String) -> void:
+	# 先立即黑屏遮住一切（避免闪帧）
+	day_transition.bg.modulate.a = 1.0
+	day_transition.visible = true
+	day_transition.label.visible_characters = 0
+
+	# 然后再预加载下一个节点的背景（此时已被黑屏遮住）
+	var next_node_id: String = DialogueManager._current_tree.get("nodes", {}).get(DialogueManager._narration_node, {}).get("next", "")
+	var next_bg: String = ""
+	if next_node_id != "":
+		next_bg = DialogueManager._current_tree.get("nodes", {}).get(next_node_id, {}).get("background", "")
+	if next_bg != "" and ResourceLoader.exists(next_bg):
+		_set_background(next_bg, false)
+
+	# 设置时间卡样式：较小字号 + 左对齐（打字机效果不跳动）
+	var orig_font_size: int = day_transition.label.get_theme_font_size("font_size")
+	var orig_sub_size: int = day_transition.sub_label.get_theme_font_size("font_size")
+	day_transition.label.add_theme_font_size_override("font_size", 42)
+	day_transition.sub_label.add_theme_font_size_override("font_size", 24)
+	day_transition.label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	day_transition.sub_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+
+	day_transition.visible = true
+	day_transition.label.text = text
+	day_transition.sub_label.text = sub_text if sub_text != "" else ""
+	day_transition.label.visible_characters = 0
+	day_transition.label.modulate.a = 1.0
+	day_transition.sub_label.visible_characters = 0
+	day_transition.sub_label.modulate.a = 1.0 if sub_text != "" else 0.0
+	day_transition.bg.modulate.a = 0.0
+
+	var total_main: int = text.length()
+	var total_sub: int = sub_text.length() if sub_text != "" else 0
+	GameManager.set_state(GameManager.STATE_TRANSITION)
+
+	var tw := create_tween()
+	# 黑屏淡入
+	tw.tween_property(day_transition.bg, "modulate:a", 1.0, 0.3)
+	# 主文本打字机（从左往右，每字~0.09秒）
+	tw.tween_property(day_transition.label, "visible_characters", total_main, total_main * 0.09).set_delay(0.3)
+	# 副文本打字机（主文本打完后开始）
+	if total_sub > 0:
+		tw.tween_interval(0.2)
+		tw.tween_property(day_transition.sub_label, "visible_characters", total_sub, total_sub * 0.08)
+	# 全部打完停留1.5秒
+	tw.tween_interval(1.5)
+	# 整体淡出
+	tw.tween_property(day_transition.label, "modulate:a", 0.0, 0.4)
+	tw.parallel().tween_property(day_transition.sub_label, "modulate:a", 0.0, 0.4)
+	tw.tween_property(day_transition.bg, "modulate:a", 0.0, 0.35)
+	tw.tween_callback(func():
+		day_transition.visible = false
+		# 恢复原始样式
+		day_transition.label.visible_characters = -1
+		day_transition.sub_label.visible_characters = -1
+		day_transition.label.add_theme_font_size_override("font_size", orig_font_size)
+		day_transition.sub_label.add_theme_font_size_override("font_size", orig_sub_size)
+		day_transition.label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		day_transition.sub_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		GameManager.set_state(GameManager.STATE_PROLOGUE)
+		DialogueManager.narration_next()
+	)
 
 
 ## 检查是否有延迟的日期过场等待显示（对话/叙述结束后调用）

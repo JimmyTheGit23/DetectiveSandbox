@@ -19,8 +19,7 @@
       "actor_id": "",
       "role_name": "阿贵",
       "role_title": "死者仆从",
-      "role_intro": "跟随周德茂十二年的老仆。案发后惊魂未定，泪流不止。",
-      "is_culprit": true
+      "role_intro": "跟随周德茂十二年的老仆。案发后惊魂未定，泪流不止。被人利用的棋子。"
     },
     "lao_fan": {
       "actor_id": "",
@@ -45,6 +44,13 @@
       "role_name": "王老汉",
       "role_title": "打渔老翁",
       "role_intro": "下游渔村的老渔翁。案发当夜在江上，看到了一些不该看到的东西。"
+    },
+    "shen_qingyue": {
+      "actor_id": "",
+      "role_name": "沈清月",
+      "role_title": "药材商之女",
+      "role_intro": "浔阳沈氏药材行的独女。替病重的父亲追讨周德茂欠下的三十八两药材款，案发前一天当众与死者对骂。穿男装、束长发，英气逼人。",
+      "is_culprit": true
     }
   }
 }

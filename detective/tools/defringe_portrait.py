@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections import deque
 from pathlib import Path
 import sys
@@ -135,6 +137,81 @@ def remove_chroma_background(path: str, out_path: str | None = None) -> None:
     print(f"Saved transparent portrait: {out_path}")
 
 
+def despill_green_from_hair(path: str, out_path: str | None = None) -> int:
+    """
+    Post-rembg green spill removal - specifically targets green contamination
+    in dark areas (hair) and semi-transparent edges that rembg misses.
+
+    Known issue: When using green (#00FF00) backgrounds, rembg removes the bulk
+    but leaves green channel contamination in:
+    - Black/dark hair strands (G slightly > R and B, very visible on dark pixels)
+    - Hairpin/accessory areas near edges
+    - Semi-transparent edge pixels
+
+    This function runs 5 passes:
+    1. Remove very-green semi-transparent edge pixels (alpha → 0)
+    2. Clamp green in dark areas (hair) to max(R, B)
+    3. Reduce green in medium areas with green shift
+    4. Fix hairpin area (upper 1/3 of image)
+    5. Edge band detection + green clamping
+
+    Returns number of pixels modified.
+    """
+    if out_path is None:
+        out_path = path
+
+    img = Image.open(path).convert("RGBA")
+    data = np.array(img, dtype=np.float64)
+    original = data.copy()
+    r, g, b, a = data[:, :, 0], data[:, :, 1], data[:, :, 2], data[:, :, 3]
+
+    visible = a > 0
+
+    # Pass 1: Very-green semi-transparent edge pixels → fully transparent
+    semi_transparent = (a > 0) & (a < 200)
+    very_green_edge = semi_transparent & (g > r + 40) & (g > b + 40)
+    data[very_green_edge, 3] = 0
+    # Mild green edge: reduce green channel
+    mild_green_edge = semi_transparent & (g > r + 15) & (g > b + 15) & ~very_green_edge
+    data[mild_green_edge, 1] = (data[mild_green_edge, 0] + data[mild_green_edge, 2]) / 2
+
+    # Pass 2: Dark areas (hair) - clamp G to max(R, B)
+    dark_area = visible & (a > 100) & (r < 100) & (b < 100)
+    green_in_hair = dark_area & (g > np.maximum(r, b) + 3)
+    max_rb = np.maximum(r, b)
+    data[green_in_hair, 1] = max_rb[green_in_hair]
+
+    # Pass 3: Medium-tone areas with noticeable green shift
+    medium_area = visible & (a > 100) & ~dark_area
+    green_shifted = medium_area & (g > r + 15) & (g > b + 15)
+    avg_rb = (r + b) / 2
+    excess = g - avg_rb
+    data[green_shifted, 1] = avg_rb[green_shifted] + np.minimum(excess[green_shifted] * 0.1, 5)
+
+    # Pass 4: Hairpin / upper-third area (often picks up green from background)
+    h, w = data.shape[:2]
+    upper_third = np.zeros_like(visible)
+    upper_third[:h // 3, :] = True
+    hairpin_green = upper_third & visible & (a > 100) & (g > r + 8) & (g > b + 8)
+    data[hairpin_green, 1] = np.maximum(r[hairpin_green], b[hairpin_green])
+
+    # Pass 5: Edge band - erode alpha mask, treat outer 2px ring aggressively
+    from scipy import ndimage
+    alpha_binary = (data[:, :, 3] > 50).astype(np.uint8)
+    interior = ndimage.binary_erosion(alpha_binary, iterations=2)
+    edge_band = (alpha_binary > 0) & ~interior
+    edge_green = edge_band & (data[:, :, 1] > data[:, :, 0] + 5) & (data[:, :, 1] > data[:, :, 2] + 5)
+    data[edge_green, 1] = np.maximum(data[edge_green, 0], data[edge_green, 2])
+
+    data = np.clip(data, 0, 255).astype(np.uint8)
+    result = Image.fromarray(data)
+    result.save(out_path, "PNG")
+
+    changed = np.any(data != original.astype(np.uint8), axis=2).sum()
+    print(f"despill_green_from_hair: fixed {changed} pixels → {out_path}")
+    return int(changed)
+
+
 # 旧入口名保留，兼容已有调用。
 def defringe_purple(path: str, out_path: str | None = None) -> None:
     remove_chroma_background(path, out_path)
@@ -142,11 +219,14 @@ def defringe_purple(path: str, out_path: str | None = None) -> None:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python defringe_portrait.py <image.png> [output.png]")
+        print("Usage: python defringe_portrait.py <image.png> [output.png] [--despill-green]")
         sys.exit(1)
     inp = sys.argv[1]
-    outp = sys.argv[2] if len(sys.argv) > 2 else inp
+    outp = sys.argv[2] if len(sys.argv) > 2 and not sys.argv[2].startswith("--") else inp
     if not Path(inp).exists():
         print(f"File not found: {inp}")
         sys.exit(1)
-    remove_chroma_background(inp, outp)
+    if "--despill-green" in sys.argv:
+        despill_green_from_hair(inp, outp)
+    else:
+        remove_chroma_background(inp, outp)

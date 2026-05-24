@@ -7,6 +7,7 @@ signal confrontation_triggered()
 signal narration_started(background: String, speaker: String, text: String, has_next: bool, centered: bool, portrait: String)
 signal narration_choices_ready(choices: Array)
 signal narration_ended()
+signal narration_time_card(text: String, sub_text: String)
 signal lie_exposed(npc_id: String, lie_node: String)
 
 var _current_tree: Dictionary = {}
@@ -327,6 +328,11 @@ func _filter_options(options: Array) -> Array:
 		if o.has("requires"):
 			if not GameManager.evaluate_condition(o["requires"]):
 				continue
+		# 循序渐进解锁：min_hub_visits — 需要在当前NPC的hub中至少访问过N个不同分支
+		if o.has("min_hub_visits"):
+			var needed: int = int(o["min_hub_visits"])
+			if GameManager.hub_visited_count(_current_npc_id) < needed:
+				continue
 		var option_copy: Dictionary = o.duplicate(true)
 		var goto: String = option_copy.get("goto", "")
 		option_copy["_visited"] = goto != "" and goto != "__exit__" and GameManager.has_visited(_current_npc_id, goto)
@@ -408,6 +414,10 @@ func _emit_narration() -> void:
 	var node: Dictionary = _current_tree.get("nodes", {}).get(_narration_node, {})
 	if node.is_empty():
 		_end_narration()
+		return
+	# 时间卡片节点：发出信号让 MainGame 显示时间过场，然后自动跳到下一节点
+	if node.get("type", "") == "time_card":
+		narration_time_card.emit(node.get("text", ""), node.get("sub_text", ""))
 		return
 	# 应用节点自身效果（进入即触发）
 	_apply_narration_effects(node.get("effect", {}))

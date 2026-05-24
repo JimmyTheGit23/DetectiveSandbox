@@ -45,5 +45,12 @@
     "intro": "下游渔村的老渔翁。",
     "dialogue": "fisherman_wang",
     "portrait": "res://assets/cn/portraits/prologue_fisherman_wang.png"
+  },
+  "shen_qingyue": {
+    "name": "沈清月",
+    "title": "药材商之女",
+    "intro": "浔阳沈氏药材行独女，替父追债。案发前一天当众与周德茂对骂。",
+    "dialogue": "shen_qingyue",
+    "portrait": "res://assets/cn/portraits/prologue_shen_qingyue.png"
   }
 }

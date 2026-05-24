@@ -12,7 +12,7 @@ signal npc_selected(npc_id: String)
 func _ready() -> void:
 	close_btn.pressed.connect(func(): close_requested.emit())
 	var loc := GameManager.current_location_data()
-	title_label.text = "── 此处之人 ──"
+	title_label.text = "── 与谁交谈？ ──"
 	# 用 schedule 取当前时段实际在此地点的 NPC（动态），缺 schedule 则回退到静态
 	var active_npcs: Array = GameManager.get_active_npcs_at(GameManager.current_location)
 	if active_npcs.is_empty():

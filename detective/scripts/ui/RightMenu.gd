@@ -1,98 +1,118 @@
 extends PanelContainer
-## 右侧主菜单：图标按钮，移动按钮仅在当前地点有 sub_locations 时显示。
+## 底部菜单栏（逆转裁判风格）
+##
+## 纯文字按钮横条：金色文字 + 深色半透明底条
+## hover时文字变亮
 
 signal menu_clicked(menu_id: String)
 
-const ICON_PATHS = {
-	"map": "res://assets/cn/ui/icon_map.png",
-	"talk": "res://assets/cn/ui/icon_talk.png",
-	"move": "res://assets/cn/ui/icon_move.png",
-	"search": "res://assets/cn/ui/icon_search.png",
-	"notebook": "res://assets/cn/ui/icon_notebook.png",
-	"discuss": "res://assets/cn/ui/icon_discuss.png",
-	"accuse": "res://assets/cn/ui/icon_accuse.png",
-	"settings": "res://assets/cn/ui/icon_settings.png",
-}
-
 const LABELS = {
-	"map": "地  图",
-	"talk": "对  话",
-	"move": "移  动",
-	"search": "探  索",
-	"notebook": "笔记本",
-	"discuss": "讨  论",
-	"accuse": "指  证",
-	"settings": "设  置",
+	"move": "移动",
+	"talk": "对话",
+	"search": "调查",
+	"notebook": "笔记",
+	"discuss": "讨论",
+	"map": "地图",
 }
 
-const ORDER = ["map", "talk", "move", "search", "notebook", "discuss", "settings"]
+const ORDER = ["move", "talk", "search", "notebook", "discuss", "map"]
 
-var _btn_map: Dictionary = {}  # menu_id -> Button
+var _btn_map: Dictionary = {}
 
 
 func _ready() -> void:
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	_setup_style()
 	_build()
-	# 监听地点变化以刷新按钮显隐
-	if GameManager.location_changed.is_connected(_on_location_changed):
-		pass
-	else:
-		GameManager.location_changed.connect(_on_location_changed)
-	# 读档/返回游戏时 MainGame 可能直接调用 _on_location_changed 而不 emit signal；
-	# 菜单重新显示时也刷新一次，避免移动按钮停留在旧地点状态。
+	GameManager.location_changed.connect(_on_location_changed)
 	visibility_changed.connect(_on_visibility_changed)
 	call_deferred("refresh_visibility")
 
 
+func _setup_style() -> void:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.03, 0.02, 0.015, 0.82)
+	style.border_color = Color(0.6, 0.45, 0.2, 0.65)
+	style.border_width_top = 1
+	style.border_width_bottom = 0
+	style.border_width_left = 0
+	style.border_width_right = 0
+	style.corner_radius_top_left = 0
+	style.corner_radius_top_right = 0
+	style.corner_radius_bottom_left = 0
+	style.corner_radius_bottom_right = 0
+	style.content_margin_left = 20
+	style.content_margin_right = 20
+	style.content_margin_top = 12
+	style.content_margin_bottom = 14
+	add_theme_stylebox_override("panel", style)
+
+
 func _build() -> void:
-	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 4)
-	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	add_child(vbox)
-	for menu_id in ORDER:
+	for c in get_children():
+		c.queue_free()
+	_btn_map.clear()
+
+	var hbox := HBoxContainer.new()
+	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	hbox.add_theme_constant_override("separation", 0)
+	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	add_child(hbox)
+
+	for i in range(ORDER.size()):
+		var menu_id: String = ORDER[i]
+
 		var btn := Button.new()
-		btn.custom_minimum_size = Vector2(0, 52)
+		btn.text = LABELS.get(menu_id, menu_id)
+		btn.flat = true
+		btn.custom_minimum_size = Vector2(90, 40)
+		btn.mouse_filter = Control.MOUSE_FILTER_STOP
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		btn.add_theme_font_size_override("font_size", 18)
-		# 用 HBox 自己装图标+文字
-		var hb := HBoxContainer.new()
-		hb.alignment = BoxContainer.ALIGNMENT_BEGIN
-		hb.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		hb.add_theme_constant_override("separation", 10)
-		hb.anchor_right = 1.0
-		hb.anchor_bottom = 1.0
-		hb.offset_left = 12
-		hb.offset_right = -8
-		hb.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_KEEP_SIZE)
-		hb.offset_left = 10
-		btn.add_child(hb)
-		
-		var icon_path: String = ICON_PATHS.get(menu_id, "")
-		if ResourceLoader.exists(icon_path):
-			var icon := TextureRect.new()
-			icon.texture = load(icon_path)
-			icon.custom_minimum_size = Vector2(36, 36)
-			icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-			icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			hb.add_child(icon)
-		
-		var lbl := Label.new()
-		lbl.text = LABELS.get(menu_id, menu_id)
-		lbl.add_theme_font_size_override("font_size", 18)
-		lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		hb.add_child(lbl)
-		
+
+		# 文字样式
+		btn.add_theme_font_size_override("font_size", 20)
+		btn.add_theme_color_override("font_color", Color(0.92, 0.78, 0.45, 1.0))
+		btn.add_theme_color_override("font_hover_color", Color(1.0, 0.95, 0.7, 1.0))
+		btn.add_theme_color_override("font_pressed_color", Color(1.0, 0.85, 0.35, 1.0))
+		btn.add_theme_color_override("font_focus_color", Color(0.92, 0.78, 0.45, 1.0))
+
+		# hover背景
+		var hover_style := StyleBoxFlat.new()
+		hover_style.bg_color = Color(0.2, 0.15, 0.06, 0.4)
+		hover_style.set_corner_radius_all(0)
+		btn.add_theme_stylebox_override("hover", hover_style)
+
+		var pressed_style := StyleBoxFlat.new()
+		pressed_style.bg_color = Color(0.25, 0.18, 0.05, 0.6)
+		pressed_style.set_corner_radius_all(0)
+		btn.add_theme_stylebox_override("pressed", pressed_style)
+
+		# 正常状态无背景
+		var normal_style := StyleBoxEmpty.new()
+		btn.add_theme_stylebox_override("normal", normal_style)
+		btn.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+
 		btn.pressed.connect(_on_pressed.bind(menu_id))
-		vbox.add_child(btn)
+		hbox.add_child(btn)
 		_btn_map[menu_id] = btn
-	_refresh_visibility()
+
+		# 添加分隔线（最后一个不加）
+		if i < ORDER.size() - 1:
+			var sep := VSeparator.new()
+			sep.custom_minimum_size = Vector2(1, 30)
+			sep.add_theme_stylebox_override("separator", _make_sep_style())
+			hbox.add_child(sep)
+
+
+func _make_sep_style() -> StyleBoxLine:
+	var s := StyleBoxLine.new()
+	s.color = Color(0.55, 0.40, 0.18, 0.5)
+	s.thickness = 1
+	s.vertical = true
+	return s
 
 
 func _on_pressed(menu_id: String) -> void:
-	# 检查面板是否锁定
 	if not GameManager.is_panel_unlocked(menu_id):
 		var hint := GameManager.get_panel_locked_hint(menu_id)
 		if hint != "":
@@ -101,22 +121,14 @@ func _on_pressed(menu_id: String) -> void:
 	menu_clicked.emit(menu_id)
 
 
-func _flash_locked_hint(text: String) -> void:
-	# 在菜单上方短暂显示提示
-	var lbl := Label.new()
-	lbl.text = text
-	lbl.add_theme_font_size_override("font_size", 16)
-	lbl.add_theme_color_override("font_color", Color(1, 0.7, 0.4, 1))
-	lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
-	lbl.add_theme_constant_override("outline_size", 3)
-	lbl.position = Vector2(-200, -30)
-	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD
-	lbl.custom_minimum_size = Vector2(220, 0)
-	add_child(lbl)
-	var tw := create_tween()
-	tw.tween_interval(2.5)
-	tw.tween_property(lbl, "modulate:a", 0.0, 1.0)
-	tw.tween_callback(lbl.queue_free)
+func refresh_visibility() -> void:
+	if not is_inside_tree():
+		return
+	if _btn_map.has("move"):
+		_btn_map["move"].visible = true
+	if _btn_map.has("discuss"):
+		var cs = get_node_or_null("/root/CompanionService")
+		_btn_map["discuss"].visible = cs != null and cs.has_method("has_companion") and cs.has_companion()
 
 
 func _on_location_changed(_loc_id: String) -> void:
@@ -128,26 +140,18 @@ func _on_visibility_changed() -> void:
 		refresh_visibility()
 
 
-## 公开刷新入口：读档、切地点、菜单重新显示时都可调用
-func refresh_visibility() -> void:
-	_refresh_visibility()
-
-
-## 刷新按钮显隐：move 按钮只在当前地点有 sub_locations 时显示
-## discuss 按钮只在有助手时显示
-## 渐进系统：锁定面板灰显示
-func _refresh_visibility() -> void:
-	if not _btn_map.has("move"):
-		return
-	var loc: Dictionary = GameManager.current_location_data()
-	var subs: Array = loc.get("sub_locations", [])
-	_btn_map["move"].visible = subs.size() > 0
-	# 讨论按钮：助手系统在场时才显示
-	if _btn_map.has("discuss"):
-		var cs = get_node_or_null("/root/CompanionService")
-		_btn_map["discuss"].visible = cs != null and cs.has_method("has_companion") and cs.has_companion()
-	# 渐进系统：对锁定面板设灰色透明度
-	for menu_id in ["accuse"]:
-		if _btn_map.has(menu_id):
-			var unlocked := GameManager.is_panel_unlocked(menu_id)
-			_btn_map[menu_id].modulate.a = 1.0 if unlocked else 0.45
+func _flash_locked_hint(hint: String) -> void:
+	var lbl := Label.new()
+	lbl.text = hint
+	lbl.add_theme_font_size_override("font_size", 16)
+	lbl.add_theme_color_override("font_color", Color(1.0, 0.85, 0.4, 1))
+	lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+	lbl.add_theme_constant_override("outline_size", 3)
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	lbl.position.y -= 40
+	add_child(lbl)
+	var tw := create_tween()
+	tw.tween_interval(2.0)
+	tw.parallel().tween_property(lbl, "modulate:a", 0.0, 0.5)
+	tw.tween_callback(lbl.queue_free)
