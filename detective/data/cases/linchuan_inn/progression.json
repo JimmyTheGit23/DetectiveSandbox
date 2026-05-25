@@ -42,23 +42,7 @@
     }
   ],
 
-  "panel_unlock": {
-    "accuse": {
-      "condition": {
-        "all": [
-          { "total_periods_used_gte": 20 },
-          {
-            "any": [
-              { "evidence_count_gte": 4 },
-              { "clue": "clue_gu_alibi_broken" }
-            ]
-          }
-        ]
-      },
-      "locked_hint": "证据不足，尚无法指证。继续搜集线索和证据。"
-    }
-
-  },
+  "panel_unlock": {},
 
   "search_point_unlock": {
     "shen_residence.drawer": {

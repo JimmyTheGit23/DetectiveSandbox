@@ -88,16 +88,17 @@ func _ready() -> void:
 		if menu:
 			menu.visible = false
 
-	_confrontation_data = GameManager.case_data.get("confrontation", {})
+	var _confront_key: String = GameManager.active_confrontation_key
+	_confrontation_data = GameManager.case_data.get(_confront_key, {})
 	if _confrontation_data.is_empty():
-		push_warning("ConfrontationPanel: No confrontation data in case_data!")
+		push_warning("ConfrontationPanel: No confrontation data for key '%s'!" % _confront_key)
 		# 尝试直接读取 case.json
 		var path := "res://data/cases/%s/case.json" % GameManager.ACTIVE_CASE
 		if FileAccess.file_exists(path):
 			var f := FileAccess.open(path, FileAccess.READ)
 			var parsed = JSON.parse_string(f.get_as_text())
 			if parsed is Dictionary:
-				_confrontation_data = parsed.get("confrontation", {})
+				_confrontation_data = parsed.get(_confront_key, {})
 	_testimonies = _confrontation_data.get("testimonies", [])
 	_max_confidence = int(_confrontation_data.get("confidence", 3))
 	_confidence = _max_confidence

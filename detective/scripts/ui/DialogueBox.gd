@@ -33,6 +33,10 @@ var _last_emotion: String = ""
 var _portrait_tween: Tween = null
 var _avatar_tween: Tween = null
 
+# ─── 叙述模式 ───
+var _narration_mode: bool = false
+var _narration_has_next: bool = false
+
 # ─── 立绘显示持久化系统 ───
 var _current_center_portrait_speaker: String = ""
 var _current_center_portrait_path: String = ""
@@ -68,6 +72,20 @@ const TALK_FRAME_INTERVAL := 0.12
 const TALK_BOUNCE_AMOUNT := 2.0
 
 
+const DIALOGUE_FRAME_SIDE_MARGIN := 28.0
+const DIALOGUE_FRAME_BOTTOM_MARGIN := 18.0
+const DIALOGUE_FRAME_HEIGHT := 222.0
+const DIALOGUE_TEXT_LEFT_DEFAULT := 48.0
+const DIALOGUE_TEXT_LEFT_WITH_AVATAR := 264.0
+const DIALOGUE_TEXT_TOP_OFFSET := -202.0
+const DIALOGUE_TEXT_BOTTOM_OFFSET := -34.0
+const AVATAR_SIZE := Vector2(286, 520)
+const AVATAR_OFFSET_LEFT := 10.0
+const AVATAR_OFFSET_TOP := -520.0
+const AVATAR_OFFSET_RIGHT := 296.0
+const AVATAR_OFFSET_BOTTOM := 0.0
+
+
 func _ready() -> void:
 	legacy_options.visible = false
 	exit_btn.visible = false
@@ -76,11 +94,16 @@ func _ready() -> void:
 	portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	portrait_rect.pivot_offset = Vector2(260, 340)
+	# 立绘层级在对话框下面（下半身被对话框自然遮挡）
+	move_child(portrait_rect, 0)
 	# ── 文本区域设置 ──
 	text_label.anchor_bottom = 1.0
 	text_label.offset_bottom = -40.0
 	text_label.bbcode_enabled = true
+	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text_label.fit_content = false
 	text_label.scroll_active = false
+	text_label.custom_minimum_size = Vector2(0, 112)
 	text_label.add_theme_font_override("normal_font", UI_FONT)
 	text_label.add_theme_font_size_override("normal_font_size", 22)
 	text_label.add_theme_color_override("default_color", CLR_INK)
@@ -122,12 +145,132 @@ func _input(event: InputEvent) -> void:
 	# 当前句播完后点击 → 下一句；最后一句播完后才显示选项。
 	if _waiting_for_advance:
 		_waiting_for_advance = false
-		_dialogue_page_index += 1
-		_play_current_page(_dialogue_run_id)
+		if _narration_mode:
+			DialogueManager.narration_advance()
+		else:
+			_dialogue_page_index += 1
+			_play_current_page(_dialogue_run_id)
 		get_viewport().set_input_as_handled()
 
 
+
+# ═══════════════════════════════════════════════════════════════
+# ███  叙述模式（替代 NarrationBox）
+# ═══════════════════════════════════════════════════════════════
+
+func show_narration(speaker: String, text: String, has_next: bool, portrait: String = "") -> void:
+	"""叙述模式：与 DialogueManager 的 narration 信号对接，点击推进"""
+	_narration_mode = true
+	_narration_has_next = has_next
+	_dialogue_run_id += 1
+	_hide_options()
+	if _log_panel != null:
+		_log_panel.visible = false
+	_set_choice_hint("", false)
+	_waiting_for_advance = false
+	# 去掉多余空行，限制显示不超过3行（约60字）
+	var display_text := text.replace("\r\n", "\n").replace("\r", "\n").strip_edges()
+	while display_text.find("\n\n") >= 0:
+		display_text = display_text.replace("\n\n", "\n")
+	# 如果文字包含换行且超过3行，只显示前3行
+	var lines := display_text.split("\n")
+	if lines.size() > 3:
+		display_text = "\n".join(lines.slice(0, 3))
+	# 显示说话者和立绘
+	_apply_narration_speaker(speaker, portrait)
+	# 打字机播放文字（不调用说话动画，避免立绘偏移）
+	_typewriter.play(text_label, display_text)
+	await _typewriter.finished
+	# 文字播放完毕，等待点击
+	var hint := "▼ 点击继续" if has_next else "▼ 点击进入游戏"
+	_set_choice_hint(hint, true)
+	_waiting_for_advance = true
+
+
+func _apply_narration_speaker(speaker: String, portrait: String) -> void:
+	"""叙述模式的说话者/立绘处理"""
+	speaker_label.text = speaker
+	speaker_label.visible = speaker != ""
+	# 文字位置始终与 NPC 对话一致
+	text_label.offset_top = 56.0 if speaker != "" else 16.0
+	if speaker == "":
+		# 纯叙述：无立绘
+		portrait_rect.visible = false
+		_hide_avatar()
+		return
+	# 如果没有提供 portrait，尝试自动解析
+	var resolved := portrait
+	if resolved == "" or not ResourceLoader.exists(resolved):
+		resolved = _resolve_portrait_for_speaker(speaker)
+	# 有说话者：走立绘规则
+	if _is_protagonist_or_companion(speaker):
+		# 主角或助手（非讨论模式）→ 左下角头像
+		_show_avatar(speaker, resolved, "")
+		portrait_rect.visible = false
+	elif resolved != "" and ResourceLoader.exists(resolved):
+		# 指定了立绘 → 居中显示
+		portrait_rect.texture = load(resolved)
+		portrait_rect.visible = true
+		portrait_rect.modulate.a = 1.0
+		portrait_rect.scale = Vector2(1.0, 1.0)
+		_hide_avatar()
+	else:
+		portrait_rect.visible = false
+		_hide_avatar()
+
+
+func _resolve_portrait_for_speaker(speaker_name: String) -> String:
+	"""根据说话者名字解析立绘路径"""
+	# 助手
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs and cs.has_method("get_companion_role_name"):
+		var companion_name: String = cs.get_companion_role_name()
+		if companion_name != "" and speaker_name == companion_name:
+			return cs.get_companion_portrait()
+	# 通过 casting 查找 NPC
+	var casting: Dictionary = AssetResolver.get_casting()
+	for npc_id in casting.keys():
+		var entry = casting[npc_id]
+		if typeof(entry) == TYPE_DICTIONARY:
+			if entry.get("role_name", "") == speaker_name:
+				return AssetResolver.get_portrait(npc_id, GameManager.npcs_data)
+	return ""
+
+
+func show_narration_choices(choices: Array) -> void:
+	"""显示叙述选项（复用 TopOptionsPanel）"""
+	_set_choice_hint("", false)
+	_waiting_for_advance = false
+	_hide_options()
+	var visible_count := 0
+	for i in range(choices.size()):
+		var choice: Dictionary = choices[i]
+		var btn := _make_option_button(choice.get("text", ""), {})
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var idx := i
+		btn.pressed.connect(func():
+			_hide_options()
+			DialogueManager.narration_choose(idx)
+		)
+		_top_options_vbox.add_child(btn)
+		visible_count += 1
+	_position_top_options(visible_count)
+	_top_options_panel.visible = true
+
+
+func end_narration_mode() -> void:
+	"""退出叙述模式"""
+	_narration_mode = false
+	_narration_has_next = false
+	_waiting_for_advance = false
+	_hide_options()
+	portrait_rect.visible = false
+	_hide_avatar()
+
+
+
 func show_dialogue(speaker: String, portrait_path: String, text: String, options: Array, pages: Array = []) -> void:
+	_narration_mode = false
 	_dialogue_run_id += 1
 	_hide_options()
 	if _log_panel != null:
@@ -176,16 +319,15 @@ func _play_current_page(run_id: int) -> void:
 # ═══════════════════════════════════════════════════════════════
 
 func _apply_speaker(speaker: String, portrait_path: String, emotion: String = "") -> void:
-	# 检查说话者是否为主角或同伴
+	# 主角/同伴：左下角头像 + 文字右移
 	if _is_protagonist_or_companion(speaker):
-		# 显示大立绘在画面左下角，同时隐藏NPC中央立绘
 		speaker_label.text = speaker
 		speaker_label.visible = speaker != ""
 		_last_speaker = speaker
 		_show_avatar(speaker, portrait_path, emotion)
 		return
 
-	# 对于 NPC：正常显示中央肖像
+	# NPC：居中立绘 + 底部对话框
 	speaker_label.text = speaker
 	speaker_label.visible = speaker != ""
 	var _resolved_portrait := _resolve_emotion_portrait(portrait_path, emotion)
@@ -193,16 +335,32 @@ func _apply_speaker(speaker: String, portrait_path: String, emotion: String = ""
 	_current_center_portrait_speaker = speaker
 	_current_center_portrait_path = portrait_path
 	_current_center_emotion = emotion
-	# 从同伴回到同一NPC时，不重放入场动画
 	var _changed := not was_returning_from_companion and (speaker != _last_speaker or emotion != _last_emotion)
 	_last_speaker = speaker
 	_last_emotion = emotion
-	# 加载动画帧（如果有）
 	_load_animation_frames(portrait_path, emotion)
 	_hide_avatar()  # 切换回 NPC 时隐藏头像
-	# 角色立绘由 NpcSceneLayer 负责显示（在对话框下面一层）
-	# DialogueBox 不再显示自己的 portrait
-	portrait_rect.visible = false
+	# 显示 NPC 居中立绘
+	if _resolved_portrait != "" and ResourceLoader.exists(_resolved_portrait):
+		portrait_rect.texture = load(_resolved_portrait)
+		portrait_rect.visible = true
+		if _changed:
+			portrait_rect.modulate.a = 0.0
+			portrait_rect.scale = Vector2(0.96, 0.96)
+			if _portrait_tween != null and _portrait_tween.is_valid():
+				_portrait_tween.kill()
+			_portrait_tween = create_tween()
+			_portrait_tween.set_parallel(true)
+			_portrait_tween.tween_property(portrait_rect, "modulate:a", 1.0, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			_portrait_tween.tween_property(portrait_rect, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		else:
+			if portrait_rect.modulate.a < 1.0:
+				if _portrait_tween != null and _portrait_tween.is_valid():
+					_portrait_tween.kill()
+				_portrait_tween = create_tween()
+				_portrait_tween.tween_property(portrait_rect, "modulate:a", 1.0, 0.15).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	else:
+		portrait_rect.visible = false
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -217,7 +375,7 @@ func _setup_avatar_portrait() -> void:
 	_avatar_rect.name = "AvatarPortrait"
 	_avatar_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_avatar_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_avatar_rect.custom_minimum_size = Vector2(240, 420)
+	_avatar_rect.custom_minimum_size = AVATAR_SIZE
 	_avatar_rect.modulate.a = 0.0
 	_avatar_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	# 位置：画面左下角大立绘（较小尺寸，不遮挡文字）
@@ -225,11 +383,11 @@ func _setup_avatar_portrait() -> void:
 	_avatar_rect.anchor_top = 1.0
 	_avatar_rect.anchor_right = 0.0
 	_avatar_rect.anchor_bottom = 1.0
-	_avatar_rect.offset_left = -10
-	_avatar_rect.offset_top = -490
-	_avatar_rect.offset_right = 240
-	_avatar_rect.offset_bottom = 0
-	_avatar_rect.pivot_offset = Vector2(125, 420)
+	_avatar_rect.offset_left = AVATAR_OFFSET_LEFT
+	_avatar_rect.offset_top = AVATAR_OFFSET_TOP
+	_avatar_rect.offset_right = AVATAR_OFFSET_RIGHT
+	_avatar_rect.offset_bottom = AVATAR_OFFSET_BOTTOM
+	_avatar_rect.pivot_offset = Vector2(AVATAR_SIZE.x * 0.5, AVATAR_SIZE.y)
 	# 应用边缘渐隐 shader（与 NPC 立绘相同的 portrait_fade.gdshader）
 	var shader = load("res://assets/cn/portrait_fade.gdshader")
 	if shader:
@@ -250,6 +408,9 @@ func _is_protagonist_or_companion(speaker_name: String) -> bool:
 	"""检查说话者是否为主角或同伴"""
 	if speaker_name == "陆昭" or speaker_name == "lu_zhao":
 		return true
+	# 讨论模式下，助手作为“NPC角色”居中显示，不走头像路径
+	if DialogueManager.is_discuss_mode():
+		return false
 	var companion_role_name = CompanionService.get_companion_role_name()
 	var companion_id = CompanionService.get_companion_id()
 	if speaker_name == companion_role_name or speaker_name == companion_id:
@@ -258,49 +419,28 @@ func _is_protagonist_or_companion(speaker_name: String) -> bool:
 
 
 func _show_avatar(_speaker: String, portrait_path: String, emotion: String = "") -> void:
-	"""显示主角/同伴的大立绘（画面左下角），同时隐藏NPC中央立绘并右移文字"""
+	"""显示主角/同伴的立绘（画面左下角），无动画直接显示"""
 	if _avatar_rect == null:
 		return
 	var resolved_portrait := _resolve_emotion_portrait(portrait_path, emotion)
 	if resolved_portrait != "" and ResourceLoader.exists(resolved_portrait):
 		_avatar_rect.texture = load(resolved_portrait)
-		# 隐藏NPC中央立绘
+		# NPC中央立绘略微变暗
 		if portrait_rect.visible:
-			if _portrait_tween != null and _portrait_tween.is_valid():
-				_portrait_tween.kill()
-			_portrait_tween = create_tween()
-			_portrait_tween.tween_property(portrait_rect, "modulate:a", 0.0, 0.15).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-		# 右移文字区域，给立绘腾出空间
-		var box_node: Control = box
-		var box_tween := create_tween()
-		box_tween.tween_property(box_node, "offset_left", 264.0, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		# 显示大立绘，从左侧滑入
-		if _avatar_tween != null and _avatar_tween.is_valid():
-			_avatar_tween.kill()
-		_avatar_tween = create_tween()
-		_avatar_tween.set_parallel(true)
-		_avatar_tween.tween_property(_avatar_rect, "modulate:a", 1.0, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		if _avatar_rect.modulate.a < 0.1:
-			# 首次出现：从左侧滑入 + 缩放
-			_avatar_rect.position.x -= 30
-			_avatar_rect.scale = Vector2(0.93, 0.93)
-			_avatar_tween.tween_property(_avatar_rect, "position:x", _avatar_rect.position.x + 30, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			_avatar_tween.tween_property(_avatar_rect, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			portrait_rect.modulate.a = 0.5
+		# 右移文字区域给立绘腾空间
+		box.offset_left = DIALOGUE_TEXT_LEFT_WITH_AVATAR
+		# 直接显示头像（无动画）
+		_avatar_rect.modulate.a = 1.0
+		_avatar_rect.scale = Vector2(1.0, 1.0)
 
 func _hide_avatar() -> void:
-	"""隐藏主角/同伴大立绘，恢复NPC中央立绘和文字位置"""
+	"""隐藏主角/同伴立绘，恢复文字位置"""
 	if _avatar_rect == null or _avatar_rect.modulate.a < 0.01:
 		return
-	if _avatar_tween != null and _avatar_tween.is_valid():
-		_avatar_tween.kill()
-	_avatar_tween = create_tween()
-	_avatar_tween.set_parallel(true)
-	_avatar_tween.tween_property(_avatar_rect, "modulate:a", 0.0, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	_avatar_tween.tween_property(_avatar_rect, "position:x", _avatar_rect.position.x - 15, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	_avatar_rect.modulate.a = 0.0
 	# 恢复文字区域到原始位置
-	var box_node: Control = box
-	var box_tween := create_tween()
-	box_tween.tween_property(box_node, "offset_left", 48.0, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	box.offset_left = DIALOGUE_TEXT_LEFT_DEFAULT
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -486,41 +626,50 @@ func _build_dialogue_frame() -> void:
 
 
 func _apply_dialogue_chrome() -> void:
-	dim_bg.offset_top = -204.0
+	dim_bg.offset_left = DIALOGUE_FRAME_SIDE_MARGIN
+	dim_bg.offset_top = -(DIALOGUE_FRAME_HEIGHT + DIALOGUE_FRAME_BOTTOM_MARGIN)
+	dim_bg.offset_right = -DIALOGUE_FRAME_SIDE_MARGIN
+	dim_bg.offset_bottom = -DIALOGUE_FRAME_BOTTOM_MARGIN
 	var bg_style := _make_shell_style(
-		Color(0.032, 0.02, 0.01, 0.95),
-		Color(0.82, 0.62, 0.24, 0.78),
-		Color(0, 0, 0, 0.56),
-		30,
-		26
+		Color(0.035, 0.022, 0.012, 0.94),
+		Color(0.76, 0.58, 0.26, 0.78),
+		Color(0, 0, 0, 0.42),
+		20,
+		22
 	)
-	bg_style.corner_radius_bottom_left = 0
-	bg_style.corner_radius_bottom_right = 0
+	bg_style.border_width_left = 2
+	bg_style.border_width_top = 3
+	bg_style.border_width_right = 2
+	bg_style.border_width_bottom = 2
+	bg_style.content_margin_left = 20
+	bg_style.content_margin_right = 22
+	bg_style.content_margin_top = 16
+	bg_style.content_margin_bottom = 16
 	dim_bg.add_theme_stylebox_override("panel", bg_style)
 
-	box.offset_left = 48.0
-	box.offset_top = -188.0
-	box.offset_right = -48.0
-	box.offset_bottom = -14.0
+	box.offset_left = DIALOGUE_TEXT_LEFT_DEFAULT
+	box.offset_top = DIALOGUE_TEXT_TOP_OFFSET
+	box.offset_right = -42.0
+	box.offset_bottom = DIALOGUE_TEXT_BOTTOM_OFFSET
 
-	speaker_label.offset_left = 22.0
-	speaker_label.offset_top = 12.0
-	speaker_label.offset_right = 270.0
-	speaker_label.offset_bottom = 46.0
+	speaker_label.offset_left = 16.0
+	speaker_label.offset_top = 10.0
+	speaker_label.offset_right = 260.0
+	speaker_label.offset_bottom = 42.0
 	speaker_label.add_theme_font_override("font", UI_FONT)
-	speaker_label.add_theme_font_size_override("font_size", 30)
+	speaker_label.add_theme_font_size_override("font_size", 24)
 	speaker_label.add_theme_color_override("font_color", Color(1.0, 0.87, 0.56, 1.0))
-	speaker_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 1.0))
-	speaker_label.add_theme_constant_override("outline_size", 4)
+	speaker_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.84))
+	speaker_label.add_theme_constant_override("outline_size", 2)
 
-	text_label.offset_left = 24.0
-	text_label.offset_top = 58.0
-	text_label.offset_right = -24.0
-	text_label.offset_bottom = -52.0
+	text_label.offset_left = 18.0
+	text_label.offset_top = 56.0
+	text_label.offset_right = -20.0
+	text_label.offset_bottom = -24.0
 	text_label.add_theme_font_override("normal_font", UI_FONT)
-	text_label.add_theme_font_size_override("normal_font_size", 24)
+	text_label.add_theme_font_size_override("normal_font_size", 21)
 	text_label.add_theme_color_override("default_color", Color(0.95, 0.90, 0.78, 1.0))
-	text_label.add_theme_constant_override("line_separation", 8)
+	text_label.add_theme_constant_override("line_separation", 6)
 
 
 
@@ -568,21 +717,20 @@ func _build_choice_hint() -> void:
 	_choice_hint_label = Label.new()
 	_choice_hint_label.text = "▼ 请选择回应"
 	_choice_hint_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_choice_hint_label.anchor_left = 1.0
+	_choice_hint_label.anchor_left = 0.0
 	_choice_hint_label.anchor_top = 1.0
 	_choice_hint_label.anchor_right = 1.0
 	_choice_hint_label.anchor_bottom = 1.0
-	_choice_hint_label.offset_left = -220.0
-	_choice_hint_label.offset_top = -36.0
+	_choice_hint_label.offset_left = 0.0
+	_choice_hint_label.offset_top = -34.0
 	_choice_hint_label.offset_right = -8.0
-	_choice_hint_label.offset_bottom = -8.0
+	_choice_hint_label.offset_bottom = -6.0
 	_choice_hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_choice_hint_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_choice_hint_label.add_theme_font_override("font", UI_FONT)
 	_choice_hint_label.add_theme_font_size_override("font_size", 16)
-	_choice_hint_label.add_theme_color_override("font_color", Color(0.92, 0.82, 0.62, 0.96))
-	_choice_hint_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.9))
-	_choice_hint_label.add_theme_constant_override("outline_size", 2)
+	_choice_hint_label.add_theme_color_override("font_color", Color(0.85, 0.80, 0.60, 0.80))
+	_choice_hint_label.add_theme_constant_override("outline_size", 0)
 	_choice_hint_label.visible = false
 	box.add_child(_choice_hint_label)
 
@@ -685,81 +833,47 @@ func _build_top_options_panel() -> void:
 	_top_options_panel = PanelContainer.new()
 	_top_options_panel.name = "TopOptionsPanel"
 	_top_options_panel.mouse_filter = Control.MOUSE_FILTER_STOP
-	_top_options_panel.visible = false
-	_top_options_panel.add_theme_stylebox_override("panel", _make_shell_style(
-		Color(0.048, 0.03, 0.015, 0.96),
-		Color(0.84, 0.62, 0.22, 0.76),
-		Color(0, 0, 0, 0.58),
-		26,
-		24
-	))
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0, 0, 0, 0)
+	panel_style.border_color = Color(0, 0, 0, 0)
+	panel_style.set_border_width_all(0)
+	panel_style.content_margin_left = 0
+	panel_style.content_margin_right = 0
+	panel_style.content_margin_top = 0
+	panel_style.content_margin_bottom = 0
+	_top_options_panel.add_theme_stylebox_override("panel", panel_style)
 	add_child(_top_options_panel)
 
-	var shell := VBoxContainer.new()
-	shell.add_theme_constant_override("separation", 14)
-	_top_options_panel.add_child(shell)
-
-	var header := HBoxContainer.new()
-	header.add_theme_constant_override("separation", 10)
-	shell.add_child(header)
-
-	var badge := PanelContainer.new()
-	badge.custom_minimum_size = Vector2(112, 34)
-	badge.add_theme_stylebox_override("panel", _make_badge_style(
-		Color(0.11, 0.066, 0.028, 0.98),
-		Color(0.94, 0.70, 0.28, 0.94),
-		Color(0, 0, 0, 0.18),
-		10
-	))
-	header.add_child(badge)
-
-	var badge_label := Label.new()
-	badge_label.text = "问讯簿"
-	badge_label.anchor_right = 1.0
-	badge_label.anchor_bottom = 1.0
-	badge_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	badge_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	badge_label.add_theme_font_override("font", UI_FONT)
-	badge_label.add_theme_font_size_override("font_size", 18)
-	badge_label.add_theme_color_override("font_color", CLR_GOLD)
-	badge_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.9))
-	badge_label.add_theme_constant_override("outline_size", 2)
-	badge.add_child(badge_label)
-
-	var guide := Label.new()
-	guide.text = "挑一条线索继续推进"
-	guide.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	guide.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	guide.add_theme_font_override("font", UI_FONT)
-	guide.add_theme_font_size_override("font_size", 15)
-	guide.add_theme_color_override("font_color", Color(0.86, 0.76, 0.58, 0.86))
-	header.add_child(guide)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 0)
+	margin.add_theme_constant_override("margin_right", 0)
+	margin.add_theme_constant_override("margin_top", 0)
+	margin.add_theme_constant_override("margin_bottom", 0)
+	_top_options_panel.add_child(margin)
 
 	_top_options_vbox = VBoxContainer.new()
-	_top_options_vbox.add_theme_constant_override("separation", 12)
-	shell.add_child(_top_options_vbox)
+	_top_options_vbox.add_theme_constant_override("separation", 10)
+	margin.add_child(_top_options_vbox)
+	_top_options_panel.visible = false
 
 
 func _position_top_options(option_count: int) -> void:
 	var vp := get_viewport_rect().size
-	var panel_w: float = minf(940.0, vp.x * 0.76)
-	var btn_height: float = 52.0
-	var separation: int = 12
+	var panel_w: float = minf(720.0, vp.x * 0.58)
+	var btn_height: float = 44.0
+	var separation: int = 8
 	if option_count > 6:
-		btn_height = 46.0
-		separation = 10
-	if option_count > 8:
-		btn_height = 42.0
-		separation = 8
+		btn_height = 40.0
+		separation = 6
 	_top_options_vbox.add_theme_constant_override("separation", separation)
 	for child in _top_options_vbox.get_children():
 		if child is Button:
 			child.custom_minimum_size = Vector2(0, btn_height)
 	var visible_count: int = option_count if option_count > 0 else 1
-	var panel_h: float = minf(430.0, 84.0 + float(visible_count) * (btn_height + float(separation)))
+	var panel_h: float = minf(320.0, 24.0 + float(visible_count) * (btn_height + float(separation)))
 	_top_options_panel.size = Vector2(panel_w, panel_h)
 	var dialogue_box_top: float = dim_bg.get_rect().position.y
-	var target_y: float = dialogue_box_top - panel_h - 18.0
+	var target_y: float = dialogue_box_top - panel_h - 12.0
 	if target_y < 24.0:
 		target_y = 24.0
 	var target_x: float = (vp.x - panel_w) * 0.5

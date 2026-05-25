@@ -36,25 +36,7 @@
     }
   ],
 
-  "panel_unlock": {
-    "accuse": {
-      "condition": {
-        "any": [
-          {
-            "all": [
-              { "evidence": "evidence_hull_hole" },
-              { "evidence": "evidence_float_bladder" },
-              { "any": [
-                { "evidence": "evidence_dismissal_note" },
-                { "evidence": "evidence_gambling_iou" }
-              ]}
-            ]
-          },
-          { "flag": "agui_confessed_mastermind" }
-        ]
-      }
-    }
-  },
+  "panel_unlock": {},
 
   "search_point_unlock": {
     "ferry_inn.inn_agui_room": {

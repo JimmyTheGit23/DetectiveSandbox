@@ -42,6 +42,7 @@ func _create_portrait_rect() -> void:
 	_portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	_portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# 左下角显示（与 DialogueBox 的头像位置一致）
 	_portrait_rect.anchor_left = 0.0
 	_portrait_rect.anchor_top = 1.0
 	_portrait_rect.anchor_right = 0.0
@@ -51,26 +52,36 @@ func _create_portrait_rect() -> void:
 	_portrait_rect.offset_right = 272
 	_portrait_rect.offset_bottom = 10
 	_portrait_rect.visible = false
+	# 应用边缘渐隐 shader
+	var shader = load("res://assets/cn/portrait_fade.gdshader")
+	if shader:
+		var mat := ShaderMaterial.new()
+		mat.shader = shader
+		mat.set_shader_parameter("fade_bottom", 0.25)
+		mat.set_shader_parameter("fade_top", 0.03)
+		mat.set_shader_parameter("fade_left", 0.0)
+		mat.set_shader_parameter("fade_right", 0.18)
+		_portrait_rect.material = mat
 	add_child(_portrait_rect)
 
 
 func _apply_chrome() -> void:
-	box_vbox.add_theme_constant_override("separation", 12)
+	box_vbox.add_theme_constant_override("separation", 4)
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	speaker_label.add_theme_font_override("font", UI_FONT)
-	speaker_label.add_theme_font_size_override("font_size", 30)
+	speaker_label.add_theme_font_size_override("font_size", 24)
 	speaker_label.add_theme_color_override("font_color", Color(1.0, 0.87, 0.56, 1.0))
-	speaker_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.92))
-	speaker_label.add_theme_constant_override("outline_size", 4)
+	speaker_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.84))
+	speaker_label.add_theme_constant_override("outline_size", 2)
 	text_label.add_theme_font_override("normal_font", UI_FONT)
-	text_label.add_theme_font_size_override("normal_font_size", 24)
+	text_label.add_theme_font_size_override("normal_font_size", 21)
 	text_label.add_theme_color_override("default_color", Color(0.95, 0.90, 0.78, 1.0))
-	text_label.add_theme_constant_override("line_separation", 10)
+	text_label.add_theme_constant_override("line_separation", 6)
 	continue_label.add_theme_font_override("font", UI_FONT)
-	continue_label.add_theme_font_size_override("font_size", 18)
-	continue_label.add_theme_color_override("font_color", Color(0.90, 0.82, 0.62, 0.96))
+	continue_label.add_theme_font_size_override("font_size", 16)
+	continue_label.add_theme_color_override("font_color", Color(0.85, 0.80, 0.60, 0.80))
 	continue_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.86))
-	continue_label.add_theme_constant_override("outline_size", 2)
+	continue_label.add_theme_constant_override("outline_size", 0)
 	continue_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	continue_label.visible = true
 	_set_continue_hint_visible(false)
@@ -90,7 +101,7 @@ func _create_choices_container() -> void:
 	add_child(_choices_panel)
 
 	var shell := VBoxContainer.new()
-	shell.add_theme_constant_override("separation", 12)
+	shell.add_theme_constant_override("separation", 8)
 	_choices_panel.add_child(shell)
 
 	var title := Label.new()
@@ -104,7 +115,7 @@ func _create_choices_container() -> void:
 	shell.add_child(title)
 
 	_choices_container = VBoxContainer.new()
-	_choices_container.add_theme_constant_override("separation", 10)
+	_choices_container.add_theme_constant_override("separation", 6)
 	shell.add_child(_choices_container)
 
 
@@ -117,12 +128,12 @@ func _make_shell_style(bg: Color, border: Color, shadow_size: int, radius: int) 
 	style.border_width_right = 2
 	style.border_width_bottom = 2
 	style.set_corner_radius_all(radius)
-	style.shadow_color = Color(0, 0, 0, 0.46)
+	style.shadow_color = Color(0, 0, 0, 0.42)
 	style.shadow_size = shadow_size
-	style.content_margin_left = 22
+	style.content_margin_left = 20
 	style.content_margin_right = 22
-	style.content_margin_top = 18
-	style.content_margin_bottom = 18
+	style.content_margin_top = 16
+	style.content_margin_bottom = 16
 	return style
 
 
@@ -182,7 +193,13 @@ func show_narration(speaker: String, text: String, has_next: bool, centered := f
 		_adjust_box_for_portrait(true)
 	else:
 		_update_portrait(speaker)
-	_typewriter.play(text_label, text)
+	# 去掉多余空行，保持与 DialogueBox 一致的紧凑显示
+	var display_text := text.replace("\r\n", "\n").replace("\r", "\n")
+	display_text = display_text.strip_edges()
+	# 双换行变单换行，单换行保留
+	while display_text.find("\n\n") >= 0:
+		display_text = display_text.replace("\n\n", "\n")
+	_typewriter.play(text_label, display_text)
 	await _typewriter.finished
 	if run_id != _narration_run_id:
 		return
@@ -206,12 +223,12 @@ func _show_choices(choices: Array) -> void:
 			continue
 		var btn := Button.new()
 		btn.text = choice.get("text", "")
-		btn.custom_minimum_size = Vector2(0, 54)
+		btn.custom_minimum_size = Vector2(0, 44)
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		btn.focus_mode = Control.FOCUS_NONE
 		btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		btn.add_theme_font_override("font", UI_FONT)
-		btn.add_theme_font_size_override("font_size", 20)
+		btn.add_theme_font_size_override("font_size", 18)
 		_apply_choice_style(btn)
 		var idx := i
 		btn.pressed.connect(func():
@@ -237,20 +254,22 @@ func _position_choices_panel(choice_count: int) -> void:
 	if _choices_panel == null or _choices_container == null:
 		return
 	var vp := get_viewport_rect().size
-	var panel_w: float = minf(780.0, vp.x * 0.72)
-	var btn_height: float = 54.0
-	var separation: int = 10
+	var panel_w: float = clampf(vp.x - 120.0, 560.0, 820.0)
+	var btn_height: float = 44.0
+	var separation: int = 6
 	if choice_count > 5:
-		btn_height = 48.0
-		separation = 8
+		btn_height = 40.0
+		separation = 4
 	_choices_container.add_theme_constant_override("separation", separation)
 	for child in _choices_container.get_children():
 		if child is Button:
 			child.custom_minimum_size = Vector2(0, btn_height)
-	var visible_count: int = choice_count if choice_count > 0 else 1
-	var panel_h: float = minf(360.0, 64.0 + float(visible_count) * (btn_height + float(separation)))
+	var visible_count: int = maxi(choice_count, 1)
+	var panel_h: float = minf(vp.y * 0.44, 58.0 + float(visible_count) * btn_height + float(maxi(visible_count - 1, 0) * separation))
+	var bottom_limit: float = vp.y - 260.0
+	var panel_y: float = clampf(52.0, 20.0, maxf(20.0, bottom_limit - panel_h))
 	_choices_panel.size = Vector2(panel_w, panel_h)
-	_choices_panel.position = Vector2((vp.x - panel_w) * 0.5, 74.0)
+	_choices_panel.position = Vector2((vp.x - panel_w) * 0.5, panel_y)
 
 
 func _set_continue_hint_visible(is_visible: bool) -> void:
@@ -273,48 +292,49 @@ func _apply_choice_style(btn: Button) -> void:
 
 func _apply_layout(centered: bool) -> void:
 	_centered_layout = centered
+	box.clip_contents = true
 	if centered:
 		dim_bg.color = Color(0.02, 0.01, 0.0, 0.46)
-		box.anchor_left = 0.5
-		box.anchor_top = 0.5
-		box.anchor_right = 0.5
-		box.anchor_bottom = 0.5
-		box.offset_left = -420
-		box.offset_top = -210
-		box.offset_right = 420
-		box.offset_bottom = 180
+		box.anchor_left = 0.0
+		box.anchor_top = 1.0
+		box.anchor_right = 1.0
+		box.anchor_bottom = 1.0
+		box.offset_left = 28
+		box.offset_top = -240
+		box.offset_right = -28
+		box.offset_bottom = -18
 		box.add_theme_stylebox_override("panel", _make_shell_style(
-			Color(0.05, 0.03, 0.015, 0.97),
-			Color(0.86, 0.64, 0.24, 0.80),
-			30,
-			28
+			Color(0.035, 0.022, 0.012, 0.94),
+			Color(0.76, 0.58, 0.26, 0.78),
+			20,
+			22
 		))
-		speaker_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		text_label.custom_minimum_size = Vector2(0, 220)
+		speaker_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		text_label.custom_minimum_size = Vector2(0, 0)
 	else:
 		dim_bg.color = Color(0.02, 0.01, 0.0, 0.24)
 		box.anchor_left = 0.0
 		box.anchor_top = 1.0
 		box.anchor_right = 1.0
 		box.anchor_bottom = 1.0
-		box.offset_left = 76
-		box.offset_top = -238
-		box.offset_right = -52
-		box.offset_bottom = -22
+		box.offset_left = 28
+		box.offset_top = -240
+		box.offset_right = -28
+		box.offset_bottom = -18
 		box.add_theme_stylebox_override("panel", _make_shell_style(
-			Color(0.045, 0.028, 0.014, 0.95),
-			Color(0.82, 0.60, 0.22, 0.76),
-			28,
-			26
+			Color(0.035, 0.022, 0.012, 0.94),
+			Color(0.76, 0.58, 0.26, 0.78),
+			20,
+			22
 		))
 		speaker_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		text_label.custom_minimum_size = Vector2(0, 126)
+		text_label.custom_minimum_size = Vector2(0, 0)
 
 
 func _adjust_box_for_portrait(has_portrait: bool) -> void:
 	if _centered_layout:
 		return
-	box.offset_left = 252 if has_portrait else 76
+	box.offset_left = 264 if has_portrait else 28
 
 
 func _update_portrait(speaker: String) -> void:

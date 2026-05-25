@@ -10,7 +10,8 @@
     "sub_locations": [
       { "target": "zhou_room", "name": "周氏房间", "description": "死者妻子暂住的偏房" },
       { "target": "agui_room", "name": "阿贵住处", "description": "仆从阿贵歇脚的小间" },
-      { "target": "shen_room", "name": "二楼客房", "description": "沈清月的房间", "requires": { "flag": "agui_confessed_mastermind" } }
+      { "target": "inn_corridor", "name": "客栈走廊", "description": "通往二楼的走廊，有个外地女子靠在柱子上" },
+      { "target": "shen_room", "name": "二楼客房", "description": "沈清月的房间（需Phase 3解锁）" }
     ],
     "search_points": [
       { "id": "inn_lobby", "name": "客栈大堂", "time_cost": 0, "hint_rect": [0.0, 0.22, 0.75, 0.68] }
@@ -47,6 +48,19 @@
       { "id": "agui_clothes", "name": "晾着的湿衣物", "time_cost": 0, "hint_rect": [0.057, 0.25, 0.77, 0.40] },
       { "id": "agui_bundle", "name": "床下包袱", "time_cost": 0, "hint_rect": [0.55, 0.76, 0.20, 0.16] }
     ]
+  },
+  "inn_corridor": {
+    "name": "客栈走廊",
+    "parent": "ferry_inn",
+    "description": "通往二楼的过道。一个穿劲装的高挑女子抱臂靠在廊柱上，单脚踩着柱根。看到你过来，她不紧不慢地挑了挑眉。",
+    "unlock_phase": "phase_1",
+    "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+    "scene_type": "scene_prologue_ferry_inn",
+    "npcs": ["shen_qingyue"],
+    "sub_locations": [
+      { "target": "ferry_inn", "name": "返回大堂", "description": "回到客栈大堂" }
+    ],
+    "search_points": []
   },
   "ferry_dock": {
     "name": "石矶渡·码头",

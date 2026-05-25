@@ -106,15 +106,6 @@ func _build_ui() -> void:
 	btn_confront.pressed.connect(_on_debug_confrontation)
 	debug_box.add_child(btn_confront)
 
-	var btn_accuse := Button.new()
-	btn_accuse.text = "⚡ 快速进入指证"
-	btn_accuse.custom_minimum_size = Vector2(0, 40)
-	btn_accuse.add_theme_font_size_override("font_size", 16)
-	btn_accuse.add_theme_color_override("font_color", Color(1.0, 0.7, 0.3, 1))
-	btn_accuse.add_theme_color_override("font_hover_color", Color(1.0, 0.9, 0.5, 1))
-	btn_accuse.pressed.connect(_on_debug_accuse)
-	debug_box.add_child(btn_accuse)
-
 	var spacer2 := Control.new()
 	spacer2.custom_minimum_size = Vector2(0, 12)
 	vbox.add_child(spacer2)
@@ -244,19 +235,6 @@ func _on_debug_confrontation() -> void:
 	# 关闭设置面板
 	queue_free()
 
-
-func _on_debug_accuse() -> void:
-	_unlock_all_evidence()
-	GameManager.set_state(GameManager.STATE_PLAYING)
-	GameManager.current_location = GameManager.case_main_scene
-	var main = get_tree().current_scene
-	if main and main.has_method("_hide_title"):
-		main._hide_title()
-	close_requested.emit()
-	get_tree().create_timer(0.05).timeout.connect(func():
-		if main and main.has_method("_open_subpanel"):
-			main._open_subpanel("accuse")
-	)
 
 
 func _unlock_all_evidence() -> void:

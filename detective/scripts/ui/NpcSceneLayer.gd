@@ -117,3 +117,45 @@ func hide_npcs() -> void:
 func show_npcs() -> void:
 	if _current_npc_id != "":
 		_show_portrait()
+
+
+## 讨论模式：切换立绘为助手
+var _saved_npc_id: String = ""
+var _saved_texture: Texture2D = null
+
+func show_companion() -> void:
+	""" 先隐藏原 NPC 立绘，再显示助手立绘（居中） """
+	_saved_npc_id = _current_npc_id
+	_saved_texture = _portrait.texture
+	# 先隐藏当前 NPC
+	if _portrait.visible:
+		if _portrait_tween != null and _portrait_tween.is_valid():
+			_portrait_tween.kill()
+		_portrait.modulate.a = 0.0
+		_portrait.visible = false
+	# 加载助手立绘并显示
+	var portrait_path: String = CompanionService.get_companion_portrait()
+	if portrait_path == "" or not ResourceLoader.exists(portrait_path):
+		return
+	_portrait.texture = load(portrait_path)
+	_current_npc_id = "__companion__"
+	_show_portrait()
+
+
+func restore_npc() -> void:
+	""" 隐藏助手立绘，恢复原 NPC 立绘 """
+	# 先隐藏当前（助手）
+	if _portrait.visible:
+		if _portrait_tween != null and _portrait_tween.is_valid():
+			_portrait_tween.kill()
+		_portrait.modulate.a = 0.0
+		_portrait.visible = false
+	# 恢复 NPC
+	_current_npc_id = _saved_npc_id
+	if _saved_texture != null:
+		_portrait.texture = _saved_texture
+		_saved_texture = null
+		_saved_npc_id = ""
+		_show_portrait()
+	else:
+		_saved_npc_id = ""

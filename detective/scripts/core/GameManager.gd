@@ -70,6 +70,9 @@ var unlocked_phases: Array[String] = ["phase_1"]
 # 新：NPC 时段日程 + 凶手行动表（动态案件可选）
 var schedules_data: Dictionary = {}
 var culprit_actions_data: Dictionary = {}
+
+# 对峙数据路由：由对话系统设置，ConfrontationPanel 读取
+var active_confrontation_key: String = "confrontation"
 # 每次 reset 时基于 case_seed 解算的真实执行时刻：action_id -> "D{d}_P{p}"
 var culprit_action_resolved: Dictionary = {}
 # 玩家撞见过的凶手行动（用于触发遭遇剧情，避免重复）

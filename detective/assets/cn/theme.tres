@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://chinesetheme"]
+[gd_resource type="Theme" format=3 uid="uid://chinesetheme"]
 
 [ext_resource type="FontFile" uid="uid://csbl05ly218an" path="res://assets/fonts/NotoSansSC.otf" id="1_font"]
 

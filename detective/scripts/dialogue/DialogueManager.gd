@@ -18,6 +18,11 @@ var _will_trigger_confrontation: bool = false
 var _narration_mode: bool = false
 var _narration_node: String = ""
 
+# ─── 助手讨论模式 ───
+var _discuss_mode: bool = false
+var _discuss_topics: Array = []
+var _discuss_callback: Callable = Callable()
+
 
 # ─── NPC 对话 ───
 func start_dialogue(npc_id: String) -> void:
@@ -66,6 +71,10 @@ func _pick_start_node() -> String:
 
 
 func choose_option(index: int) -> void:
+	# ─── 助手讨论模式 ───
+	if _discuss_mode:
+		choose_discuss_option(index)
+		return
 	var node: Dictionary = _current_tree.get("nodes", {}).get(_current_node_id, {})
 	var options: Array = _filter_options(node.get("options", []))
 	if index < 0 or index >= options.size():
@@ -117,10 +126,13 @@ func end_dialogue(suppress_companion_banter := false) -> void:
 	var ended_npc := _current_npc_id
 	var had_content := _dialogue_had_content_node
 	var should_confront := _will_trigger_confrontation
+	var was_discuss := _discuss_mode
 	_current_tree = {}
 	_current_npc_id = ""
 	_dialogue_had_content_node = false
 	_will_trigger_confrontation = false
+	_discuss_mode = false
+	_discuss_topics = []
 	VoicePlayer.end_session()
 	GameManager.set_state(GameManager.STATE_PLAYING)
 	dialogue_ended.emit()
@@ -216,6 +228,9 @@ func _emit_current() -> void:
 	# 检查是否触发对峙：对话播完后自动进入对峙流程
 	if node.get("trigger_confrontation", false):
 		_will_trigger_confrontation = true
+		# 设置对峙数据路由键（默认 "confrontation"，可在对话节点中指定）
+		var confront_key: String = node.get("confrontation_key", "confrontation")
+		GameManager.active_confrontation_key = confront_key
 	dialogue_started.emit(npc_name, portrait, text, options, pages)
 
 
@@ -560,3 +575,74 @@ func _try_tts_for_narration(speaker: String, text: String) -> void:
 	if tts == null or not tts.is_available():
 		return
 	tts.request_tts_speaker(speaker, text)
+
+
+# ═══════════════════════════════════════════════════════════════
+# ███  助手讨论模式（复用 DialogueBox 系统）
+# ═══════════════════════════════════════════════════════════════
+
+func is_discuss_mode() -> bool:
+	return _discuss_mode
+
+
+func start_companion_discuss() -> void:
+	""" 开始助手讨论：使用 DialogueBox 系统显示助手居中立绘 + 话题选项 """
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs == null:
+		return
+	_discuss_mode = true
+	_discuss_topics = cs.get_available_topics()
+	_current_npc_id = cs.get_companion_id()
+	GameManager.set_state(GameManager.STATE_DIALOGUE)
+	_emit_discuss_hub()
+
+
+func _emit_discuss_hub() -> void:
+	""" 发射讨论 hub：助手问候 + 两个话题选项 """
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs == null:
+		end_dialogue()
+		return
+	var companion_name: String = cs.get_companion_role_name()
+	var portrait: String = cs.get_companion_portrait()
+	var greeting := "想聊什么？"
+	var options: Array = [
+		{"text": "注意到的事情", "goto": "__discuss_suspect_now"},
+		{"text": "闲聊一下", "goto": "__discuss_chitchat"},
+	]
+	var pages: Array = [{"speaker": companion_name, "portrait": portrait, "text": greeting}]
+	dialogue_started.emit(companion_name, portrait, "", options, pages)
+
+
+func choose_discuss_option(index: int) -> void:
+	""" 讨论模式下的选项处理 """
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs == null:
+		end_dialogue()
+		return
+	# 固定两个选项：0=suspect_now, 1=chitchat
+	var topic_ids := ["suspect_now", "chitchat"]
+	if index < 0 or index >= topic_ids.size():
+		end_dialogue()
+		return
+	var topic_id: String = topic_ids[index]
+	var lines: Array = cs.discuss(topic_id)
+	if lines.is_empty():
+		_emit_discuss_hub()
+		return
+	# 将回复行转换为 pages 格式通过 dialogue_started 显示
+	var companion_name: String = cs.get_companion_role_name()
+	var portrait: String = cs.get_companion_portrait()
+	var pages: Array = []
+	for line in lines:
+		if line is Dictionary:
+			var speaker: String = line.get("speaker", companion_name)
+			var p: String = line.get("portrait", "")
+			if p == "":
+				p = portrait
+			pages.append({"speaker": speaker, "portrait": p, "text": line.get("text", "")})
+		else:
+			pages.append({"speaker": companion_name, "portrait": portrait, "text": str(line)})
+	# 回复结束后回到 hub（用 __discuss_hub 作为 goto）
+	var options: Array = [{"text": "继续聊", "goto": "__discuss_hub"}]
+	dialogue_started.emit(companion_name, portrait, "", options, pages)

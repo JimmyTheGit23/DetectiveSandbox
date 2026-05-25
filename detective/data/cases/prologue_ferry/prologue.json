@@ -569,73 +569,96 @@
     "day2_zhou_1": {
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
       "speaker": "周氏",
-      "text": "老爷！老爷——！\n\n（突然抬头，死死抓住你的袖子）你！你是跟他同船的对不对？！\n\n那个船家呢？！老范呢！他人在哪！",
-      "next": "day2_zhou_2"
+      "text": "老爷！老爷——！\n\n（突然抬头，血红的眼睛死死盯着你）你——！你是跟他同船的！",
+      "next": "day2_zhou_accuse_1"
     },
-    "day2_zhou_2": {
-      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
-      "speaker": "陆昭",
-      "text": "我是陆昭。巡按御史。昨夜搭了同一条船——船沉了，我侥幸活下来。\n\n你丈夫的死，恐怕不是意外。",
-      "next": "day2_zhou_3",
-      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
-    },
-    "day2_zhou_3": {
+    "day2_zhou_accuse_1": {
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
       "speaker": "周氏",
-      "text": "不是意外……？！\n\n那个船家！老范！他欠了一屁股赌债，整个码头都知道！老爷说过再也不坐他的船——是阿贵说这次赶路方便才坐的！\n\n出了事船家好好的人倒死了——他有问题！",
-      "next": "day2_zhou_4"
+      "text": "同船的人——他死了，你活着！\n\n（猛地扑过来，死死抓住你的衣领）你就是凶手！你害死了我家老爷！！",
+      "next": "day2_zhou_accuse_2"
     },
-    "day2_zhou_4": {
+    "day2_zhou_accuse_2": {
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
+      "speaker": "陆昭",
+      "text": "你冷静——我是巡按御史陆昭，昨夜搭船过江，同样是受害者——",
+      "next": "day2_zhou_accuse_3",
+      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+    },
+    "day2_zhou_accuse_3": {
+      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
+      "speaker": "周氏",
+      "text": "御史？！谁信！！你有凭证吗？！拿出来！！",
+      "next": "day2_lizheng_appear"
+    },
+    "day2_lizheng_appear": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "",
+      "text": "围观人群骚动。一个圆脸中年人从人群中挤出来——是渡口的里正。",
+      "next": "day2_lizheng_1"
+    },
+    "day2_lizheng_1": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "钱里正",
+      "text": "都别吵别吵！出了人命我这个里正管不了——等县里来人。\n\n（看了你一眼）你说你是御史？有官印文书吗？",
+      "next": "day2_lizheng_2",
+      "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
+    },
+    "day2_lizheng_2": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "陆昭",
+      "text": "……落在了江里。",
+      "next": "day2_lizheng_3",
+      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+    },
+    "day2_lizheng_3": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "钱里正",
+      "text": "（叹了口气）那我只能先按规矩办了。\n\n同船的人死了，你没事——不管你是不是官老爷，在查清之前，你不能离开渡口。\n\n周氏告你杀人，我得给她一个交代。",
+      "next": "day2_lizheng_4",
+      "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
+    },
+    "day2_lizheng_4": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "凌瑶",
-      "text": "（低声）陆昭——那个船家……跑了二十年船的人翻船？还欠赌债？\n\n而且我昨晚在码头等船的时候，好像看到有两三个人蹲在码头角落说话。当时天太黑没看清……",
+      "text": "等等等等！他是被我从江里拖上来的！半死不活！——你凭什么说他是凶手！",
+      "next": "day2_lizheng_5",
+      "portrait": "res://assets/cn/portraits/companion_lingyao_determined.png"
+    },
+    "day2_lizheng_5": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "钱里正",
+      "text": "姑娘——我知道你好心。但你认识他吗？他说什么你就信什么？\n\n（摇头）我给你两天。这雨两天内停不了，反正谁也走不了。\n\n两天之内——要么你找到真凶，要么等县衙的人来处置你。",
+      "next": "day2_framed_resolve",
+      "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
+    },
+    "day2_framed_resolve": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "",
+      "text": "围观人群窃窃私语。有人同情你，有人露出怀疑的眼神。\n\n周氏瘫坐在地上哭泣。钱里正摆了摆手，示意人群散开。",
+      "next": "day2_lingyao_resolve"
+    },
+    "day2_lingyao_resolve": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "凌瑶",
+      "text": "（低声）陆昭——你没事吧？这帮人……！\n\n算了不说了。你打算怎么办？",
+      "next": "day2_lu_resolve",
+      "portrait": "res://assets/cn/portraits/companion_lingyao_worried.png"
+    },
+    "day2_lu_resolve": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "陆昭",
+      "text": "船底有个人为凿出来的洞。船家和仆从都活着，只有带着银子的布商死了。\n\n这不是意外——是谋杀。\n\n而我必须找出凶手。不只是为了查案——是为了自证清白。",
+      "next": "day2_lingyao_join_framed",
+      "portrait": "res://assets/cn/portraits/lu_zhao_cold.png"
+    },
+    "day2_lingyao_join_framed": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "凌瑶",
+      "text": "自证清白？——那更得帮你了！本姑娘虽然是送信的，但我昨晚在码头看到过几个人鬼鬼祟祟说话。\n\n两天是吧？够了。走——先去查那条破船！",
       "effect": {
         "gain_clue": "clue_lingyao_dock_witness"
       },
-      "next": "day2_resolve",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_worried.png"
-    },
-    "day2_resolve": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
-      "speaker": "陆昭",
-      "text": "船底的洞。欠赌债的船家。码头的密谈。\n\n这不是翻船——是谋杀。",
-      "next": "day2_resolve_2",
-      "portrait": "res://assets/cn/portraits/lu_zhao_cold.png"
-    },
-    "day2_resolve_2": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
-      "speaker": "凌瑶",
-      "text": "那你——你要查？\n\n……可你自己差点也死在那条船上啊！",
-      "next": "day2_resolve_3",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_worried.png"
-    },
-    "day2_resolve_3": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
-      "speaker": "陆昭",
-      "text": "正因如此。\n\n凌姑娘——你昨晚在码头看到的那些人，可能是关键证人。我需要你的帮助。",
-      "choices": [
-        {
-          "text": "「你愿意帮我吗？」",
-          "goto": "day2_lingyao_join"
-        },
-        {
-          "text": "「此事或许与你无关——你可以不管。」",
-          "goto": "day2_lingyao_join_alt"
-        }
-      ],
-      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
-    },
-    "day2_lingyao_join": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
-      "speaker": "凌瑶",
-      "text": "你救了我一条命——不对，是我救了你一条命！那还用说吗！\n\n本姑娘虽然是送信的，但这雨三天内也停不了。反正走不了——帮你查！",
-      "next": "day2_start_game",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_determined.png"
-    },
-    "day2_lingyao_join_alt": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
-      "speaker": "凌瑶",
-      "text": "无关？我昨晚把你从江里拖出来——今天你跟我说无关？！\n\n再说了，万一那些人发现你没死，回来灭口呢？本姑娘还得保护你！",
       "next": "day2_start_game",
       "portrait": "res://assets/cn/portraits/companion_lingyao_determined.png"
     },
@@ -644,7 +667,7 @@
       "speaker": "",
       "centered": true,
       "silent": true,
-      "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 指证\n• 「讨论」：随时与凌瑶交流，获取下一步方向\n• 跨地点移动花费一个时段；探索某处也要花时段\n• 两天内查出真凶——否则雨停人散，真相沉入江底\n\n记住：你差点死在那条船上。\n凶手可能还在这个渡口。",
+      "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 讨论\n• 「讨论」：随时与凌瑶交流，获取下一步方向\n• 跨地点移动花费一个时段；探索某处也要花时段\n• 收集到足够证据后，对话中会出现「对峙」选项\n\n你被指控为杀人凶手。\n两天内找到真凶——否则嫌疑永远洗不清。",
       "end": true
     }
   }

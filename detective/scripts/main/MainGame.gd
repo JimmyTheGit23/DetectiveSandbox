@@ -8,7 +8,6 @@ extends Control
 @onready var menu_panel: Control = $RightMenu
 @onready var subpanel_container: Control = $SubPanelContainer
 @onready var dialogue_box: Control = $DialogueBox
-@onready var narration_box: Control = $NarrationBox
 @onready var notification_layer: Control = $NotificationLayer
 @onready var ending_screen: Control = $EndingScreen
 @onready var day_transition: Control = $DayTransition
@@ -22,7 +21,6 @@ const SubPanels = {
 	"move": "res://scenes/ui/MovePanel.tscn",
 	"search": "res://scenes/ui/SearchPanel.tscn",
 	"notebook": "res://scenes/ui/NotebookPanel.tscn",
-	"accuse": "res://scenes/ui/AccusePanel.tscn",
 	"confrontation": "res://scenes/ui/ConfrontationPanel.tscn",
 	"settings": "res://scenes/ui/SettingsPanel.tscn",
 }
@@ -67,6 +65,7 @@ func _ready() -> void:
 	DialogueManager.confrontation_triggered.connect(_on_confrontation_from_dialogue)
 	DialogueManager.narration_started.connect(_on_narration_started)
 	DialogueManager.narration_ended.connect(_on_narration_ended)
+	DialogueManager.narration_choices_ready.connect(_on_narration_choices_ready)
 	DialogueManager.narration_time_card.connect(_on_narration_time_card)
 	DialogueManager.lie_exposed.connect(_on_lie_exposed)
 	
@@ -75,9 +74,8 @@ func _ready() -> void:
 	if ending_screen.has_signal("return_to_case_select_requested"):
 		ending_screen.return_to_case_select_requested.connect(_on_return_to_case_select_after_ending)
 	_style_event_hint_button()
-	
+
 	dialogue_box.visible = false
-	narration_box.visible = false
 	subpanel_container.visible = false
 	ending_screen.visible = false
 	menu_panel.visible = false
@@ -337,7 +335,7 @@ func _show_title() -> void:
 	menu_panel.visible = false
 	top_bar_label.get_parent().visible = false
 	dialogue_box.visible = false
-	narration_box.visible = false
+	dialogue_box.visible = false
 	subpanel_container.visible = false
 	ending_screen.visible = false
 	event_hint_btn.visible = false
@@ -694,7 +692,7 @@ func _on_time_advanced(_day: int, _period: int) -> void:
 func _on_day_changed(new_day: int) -> void:
 	_try_companion_banter("new_day")
 	# 如果对话或叙述正在进行，延迟日期过场，等说话完毕再显示
-	if narration_box.visible or dialogue_box.visible:
+	if dialogue_box.visible:
 		var sub := "临川镇 · %s" % GameManager.PERIOD_NAMES[GameManager.current_period]
 		_pending_day_info = { "day": new_day, "sub": sub }
 		return
@@ -820,7 +818,7 @@ func _auto_play_event_after_hint() -> void:
 	event_hint_btn.visible = false
 	await get_tree().process_frame
 	# 若触发点发生在普通对话/叙述中，等当前说话完全结束后再插入关键发现对话。
-	while dialogue_box.visible or narration_box.visible or GameManager.current_state == GameManager.STATE_DIALOGUE:
+	while dialogue_box.visible or GameManager.current_state == GameManager.STATE_DIALOGUE:
 		await get_tree().process_frame
 	_play_event_now(evt_id)
 
@@ -884,7 +882,7 @@ func _on_menu_clicked(menu_id: String) -> void:
 			DialogueManager.start_dialogue(npcs[0])
 			return
 	if menu_id == "discuss":
-		_open_discuss_panel()
+		DialogueManager.start_companion_discuss()
 		return
 	# 地图按钮打开地图面板
 	if menu_id == "map":
@@ -897,8 +895,6 @@ func _open_subpanel(menu_id: String) -> void:
 	_close_subpanel()
 	if not SubPanels.has(menu_id):
 		return
-	if menu_id == "accuse":
-		BgmPlayer.play("accuse")
 	# ── 探索面板：优先使用场景热点叠加模式 ──
 	if menu_id == "search" and _has_hint_rects():
 		_open_search_overlay()
@@ -918,8 +914,6 @@ func _open_subpanel(menu_id: String) -> void:
 		panel.npc_selected.connect(_on_npc_selected)
 	if panel.has_signal("location_selected"):
 		panel.location_selected.connect(_on_location_selected)
-	if panel.has_signal("accuse_submitted"):
-		panel.accuse_submitted.connect(_on_accuse_submitted)
 	if panel.has_signal("confrontation_requested"):
 		panel.confrontation_requested.connect(_on_confrontation_requested)
 	if panel.has_signal("return_to_title_requested"):
@@ -962,9 +956,6 @@ func _close_subpanel() -> void:
 		menu_panel.visible = true
 		if _npc_layer and _npc_layer.has_method("show_npcs"):
 			_npc_layer.show_npcs()
-	# 关闭指证面板后恢复地点 BGM
-	if was_active and BgmPlayer.current_bgm_id() == "accuse":
-		BgmPlayer.play(GameManager.current_location)
 
 
 func _has_hint_rects() -> bool:
@@ -1002,8 +993,6 @@ func _open_search_overlay() -> void:
 	_active_subpanel = overlay
 	# 隐藏右侧菜单，让场景图完全可见
 	menu_panel.visible = false
-	if _npc_layer and _npc_layer.has_method("hide_npcs"):
-		_npc_layer.hide_npcs()
 	if overlay.has_signal("close_requested"):
 		overlay.close_requested.connect(_close_subpanel)
 	if overlay.has_signal("search_result_acknowledged"):
@@ -1018,16 +1007,6 @@ func _on_npc_selected(npc_id: String) -> void:
 func _on_location_selected(loc_id: String) -> void:
 	_close_subpanel()
 	GameManager.change_location(loc_id, true)
-
-
-func _on_accuse_submitted(suspect: String, motive: String, method: String, ev_list: Array) -> void:
-	_close_subpanel()
-	var ending_id := GameManager.judge_accusation(suspect, motive, method, ev_list)
-	if ending_id == "bad" or ending_id == "partial":
-		_try_companion_banter("accuse_fail")
-	if _try_play_case_epilogue(ending_id):
-		return
-	_show_ending(ending_id)
 
 
 func _on_confrontation_requested(_suspect: String) -> void:
@@ -1059,6 +1038,14 @@ func _open_confrontation_panel() -> void:
 
 func _on_confrontation_finished(result: String, mistakes: int) -> void:
 	_close_subpanel()
+	# 对峙胜利后设置对应 flag
+	if result == "victory":
+		var confront_key: String = GameManager.active_confrontation_key
+		var suspect: String = GameManager.case_data.get(confront_key, {}).get("suspect", "")
+		if suspect == "agui":
+			GameManager.set_flag("agui_confessed_mastermind")
+	# 重置对峙路由键
+	GameManager.active_confrontation_key = "confrontation"
 	var ending_id := GameManager.judge_confrontation(result, mistakes)
 	if ending_id == "bad" or ending_id == "partial":
 		_try_companion_banter("accuse_fail")
@@ -1110,8 +1097,13 @@ func _on_dialogue_started(speaker: String, portrait: String, text: String, optio
 	dialogue_box.show_dialogue(speaker, portrait, text, options, pages)
 	dialogue_box.visible = true
 	menu_panel.visible = false
-	# NPC 立绘保持显示（在 DialogueBox 下面一层，被对话框自然遮挡下半身）
-	# 不再 hide_npcs
+	if DialogueManager.is_discuss_mode():
+		# 讨论模式：隐藏原 NPC 立绘（助手由 DialogueBox.portrait_rect 居中显示）
+		if _npc_layer and _npc_layer.has_method("hide_npcs"):
+			_npc_layer.hide_npcs()
+	else:
+		if _npc_layer and _npc_layer.has_method("hide_npcs"):
+			_npc_layer.hide_npcs()
 
 
 func _on_dialogue_ended() -> void:
@@ -1124,21 +1116,28 @@ func _on_dialogue_ended() -> void:
 
 
 # ─── 序章 / 叙述 ───
-func _on_narration_started(background: String, _speaker: String, text: String, has_next: bool, centered: bool, portrait: String = "") -> void:
+func _on_narration_started(background: String, _speaker: String, text: String, has_next: bool, _centered: bool, portrait: String = "") -> void:
 	if background != "":
 		_set_background(background, true)
 	# 进入游戏前的过场不叠加场景特效；无背景的助手短评不打断当前地点特效。
 	if background != "" and _scene_fx:
 		_scene_fx.clear_layers()
-	narration_box.show_narration(_speaker, text, has_next, centered, portrait)
-	narration_box.visible = true
+	dialogue_box.show_narration(_speaker, text, has_next, portrait)
+	dialogue_box.visible = true
 	menu_panel.visible = false
 	if _npc_layer and _npc_layer.has_method("hide_npcs"):
 		_npc_layer.hide_npcs()
 
 
+func _on_narration_choices_ready(choices: Array) -> void:
+	dialogue_box.show_narration_choices(choices)
+
+
+
+
 func _on_narration_ended() -> void:
-	narration_box.visible = false
+	dialogue_box.end_narration_mode()
+	dialogue_box.visible = false
 	if _playing_case_epilogue:
 		menu_panel.visible = false
 		return
@@ -1183,7 +1182,8 @@ func _on_narration_time_card(text: String, sub_text: String) -> void:
 	day_transition.label.modulate.a = 1.0
 	day_transition.sub_label.visible_characters = 0
 	day_transition.sub_label.modulate.a = 1.0 if sub_text != "" else 0.0
-	day_transition.bg.modulate.a = 0.0
+	# 保持黑幕完全遮住，避免预载下一张背景时漏出 1-2 帧画面。
+	day_transition.bg.modulate.a = 1.0
 
 	var total_main: int = text.length()
 	var total_sub: int = sub_text.length() if sub_text != "" else 0
@@ -1256,7 +1256,7 @@ func _on_return_to_case_select_after_ending() -> void:
 	ending_screen.visible = false
 	menu_panel.visible = false
 	dialogue_box.visible = false
-	narration_box.visible = false
+	dialogue_box.visible = false
 	subpanel_container.visible = false
 	event_hint_btn.visible = false
 	top_bar_label.get_parent().visible = false
@@ -1285,7 +1285,7 @@ func _show_ending(ending_id: String) -> void:
 	ending_screen.visible = true
 	menu_panel.visible = false
 	dialogue_box.visible = false
-	narration_box.visible = false
+	dialogue_box.visible = false
 	subpanel_container.visible = false
 	event_hint_btn.visible = false
 

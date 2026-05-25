@@ -516,6 +516,7 @@
       ],
       "set_flags": ["shen_confrontation_triggered"],
       "trigger_confrontation": true,
+      "confrontation_key": "confrontation_final",
       "options": [
         {
           "text": "开始对峙",

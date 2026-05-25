@@ -10,7 +10,7 @@ var _is_searching := false
 var _hotspot_buttons: Array[Button] = []
 var _pulsing_buttons: Array[Button] = []
 var _pulse_time := 0.0
-var _show_labels := false  # F3 调试模式：显示热点名字
+var _show_labels := true  # 默认显示热点名字标签
 var _generic_label: Label
 var _generic_tween: Tween
 var _exit_btn: Button
@@ -178,9 +178,18 @@ func _build_hotspots(parent: Control) -> void:
 		btn.grow_horizontal = Control.GROW_DIRECTION_BOTH
 		btn.grow_vertical = Control.GROW_DIRECTION_BOTH
 
-		# 默认不显示文字（F3 调试模式可切换）
+		# 文字标签样式（默认显示搜索点名称）
+		btn.add_theme_font_size_override("font_size", 15)
+		btn.add_theme_color_override("font_color", Color(1.0, 0.92, 0.58, 0.95))
+		btn.add_theme_color_override("font_hover_color", Color(1.0, 1.0, 0.8, 1.0))
+		btn.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 1.0))
+		btn.add_theme_constant_override("outline_size", 3)
+		btn.vertical_icon_alignment = VERTICAL_ALIGNMENT_BOTTOM
+		btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
+
+		# 默认显示搜索点名称
 		btn.text = ""
-		# 存储名字供 F3 调试显示
+		# 存储名字供标签切换
 		btn.set_meta("point_name", pname)
 		btn.set_meta("point_done", done > 0)
 		btn.set_meta("point_locked", not unlocked)
