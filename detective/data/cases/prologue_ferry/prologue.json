@@ -186,7 +186,7 @@
           "goto": "inn_warm_5b"
         }
       ],
-      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
     },
     "inn_warm_4_not_observed": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -202,7 +202,7 @@
           "goto": "inn_warm_5b"
         }
       ],
-      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
     },
     "inn_warm_5a_certain": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -480,14 +480,14 @@
       "speaker": "陆昭",
       "text": "有件事让我在意。水是从脚底下涌上来的——灌得很急，像是从一个豁口里喷出来的。\n\n当时来不及细看。但那个位置、那个速度……不像是撞礁裂开的。",
       "next": "inn_warm_4_not_observed",
-      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
     },
     "inn_warm_4_observed_a": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "陆昭",
       "text": "有件事。船沉的时候，我蹲下去摸过涌水的位置。\n\n是一个方形的洞——边缘很整齐。不是撞出来的。是凿的。",
       "next": "inn_warm_4_observed",
-      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
     },
     "day2_framed_resolve_b": {
       "text": "阿贵低着头跟在人群后面走了——走之前，他飞快地瞥了你一眼。那一眼里有东西，不像悲伤。",
