@@ -993,6 +993,13 @@ func _play_break_anim() -> void:
 
 	await _play_objection_fx()
 
+	# 击破时切换BGM（数据驱动，默认 "pursuit"）
+	var break_bgm: String = _confrontation_data.get("bgm_break", "pursuit")
+	if break_bgm != "":
+		var bgm_player := get_node_or_null("/root/BgmPlayer")
+		if bgm_player and bgm_player.has_method("play"):
+			bgm_player.play(break_bgm)
+
 	# 立绘动摇
 	_portrait_state = PortraitState.SHAKEN
 	_update_portrait()
@@ -1027,11 +1034,17 @@ func _advance_to_next_testimony() -> void:
 	else:
 		_portrait_state = PortraitState.NORMAL
 		_update_portrait()
-		# 第三阶段切换BGM
-		if _current_testimony_idx == 2:
-			var bgm_player := get_node_or_null("/root/BgmPlayer")
-			if bgm_player and bgm_player.has_method("play"):
-				bgm_player.play("confrontation_final")
+		# 进入新证词轮时切换BGM
+		var bgm_player := get_node_or_null("/root/BgmPlayer")
+		if bgm_player and bgm_player.has_method("play"):
+			if _current_testimony_idx == _testimonies.size() - 1:
+				# 最后一轮：切换到紧张BGM
+				var final_bgm: String = _confrontation_data.get("bgm_final_round", "confrontation_final")
+				bgm_player.play(final_bgm)
+			else:
+				# 非最后轮：从 pursuit 恢复到对峙基础BGM
+				var base_bgm: String = _confrontation_data.get("bgm", "accuse")
+				bgm_player.play(base_bgm)
 		_enter_state(State.TESTIMONY_INTRO)
 
 
@@ -1047,8 +1060,19 @@ func _play_fail_anim() -> void:
 
 	await _play_red_flash()
 
-	var testimony: Dictionary = _testimonies[_current_testimony_idx]
-	var fail_dlg: Array = testimony.get("fail_dialogue", [])
+	# 优先使用当前陈述的角色化错误反馈（wrong_reactions）
+	var stmt: Dictionary = _statements[_current_stmt_idx]
+	var wrong_reactions: Dictionary = stmt.get("wrong_reactions", {})
+	var fail_dlg: Array = []
+	if not wrong_reactions.is_empty() and _selected_evidence_id != "":
+		if wrong_reactions.has(_selected_evidence_id):
+			fail_dlg = wrong_reactions[_selected_evidence_id]
+		elif wrong_reactions.has("_default"):
+			fail_dlg = wrong_reactions["_default"]
+	# 回退到证词级别的通用 fail_dialogue
+	if fail_dlg.is_empty():
+		var testimony: Dictionary = _testimonies[_current_testimony_idx]
+		fail_dlg = testimony.get("fail_dialogue", [])
 	_dialogue_queue = fail_dlg
 	_dialogue_idx = 0
 	_show_dialogue_queue(func():

@@ -1049,20 +1049,50 @@ func _open_confrontation_panel() -> void:
 
 func _on_confrontation_finished(result: String, mistakes: int) -> void:
 	_close_subpanel()
+	var confront_key: String = GameManager.active_confrontation_key
 	# 对峙胜利后设置对应 flag
 	if result == "victory":
-		var confront_key: String = GameManager.active_confrontation_key
 		var suspect: String = GameManager.case_data.get(confront_key, {}).get("suspect", "")
 		if suspect == "agui":
 			GameManager.set_flag("agui_confessed_mastermind")
-	# 重置对峙路由键
+	# 重置对峙路由键（DialogueManager 在下次触发时会重新设置正确的 key）
 	GameManager.active_confrontation_key = "confrontation"
+	# 判断是否为中间对峙（非最终BOSS）：播放过渡剧情后返回调查
+	var confront_data: Dictionary = GameManager.case_data.get(confront_key, {})
+	if not confront_data.get("is_final", false):
+		_play_mid_confrontation_result(confront_key, confront_data, result, mistakes)
+		return
+	# 最终对峙 → 走原有结局流程
 	var ending_id := GameManager.judge_confrontation(result, mistakes)
 	if ending_id == "bad" or ending_id == "partial":
 		_try_companion_banter("accuse_fail")
 	if _try_play_case_epilogue(ending_id):
 		return
 	_show_ending(ending_id)
+
+
+func _play_mid_confrontation_result(confront_key: String, confront_data: Dictionary, result: String, mistakes: int) -> void:
+	# 中间对峙（如阿贵）：播放胜利/失败对话后返回调查模式
+	var dialogue_key := "victory_dialogue" if result == "victory" else "defeat_dialogue"
+	var lines: Array = confront_data.get(dialogue_key, [])
+	if lines.size() > 0:
+		DialogueManager.play_adhoc_narration(lines, func():
+			_after_mid_confrontation(result)
+		)
+	else:
+		_after_mid_confrontation(result)
+
+
+func _after_mid_confrontation(result: String) -> void:
+	# 返回主界面继续调查
+	menu_panel.visible = true
+	BgmPlayer.play("investigation")
+	# 注意：set_flag("agui_confessed_mastermind") 已在上层调用。
+	# GameManager.set_flag 内部自动调用 _check_progression()，
+	# 所以 phase_3 的解锁条件（flag: agui_confessed_mastermind）已满足，
+	# phase_unlocked 信号已经发射，_on_phase_unlocked 会处理通知和菜单刷新。
+	if result != "victory":
+		_try_companion_banter("accuse_fail")
 
 
 func _try_play_case_epilogue(ending_id: String) -> bool:
@@ -1284,12 +1314,24 @@ func _show_ending(ending_id: String) -> void:
 		BgmPlayer.play("ending_perfect")
 	else:
 		BgmPlayer.play("ending_bad")
+	# 检查结局是否有前置叙事（pre_narration）
+	var data := GameManager.get_ending(ending_id)
+	var pre_narration: Array = data.get("pre_narration", [])
+	if not pre_narration.is_empty():
+		menu_panel.visible = false
+		DialogueManager.play_adhoc_narration(pre_narration, func():
+			_display_ending_screen(ending_id, data)
+		)
+		return
+	_display_ending_screen(ending_id, data)
+
+
+func _display_ending_screen(ending_id: String, data: Dictionary) -> void:
 	# 通知调查员档案：结算 XP / 升级 / 解锁
 	var summary: Dictionary = {}
 	var iv := get_node_or_null("/root/InvestigatorService")
 	if iv:
 		summary = iv.record_case_cleared(GameManager.ACTIVE_CASE, ending_id)
-	var data := GameManager.get_ending(ending_id)
 	ending_screen.show_ending(data.get("title", ""), data.get("narration", ""))
 	if ending_screen.has_method("show_progression_summary") and not summary.is_empty():
 		ending_screen.show_progression_summary(summary, iv)

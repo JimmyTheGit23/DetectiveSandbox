@@ -31,7 +31,13 @@
     "cabin_round1": {
       "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
       "speaker": "",
-      "text": "舱门被什么顶死了——推不开。\n\n昏暗中你能看到：角落散落着几只货物木箱，舱壁上挂着一根铁撬棍，头顶有一扇天窗透进雨夜微光。脚下还在涌水——从船底某处灌进来的。\n\n冰水刺骨，四肢开始发麻。每做一件事都在消耗你逃生的时间。",
+      "text": "舱门被什么顶死了——推不开。\n\n昏暗中你能看到：角落散落着几只货物木箱，舱壁上挂着一根铁撬棍，头顶有一扇天窗透进雨夜微光。脚下还在涌水——从船底某处灌进来的。",
+      "next": "cabin_round1_choice"
+    },
+    "cabin_round1_choice": {
+      "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
+      "speaker": "",
+      "text": "冰水刺骨，四肢开始发麻。每做一件事都在消耗你逃生的时间。",
       "choices": [
         {
           "text": "用力推舱门",

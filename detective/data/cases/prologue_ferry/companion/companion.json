@@ -3,11 +3,13 @@
   "companion_id": "xia_lingyao",
   "role_name": "凌瑶",
   "actor_id": "actor_tomboy_courier",
-  "available_topics": ["next_direction", "suspect_now", "evidence_ready", "chitchat"],
+  "available_topics": ["next_direction", "suspect_now", "evidence_ready", "about_shen", "why_here", "chitchat"],
   "limits": {
     "next_direction": { "per_day": 2, "cost_period": 0, "cost_cognitive": 3 },
     "suspect_now":    { "per_day": 2, "cost_period": 0, "cost_cognitive": 3 },
     "evidence_ready": { "per_day": 2, "cost_period": 0, "cost_cognitive": 0 },
+    "about_shen":     { "per_day": 2, "cost_period": 0, "cost_cognitive": 3 },
+    "why_here":       { "per_day": 1, "cost_period": 0, "cost_cognitive": 0 },
     "chitchat":       { "per_day": 99, "cost_period": 0, "cost_cognitive": 0 }
   },
   "lock_on_final_day": false,
