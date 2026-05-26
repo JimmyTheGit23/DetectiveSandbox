@@ -158,14 +158,14 @@
       "choices": [
         {
           "text": "（继续回忆沉船的细节）",
-          "goto": "inn_warm_4_observed",
+          "goto": "inn_warm_4_observed_a",
           "requires": {
             "flag": "observed_hole"
           }
         },
         {
           "text": "（继续回忆沉船的细节）",
-          "goto": "inn_warm_4_not_observed",
+          "goto": "inn_warm_4_not_observed_a",
           "requires": {
             "not_flag": "observed_hole"
           }
@@ -175,7 +175,7 @@
     "inn_warm_4_observed": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "陆昭",
-      "text": "有件事。船沉的时候，我蹲下去摸过涌水的位置。\n\n是一个方形的洞——边缘很整齐。不是撞出来的。是凿的。\n\n（握紧了拳头）有人想让那条船沉下去。连我在内。",
+      "text": "（握紧了拳头）有人想让那条船沉下去。连我在内。",
       "choices": [
         {
           "text": "「是人为凿开的。我确定。」",
@@ -191,7 +191,7 @@
     "inn_warm_4_not_observed": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "陆昭",
-      "text": "有件事让我在意。水是从脚底下涌上来的——灌得很急，像是从一个豁口里喷出来的。\n\n当时来不及细看。但那个位置、那个速度……不像是撞礁裂开的。\n\n（盯着火堆）如果是人为的——那我也在被害者的名单上。",
+      "text": "（盯着火堆）如果是人为的——那我也在被害者的名单上。",
       "choices": [
         {
           "text": "「像是有人凿的。」",
@@ -207,11 +207,8 @@
     "inn_warm_5a_certain": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "凌瑶",
-      "text": "是人为凿开的。我确定。\n\n黑暗中摸到的那个边缘——太整齐了。木头断裂不是那个手感。\n\n（抬头）也就是说——今晚有人想杀我。或者，想杀船上所有人。",
-      "effect": {
-        "set_flag": "lingyao_trusts_hole"
-      },
-      "next": "inn_warm_6",
+      "text": "是人为凿开的。我确定。\n\n黑暗中摸到的那个边缘——太整齐了。木头断裂不是那个手感。",
+      "next": "inn_warm_5a_certain_b",
       "portrait": "res://assets/cn/portraits/companion_lingyao_shocked.png"
     },
     "inn_warm_5a": {
@@ -243,11 +240,8 @@
     "inn_night": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "",
-      "text": "雨声如鼓。你躺在客栈的硬板床上，盯着天花板。\n\n船底那个洞，在脑海里挥之不去。\n\n还有一件事——上船前，平水驿的驿丞说：「大人何必走陆路翻山，夜船半日便到。」\n\n……为什么偏偏建议我搭那条船？",
-      "effect": {
-        "gain_clue": "clue_route_change"
-      },
-      "next": "inn_night_injury_check"
+      "text": "雨声如鼓。你躺在客栈的硬板床上，盯着天花板。\n\n船底那个洞，在脑海里挥之不去。",
+      "next": "inn_night_b"
     },
     "inn_night_injury_check": {
       "text": "你试着握拳——掌心火辣辣地疼。撬天窗时磨破的皮还在渗血。\n\n但至少手指还能动。命是捡回来了。",
@@ -263,8 +257,8 @@
     "day2_dawn_innkeeper": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "客栈掌柜",
-      "text": "昨晚翻船——你知道吧？就你那条。后来又冲上来两个人，一个仆从、一个船家。都没死。\n\n仆从在后头柴房歇着呢，船家住了隔壁。那个布商的婆娘一早也赶来了，在码头哭天喊地……",
-      "next": "day2_dawn_commotion"
+      "text": "昨晚翻船——你知道吧？就你那条。后来又冲上来两个人，一个仆从、一个船家。都没死。",
+      "next": "day2_dawn_innkeeper_b"
     },
     "day2_dawn_commotion": {
       "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
@@ -282,8 +276,8 @@
     "day2_body_2": {
       "background": "res://assets/cn/scenes/prologue_cold_open.png",
       "speaker": "",
-      "text": "码头下游的浅滩。\n\n一具尸体面朝下，半截身子还泡在浑黄的水里。围观的人站了一圈，没人敢上前。\n\n你走过去，蹲下翻过尸体——\n\n是昨夜同船的那个布商。面色青紫，已经僵了。",
-      "next": "day2_body_3"
+      "text": "码头下游的浅滩。\n\n一具尸体面朝下，半截身子还泡在浑黄的水里。围观的人站了一圈，没人敢上前。",
+      "next": "day2_body_2b"
     },
     "day2_body_3": {
       "background": "res://assets/cn/scenes/prologue_cold_open.png",
@@ -294,8 +288,8 @@
     },
     "day2_body_4": {
       "speaker": "陆昭",
-      "text": "周德茂。布商。昨夜跟我说过几句话——带着仆从阿贵，要过江进货。\n\n（站起来，声音很轻）……他死了。而阿贵和老范都活着。\n\n三个人落水，只有不会游泳的那个死了。",
-      "next": "day2_body_5"
+      "text": "周德茂。布商。昨夜跟我说过几句话——带着仆从阿贵，要过江进货。\n\n（站起来，声音很轻）……他死了。而阿贵和老范都活着。",
+      "next": "day2_body_4b"
     },
     "day2_body_5": {
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
@@ -316,22 +310,23 @@
     },
     "day2_agui_appears": {
       "text": "人群外围，一个穿着素色布衣的年轻男子缩着肩膀挤了进来。\n\n是阿贵——周德茂的随行仆从，眼圈通红，嘴唇还在微微颤抖。",
-      "next": "day2_agui_1"
+      "next": "day2_agui_1",
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png"
     },
     "day2_agui_1": {
       "speaker": "阿贵",
-      "text": "（哽咽）夫人……老爷他……\n\n（颤声，但眼神躲闪）昨晚三更刚过，我睡不着起来解手，看见这位爷……蹲在船底舱口那边。\n\n他手里好像攥着个铁家伙——我当时没多想，以为是什么随身的物件……（声音越来越低）现在想来……",
-      "next": "day2_agui_2"
+      "text": "（哽咽）夫人……老爷他……\n\n（颤声，但眼神躲闪）昨晚三更刚过，我睡不着起来解手，看见这位爷……蹲在船底舱口那边。",
+      "next": "day2_agui_1b"
     },
     "day2_agui_2": {
       "speaker": "阿贵",
-      "text": "（突然抬头，带着怨气）还有一件事——船沉的时候，我和船家都被困在舱里，门被货物堵死了！我拍了半天门才找到路爬出来！\n\n可这位爷呢？他直接从天窗出去的！那扇天窗平时用铁锁锁死——他怎么打开的？！\n\n（哽咽）除非……除非他事先就知道船要沉！！",
-      "next": "day2_crowd_murmur"
+      "text": "（突然抬头，带着怨气）还有一件事——船沉的时候，我和船家都被困在舱里，门被货物堵死了！我拍了半天门才找到路爬出来！",
+      "next": "day2_agui_2b"
     },
     "day2_zhou_accuse_2": {
       "speaker": "陆昭",
-      "text": "（攥住她的手腕，轻但有力地拨开）\n\n我是巡按御史陆昭。搭船过江，同样是受害者。\n\n（语气压得很低，但下颌线绷紧了）船沉时我也差点淹死——你丈夫的命我没有拿。",
-      "next": "day2_zhou_accuse_3"
+      "text": "（攥住她的手腕，轻但有力地拨开）\n\n我是巡按御史陆昭。搭船过江，同样是受害者。",
+      "next": "day2_zhou_accuse_2b"
     },
     "day2_zhou_accuse_3": {
       "speaker": "周氏",
@@ -340,7 +335,8 @@
     },
     "day2_lizheng_appear": {
       "text": "围观人群骚动。一个圆脸中年人从人群中挤出来——是渡口的里正。\n\n他扫了一眼尸体，又打量了你几眼。表情不像同情，更像在盘算。",
-      "next": "day2_lizheng_1"
+      "next": "day2_lizheng_1",
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png"
     },
     "day2_lizheng_1": {
       "speaker": "钱里正",
@@ -364,12 +360,12 @@
     },
     "day2_lizheng_5": {
       "speaker": "钱里正",
-      "text": "姑娘，你说得再凶——你认识他吗？昨天之前见过他吗？\n\n（叹气）他没有身份凭证、搭船没付钱、知道天窗逃生路线、你俩又恰好'巧遇'——搁谁身上，我都不能放人。\n\n（竖起两根指头）两天。这雨两天内停不了，反正谁也走不了。两天之内——要么你找到真凶，要么等县衙的人来处置你。",
-      "next": "day2_framed_resolve"
+      "text": "姑娘，你说得再凶——你认识他吗？昨天之前见过他吗？\n\n（叹气）他没有身份凭证、搭船没付钱、知道天窗逃生路线、你俩又恰好'巧遇'——搁谁身上，我都不能放人。",
+      "next": "day2_lizheng_5b"
     },
     "day2_framed_resolve": {
-      "text": "人群缓缓散开。有人回头看你，像看一个已经定了罪的人。\n\n周氏被人扶走了，但她的哭喊声还在码头上空回荡。\n\n阿贵低着头跟在人群后面走了——走之前，他飞快地瞥了你一眼。那一眼里有东西，不像悲伤。",
-      "next": "day2_lingyao_resolve"
+      "text": "人群缓缓散开。有人回头看你，像看一个已经定了罪的人。\n\n周氏被人扶走了，但她的哭喊声还在码头上空回荡。",
+      "next": "day2_framed_resolve_b"
     },
     "day2_lingyao_resolve": {
       "speaker": "凌瑶",
@@ -378,21 +374,21 @@
     },
     "day2_lu_resolve": {
       "speaker": "陆昭",
-      "text": "（沉默了很长时间。\n\n他的手还在微微发抖——不是冷的。是昨晚在黑水里挣扎时积攒的东西，到现在还没完全退下去。）\n\n……他们的指控，表面上全都说得通。这不是巧合——有人在布局，把我框进去。\n\n（攥紧拳头，指节发白）谁提前准备了'活下来的方式'——谁才是真正的共犯。\n\n我什么都没准备。我差点死在那条船里。\n\n而那个'不会游水'的仆从——和那个跑了二十年船的老船家——他们是怎么活得那么从容的？",
-      "next": "day2_lingyao_join_framed"
+      "text": "（沉默了很长时间。\n\n他的手还在微微发抖——不是冷的。是昨晚在黑水里挣扎时积攒的东西，到现在还没完全退下去。）",
+      "next": "day2_lu_resolve_b"
     },
     "day2_lingyao_join_framed": {
       "speaker": "凌瑶",
-      "text": "（眼睛亮了）对啊！那个阿贵说自己不会游水——那他怎么从翻了的船里爬出来的？！老范更离谱——跑了二十年的航道，偏偏走上暗礁？！\n\n（一拍巴掌）好！两天就两天——走，先去查那条破船！我昨晚在码头还看见几个人鬼鬼祟祟说话呢！",
-      "next": "day2_start_game"
+      "text": "（眼睛亮了）对啊！那个阿贵说自己不会游水——那他怎么从翻了的船里爬出来的？！老范更离谱——跑了二十年的航道，偏偏走上暗礁？！",
+      "next": "day2_lingyao_join_b"
     },
     "day2_start_game": {
       "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 讨论\n• 「讨论」：随时与凌瑶交流，获取下一步方向\n• 跨地点移动花费一个时段；探索某处也要花时段\n• 收集到足够证据后，对话中会出现「对峙」选项\n\n你被指控为杀人凶手。\n所有表面证据都指向你——没有官印、不付船钱、知道逃生路线、岸边有人‘接应’。\n\n两天内找到真凶，证明真正‘有准备’的人不是你——否则嫌疑永远洗不清。",
       "end": true
     },
     "day2_crowd_murmur": {
-      "text": "围观人群一阵骚动。有人低声议论：\n\n「你听到没？搭船连钱都没付……」\n「还直接从天窗跑了？那不是早有准备？」\n「难怪只有他活得好好的……」\n\n目光像针一样扎过来。",
-      "next": "day2_zhou_accuse_2"
+      "text": "围观人群一阵骚动。有人低声议论：\n\n「你听到没？搭船连钱都没付……」\n「还直接从天窗跑了？那不是早有准备？」\n「难怪只有他活得好好的……」",
+      "next": "day2_crowd_murmur_b"
     },
     "day2_lizheng_3b": {
       "speaker": "钱里正",
@@ -410,12 +406,12 @@
       }
     },
     "cabin_discover_hole": {
-      "text": "水涌得太急了——从脚下某处喷上来的。你咬牙蹲入刺骨的冰水中，双手摸索船底。\n\n找到了。\n\n一个方形的洞口。边缘整齐——不是撞击。是凿出来的。\n\n有人故意凿穿了这条船。",
-      "next": "cabin_act"
+      "text": "水涌得太急了——从脚下某处喷上来的。你咬牙蹲入刺骨的冰水中，双手摸索船底。\n\n找到了。",
+      "next": "cabin_discover_hole_b"
     },
     "cabin_act": {
-      "text": "水到了腰。没时间了。\n\n你扯下舱壁上的铁撬棍，把漂起来的木箱踹到天窗正下方——踩上去。\n\n头顶的天窗锁扣锈迹斑斑。你举起铁撬，对准锁扣——全力一撬。",
-      "next": "cabin_break_out",
+      "text": "水到了腰。没时间了。\n\n你扯下舱壁上的铁撬棍，把漂起来的木箱踹到天窗正下方——踩上去。",
+      "next": "cabin_act_b",
       "fx": {
         "shake": true,
         "shake_intensity": 3.0,
@@ -442,12 +438,118 @@
       }
     },
     "cabin_swim": {
-      "text": "你抓住一块断裂的船板，在冰冷的江水中拼命向岸边划去。\n\n四肢已经麻木。冬夜的江水像千万根针同时扎进皮肉里。\n\n意识开始模糊。雨打在眼睛上，什么都看不清了——",
-      "next": "shore_1",
+      "text": "你抓住一块断裂的船板，在冰冷的江水中拼命向岸边划去。\n\n四肢已经麻木。冬夜的江水像千万根针同时扎进皮肉里。",
+      "next": "cabin_swim_b",
       "background": "res://assets/cn/scenes/prologue_dark_water.png",
       "fx": {
         "tint": "dark_blue"
       }
+    },
+    "day2_lu_resolve_b": {
+      "speaker": "陆昭",
+      "text": "……他们的指控，表面上全都说得通。这不是巧合——有人在布局，把我框进去。\n\n（攥紧拳头，指节发白）谁提前准备了'活下来的方式'——谁才是真正的共犯。",
+      "next": "day2_lu_resolve_c"
+    },
+    "day2_lu_resolve_c": {
+      "speaker": "陆昭",
+      "text": "我什么都没准备。我差点死在那条船里。\n\n而那个'不会游水'的仆从——和那个跑了二十年船的老船家——他们是怎么活得那么从容的？",
+      "next": "day2_lingyao_join_framed"
+    },
+    "day2_lizheng_5b": {
+      "text": "（竖起两根指头）两天。这雨两天内停不了，反正谁也走不了。两天之内——要么你找到真凶，要么等县衙的人来处置你。",
+      "next": "day2_framed_resolve",
+      "speaker": "钱里正"
+    },
+    "day2_agui_2b": {
+      "text": "可这位爷呢？他直接从天窗出去的！那扇天窗平时用铁锁锁死——他怎么打开的？！\n\n（哽咽）除非……除非他事先就知道船要沉！！",
+      "next": "day2_crowd_murmur",
+      "speaker": "阿贵"
+    },
+    "day2_lingyao_join_b": {
+      "text": "（一拍巴掌）好！两天就两天——走，先去查那条破船！我昨晚在码头还看见几个人鬼鬼祟祟说话呢！",
+      "next": "day2_start_game",
+      "speaker": "凌瑶"
+    },
+    "day2_agui_1b": {
+      "text": "他手里好像攥着个铁家伙——我当时没多想，以为是什么随身的物件……（声音越来越低）现在想来……",
+      "next": "day2_agui_2",
+      "speaker": "阿贵"
+    },
+    "inn_warm_4_not_observed_a": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "陆昭",
+      "text": "有件事让我在意。水是从脚底下涌上来的——灌得很急，像是从一个豁口里喷出来的。\n\n当时来不及细看。但那个位置、那个速度……不像是撞礁裂开的。",
+      "next": "inn_warm_4_not_observed",
+      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+    },
+    "inn_warm_4_observed_a": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "陆昭",
+      "text": "有件事。船沉的时候，我蹲下去摸过涌水的位置。\n\n是一个方形的洞——边缘很整齐。不是撞出来的。是凿的。",
+      "next": "inn_warm_4_observed",
+      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+    },
+    "day2_framed_resolve_b": {
+      "text": "阿贵低着头跟在人群后面走了——走之前，他飞快地瞥了你一眼。那一眼里有东西，不像悲伤。",
+      "next": "day2_lingyao_resolve"
+    },
+    "inn_night_b": {
+      "text": "还有一件事——上船前，平水驿的驿丞说：「大人何必走陆路翻山，夜船半日便到。」\n\n……为什么偏偏建议我搭那条船？",
+      "next": "inn_night_injury_check",
+      "speaker": "",
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "effect": {
+        "gain_clue": "clue_route_change"
+      }
+    },
+    "day2_dawn_innkeeper_b": {
+      "text": "仆从在后头柴房歇着呢，船家住了隔壁。那个布商的婆娘一早也赶来了，在码头哭天喊地……",
+      "next": "day2_dawn_commotion",
+      "speaker": "客栈掌柜",
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png"
+    },
+    "day2_body_2b": {
+      "text": "你走过去，蹲下翻过尸体——\n\n是昨夜同船的那个布商。面色青紫，已经僵了。",
+      "next": "day2_body_3",
+      "speaker": "",
+      "background": "res://assets/cn/scenes/prologue_cold_open.png"
+    },
+    "cabin_discover_hole_b": {
+      "text": "一个方形的洞口。边缘整齐——不是撞击。是凿出来的。\n\n有人故意凿穿了这条船。",
+      "next": "cabin_act"
+    },
+    "day2_crowd_murmur_b": {
+      "text": "目光像针一样扎过来。",
+      "next": "day2_zhou_accuse_2"
+    },
+    "day2_body_4b": {
+      "text": "三个人落水，只有不会游泳的那个死了。",
+      "next": "day2_body_5",
+      "speaker": "陆昭"
+    },
+    "inn_warm_5a_certain_b": {
+      "text": "（抬头）也就是说——今晚有人想杀我。或者，想杀船上所有人。",
+      "next": "inn_warm_6",
+      "speaker": "凌瑶",
+      "portrait": "res://assets/cn/portraits/companion_lingyao_shocked.png",
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "effect": {
+        "set_flag": "lingyao_trusts_hole"
+      }
+    },
+    "cabin_swim_b": {
+      "text": "意识开始模糊。雨打在眼睛上，什么都看不清了——",
+      "next": "shore_1",
+      "background": "res://assets/cn/scenes/prologue_dark_water.png"
+    },
+    "cabin_act_b": {
+      "text": "头顶的天窗锁扣锈迹斑斑。你举起铁撬，对准锁扣——全力一撬。",
+      "next": "cabin_break_out"
+    },
+    "day2_zhou_accuse_2b": {
+      "text": "（语气压得很低，但下颌线绷紧了）船沉时我也差点淹死——你丈夫的命我没有拿。",
+      "next": "day2_zhou_accuse_3",
+      "speaker": "陆昭"
     }
   }
 }
