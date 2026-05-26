@@ -283,10 +283,6 @@ func get_topic_state(topic_id: String) -> Dictionary:
 	if remaining <= 0:
 		return {"available": false, "reason": "daily_limit", "remaining": 0}
 
-	# 时段不够
-	if cost_period > 0 and GameManager.remaining_periods() <= cost_period:
-		return {"available": false, "reason": "no_time", "remaining": remaining}
-
 	return {
 		"available": true,
 		"remaining": remaining,
@@ -305,12 +301,6 @@ func discuss(topic_id: String) -> Array:
 	if not _topic_usage.has(topic_id):
 		_topic_usage[topic_id] = {"used_on_days": []}
 	_topic_usage[topic_id]["used_on_days"].append(GameManager.current_day)
-
-	# 消耗时段
-	var limits: Dictionary = _case_config.get("limits", {}).get(topic_id, {})
-	var cost_period: int = int(limits.get("cost_period", 0))
-	if cost_period > 0:
-		GameManager.advance_period(cost_period)
 
 	topic_state_changed.emit()
 

@@ -80,10 +80,6 @@ func choose_option(index: int) -> void:
 	if index < 0 or index >= options.size():
 		return
 	var opt: Dictionary = options[index]
-	# 时间消耗
-	var cost := int(opt.get("cost_time", 0))
-	if cost > 0:
-		GameManager.advance_period(cost)
 	# 设置 flag
 	for f in opt.get("set_flags", []):
 		GameManager.set_flag(f)

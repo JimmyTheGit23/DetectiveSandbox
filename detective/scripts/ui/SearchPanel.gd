@@ -19,7 +19,7 @@ func is_searching() -> bool:
 func _ready() -> void:
 	close_btn.pressed.connect(func(): close_requested.emit())
 	title_label.text = "── 可疑之处 ──"
-	result_box.text = "[i]点击下方按钮以探索该处。每次探索会消耗时辰。[/i]"
+	result_box.text = "[i]点击下方按钮以探索该处。[/i]"
 	_build_list()
 
 
@@ -31,7 +31,6 @@ func _build_list() -> void:
 	for sp in loc.get("search_points", []):
 		var pid: String = sp.get("id", "")
 		var pname: String = sp.get("name", pid)
-		var cost: int = int(sp.get("time_cost", 1))
 		var key := "%s.%s" % [loc_id, pid]
 		var done: int = GameManager.search_history.get(key, 0)
 		var btn := Button.new()
@@ -42,7 +41,7 @@ func _build_list() -> void:
 		var unlocked := GameManager.is_search_point_unlocked(loc_id, pid)
 		if unlocked:
 			var done_mark := "  ✓" if done > 0 else ""
-			btn.text = "  %s    [耗时 %d 段]%s" % [pname, cost, done_mark]
+			btn.text = "  %s%s" % [pname, done_mark]
 			btn.disabled = _is_searching
 			btn.pressed.connect(_on_search.bind(pid))
 		else:
@@ -62,26 +61,14 @@ func _on_search(point_id: String) -> void:
 	close_btn.disabled = true
 	
 	var point_name := _point_name(point_id)
-	var planned_cost := _point_cost(point_id)
-	result_box.text = "[center][color=#ead48a]你开始调查「%s」……[/color][/center]" % point_name
-	await get_tree().create_timer(0.9).timeout
-	if not is_inside_tree():
-		return
-	
+
+	var result := GameManager.resolve_search(GameManager.current_location, point_id)
 	result_box.text = "[center][color=#ead48a]探索中……[/color]\n[i]你放慢脚步，重新检查每一个细节。[/i][/center]"
 	await get_tree().create_timer(1.2).timeout
 	if not is_inside_tree():
 		return
-	
-	var result := GameManager.resolve_search(GameManager.current_location, point_id)
-	var cost: int = int(result.get("time_cost", planned_cost))
-	GameManager.advance_period(cost)
-	result_box.text = "[center][color=#d8c08a]本次探索消耗了 %d 段时辰。[/color][/center]" % cost
-	await get_tree().create_timer(1.0).timeout
-	if not is_inside_tree():
-		return
-	
-	await _show_result_dialog(point_name, result, cost)
+
+	await _show_result_dialog(point_name, result)
 	if not is_inside_tree():
 		return
 	search_result_acknowledged.emit()
@@ -124,7 +111,7 @@ func _set_buttons_disabled(disabled: bool) -> void:
 			(child as Button).disabled = disabled
 
 
-func _show_result_dialog(point_name: String, result: Dictionary, cost: int) -> void:
+func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 	var overlay := Control.new()
 	overlay.name = "SearchResultOverlay"
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -176,7 +163,7 @@ func _show_result_dialog(point_name: String, result: Dictionary, cost: int) -> v
 	body.scroll_active = true
 	body.add_theme_font_size_override("normal_font_size", 20)
 	body.add_theme_color_override("default_color", Color(0.9, 0.86, 0.76, 1))
-	body.text = _result_dialog_text(result, cost)
+	body.text = _result_dialog_text(result)
 	vbox.add_child(body)
 	
 	var btn := Button.new()
@@ -192,10 +179,9 @@ func _show_result_dialog(point_name: String, result: Dictionary, cost: int) -> v
 		overlay.queue_free()
 
 
-func _result_dialog_text(result: Dictionary, cost: int) -> String:
+func _result_dialog_text(result: Dictionary) -> String:
 	var txt: String = "你完成了这次调查。\n\n"
 	txt += result.get("narration", "")
-	txt += "\n\n—— 本次探索消耗了 %d 段时辰。" % cost
 	if result.get("gained_evidence", "") != "":
 		var ev = GameManager.evidence_data.get(result.gained_evidence, {})
 		txt += "\n\n【获得证据：%s】" % ev.get("name", "")

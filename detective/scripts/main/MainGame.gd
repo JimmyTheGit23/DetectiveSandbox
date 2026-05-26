@@ -690,11 +690,7 @@ func _on_location_changed(loc_id: String) -> void:
 
 
 func _on_time_advanced(_day: int, _period: int) -> void:
-	top_bar_label.text = "%s    距下一日 %d 时段    总剩余 %d 时段" % [GameManager.current_time_text(), GameManager.periods_until_next_day(), GameManager.remaining_periods()]
-	if GameManager.is_time_up():
-		_show_ending("timeout")
-	elif GameManager.remaining_periods() <= 2:
-		_try_companion_banter("period_late")
+	pass
 
 
 func _on_day_changed(new_day: int) -> void:

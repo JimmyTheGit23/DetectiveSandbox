@@ -54,8 +54,8 @@
     "parent": "ferry_inn",
     "description": "通往二楼的过道。一个穿劲装的高挑女子抱臂靠在廊柱上，单脚踩着柱根。看到你过来，她不紧不慢地挑了挑眉。",
     "unlock_phase": "phase_1",
-    "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
-    "scene_type": "scene_prologue_ferry_inn",
+    "background": "res://assets/cn/scenes/prologue_inn_corridor.png",
+    "scene_type": "scene_prologue_inn_corridor",
     "npcs": ["shen_qingyue"],
     "sub_locations": [
       { "target": "ferry_inn", "name": "返回大堂", "description": "回到客栈大堂" }

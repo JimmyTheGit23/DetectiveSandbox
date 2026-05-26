@@ -345,23 +345,8 @@ func _on_hotspot_clicked(point_id: String) -> void:
 	_exit_btn.disabled = true
 
 	var point_name: String = _point_name(point_id)
-	var planned_cost: int = _point_cost(point_id)
-
 	var result: Dictionary = GameManager.resolve_search(GameManager.current_location, point_id)
-	var cost: int = int(result.get("time_cost", planned_cost))
-
-	# 多步骤调查：有 sub_choices 则展示选项面板
-	var sub_choices: Array = result.get("sub_choices", [])
-	if not sub_choices.is_empty() and not result.get("already_done", false):
-		var intro: String = result.get("intro_text", "")
-		if intro == "":
-			intro = result.get("narration", "")
-		GameManager.advance_period(cost)
-		await _show_sub_choices_dialog(point_name, intro, sub_choices)
-	else:
-		# 普通结果：直接显示
-		GameManager.advance_period(cost)
-		await _show_result_dialog(point_name, result)
+	await _show_result_dialog(point_name, result)
 
 	if not is_inside_tree():
 		return

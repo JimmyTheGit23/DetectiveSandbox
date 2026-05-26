@@ -434,8 +434,6 @@ func change_location(loc_id: String, advance: bool = true) -> void:
 	current_location = loc_id
 	if not visited_locations.has(loc_id):
 		visited_locations.append(loc_id)
-	if advance:
-		advance_period(1)
 	location_changed.emit(loc_id)
 	save_game()
 

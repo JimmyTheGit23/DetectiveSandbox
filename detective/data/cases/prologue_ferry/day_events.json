@@ -82,6 +82,7 @@
         "set_flag": ["evt_gambling_debt_done", "fan_motive_known"]
       }
     },
+
     {
       "id": "evt_quiet_moment",
       "trigger": {
