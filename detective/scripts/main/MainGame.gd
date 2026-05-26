@@ -36,6 +36,7 @@ var _pending_day_info: Dictionary = {}   # 延迟的日期过场 { "day": int, "
 var _last_location_period: int = -1      # 上次进入场景时的 period
 var _last_location_day: int = -1         # 上次进入场景时的 day
 var _time_card_playing: bool = false     # 时间过场是否正在播放
+var _visited_locations: Dictionary = {}  # 已访问过的场景 ID → true（首次访问时显示时间卡）
 var _title_layer: Control = null
 var _title_props_layer: Control = null
 var _scene_fx: Node = null
@@ -339,6 +340,9 @@ func _show_title() -> void:
 	subpanel_container.visible = false
 	ending_screen.visible = false
 	event_hint_btn.visible = false
+	# 返回主界面时隐藏 NPC 立绘
+	if _npc_layer and _npc_layer.has_method("hide_npcs"):
+		_npc_layer.hide_npcs()
 	
 	var bg := AssetResolver.get_scene_background_by_id("scene_title")
 	if bg == "":
@@ -606,7 +610,8 @@ func _show_restart_confirm() -> void:
 
 func _start_new_game() -> void:
 	_hide_title()
-	#top_bar_label.get_parent().visible = true  # 时间显示暂时关闭
+	top_bar_label.get_parent().visible = true
+	_visited_locations.clear()
 	_pending_events.clear()
 	GameManager.reset_progress()
 	GameManager.set_state(GameManager.STATE_PROLOGUE)
@@ -618,7 +623,8 @@ func _continue_game() -> void:
 	if not GameManager.load_game():
 		return
 	_hide_title()
-	#top_bar_label.get_parent().visible = true  # 时间显示暂时关闭
+	top_bar_label.get_parent().visible = true
+	_visited_locations.clear()
 	_sync_pending_events_from_save()
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:
 		BgmPlayer.play("prologue")
@@ -644,13 +650,15 @@ func _on_location_changed(loc_id: String) -> void:
 	var data := GameManager.get_location_data(loc_id)
 	location_label.text = data.get("name", loc_id)
 	var bg_path: String = AssetResolver.get_scene_background(data)
-	# 时间过场：仅在时间变化较大时显示（≥2个时段差异，避免单步移动触发）
+	# 时间过场：首次访问该场景，或时间变化较大时显示（换天 / ≥2个时段差异）
 	var cur_period := GameManager.current_period
 	var cur_day := GameManager.current_day
+	var is_first_visit: bool = not _visited_locations.has(loc_id)
 	var period_diff: int = abs(cur_period - _last_location_period) if _last_location_period >= 0 else 0
 	var day_diff: int = abs(cur_day - _last_location_day) if _last_location_day >= 0 else 0
-	var significant_change: bool = day_diff > 0 or period_diff >= 2
+	var significant_change: bool = is_first_visit or day_diff > 0 or period_diff >= 2
 	# 无论是否显示时间卡，都更新记录
+	_visited_locations[loc_id] = true
 	_last_location_period = cur_period
 	_last_location_day = cur_day
 	var should_show_time: bool = significant_change and GameManager.current_state == GameManager.STATE_PLAYING and not day_transition.visible and not _time_card_playing
@@ -993,6 +1001,9 @@ func _open_search_overlay() -> void:
 	_active_subpanel = overlay
 	# 隐藏右侧菜单，让场景图完全可见
 	menu_panel.visible = false
+	# 进入探索模式时隐藏 NPC 立绘
+	if _npc_layer and _npc_layer.has_method("hide_npcs"):
+		_npc_layer.hide_npcs()
 	if overlay.has_signal("close_requested"):
 		overlay.close_requested.connect(_close_subpanel)
 	if overlay.has_signal("search_result_acknowledged"):

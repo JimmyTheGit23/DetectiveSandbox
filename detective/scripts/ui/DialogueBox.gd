@@ -245,6 +245,9 @@ func show_narration_choices(choices: Array) -> void:
 	var visible_count := 0
 	for i in range(choices.size()):
 		var choice: Dictionary = choices[i]
+		# 过滤不满足条件的选项（与 NarrationBox._show_choices 保持一致）
+		if choice.has("requires") and not GameManager.evaluate_condition(choice["requires"]):
+			continue
 		var btn := _make_option_button(choice.get("text", ""), {})
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var idx := i
@@ -516,11 +519,8 @@ func _on_talk_frame_tick() -> void:
 
 
 func _start_talk_bounce() -> void:
-	_stop_talk_bounce()
-	_talk_bounce_tween = create_tween()
-	_talk_bounce_tween.set_loops()
-	_talk_bounce_tween.tween_property(portrait_rect, "position:y", -TALK_BOUNCE_AMOUNT, 0.08)
-	_talk_bounce_tween.tween_property(portrait_rect, "position:y", 0.0, 0.08)
+	# 禁用说话抖动 — 立绘保持静止
+	pass
 
 
 func _stop_talk_bounce() -> void:

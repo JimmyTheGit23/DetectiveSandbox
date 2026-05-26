@@ -404,27 +404,61 @@
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "凌瑶",
       "text": "半个时辰……那现在都两个时辰了。他们没上岸？\n\n（表情变了）那……那他们是不是——",
-      "next": "inn_warm_4",
+      "next": "inn_warm_3b",
       "portrait": "res://assets/cn/portraits/companion_lingyao_worried.png"
+    },
+    "inn_warm_3b": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "陆昭",
+      "text": "不知道。天亮了才能看清。",
+      "next": "inn_warm_4",
+      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
     },
     "inn_warm_4": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
-      "speaker": "陆昭",
-      "text": "不知道。天亮了才能看清。\n\n……有件事让我在意。船沉的时候，我在舱底摸到了一个洞——边缘很整齐。不像是撞出来的。",
+      "speaker": "",
+      "text": "你盯着火堆出了会儿神。脑海里还是那条船——黑暗中的水、冰冷的触感……",
       "choices": [
         {
-          "text": "「是人为凿开的。我确定。」",
-          "goto": "inn_warm_5a_certain",
+          "text": "（继续回忆沉船的细节）",
+          "goto": "inn_warm_4_observed",
           "requires": {
             "flag": "observed_hole"
           }
         },
         {
-          "text": "「像是有人凿的。」",
-          "goto": "inn_warm_5a",
+          "text": "（继续回忆沉船的细节）",
+          "goto": "inn_warm_4_not_observed",
           "requires": {
             "not_flag": "observed_hole"
           }
+        }
+      ]
+    },
+    "inn_warm_4_observed": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "陆昭",
+      "text": "……有件事。船沉的时候，我蹲下去摸过涌水的位置。\n\n是一个方形的洞——边缘很整齐。不是撞出来的。是工具凿的。",
+      "choices": [
+        {
+          "text": "「是人为凿开的。我确定。」",
+          "goto": "inn_warm_5a_certain"
+        },
+        {
+          "text": "「也许是我记错了。当时太慌。」",
+          "goto": "inn_warm_5b"
+        }
+      ],
+      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+    },
+    "inn_warm_4_not_observed": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "陆昭",
+      "text": "……有件事让我在意。水是从脚底下涌上来的——灌得很急，像是从一个口子里喷出来的。\n\n当时来不及细看，但那个位置……感觉不太对。",
+      "choices": [
+        {
+          "text": "「像是有人凿的。」",
+          "goto": "inn_warm_5a"
         },
         {
           "text": "「也许是我记错了。当时太慌。」",
@@ -528,9 +562,21 @@
     },
     "_sep_day2": "═══ 第二天 ═══",
     "day2_dawn": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "",
+      "text": "翌日。黎明。\n\n雨小了些，但天色依旧灰暗。\n\n你起身时，客栈掌柜正在擦桌子。他瞥了你一眼，像是看新闻一样随口说——",
+      "next": "day2_dawn_innkeeper"
+    },
+    "day2_dawn_innkeeper": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "客栈掌柜",
+      "text": "昨晚翻船——你知道吧？就你那条。后来又冲上来两个人，一个仆从、一个船家。都没死。\n\n仆从在后头柴房歇着呢，船家住了隔壁。那个布商的婆娘一早也赶来了，在码头哭天喊地……",
+      "next": "day2_dawn_commotion"
+    },
+    "day2_dawn_commotion": {
       "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "",
-      "text": "翌日。黎明。\n\n雨小了些，但天色依旧灰暗。\n\n渡口方向传来嘈杂的人声。有人在喊。",
+      "text": "话音未落，渡口方向传来嘈杂的人声。有人在喊。",
       "next": "day2_body_1"
     },
     "day2_body_1": {
@@ -576,6 +622,24 @@
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
       "speaker": "周氏",
       "text": "同船的人——他死了，你活着！\n\n（猛地扑过来，死死抓住你的衣领）你就是凶手！你害死了我家老爷！！",
+      "next": "day2_agui_appears"
+    },
+    "day2_agui_appears": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "",
+      "text": "人群外围，一个穿着素色布衣的年轻男子缩着肩膀挤了进来。\n\n是阿贵——周德茂的随行仆从，眼圈通红，嘴唇还在微微颤抖。",
+      "next": "day2_agui_1"
+    },
+    "day2_agui_1": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "阿贵",
+      "text": "（哽咽）夫人……老爷他……\n\n（颤声）昨夜将近三更，我在舱里没睡着，听见船头有人说话——老爷跟这位爷的声音越说越大，像是在争什么。\n\n我以为只是路上的闲话，没敢出去……再后来，水就进来了。",
+      "next": "day2_agui_2"
+    },
+    "day2_agui_2": {
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "speaker": "阿贵",
+      "text": "（抬头，眼里带着怯意和怨气）老爷出门带着两百两银子，是给货栈结账的。\n\n上船前他特意嘱咐我——压在行李箱最底下，不叫旁人看见……\n\n（声音越来越低）可现在……行李连人一起不见了。",
       "next": "day2_zhou_accuse_2"
     },
     "day2_zhou_accuse_2": {
