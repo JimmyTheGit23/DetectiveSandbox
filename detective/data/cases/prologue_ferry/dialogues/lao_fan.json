@@ -3,7 +3,7 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "（老范靠在船舷上抽旱烟，看到你来不紧不慢地磕了磕烟灰）哟，大人来了。问啥您说。",
+      "text": "（老范靠在船舷上抽旱烟，看到你来斜了一眼）哟……你就是那个同船的？听说周氏告了你杀人啊。胆子不小——被告了还到处问话。",
       "options": [
         {
           "text": "说说当晚的事",
@@ -71,6 +71,14 @@
           "type": "observe"
         },
         {
+          "text": "那个'药材行的姑娘'——是她先找你的吧？",
+          "goto": "press_shen_connection",
+          "requires": [
+            { "flag": "agui_confessed_mastermind" }
+          ],
+          "type": "press"
+        },
+        {
           "text": "先告辞",
           "goto": "__exit__"
         }
@@ -80,7 +88,7 @@
       "lines": [
         {
           "speaker_id": "lao_fan",
-          "text": "唉，天灾啊大人。那夜雨大浪急，老汉跑了二十年船没见过那阵仗。",
+          "text": "唉，天灾呗。那夜雨大浪急，老汉跑了二十年船没见过那阵仗。",
           "emotion": "smirk"
         },
         {
@@ -142,7 +150,7 @@
       "lines": [
         {
           "speaker_id": "lao_fan",
-          "text": "大人这话说的……涨水嘛，水面高了礁石就该没了。老汉判断失误，这、这能怪老汉？",
+          "text": "（嗤了一声）你这话说的……涨水嘛，水面高了礁石就该没了。老汉判断失误，这、这能怪老汉？",
           "emotion": "defensive",
           "highlight": [
             "涨水",
@@ -273,7 +281,7 @@
       "lines": [
         {
           "speaker_id": "lao_fan",
-          "text": "（深吸一口烟，许久才吐出来）……大人问这个干嘛。跟案子有关系？"
+          "text": "（深吸一口烟，许久才吐出来）……你问这个干嘛。跟案子有关系？"
         },
         {
           "speaker_id": "lu_zhao",
@@ -331,6 +339,82 @@
           "goto": "__exit__"
         }
       ]
+    },
+    "press_shen_connection": {
+      "lines": [
+        {
+          "speaker_id": "lu_zhao",
+          "text": "老范。阿贵已经招了。你也可以说实话了。",
+          "emotion": "cold"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "那个找你'商量发财路子'的人——是个做药材生意的姑娘。对不对？",
+          "emotion": "cold"
+        },
+        {
+          "speaker_id": "lao_fan",
+          "text": "（烟杆从嘴边落了下来。整个人僵住。）",
+          "emotion": "cornered"
+        },
+        {
+          "speaker_id": "lao_fan",
+          "text": "……大人都知道了？",
+          "emotion": "cornered"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "说。她怎么找的你。",
+          "emotion": "cold"
+        },
+        {
+          "speaker_id": "lao_fan",
+          "text": "（瘫坐在地上）……是她先来的。说知道老汉欠赌坊的钱。说……有门生意，做完了赌债一笔勾销。",
+          "emotion": "cornered"
+        },
+        {
+          "speaker_id": "lao_fan",
+          "text": "老汉问什么生意。她说——把船弄沉就行。其他的不用管。",
+          "emotion": "cornered"
+        },
+        {
+          "speaker_id": "lao_fan",
+          "text": "老汉……老汉当时被逼急了。年底不还钱赌坊说要断指……（颤抖）",
+          "emotion": "cornered"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "（低声）他招了。老范也是被她拉下水的——跟阿贵一样。",
+          "emotion": "shocked"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "那个姑娘——长什么样？",
+          "emotion": "cold"
+        },
+        {
+          "speaker_id": "lao_fan",
+          "text": "高个子。穿劲装。说话利索——像是做过生意的人。",
+          "emotion": "cornered"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "（……沈清月。）",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "gain_evidence": "evidence_shen_connection",
+      "set_flags": ["fan_confessed_shen"]
     }
   }
 }

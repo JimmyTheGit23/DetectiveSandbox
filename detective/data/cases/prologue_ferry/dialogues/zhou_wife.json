@@ -3,7 +3,7 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "（周氏擦了擦红肿的眼睛）大人……您一定要查清楚。我家老爷死得不明不白。",
+      "text": "（周氏猛地抬头，看到你——眼神立刻变了。警惕、敌意、还有一丝困惑）你怎么还在这里晃。里正不是说了让你别乱跑吗。——你到底想问什么？",
       "options": [
         {
           "text": "说说你丈夫",
@@ -77,13 +77,29 @@
           "type": "press"
         },
         {
+          "text": "船是被人凿沉的。你丈夫……是被谋杀。",
+          "goto": "react_murder_confirmed",
+          "requires": [
+            { "evidence": "evidence_hull_hole" }
+          ],
+          "type": "press"
+        },
+        {
+          "text": "阿贵已经认罪了。但他背后还有人。",
+          "goto": "react_agui_confessed",
+          "requires": [
+            { "flag": "agui_confessed_mastermind" }
+          ],
+          "type": "press"
+        },
+        {
           "text": "先告辞",
           "goto": "__exit__"
         }
       ]
     },
     "intro": {
-      "text": "老爷做布匹生意。这次是去武昌府进一批棉布，过了年好卖。\n\n他带了五十两货银。还有阿贵跟着。\n\n我劝他别坐夜船。他说急着赶路……（哽咽）",
+      "text": "（她冷冷地看着你，好一会儿才开口）……里正说你要自证清白。随你。\n\n老爷做布匹生意。这次是去武昌府进一批棉布，过了年好卖。\n\n他带了五十两货银。还有阿贵跟着。\n\n我劝他别坐夜船。他说急着赶路……（哽咽）要是那天我拦住了他——",
       "options": [
         {
           "text": "继续询问",
@@ -215,7 +231,7 @@
       "gain_clue": "clue_victim_cant_swim"
     },
     "comfort": {
-      "text": "（深吸一口气）多谢大人。我知道老爷平时待人不算厚道……可他不该这么死。\n\n大人要看什么东西尽管说。老爷的文书都在我这里。",
+      "text": "（打量了你很久。神情从警惕变成了犹豫。）\n\n……你不像凶手。凶手不会还留在这里问话。\n\n（深吸一口气）里正让你查——你要是真能查出来……老爷的文书都在房间桌上。你看吧。",
       "options": [
         {
           "text": "继续询问",
@@ -307,6 +323,100 @@
       ],
       "gain_clue": "clue_route_change",
       "set_flags": ["zhou_letter_revealed"]
+    },
+    "react_murder_confirmed": {
+      "lines": [
+        {
+          "speaker_id": "lu_zhao",
+          "text": "周氏。我不想对你隐瞒——你丈夫的船底有一个人为凿出的洞。",
+          "emotion": "serious"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "这不是意外。是谋杀。",
+          "emotion": "cold"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "（全身僵住。手里的帕子掉在地上，她没去捡。）",
+          "emotion": "grief"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "……我就知道。我就知道不是意外。老爷他——（声音发颤）——他是被人害的。"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "大人。求您一定要抓住凶手。不管是谁——不管是谁！",
+          "emotion": "grief"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "（低声）……她哭了。这种哭法不是假的。陆大人，她是真的不知道。",
+          "emotion": "worried"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "我一定查清楚。——不管你信不信我是谁，凶手我会找到。",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        { "text": "继续询问", "goto": "hub" },
+        { "text": "先告辞", "goto": "__exit__" }
+      ],
+      "set_flags": ["zhou_knows_murder"]
+    },
+    "react_agui_confessed": {
+      "lines": [
+        {
+          "speaker_id": "lu_zhao",
+          "text": "周氏。阿贵已经认了。是他凿的船。",
+          "emotion": "cold"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "（嘴唇颤抖）阿贵……他怎么……他跟了老爷十二年……"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "十二年啊。吃一口锅里的饭、睡一个屋檐下——他怎么下得去手？"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "你丈夫用二两银子遣散了他。十二年。",
+          "emotion": "serious"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "（沉默了很久）……二两。是少了。但、但也不至于杀人啊……"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "他背后还有人。有人教他怎么做的——利用了他的怨恨。",
+          "emotion": "cold"
+        },
+        {
+          "speaker_id": "zhou_wife",
+          "text": "还有人？！谁？！",
+          "emotion": "grief"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "还在查。时间不多了——但会有结果。",
+          "emotion": "serious"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "（低声）她的表情……又是恨又是不敢信。十二年的旧仆——她可能把阿贵当半个家人的。",
+          "emotion": "worried"
+        }
+      ],
+      "options": [
+        { "text": "继续询问", "goto": "hub" },
+        { "text": "先告辞", "goto": "__exit__" }
+      ],
+      "set_flags": ["zhou_knows_agui_guilty"]
     }
   }
 }
