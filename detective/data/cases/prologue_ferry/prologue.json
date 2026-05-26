@@ -1,8 +1,36 @@
 {
   "_comment": "序章「渡口沉舟」：密室逃脱开场(3回合行动限制) → 被凌瑶救起 → 客栈暖场 → 次日发现尸体。",
   "_design_note": "逃脱需要铁撬+木箱(2回合)+使用(1回合)=刚好3回合。任何浪费导致逃脱质量下降。观察船洞=用1回合换关键线索(有意义的取舍)。",
-  "start": "time_card_opening",
+  "start": "opening_monologue_1",
   "nodes": {
+    "opening_monologue_1": {
+      "speaker": "",
+      "text": "每逢阴雨，我便想起那条江。",
+      "background": "res://assets/cn/scenes/pure_black.png",
+      "centered": true,
+      "next": "opening_monologue_2"
+    },
+    "opening_monologue_2": {
+      "speaker": "",
+      "text": "黑水，沉船，以及那些再也没能上岸的脸。",
+      "background": "res://assets/cn/scenes/pure_black.png",
+      "centered": true,
+      "next": "opening_monologue_3"
+    },
+    "opening_monologue_3": {
+      "speaker": "",
+      "text": "那时候，我以为真相会让人好过一些。",
+      "background": "res://assets/cn/scenes/pure_black.png",
+      "centered": true,
+      "next": "opening_monologue_4"
+    },
+    "opening_monologue_4": {
+      "speaker": "",
+      "text": "后来才明白——\n\n有些真相，比谎言更冷。",
+      "background": "res://assets/cn/scenes/pure_black.png",
+      "centered": true,
+      "next": "time_card_opening"
+    },
     "time_card_opening": {
       "type": "time_card",
       "text": "万历廿二年 · 腊月 · 亥时",
