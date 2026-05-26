@@ -91,6 +91,7 @@ var triggered_events: Dictionary = {}   # event_id -> true
 var npc_states: Dictionary = {}         # npc_id -> { stat_name: value }
 var case_records: Array[Dictionary] = []       # 证词 / 疑点 / 关键信息记录
 var dialogue_records: Array[Dictionary] = []   # 对话卷宗回看
+var shown_time_cards: Dictionary = {}          # 已显示的时间字幕 key → true（持久化，避免重复）
 
 
 func _ready() -> void:
@@ -176,6 +177,7 @@ func switch_case(case_id: String) -> bool:
 	triggered_events.clear()
 	case_records.clear()
 	dialogue_records.clear()
+	shown_time_cards.clear()
 	culprit_actions_witnessed.clear()
 	unlocked_phases = ["phase_1"]
 	reroll_case_seed()
@@ -258,6 +260,7 @@ func reset_progress() -> void:
 	triggered_events.clear()
 	case_records.clear()
 	dialogue_records.clear()
+	shown_time_cards.clear()
 	culprit_actions_witnessed.clear()
 	unlocked_phases = ["phase_1"]
 	reroll_case_seed()
@@ -307,6 +310,7 @@ func save_game() -> void:
 		"npc_states": npc_states,
 		"case_records": case_records,
 		"dialogue_records": dialogue_records,
+		"shown_time_cards": shown_time_cards,
 		"case_seed": case_seed,
 		"culprit_actions_witnessed": culprit_actions_witnessed,
 		"unlocked_phases": unlocked_phases,
@@ -349,6 +353,7 @@ func load_game() -> bool:
 	npc_states = data.get("npc_states", {})
 	case_records.assign(data.get("case_records", []))
 	dialogue_records.assign(data.get("dialogue_records", []))
+	shown_time_cards = data.get("shown_time_cards", {})
 	case_seed = int(data.get("case_seed", 0))
 	culprit_actions_witnessed = data.get("culprit_actions_witnessed", {})
 	var saved_phases = data.get("unlocked_phases", ["phase_1"])

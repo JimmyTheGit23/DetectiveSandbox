@@ -68,6 +68,7 @@ func _ready() -> void:
 	DialogueManager.narration_ended.connect(_on_narration_ended)
 	DialogueManager.narration_choices_ready.connect(_on_narration_choices_ready)
 	DialogueManager.narration_time_card.connect(_on_narration_time_card)
+	DialogueManager.narration_effects.connect(_on_narration_effects)
 	DialogueManager.lie_exposed.connect(_on_lie_exposed)
 	
 	menu_panel.menu_clicked.connect(_on_menu_clicked)
@@ -651,18 +652,23 @@ func _on_location_changed(loc_id: String) -> void:
 	location_label.text = data.get("name", loc_id)
 	var bg_path: String = AssetResolver.get_scene_background(data)
 	# 时间过场：首次访问该场景，或时间变化较大时显示（换天 / ≥2个时段差异）
+	# 使用持久化的 shown_time_cards 避免继续游戏后重复显示
 	var cur_period := GameManager.current_period
 	var cur_day := GameManager.current_day
+	var time_card_key := "D%d_P%d_%s" % [cur_day, cur_period, loc_id]
+	var already_shown: bool = GameManager.shown_time_cards.has(time_card_key)
 	var is_first_visit: bool = not _visited_locations.has(loc_id)
 	var period_diff: int = abs(cur_period - _last_location_period) if _last_location_period >= 0 else 0
 	var day_diff: int = abs(cur_day - _last_location_day) if _last_location_day >= 0 else 0
-	var significant_change: bool = is_first_visit or day_diff > 0 or period_diff >= 2
+	var significant_change: bool = not already_shown and (is_first_visit or day_diff > 0 or period_diff >= 2)
 	# 无论是否显示时间卡，都更新记录
 	_visited_locations[loc_id] = true
 	_last_location_period = cur_period
 	_last_location_day = cur_day
 	var should_show_time: bool = significant_change and GameManager.current_state == GameManager.STATE_PLAYING and not day_transition.visible and not _time_card_playing
 	if should_show_time:
+		GameManager.shown_time_cards[time_card_key] = true
+		GameManager.save_game()
 		_time_card_playing = true
 		_set_background(bg_path, false)
 		var period_name: String = GameManager.PERIOD_NAMES[cur_period] if cur_period < GameManager.PERIOD_NAMES.size() else ""
@@ -1131,16 +1137,14 @@ func _try_play_case_epilogue(ending_id: String) -> bool:
 
 # ─── 对话 ───
 func _on_dialogue_started(speaker: String, portrait: String, text: String, options: Array, pages: Array) -> void:
+	# NPC 已在 NpcSceneLayer 可见时，跳过 DialogueBox 的立绘入场动画（避免拖动/跳动感）
+	if _npc_layer and _npc_layer._portrait and _npc_layer._portrait.visible and _npc_layer._portrait.modulate.a > 0.5:
+		dialogue_box.skip_portrait_intro()
 	dialogue_box.show_dialogue(speaker, portrait, text, options, pages)
 	dialogue_box.visible = true
 	menu_panel.visible = false
-	if DialogueManager.is_discuss_mode():
-		# 讨论模式：隐藏原 NPC 立绘（助手由 DialogueBox.portrait_rect 居中显示）
-		if _npc_layer and _npc_layer.has_method("hide_npcs"):
-			_npc_layer.hide_npcs()
-	else:
-		if _npc_layer and _npc_layer.has_method("hide_npcs"):
-			_npc_layer.hide_npcs()
+	if _npc_layer and _npc_layer.has_method("hide_npcs"):
+		_npc_layer.hide_npcs()
 
 
 func _on_dialogue_ended() -> void:
@@ -1253,6 +1257,41 @@ func _on_narration_time_card(text: String, sub_text: String) -> void:
 		GameManager.set_state(GameManager.STATE_PROLOGUE)
 		DialogueManager.narration_next()
 	)
+
+
+## 叙述演出效果处理（震动/闪屏/色调）
+func _on_narration_effects(fx: Dictionary) -> void:
+	if fx.get("shake", false):
+		var intensity: float = float(fx.get("shake_intensity", 6.0))
+		var duration: float = float(fx.get("shake_duration", 0.4))
+		_do_screen_shake(intensity, duration)
+	if fx.has("flash"):
+		var color_str: String = str(fx.get("flash", "white"))
+		var color := Color.WHITE
+		if color_str == "white":
+			color = Color(1, 1, 1, 0.7)
+		elif color_str == "black":
+			color = Color(0, 0, 0, 0.9)
+		elif color_str == "blue":
+			color = Color(0.1, 0.2, 0.5, 0.6)
+		dialogue_box.flash_screen(color, float(fx.get("flash_duration", 0.2)))
+	if fx.has("tint"):
+		var tint_str: String = str(fx.get("tint", ""))
+		if tint_str == "dark_blue":
+			_bg_fade_rect.color = Color(0.02, 0.05, 0.15, 0.4)
+		elif tint_str == "clear":
+			_bg_fade_rect.color = Color(0, 0, 0, 0)
+
+
+func _do_screen_shake(intensity: float = 6.0, duration: float = 0.4) -> void:
+	var original_pos := scene_bg.position
+	var tw := create_tween()
+	var steps := int(duration / 0.05)
+	for i in range(steps):
+		var offset_x: float = intensity * (1.0 if i % 2 == 0 else -1.0) * (1.0 - float(i) / steps)
+		var offset_y: float = intensity * 0.5 * (1.0 if i % 3 == 0 else -1.0) * (1.0 - float(i) / steps)
+		tw.tween_property(scene_bg, "position", original_pos + Vector2(offset_x, offset_y), 0.05)
+	tw.tween_property(scene_bg, "position", original_pos, 0.05)
 
 
 ## 检查是否有延迟的日期过场等待显示（对话/叙述结束后调用）

@@ -57,6 +57,7 @@ var _is_blinking: bool = false
 # ─── 全屏演出效果 ───
 var _flash_rect: ColorRect = null
 var _screen_shake_tween: Tween = null
+var _skip_next_portrait_animation: bool = false
 
 const CLR_GOLD := Color(0.96, 0.84, 0.46, 1.0)
 const CLR_PAPER := Color(0.12, 0.075, 0.04, 0.94)
@@ -93,7 +94,7 @@ func _ready() -> void:
 	portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	portrait_rect.pivot_offset = Vector2(260, 340)
+	portrait_rect.pivot_offset = Vector2(320, 330)  # center of 640x660
 	# 立绘层级在对话框下面（下半身被对话框自然遮挡）
 	move_child(portrait_rect, 0)
 	# ── 文本区域设置 ──
@@ -272,6 +273,11 @@ func end_narration_mode() -> void:
 
 
 
+## 跳过下一次立绘入场动画（NPC 已在 NpcSceneLayer 可见时调用）
+func skip_portrait_intro() -> void:
+	_skip_next_portrait_animation = true
+
+
 func show_dialogue(speaker: String, portrait_path: String, text: String, options: Array, pages: Array = []) -> void:
 	_narration_mode = false
 	_dialogue_run_id += 1
@@ -347,7 +353,14 @@ func _apply_speaker(speaker: String, portrait_path: String, emotion: String = ""
 	if _resolved_portrait != "" and ResourceLoader.exists(_resolved_portrait):
 		portrait_rect.texture = load(_resolved_portrait)
 		portrait_rect.visible = true
-		if _changed:
+		if _skip_next_portrait_animation:
+			# NPC 已在场景层可见，直接显示不做动画（避免拖动/跳动感）
+			_skip_next_portrait_animation = false
+			portrait_rect.modulate.a = 1.0
+			portrait_rect.scale = Vector2(1.0, 1.0)
+			if _portrait_tween != null and _portrait_tween.is_valid():
+				_portrait_tween.kill()
+		elif _changed:
 			portrait_rect.modulate.a = 0.0
 			portrait_rect.scale = Vector2(0.96, 0.96)
 			if _portrait_tween != null and _portrait_tween.is_valid():
@@ -506,8 +519,6 @@ func _stop_talk_animation() -> void:
 	if not _idle_frames.is_empty():
 		portrait_rect.texture = _idle_frames[0]
 		_start_blink_loop()
-	# 重置位置偏移
-	portrait_rect.position.y = 0
 
 
 func _on_talk_frame_tick() -> void:
@@ -527,7 +538,6 @@ func _stop_talk_bounce() -> void:
 	if _talk_bounce_tween != null and _talk_bounce_tween.is_valid():
 		_talk_bounce_tween.kill()
 		_talk_bounce_tween = null
-	portrait_rect.position.y = 0
 
 
 ## 眨眼循环：每 2-4 秒眨一次眼

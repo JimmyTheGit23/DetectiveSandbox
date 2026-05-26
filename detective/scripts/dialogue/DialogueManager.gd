@@ -8,6 +8,7 @@ signal narration_started(background: String, speaker: String, text: String, has_
 signal narration_choices_ready(choices: Array)
 signal narration_ended()
 signal narration_time_card(text: String, sub_text: String)
+signal narration_effects(effects: Dictionary)
 signal lie_exposed(npc_id: String, lie_node: String)
 
 var _current_tree: Dictionary = {}
@@ -439,6 +440,18 @@ func _emit_narration() -> void:
 	var centered: bool = node.get("centered", false)
 	var has_choices: bool = node.has("choices") and not node.get("choices", []).is_empty()
 	var node_portrait: String = node.get("portrait", "")
+	# 演出效果（震动/闪屏/BGM切换）
+	var fx: Dictionary = node.get("fx", {})
+	if not fx.is_empty():
+		# BGM 直接切换
+		var bgm_id: String = fx.get("bgm", "")
+		if bgm_id != "":
+			var bgm_player = get_node_or_null("/root/BgmPlayer")
+			if bgm_player and bgm_player.has_method("play"):
+				bgm_player.play(bgm_id)
+			else:
+				BgmPlayer.play(bgm_id)
+		narration_effects.emit(fx)
 	if node.get("end", false):
 		narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), false, centered, node_portrait)
 		return

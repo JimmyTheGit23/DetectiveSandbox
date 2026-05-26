@@ -7,13 +7,21 @@
       "type": "time_card",
       "text": "万历廿二年 · 腊月 · 亥时",
       "sub_text": "荆江 · 石矶渡",
-      "next": "cabin_1"
+      "next": "cabin_1",
+      "background": ""
     },
     "cabin_1": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
       "speaker": "",
       "text": "黑暗。\n\n身体猛烈一震——像是什么东西从脚底断裂了。\n\n冰冷的水从某处涌上来，没过脚踝。",
-      "next": "cabin_2"
+      "next": "cabin_2",
+      "fx": {
+        "shake": true,
+        "shake_intensity": 8.0,
+        "shake_duration": 0.6,
+        "bgm": "escape_tension",
+        "tint": "dark_blue"
+      },
+      "background": "res://assets/cn/scenes/pure_black.png"
     },
     "cabin_2": {
       "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
@@ -22,285 +30,24 @@
       "next": "cabin_3"
     },
     "cabin_3": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
       "speaker": "陆昭",
-      "text": "……船在沉。",
-      "next": "cabin_round1"
+      "text": "船在沉。",
+      "next": "cabin_flood"
     },
     "_sep_round1": "═══ 第一回合：水到膝盖 ═══",
-    "cabin_round1": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
-      "speaker": "",
-      "text": "舱门被什么顶死了——推不开。\n\n昏暗中你能看到：角落散落着几只货物木箱，舱壁上挂着一根铁撬棍，头顶有一扇天窗透进雨夜微光。脚下还在涌水——从船底某处灌进来的。",
-      "next": "cabin_round1_choice"
-    },
-    "cabin_round1_choice": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
-      "speaker": "",
-      "text": "冰水刺骨，四肢开始发麻。每做一件事都在消耗你逃生的时间。",
-      "choices": [
-        {
-          "text": "用力推舱门",
-          "goto": "cabin_r1_door"
-        },
-        {
-          "text": "俯身摸索水涌入的位置",
-          "goto": "cabin_r1_observe"
-        },
-        {
-          "text": "取下舱壁上的铁撬棍",
-          "goto": "cabin_r1_crowbar"
-        },
-        {
-          "text": "把木箱推到天窗正下方",
-          "goto": "cabin_r1_box"
-        }
-      ]
-    },
-    "cabin_r1_door": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
-      "speaker": "",
-      "text": "你用尽全力撞向舱门——\n\n纹丝不动。外面有整垛的货物压着。门缝里挤进更多的水，像是在嘲笑你的徒劳。\n\n白费了力气。宝贵的时间流走了一截。",
-      "effect": {
-        "set_flag": "wasted_door"
-      },
-      "next": "cabin_round2"
-    },
-    "cabin_r1_observe": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
-      "speaker": "",
-      "text": "你深吸一口气，蹲入刺骨的冰水中，双手摸索船底——\n\n找到了。一个方形的洞口，巴掌大小。边缘……很整齐。不是撞击——是凿出来的。有人在船底开了个洞。\n\n你把这个发现死死记在脑中。但时间不等人。",
-      "effect": {
-        "set_flag": "observed_hole",
-        "gain_clue": "clue_cabin_hole_memory"
-      },
-      "next": "cabin_round2"
-    },
-    "cabin_r1_crowbar": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
-      "speaker": "",
-      "text": "你摸黑从舱壁的铁钩上扯下撬棍。沉甸甸的，铁质，结实。\n\n有了这个——头顶天窗的锁扣应该撬得开。",
-      "effect": {
-        "set_flag": "has_crowbar"
-      },
-      "next": "cabin_round2"
-    },
-    "cabin_r1_box": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin.png",
-      "speaker": "",
-      "text": "你用力推动一只大木箱——水的阻力让它格外沉重。双脚在湿滑的船底打滑，你咬着牙，一寸一寸地把它顶到了天窗正下方。\n\n站上去的话，刚好能够到天窗边缘。",
-      "effect": {
-        "set_flag": "box_positioned"
-      },
-      "next": "cabin_round2"
-    },
     "_sep_round2": "═══ 第二回合：水到大腿 ═══",
-    "cabin_round2": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin_rising.png",
-      "speaker": "",
-      "text": "水涨到了大腿。船身又倾斜了几度，舱顶传来木头断裂的闷响。\n\n你的腿在冰水中已经开始失去知觉——快。",
-      "choices": [
-        {
-          "text": "用力推舱门",
-          "goto": "cabin_r2_door",
-          "requires": {
-            "not_flag": "wasted_door"
-          }
-        },
-        {
-          "text": "俯身摸索水涌入的位置",
-          "goto": "cabin_r2_observe",
-          "requires": {
-            "not_flag": "observed_hole"
-          }
-        },
-        {
-          "text": "取下舱壁上的铁撬棍",
-          "goto": "cabin_r2_crowbar",
-          "requires": {
-            "not_flag": "has_crowbar"
-          }
-        },
-        {
-          "text": "把木箱推到天窗正下方",
-          "goto": "cabin_r2_box",
-          "requires": {
-            "not_flag": "box_positioned"
-          }
-        }
-      ]
-    },
-    "cabin_r2_door": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin_rising.png",
-      "speaker": "",
-      "text": "你对着舱门又是一脚——\n\n门板裂了条缝，但紧接着水从裂缝喷涌而入！外面的舱道已经灌满了。\n\n这条路彻底死了。而你浪费了最后的力气。",
-      "effect": {
-        "set_flag": "wasted_door"
-      },
-      "next": "cabin_round3"
-    },
-    "cabin_r2_observe": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin_rising.png",
-      "speaker": "",
-      "text": "你憋住气，把头探入齐腿深的冰水中——\n\n手掌触到船底的一个洞口。边缘切割整齐。不是暗礁——是刀斧凿出来的。\n\n有人蓄意凿穿了这条船。\n\n这个发现可能关乎生死真相——但此刻，你的身体在发抖，视野在发黑。",
-      "effect": {
-        "set_flag": "observed_hole",
-        "gain_clue": "clue_cabin_hole_memory"
-      },
-      "next": "cabin_round3"
-    },
-    "cabin_r2_crowbar": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin_rising.png",
-      "speaker": "",
-      "text": "铁撬还挂在舱壁上——你伸手一扯，挂钩锈蚀已久，铁棍顺势落入掌心。\n\n好。有工具了。",
-      "effect": {
-        "set_flag": "has_crowbar"
-      },
-      "next": "cabin_round3"
-    },
-    "cabin_r2_box": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin_rising.png",
-      "speaker": "",
-      "text": "齐腿深的水反而给了木箱一点浮力。你趁势把它推到天窗正下方——踩上去，水面刚到箱面。\n\n刚好能摸到天窗。",
-      "effect": {
-        "set_flag": "box_positioned"
-      },
-      "next": "cabin_round3"
-    },
     "_sep_round3": "═══ 第三回合（最终）：水到腰——结局分歧 ═══",
-    "cabin_round3": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin_rising.png",
-      "speaker": "",
-      "text": "水到了腰。不——到了胸口。\n\n船体发出一声像骨头折断的巨响。舱壁在变形。\n\n你只剩最后一次机会——",
-      "choices": [
-        {
-          "text": "踩上木箱，用铁撬猛撬天窗锁扣！",
-          "goto": "cabin_escape_perfect",
-          "requires": {
-            "all": [
-              {
-                "flag": "has_crowbar"
-              },
-              {
-                "flag": "box_positioned"
-              }
-            ]
-          }
-        },
-        {
-          "text": "举起铁撬纵身跳起，砸向天窗！",
-          "goto": "cabin_escape_crowbar_only",
-          "requires": {
-            "all": [
-              {
-                "flag": "has_crowbar"
-              },
-              {
-                "not_flag": "box_positioned"
-              }
-            ]
-          }
-        },
-        {
-          "text": "站上木箱，用拳头和手肘猛砸天窗框！",
-          "goto": "cabin_escape_box_only",
-          "requires": {
-            "all": [
-              {
-                "flag": "box_positioned"
-              },
-              {
-                "not_flag": "has_crowbar"
-              }
-            ]
-          }
-        },
-        {
-          "text": "（什么工具都没准备——水已经没过胸口）",
-          "goto": "cabin_escape_drown",
-          "requires": {
-            "all": [
-              {
-                "not_flag": "has_crowbar"
-              },
-              {
-                "not_flag": "box_positioned"
-              }
-            ]
-          }
-        }
-      ]
-    },
     "_sep_escape_outcomes": "═══ 四种逃脱结果 ═══",
-    "cabin_escape_perfect": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin_rising.png",
-      "speaker": "",
-      "text": "你踩上木箱，举铁撬对准天窗锁扣——全力一撬！\n\n咔嚓！锁扣断裂，天窗向外弹开。冷雨浇在脸上。\n\n你扔掉铁撬，双手撑住窗框，一个翻身钻了出去。",
-      "effect": {
-        "set_flag": "escape_perfect"
-      },
-      "next": "cabin_escape_deck"
-    },
-    "cabin_escape_crowbar_only": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin_escape_injured.png",
-      "speaker": "",
-      "text": "没有垫脚的东西——你只能赌。\n\n你在齐胸的水中奋力跳起，铁撬高举过头砸向天窗！\n\n玻璃碎裂，木框裂开一半——但你落回水中。寒冷让你的腿几乎不听使唤。\n\n第二跳。拼尽全力——手抓住了窗框边缘！碎玻璃割进掌心，剧痛。你咬着牙把自己拉了上去。\n\n双手鲜血淋漓。",
-      "effect": {
-        "set_flag": "escape_injured"
-      },
-      "next": "cabin_escape_deck"
-    },
-    "cabin_escape_box_only": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin_escape_injured.png",
-      "speaker": "",
-      "text": "木箱在水中晃动不止。你勉强站稳，双手抓住天窗边缘——锁扣锈死了，推不开！\n\n没有撬棍。只能用蛮力。\n\n你用手肘猛砸天窗框——一下，两下，三下！朽木碎裂，手肘的皮肉也磨烂了。\n\n终于——天窗框断裂，你从碎木中挤了出去。右臂从肘到腕全是血。",
-      "effect": {
-        "set_flag": "escape_injured"
-      },
-      "next": "cabin_escape_deck"
-    },
-    "cabin_escape_drown": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin_drown.png",
-      "speaker": "",
-      "text": "什么都来不及了。\n\n水没过胸口、脖子——你仰起头，最后一口气堵在嗓子里。天窗就在头顶一臂之遥，但你既够不着，也撬不开。\n\n船体轰然断裂。水墙涌入。\n\n你被卷入彻骨的黑暗中。",
-      "effect": {
-        "set_flag": "escape_drown"
-      },
-      "next": "cabin_drown_sequence"
-    },
-    "cabin_escape_deck": {
-      "background": "res://assets/cn/scenes/prologue_cold_open.png",
-      "speaker": "",
-      "text": "你从天窗爬出——\n\n船已经大半沉入水中。甲板在脚下剧烈倾斜。雨幕如帘，江面漆黑一片。\n\n远处有模糊的岸线。",
-      "next": "cabin_escape_swim"
-    },
-    "cabin_escape_swim": {
-      "background": "res://assets/cn/scenes/prologue_cold_open.png",
-      "speaker": "",
-      "text": "船最后一声闷响，彻底沉没。\n\n你抓住一块断裂的船板，在冰冷的江水中拼命向岸边划去。\n\n意识开始模糊。雨打在眼睛上，什么都看不清了——",
-      "next": "shore_1"
-    },
-    "cabin_drown_sequence": {
-      "background": "res://assets/cn/scenes/prologue_ship_cabin_drown.png",
-      "speaker": "",
-      "text": "……\n\n断裂的船体和你一起沉入江底。但散开的木板给了你最后一线生机——\n\n一块舱板撞开了你身旁的船壁。水流把你从缺口冲了出去。\n\n你什么都抓不住。四肢已经没有知觉。腰间的公文袋在水流中脱落——\n\n最后的意识里，只剩刺骨的冷，和无边的黑。",
-      "effect": {
-        "set_flag": "lost_documents"
-      },
-      "next": "shore_1_drown"
-    },
     "_sep_shore": "═══ 岸边（根据逃脱结果分支）═══",
     "shore_1": {
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
       "speaker": "",
       "text": "……\n\n「喂！喂！你还活着吗！」\n\n有人在拖拽你的身体。沙砾磨蹭后背。冰冷中有一双温热的手在拍你的脸。",
-      "next": "shore_2"
-    },
-    "shore_1_drown": {
-      "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
-      "speaker": "",
-      "text": "……\n\n不知过了多久。\n\n有人把你从水里拖了出来。你趴在湿冷的沙地上，肺里像灌了火。连咳嗽的力气都没有。\n\n一双手在拼命按压你的后背。",
-      "next": "shore_2_drown"
+      "next": "shore_2",
+      "fx": {
+        "tint": "clear",
+        "bgm": "prologue_calm"
+      }
     },
     "shore_2": {
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
@@ -309,24 +56,11 @@
       "text": "别死啊你！我好不容易把你拖上来的！咳出来！把水咳出来！",
       "next": "shore_3"
     },
-    "shore_2_drown": {
-      "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
-      "speaker": "凌瑶",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_anxious.png",
-      "text": "呼吸！呼吸啊！\n\n（猛拍后背）吐出来——！你嘴唇都青了——别死在本姑娘手上——！",
-      "next": "shore_3_drown"
-    },
     "shore_3": {
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
       "speaker": "",
       "text": "你剧烈咳嗽，吐出一口江水。\n\n睁开眼——冬雨中一张年轻女子的脸，湿漉漉的碎发贴在额头上，神情焦急。\n\n她穿着一身利落的暗蓝劲装，背上斜挎着信筒。",
       "next": "shore_4"
-    },
-    "shore_3_drown": {
-      "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
-      "speaker": "",
-      "text": "你吐出大口大口的江水。肺像被撕裂了一样疼。\n\n好一阵才勉强睁开眼——天旋地转。一张模糊的脸在雨雾中晃动。\n\n你想说话，但喉咙里只有沙哑的气音。",
-      "next": "shore_4_drown"
     },
     "shore_4": {
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
@@ -343,13 +77,6 @@
           "goto": "shore_5b"
         }
       ]
-    },
-    "shore_4_drown": {
-      "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
-      "speaker": "凌瑶",
-      "text": "别说话了别说话了！你浑身跟冰块似的——先活下来再说！\n\n走，我扶你——不对，你根本站不起来。那我背你——来，趴上来！",
-      "next": "inn_arrival_drown",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_anxious.png"
     },
     "shore_5a": {
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
@@ -372,12 +99,6 @@
       "text": "石矶渡。客栈。\n\n凌瑶半扶半拖着你进了门。掌柜给了热水和干衣服。\n\n你坐在火堆旁，寒意还没完全退去。外面的雨越下越大。",
       "next": "inn_warm_1"
     },
-    "inn_arrival_drown": {
-      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
-      "speaker": "",
-      "text": "石矶渡。客栈。\n\n你对接下来的路程几乎没有记忆。只记得有人背着你在雨里跑，泥水溅上脸颊。\n\n等你再次清醒时，已经躺在客栈的火堆旁。浑身被毯子裹着。凌瑶的衣服也湿透了——她自己也在发抖。\n\n你的公文袋、官印信函，都不见了。全丢在了江里。",
-      "next": "inn_warm_1_drown"
-    },
     "inn_warm_1": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "凌瑶",
@@ -385,26 +106,10 @@
       "next": "inn_warm_2",
       "portrait": "res://assets/cn/portraits/companion_lingyao.png"
     },
-    "inn_warm_1_drown": {
-      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
-      "speaker": "凌瑶",
-      "text": "（端来一碗姜汤，蹲在旁边看着你）你在水里泡了太久。发了一阵烧——现在好些了？\n\n你叫什么？为什么大半夜的漂在江里？",
-      "next": "inn_warm_2_drown",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_worried.png"
-    },
     "inn_warm_2": {
-      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "陆昭",
-      "text": "……有。一个布商，和他的仆从。还有船家。\n\n我搭的他们的渡船。夜里出发，说是半个时辰就到对岸。",
-      "next": "inn_warm_3",
-      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
-    },
-    "inn_warm_2_drown": {
-      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
-      "speaker": "陆昭",
-      "text": "……陆昭。巡按御史。坐渡船过江……船沉了。\n\n还有同船的人——一个布商和他的仆从。船家。",
-      "next": "inn_warm_3",
-      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+      "text": "有。一个布商，和他的仆从。还有船家。\n\n我搭的他们的渡船。夜里出发，说是半个时辰就到对岸。\n\n（低头看了看自己被江水泡皱的手）……半个时辰。",
+      "next": "inn_warm_3"
     },
     "inn_warm_3": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -414,11 +119,9 @@
       "portrait": "res://assets/cn/portraits/companion_lingyao_worried.png"
     },
     "inn_warm_3b": {
-      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "陆昭",
-      "text": "不知道。天亮了才能看清。",
-      "next": "inn_warm_4",
-      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+      "text": "不知道。天亮了才能看清。\n\n（手指不自觉地攥紧了袖口——衣服还是湿的。冰凉贴在皮肤上，像那舱里的水。）",
+      "next": "inn_warm_4"
     },
     "inn_warm_4": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -444,7 +147,7 @@
     "inn_warm_4_observed": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "陆昭",
-      "text": "……有件事。船沉的时候，我蹲下去摸过涌水的位置。\n\n是一个方形的洞——边缘很整齐。不是撞出来的。是工具凿的。",
+      "text": "有件事。船沉的时候，我蹲下去摸过涌水的位置。\n\n是一个方形的洞——边缘很整齐。不是撞出来的。是凿的。\n\n（握紧了拳头）有人想让那条船沉下去。连我在内。",
       "choices": [
         {
           "text": "「是人为凿开的。我确定。」",
@@ -460,7 +163,7 @@
     "inn_warm_4_not_observed": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "陆昭",
-      "text": "……有件事让我在意。水是从脚底下涌上来的——灌得很急，像是从一个口子里喷出来的。\n\n当时来不及细看，但那个位置……感觉不太对。",
+      "text": "有件事让我在意。水是从脚底下涌上来的——灌得很急，像是从一个豁口里喷出来的。\n\n当时来不及细看。但那个位置、那个速度……不像是撞礁裂开的。\n\n（盯着火堆）如果是人为的——那我也在被害者的名单上。",
       "choices": [
         {
           "text": "「像是有人凿的。」",
@@ -476,7 +179,7 @@
     "inn_warm_5a_certain": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "凌瑶",
-      "text": "你确定？！方形的？刀凿的？！\n\n那——那不是翻船！是有人故意凿沉的！你差点被人谋杀了！！",
+      "text": "是人为凿开的。我确定。\n\n黑暗中摸到的那个边缘——太整齐了。木头断裂不是那个手感。\n\n（抬头）也就是说——今晚有人想杀我。或者，想杀船上所有人。",
       "effect": {
         "set_flag": "lingyao_trusts_hole"
       },
@@ -498,11 +201,9 @@
       "portrait": "res://assets/cn/portraits/companion_lingyao_worried.png"
     },
     "inn_warm_6": {
-      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "陆昭",
-      "text": "天亮再说。先休息。\n\n……谢了。救命之恩。",
-      "next": "inn_warm_7",
-      "portrait": "res://assets/cn/portraits/lu_zhao.png"
+      "text": "天亮再说。先休息。\n\n（停了一下，看向她）……多谢。命是你救回来的。这份情，陆昭记着。",
+      "next": "inn_warm_7"
     },
     "inn_warm_7": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -521,49 +222,7 @@
       "next": "inn_night_injury_check"
     },
     "inn_night_injury_check": {
-      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
-      "speaker": "",
-      "text": "你试着握拳——",
-      "choices": [
-        {
-          "text": "（手指灵活自如）",
-          "goto": "day2_dawn",
-          "requires": {
-            "flag": "escape_perfect"
-          }
-        },
-        {
-          "text": "（掌心传来火烧般的刺痛——昨晚逃生时的伤还没好）",
-          "goto": "inn_night_injured",
-          "requires": {
-            "flag": "escape_injured"
-          }
-        },
-        {
-          "text": "（全身的骨头都在痛。半条命是凌瑶救回来的）",
-          "goto": "inn_night_drown_cost",
-          "requires": {
-            "flag": "escape_drown"
-          }
-        }
-      ]
-    },
-    "inn_night_injured": {
-      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
-      "speaker": "",
-      "text": "伤口还在渗血。明天开始查案之前，得先找药包一包。\n\n这些伤会耽误一些时间——但至少你活着。",
-      "effect": {
-        "set_flag": "start_injured"
-      },
-      "next": "day2_dawn"
-    },
-    "inn_night_drown_cost": {
-      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
-      "speaker": "",
-      "text": "全身都在疼。发烧还没完全退。\n\n更要紧的是——你的公文、御史牌信、沿途账册全丢在了江里。明天要查案……连证明身份的东西都没有了。\n\n一切都要从零开始。这是你为慌乱付出的代价。",
-      "effect": {
-        "set_flag": "start_disadvantaged"
-      },
+      "text": "你试着握拳——掌心火辣辣地疼。撬天窗时磨破的皮还在渗血。\n\n但至少手指还能动。命是捡回来了。",
       "next": "day2_dawn"
     },
     "_sep_day2": "═══ 第二天 ═══",
@@ -606,11 +265,9 @@
       "portrait": "res://assets/cn/portraits/companion_lingyao_shocked.png"
     },
     "day2_body_4": {
-      "background": "res://assets/cn/scenes/prologue_cold_open.png",
       "speaker": "陆昭",
-      "text": "周德茂。布商。昨夜跟我说过几句话——带着仆从阿贵，要过江进货。\n\n……他死了。仆从阿贵活着，在客栈歇着。船家老范也没事。",
-      "next": "day2_body_5",
-      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+      "text": "周德茂。布商。昨夜跟我说过几句话——带着仆从阿贵，要过江进货。\n\n（站起来，声音很轻）……他死了。而阿贵和老范都活着。\n\n三个人落水，只有不会游泳的那个死了。",
+      "next": "day2_body_5"
     },
     "day2_body_5": {
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
@@ -625,120 +282,144 @@
       "next": "day2_zhou_accuse_1"
     },
     "day2_zhou_accuse_1": {
-      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
       "speaker": "周氏",
-      "text": "同船的人——他死了，你活着！\n\n（猛地扑过来，死死抓住你的衣领）你就是凶手！你害死了我家老爷！！",
+      "text": "同船的人——他死了，你活着！\n\n（猛地扑过来，死死抓住你的衣领）上船的时候你连船钱都付不起，还是我家老爷替你垫的！五十两货银——钱呢？！你就是图财害命！！",
       "next": "day2_agui_appears"
     },
     "day2_agui_appears": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
-      "speaker": "",
       "text": "人群外围，一个穿着素色布衣的年轻男子缩着肩膀挤了进来。\n\n是阿贵——周德茂的随行仆从，眼圈通红，嘴唇还在微微颤抖。",
       "next": "day2_agui_1"
     },
     "day2_agui_1": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "阿贵",
-      "text": "（哽咽）夫人……老爷他……\n\n（颤声）昨夜将近三更，我在舱里没睡着，听见船头有人说话——老爷跟这位爷的声音越说越大，像是在争什么。\n\n我以为只是路上的闲话，没敢出去……再后来，水就进来了。",
+      "text": "（哽咽）夫人……老爷他……\n\n（颤声，但眼神躲闪）昨晚三更刚过，我睡不着起来解手，看见这位爷……蹲在船底舱口那边。\n\n他手里好像攥着个铁家伙——我当时没多想，以为是什么随身的物件……（声音越来越低）现在想来……",
       "next": "day2_agui_2"
     },
     "day2_agui_2": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "阿贵",
-      "text": "（抬头，眼里带着怯意和怨气）老爷出门带着两百两银子，是给货栈结账的。\n\n上船前他特意嘱咐我——压在行李箱最底下，不叫旁人看见……\n\n（声音越来越低）可现在……行李连人一起不见了。",
-      "next": "day2_zhou_accuse_2"
+      "text": "（突然抬头，带着怨气）还有一件事——船沉的时候，我和船家都被困在舱里，门被货物堵死了！我拍了半天门才找到路爬出来！\n\n可这位爷呢？他直接从天窗出去的！那扇天窗平时用铁锁锁死——他怎么打开的？！\n\n（哽咽）除非……除非他事先就知道船要沉！！",
+      "next": "day2_crowd_murmur"
     },
     "day2_zhou_accuse_2": {
-      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
       "speaker": "陆昭",
-      "text": "你冷静——我是巡按御史陆昭，昨夜搭船过江，同样是受害者——",
-      "next": "day2_zhou_accuse_3",
-      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+      "text": "（攥住她的手腕，轻但有力地拨开）\n\n我是巡按御史陆昭。搭船过江，同样是受害者。\n\n（语气压得很低，但下颌线绷紧了）船沉时我也差点淹死——你丈夫的命我没有拿。",
+      "next": "day2_zhou_accuse_3"
     },
     "day2_zhou_accuse_3": {
-      "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
       "speaker": "周氏",
-      "text": "御史？！谁信！！你有凭证吗？！拿出来！！",
+      "text": "差点？！你活蹦乱跳站在这儿！我家老爷才是真的死了！！\n\n御史？！谁信！有凭证你拿出来啊！！",
       "next": "day2_lizheng_appear"
     },
     "day2_lizheng_appear": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
-      "speaker": "",
-      "text": "围观人群骚动。一个圆脸中年人从人群中挤出来——是渡口的里正。",
+      "text": "围观人群骚动。一个圆脸中年人从人群中挤出来——是渡口的里正。\n\n他扫了一眼尸体，又打量了你几眼。表情不像同情，更像在盘算。",
       "next": "day2_lizheng_1"
     },
     "day2_lizheng_1": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "钱里正",
-      "text": "都别吵别吵！出了人命我这个里正管不了——等县里来人。\n\n（看了你一眼）你说你是御史？有官印文书吗？",
-      "next": "day2_lizheng_2",
-      "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
+      "text": "都别吵！——出了人命我这个里正管不了，得等县里来人。\n\n（转向你）你说你是御史？有官印文书吗？",
+      "next": "day2_lizheng_2"
     },
     "day2_lizheng_2": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "陆昭",
-      "text": "……落在了江里。",
-      "next": "day2_lizheng_3",
-      "portrait": "res://assets/cn/portraits/lu_zhao_serious.png"
+      "text": "官印落在了船舱里。连同行李、文书——全沉在江底了。\n\n（自嘲地扯了扯身上借来的干衣服）你看我现在这样，确实不像个御史。",
+      "next": "day2_lizheng_3"
     },
     "day2_lizheng_3": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "钱里正",
-      "text": "（叹了口气）那我只能先按规矩办了。\n\n同船的人死了，你没事——不管你是不是官老爷，在查清之前，你不能离开渡口。\n\n周氏告你杀人，我得给她一个交代。",
-      "next": "day2_lizheng_4",
-      "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
+      "text": "（摇头）没有凭证，你说什么都是空口白话。\n\n我且问你一件事——翻船的地方在江心，离这岸至少三四里水路。你一个当官的文人——怎么游过来的？",
+      "next": "day2_lizheng_3b"
     },
     "day2_lizheng_4": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "凌瑶",
-      "text": "等等等等！他是被我从江里拖上来的！半死不活！——你凭什么说他是凶手！",
-      "next": "day2_lizheng_5",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_determined.png"
+      "text": "你——！放屁！我是镖局送信的！住在码头客栈！听见江上炸响才跑出去的！\n\n他被我拖上来的时候都快断气了！昏迷了大半个时辰才醒！你管这叫'活蹦乱跳'？！",
+      "next": "day2_lizheng_5"
     },
     "day2_lizheng_5": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "钱里正",
-      "text": "姑娘——我知道你好心。但你认识他吗？他说什么你就信什么？\n\n（摇头）我给你两天。这雨两天内停不了，反正谁也走不了。\n\n两天之内——要么你找到真凶，要么等县衙的人来处置你。",
-      "next": "day2_framed_resolve",
-      "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
+      "text": "姑娘，你说得再凶——你认识他吗？昨天之前见过他吗？\n\n（叹气）他没有身份凭证、搭船没付钱、知道天窗逃生路线、你俩又恰好'巧遇'——搁谁身上，我都不能放人。\n\n（竖起两根指头）两天。这雨两天内停不了，反正谁也走不了。两天之内——要么你找到真凶，要么等县衙的人来处置你。",
+      "next": "day2_framed_resolve"
     },
     "day2_framed_resolve": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
-      "speaker": "",
-      "text": "围观人群窃窃私语。有人同情你，有人露出怀疑的眼神。\n\n周氏瘫坐在地上哭泣。钱里正摆了摆手，示意人群散开。",
+      "text": "人群缓缓散开。有人回头看你，像看一个已经定了罪的人。\n\n周氏被人扶走了，但她的哭喊声还在码头上空回荡。\n\n阿贵低着头跟在人群后面走了——走之前，他飞快地瞥了你一眼。那一眼里有东西，不像悲伤。",
       "next": "day2_lingyao_resolve"
     },
     "day2_lingyao_resolve": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "凌瑶",
-      "text": "（低声）陆昭——你没事吧？这帮人……！\n\n算了不说了。你打算怎么办？",
-      "next": "day2_lu_resolve",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_worried.png"
+      "text": "（低声，攥紧拳头）陆昭——你信我，我没有跟任何人串通。我就是听到响动跑出来的……\n\n……这帮人都疯了。你打算怎么办？",
+      "next": "day2_lu_resolve"
     },
     "day2_lu_resolve": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "陆昭",
-      "text": "船底有个人为凿出来的洞。船家和仆从都活着，只有带着银子的布商死了。\n\n这不是意外——是谋杀。\n\n而我必须找出凶手。不只是为了查案——是为了自证清白。",
-      "next": "day2_lingyao_join_framed",
-      "portrait": "res://assets/cn/portraits/lu_zhao_cold.png"
+      "text": "（沉默了很长时间。\n\n他的手还在微微发抖——不是冷的。是昨晚在黑水里挣扎时积攒的东西，到现在还没完全退下去。）\n\n……他们的指控，表面上全都说得通。这不是巧合——有人在布局，把我框进去。\n\n（攥紧拳头，指节发白）谁提前准备了'活下来的方式'——谁才是真正的共犯。\n\n我什么都没准备。我差点死在那条船里。\n\n而那个'不会游水'的仆从——和那个跑了二十年船的老船家——他们是怎么活得那么从容的？",
+      "next": "day2_lingyao_join_framed"
     },
     "day2_lingyao_join_framed": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "凌瑶",
-      "text": "自证清白？——那更得帮你了！本姑娘虽然是送信的，但我昨晚在码头看到过几个人鬼鬼祟祟说话。\n\n两天是吧？够了。走——先去查那条破船！",
-      "effect": {
-        "gain_clue": "clue_lingyao_dock_witness"
-      },
-      "next": "day2_start_game",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_determined.png"
+      "text": "（眼睛亮了）对啊！那个阿贵说自己不会游水——那他怎么从翻了的船里爬出来的？！老范更离谱——跑了二十年的航道，偏偏走上暗礁？！\n\n（一拍巴掌）好！两天就两天——走，先去查那条破船！我昨晚在码头还看见几个人鬼鬼祟祟说话呢！",
+      "next": "day2_start_game"
     },
     "day2_start_game": {
-      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
-      "speaker": "",
-      "centered": true,
-      "silent": true,
-      "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 讨论\n• 「讨论」：随时与凌瑶交流，获取下一步方向\n• 跨地点移动花费一个时段；探索某处也要花时段\n• 收集到足够证据后，对话中会出现「对峙」选项\n\n你被指控为杀人凶手。\n两天内找到真凶——否则嫌疑永远洗不清。",
+      "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 讨论\n• 「讨论」：随时与凌瑶交流，获取下一步方向\n• 跨地点移动花费一个时段；探索某处也要花时段\n• 收集到足够证据后，对话中会出现「对峙」选项\n\n你被指控为杀人凶手。\n所有表面证据都指向你——没有官印、不付船钱、知道逃生路线、岸边有人‘接应’。\n\n两天内找到真凶，证明真正‘有准备’的人不是你——否则嫌疑永远洗不清。",
       "end": true
+    },
+    "day2_crowd_murmur": {
+      "text": "围观人群一阵骚动。有人低声议论：\n\n「你听到没？搭船连钱都没付……」\n「还直接从天窗跑了？那不是早有准备？」\n「难怪只有他活得好好的……」\n\n目光像针一样扎过来。",
+      "next": "day2_zhou_accuse_2"
+    },
+    "day2_lizheng_3b": {
+      "speaker": "钱里正",
+      "text": "码头王大爷说，翻船前半刻钟，南岸就有人打着灯笼在走。船一沉，那人就朝下游跑。\n\n（指了指凌瑶）你这位姑娘，恰好在那个时辰、那个地方把你捞起来的——这也太巧了吧？",
+      "next": "day2_lizheng_4"
+    },
+    "cabin_flood": {
+      "text": "舱门推不开——外面有货物压着。水已经没过膝盖，还在涨。\n\n昏暗中能看到：头顶一扇天窗透进雨夜的微光。舱壁上挂着一根铁撬棍。角落有几只木箱正在水中漂浮。",
+      "next": "cabin_discover_hole",
+      "background": "res://assets/cn/scenes/prologue_ship_cabin_rising.png",
+      "fx": {
+        "shake": true,
+        "shake_intensity": 4.0,
+        "shake_duration": 0.3
+      }
+    },
+    "cabin_discover_hole": {
+      "text": "水涌得太急了——从脚下某处喷上来的。你咬牙蹲入刺骨的冰水中，双手摸索船底。\n\n找到了。\n\n一个方形的洞口。边缘整齐——不是撞击。是凿出来的。\n\n有人故意凿穿了这条船。",
+      "next": "cabin_act"
+    },
+    "cabin_act": {
+      "text": "水到了腰。没时间了。\n\n你扯下舱壁上的铁撬棍，把漂起来的木箱踹到天窗正下方——踩上去。\n\n头顶的天窗锁扣锈迹斑斑。你举起铁撬，对准锁扣——全力一撬。",
+      "next": "cabin_break_out",
+      "fx": {
+        "shake": true,
+        "shake_intensity": 3.0,
+        "shake_duration": 0.2
+      }
+    },
+    "cabin_break_out": {
+      "text": "咔嚓！\n\n锁扣断裂，天窗向外弹开。冷雨浇在脸上。\n\n你扔掉铁撬，双手撑住窗框，一个翻身钻了出去——",
+      "next": "cabin_deck",
+      "background": "res://assets/cn/scenes/prologue_ship_skylight_break.png",
+      "fx": {
+        "flash": "white",
+        "flash_duration": 0.3
+      }
+    },
+    "cabin_deck": {
+      "text": "船已经大半沉入水中。甲板在脚下剧烈倾斜。\n\n雨幕如帘，江面漆黑一片。远处有模糊的岸线。\n\n船体发出一声像骨头折断的巨响——彻底沉没。",
+      "next": "cabin_swim",
+      "background": "res://assets/cn/scenes/prologue_ship_deck_sinking.png",
+      "fx": {
+        "shake": true,
+        "shake_intensity": 10.0,
+        "shake_duration": 0.7
+      }
+    },
+    "cabin_swim": {
+      "text": "你抓住一块断裂的船板，在冰冷的江水中拼命向岸边划去。\n\n四肢已经麻木。冬夜的江水像千万根针同时扎进皮肉里。\n\n意识开始模糊。雨打在眼睛上，什么都看不清了——",
+      "next": "shore_1",
+      "background": "res://assets/cn/scenes/prologue_dark_water.png",
+      "fx": {
+        "tint": "dark_blue"
+      }
     }
   }
 }
