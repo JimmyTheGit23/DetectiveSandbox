@@ -46,8 +46,9 @@
         "shake": true,
         "shake_intensity": 8.0,
         "shake_duration": 0.6,
-        "bgm": "escape_tension",
-        "tint": "dark_blue"
+        "bgm": "ferry_prologue_escape",
+        "tint": "dark_blue",
+        "sfx": "water_rush"
       },
       "background": "res://assets/cn/scenes/pure_black.png"
     },
@@ -61,6 +62,7 @@
       "speaker": "陆昭",
       "text": "船在沉。",
       "next": "cabin_flood",
+      "portrait": "res://assets/cn/portraits/lu_zhao.png",
       "emotion": "cold"
     },
     "_sep_round1": "═══ 第一回合：水到膝盖 ═══",
@@ -75,12 +77,13 @@
       "next": "shore_2",
       "fx": {
         "tint": "clear",
-        "bgm": "prologue_calm"
+        "bgm": "ferry_prologue_shore",
+        "sfx": "rain_ambient"
       }
     },
     "shore_2": {
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
-      "speaker": "凌瑶",
+      "speaker": "???",
       "portrait": "res://assets/cn/portraits/companion_lingyao_anxious.png",
       "text": "别死啊你！我好不容易把你拖上来的！咳出来！把水咳出来！",
       "next": "shore_3"
@@ -93,9 +96,9 @@
     },
     "shore_4": {
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
-      "speaker": "凌瑶",
+      "speaker": "???",
       "portrait": "res://assets/cn/portraits/companion_lingyao_anxious.png",
-      "text": "活了活了！你可吓死本姑娘了——大半夜的看见江里漂过来个人，还以为是……\n\n（深呼一口气）能说话吗？你叫什么？怎么掉水里的？",
+      "text": "活了活了！你可吓死本姑娘了——大半夜的看见江里漂过来个人，还以为是……\n\n能说话吗？你叫什么？怎么掉水里的？",
       "choices": [
         {
           "text": "……陆昭。船沉了。",
@@ -110,7 +113,7 @@
     },
     "shore_5a": {
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
-      "speaker": "凌瑶",
+      "speaker": "???",
       "text": "船沉了？！我说呢——刚才江上轰隆一声巨响！我以为是打雷……\n\n你等着，别动。客栈就在那边，本姑娘扶你过去。",
       "next": "inn_arrival",
       "portrait": "res://assets/cn/portraits/companion_lingyao_shocked.png"
@@ -127,7 +130,10 @@
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "",
       "text": "石矶渡。客栈。\n\n凌瑶半扶半拖着你进了门。掌柜给了热水和干衣服。\n\n你坐在火堆旁，寒意还没完全退去。外面的雨越下越大。",
-      "next": "inn_change_clothes"
+      "next": "inn_change_clothes",
+      "fx": {
+        "bgm": "ferry_inn_investigation"
+      }
     },
     "inn_warm_1": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -276,7 +282,10 @@
       "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
       "speaker": "",
       "text": "话音未落，渡口方向传来嘈杂的人声。有人在喊。",
-      "next": "day2_body_1"
+      "next": "day2_body_1",
+      "fx": {
+        "bgm": "ferry_dock_investigation"
+      }
     },
     "day2_body_1": {
       "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
@@ -311,7 +320,11 @@
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
       "speaker": "",
       "text": "正在此时——一个披头散发的女人从人群中冲出来，扑倒在尸体旁。\n\n哭声尖厉，像是被刀剜了一样。",
-      "next": "day2_zhou_1"
+      "next": "day2_zhou_1",
+      "fx": {
+        "sfx": "crowd_murmur",
+        "bg_offset_y": -100
+      }
     },
     "day2_zhou_1": {
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
@@ -324,7 +337,10 @@
       "speaker": "周氏",
       "text": "同船的人——他死了，你活着！\n\n（扑过来抓住你衣领）上船的时候你连船钱都付不起，还是我家老爷替你垫的！五十两货银——钱呢？！你就是图财害命！！",
       "next": "day2_agui_appears",
-      "emotion": "grief"
+      "emotion": "grief",
+      "fx": {
+        "bgm": "accuse_tension"
+      }
     },
     "day2_agui_appears": {
       "text": "人群外围，一个穿着素色布衣的年轻男子缩着肩膀挤了进来。\n\n是阿贵——周德茂的随行仆从，眼圈通红，嘴唇还在微微颤抖。",
@@ -389,7 +405,10 @@
     },
     "day2_framed_resolve": {
       "text": "人群缓缓散开。有人回头看你，像看一个已经定了罪的人。\n\n周氏被人扶走了，但她的哭喊声还在码头上空回荡。",
-      "next": "day2_framed_resolve_b"
+      "next": "day2_framed_resolve_b",
+      "fx": {
+        "bgm": "ferry_dock_investigation"
+      }
     },
     "day2_lingyao_resolve": {
       "speaker": "凌瑶",
@@ -430,7 +449,8 @@
       "fx": {
         "shake": true,
         "shake_intensity": 4.0,
-        "shake_duration": 0.3
+        "shake_duration": 0.3,
+        "sfx": "water_rush"
       }
     },
     "cabin_discover_hole": {
@@ -452,7 +472,8 @@
       "background": "res://assets/cn/scenes/prologue_ship_skylight_break.png",
       "fx": {
         "flash": "white",
-        "flash_duration": 0.3
+        "flash_duration": 0.3,
+        "sfx": "glass_break"
       }
     },
     "cabin_deck": {
@@ -462,7 +483,8 @@
       "fx": {
         "shake": true,
         "shake_intensity": 10.0,
-        "shake_duration": 0.7
+        "shake_duration": 0.7,
+        "sfx": "ship_creak"
       }
     },
     "cabin_swim": {
@@ -470,7 +492,8 @@
       "next": "cabin_swim_b",
       "background": "res://assets/cn/scenes/prologue_dark_water.png",
       "fx": {
-        "tint": "dark_blue"
+        "tint": "dark_blue",
+        "sfx": "splash"
       }
     },
     "day2_lu_resolve_b": {

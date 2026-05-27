@@ -1352,10 +1352,49 @@ func _resolve_emotion_portrait(base_path: String, emotion: String) -> String:
 		return base_path
 	var candidates: Array[String] = []
 	candidates.append(base_path.replace(".png", "_%s.png" % emotion))
-	if emotion in ["nervous", "panic", "defensive", "cornered", "shaken"]:
+	# 回退映射：多个语义相近的 emotion 映射到同一张立绘
+	if emotion in ["nervous", "panic", "defensive", "cornered", "shaken", "guarded"]:
 		candidates.append(base_path.replace(".png", "_shaken.png"))
-	if emotion in ["breakdown", "collapsed"]:
+		candidates.append(base_path.replace(".png", "_nervous.png"))
+		candidates.append(base_path.replace(".png", "_trembling.png"))
+	if emotion in ["breakdown", "collapsed", "defeated"]:
 		candidates.append(base_path.replace(".png", "_collapsed.png"))
+		candidates.append(base_path.replace(".png", "_silent.png"))
+	if emotion in ["grief", "crying", "sobbing", "sad"]:
+		candidates.append(base_path.replace(".png", "_crying.png"))
+		candidates.append(base_path.replace(".png", "_screaming.png"))
+		candidates.append(base_path.replace(".png", "_trembling.png"))
+	if emotion in ["angry", "screaming", "rage", "furious"]:
+		candidates.append(base_path.replace(".png", "_screaming.png"))
+		candidates.append(base_path.replace(".png", "_stern.png"))
+		candidates.append(base_path.replace(".png", "_sneering.png"))
+	if emotion in ["shocked", "surprised", "stunned", "frozen"]:
+		candidates.append(base_path.replace(".png", "_shocked.png"))
+		candidates.append(base_path.replace(".png", "_frozen.png"))
+		candidates.append(base_path.replace(".png", "_screaming.png"))
+	if emotion in ["suspicious", "stern", "cold", "hostile", "cold_fury"]:
+		candidates.append(base_path.replace(".png", "_stern.png"))
+		candidates.append(base_path.replace(".png", "_cold_smile.png"))
+		candidates.append(base_path.replace(".png", "_trembling.png"))
+	if emotion in ["evasive", "guilty", "avoidant"]:
+		candidates.append(base_path.replace(".png", "_evasive.png"))
+		candidates.append(base_path.replace(".png", "_nervous.png"))
+	if emotion in ["sighing", "resigned", "tired", "weary"]:
+		candidates.append(base_path.replace(".png", "_sighing.png"))
+		candidates.append(base_path.replace(".png", "_silent.png"))
+	if emotion in ["sneering", "contempt", "mocking", "dismissive", "smirk"]:
+		candidates.append(base_path.replace(".png", "_sneering.png"))
+		candidates.append(base_path.replace(".png", "_cold_smile.png"))
+	if emotion in ["bold", "sharp", "confident", "deflecting", "cooperative"]:
+		candidates.append(base_path.replace(".png", "_cold_smile.png"))
+		candidates.append(base_path.replace(".png", "_sneering.png"))
+	if emotion in ["gossip", "chatty", "casual"]:
+		candidates.append(base_path.replace(".png", "_nervous.png"))
+		candidates.append(base_path.replace(".png", "_sighing.png"))
+	if emotion in ["cracking", "vulnerable", "breaking"]:
+		candidates.append(base_path.replace(".png", "_cracking.png"))
+		candidates.append(base_path.replace(".png", "_crying.png"))
+		candidates.append(base_path.replace(".png", "_trembling.png"))
 	for path in candidates:
 		if ResourceLoader.exists(path):
 			return path

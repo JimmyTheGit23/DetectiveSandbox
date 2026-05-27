@@ -52,7 +52,7 @@
       "id": "meta_letter",
       "type": "cinematic",
       "background": "res://assets/cn/scenes/prologue_cg_letter.png",
-      "bgm": "epilogue_meta",
+      "bgm": "main_theme",
       "lines": [
         {
           "speaker": "凌瑶",
@@ -88,7 +88,7 @@
       "id": "meta_narrator",
       "type": "cinematic",
       "background": "res://assets/cn/scenes/prologue_wreck_site.png",
-      "bgm": "epilogue_meta",
+      "bgm": "main_theme",
       "lines": [
         {
           "speaker": "",

@@ -3,7 +3,8 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "（周氏坐在灵位旁，看到你进来——整个人绷紧了。她死死盯着你看了好一会儿，像是在重新判断什么）……里正说让你查。我拦不住。\n\n（深吸一口气，声音很冷）问吧。但你最好是来找真凶的——不是来替自己脱罪的。",
+      "text": "……里正说让你查。我拦不住。\n\n问吧。但你最好是来找真凶的——不是来替自己脱罪的。",
+      "emotion": "trembling",
       "options": [
         {
           "text": "说说你丈夫",
@@ -111,7 +112,7 @@
       ]
     },
     "intro": {
-      "text": "（她冷冷地看着你，好一会儿才开口）……里正说你要自证清白。随你。\n\n老爷做布匹生意。这次是去武昌府进一批棉布，过了年好卖。\n\n他带了五十两货银。还有阿贵跟着。\n\n我劝他别坐夜船。他说急着赶路……（哽咽）要是那天我拦住了他——",
+      "text": "（她冷冷地看着你，好一会儿才开口）……里正说你要自证清白。随你。\n\n老爷做布匹生意。这次是去武昌府进一批棉布，过了年好卖。\n\n他带了五十两货银。还有阿贵跟着。\n\n我劝他别坐夜船。他说急着赶路……要是那天我拦住了他——",
       "options": [
         {
           "text": "继续询问",
@@ -149,7 +150,7 @@
         {
           "speaker_id": "zhou_wife",
           "text": "老爷写了字据……二两。",
-          "emotion": "grief",
+          "emotion": "silent",
           "highlight": [
             "二两"
           ],
@@ -197,14 +198,15 @@
       "set_flags": [
         "zhou_suspicion_heard"
       ],
-      "gain_clue": "clue_wife_suspicion"
+      "gain_clue": "clue_wife_suspicion",
+      "emotion": "suspicious"
     },
     "ask_swimming": {
       "lines": [
         {
           "speaker_id": "zhou_wife",
           "text": "不会！完全不会！他连河边都不敢走太近。",
-          "emotion": "grief",
+          "emotion": "trembling",
           "highlight": [
             "不会"
           ],
@@ -244,7 +246,8 @@
       "gain_clue": "clue_victim_cant_swim"
     },
     "comfort": {
-      "text": "（打量了你很久。神情从警惕变成了犹豫。）\n\n……你不像凶手。凶手不会还留在这里问话。\n\n（深吸一口气）里正让你查——你要是真能查出来……老爷的文书都在房间桌上。你看吧。",
+      "text": "……你不像凶手。凶手不会还留在这里问话。\n\n里正让你查——你要是真能查出来……老爷的文书都在房间桌上。你看吧。",
+      "emotion": "silent",
       "options": [
         {
           "text": "继续询问",
@@ -254,7 +257,8 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ]
+      ],
+      "emotion": "grief"
     },
     "ask_documents": {
       "text": "都在房间里。大人自己去看吧——遣散字据、货单都在桌上。\n\n（她指了指房间的方向。）",
@@ -267,7 +271,8 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ]
+      ],
+      "emotion": "suspicious"
     },
     "ask_why_night_ferry": {
       "lines": [
@@ -278,7 +283,8 @@
         },
         {
           "speaker_id": "zhou_wife",
-          "text": "（皱眉）说起来……他收到了一封信。出发前两天。"
+          "text": "（皱眉）说起来……他收到了一封信。出发前两天。",
+          "emotion": "suspicious"
         },
         {
           "speaker_id": "lu_zhao",
@@ -293,7 +299,8 @@
           ],
           "record_type": "testimony",
           "record_title": "证词记录：南京来信",
-          "record_text": "周氏说周德茂出发前两天收到一封南京来信，称有大买家急需棉布，利润翻倍。这促使他改坐夜船赶路。"
+          "record_text": "周氏说周德茂出发前两天收到一封南京来信，称有大买家急需棉布，利润翻倍。这促使他改坐夜船赶路。",
+          "emotion": "suspicious"
         },
         {
           "speaker_id": "lu_zhao",
@@ -306,7 +313,8 @@
         },
         {
           "speaker_id": "zhou_wife",
-          "text": "（顿了顿）说起来——那封信的写法有点奇怪。"
+          "text": "（顿了顿）说起来——那封信的写法有点奇怪。",
+          "emotion": "suspicious"
         },
         {
           "speaker_id": "lu_zhao",
@@ -363,7 +371,8 @@
         },
         {
           "speaker_id": "zhou_wife",
-          "text": "……我就知道。我就知道不是意外。老爷他——（声音发颤）——他是被人害的。"
+          "text": "……我就知道。我就知道不是意外。老爷他————他是被人害的。",
+          "emotion": "screaming"
         },
         {
           "speaker_id": "zhou_wife",
@@ -404,11 +413,13 @@
         },
         {
           "speaker_id": "zhou_wife",
-          "text": "（嘴唇颤抖）阿贵……他怎么……他跟了老爷十二年……"
+          "text": "阿贵……他怎么……他跟了老爷十二年……",
+          "emotion": "shocked"
         },
         {
           "speaker_id": "zhou_wife",
-          "text": "十二年啊。吃一口锅里的饭、睡一个屋檐下——他怎么下得去手？"
+          "text": "十二年啊。吃一口锅里的饭、睡一个屋檐下——他怎么下得去手？",
+          "emotion": "shocked"
         },
         {
           "speaker_id": "lu_zhao",
@@ -417,7 +428,8 @@
         },
         {
           "speaker_id": "zhou_wife",
-          "text": "（沉默了很久）……二两。是少了。但、但也不至于杀人啊……"
+          "text": "……二两。是少了。但、但也不至于杀人啊……",
+          "emotion": "screaming"
         },
         {
           "speaker_id": "lu_zhao",

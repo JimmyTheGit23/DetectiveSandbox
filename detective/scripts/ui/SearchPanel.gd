@@ -165,7 +165,25 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 	body.add_theme_color_override("default_color", Color(0.9, 0.86, 0.76, 1))
 	body.text = _result_dialog_text(result)
 	vbox.add_child(body)
-	
+
+	# 证据/线索图片展示
+	var ev_id: String = result.get("gained_evidence", "")
+	if ev_id == "":
+		ev_id = result.get("gained_clue", "")
+	if ev_id != "":
+		var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % ev_id
+		if ResourceLoader.exists(icon_path):
+			var tex: Texture2D = load(icon_path)
+			if tex:
+				var img := TextureRect.new()
+				img.texture = tex
+				img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				img.custom_minimum_size = Vector2(240, 240)
+				img.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+				vbox.add_child(img)
+				# 有图片时扩大面板最小尺寸
+				panel.custom_minimum_size.y = 620
+
 	var btn := Button.new()
 	btn.text = "知 道 了"
 	btn.custom_minimum_size = Vector2(180, 44)

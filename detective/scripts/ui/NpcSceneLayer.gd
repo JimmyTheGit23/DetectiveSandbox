@@ -82,6 +82,10 @@ func refresh_npcs(location_id: String) -> void:
 func _show_portrait() -> void:
 	if _portrait.visible and _portrait.modulate.a > 0.9:
 		return
+	# 如果有子面板活跃（探索/搜索/对峙等），不显示 NPC 立绘
+	var main_scene := get_tree().current_scene
+	if main_scene and main_scene.has_method("is_subpanel_active") and main_scene.is_subpanel_active():
+		return
 	_portrait.visible = true
 	if _portrait_tween != null and _portrait_tween.is_valid():
 		_portrait_tween.kill()

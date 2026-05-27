@@ -315,6 +315,8 @@ func _set_background(path: String, use_fade := true) -> void:
 	var tex := load(path)
 	if tex == null:
 		return
+	# 切换背景时重置位置偏移（CG 场景可能偏移过）
+	scene_bg.position = Vector2.ZERO
 	if not use_fade or _bg_fade_rect == null or scene_bg.texture == null:
 		scene_bg.texture = tex
 		_current_bg_path = path
@@ -611,6 +613,8 @@ func _show_restart_confirm() -> void:
 
 func _start_new_game() -> void:
 	_hide_title()
+	# 立即切黑，避免第一帧露出标题背景
+	_set_background("res://assets/cn/scenes/pure_black.png", false)
 	top_bar_label.get_parent().visible = true
 	_visited_locations.clear()
 	_pending_events.clear()
@@ -628,6 +632,7 @@ func _continue_game() -> void:
 	_visited_locations.clear()
 	_sync_pending_events_from_save()
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:
+		_set_background("res://assets/cn/scenes/pure_black.png", false)
 		BgmPlayer.play("prologue")
 		DialogueManager.start_narration("res://data/cases/%s/prologue.json" % GameManager.ACTIVE_CASE)
 		return
@@ -677,6 +682,8 @@ func _on_location_changed(loc_id: String) -> void:
 			day_transition.show_period("%s · %s" % [period_name, loc_name])
 			day_transition.finished.connect(func():
 				_time_card_playing = false
+				if _npc_layer and _npc_layer.has_method("refresh_npcs"):
+					_npc_layer.refresh_npcs(loc_id)
 				_try_companion_banter("arrive_location:" + loc_id)
 			, CONNECT_ONE_SHOT)
 	else:
@@ -684,9 +691,13 @@ func _on_location_changed(loc_id: String) -> void:
 	# 同步场景动态特效层
 	if _scene_fx and _scene_fx.has_method("apply_for_scene_id"):
 		_scene_fx.apply_for_scene_id(data.get("scene_type", ""))
-	# 刷新 NPC 场景立绘层（始终显示，不隐藏）
-	if _npc_layer and _npc_layer.has_method("refresh_npcs"):
-		_npc_layer.refresh_npcs(loc_id)
+	# 刷新 NPC 场景立绘层（时间过场期间先不显示，过场结束后再刷新）
+	if should_show_time:
+		if _npc_layer and _npc_layer.has_method("hide_npcs"):
+			_npc_layer.hide_npcs()
+	else:
+		if _npc_layer and _npc_layer.has_method("refresh_npcs"):
+			_npc_layer.refresh_npcs(loc_id)
 	BgmPlayer.play(loc_id)
 	if menu_panel.has_method("refresh_visibility"):
 		menu_panel.refresh_visibility()
@@ -696,7 +707,7 @@ func _on_location_changed(loc_id: String) -> void:
 
 
 func _on_time_advanced(_day: int, _period: int) -> void:
-	pass
+	top_bar_label.text = "第 %d 日 · %s" % [_day, GameManager.PERIOD_NAMES[_period] if _period < GameManager.PERIOD_NAMES.size() else ""]
 
 
 func _on_day_changed(new_day: int) -> void:
@@ -717,6 +728,7 @@ func _show_day_transition(day: int) -> void:
 func _on_evidence_added(eid: String) -> void:
 	var ev = GameManager.evidence_data.get(eid, {})
 	_flash_notification("【获得证据】" + ev.get("name", eid))
+	_show_evidence_popup(eid, ev)
 
 
 func _on_clue_added(cid: String) -> void:
@@ -766,6 +778,63 @@ func _flash_notification(text: String) -> void:
 	tw.tween_callback(lbl.queue_free)
 
 
+func _show_evidence_popup(eid: String, ev: Dictionary) -> void:
+	# 尝试加载证据图片
+	var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % eid
+	if not ResourceLoader.exists(icon_path):
+		return
+	var tex: Texture2D = load(icon_path)
+	if tex == null:
+		return
+
+	# --- 半透明遮罩 ---
+	var overlay := ColorRect.new()
+	overlay.color = Color(0, 0, 0, 0.55)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_PASS
+	notification_layer.add_child(overlay)
+
+	# --- 居中容器 ---
+	var container := VBoxContainer.new()
+	container.set_anchors_preset(Control.PRESET_CENTER)
+	container.alignment = BoxContainer.ALIGNMENT_CENTER
+	container.add_theme_constant_override("separation", 16)
+	overlay.add_child(container)
+
+	# --- 证据图片 ---
+	var img := TextureRect.new()
+	img.texture = tex
+	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	img.custom_minimum_size = Vector2(320, 320)
+	img.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	container.add_child(img)
+
+	# --- 证据名称 ---
+	var name_lbl := Label.new()
+	name_lbl.text = ev.get("name", eid)
+	name_lbl.add_theme_font_size_override("font_size", 28)
+	name_lbl.add_theme_color_override("font_color", Color(1, 0.95, 0.7, 1))
+	name_lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+	name_lbl.add_theme_constant_override("outline_size", 4)
+	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_lbl.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	container.add_child(name_lbl)
+
+	# --- 居中定位 ---
+	container.position = -container.size / 2.0
+	# 等一帧让 container 计算好大小后再定位
+	await get_tree().process_frame
+	container.position = -container.size / 2.0
+
+	# --- 入场动画 ---
+	overlay.modulate.a = 0.0
+	var tw := create_tween()
+	tw.tween_property(overlay, "modulate:a", 1.0, 0.3)
+	tw.tween_interval(2.5)
+	tw.tween_property(overlay, "modulate:a", 0.0, 0.5)
+	tw.tween_callback(overlay.queue_free)
+
+
 # ─── 日程事件 ───
 func _on_day_event_available(evt_id: String) -> void:
 	# auto_play 事件（如撞见凶手）直接播放，不进按钮队列
@@ -779,6 +848,7 @@ func _on_day_event_available(evt_id: String) -> void:
 
 
 func _play_event_now(evt_id: String) -> void:
+	print("[EVENT] _play_event_now: ", evt_id)
 	var evt: Dictionary = GameManager.get_day_event(evt_id)
 	GameManager.apply_event_effects(evt)
 	var lines: Array = []
@@ -790,10 +860,25 @@ func _play_event_now(evt_id: String) -> void:
 			var voice_path: String = AssetResolver.resolve_event_voice_path(evt_id, idx)
 			lines.append({ "speaker": "", "text": str(line), "voice_path": voice_path })
 		idx += 1
+	# 检查是否需要在 narration 结束后自动进入对峙
+	var auto_confront: String = evt.get("effects", {}).get("auto_start_confrontation", "")
+	print("[EVENT] auto_confront='", auto_confront, "' lines=", lines.size())
 	DialogueManager.play_adhoc_narration(lines, func():
+		print("[EVENT] narration callback fired, auto_confront='", auto_confront, "'")
 		_refresh_event_hint()
 		_try_companion_banter("after_event:" + evt_id)
+		if auto_confront != "":
+			print("[EVENT] calling _deferred_start_confrontation")
+			_deferred_start_confrontation.call_deferred(auto_confront)
 	)
+
+
+func _deferred_start_confrontation(confront_key: String) -> void:
+	print("[EVENT] _deferred_start_confrontation: ", confront_key)
+	await get_tree().create_timer(0.5).timeout
+	GameManager.active_confrontation_key = confront_key
+	print("[EVENT] opening confrontation panel...")
+	_open_confrontation_panel()
 
 
 func _refresh_event_hint() -> void:
@@ -955,6 +1040,10 @@ func _on_game_reset() -> void:
 	_show_title()
 
 
+func is_subpanel_active() -> bool:
+	return _active_subpanel != null and is_instance_valid(_active_subpanel)
+
+
 func _close_subpanel() -> void:
 	var was_search_overlay := _active_subpanel != null and _active_subpanel.name == "SearchOverlay"
 	var was_active = _active_subpanel
@@ -1003,9 +1092,11 @@ func _open_search_overlay() -> void:
 	_active_subpanel = overlay
 	# 隐藏右侧菜单，让场景图完全可见
 	menu_panel.visible = false
-	# 进入探索模式时隐藏 NPC 立绘
+	# 进入探索模式时隐藏 NPC 立绘和对话框残留
 	if _npc_layer and _npc_layer.has_method("hide_npcs"):
 		_npc_layer.hide_npcs()
+	dialogue_box.visible = false
+	dialogue_box.portrait_rect.visible = false
 	if overlay.has_signal("close_requested"):
 		overlay.close_requested.connect(_close_subpanel)
 	if overlay.has_signal("search_result_acknowledged"):
@@ -1281,6 +1372,13 @@ func _on_narration_effects(fx: Dictionary) -> void:
 			_bg_fade_rect.color = Color(0.02, 0.05, 0.15, 0.4)
 		elif tint_str == "clear":
 			_bg_fade_rect.color = Color(0, 0, 0, 0)
+	if fx.has("sfx"):
+		var sfx_player = get_node_or_null("/root/SfxPlayer")
+		if sfx_player and sfx_player.has_method("play"):
+			sfx_player.play(str(fx.get("sfx")))
+	# CG 背景偏移：bg_offset_y 负值向上推画面，露出被对话框遮住的下半部分
+	if fx.has("bg_offset_y"):
+		scene_bg.position.y = float(fx.get("bg_offset_y"))
 
 
 func _do_screen_shake(intensity: float = 6.0, duration: float = 0.4) -> void:

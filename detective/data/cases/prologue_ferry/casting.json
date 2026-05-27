@@ -20,31 +20,36 @@
       "actor_id": "",
       "role_name": "阿贵",
       "role_title": "死者仆从",
-      "role_intro": "跟随周德茂十二年的老仆。案发后惊魂未定，泪流不止。被人利用的棋子。"
+      "role_intro": "跟随周德茂十二年的老仆。案发后惊魂未定，泪流不止。被人利用的棋子。",
+      "portrait": "res://assets/cn/portraits/prologue_agui.png"
     },
     "lao_fan": {
       "actor_id": "",
       "role_name": "老范",
       "role_title": "石矶渡船家",
-      "role_intro": "在这段江面跑了二十年船的老船家。黝黑精瘦，手上全是茧。"
+      "role_intro": "在这段江面跑了二十年船的老船家。黝黑精瘦，手上全是茧。",
+      "portrait": "res://assets/cn/portraits/prologue_lao_fan.png"
     },
     "zhou_wife": {
       "actor_id": "",
       "role_name": "周氏",
       "role_title": "死者妻子",
-      "role_intro": "周德茂之妻。坚信丈夫之死不是意外，在码头跪地拦住了陆昭。"
+      "role_intro": "周德茂之妻。坚信丈夫之死不是意外，在码头跪地拦住了陆昭。",
+      "portrait": "res://assets/cn/portraits/prologue_zhou_wife.png"
     },
     "li_zheng": {
       "actor_id": "",
       "role_name": "钱里正",
       "role_title": "石矶渡里正",
-      "role_intro": "五十多岁的地方小吏，圆滑世故。只想尽快把事情摁下去。"
+      "role_intro": "五十多岁的地方小吏，圆滑世故。只想尽快把事情摁下去。",
+      "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
     },
     "fisherman_wang": {
       "actor_id": "",
       "role_name": "王大爷",
       "role_title": "打渔老翁",
-      "role_intro": "下游渔村的老渔翁。案发当夜在江上，看到了一些不该看到的东西。"
+      "role_intro": "下游渔村的老渔翁。案发当夜在江上，看到了一些不该看到的东西。",
+      "portrait": "res://assets/cn/portraits/prologue_fisherman_wang.png"
     },
     "shen_qingyue": {
       "actor_id": "",

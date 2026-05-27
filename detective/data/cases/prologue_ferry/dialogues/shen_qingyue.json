@@ -3,7 +3,7 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "（沈清月靠在客栈廊柱上，抱着双臂，单脚踩着柱根。看到你来，她上下打量了一遍。）\n\n你就是那个……同船活下来的？听说周氏告了你杀人。嘁——冤不冤的我不知道，但你问话倒挺利索。问吧。",
+      "text": "你就是那个……同船活下来的？听说周氏告了你杀人。嘁——冤不冤的我不知道，但你问话倒挺利索。问吧。",
       "options": [
         {
           "text": "你跟死者什么关系？",
@@ -13,43 +13,71 @@
         {
           "text": "案发前一天你跟周德茂吵架了？",
           "goto": "ask_quarrel",
-          "requires": [{ "flag": "shen_talked_once" }],
+          "requires": [
+            {
+              "flag": "shen_talked_once"
+            }
+          ],
           "type": "press"
         },
         {
           "text": "案发当晚你在做什么？",
           "goto": "ask_alibi",
-          "requires": [{ "flag": "shen_talked_once" }],
+          "requires": [
+            {
+              "flag": "shen_talked_once"
+            }
+          ],
           "type": "ask"
         },
         {
           "text": "你认识老范吗？",
           "goto": "ask_fan_connection",
-          "requires": [{ "flag": "shen_quarrel_told" }],
+          "requires": [
+            {
+              "flag": "shen_quarrel_told"
+            }
+          ],
           "type": "ask"
         },
         {
           "text": "你父亲的病，很严重？",
           "goto": "ask_father",
-          "requires": [{ "evidence": "evidence_father_ledger" }],
+          "requires": [
+            {
+              "evidence": "evidence_father_ledger"
+            }
+          ],
           "type": "press"
         },
         {
           "text": "码头那晚——你没有回客栈吧？",
           "goto": "press_dock_timing",
-          "requires": [{ "evidence": "evidence_dock_timing" }],
+          "requires": [
+            {
+              "evidence": "evidence_dock_timing"
+            }
+          ],
           "type": "press"
         },
         {
           "text": "王大爷在下游看到有人打捞东西。",
           "goto": "press_salvage",
-          "requires": [{ "evidence": "evidence_salvage_mark" }],
+          "requires": [
+            {
+              "evidence": "evidence_salvage_mark"
+            }
+          ],
           "type": "press"
         },
         {
           "text": "老范说——是个'药材行的姑娘'先找的他。",
           "goto": "press_connection",
-          "requires": [{ "evidence": "evidence_shen_connection" }],
+          "requires": [
+            {
+              "evidence": "evidence_shen_connection"
+            }
+          ],
           "type": "press"
         },
         {
@@ -57,9 +85,15 @@
           "goto": "confession_trigger",
           "requires": {
             "all": [
-              { "evidence": "evidence_salvage_mark" },
-              { "evidence": "evidence_shen_connection" },
-              { "evidence": "evidence_dock_timing" }
+              {
+                "evidence": "evidence_salvage_mark"
+              },
+              {
+                "evidence": "evidence_shen_connection"
+              },
+              {
+                "evidence": "evidence_dock_timing"
+              }
             ]
           },
           "type": "confrontation"
@@ -68,9 +102,9 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ]
+      ],
+      "emotion": "cold_smile"
     },
-
     "intro": {
       "lines": [
         {
@@ -85,7 +119,7 @@
         },
         {
           "speaker_id": "shen_qingyue",
-          "text": "（叹气）现在他死了。三十八两——打水漂了。'大人'——哦对了，您的官印好像丢了？（笑了一下）那就叫你'公子'吧。公子，您说我是不是天底下最倒霉的债主？",
+          "text": "现在他死了。三十八两——打水漂了。'大人'——哦对了，您的官印好像丢了？那就叫你'公子'吧。公子，您说我是不是天底下最倒霉的债主？",
           "emotion": "bold"
         },
         {
@@ -110,12 +144,19 @@
         }
       ],
       "options": [
-        { "text": "继续询问", "goto": "hub" },
-        { "text": "先告辞", "goto": "__exit__" }
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
       ],
-      "set_flags": ["shen_talked_once"]
+      "set_flags": [
+        "shen_talked_once"
+      ]
     },
-
     "ask_quarrel": {
       "lines": [
         {
@@ -135,7 +176,7 @@
         },
         {
           "speaker_id": "shen_qingyue",
-          "text": "（挑眉）'别想走'是说我会堵路讨债——不是说我会杀他。",
+          "text": "'别想走'是说我会堵路讨债——不是说我会杀他。",
           "emotion": "sharp"
         },
         {
@@ -160,19 +201,28 @@
         }
       ],
       "options": [
-        { "text": "继续询问", "goto": "hub" },
-        { "text": "先告辞", "goto": "__exit__" }
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
       ],
-      "set_flags": ["shen_quarrel_told"]
+      "set_flags": [
+        "shen_quarrel_told"
+      ]
     },
-
     "ask_alibi": {
       "lines": [
         {
           "speaker_id": "shen_qingyue",
           "text": "那天晚上？在码头看着他上船。确认他没跑——然后回客栈睡觉了。",
           "emotion": "cooperative",
-          "highlight": ["回客栈睡觉"],
+          "highlight": [
+            "回客栈睡觉"
+          ],
           "record_type": "testimony",
           "record_title": "证词记录：沈清月的不在场证明",
           "record_text": "沈清月声称案发当夜看周德茂上船后即返回客栈休息。"
@@ -204,12 +254,19 @@
         }
       ],
       "options": [
-        { "text": "继续询问", "goto": "hub" },
-        { "text": "先告辞", "goto": "__exit__" }
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
       ],
-      "set_flags": ["shen_alibi_told"]
+      "set_flags": [
+        "shen_alibi_told"
+      ]
     },
-
     "ask_fan_connection": {
       "lines": [
         {
@@ -229,7 +286,7 @@
         },
         {
           "speaker_id": "shen_qingyue",
-          "text": "大人这话什么意思？（微微眯眼）我一个做药材的姑娘，跟一个跑船的老头能有什么关系？",
+          "text": "大人这话什么意思？我一个做药材的姑娘，跟一个跑船的老头能有什么关系？",
           "emotion": "sharp"
         },
         {
@@ -249,12 +306,19 @@
         }
       ],
       "options": [
-        { "text": "继续询问", "goto": "hub" },
-        { "text": "先告辞", "goto": "__exit__" }
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
       ],
-      "set_flags": ["shen_denied_fan"]
+      "set_flags": [
+        "shen_denied_fan"
+      ]
     },
-
     "ask_father": {
       "lines": [
         {
@@ -265,7 +329,7 @@
         {
           "speaker_id": "shen_qingyue",
           "text": "……你查到我爹了？",
-          "emotion": "guarded"
+          "emotion": "cold_smile"
         },
         {
           "speaker_id": "lu_zhao",
@@ -274,8 +338,8 @@
         },
         {
           "speaker_id": "shen_qingyue",
-          "text": "（沉默了几息）……跑别的帐呗。沈家在浔阳还有其他欠账的。",
-          "emotion": "guarded"
+          "text": "……跑别的帐呗。沈家在浔阳还有其他欠账的。",
+          "emotion": "cold_smile"
         },
         {
           "speaker_id": "shen_qingyue",
@@ -304,13 +368,20 @@
         }
       ],
       "options": [
-        { "text": "继续询问", "goto": "hub" },
-        { "text": "先告辞", "goto": "__exit__" }
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
       ],
-      "set_flags": ["shen_father_asked"],
+      "set_flags": [
+        "shen_father_asked"
+      ],
       "gain_clue": "clue_shen_motive_calculation"
     },
-
     "press_dock_timing": {
       "lines": [
         {
@@ -355,12 +426,19 @@
         }
       ],
       "options": [
-        { "text": "继续询问", "goto": "hub" },
-        { "text": "先告辞", "goto": "__exit__" }
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
       ],
-      "set_flags": ["shen_timing_cracked"]
+      "set_flags": [
+        "shen_timing_cracked"
+      ]
     },
-
     "press_salvage": {
       "lines": [
         {
@@ -391,7 +469,7 @@
         {
           "speaker_id": "shen_qingyue",
           "text": "那不是我。（声音平稳，但手指不自觉地扣住了臂弯。）我那时候在睡觉。",
-          "emotion": "guarded"
+          "emotion": "cold_smile"
         },
         {
           "speaker_id": "xia_lingyao",
@@ -410,12 +488,19 @@
         }
       ],
       "options": [
-        { "text": "继续询问", "goto": "hub" },
-        { "text": "先告辞", "goto": "__exit__" }
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
       ],
-      "set_flags": ["shen_salvage_pressed"]
+      "set_flags": [
+        "shen_salvage_pressed"
+      ]
     },
-
     "press_connection": {
       "lines": [
         {
@@ -465,12 +550,19 @@
         }
       ],
       "options": [
-        { "text": "继续询问", "goto": "hub" },
-        { "text": "先告辞", "goto": "__exit__" }
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
       ],
-      "set_flags": ["shen_connection_pressed"]
+      "set_flags": [
+        "shen_connection_pressed"
+      ]
     },
-
     "confession_trigger": {
       "lines": [
         {
@@ -514,7 +606,9 @@
           "emotion": "determined"
         }
       ],
-      "set_flags": ["shen_confrontation_triggered"],
+      "set_flags": [
+        "shen_confrontation_triggered"
+      ],
       "trigger_confrontation": true,
       "confrontation_key": "confrontation_final",
       "options": [

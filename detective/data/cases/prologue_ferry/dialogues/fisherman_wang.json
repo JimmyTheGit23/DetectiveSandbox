@@ -3,7 +3,7 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "（老人坐在门口补渔网，抬头看了你一眼）渡口那边传过来了——说有人在查那夜翻船的事。是你吧？来得好。老头子看见了些东西，憋在肚子里不舒坦。",
+      "text": "渡口那边传过来了——说有人在查那夜翻船的事。是你吧？来得好。老头子看见了些东西，憋在肚子里不舒坦。",
       "options": [
         {
           "text": "你看到了什么？",
@@ -81,7 +81,8 @@
           "text": "老头子划过去的时候，船已经翻了。看到一个人趴在水里。另一个——自己扒着船板游上了岸。利索得很。",
           "highlight": [
             "自己扒着船板游上了岸"
-          ]
+          ],
+          "emotion": "evasive"
         },
         {
           "speaker_id": "xia_lingyao",
@@ -104,7 +105,7 @@
         {
           "speaker_id": "fisherman_wang",
           "text": "放屁。不到一刻钟他就上岸了。老头子看得清清楚楚。",
-          "emotion": "angry",
+          "emotion": "evasive",
           "highlight": [
             "不到一刻钟"
           ],
@@ -140,7 +141,8 @@
           "goto": "__exit__"
         }
       ],
-      "gain_clue": "clue_wrong_channel"
+      "gain_clue": "clue_wrong_channel",
+      "emotion": "evasive"
     },
     "ask_meeting": {
       "text": "前一晚……对，老头子那天也收了夜网。\n\n路过码头的时候，看到两个人蹲在角落里说话。黑灯瞎火的，鬼鬼祟祟。\n\n一高一矮。高的像是那仆从——腰板直。矮的精瘦精瘦的——像船家。\n\n老头子当时没在意。第二天出了事才想起来。",
@@ -154,7 +156,8 @@
           "goto": "__exit__"
         }
       ],
-      "gain_clue": "clue_secret_meeting"
+      "gain_clue": "clue_secret_meeting",
+      "emotion": "evasive"
     },
     "trust": {
       "text": "老头子活了一辈子，在这江上。\n\n见过太多死在水里的人。有些是命，有些不是。\n\n那天夜里那人在水里扑腾的声音……老头子一辈子忘不了。\n\n有人跟我说'别多管闲事'。放屁。杀了人就该偿命。老头子不怕得罪人。",

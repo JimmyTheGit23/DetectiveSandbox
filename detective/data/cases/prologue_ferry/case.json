@@ -13,136 +13,126 @@
   "confrontation": {
     "suspect": "agui",
     "is_final": false,
-    "bgm": "accuse",
-    "bgm_break": "pursuit",
-    "bgm_final_round": "cornered",
+    "background": "res://assets/cn/scenes/prologue_confrontation_hall.png",
+    "bgm": "ferry_confrontation",
+    "bgm_break": "ferry_court_opening",
+    "bgm_final_round": "ferry_confrontation",
     "confidence": 3,
     "intro_dialogue": [
       {
         "speaker": "",
-        "text": "客栈后院。雨还在下。\n\n钱里正不情不愿地安排了这间屋子——'你要问就问，但出了事我不管。'门口站了两个渡口帮工，名义上是'看着门'。",
+        "text": "客栈大堂。外面的雨还没有要停的意思。\n\n钱里正把相关的人都叫了来——不情不愿的，但拗不过你拿出的证据。",
         "emotion": "narration"
       },
       {
         "speaker": "",
-        "text": "你进门前，听到帮工朝里喊了一声：'那个查案的来了！里正让你老实交代！'",
+        "text": "大堂里围坐了一圈人。阿贵缩在角落低着头。老范坐在门口，旱烟杆攥得发白。周氏红着眼，坐在灵位旁边。\n\n王大爷靠在柱子边，一副事不关己的样子。",
         "emotion": "narration"
       },
       {
+        "speaker": "钱里正",
+        "text": "（清了清嗓子）好了——都安静！\n\n今天叫大家来，是因为陆……陆大人说，那条船不是意外翻的。",
+        "emotion": "nervous"
+      },
+      {
         "speaker": "",
-        "text": "阿贵跪坐在一张草席上，背对着门。听到脚步声，他的肩膀微微一缩。",
+        "text": "人群一阵骚动。阿贵低下头去，肩膀缩得更紧了。",
         "emotion": "narration"
+      },
+      {
+        "speaker": "钱里正",
+        "text": "（看向你）大人……你说有证据。那——就当着大家的面说清楚吧。",
+        "emotion": "stern"
+      },
+      {
+        "speaker": "陆昭",
+        "text": "好。先请一位证人说话。——王大爷。",
+        "emotion": "cold"
       },
       {
         "speaker": "凌瑶",
-        "text": "（低声，拽了拽陆昭的袖子）嘶——你看他那后脖子上的汗。这大冬天的……心里有鬼才出汗。",
+        "text": "（低声）先让王大爷把那天夜里看到的东西说出来。有了他的证言打底，后面才好发难。",
         "emotion": "anxious"
-      },
-      {
-        "speaker": "",
-        "text": "（……她说得对。腊月天冷得人直打哆嗦。他却在出汗。）",
-        "emotion": "inner_thought"
-      },
-      {
-        "speaker": "你",
-        "text": "阿贵。",
-        "emotion": "cold"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "（猛地转身，膝行几步迎上来）您……您就是……（目光掠过你的衣着，突然堆起笑脸）大人！小的……小的等了好久……",
-        "emotion": "grief"
-      },
-      {
-        "speaker": "",
-        "text": "（帮工叫我'查案的'。他却改口叫'大人'——一个仆从的本能：对任何有权审他的人都先讨好。但也可能……他从别处打听了我的来历。）",
-        "emotion": "inner_thought"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "（用袖子抹了一把脸）老爷的仇……小的做梦都想着要报……大人您尽管问，小的知无不言……",
-        "emotion": "grief"
-      },
-      {
-        "speaker": "",
-        "text": "（他的眼睛红肿。但哭过和刚哭完是两回事——这眼圈的红，像是反复揉出来的。）",
-        "emotion": "inner_thought"
-      },
-      {
-        "speaker": "凌瑶",
-        "text": "（低声）得了吧。一开始我以为是老范那赌鬼自己干的……可这位的戏，也太足了。",
-        "emotion": "worried"
-      },
-      {
-        "speaker": "你",
-        "text": "阿贵。证据已经不只是指向老范了。",
-        "emotion": "cold"
-      },
-      {
-        "speaker": "你",
-        "text": "该你说话了。",
-        "emotion": "cold"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "（身体僵住，吞了一下口水）大人……大人这话是什么意思……小的、小的什么都没做啊……",
-        "emotion": "nervous"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "那都是老范……老爷是翻船落水的……跟小的没有关系……",
-        "emotion": "nervous"
-      },
-      {
-        "speaker": "你",
-        "text": "翻船？",
-        "emotion": "cold"
-      },
-      {
-        "speaker": "",
-        "text": "（他说了三遍'小的'。一遍是谦卑，两遍是习惯，三遍——是心虚。）",
-        "emotion": "inner_thought"
-      },
-      {
-        "speaker": "你",
-        "text": "好。那我们就从那晚说起。你把当时的情况，一句一句说清楚。",
-        "emotion": "cold"
-      },
-      {
-        "speaker": "你",
-        "text": "一句一句——不要跳。不要省。我会逐句确认。",
-        "emotion": "cold"
-      },
-      {
-        "speaker": "阿贵",
-        "text": "（又吞了口口水，搓着手）是……是，大人您问。",
-        "emotion": "nervous"
-      },
-      {
-        "speaker": "凌瑶",
-        "text": "（小声凑过来）陆大人！他现在会一句一句陈述。你可以逐句浏览他的证词。",
-        "emotion": "determined"
-      },
-      {
-        "speaker": "凌瑶",
-        "text": "觉得哪句有破绽——就【举证】！拿出证物直接打他脸。选对了就能击破他的谎话。",
-        "emotion": "determined"
-      },
-      {
-        "speaker": "凌瑶",
-        "text": "拿不准的时候也可以【威慑】——追问细节，逼他自己露马脚。威慑不扣信心，举证错了才扣。",
-        "emotion": "worried"
-      },
-      {
-        "speaker": "凌瑶",
-        "text": "别急。让他慢慢编——编得越多，漏洞越大。本姑娘看好你。",
-        "emotion": "determined"
       }
     ],
     "testimonies": [
       {
+        "id": "testimony_wang",
+        "witness": "fisherman_wang",
+        "title": "— 证人证词：王大爷 —",
+        "preamble": [
+          { "speaker": "钱里正", "text": "王大爷——你那天夜里在江上。看到了什么，就跟大人说说。", "emotion": "nervous" },
+          { "speaker": "王大爷", "text": "（慢吞吞站起来，清了清嗓子）行。那就说说。", "emotion": "evasive" }
+        ],
+        "readthrough_end_hint": [
+          { "speaker": "凌瑶", "text": "（低声）证言说完了。哪句能和我们手里的证据对上——你来判断。", "emotion": "determined" }
+        ],
+        "transition_dialogue": [
+          { "speaker": "陆昭", "text": "王大爷的证言已经说明——航道是故意选的，有人提前约定了时间和路线。", "emotion": "cold" },
+          { "speaker": "陆昭", "text": "阿贵。该你了。", "emotion": "cold" },
+          { "speaker": "", "text": "阿贵的身体僵住了。他抬起头——满脸是汗。腊月天，冷得人直打哆嗦。他却在出汗。", "emotion": "narration" },
+          { "speaker": "阿贵", "text": "大人……大人这话是什么意思……小的、小的什么都没做啊……", "emotion": "nervous" },
+          { "speaker": "陆昭", "text": "那就从头说起。一句一句，不要跳，不要省。", "emotion": "cold" },
+          { "speaker": "阿贵", "text": "（吞了口口水）是……是，大人您问。", "emotion": "nervous" },
+          { "speaker": "凌瑶", "text": "（低声）他的证词出来后，觉得哪句有破绽就【举证】——拿证物直接打脸。拿不准就先【威慑】逼他露马脚。", "emotion": "determined" }
+        ],
+        "statements": [
+          {
+            "id": "wang_1",
+            "speaker": "王大爷",
+            "text": "那天夜里我在江上收网。亥时过后——听见东汊那边一声闷响。然后就看见船翻了。",
+            "press": [
+              { "speaker": "你", "text": "东汊——那片有暗礁的水道。本地人都知道危险。为什么船会走那里？", "emotion": "cold" },
+              { "speaker": "王大爷", "text": "那你得问船家了。跑了二十年的人……不该走那条道。", "emotion": "evasive" },
+              { "speaker": "", "text": "（老范的脸色变了。旱烟杆在手里转了一圈。）", "emotion": "narration" },
+              { "speaker": "凌瑶", "text": "（低声）二十年老船家走暗礁航道——这不是失误，是故意的。", "emotion": "anxious" }
+            ]
+          },
+          {
+            "id": "wang_2",
+            "speaker": "王大爷",
+            "text": "船翻之后，不到一刻钟——就有个人爬上了南岸。动作利索得很，不像是快淹死的人。",
+            "press": [
+              { "speaker": "你", "text": "不到一刻钟？你确定？", "emotion": "cold" },
+              { "speaker": "王大爷", "text": "我就在江上收网呢。看得清清楚楚。月亮被云挡了，但那个人影——很快就上岸了。", "emotion": "evasive" },
+              { "speaker": "凌瑶", "text": "（低声）老范之前可是说自己'半个时辰才被人救起来'。不到一刻钟和半个时辰——差太远了。", "emotion": "anxious" },
+              { "speaker": "", "text": "（一个说不到一刻钟，一个说半个时辰。其中必有一人在说谎。）", "emotion": "inner_thought" }
+            ]
+          },
+          {
+            "id": "wang_3",
+            "speaker": "王大爷",
+            "text": "还有一件事。翻船前一天傍晚，码头上有两个人碰面。一高一矮，说了'明天亥时''走东汊'。——不过跑船的人出发前合计路线，也正常。",
+            "press": [
+              { "speaker": "你", "text": "你确定只是在'合计路线'？", "emotion": "cold" },
+              { "speaker": "王大爷", "text": "那……我就听到这么几个字。跑船的人嘛，出发前商量走哪条水路，不是很平常？", "emotion": "evasive" },
+              { "speaker": "", "text": "（一高一矮。高个子佝背——阿贵。矮个瘦竹竿——老范。如果只是正常商量路线，为什么要在傍晚偷偷碰面、压低声音？）", "emotion": "inner_thought" },
+              { "speaker": "凌瑶", "text": "（低声）'也正常'？——那得看他们商量的到底是什么。咱手里的东西能说明问题。", "emotion": "anxious" }
+            ],
+            "break_evidence": "evidence_hull_hole",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_hull_hole",
+            "break_dialogue": [
+              { "speaker": "你", "text": "你说'合计路线也正常'。——（拍出船底残板）那这个怎么解释？", "emotion": "cold" },
+              { "speaker": "你", "text": "船底有一个方形的洞。边缘整齐——是从内侧用工具凿开的。", "emotion": "cold" },
+              { "speaker": "你", "text": "他们约的不是'走哪条路'。是约好——在哪里动手、什么时候打开这个洞让船沉。", "emotion": "cold" },
+              { "speaker": "", "text": "堂上一片寂静。阿贵的脸色白了。", "emotion": "narration" },
+              { "speaker": "王大爷", "text": "（叹气）……合计路线？我那是自己安慰自己。早就觉得不对了。", "emotion": "evasive" }
+            ]
+          }
+        ],
+        "fail_dialogue": [
+          { "speaker": "王大爷", "text": "大人……这个跟老汉说的事搭不上边吧。", "emotion": "evasive" },
+          { "speaker": "凌瑶", "text": "（低声）方向不太对。再想想——他那句'也正常'，什么东西能证明不正常？", "emotion": "worried" }
+        ]
+      },
+      {
         "id": "testimony_1",
         "title": "— 证词其一：那晚的经过 —",
+        "preamble": [
+          { "speaker": "陆昭", "text": "阿贵。从上船开始——一句一句说。", "emotion": "cold" },
+          { "speaker": "阿贵", "text": "（吞了口口水）是……是，大人。", "emotion": "nervous" }
+        ],
         "statements": [
           {
             "id": "s1_1",

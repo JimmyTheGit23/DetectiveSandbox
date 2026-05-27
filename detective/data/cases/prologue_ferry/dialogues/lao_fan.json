@@ -3,7 +3,7 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "（老范靠在船舷上抽旱烟，看到你来斜了一眼）哟……你就是那个同船的？听说周氏告了你杀人啊。胆子不小——被告了还到处问话。",
+      "text": "哟……你就是那个同船的？听说周氏告了你杀人啊。胆子不小——被告了还到处问话。",
       "options": [
         {
           "text": "说说当晚的事",
@@ -74,7 +74,9 @@
           "text": "那个'药材行的姑娘'——是她先找你的吧？",
           "goto": "press_shen_connection",
           "requires": [
-            { "flag": "agui_confessed_mastermind" }
+            {
+              "flag": "agui_confessed_mastermind"
+            }
           ],
           "type": "press"
         },
@@ -150,7 +152,7 @@
       "lines": [
         {
           "speaker_id": "lao_fan",
-          "text": "（嗤了一声）你这话说的……涨水嘛，水面高了礁石就该没了。老汉判断失误，这、这能怪老汉？",
+          "text": "你这话说的……涨水嘛，水面高了礁石就该没了。老汉判断失误，这、这能怪老汉？",
           "emotion": "defensive",
           "highlight": [
             "涨水",
@@ -369,7 +371,7 @@
         },
         {
           "speaker_id": "lao_fan",
-          "text": "（瘫坐在地上）……是她先来的。说知道老汉欠赌坊的钱。说……有门生意，做完了赌债一笔勾销。",
+          "text": "……是她先来的。说知道老汉欠赌坊的钱。说……有门生意，做完了赌债一笔勾销。",
           "emotion": "cornered"
         },
         {
@@ -379,7 +381,7 @@
         },
         {
           "speaker_id": "lao_fan",
-          "text": "老汉……老汉当时被逼急了。年底不还钱赌坊说要断指……（颤抖）",
+          "text": "老汉……老汉当时被逼急了。年底不还钱赌坊说要断指……",
           "emotion": "cornered"
         },
         {
@@ -414,7 +416,9 @@
         }
       ],
       "gain_evidence": "evidence_shen_connection",
-      "set_flags": ["fan_confessed_shen"]
+      "set_flags": [
+        "fan_confessed_shen"
+      ]
     }
   }
 }

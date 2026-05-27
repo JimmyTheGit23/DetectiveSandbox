@@ -4,6 +4,9 @@
     "ferry_inn": "mood:ferry_inn",
     "zhou_room": "mood:ferry_inn",
     "agui_room": "mood:ferry_inn",
+    "inn_corridor": "track:shen_corridor_theme",
+    "shen_room": "track:shen_corridor_theme",
+    "gambling_alley": "mood:ferry_dock",
     "ferry_dock": "mood:ferry_dock",
     "wreck_site": "mood:ferry_dock",
     "river_bend": "mood:ferry_dock"

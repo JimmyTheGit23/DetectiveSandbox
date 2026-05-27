@@ -368,6 +368,9 @@ func load_game() -> bool:
 		var comp_data: Dictionary = data.get("companion_state", {})
 		if not comp_data.is_empty():
 			cs.load_save_data(comp_data)
+	# 加载完成后检查事件（条件可能在存档中已满足）
+	_check_day_events()
+	_check_progression()
 	return true
 
 
@@ -812,7 +815,13 @@ func resolve_search(location_id: String, point_id: String) -> Dictionary:
 		for f in chosen.get("set_flags", []):
 			set_flag(f)
 	else:
-		result.narration = "你又看了一遍此处，但已没有新发现。"
+		# 重复探索：保留原叙述和证据引用（用于显示证物图片），不换通用文案
+		var ev_ref: String = chosen.get("evidence", "")
+		var cl_ref: String = chosen.get("clue", "")
+		if ev_ref != "":
+			result.gained_evidence = ev_ref
+		if cl_ref != "":
+			result.gained_clue = cl_ref
 		# 触发对话不论是否第一次都执行（适用于"再次约见"场景）
 	save_game()
 	return result

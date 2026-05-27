@@ -88,6 +88,7 @@
       "trigger": {
         "all": [
           { "evidence_count_gte": 2 },
+          { "location": "ferry_inn" },
           { "not": { "flag": "evt_quiet_moment_done" } },
           { "not": { "flag": "agui_confessed_mastermind" } }
         ]
@@ -132,24 +133,24 @@
       }
     },
     {
-      "id": "evt_evidence_ready",
+      "id": "evt_confrontation_ready",
       "trigger": {
         "all": [
           { "evidence_count_gte": 3 },
           { "flag": "agui_premeditation_known" },
-          { "not": { "flag": "evt_evidence_ready_done" } }
+          { "not": { "flag": "confrontation_auto_triggered" } }
         ]
       },
-      "title": "证据齐了",
-      "hint": "（证据已经足够指证凶手）",
+      "title": "证据齐了——可以对峙了",
+      "hint": "✦ 证据已齐，点击发起对峙",
       "narration": [
-        { "speaker": "凌瑶", "text": "陆大人！我算了算——船底的洞、浮囊、动机……证据链差不多了！" },
-        { "speaker": "凌瑶", "text": "这案子拖不得。趁他还没反应过来，现在就去找阿贵对峙！" },
-        { "speaker": "陆昭", "text": "好。准备一下——去找阿贵当面对质。" },
-        { "speaker": "凌瑶", "text": "去客栈找阿贵说话，选【对峙】那个选项就行！我跟你一起去！" }
+        { "speaker": "凌瑶", "text": "陆大人！船底的洞、浮囊、还有动机——证据链够了！" },
+        { "speaker": "凌瑶", "text": "不能再拖了。去找里正——让他把人都叫来，当面对质！" },
+        { "speaker": "陆昭", "text": "好。是时候了。" }
       ],
       "effects": {
-        "set_flag": ["evt_evidence_ready_done"]
+        "set_flag": ["confrontation_auto_triggered"],
+        "auto_start_confrontation": "confrontation"
       }
     },
     {

@@ -251,6 +251,34 @@
       "tempo": "fast",
       "loop_friendly": true,
       "description": "对峙终章：最终击破阶段，高潮中的高潮。"
+    },
+    "shen_corridor_theme": {
+      "file": "res://assets/cn/bgm/shen_corridor_theme.wav",
+      "tags": [
+        "character",
+        "cold",
+        "dangerous",
+        "feminine",
+        "ferry"
+      ],
+      "mood": "shen_presence",
+      "tempo": "slow",
+      "loop_friendly": true,
+      "description": "沈清月主题：古琴琵琶、冷冽不和谐音程、金属泛音。算计与危险的优雅。"
+    },
+    "ferry_court_opening": {
+      "file": "res://assets/cn/bgm/Prelogue_Confrontation_Intro.mp3",
+      "tags": [
+        "confrontation",
+        "court",
+        "solemn",
+        "tension",
+        "ferry"
+      ],
+      "mood": "court_solemn",
+      "tempo": "slow",
+      "loop_friendly": true,
+      "description": "对峙开庭：庄重肃穆，公堂升压感。"
     }
   },
   "mood_index": {

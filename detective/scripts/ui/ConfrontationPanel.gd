@@ -59,7 +59,7 @@ var _dot_container: HBoxContainer
 var _press_btn: Button
 var _present_btn: Button
 var _evidence_panel: PanelContainer
-var _evidence_container: VBoxContainer
+var _evidence_container: HBoxContainer
 var _dialogue_box: PanelContainer
 var _dialogue_speaker: Label
 var _dialogue_text: RichTextLabel
@@ -107,10 +107,10 @@ func _ready() -> void:
 	_portrait_state = PortraitState.NORMAL
 	_typewriter = TypewriterEffectScript.new()
 	add_child(_typewriter)
-	# 确保对峙BGM播放
+	# intro 阶段用客栈音乐，证言开始时才切对峙BGM
 	var bgm_player := get_node_or_null("/root/BgmPlayer")
 	if bgm_player and bgm_player.has_method("play"):
-		bgm_player.play("accuse")
+		bgm_player.play("ferry_inn")
 	_build_ui()
 	_enter_state(State.TITLE_ANIM)
 
@@ -126,7 +126,9 @@ func _build_ui() -> void:
 	bg_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	bg_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	bg_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var bg_path: String = GameManager.current_location_data().get("background", "")
+	var bg_path: String = _confrontation_data.get("background", "")
+	if bg_path == "" or not ResourceLoader.exists(bg_path):
+		bg_path = GameManager.current_location_data().get("background", "")
 	if bg_path != "" and ResourceLoader.exists(bg_path):
 		bg_tex.texture = load(bg_path)
 	add_child(bg_tex)
@@ -183,7 +185,8 @@ func _build_ui() -> void:
 	_portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_panel.add_child(_portrait_rect)
-	_update_portrait()
+	# intro 期间不显示立绘，等进入证言阶段再显示
+	_portrait_rect.visible = false
 
 	# ── 证词显示区（中下，带导航箭头） ──
 	var stmt_area := PanelContainer.new()
@@ -319,7 +322,7 @@ func _build_ui() -> void:
 	# ── 证据面板（覆盖底部，默认隐藏） ──
 	_evidence_panel = PanelContainer.new()
 	_evidence_panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	_evidence_panel.offset_top = -300
+	_evidence_panel.offset_top = -260
 	_evidence_panel.visible = false
 	var ev_style := StyleBoxFlat.new()
 	ev_style.bg_color = Color(0.04, 0.03, 0.02, 0.97)
@@ -347,11 +350,13 @@ func _build_ui() -> void:
 	var ev_scroll := ScrollContainer.new()
 	ev_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	ev_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ev_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	ev_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	_evidence_ev_vbox.add_child(ev_scroll)
 
-	_evidence_container = VBoxContainer.new()
+	_evidence_container = HBoxContainer.new()
 	_evidence_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_evidence_container.add_theme_constant_override("separation", 6)
+	_evidence_container.add_theme_constant_override("separation", 12)
 	ev_scroll.add_child(_evidence_container)
 
 	# ── 悬浮信息区（固定在滚动区外，始终可见） ──
@@ -577,6 +582,26 @@ func _play_testimony_intro() -> void:
 
 	_testimony_title_label.text = testimony.get("title", "证词")
 
+	# ── 前言对话（preamble）：里正/主角宣布证人上前 ──
+	var preamble: Array = testimony.get("preamble", [])
+	if not preamble.is_empty():
+		_dialogue_queue = preamble
+		_dialogue_idx = 0
+		_show_dialogue_queue(func(): _show_testimony_title_card(testimony))
+	else:
+		_show_testimony_title_card(testimony)
+
+
+func _show_testimony_title_card(testimony: Dictionary) -> void:
+	_hide_dialogue()
+	# 证言开始时切换BGM
+	var bgm_player := get_node_or_null("/root/BgmPlayer")
+	if bgm_player and bgm_player.has_method("play"):
+		bgm_player.play("ferry_confrontation")
+	# 显示证人立绘
+	_portrait_state = PortraitState.NORMAL
+	_update_portrait()
+
 	# ── 独立标题特效：淡入 → 停留 → 淡出 ──
 	var title_label := Label.new()
 	title_label.text = "─ " + testimony.get("title", "") + " ─"
@@ -614,7 +639,14 @@ func _play_testimony_readthrough() -> void:
 func _readthrough_next() -> void:
 	if _dialogue_idx >= _statements.size():
 		_hide_dialogue()
-		_enter_state(State.BROWSING)
+		# 朗读结束后的提示（让玩家知道该操作了）
+		var testimony: Dictionary = _testimonies[_current_testimony_idx]
+		var end_hint: Array = testimony.get("readthrough_end_hint", [
+			{"speaker": "凌瑶", "text": "（低声）证言说完了。哪句有破绽——你来判断。", "emotion": "determined"}
+		])
+		_dialogue_queue = end_hint
+		_dialogue_idx = 0
+		_show_dialogue_queue(func(): _enter_state(State.BROWSING))
 		return
 	var stmt: Dictionary = _statements[_dialogue_idx]
 	var speaker: String = stmt.get("speaker", "")
@@ -648,6 +680,9 @@ func _enter_browsing() -> void:
 	_click_callback = Callable()  # 确保无残留回调吞掉点击
 	_hide_dialogue()
 	_evidence_panel.visible = false
+	# 确保证人立绘可见
+	_portrait_state = PortraitState.NORMAL
+	_update_portrait()
 	_set_browsing_visible(true)
 	_refresh_stmt_display()
 
@@ -833,23 +868,8 @@ func _refresh_evidence_list() -> void:
 		if not data.is_empty() and data.get("type", "") == "evidence" and not data.get("hidden", false):
 			evidences.append(eid)
 
-	# ── 标题 ──
-	var title_label := Label.new()
-	title_label.text = "── 证  物 ── (%d)" % evidences.size()
-	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title_label.add_theme_font_size_override("font_size", 17)
-	title_label.add_theme_color_override("font_color", CLR_GOLD)
-	_evidence_container.add_child(title_label)
-
-	# ── 内容区 ──
-	var flow := HFlowContainer.new()
-	flow.add_theme_constant_override("h_separation", 10)
-	flow.add_theme_constant_override("v_separation", 8)
-	_evidence_container.add_child(flow)
-	_evidence_tab_content = flow
-
 	for eid in evidences:
-		flow.add_child(_make_evidence_sheet(eid, "evidence"))
+		_evidence_container.add_child(_make_evidence_sheet(eid, "evidence"))
 
 	# ── 更新固定按钮行 ──
 	for c in _evidence_btn_row.get_children():
@@ -891,20 +911,12 @@ func _make_evidence_sheet(eid: String, category: String) -> Button:
 	var is_sel: bool = (eid == _selected_evidence_id)
 	var ename: String = data.get("name", eid)
 	var edesc: String = data.get("description", "")
-	var icon: String = "📜" if category == "evidence" else "🔍"
 
-	# 直接用 Button 做卡片
 	var sheet := Button.new()
-	sheet.text = icon + " " + ename + ("\n▸ 已选中" if is_sel else "")
-	sheet.custom_minimum_size = Vector2(145, 62)
-	sheet.add_theme_font_size_override("font_size", 15)
-
-	if is_sel:
-		sheet.add_theme_color_override("font_color", CLR_GOLD_BRIGHT)
-		sheet.add_theme_color_override("font_hover_color", Color(1.0, 1.0, 0.8))
-	else:
-		sheet.add_theme_color_override("font_color", Color(0.88, 0.83, 0.68))
-		sheet.add_theme_color_override("font_hover_color", Color(1.0, 0.95, 0.75))
+	sheet.custom_minimum_size = Vector2(100, 110)
+	sheet.clip_text = false
+	# 使用透明文字（内容通过子节点绘制）
+	sheet.text = ""
 
 	# normal 样式
 	var s_style := StyleBoxFlat.new()
@@ -914,25 +926,19 @@ func _make_evidence_sheet(eid: String, category: String) -> Button:
 		s_style.set_border_width_all(2)
 	else:
 		s_style.bg_color = Color(0.06, 0.05, 0.03, 0.9)
-		if category == "evidence":
-			s_style.border_color = Color(0.55, 0.4, 0.15, 0.6)
-		else:
-			s_style.border_color = Color(0.25, 0.45, 0.6, 0.5)
+		s_style.border_color = Color(0.55, 0.4, 0.15, 0.6)
 		s_style.set_border_width_all(1)
 	s_style.set_corner_radius_all(6)
-	s_style.content_margin_left = 12
-	s_style.content_margin_right = 12
-	s_style.content_margin_top = 8
-	s_style.content_margin_bottom = 8
+	s_style.content_margin_left = 6
+	s_style.content_margin_right = 6
+	s_style.content_margin_top = 6
+	s_style.content_margin_bottom = 6
 	sheet.add_theme_stylebox_override("normal", s_style)
 
 	# hover 样式
 	var hover_style := s_style.duplicate() as StyleBoxFlat
 	hover_style.bg_color = Color(0.12, 0.09, 0.04, 0.97)
-	if category == "evidence":
-		hover_style.border_color = Color(0.85, 0.6, 0.2, 0.9)
-	else:
-		hover_style.border_color = Color(0.4, 0.7, 0.9, 0.8)
+	hover_style.border_color = Color(0.85, 0.6, 0.2, 0.9)
 	hover_style.set_border_width_all(2)
 	sheet.add_theme_stylebox_override("hover", hover_style)
 
@@ -940,6 +946,62 @@ func _make_evidence_sheet(eid: String, category: String) -> Button:
 	var pressed_style := hover_style.duplicate() as StyleBoxFlat
 	pressed_style.bg_color = Color(0.18, 0.12, 0.05, 0.98)
 	sheet.add_theme_stylebox_override("pressed", pressed_style)
+
+	# ── 内部布局：图标 + 名称 ──
+	var vbox := VBoxContainer.new()
+	vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
+	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	vbox.add_theme_constant_override("separation", 4)
+	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	sheet.add_child(vbox)
+
+	# 图标
+	var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % eid
+	var has_icon := false
+	if ResourceLoader.exists(icon_path):
+		var tex: Texture2D = load(icon_path)
+		if tex:
+			has_icon = true
+			var img := TextureRect.new()
+			img.texture = tex
+			img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			img.custom_minimum_size = Vector2(64, 64)
+			img.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+			img.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			vbox.add_child(img)
+	if not has_icon:
+		var placeholder := Label.new()
+		placeholder.text = "📜"
+		placeholder.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		placeholder.add_theme_font_size_override("font_size", 36)
+		placeholder.custom_minimum_size = Vector2(64, 64)
+		placeholder.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		placeholder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		vbox.add_child(placeholder)
+
+	# 名称
+	var name_lbl := Label.new()
+	name_lbl.text = ename
+	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_lbl.add_theme_font_size_override("font_size", 13)
+	name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if is_sel:
+		name_lbl.add_theme_color_override("font_color", CLR_GOLD_BRIGHT)
+	else:
+		name_lbl.add_theme_color_override("font_color", Color(0.85, 0.8, 0.65))
+	vbox.add_child(name_lbl)
+
+	# 选中标记
+	if is_sel:
+		var sel_lbl := Label.new()
+		sel_lbl.text = "▸ 选中"
+		sel_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		sel_lbl.add_theme_font_size_override("font_size", 11)
+		sel_lbl.add_theme_color_override("font_color", CLR_GOLD)
+		sel_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		vbox.add_child(sel_lbl)
 
 	# 信号连接
 	var ev_id: String = eid
@@ -1000,6 +1062,9 @@ func _play_break_anim() -> void:
 		if bgm_player and bgm_player.has_method("play"):
 			bgm_player.play(break_bgm)
 
+	# 击破闪屏效果
+	_flash_screen_white()
+
 	# 立绘动摇
 	_portrait_state = PortraitState.SHAKEN
 	_update_portrait()
@@ -1018,11 +1083,18 @@ func _after_break_dialogue() -> void:
 	var testimony: Dictionary = _testimonies[_current_testimony_idx]
 	var transition_dlg: Array = testimony.get("transition_dialogue", [])
 	if not transition_dlg.is_empty():
+		# 证人退场效果：立绘淡出
 		_portrait_state = PortraitState.SHAKEN
 		_update_portrait()
-		_dialogue_queue = transition_dlg
-		_dialogue_idx = 0
-		_show_dialogue_queue(func(): _advance_to_next_testimony())
+		var fade_tw := create_tween()
+		fade_tw.tween_property(_portrait_rect, "modulate:a", 0.0, 0.3)
+		fade_tw.tween_callback(func():
+			_portrait_rect.visible = false
+			# 播放过渡对话
+			_dialogue_queue = transition_dlg
+			_dialogue_idx = 0
+			_show_dialogue_queue(func(): _advance_to_next_testimony())
+		)
 	else:
 		_advance_to_next_testimony()
 
@@ -1305,22 +1377,29 @@ func _update_confidence_display() -> void:
 # ═══════════════════════════════════════════════════
 
 func _update_portrait() -> void:
-	var suspect_id: String = _confrontation_data.get("suspect", "")
-	if suspect_id == "":
+	# 优先使用当前证词轮次指定的 witness，回退到全局 suspect
+	var witness_id: String = ""
+	if _current_testimony_idx >= 0 and _current_testimony_idx < _testimonies.size():
+		witness_id = _testimonies[_current_testimony_idx].get("witness", "")
+	if witness_id == "":
+		witness_id = _confrontation_data.get("suspect", "")
+	if witness_id == "":
 		return
-	var npc_data: Dictionary = GameManager.get_npc_data(suspect_id)
-	var base_portrait: String = npc_data.get("portrait", "")
-	if base_portrait == "":
+	var portrait_path: String = AssetResolver.get_portrait(witness_id, GameManager.npcs_data)
+	if portrait_path == "":
+		var npc_data: Dictionary = GameManager.get_npc_data(witness_id)
+		portrait_path = npc_data.get("portrait", "")
+	if portrait_path == "":
 		return
-	var confront_base: String = base_portrait.replace(".png", "_confrontation.png")
-	var path := confront_base if ResourceLoader.exists(confront_base) else base_portrait
+	var confront_base: String = portrait_path.replace(".png", "_confrontation.png")
+	var path := confront_base if ResourceLoader.exists(confront_base) else portrait_path
 	match _portrait_state:
 		PortraitState.SHAKEN:
 			var alt := confront_base.replace(".png", "_shaken.png")
 			if ResourceLoader.exists(alt):
 				path = alt
 			else:
-				alt = base_portrait.replace(".png", "_shaken.png")
+				alt = portrait_path.replace(".png", "_shaken.png")
 				if ResourceLoader.exists(alt):
 					path = alt
 		PortraitState.COLLAPSED:
@@ -1328,11 +1407,12 @@ func _update_portrait() -> void:
 			if ResourceLoader.exists(alt):
 				path = alt
 			else:
-				alt = base_portrait.replace(".png", "_collapsed.png")
+				alt = portrait_path.replace(".png", "_collapsed.png")
 				if ResourceLoader.exists(alt):
 					path = alt
 	if ResourceLoader.exists(path):
 		_portrait_rect.texture = load(path)
+		_portrait_rect.visible = true
 	# 视觉效果
 	_portrait_rect.rotation = 0.0
 	_portrait_rect.modulate = Color(1, 1, 1, 1)
@@ -1420,6 +1500,17 @@ func _shake_portrait() -> void:
 	_shake_tween.tween_property(_portrait_rect, "position:x", orig_x, 0.05)
 
 
+func _flash_screen_white() -> void:
+	var flash := ColorRect.new()
+	flash.set_anchors_preset(Control.PRESET_FULL_RECT)
+	flash.color = Color(1, 1, 1, 0.8)
+	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_panel.add_child(flash)
+	var tw := create_tween()
+	tw.tween_property(flash, "color:a", 0.0, 0.3).set_ease(Tween.EASE_IN)
+	tw.tween_callback(flash.queue_free)
+
+
 # ═══════════════════════════════════════════════════
 #  对话头像（陆昭/凌瑶）
 # ═══════════════════════════════════════════════════
@@ -1431,15 +1522,49 @@ func _update_dialogue_portrait(speaker: String, emotion: String) -> void:
 	if speaker == "陆昭" or speaker == "你":
 		# 对峙中陆昭默认表情为 serious
 		var emo: String = emotion if emotion != "" and emotion != "normal" else "serious"
-		portrait_path = _resolve_speaker_portrait("res://assets/cn/portraits/lu_zhao.png", emo)
+		portrait_path = _resolve_speaker_portrait("res://assets/cn/portraits/prologue_lu_zhao.png", emo)
+		# 主角说话时隐藏中央 NPC 立绘
+		_portrait_rect.visible = false
 	elif speaker == "凌瑶":
 		portrait_path = _resolve_speaker_portrait("res://assets/cn/portraits/companion_lingyao.png", emotion)
+		# 凌瑶说话时隐藏中央 NPC 立绘
+		_portrait_rect.visible = false
+	elif speaker != "" and emotion != "narration" and emotion != "inner_thought":
+		# NPC 说话：尝试显示他们的居中立绘
+		_dlg_portrait_rect.visible = false
+		var npc_id := _find_npc_id_by_speaker(speaker)
+		if npc_id != "":
+			var npc_portrait: String = AssetResolver.get_portrait(npc_id, GameManager.npcs_data)
+			if npc_portrait != "" and ResourceLoader.exists(npc_portrait):
+				_portrait_rect.texture = load(npc_portrait)
+				_portrait_rect.visible = true
+		return
 
 	if portrait_path != "" and ResourceLoader.exists(portrait_path):
 		_dlg_portrait_rect.texture = load(portrait_path)
 		_dlg_portrait_rect.visible = true
 	else:
 		_dlg_portrait_rect.visible = false
+
+
+func _find_npc_id_by_speaker(speaker_name: String) -> String:
+	"""通过显示名查找 NPC ID"""
+	# 直接映射常见名字
+	var name_map := {
+		"钱里正": "li_zheng",
+		"阿贵": "agui",
+		"老范": "lao_fan",
+		"周氏": "zhou_wife",
+		"王大爷": "fisherman_wang",
+		"沈清月": "shen_qingyue",
+	}
+	if name_map.has(speaker_name):
+		return name_map[speaker_name]
+	# 回退：遍历 npcs_data 查找
+	for npc_id in GameManager.npcs_data.keys():
+		if GameManager.get_npc_display_name(str(npc_id)) == speaker_name:
+			return str(npc_id)
+	return ""
 
 
 func _resolve_speaker_portrait(base_path: String, emotion: String) -> String:
