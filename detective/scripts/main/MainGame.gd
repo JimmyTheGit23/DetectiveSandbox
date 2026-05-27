@@ -615,7 +615,7 @@ func _start_new_game() -> void:
 	_hide_title()
 	# 立即切黑，避免第一帧露出标题背景
 	_set_background("res://assets/cn/scenes/pure_black.png", false)
-	top_bar_label.get_parent().visible = true
+	top_bar_label.get_parent().visible = false
 	_visited_locations.clear()
 	_pending_events.clear()
 	GameManager.reset_progress()
@@ -714,14 +714,14 @@ func _on_day_changed(new_day: int) -> void:
 	_try_companion_banter("new_day")
 	# 如果对话或叙述正在进行，延迟日期过场，等说话完毕再显示
 	if dialogue_box.visible:
-		var sub := "临川镇 · %s" % GameManager.PERIOD_NAMES[GameManager.current_period]
+		var sub := "%s · %s" % [location_label.text.strip_edges(), GameManager.PERIOD_NAMES[GameManager.current_period]]
 		_pending_day_info = { "day": new_day, "sub": sub }
 		return
 	_show_day_transition(new_day)
 
 
 func _show_day_transition(day: int) -> void:
-	var sub := "临川镇 · %s" % GameManager.PERIOD_NAMES[GameManager.current_period]
+	var sub := "%s · %s" % [location_label.text.strip_edges(), GameManager.PERIOD_NAMES[GameManager.current_period]]
 	day_transition.show_day(day, sub)
 
 
@@ -795,17 +795,23 @@ func _show_evidence_popup(eid: String, ev: Dictionary) -> void:
 	notification_layer.add_child(overlay)
 
 	# --- 居中容器 ---
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(center)
+
 	var container := VBoxContainer.new()
-	container.set_anchors_preset(Control.PRESET_CENTER)
 	container.alignment = BoxContainer.ALIGNMENT_CENTER
 	container.add_theme_constant_override("separation", 16)
-	overlay.add_child(container)
+	center.add_child(container)
 
 	# --- 证据图片 ---
 	var img := TextureRect.new()
 	img.texture = tex
+	img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	img.custom_minimum_size = Vector2(320, 320)
+	img.size = Vector2(320, 320)
 	img.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	container.add_child(img)
 
@@ -819,12 +825,6 @@ func _show_evidence_popup(eid: String, ev: Dictionary) -> void:
 	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	name_lbl.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	container.add_child(name_lbl)
-
-	# --- 居中定位 ---
-	container.position = -container.size / 2.0
-	# 等一帧让 container 计算好大小后再定位
-	await get_tree().process_frame
-	container.position = -container.size / 2.0
 
 	# --- 入场动画 ---
 	overlay.modulate.a = 0.0
@@ -1275,6 +1275,7 @@ func _on_narration_ended() -> void:
 		return
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:
 		GameManager.set_state(GameManager.STATE_PLAYING)
+		top_bar_label.get_parent().visible = true
 		GameManager.change_location(GameManager.case_main_scene, false)
 		_on_time_advanced(GameManager.current_day, GameManager.current_period)
 	menu_panel.visible = true

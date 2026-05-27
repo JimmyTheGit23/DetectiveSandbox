@@ -177,8 +177,10 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 			if tex:
 				var img := TextureRect.new()
 				img.texture = tex
+				img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				img.custom_minimum_size = Vector2(240, 240)
+				img.size = Vector2(240, 240)
 				img.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 				vbox.add_child(img)
 				# 有图片时扩大面板最小尺寸
@@ -199,7 +201,10 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 
 func _result_dialog_text(result: Dictionary) -> String:
 	var txt: String = "你完成了这次调查。\n\n"
-	txt += result.get("narration", "")
+	var narration: String = result.get("narration", "")
+	if narration == "":
+		narration = result.get("intro_text", "")
+	txt += narration
 	if result.get("gained_evidence", "") != "":
 		var ev = GameManager.evidence_data.get(result.gained_evidence, {})
 		txt += "\n\n【获得证据：%s】" % ev.get("name", "")

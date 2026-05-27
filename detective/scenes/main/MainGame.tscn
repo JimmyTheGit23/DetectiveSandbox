@@ -50,7 +50,7 @@ offset_bottom = 50.0
 [node name="TimeLabel" type="Label" parent="TopBar" unique_id=226638806]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "    第 1 日 · 晨    剩余 42 时段"
+text = "    第 1 日 · 晨"
 
 [node name="LocationLabel" type="Label" parent="TopBar" unique_id=2112358323]
 layout_mode = 2

@@ -409,8 +409,17 @@ func _refresh_all() -> void:
 # ─── 探索结果（底部浮现） ───────────────────────────────────────────────────
 
 func _show_result_dialog(point_name: String, result: Dictionary) -> void:
+	# 多步骤调查：有 sub_choices 时走专用弹窗
+	var sub_choices: Array = result.get("sub_choices", [])
+	if sub_choices.size() > 0:
+		var intro: String = result.get("intro_text", "")
+		await _show_sub_choices_dialog(point_name, intro, sub_choices)
+		return
+
 	# 用底部浮现文字显示结果（不弹窗）
 	var text: String = str(result.get("narration", ""))
+	if text == "":
+		text = str(result.get("intro_text", ""))
 	if text == "":
 		text = "你仔细查看了这里。"
 	if result.get("gained_evidence", "") != "":
