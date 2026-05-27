@@ -1395,24 +1395,33 @@ func _update_portrait() -> void:
 	if portrait_path == "":
 		return
 	var confront_base: String = portrait_path.replace(".png", "_confrontation.png")
-	var path := confront_base if ResourceLoader.exists(confront_base) else portrait_path
+	var mapped_base := AssetResolver.resolve_portrait_expression(portrait_path, "confrontation")
+	var path := mapped_base if mapped_base != "" else (confront_base if ResourceLoader.exists(confront_base) else portrait_path)
 	match _portrait_state:
 		PortraitState.SHAKEN:
-			var alt := confront_base.replace(".png", "_shaken.png")
-			if ResourceLoader.exists(alt):
-				path = alt
+			var mapped_shaken := AssetResolver.resolve_portrait_expression(portrait_path, "confrontation_shaken")
+			if mapped_shaken != "":
+				path = mapped_shaken
 			else:
-				alt = portrait_path.replace(".png", "_shaken.png")
+				var alt := confront_base.replace(".png", "_shaken.png")
 				if ResourceLoader.exists(alt):
 					path = alt
+				else:
+					alt = portrait_path.replace(".png", "_shaken.png")
+					if ResourceLoader.exists(alt):
+						path = alt
 		PortraitState.COLLAPSED:
-			var alt := confront_base.replace(".png", "_collapsed.png")
-			if ResourceLoader.exists(alt):
-				path = alt
+			var mapped_collapsed := AssetResolver.resolve_portrait_expression(portrait_path, "confrontation_collapsed")
+			if mapped_collapsed != "":
+				path = mapped_collapsed
 			else:
-				alt = portrait_path.replace(".png", "_collapsed.png")
+				var alt := confront_base.replace(".png", "_collapsed.png")
 				if ResourceLoader.exists(alt):
 					path = alt
+				else:
+					alt = portrait_path.replace(".png", "_collapsed.png")
+					if ResourceLoader.exists(alt):
+						path = alt
 	if ResourceLoader.exists(path):
 		_portrait_rect.texture = load(path)
 		_portrait_rect.visible = true

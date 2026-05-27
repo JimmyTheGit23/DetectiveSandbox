@@ -1,0 +1,9 @@
+confrontation_id,order,testimony_id,witness,title,writer_note
+confrontation,1,testimony_wang,fisherman_wang,— 证人证词：王大爷 —,
+confrontation,2,testimony_0,,— 证词其一：他杀了老爷！ —,
+confrontation,3,testimony_1,,— 证词其二：那晚的经过 —,
+confrontation,4,testimony_2,,— 证词其三：关于那个洞 —,
+confrontation,5,testimony_3,,— 证词其四：不是我干的 —,
+confrontation_final,1,shen_testimony_1,,— 证词其一：我没有理由 —,
+confrontation_final,2,shen_testimony_2,,— 证词其二：我跟他们没有关系 —,
+confrontation_final,3,shen_testimony_3,,— 证词其三：你没有证据 —,

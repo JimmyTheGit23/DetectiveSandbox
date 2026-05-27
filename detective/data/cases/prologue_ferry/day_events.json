@@ -5,151 +5,337 @@
       "id": "evt_hull_discovered",
       "trigger": {
         "all": [
-          { "evidence": "evidence_hull_hole" },
-          { "not": { "flag": "evt_hull_discovered_done" } }
+          {
+            "evidence": "evidence_hull_hole"
+          },
+          {
+            "not": {
+              "flag": "evt_hull_discovered_done"
+            }
+          }
         ]
       },
       "title": "人为破坏",
       "hint": "（你发现了船底的人工破洞）",
       "narration": [
         "船底那个洞——边缘整齐，凿痕清晰。这不是暗礁撞出来的。",
-        { "speaker": "凌瑶", "text": "等等……这是被人凿开的？！那不是翻船——是有人故意弄沉的！" },
-        { "speaker": "凌瑶", "text": "那是老范的船！只有他能在自己船上动这种手脚！那个赌鬼——他要弄死人捞钱！" },
-        { "speaker": "陆昭", "text": "是人为。但谁动的手，现在还不能下结论。继续查。" }
+        {
+          "speaker": "凌瑶",
+          "text": "等等……这是被人凿开的？！那不是翻船——是有人故意弄沉的！"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "那是老范的船！只有他能在自己船上动这种手脚！那个赌鬼——他要弄死人捞钱！"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "是人为。但谁动的手，现在还不能下结论。继续查。"
+        }
       ],
       "effects": {
-        "set_flag": ["evt_hull_discovered_done", "hull_sabotage_known"]
+        "set_flag": [
+          "evt_hull_discovered_done",
+          "hull_sabotage_known"
+        ]
       }
     },
     {
       "id": "evt_bladder_found",
       "trigger": {
         "all": [
-          { "evidence": "evidence_float_bladder" },
-          { "not": { "flag": "evt_bladder_found_done" } }
+          {
+            "evidence": "evidence_float_bladder"
+          },
+          {
+            "not": {
+              "flag": "evt_bladder_found_done"
+            }
+          }
         ]
       },
       "title": "预谋逃生",
       "hint": "（你在沉船下游的芦苇丛中发现了阿贵的包袱和浮囊）",
       "narration": [
         "粗布包袱，和阿贵在客栈用的是同一种。里面是一只充了气的牛皮浮囊。",
-        { "speaker": "凌瑶", "text": "等等……这是阿贵的包袱？浮囊？他一个不会游泳的仆从——为什么会有这种东西？！" },
-        { "speaker": "陆昭", "text": "而且被江水冲到了这里。他提前把包袱扔出船外——除非他知道自己会落水，需要靠它活命。" },
-        { "speaker": "凌瑶", "text": "陆大人！如果阿贵也提前知道船要沉——那就不只是老范一个人的事了！他们……他们是一伙的？！" },
-        { "speaker": "陆昭", "text": "看起来……这案子比我们以为的要复杂。" }
+        {
+          "speaker": "凌瑶",
+          "text": "等等……这是阿贵的包袱？浮囊？他一个不会游泳的仆从——为什么会有这种东西？！"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "而且被江水冲到了这里。他提前把包袱扔出船外——除非他知道自己会落水，需要靠它活命。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "陆大人！如果阿贵也提前知道船要沉——那就不只是老范一个人的事了！他们……他们是一伙的？！"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "看起来……这案子比我们以为的要复杂。"
+        }
       ],
       "effects": {
-        "set_flag": ["evt_bladder_found_done", "agui_premeditation_known"]
+        "set_flag": [
+          "evt_bladder_found_done",
+          "agui_premeditation_known"
+        ]
       }
     },
     {
       "id": "evt_dismissal_revealed",
       "trigger": {
         "all": [
-          { "evidence": "evidence_dismissal_note" },
-          { "not": { "flag": "evt_dismissal_revealed_done" } }
+          {
+            "evidence": "evidence_dismissal_note"
+          },
+          {
+            "not": {
+              "flag": "evt_dismissal_revealed_done"
+            }
+          }
         ]
       },
       "title": "二两遣散银",
       "hint": "（你发现了遣散字据）",
       "narration": [
         "「兹遣仆人阿贵，给银二两，各不相欠。」",
-        { "speaker": "凌瑶", "text": "二两银子？！跟了十二年就给二两？这也太……" },
-        { "speaker": "陆昭", "text": "十二年青春换来一纸遣散。换了谁都会恨。" },
-        { "speaker": "凌瑶", "text": "所以……阿贵的动机有了。他恨那个主人。" }
+        {
+          "speaker": "凌瑶",
+          "text": "二两银子？！跟了十二年就给二两？这也太……"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "十二年青春换来一纸遣散。换了谁都会恨。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "所以……阿贵的动机有了。他恨那个主人。"
+        }
       ],
       "effects": {
-        "set_flag": ["evt_dismissal_revealed_done", "agui_motive_known"]
+        "set_flag": [
+          "evt_dismissal_revealed_done",
+          "agui_motive_known"
+        ]
       }
     },
     {
       "id": "evt_gambling_debt",
       "trigger": {
         "all": [
-          { "evidence": "evidence_gambling_iou" },
-          { "not": { "flag": "evt_gambling_debt_done" } }
+          {
+            "evidence": "evidence_gambling_iou"
+          },
+          {
+            "not": {
+              "flag": "evt_gambling_debt_done"
+            }
+          }
         ]
       },
       "title": "赌鬼的绝路",
       "hint": "（你发现了老范的赌债借据）",
       "narration": [
         "四十二两赌债。腊月底还不上就断指。",
-        { "speaker": "凌瑶", "text": "四十二两！怪不得他铤而走险……这已经不是一般欠钱了，是要命的债！" },
-        { "speaker": "陆昭", "text": "阿贵许给他一半货银——二十五两。加上船家的活计还能接着干。对一个走投无路的人来说，这买卖合算。" },
-        { "speaker": "凌瑶", "text": "一条人命换四十二两银子……" }
+        {
+          "speaker": "凌瑶",
+          "text": "四十二两！怪不得他铤而走险……这已经不是一般欠钱了，是要命的债！"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "阿贵许给他一半货银——二十五两。加上船家的活计还能接着干。对一个走投无路的人来说，这买卖合算。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "一条人命换四十二两银子……"
+        }
       ],
       "effects": {
-        "set_flag": ["evt_gambling_debt_done", "fan_motive_known"]
+        "set_flag": [
+          "evt_gambling_debt_done",
+          "fan_motive_known"
+        ]
       }
     },
-
     {
       "id": "evt_quiet_moment",
       "trigger": {
         "all": [
-          { "evidence_count_gte": 2 },
-          { "location": "ferry_inn" },
-          { "not": { "flag": "evt_quiet_moment_done" } },
-          { "not": { "flag": "agui_confessed_mastermind" } }
+          {
+            "evidence_count_gte": 2
+          },
+          {
+            "location": "ferry_inn"
+          },
+          {
+            "not": {
+              "flag": "evt_quiet_moment_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "agui_confessed_mastermind"
+            }
+          }
         ]
       },
       "title": "馒头",
       "narration": [
-        { "speaker": "凌瑶", "text": "陆大人。" },
-        { "speaker": "", "text": "凌瑶不知什么时候买了两个馒头，热气腾腾地递过来。" },
-        { "speaker": "凌瑶", "text": "吃。你从昨晚到现在什么都没吃。" },
-        { "speaker": "陆昭", "text": "……不饿。" },
-        { "speaker": "凌瑶", "text": "骗谁呢？你肚子刚才叫了两次我都听见了。堂堂巡按御史——饿得咕咕叫，像什么样子？" },
-        { "speaker": "陆昭", "text": "（接过来）……谢了。" },
-        { "speaker": "凌瑶", "text": "（笑了一下）别客气。这顿算你欠我的——等案子结了请我吃顿好的。" },
-        { "speaker": "陆昭", "text": "行。" },
-        { "speaker": "凌瑶", "text": "说好了啊！我记着呢！" }
+        {
+          "speaker": "凌瑶",
+          "text": "陆大人。"
+        },
+        {
+          "speaker": "",
+          "text": "凌瑶不知什么时候买了两个馒头，热气腾腾地递过来。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "吃。你从昨晚到现在什么都没吃。"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "……不饿。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "骗谁呢？你肚子刚才叫了两次我都听见了。堂堂巡按御史——饿得咕咕叫，像什么样子？"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "（接过来）……谢了。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "（笑了一下）别客气。这顿算你欠我的——等案子结了请我吃顿好的。"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "行。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "说好了啊！我记着呢！"
+        }
       ],
       "effects": {
-        "set_flag": ["evt_quiet_moment_done"]
+        "set_flag": [
+          "evt_quiet_moment_done"
+        ]
       }
     },
     {
       "id": "evt_lizheng_pressure",
       "trigger": {
         "all": [
-          { "day_gte": 2 },
-          { "not": { "flag": "evt_lizheng_pressure_done" } },
-          { "not": { "flag": "agui_confessed_mastermind" } }
+          {
+            "day_gte": 2
+          },
+          {
+            "not": {
+              "flag": "evt_lizheng_pressure_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "agui_confessed_mastermind"
+            }
+          }
         ]
       },
       "title": "催促",
       "narration": [
-        { "speaker": "钱里正", "text": "（在门口探头）陆……陆大人？" },
-        { "speaker": "钱里正", "text": "那个……县衙那边来信了。张县令说明日一早派人来接这案子。" },
-        { "speaker": "钱里正", "text": "如果到时候大人还没有结论——那这个嫌疑……（犹豫地看着你）" },
-        { "speaker": "凌瑶", "text": "（低声）嘶——他在施压。再不抓住真凶，明天县衙来人就把你当嫌疑人带走了。" },
-        { "speaker": "陆昭", "text": "我知道了。不会到那一步。" },
-        { "speaker": "钱里正", "text": "……那、那小人先走了。大人加油啊。（溜了）" },
-        { "speaker": "凌瑶", "text": "陆大人——时间不多了。证据够了就赶紧动手吧。" }
+        {
+          "speaker": "钱里正",
+          "text": "（在门口探头）陆……陆大人？"
+        },
+        {
+          "speaker": "钱里正",
+          "text": "那个……县衙那边来信了。张县令说明日一早派人来接这案子。"
+        },
+        {
+          "speaker": "钱里正",
+          "text": "如果到时候大人还没有结论——那这个嫌疑……（犹豫地看着你）"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "（低声）嘶——他在施压。再不抓住真凶，明天县衙来人就把你当嫌疑人带走了。"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "我知道了。不会到那一步。"
+        },
+        {
+          "speaker": "钱里正",
+          "text": "……那、那小人先走了。大人加油啊。（溜了）"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "陆大人——时间不多了。证据够了就赶紧动手吧。"
+        }
       ],
       "effects": {
-        "set_flag": ["evt_lizheng_pressure_done"]
+        "set_flag": [
+          "evt_lizheng_pressure_done"
+        ]
       }
     },
     {
       "id": "evt_confrontation_ready",
       "trigger": {
         "all": [
-          { "evidence_count_gte": 3 },
-          { "flag": "agui_premeditation_known" },
-          { "not": { "flag": "confrontation_auto_triggered" } }
+          {
+            "evidence": "evidence_hull_hole"
+          },
+          {
+            "evidence": "evidence_float_bladder"
+          },
+          {
+            "evidence": "evidence_no_blunt_trauma"
+          },
+          {
+            "evidence": "evidence_wrong_channel"
+          },
+          {
+            "any": [
+              {
+                "evidence": "evidence_dismissal_note"
+              },
+              {
+                "evidence": "evidence_gambling_iou"
+              }
+            ]
+          },
+          {
+            "flag": "agui_premeditation_known"
+          },
+          {
+            "not": {
+              "flag": "confrontation_auto_triggered"
+            }
+          }
         ]
       },
       "title": "证据齐了——可以对峙了",
-      "hint": "✦ 证据已齐，点击发起对峙",
+      "hint": "✦ 关键证据已齐，点击发起对峙",
       "narration": [
-        { "speaker": "凌瑶", "text": "陆大人！船底的洞、浮囊、还有动机——证据链够了！" },
-        { "speaker": "凌瑶", "text": "不能再拖了。去找里正——让他把人都叫来，当面对质！" },
-        { "speaker": "陆昭", "text": "好。是时候了。" }
+        {
+          "speaker": "凌瑶",
+          "text": "陆大人！航道、验尸、船底破洞、浮囊，还有阿贵的动机——对峙要用的证据链都齐了！"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "不能再拖了。去找里正——让他把人都叫来，当面对质！"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "好。是时候了。"
+        }
       ],
       "effects": {
-        "set_flag": ["confrontation_auto_triggered"],
+        "set_flag": [
+          "confrontation_auto_triggered"
+        ],
         "auto_start_confrontation": "confrontation"
       }
     },
@@ -157,50 +343,114 @@
       "id": "evt_phase3_transition",
       "trigger": {
         "all": [
-          { "flag": "agui_confessed_mastermind" },
-          { "not": { "flag": "evt_phase3_transition_done" } }
+          {
+            "flag": "agui_confessed_mastermind"
+          },
+          {
+            "not": {
+              "flag": "evt_phase3_transition_done"
+            }
+          }
         ]
       },
       "title": "真正的对手",
       "narration": [
         "阿贵被带走了。他走时回头看了一眼——不是看你，是看着走廊尽头灵位的方向。",
-        { "speaker": "凌瑶", "text": "（小声）……他在看老爷灵位。" },
+        {
+          "speaker": "凌瑶",
+          "text": "（小声）……他在看老爷灵位。"
+        },
         "一阵沉默。雨打在屋瓦上的声音格外清晰。",
-        { "speaker": "凌瑶", "text": "陆大人。他是凶手——但十二年被人当牲口使……换了我我也恨。" },
-        { "speaker": "陆昭", "text": "恨不等于杀人。" },
-        { "speaker": "凌瑶", "text": "……我知道。但如果没人'教'他——他可能一辈子也不敢动手吧。" },
-        { "speaker": "凌瑶", "text": "教他的人——才是最该抓的。那个人现在还在这栋楼里。" },
+        {
+          "speaker": "凌瑶",
+          "text": "陆大人。他是凶手——但十二年被人当牲口使……换了我我也恨。"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "恨不等于杀人。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "……我知道。但如果没人'教'他——他可能一辈子也不敢动手吧。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "教他的人——才是最该抓的。那个人现在还在这栋楼里。"
+        },
         "沈清月。客栈二楼。",
-        { "speaker": "陆昭", "text": "她可能已经知道阿贵招了。" },
-        { "speaker": "凌瑶", "text": "……你说得对。像她那种人——什么都算好了。但她没跑。" },
-        { "speaker": "陆昭", "text": "她不跑，是因为她觉得我们拿不出证据。" },
-        { "speaker": "凌瑶", "text": "那就让她看看。——陆大人，去查她！赌坊、码头时间线、那五十两货银——总有一条能钉死她。" }
+        {
+          "speaker": "陆昭",
+          "text": "她可能已经知道阿贵招了。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "……你说得对。像她那种人——什么都算好了。但她没跑。"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "她不跑，是因为她觉得我们拿不出证据。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "那就让她看看。——陆大人，去查她！赌坊、码头时间线、那五十两货银——总有一条能钉死她。"
+        }
       ],
       "effects": {
-        "set_flag": ["evt_phase3_transition_done"]
+        "set_flag": [
+          "evt_phase3_transition_done"
+        ]
       }
     },
     {
       "id": "evt_shen_evidence_ready",
       "trigger": {
         "all": [
-          { "flag": "agui_confessed_mastermind" },
-          { "evidence": "evidence_salvage_mark" },
-          { "evidence": "evidence_shen_connection" },
-          { "evidence": "evidence_dock_timing" },
-          { "not": { "flag": "evt_shen_evidence_ready_done" } }
+          {
+            "flag": "agui_confessed_mastermind"
+          },
+          {
+            "evidence": "evidence_salvage_mark"
+          },
+          {
+            "evidence": "evidence_shen_connection"
+          },
+          {
+            "evidence": "evidence_dock_timing"
+          },
+          {
+            "not": {
+              "flag": "evt_shen_evidence_ready_done"
+            }
+          }
         ]
       },
       "title": "该收网了",
       "narration": [
-        { "speaker": "凌瑶", "text": "陆大人。三条证据——打捞目击、中间人、时间矛盾。全指向沈清月。" },
-        { "speaker": "凌瑶", "text": "够了吧？这次是真正的对手。你准备好了吗？" },
-        { "speaker": "陆昭", "text": "……去吧。" },
-        { "speaker": "凌瑶", "text": "（深吸一口气）好。这次跟阿贵不一样——她不会哭。不会慌。她会用逻辑咬你。" },
-        { "speaker": "凌瑶", "text": "但我在你旁边。有什么想法我会提醒你的。——走！" }
+        {
+          "speaker": "凌瑶",
+          "text": "陆大人。三条证据——打捞目击、中间人、时间矛盾。全指向沈清月。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "够了吧？这次是真正的对手。你准备好了吗？"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "……去吧。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "（深吸一口气）好。这次跟阿贵不一样——她不会哭。不会慌。她会用逻辑咬你。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "但我在你旁边。有什么想法我会提醒你的。——走！"
+        }
       ],
       "effects": {
-        "set_flag": ["evt_shen_evidence_ready_done"]
+        "set_flag": [
+          "evt_shen_evidence_ready_done"
+        ]
       }
     }
   ]

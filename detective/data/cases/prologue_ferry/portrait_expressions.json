@@ -1,0 +1,51 @@
+{
+  "_comment": "Generated from data/case_tables portrait_expressions.csv. Maps base portrait + emotion to actual portrait resource.",
+  "portraits": {
+    "res://assets/cn/portraits/prologue_agui.png": {
+      "base": "res://assets/cn/portraits/prologue_agui.png",
+      "collapsed": "res://assets/cn/portraits/prologue_agui_collapsed.png",
+      "confrontation": "res://assets/cn/portraits/prologue_agui_confrontation.png",
+      "confrontation_collapsed": "res://assets/cn/portraits/prologue_agui_confrontation_collapsed.png",
+      "confrontation_shaken": "res://assets/cn/portraits/prologue_agui_confrontation_shaken.png",
+      "crying": "res://assets/cn/portraits/prologue_agui_crying.png",
+      "nervous": "res://assets/cn/portraits/prologue_agui_nervous.png",
+      "shaken": "res://assets/cn/portraits/prologue_agui_shaken.png",
+      "shocked": "res://assets/cn/portraits/prologue_agui_shocked.png"
+    },
+    "res://assets/cn/portraits/prologue_fisherman_wang.png": {
+      "base": "res://assets/cn/portraits/prologue_fisherman_wang.png",
+      "evasive": "res://assets/cn/portraits/prologue_fisherman_wang_evasive.png"
+    },
+    "res://assets/cn/portraits/prologue_lao_fan.png": {
+      "base": "res://assets/cn/portraits/prologue_lao_fan.png",
+      "collapsed": "res://assets/cn/portraits/prologue_lao_fan_collapsed.png",
+      "frozen": "res://assets/cn/portraits/prologue_lao_fan_frozen.png",
+      "shaken": "res://assets/cn/portraits/prologue_lao_fan_shaken.png",
+      "sneering": "res://assets/cn/portraits/prologue_lao_fan_sneering.png"
+    },
+    "res://assets/cn/portraits/prologue_li_zheng.png": {
+      "base": "res://assets/cn/portraits/prologue_li_zheng.png",
+      "nervous": "res://assets/cn/portraits/prologue_li_zheng_nervous.png",
+      "sighing": "res://assets/cn/portraits/prologue_li_zheng_sighing.png",
+      "stern": "res://assets/cn/portraits/prologue_li_zheng_stern.png"
+    },
+    "res://assets/cn/portraits/prologue_lu_zhao.png": {
+      "base": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "cold": "res://assets/cn/portraits/prologue_lu_zhao_cold.png",
+      "serious": "res://assets/cn/portraits/prologue_lu_zhao_serious.png",
+      "surprised": "res://assets/cn/portraits/prologue_lu_zhao_surprised.png"
+    },
+    "res://assets/cn/portraits/prologue_shen_qingyue.png": {
+      "base": "res://assets/cn/portraits/prologue_shen_qingyue.png",
+      "broken": "res://assets/cn/portraits/prologue_shen_qingyue_broken.png",
+      "cold_smile": "res://assets/cn/portraits/prologue_shen_qingyue_cold_smile.png",
+      "cracking": "res://assets/cn/portraits/prologue_shen_qingyue_cracking.png"
+    },
+    "res://assets/cn/portraits/prologue_zhou_wife.png": {
+      "base": "res://assets/cn/portraits/prologue_zhou_wife.png",
+      "screaming": "res://assets/cn/portraits/prologue_zhou_wife_screaming.png",
+      "silent": "res://assets/cn/portraits/prologue_zhou_wife_silent.png",
+      "trembling": "res://assets/cn/portraits/prologue_zhou_wife_trembling.png"
+    }
+  }
+}

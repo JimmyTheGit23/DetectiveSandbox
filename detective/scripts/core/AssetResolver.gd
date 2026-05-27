@@ -28,6 +28,7 @@ var _bgm_mood_index: Dictionary = {}  # mood_tag -> [track_id, ...]
 var _current_case_id: String = ""
 var _casting: Dictionary = {}         # role_npc_id -> casting_entry
 var _bgm_config: Dictionary = {}      # bgm_config.json 内容
+var _portrait_expressions: Dictionary = {}  # base_portrait -> emotion -> portrait_path
 var _voice_status: String = "full"    # 当前案件的语音状态：full / partial / missing
 
 # 调试
@@ -87,6 +88,7 @@ func load_case(case_id: String) -> void:
 	_current_case_id = case_id
 	_casting = _read_dict("res://data/cases/%s/casting.json" % case_id).get("casting", {})
 	_bgm_config = _read_dict("res://data/cases/%s/bgm_config.json" % case_id)
+	_portrait_expressions = _read_dict("res://data/cases/%s/portrait_expressions.json" % case_id).get("portraits", {})
 	# 读 voice_status：优先 manifest.voice_status；找不到时从 _index.json 读；都没有默认 full
 	var manifest := _read_dict("res://data/cases/%s/manifest.json" % case_id)
 	_voice_status = manifest.get("voice_status", "")
@@ -152,6 +154,19 @@ func get_portrait(npc_id: String, npcs_data: Dictionary = {}) -> String:
 		var p2: String = npc_def.get("portrait", "")
 		if p2 != "":
 			return p2
+	return ""
+
+
+## 从案件级表情资源表解析立绘。base_path 是基础立绘路径，emotion 是对话/对峙状态。
+func resolve_portrait_expression(base_path: String, emotion: String) -> String:
+	if base_path == "" or emotion == "":
+		return ""
+	var table = _portrait_expressions.get(base_path, null)
+	if typeof(table) != TYPE_DICTIONARY:
+		return ""
+	var path: String = table.get(emotion, "")
+	if path != "" and ResourceLoader.exists(path):
+		return path
 	return ""
 
 

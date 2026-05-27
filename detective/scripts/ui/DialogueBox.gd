@@ -1350,6 +1350,9 @@ func _decorate_text(text: String, extra_highlights = []) -> String:
 func _resolve_emotion_portrait(base_path: String, emotion: String) -> String:
 	if base_path == "" or emotion == "" or emotion == "normal":
 		return base_path
+	var mapped: String = AssetResolver.resolve_portrait_expression(base_path, emotion)
+	if mapped != "":
+		return mapped
 	var candidates: Array[String] = []
 	candidates.append(base_path.replace(".png", "_%s.png" % emotion))
 	# 回退映射：多个语义相近的 emotion 映射到同一张立绘

@@ -178,5 +178,11 @@
     "description": "藏在老范杂物最底层的纸条。",
     "meta_clue": true,
     "hidden": true
+  },
+  "clue_shen_motive_calculation": {
+    "type": "clue",
+    "name": "沈清月的药钱动机",
+    "description": "沈父急需八十两药钱，沈家只剩四十二两。周德茂欠下的三十八两旧债加上失踪的五十两货银，刚好能凑够救命钱。",
+    "hidden": true
   }
 }

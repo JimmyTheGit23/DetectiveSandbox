@@ -498,7 +498,7 @@
     },
     "day2_lu_resolve_b": {
       "speaker": "陆昭",
-      "text": "……他们的指控，表面上全都说得通。这不是巧合——有人在布局，把我框进去。\n\n谁提前准备了'活下来的方式'——谁才是真正的共犯。",
+      "text": "谁提前准备了'活下来的方式'——谁才是真正的共犯。",
       "next": "day2_lu_resolve_c",
       "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
       "emotion": "cold"

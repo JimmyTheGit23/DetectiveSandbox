@@ -11,6 +11,7 @@
     3) PCG 模板 schema 校验（jsonschema）+ 健康检查（tools/pcg/inspect_template.py）
     4) 语音清单刷新到最新（tools/audit_voices.py）
     5) 案件级硬约束抽样（每个案件至少有 1 个 NPC、casting 与 npcs 角色集对齐）
+    6) 案件数据表校验（tools/data_compiler/validate_case_tables.py）
 
 退出码：
     0 = 全绿
@@ -178,7 +179,14 @@ def main() -> int:
     if not check_dialogue_node_consistency():
         failed.append("dialogue_alignment")
 
-    _section("[4/5] PCG 模板 schema 校验 + 健康检查")
+    _section("[4/6] 案件数据表校验")
+    if (DATA / "case_tables").exists():
+        if not _run([sys.executable, "tools/data_compiler/validate_case_tables.py", "--all"], "validate_case_tables --all"):
+            failed.append("case_tables")
+    else:
+        print("  [SKIP] data/case_tables/ 不存在，跳过数据表校验")
+
+    _section("[5/6] PCG 模板 schema 校验 + 健康检查")
     schema_ok = True
     try:
         import jsonschema  # noqa: F401
@@ -206,7 +214,7 @@ def main() -> int:
     ):
         failed.append("template_health")
 
-    _section("[5/5] 语音清单刷新")
+    _section("[6/6] 语音清单刷新")
     if not _run([sys.executable, "tools/audit_voices.py"], "audit_voices"):
         failed.append("audit_voices")
 

@@ -1,0 +1,11 @@
+npc_id,order,event,delta,writer_note
+agui,1,node_visited:agui.press_alibi,"{""composure"":-1}",
+agui,2,node_visited:agui.show_bladder,"{""composure"":-2}",
+agui,3,evidence_obtained:evidence_float_bladder,"{""composure"":-1}",
+agui,4,evidence_obtained:evidence_dismissal_note,"{""composure"":-1}",
+lao_fan,1,node_visited:lao_fan.press_route,"{""composure"":-1}",
+lao_fan,2,node_visited:lao_fan.show_iou,"{""composure"":-2}",
+lao_fan,3,evidence_obtained:evidence_hull_hole,"{""composure"":-1}",
+lao_fan,4,evidence_obtained:evidence_gambling_iou,"{""composure"":-1}",
+zhou_wife,1,node_visited:zhou_wife.comfort,"{""openness"":1}",
+fisherman_wang,1,node_visited:fisherman_wang.trust,"{""openness"":1}",

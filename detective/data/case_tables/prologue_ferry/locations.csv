@@ -1,0 +1,10 @@
+location_id,name,parent,description,unlock_phase,background,scene_type,npcs
+ferry_inn,石矶渡·客栈,,江畔一间简陋的客栈，土墙木梁，屋顶漏雨。冬雨绵绵，门口泥泞不堪。滞留旅客挤满了大堂。,phase_1,res://assets/cn/scenes/prologue_ferry_inn.png,scene_prologue_ferry_inn,li_zheng
+zhou_room,周氏房间,ferry_inn,一间狭小的偏房。桌上散着纸笔，墙角堆着包袱行李。空气中有淡淡的香烛气味。,phase_1,res://assets/cn/scenes/prologue_zhou_room.png,scene_prologue_zhou_room,zhou_wife
+agui_room,阿贵住处,ferry_inn,杂物间改的临时住处。一张矮床，地上散着湿衣物。空气潮湿阴冷。,phase_1,res://assets/cn/scenes/prologue_agui_room.png,scene_prologue_agui_room,agui
+inn_corridor,客栈走廊,ferry_inn,通往二楼的过道。一个穿劲装的高挑女子抱臂靠在廊柱上，单脚踩着柱根。看到你过来，她不紧不慢地挑了挑眉。,phase_1,res://assets/cn/scenes/prologue_inn_corridor.png,scene_prologue_inn_corridor,shen_qingyue
+ferry_dock,石矶渡·码头,,渡口码头。几条乌篷船歪歪斜斜泊在岸边。一条破船被拖上了岸，船底朝天——那就是出事的船。,phase_1,res://assets/cn/scenes/prologue_ferry_dock.png,scene_prologue_ferry_dock,lao_fan
+wreck_site,沉船打捞处,,下游礁石群旁。半截船身卡在两块大石之间，船底被江水冲得只剩骨架。周围散落着货物残骸。,phase_1,res://assets/cn/scenes/prologue_wreck_site.png,scene_prologue_wreck_site,
+river_bend,江湾渔村,,下游一个小渔村。几间茅屋散落在江湾，渔网晾在竹竿上。冬日清冷，江面上飘着薄雾。,phase_2,res://assets/cn/scenes/prologue_river_bend.png,scene_prologue_river_bend,fisherman_wang
+shen_room,客栈二楼·沈清月房间,ferry_inn,客栈二楼的客房。比楼下整洁得多——桌上整整齐齐摆着笔墨和一本账册。窗户正对着码头方向。,phase_3,res://assets/cn/scenes/prologue_shen_room.png,scene_prologue_shen_room,shen_qingyue
+gambling_alley,渡口后街·赌坊,,渡口背面的窄巷子。一间挂着褪色招牌的赌坊，白天门半掩着。里面传出骰子声和低哑的争吵。,phase_3,res://assets/cn/scenes/prologue_gambling_alley.png,scene_prologue_gambling_alley,

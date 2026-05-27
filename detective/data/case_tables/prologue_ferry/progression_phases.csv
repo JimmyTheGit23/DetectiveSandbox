@@ -1,0 +1,4 @@
+phase_id,order,title,description,hint,locations,unlock_condition,writer_note
+phase_1,1,初步调查,勘察沉船残骸，走访滞留人员,先去码头和打捞处看看那条船，再问问死者妻子和那个仆从。,ferry_inn;ferry_dock;wreck_site,,
+phase_2,2,深入追查,船底的破洞说明这不是意外。下游渔村有人知道更多。,有个老渔翁住在下游江湾，案发当夜他在江上。去找他。,river_bend,"{""any"":[{""evidence"":""evidence_hull_hole""},{""evidence"":""evidence_wrong_channel""},{""total_periods_used_gte"":10}]}",
+phase_3,3,追查幕后,阿贵不是主谋——他背后还有人。那个'教他的人'，就在这客栈里。,沈清月还在客栈二楼。现在需要找到能把她钉死的证据——阿贵的口供不够。查赌坊线索、码头时间线、还有那笔消失的货银。,shen_room;gambling_alley,"{""flag"":""agui_confessed_mastermind""}",
