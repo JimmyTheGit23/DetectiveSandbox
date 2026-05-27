@@ -540,12 +540,12 @@ func _stop_talk_bounce() -> void:
 		_talk_bounce_tween = null
 
 
-## 眨眼循环：每 2-5 秒眨一次眼，偶尔双眨
+## 眨眼循环：每 2-4 秒眨一次眼
 func _start_blink_loop() -> void:
 	_is_blinking = false
 	if _idle_frames.size() < 2:
 		return
-	var delay := randf_range(2.5, 5.0)
+	var delay := randf_range(2.0, 4.0)
 	_blink_timer.start(delay)
 
 
@@ -558,39 +558,16 @@ func _do_blink() -> void:
 	if _is_talking or not visible or _idle_frames.size() < 2:
 		return
 	_is_blinking = true
-
-	if _idle_frames.size() >= 5:
-		# 多帧眨眼序列（逆转裁判级别）：闭合快、张开慢
-		var close_timing := [0.035, 0.035, 0.04, 0.06]   # 帧1→2→3→4，渐快+hold
-		var open_timing := [0.045, 0.05, 0.05]            # 帧3→2→1→0，稍慢
-
-		# 闭合阶段: 0 → 1 → 2 → 3 → 4
-		for i in range(1, _idle_frames.size()):
-			if _is_talking or not visible:
-				break
-			portrait_rect.texture = _idle_frames[i]
-			var t_idx := mini(i - 1, close_timing.size() - 1)
-			await get_tree().create_timer(close_timing[t_idx]).timeout
-
-		# 张开阶段: 4 → 3 → 2 → 1 → 0
-		for i in range(_idle_frames.size() - 2, -1, -1):
-			if _is_talking or not visible:
-				break
-			portrait_rect.texture = _idle_frames[i]
-			var t_idx := mini(_idle_frames.size() - 2 - i, open_timing.size() - 1)
-			await get_tree().create_timer(open_timing[t_idx]).timeout
-	else:
-		# 2帧 fallback（兼容旧资源）
-		portrait_rect.texture = _idle_frames[1]
-		await get_tree().create_timer(0.1).timeout
-		if not _is_talking and visible and not _idle_frames.is_empty():
-			portrait_rect.texture = _idle_frames[0]
-
+	# 显示闭眼帧
+	portrait_rect.texture = _idle_frames[1]
+	# 0.12 秒后恢复睁眼
+	await get_tree().create_timer(0.12).timeout
+	if not _is_talking and visible and not _idle_frames.is_empty():
+		portrait_rect.texture = _idle_frames[0]
 	_is_blinking = false
-	# 安排下一次眨眼（偶尔双眨）
+	# 安排下一次眨眼
 	if not _is_talking and visible and _idle_frames.size() >= 2:
-		var double_blink := randf() < 0.15  # 15% 概率双眨
-		var next_delay := 0.2 if double_blink else randf_range(2.5, 5.0)
+		var next_delay := randf_range(2.5, 5.0)
 		_blink_timer.start(next_delay)
 
 
