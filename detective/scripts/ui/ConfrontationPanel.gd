@@ -831,6 +831,9 @@ var _evidence_ev_vbox: VBoxContainer = null  # 证据面板主布局
 var _evidence_tab_content: HFlowContainer = null  # 当前标签页内容
 
 func _open_evidence() -> void:
+	# 打开证物栏时保持当前证人/嫌疑人立绘可见。
+	_portrait_state = PortraitState.NORMAL
+	_update_portrait()
 	_set_browsing_visible(false)
 	_evidence_panel.visible = true
 	_selected_evidence_id = ""
@@ -1520,15 +1523,11 @@ func _update_dialogue_portrait(speaker: String, emotion: String) -> void:
 		return
 	var portrait_path: String = ""
 	if speaker == "陆昭" or speaker == "你":
-		# 对峙中陆昭默认表情为 serious
+		# 对峙中陆昭默认表情为 serious；不再隐藏中央 NPC 立绘，保证举证/击破时目标仍在场。
 		var emo: String = emotion if emotion != "" and emotion != "normal" else "serious"
 		portrait_path = _resolve_speaker_portrait("res://assets/cn/portraits/prologue_lu_zhao.png", emo)
-		# 主角说话时隐藏中央 NPC 立绘
-		_portrait_rect.visible = false
 	elif speaker == "凌瑶":
 		portrait_path = _resolve_speaker_portrait("res://assets/cn/portraits/companion_lingyao.png", emotion)
-		# 凌瑶说话时隐藏中央 NPC 立绘
-		_portrait_rect.visible = false
 	elif speaker != "" and emotion != "narration" and emotion != "inner_thought":
 		# NPC 说话：尝试显示他们的居中立绘
 		_dlg_portrait_rect.visible = false

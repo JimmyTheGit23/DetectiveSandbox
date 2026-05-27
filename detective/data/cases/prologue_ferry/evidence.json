@@ -8,7 +8,7 @@
   "evidence_float_bladder": {
     "type": "evidence",
     "name": "牛皮浮囊",
-    "description": "在阿贵的包袱底层发现一只充了气的水牛皮浮囊。这种东西是水上救命用的——为什么一个不会游泳的仆从要带这个？"
+    "description": "在阿贵的包袱底层发现一只充好气的水牛皮浮囊。表面有明显的江水浸泡痕迹——泥沙卡在牛皮缝线里，河草挂在系绳上。一个'以防万一'的人不会提前充好气（又鼓又硬，占半个包袱），更不会有江水的痕迹。除非——他落水之前就把它准备好了，而且确实用了。"
   },
   "evidence_gambling_iou": {
     "type": "evidence",
@@ -50,13 +50,18 @@
     "name": "船底钉痕",
     "description": "破洞周围的木板上有两圈钉眼——旧钉眼和新钉眼。说明这块板被拆下来过，又重新钉了回去。"
   },
+  "evidence_no_blunt_trauma": {
+    "type": "evidence",
+    "name": "尸检报告：无钝器伤",
+    "description": "周德茂的尸体面色青紫、口鼻有泡沫——典型的溺亡特征。头部和身体没有钝器击打的痕迹。如果有人用铁器击打，不可能不留伤痕。"
+  },
   "clue_wife_suspicion": {
     "type": "clue",
     "name": "周氏的怀疑",
     "description": "周氏说：阿贵这两天表现很反常。案发后他哭得比谁都凶，但平时他跟老爷关系并不好——上船前还被老爷骂了一顿。"
   },
-  "clue_wrong_channel": {
-    "type": "clue",
+  "evidence_wrong_channel": {
+    "type": "evidence",
     "name": "错误的航道",
     "description": "王大爷说：老范走的那条水道，本地船家都知道有暗礁。涨水时更危险。跑了二十年船的人不可能不知道。"
   },

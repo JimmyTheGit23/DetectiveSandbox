@@ -359,17 +359,17 @@
       "next": "day2_agui_2b",
       "emotion": "angry"
     },
-    "day2_zhou_accuse_2": {
-      "speaker": "陆昭",
-      "text": "（拨开她的手）\n\n我是巡按御史陆昭。搭船过江，同样是受害者。",
-      "next": "day2_zhou_accuse_2b",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
-      "emotion": "cold"
+    "day2_accused_silence": {
+      "speaker": "",
+      "text": "你想辩解——但几十道目光像钉子一样钉在你身上。周氏的哭声尖厉刺耳。\n\n铁器？凶器？你张了张嘴，一时间竟说不出话来。",
+      "next": "day2_zhou_accuse_3",
+      "background": "res://assets/cn/scenes/prologue_cold_open.png"
     },
     "day2_zhou_accuse_3": {
       "speaker": "周氏",
-      "text": "差点？！你活蹦乱跳站在这儿！我家老爷才是真的死了！！\n\n御史？！谁信！有凭证你拿出来啊！！",
-      "next": "day2_lizheng_appear"
+      "text": "你还想狡辩？！同船的人只有你活着！只有你从天窗跑了！不是你是谁？！\n\n御史？！谁信！有凭证你拿出来啊！！",
+      "next": "day2_lizheng_appear",
+      "emotion": "grief"
     },
     "day2_lizheng_appear": {
       "text": "围观人群骚动。一个圆脸中年人从人群中挤出来——是渡口的里正。\n\n他扫了一眼尸体，又打量了你几眼。表情不像同情，更像在盘算。",
@@ -400,7 +400,7 @@
     },
     "day2_lizheng_5": {
       "speaker": "钱里正",
-      "text": "姑娘，你说得再凶——你认识他吗？昨天之前见过他吗？\n\n（叹气）他没有身份凭证、搭船没付钱、知道天窗逃生路线、你俩又恰好'巧遇'——搁谁身上，我都不能放人。",
+      "text": "姑娘，你说得再凶——你认识他吗？昨天之前见过他吗？\n\n（转向你）没有官印、搭船没付钱、铁器在手、知道天窗逃生路线——你脱不了嫌疑。",
       "next": "day2_lizheng_5b"
     },
     "day2_framed_resolve": {
@@ -434,7 +434,7 @@
       "end": true
     },
     "day2_crowd_murmur": {
-      "text": "围观人群一阵骚动。有人低声议论：\n\n「你听到没？搭船连钱都没付……」\n「还直接从天窗跑了？那不是早有准备？」\n「难怪只有他活得好好的……」",
+      "text": "围观人群一阵骚动。有人低声议论：\n\n「铁器打人……说得通啊……人被打晕了当然游不了……」\n「搭船没付钱还带着铁家伙——不是图财害命是什么？」",
       "next": "day2_crowd_murmur_b"
     },
     "day2_lizheng_3b": {
@@ -516,9 +516,9 @@
       "speaker": "钱里正"
     },
     "day2_agui_2b": {
-      "text": "可这位爷呢？他直接从天窗出去的！那扇天窗平时用铁锁锁死——他怎么打开的？！\n\n除非……除非他事先就知道船要沉！！",
-      "next": "day2_crowd_murmur",
       "speaker": "阿贵",
+      "text": "他用铁器打了老爷，然后从天窗逃走了！那扇天窗平时用铁锁锁死——他怎么打开的？就是用那把凶器撬的！\n\n他早就想好了——先杀人，再从天窗跑！连逃跑的路线都准备好了！",
+      "next": "day2_crowd_murmur",
       "emotion": "crying"
     },
     "day2_lingyao_join_b": {
@@ -528,9 +528,18 @@
       "emotion": "cheerful"
     },
     "day2_agui_1b": {
+      "speaker": "阿贵",
       "text": "他手里好像攥着个铁家伙——我当时没多想，以为是什么随身的物件……现在想来……",
+      "next": "day2_agui_1c"
+    },
+    "day2_agui_1c": {
+      "speaker": "阿贵",
+      "text": "那个铁家伙——一定是凶器！他肯定是在舱里趁老爷不备，用铁器砸了老爷！老爷被打晕了才落水的！我亲眼看到他蹲在舱口拿着那东西！",
       "next": "day2_agui_2",
-      "speaker": "阿贵"
+      "emotion": "angry",
+      "effect": {
+        "set_flag": "fake_method_clubbing"
+      }
     },
     "inn_warm_4_not_observed_a": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -579,7 +588,7 @@
     },
     "day2_crowd_murmur_b": {
       "text": "目光像针一样扎过来。",
-      "next": "day2_zhou_accuse_2"
+      "next": "day2_accused_silence"
     },
     "day2_body_4b": {
       "text": "三个人落水，只有不会游泳的那个死了。",
@@ -606,13 +615,6 @@
     "cabin_act_b": {
       "text": "头顶的天窗锁扣锈迹斑斑。你举起铁撬，对准锁扣——全力一撬。",
       "next": "cabin_break_out"
-    },
-    "day2_zhou_accuse_2b": {
-      "text": "船沉时我也差点淹死——你丈夫的命我没有拿。",
-      "next": "day2_zhou_accuse_3",
-      "speaker": "陆昭",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
-      "emotion": "cold"
     },
     "inn_change_clothes": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",

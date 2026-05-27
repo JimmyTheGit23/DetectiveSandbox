@@ -90,6 +90,12 @@
     }
   },
 
+  "ferry_dock.dock_body_examine": {
+    "default": {
+      "narration": "你蹲下翻看尸体。面色青紫，口鼻有白色泡沫——这是溺亡的特征。\n\n头部、躯干——没有一处钝器击打的伤痕。没有淤青，没有裂口，没有肿包。\n\n如果有人用铁器打了他——不可能不留痕迹。阿贵说的'铁器打人'，是假的。",
+      "evidence": "evidence_no_blunt_trauma"
+    }
+  },
   "ferry_dock.dock_wreck_hull": {
     "default": {
       "narration": "被拖上岸的破船。船底朝天。你凑近看——确实能看到一处破洞的边缘，但大部分被淤泥糊住了。需要去下游打捞处看完整的残骸。"

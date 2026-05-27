@@ -141,7 +141,7 @@
           "goto": "__exit__"
         }
       ],
-      "gain_clue": "clue_wrong_channel",
+      "gain_clue": "evidence_wrong_channel",
       "emotion": "evasive"
     },
     "ask_meeting": {

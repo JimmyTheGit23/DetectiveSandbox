@@ -71,6 +71,7 @@
     "npcs": ["lao_fan"],
     "search_points": [
       { "id": "dock_wreck_hull", "name": "拖上岸的破船", "time_cost": 0, "hint_rect": [0.36, 0.38, 0.40, 0.27] },
+      { "id": "dock_body_examine", "name": "岸边的尸体", "time_cost": 0, "hint_rect": [0.15, 0.55, 0.25, 0.30] },
       { "id": "dock_fan_boat", "name": "老范的小船", "time_cost": 0, "hint_rect": [0.05, 0.58, 0.30, 0.15] },
       { "id": "dock_fan_belongings", "name": "码头竹棚杂物", "time_cost": 0, "hint_rect": [0.73, 0.38, 0.20, 0.20] }
     ]
