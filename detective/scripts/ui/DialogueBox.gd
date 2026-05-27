@@ -182,6 +182,8 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 	# 打字机播放文字（不调用说话动画，避免立绘偏移）
 	_typewriter.play(text_label, display_text)
 	await _typewriter.finished
+	# 文字播完后启动眨眼循环
+	_start_blink_loop()
 	# 文字播放完毕，等待点击
 	var hint := "▼ 点击继续" if has_next else "▼ 点击进入游戏"
 	_set_choice_hint(hint, true)
@@ -207,6 +209,7 @@ func _apply_narration_speaker(speaker: String, portrait: String) -> void:
 	if _is_protagonist_or_companion(speaker):
 		# 主角或助手（非讨论模式）→ 左下角头像
 		_show_avatar(speaker, resolved, "")
+		_load_animation_frames(resolved, "")
 		portrait_rect.visible = false
 	elif resolved != "" and ResourceLoader.exists(resolved):
 		# 指定了立绘 → 居中显示
@@ -214,6 +217,7 @@ func _apply_narration_speaker(speaker: String, portrait: String) -> void:
 		portrait_rect.visible = true
 		portrait_rect.modulate.a = 1.0
 		portrait_rect.scale = Vector2(1.0, 1.0)
+		_load_animation_frames(resolved, "")
 		_hide_avatar()
 	else:
 		portrait_rect.visible = false
