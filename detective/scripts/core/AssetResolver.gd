@@ -127,10 +127,18 @@ func get_actor_id_for_npc(npc_id: String) -> String:
 
 
 ## 取角色立绘路径。
+##   0) casting 中有 portrait 覆盖（case 级别）→ 最高优先
 ##   1) 通过 casting → actor → portrait
 ##   2) 回退：npcs_data 中的 portrait 字段（兼容旧数据）
 ##   3) 都没有：返回 ""
 func get_portrait(npc_id: String, npcs_data: Dictionary = {}) -> String:
+	# 0) casting 级别覆盖（如序章陆昭穿素袍而非官服）
+	var entry = _casting.get(npc_id, null)
+	if typeof(entry) == TYPE_DICTIONARY:
+		var cp: String = entry.get("portrait", "")
+		if cp != "" and ResourceLoader.exists(cp):
+			return cp
+	# 1) actor registry
 	var aid := get_actor_id_for_npc(npc_id)
 	if aid != "":
 		var actor = _actors.get(aid, null)
@@ -138,7 +146,7 @@ func get_portrait(npc_id: String, npcs_data: Dictionary = {}) -> String:
 			var p: String = actor.get("portrait", "")
 			if p != "" and ResourceLoader.exists(p):
 				return p
-	# 回退到旧的 npcs.json.portrait
+	# 2) 回退到旧的 npcs.json.portrait
 	var npc_def = npcs_data.get(npc_id, {})
 	if typeof(npc_def) == TYPE_DICTIONARY:
 		var p2: String = npc_def.get("portrait", "")

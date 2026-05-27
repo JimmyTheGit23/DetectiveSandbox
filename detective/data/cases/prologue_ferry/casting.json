@@ -7,6 +7,7 @@
       "role_name": "陆昭",
       "role_title": "巡按御史",
       "role_intro": "玩家本人。途经石矶渡时被卷入命案。",
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
       "is_player": true
     },
     "victim_zhou_demao": {
