@@ -36,8 +36,12 @@
           "requires": [
             {
               "any": [
-                { "flag": "zhou_revealed_dismissal" },
-                { "flag": "zhou_suspicion_heard" }
+                {
+                  "flag": "zhou_revealed_dismissal"
+                },
+                {
+                  "flag": "zhou_suspicion_heard"
+                }
               ]
             }
           ],
@@ -49,8 +53,12 @@
           "requires": [
             {
               "any": [
-                { "flag": "zhou_revealed_dismissal" },
-                { "flag": "zhou_suspicion_heard" }
+                {
+                  "flag": "zhou_revealed_dismissal"
+                },
+                {
+                  "flag": "zhou_suspicion_heard"
+                }
               ]
             }
           ],
@@ -80,7 +88,9 @@
           "text": "船是被人凿沉的。你丈夫……是被谋杀。",
           "goto": "react_murder_confirmed",
           "requires": [
-            { "evidence": "evidence_hull_hole" }
+            {
+              "evidence": "evidence_hull_hole"
+            }
           ],
           "type": "press"
         },
@@ -88,7 +98,9 @@
           "text": "阿贵已经认罪了。但他背后还有人。",
           "goto": "react_agui_confessed",
           "requires": [
-            { "flag": "agui_confessed_mastermind" }
+            {
+              "flag": "agui_confessed_mastermind"
+            }
           ],
           "type": "press"
         },
@@ -131,7 +143,8 @@
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "打发走？给多少遣散银？"
+          "text": "打发走？给多少遣散银？",
+          "emotion": "serious"
         },
         {
           "speaker_id": "zhou_wife",
@@ -260,7 +273,8 @@
       "lines": [
         {
           "speaker_id": "lu_zhao",
-          "text": "你丈夫平时不坐夜船。这次为什么突然改了主意？"
+          "text": "你丈夫平时不坐夜船。这次为什么突然改了主意？",
+          "emotion": "serious"
         },
         {
           "speaker_id": "zhou_wife",
@@ -274,14 +288,17 @@
         {
           "speaker_id": "zhou_wife",
           "text": "南京那边来的。说是有个大买家急着要货。'到了南京棉布能翻一倍'——老爷看了就坐不住了。",
-          "highlight": ["南京那边来的"],
+          "highlight": [
+            "南京那边来的"
+          ],
           "record_type": "testimony",
           "record_title": "证词记录：南京来信",
           "record_text": "周氏说周德茂出发前两天收到一封南京来信，称有大买家急需棉布，利润翻倍。这促使他改坐夜船赶路。"
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "那封信现在在哪？"
+          "text": "那封信现在在哪？",
+          "emotion": "serious"
         },
         {
           "speaker_id": "zhou_wife",
@@ -293,7 +310,8 @@
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "哪里奇怪？"
+          "text": "哪里奇怪？",
+          "emotion": "serious"
         },
         {
           "speaker_id": "zhou_wife",
@@ -322,7 +340,9 @@
         }
       ],
       "gain_clue": "clue_route_change",
-      "set_flags": ["zhou_letter_revealed"]
+      "set_flags": [
+        "zhou_letter_revealed"
+      ]
     },
     "react_murder_confirmed": {
       "lines": [
@@ -362,10 +382,18 @@
         }
       ],
       "options": [
-        { "text": "继续询问", "goto": "hub" },
-        { "text": "先告辞", "goto": "__exit__" }
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
       ],
-      "set_flags": ["zhou_knows_murder"]
+      "set_flags": [
+        "zhou_knows_murder"
+      ]
     },
     "react_agui_confessed": {
       "lines": [
@@ -413,10 +441,18 @@
         }
       ],
       "options": [
-        { "text": "继续询问", "goto": "hub" },
-        { "text": "先告辞", "goto": "__exit__" }
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
       ],
-      "set_flags": ["zhou_knows_agui_guilty"]
+      "set_flags": [
+        "zhou_knows_agui_guilty"
+      ]
     }
   }
 }

@@ -3,456 +3,1063 @@
   "rules": [
     {
       "id": "after_talk_agui",
-      "when": { "trigger": "dialogue_end", "npc_id": "agui" },
+      "when": {
+        "trigger": "dialogue_end",
+        "npc_id": "agui"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "那个阿贵……哭得也太假了吧？我见过镖局里装哭骗赏钱的，都比他演得好。" },
-          { "speaker": "陆昭", "text": "演技不好，不代表杀过人。" },
-          { "speaker": "凌瑶", "text": "那也不代表他没杀！反正他肯定在藏什么。" }
+          {
+            "speaker": "凌瑶",
+            "text": "那个阿贵……哭得也太假了吧？我见过镖局里装哭骗赏钱的，都比他演得好。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "演技不好，不代表杀过人。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "那也不代表他没杀！反正他肯定在藏什么。"
+          }
         ],
         [
-          { "speaker": "凌瑶", "text": "他说抱着船板飘上来的——冬天的江水啊！一个不会水的人能抱得住？" },
-          { "speaker": "陆昭", "text": "嗯，这条疑点先记下。" }
+          {
+            "speaker": "凌瑶",
+            "text": "他说抱着船板飘上来的——冬天的江水啊！一个不会水的人能抱得住？"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "嗯，这条疑点先记下。",
+            "emotion": "serious"
+          }
         ]
       ]
     },
     {
       "id": "after_talk_lao_fan",
-      "when": { "trigger": "dialogue_end", "npc_id": "lao_fan" },
+      "when": {
+        "trigger": "dialogue_end",
+        "npc_id": "lao_fan"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "跑了二十年船、水性一流的人——翻船了还能淹死别人自己没事？骗鬼呢。" },
-          { "speaker": "陆昭", "text": "水性好不代表不会翻船。但他说自己泡了半个时辰……" },
-          { "speaker": "凌瑶", "text": "对！王大爷说不到一刻钟他就上岸了！这人在撒谎！" }
+          {
+            "speaker": "凌瑶",
+            "text": "跑了二十年船、水性一流的人——翻船了还能淹死别人自己没事？骗鬼呢。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "水性好不代表不会翻船。但他说自己泡了半个时辰……",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "对！王大爷说不到一刻钟他就上岸了！这人在撒谎！"
+          }
         ],
         [
-          { "speaker": "凌瑶", "text": "老范那态度……太淡定了。翻了船死了人，他连急都不急？" },
-          { "speaker": "陆昭", "text": "要么是真淡定，要么是心里有底。" },
-          { "speaker": "凌瑶", "text": "我赌是后者。" }
+          {
+            "speaker": "凌瑶",
+            "text": "老范那态度……太淡定了。翻了船死了人，他连急都不急？"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "要么是真淡定，要么是心里有底。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "我赌是后者。"
+          }
         ]
       ]
     },
     {
       "id": "after_talk_zhou_wife",
-      "when": { "trigger": "dialogue_end", "npc_id": "zhou_wife" },
+      "when": {
+        "trigger": "dialogue_end",
+        "npc_id": "zhou_wife"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "她丈夫刚死……看她那样子，不像是装出来的。" },
-          { "speaker": "陆昭", "text": "嗯。但悲伤不代表没有隐情。先记下她说的。" }
+          {
+            "speaker": "凌瑶",
+            "text": "她丈夫刚死……看她那样子，不像是装出来的。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "嗯。但悲伤不代表没有隐情。先记下她说的。",
+            "emotion": "serious"
+          }
         ]
       ]
     },
     {
       "id": "after_talk_zhou_wife_duck",
-      "when": { "trigger": "dialogue_end", "npc_id": "zhou_wife", "requires": { "clue": "clue_victim_cant_swim" } },
+      "when": {
+        "trigger": "dialogue_end",
+        "npc_id": "zhou_wife",
+        "requires": {
+          "clue": "clue_victim_cant_swim"
+        }
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "周氏说的那条——'旱鸭子半夜坐船'——确实蹊跷。怕水的人天黑上船，不是被人催的就是被人骗的。" },
-          { "speaker": "陆昭", "text": "而且她丈夫上船前刚骂了阿贵。当晚就出事……" },
-          { "speaker": "凌瑶", "text": "这也太巧了吧！" }
+          {
+            "speaker": "凌瑶",
+            "text": "周氏说的那条——'旱鸭子半夜坐船'——确实蹊跷。怕水的人天黑上船，不是被人催的就是被人骗的。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "而且她丈夫上船前刚骂了阿贵。当晚就出事……",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "这也太巧了吧！"
+          }
         ]
       ]
     },
     {
       "id": "after_talk_zhou_wife_money",
-      "when": { "trigger": "dialogue_end", "npc_id": "zhou_wife", "requires": { "evidence": "evidence_dismissal_note" } },
+      "when": {
+        "trigger": "dialogue_end",
+        "npc_id": "zhou_wife",
+        "requires": {
+          "evidence": "evidence_dismissal_note"
+        }
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "二两银子遣散费……十二年。换谁都得寒心。" },
-          { "speaker": "陆昭", "text": "寒心不等于杀人。但确实给了他动机。" }
+          {
+            "speaker": "凌瑶",
+            "text": "二两银子遣散费……十二年。换谁都得寒心。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "寒心不等于杀人。但确实给了他动机。",
+            "emotion": "serious"
+          }
         ]
       ]
     },
     {
       "id": "after_talk_li_zheng",
-      "when": { "trigger": "dialogue_end", "npc_id": "li_zheng" },
+      "when": {
+        "trigger": "dialogue_end",
+        "npc_id": "li_zheng"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "钱里正这人……净替人开脱。'意外''天灾'说得可真轻松。" },
-          { "speaker": "陆昭", "text": "地方小吏，怕事。" },
-          { "speaker": "凌瑶", "text": "怕事就别当官啊！哼。" }
+          {
+            "speaker": "凌瑶",
+            "text": "钱里正这人……净替人开脱。'意外''天灾'说得可真轻松。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "地方小吏，怕事。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "怕事就别当官啊！哼。"
+          }
         ],
         [
-          { "speaker": "凌瑶", "text": "他说阿贵昨天买了好酒好肉——刚死了主人就大吃大喝？" },
-          { "speaker": "陆昭", "text": "这不正常。" },
-          { "speaker": "凌瑶", "text": "太不正常了！而且他马上要被遣散，哪来的钱？" }
+          {
+            "speaker": "凌瑶",
+            "text": "他说阿贵昨天买了好酒好肉——刚死了主人就大吃大喝？"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "这不正常。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "太不正常了！而且他马上要被遣散，哪来的钱？"
+          }
         ]
       ]
     },
     {
       "id": "after_talk_fisherman_wang",
-      "when": { "trigger": "dialogue_end", "npc_id": "fisherman_wang" },
+      "when": {
+        "trigger": "dialogue_end",
+        "npc_id": "fisherman_wang"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "王大爷说的跟老范完全对不上！一个说不到一刻钟就上岸了，一个说泡了半个时辰——" },
-          { "speaker": "陆昭", "text": "谁在撒谎，一目了然。" },
-          { "speaker": "凌瑶", "text": "老范那个老滑头！他根本不是被困在水里，他是自己游上岸的！" }
+          {
+            "speaker": "凌瑶",
+            "text": "王大爷说的跟老范完全对不上！一个说不到一刻钟就上岸了，一个说泡了半个时辰——"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "谁在撒谎，一目了然。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "老范那个老滑头！他根本不是被困在水里，他是自己游上岸的！"
+          }
         ],
         [
-          { "speaker": "凌瑶", "text": "案发前一晚，一高一矮两个人在码头角落嘀咕……高的像仆从，矮的像船家。" },
-          { "speaker": "陆昭", "text": "阿贵和老范。他们在预谋。" },
-          { "speaker": "凌瑶", "text": "这下对上了！" }
+          {
+            "speaker": "凌瑶",
+            "text": "案发前一晚，一高一矮两个人在码头角落嘀咕……高的像仆从，矮的像船家。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "阿贵和老范。他们在预谋。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "这下对上了！"
+          }
         ]
       ]
     },
     {
       "id": "lie_exposed_generic",
-      "when": { "trigger": "lie_exposed" },
+      "when": {
+        "trigger": "lie_exposed"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "露馅了吧！我就说他在撒谎！" },
-          { "speaker": "陆昭", "text": "别急着高兴。撒谎不一定等于杀人。" },
-          { "speaker": "凌瑶", "text": "可是——为什么要撒这个谎？撒谎的人心里肯定有鬼！" }
+          {
+            "speaker": "凌瑶",
+            "text": "露馅了吧！我就说他在撒谎！"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "别急着高兴。撒谎不一定等于杀人。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "可是——为什么要撒这个谎？撒谎的人心里肯定有鬼！"
+          }
         ]
       ]
     },
     {
       "id": "gain_evidence_generic",
-      "when": { "trigger": "gain_evidence" },
+      "when": {
+        "trigger": "gain_evidence"
+      },
       "lines": [
         "又找到一样东西！本姑娘帮您收着！",
         "这是证据吧？感觉很关键。",
         [
-          { "speaker": "凌瑶", "text": "陆大人，又一样。证据越来越多了。" },
-          { "speaker": "陆昭", "text": "多不代表够。缺一环都不行。" },
-          { "speaker": "凌瑶", "text": "……您这人，就不会说句'进展不错'？" }
+          {
+            "speaker": "凌瑶",
+            "text": "陆大人，又一样。证据越来越多了。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "多不代表够。缺一环都不行。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "……您这人，就不会说句'进展不错'？"
+          }
         ]
       ]
     },
     {
       "id": "gain_clue_generic",
-      "when": { "trigger": "gain_clue" },
+      "when": {
+        "trigger": "gain_clue"
+      },
       "lines": [
         "有意思……这条线牵着谁？",
         "又多了一条线索。陆大人您脑子里是不是已经有数了？",
         [
-          { "speaker": "凌瑶", "text": "嗯……这条线索很重要吧？" },
-          { "speaker": "陆昭", "text": "先记下来。" }
+          {
+            "speaker": "凌瑶",
+            "text": "嗯……这条线索很重要吧？"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "先记下来。",
+            "emotion": "serious"
+          }
         ]
       ]
     },
     {
       "id": "arrive_ferry_inn",
-      "when": { "trigger": "arrive_location:ferry_inn", "requires": { "not_flag": "visited_ferry_inn_banter" } },
-      "effect": { "set_flag": "visited_ferry_inn_banter" },
+      "when": {
+        "trigger": "arrive_location:ferry_inn",
+        "requires": {
+          "not_flag": "visited_ferry_inn_banter"
+        }
+      },
+      "effect": {
+        "set_flag": "visited_ferry_inn_banter"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "这雨下得没完没了的……我那封信都快发霉了。" },
-          { "speaker": "陆昭", "text": "……你要是早些寄出去，我替你想想办法。这一趟是我连累了你。" },
-          { "speaker": "凌瑶", "text": "哎，说什么连累——您倒是先把案子查清楚，我这封信等得起。" }
+          {
+            "speaker": "凌瑶",
+            "text": "这雨下得没完没了的……我那封信都快发霉了。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "……你要是早些寄出去，我替你想想办法。这一趟是我连累了你。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "哎，说什么连累——您倒是先把案子查清楚，我这封信等得起。"
+          }
         ]
       ]
     },
     {
       "id": "arrive_zhou_room",
-      "when": { "trigger": "arrive_location:zhou_room", "requires": { "location": "zhou_room" } },
+      "when": {
+        "trigger": "arrive_location:zhou_room",
+        "requires": {
+          "location": "zhou_room"
+        }
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "（压低声音）这是周氏住的屋子？桌上有东西……小心翻，别弄乱了。" },
-          { "speaker": "陆昭", "text": "注意看笔迹和落款。" }
+          {
+            "speaker": "凌瑶",
+            "text": "（压低声音）这是周氏住的屋子？桌上有东西……小心翻，别弄乱了。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "注意看笔迹和落款。",
+            "emotion": "serious"
+          }
         ]
       ]
     },
     {
       "id": "arrive_agui_room",
-      "when": { "trigger": "arrive_location:agui_room", "requires": { "location": "agui_room" } },
+      "when": {
+        "trigger": "arrive_location:agui_room",
+        "requires": {
+          "location": "agui_room"
+        }
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "好潮……这地方能住人？难怪他一身怨气。" },
-          { "speaker": "凌瑶", "text": "哎，那衣服还在滴水呢。你看那个包袱——系得真紧，像是故意不让人打开。" }
+          {
+            "speaker": "凌瑶",
+            "text": "好潮……这地方能住人？难怪他一身怨气。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "哎，那衣服还在滴水呢。你看那个包袱——系得真紧，像是故意不让人打开。"
+          }
         ]
       ]
     },
     {
       "id": "arrive_ferry_dock",
-      "when": { "trigger": "arrive_location:ferry_dock" },
+      "when": {
+        "trigger": "arrive_location:ferry_dock"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "码头这味儿……鱼腥味加泥巴味。真香。" },
-          { "speaker": "陆昭", "text": "……走吧。" }
+          {
+            "speaker": "凌瑶",
+            "text": "码头这味儿……鱼腥味加泥巴味。真香。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "……走吧。",
+            "emotion": "cold"
+          }
         ]
       ]
     },
     {
       "id": "arrive_wreck_site",
-      "when": { "trigger": "arrive_location:wreck_site" },
+      "when": {
+        "trigger": "arrive_location:wreck_site"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "这船烂成这样……那人在里头得多绝望啊。冬天的江水，冰到骨头里。" },
-          { "speaker": "凌瑶", "text": "……算了不想了。查案查案。" }
+          {
+            "speaker": "凌瑶",
+            "text": "这船烂成这样……那人在里头得多绝望啊。冬天的江水，冰到骨头里。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "……算了不想了。查案查案。"
+          }
         ]
       ]
     },
     {
       "id": "arrive_river_bend",
-      "when": { "trigger": "arrive_location:river_bend" },
+      "when": {
+        "trigger": "arrive_location:river_bend"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "这渔村好小啊。感觉全村加一块儿不到十户人。" },
-          { "speaker": "凌瑶", "text": "不过空气比码头好闻多了。" }
+          {
+            "speaker": "凌瑶",
+            "text": "这渔村好小啊。感觉全村加一块儿不到十户人。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "不过空气比码头好闻多了。"
+          }
         ]
       ]
     },
     {
       "id": "phase_unlocked_2",
-      "when": { "trigger": "phase_unlocked:phase_2" },
+      "when": {
+        "trigger": "phase_unlocked:phase_2"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "陆大人，听说下游渔村有个老渔民，那晚也在江上——说不定他看见了什么！去那边看看？" }
+          {
+            "speaker": "凌瑶",
+            "text": "陆大人，听说下游渔村有个老渔民，那晚也在江上——说不定他看见了什么！去那边看看？"
+          }
         ]
       ]
     },
     {
       "id": "phase_unlocked_3",
-      "when": { "trigger": "phase_unlocked:phase_3" },
+      "when": {
+        "trigger": "phase_unlocked:phase_3"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "等等——沈清月？！我说呢——她那种人怎么可能只是在追债！" },
-          { "speaker": "凌瑶", "text": "她一直在这客栈里！就在楼上！天哪……她一直在看着我们查案？！" },
-          { "speaker": "陆昭", "text": "冷静。阿贵的口供不够。我们需要实证。" },
-          { "speaker": "凌瑶", "text": "好好好……赌坊那条线、码头的时间、还有那五十两银子——我来帮你理！" }
+          {
+            "speaker": "凌瑶",
+            "text": "等等——沈清月？！我说呢——她那种人怎么可能只是在追债！"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "她一直在这客栈里！就在楼上！天哪……她一直在看着我们查案？！"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "冷静。阿贵的口供不够。我们需要实证。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "好好好……赌坊那条线、码头的时间、还有那五十两银子——我来帮你理！"
+          }
         ]
       ]
     },
     {
       "id": "after_talk_shen_phase1",
-      "when": { "trigger": "dialogue_end", "npc_id": "shen_qingyue", "requires": { "not_flag": "agui_confessed_mastermind" } },
+      "when": {
+        "trigger": "dialogue_end",
+        "npc_id": "shen_qingyue",
+        "requires": {
+          "not_flag": "agui_confessed_mastermind"
+        }
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "这个沈清月……嘴挺利的。看着像个做生意的女强人——但嘴太快了。" },
-          { "speaker": "陆昭", "text": "嘴快不代表说的都是实话。" },
-          { "speaker": "凌瑶", "text": "嗯……不过暂时没看出什么破绽。她确实亏了——债收不回来了。" }
+          {
+            "speaker": "凌瑶",
+            "text": "这个沈清月……嘴挺利的。看着像个做生意的女强人——但嘴太快了。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "嘴快不代表说的都是实话。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "嗯……不过暂时没看出什么破绽。她确实亏了——债收不回来了。"
+          }
         ],
         [
-          { "speaker": "凌瑶", "text": "她说'杀他对我有什么好处'——这话乍一听……还真没毛病。" },
-          { "speaker": "凌瑶", "text": "但如果好处不只是那三十八两呢？嗯……先查别的。" }
+          {
+            "speaker": "凌瑶",
+            "text": "她说'杀他对我有什么好处'——这话乍一听……还真没毛病。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "但如果好处不只是那三十八两呢？嗯……先查别的。"
+          }
         ]
       ]
     },
     {
       "id": "after_talk_shen_phase3",
-      "when": { "trigger": "dialogue_end", "npc_id": "shen_qingyue", "requires": { "flag": "agui_confessed_mastermind" } },
+      "when": {
+        "trigger": "dialogue_end",
+        "npc_id": "shen_qingyue",
+        "requires": {
+          "flag": "agui_confessed_mastermind"
+        }
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "嘶——跟她说话真累。每句话都滴水不漏。比阿贵难对付十倍。" },
-          { "speaker": "陆昭", "text": "她比阿贵聪明得多。" },
-          { "speaker": "凌瑶", "text": "所以才更可恨。聪明到把别人当棋子——然后自己站在干岸上。" }
+          {
+            "speaker": "凌瑶",
+            "text": "嘶——跟她说话真累。每句话都滴水不漏。比阿贵难对付十倍。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "她比阿贵聪明得多。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "所以才更可恨。聪明到把别人当棋子——然后自己站在干岸上。"
+          }
         ],
         [
-          { "speaker": "凌瑶", "text": "她那个眼神……真冷。刚才有一瞬间——我觉得她在打量你，像在估量'这个人能不能拦住我'。" },
-          { "speaker": "陆昭", "text": "能。" },
-          { "speaker": "凌瑶", "text": "（噗）好。本姑娘信你。" }
+          {
+            "speaker": "凌瑶",
+            "text": "她那个眼神……真冷。刚才有一瞬间——我觉得她在打量你，像在估量'这个人能不能拦住我'。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "能。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（噗）好。本姑娘信你。"
+          }
         ]
       ]
     },
     {
       "id": "pre_confrontation_agui",
-      "when": { "trigger": "confrontation_start:agui" },
+      "when": {
+        "trigger": "confrontation_start:agui"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "（深吸一口气）好……要上了。陆大人，我的手心在出汗。" },
-          { "speaker": "陆昭", "text": "别紧张。证据够了。" },
-          { "speaker": "凌瑶", "text": "我不紧张！就是……有点激动。头一次看审案呢。加油！" }
+          {
+            "speaker": "凌瑶",
+            "text": "（深吸一口气）好……要上了。陆大人，我的手心在出汗。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "别紧张。证据够了。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "我不紧张！就是……有点激动。头一次看审案呢。加油！"
+          }
         ]
       ]
     },
     {
       "id": "lingyao_moral_crisis_shen",
-      "when": { "trigger": "phase_unlocked:phase_3", "requires": { "evidence": "evidence_father_ledger" } },
+      "when": {
+        "trigger": "phase_unlocked:phase_3",
+        "requires": {
+          "evidence": "evidence_father_ledger"
+        }
+      },
       "once": true,
       "priority": 10,
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "陆大人。我有个事……想跟你说。" },
-          { "speaker": "陆昭", "text": "说。" },
-          { "speaker": "凌瑶", "text": "我爹……前年也病过一回。大夫说要三十两的药。我们家哪拿得出来。" },
-          { "speaker": "凌瑶", "text": "那时候我跑了三趟远镖——命都差点搭上——才凑够的。" },
-          { "speaker": "凌瑶", "text": "……沈清月她爹要八十两。她一个姑娘家。" },
-          { "speaker": "陆昭", "text": "……" },
-          { "speaker": "凌瑶", "text": "我不是替她说话！杀人就是杀人。但是——（攥紧拳头）——如果当时我凑不够那三十两……" },
-          { "speaker": "凌瑶", "text": "我不知道我会不会做出跟她一样的事。" },
-          { "speaker": "陆昭", "text": "你不会。" },
-          { "speaker": "凌瑶", "text": "……你怎么知道？" },
-          { "speaker": "陆昭", "text": "因为你跑了三趟远镖。你选的是拼命——不是害命。" },
-          { "speaker": "凌瑶", "text": "……" },
-          { "speaker": "凌瑶", "text": "（沉默了很久。然后深呼一口气。）" },
-          { "speaker": "凌瑶", "text": "好。我信你。——那我们去抓她。" },
-          { "speaker": "凌瑶", "text": "但大人……抓完了，能帮她爹想想办法吗？" },
-          { "speaker": "陆昭", "text": "我会的。" },
-          { "speaker": "凌瑶", "text": "（笑了——不是平时那种嘻嘻哈哈的笑。是那种……放下了什么东西的笑。）走吧。本姑娘准备好了。" }
+          {
+            "speaker": "凌瑶",
+            "text": "陆大人。我有个事……想跟你说。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "说。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "我爹……前年也病过一回。大夫说要三十两的药。我们家哪拿得出来。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "那时候我跑了三趟远镖——命都差点搭上——才凑够的。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "……沈清月她爹要八十两。她一个姑娘家。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "……",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "我不是替她说话！杀人就是杀人。但是——（攥紧拳头）——如果当时我凑不够那三十两……"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "我不知道我会不会做出跟她一样的事。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "你不会。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "……你怎么知道？"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "因为你跑了三趟远镖。你选的是拼命——不是害命。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "……"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（沉默了很久。然后深呼一口气。）"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "好。我信你。——那我们去抓她。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "但大人……抓完了，能帮她爹想想办法吗？"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "我会的。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（笑了——不是平时那种嘻嘻哈哈的笑。是那种……放下了什么东西的笑。）走吧。本姑娘准备好了。"
+          }
         ]
       ]
     },
     {
       "id": "pre_confrontation_shen",
-      "when": { "trigger": "confrontation_start:shen_qingyue" },
+      "when": {
+        "trigger": "confrontation_start:shen_qingyue"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "（压低声音）陆大人。她不是阿贵——她不会崩溃哭着认罪。" },
-          { "speaker": "凌瑶", "text": "她会反咬。会用逻辑把你绕进去。你得比她更冷静。" },
-          { "speaker": "陆昭", "text": "嗯。" },
-          { "speaker": "凌瑶", "text": "……我在你旁边。有什么想法我会提醒你。别一个人扛。" },
-          { "speaker": "陆昭", "text": "嗯。——你也别一个人扛。" },
-          { "speaker": "凌瑶", "text": "（愣了一下。然后用力点了点头。）" }
+          {
+            "speaker": "凌瑶",
+            "text": "（压低声音）陆大人。她不是阿贵——她不会崩溃哭着认罪。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "她会反咬。会用逻辑把你绕进去。你得比她更冷静。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "嗯。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "……我在你旁边。有什么想法我会提醒你。别一个人扛。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "嗯。——你也别一个人扛。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（愣了一下。然后用力点了点头。）"
+          }
         ]
       ]
     },
     {
       "id": "confrontation_break_success",
-      "when": { "trigger": "confrontation_break" },
+      "when": {
+        "trigger": "confrontation_break"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "漂亮！打得他说不出话来！" }
+          {
+            "speaker": "凌瑶",
+            "text": "漂亮！打得他说不出话来！"
+          }
         ],
         [
-          { "speaker": "凌瑶", "text": "这下没话说了吧！证据面前——你还怎么编？！" }
+          {
+            "speaker": "凌瑶",
+            "text": "这下没话说了吧！证据面前——你还怎么编？！"
+          }
         ],
         [
-          { "speaker": "凌瑶", "text": "嘶——你看他那表情。裂了。继续！" }
+          {
+            "speaker": "凌瑶",
+            "text": "嘶——你看他那表情。裂了。继续！"
+          }
         ]
       ]
     },
     {
       "id": "confrontation_wrong_evidence",
-      "when": { "trigger": "confrontation_fail_evidence" },
+      "when": {
+        "trigger": "confrontation_fail_evidence"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "嗯……这个好像不太对。别急——换个角度想想。" }
+          {
+            "speaker": "凌瑶",
+            "text": "嗯……这个好像不太对。别急——换个角度想想。"
+          }
         ],
         [
-          { "speaker": "凌瑶", "text": "（小声）方向不对……那条证据不是用在这儿的。再看看他说的哪句有问题？" }
+          {
+            "speaker": "凌瑶",
+            "text": "（小声）方向不对……那条证据不是用在这儿的。再看看他说的哪句有问题？"
+          }
         ],
         [
-          { "speaker": "凌瑶", "text": "没事没事……出一次错不算什么。深呼吸——本姑娘信你。" }
+          {
+            "speaker": "凌瑶",
+            "text": "没事没事……出一次错不算什么。深呼吸——本姑娘信你。"
+          }
         ]
       ]
     },
     {
       "id": "arrive_shen_room",
-      "when": { "trigger": "arrive_location:shen_room" },
+      "when": {
+        "trigger": "arrive_location:shen_room"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "（环顾四周）她房间比楼下干净多了。桌上那本账——整整齐齐。" },
-          { "speaker": "凌瑶", "text": "窗户正对码头方向……嘶——她是不是每天都从这窗户看着下面？" }
+          {
+            "speaker": "凌瑶",
+            "text": "（环顾四周）她房间比楼下干净多了。桌上那本账——整整齐齐。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "窗户正对码头方向……嘶——她是不是每天都从这窗户看着下面？"
+          }
         ]
       ]
     },
     {
       "id": "arrive_gambling_alley",
-      "when": { "trigger": "arrive_location:gambling_alley" },
+      "when": {
+        "trigger": "arrive_location:gambling_alley"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "好暗……这种地方白天都这么阴森？" },
-          { "speaker": "凌瑶", "text": "（吸吸鼻子）嚯——烟味汗味骰子声。我爹以前就爱去这种地方。" },
-          { "speaker": "陆昭", "text": "你爹也赌？" },
-          { "speaker": "凌瑶", "text": "（理直气壮）以前赌！后来被我娘拿笤帚追了三条街——从此戒了。" },
-          { "speaker": "凌瑶", "text": "老范就是在这里欠了四十二两。嗯——进去问问，看有没有人认识那个'药材行的姑娘'。" }
+          {
+            "speaker": "凌瑶",
+            "text": "好暗……这种地方白天都这么阴森？"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（吸吸鼻子）嚯——烟味汗味骰子声。我爹以前就爱去这种地方。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "你爹也赌？",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（理直气壮）以前赌！后来被我娘拿笤帚追了三条街——从此戒了。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "老范就是在这里欠了四十二两。嗯——进去问问，看有没有人认识那个'药材行的姑娘'。"
+          }
         ]
       ]
     },
     {
       "id": "gain_evidence_hull_hole",
-      "when": { "trigger": "gain_evidence", "evidence": "evidence_hull_hole" },
+      "when": {
+        "trigger": "gain_evidence",
+        "evidence": "evidence_hull_hole"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "凿子凿的！边缘这么齐——不可能是意外！陆大人，这是谋杀！" },
-          { "speaker": "陆昭", "text": "嗯。谁凿的——才是问题。" },
-          { "speaker": "凌瑶", "text": "老范最有条件。他自己的船、自己修——想做手脚太容易了。" },
-          { "speaker": "陆昭", "text": "可能。但也可能有人'教'他这么做。" },
-          { "speaker": "凌瑶", "text": "……你的意思是——还有幕后？" }
+          {
+            "speaker": "凌瑶",
+            "text": "凿子凿的！边缘这么齐——不可能是意外！陆大人，这是谋杀！"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "嗯。谁凿的——才是问题。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "老范最有条件。他自己的船、自己修——想做手脚太容易了。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "可能。但也可能有人'教'他这么做。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "……你的意思是——还有幕后？"
+          }
         ]
       ]
     },
     {
       "id": "gain_evidence_float_bladder",
-      "when": { "trigger": "gain_evidence", "evidence": "evidence_float_bladder" },
+      "when": {
+        "trigger": "gain_evidence",
+        "evidence": "evidence_float_bladder"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "浮囊！在阿贵包袱里！他——" },
-          { "speaker": "凌瑶", "text": "一个说自己不会水、什么准备都没有的人——包袱里藏着救命的东西！" },
-          { "speaker": "陆昭", "text": "说明他事先知道船会沉。" },
-          { "speaker": "凌瑶", "text": "不只是知道——他准备好了自己不死。那他主人呢？他主人不会水——他知道的。" },
-          { "speaker": "凌瑶", "text": "……这就是谋杀。蓄意的。" }
+          {
+            "speaker": "凌瑶",
+            "text": "浮囊！在阿贵包袱里！他——"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "一个说自己不会水、什么准备都没有的人——包袱里藏着救命的东西！"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "说明他事先知道船会沉。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "不只是知道——他准备好了自己不死。那他主人呢？他主人不会水——他知道的。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "……这就是谋杀。蓄意的。"
+          }
         ]
       ]
     },
     {
       "id": "gain_evidence_salvage_mark",
-      "when": { "trigger": "gain_evidence", "evidence": "evidence_salvage_mark" },
+      "when": {
+        "trigger": "gain_evidence",
+        "evidence": "evidence_salvage_mark"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "天亮前有人在下游打捞……穿深色衣裳，身量高挑，像女子？" },
-          { "speaker": "凌瑶", "text": "等等——谁会知道沉船之后东西会漂到哪里？只有事先算过的人！" },
-          { "speaker": "陆昭", "text": "而且那个时间——如果阿贵和老范都还在岸上'待着'——谁去的下游？" },
-          { "speaker": "凌瑶", "text": "第三个人……一个算好了一切、在下游等着收货的人。她。" }
+          {
+            "speaker": "凌瑶",
+            "text": "天亮前有人在下游打捞……穿深色衣裳，身量高挑，像女子？"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "等等——谁会知道沉船之后东西会漂到哪里？只有事先算过的人！"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "而且那个时间——如果阿贵和老范都还在岸上'待着'——谁去的下游？",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "第三个人……一个算好了一切、在下游等着收货的人。她。"
+          }
         ]
       ]
     },
     {
       "id": "gain_evidence_father_ledger",
-      "when": { "trigger": "gain_evidence", "evidence": "evidence_father_ledger" },
+      "when": {
+        "trigger": "gain_evidence",
+        "evidence": "evidence_father_ledger"
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "八十两药钱……她家只有四十二两。差三十八两。" },
-          { "speaker": "凌瑶", "text": "三十八两——这不就是周德茂欠她的数吗？！" },
-          { "speaker": "陆昭", "text": "继续算。如果不只是旧债——还有周德茂身上那五十两货银呢？" },
-          { "speaker": "凌瑶", "text": "三十八加五十……八十八两。超过了她需要的八十两！" },
-          { "speaker": "凌瑶", "text": "陆大人——这是动机！她不是为了讨债——她是为了把人和钱一锅端！" }
+          {
+            "speaker": "凌瑶",
+            "text": "八十两药钱……她家只有四十二两。差三十八两。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "三十八两——这不就是周德茂欠她的数吗？！"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "继续算。如果不只是旧债——还有周德茂身上那五十两货银呢？",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "三十八加五十……八十八两。超过了她需要的八十两！"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "陆大人——这是动机！她不是为了讨债——她是为了把人和钱一锅端！"
+          }
         ]
       ]
     },
     {
       "id": "idle_hint_phase1",
-      "when": { "trigger": "idle", "min_periods": 8, "requires": { "not_flag": "agui_confessed_mastermind" } },
+      "when": {
+        "trigger": "idle",
+        "min_periods": 8,
+        "requires": {
+          "not_flag": "agui_confessed_mastermind"
+        }
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "陆大人……你是不是在想什么？" },
-          { "speaker": "陆昭", "text": "在理线索。" },
-          { "speaker": "凌瑶", "text": "要不要我帮你捋一捋？目前知道的——船是人为凿沉的。阿贵和老范都有嫌疑。" },
-          { "speaker": "凌瑶", "text": "要对质阿贵——得先找齐证据。船底的洞、他包袱里的东西、还有他被遣散的事……" },
-          { "speaker": "凌瑶", "text": "哪个还没查到？去翻翻看？" }
+          {
+            "speaker": "凌瑶",
+            "text": "陆大人……你是不是在想什么？"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "在理线索。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "要不要我帮你捋一捋？目前知道的——船是人为凿沉的。阿贵和老范都有嫌疑。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "要对质阿贵——得先找齐证据。船底的洞、他包袱里的东西、还有他被遣散的事……"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "哪个还没查到？去翻翻看？"
+          }
         ]
       ]
     },
     {
       "id": "idle_hint_phase3",
-      "when": { "trigger": "idle", "min_periods": 6, "requires": { "flag": "agui_confessed_mastermind", "not_flag": "shen_confrontation_triggered" } },
+      "when": {
+        "trigger": "idle",
+        "min_periods": 6,
+        "requires": {
+          "flag": "agui_confessed_mastermind",
+          "not_flag": "shen_confrontation_triggered"
+        }
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "陆大人。沈清月还在楼上呢——你打算什么时候去找她摊牌？" },
-          { "speaker": "陆昭", "text": "证据不够。光凭阿贵的话不够定她。" },
-          { "speaker": "凌瑶", "text": "那还差什么？——码头那晚她到底做了什么？那五十两银子去哪了？老范是谁找来的？" },
-          { "speaker": "凌瑶", "text": "赌坊那条线能不能查到什么……要不去试试？" }
+          {
+            "speaker": "凌瑶",
+            "text": "陆大人。沈清月还在楼上呢——你打算什么时候去找她摊牌？"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "证据不够。光凭阿贵的话不够定她。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "那还差什么？——码头那晚她到底做了什么？那五十两银子去哪了？老范是谁找来的？"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "赌坊那条线能不能查到什么……要不去试试？"
+          }
         ]
       ]
     },
     {
       "id": "lingyao_shen_connection",
-      "when": { "trigger": "dialogue_end", "npc_id": "shen_qingyue", "requires": { "flag": "shen_connection_pressed" } },
+      "when": {
+        "trigger": "dialogue_end",
+        "npc_id": "shen_qingyue",
+        "requires": {
+          "flag": "shen_connection_pressed"
+        }
+      },
       "once": true,
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "等等。等等等等。" },
-          { "speaker": "凌瑶", "text": "陆大人——我刚想起来一件事。我那个急件——送到石矶渡的那封——" },
-          { "speaker": "凌瑶", "text": "收件人……姓沈。" },
-          { "speaker": "陆昭", "text": "……" },
-          { "speaker": "凌瑶", "text": "沈什么我不记得了。但姓沈——石矶渡——做药材生意——这也太巧了吧？！" },
-          { "speaker": "陆昭", "text": "先把这件事记下来。案子结了之后再查。" },
-          { "speaker": "凌瑶", "text": "……好。但我心里毛毛的。我那个急件——不会跟这案子有关系吧？" }
+          {
+            "speaker": "凌瑶",
+            "text": "等等。等等等等。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "陆大人——我刚想起来一件事。我那个急件——送到石矶渡的那封——"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "收件人……姓沈。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "……",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "沈什么我不记得了。但姓沈——石矶渡——做药材生意——这也太巧了吧？！"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "先把这件事记下来。案子结了之后再查。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "……好。但我心里毛毛的。我那个急件——不会跟这案子有关系吧？"
+          }
         ]
       ]
     },
     {
       "id": "moral_reflection_agui",
-      "when": { "trigger": "phase_unlocked:phase_3", "requires": { "flag": "agui_confessed_mastermind" } },
+      "when": {
+        "trigger": "phase_unlocked:phase_3",
+        "requires": {
+          "flag": "agui_confessed_mastermind"
+        }
+      },
       "lines": [
         [
-          { "speaker": "凌瑶", "text": "大人……你说，阿贵算是坏人吗？" },
-          { "speaker": "陆昭", "text": "他杀了人。" },
-          { "speaker": "凌瑶", "text": "我知道。可是——十二年被人当牛马使，最后被二两银子打发。换我我也……" },
-          { "speaker": "凌瑶", "text": "……算了。我不会杀人。但我理解他为什么恨。" },
-          { "speaker": "陆昭", "text": "理解恨是一回事。原谅杀人是另一回事。" },
-          { "speaker": "凌瑶", "text": "嗯。……所以才需要大人这样的人吧。在'理解'和'不能原谅'之间——做出判断。" }
+          {
+            "speaker": "凌瑶",
+            "text": "大人……你说，阿贵算是坏人吗？"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "他杀了人。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "我知道。可是——十二年被人当牛马使，最后被二两银子打发。换我我也……"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "……算了。我不会杀人。但我理解他为什么恨。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "理解恨是一回事。原谅杀人是另一回事。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "嗯。……所以才需要大人这样的人吧。在'理解'和'不能原谅'之间——做出判断。"
+          }
         ]
       ]
     }

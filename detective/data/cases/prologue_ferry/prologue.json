@@ -60,7 +60,8 @@
     "cabin_3": {
       "speaker": "陆昭",
       "text": "船在沉。",
-      "next": "cabin_flood"
+      "next": "cabin_flood",
+      "emotion": "cold"
     },
     "_sep_round1": "═══ 第一回合：水到膝盖 ═══",
     "_sep_round2": "═══ 第二回合：水到大腿 ═══",
@@ -104,7 +105,8 @@
           "text": "（先不回答）……你是谁？",
           "goto": "shore_5b"
         }
-      ]
+      ],
+      "emotion": "anxious"
     },
     "shore_5a": {
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
@@ -136,22 +138,25 @@
     },
     "inn_warm_2": {
       "speaker": "陆昭",
-      "text": "有。一个布商，和他的仆从。还有船家。\n\n我搭的他们的渡船。夜里出发，说是半个时辰就到对岸。\n\n（低头看了看自己被江水泡皱的手）……半个时辰。",
+      "text": "有。一个布商，和他的仆从。还有船家。\n\n我搭的他们的渡船。夜里出发，说是半个时辰就到对岸。\n\n……半个时辰。",
       "next": "inn_warm_3",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "serious"
     },
     "inn_warm_3": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "凌瑶",
-      "text": "半个时辰……那现在都两个时辰了。他们没上岸？\n\n（表情变了）那……那他们是不是——",
+      "text": "半个时辰……那现在都两个时辰了。他们没上岸？\n\n那……那他们是不是——",
       "next": "inn_warm_3b",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_worried.png"
+      "portrait": "res://assets/cn/portraits/companion_lingyao_worried.png",
+      "emotion": "worried"
     },
     "inn_warm_3b": {
       "speaker": "陆昭",
-      "text": "不知道。天亮了才能看清。\n\n（手指不自觉地攥紧了袖口——衣服还是湿的。冰凉贴在皮肤上，像那舱里的水。）",
-      "next": "inn_warm_4",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "text": "不知道。天亮了才能看清。",
+      "next": "inn_warm_3b_narration",
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "serious"
     },
     "inn_warm_4": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -188,7 +193,8 @@
           "goto": "inn_warm_5b"
         }
       ],
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "serious"
     },
     "inn_warm_4_not_observed": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -204,7 +210,8 @@
           "goto": "inn_warm_5b"
         }
       ],
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "serious"
     },
     "inn_warm_5a_certain": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -229,16 +236,18 @@
     },
     "inn_warm_6": {
       "speaker": "陆昭",
-      "text": "天亮再说。先休息。\n\n（停了一下，看向她）……多谢。命是你救回来的。这份情，陆昭记着。",
+      "text": "天亮再说。先休息。\n\n……多谢。命是你救回来的。这份情，陆昭记着。",
       "next": "inn_warm_7",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "serious"
     },
     "inn_warm_7": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "凌瑶",
       "text": "（摆摆手）行侠仗义嘛！本姑娘虽然是送信的，但见死不救可不是金鳞镖局的作风！\n\n你先歇着。我也累得不行了……明天再说。",
       "next": "inn_night",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_cheerful.png"
+      "portrait": "res://assets/cn/portraits/companion_lingyao_cheerful.png",
+      "emotion": "cheerful"
     },
     "inn_night": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -274,7 +283,8 @@
       "speaker": "凌瑶",
       "text": "（急匆匆跑进来）陆昭！快来！码头那边——有人被冲上来了！",
       "next": "day2_body_2",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_anxious.png"
+      "portrait": "res://assets/cn/portraits/companion_lingyao_anxious.png",
+      "emotion": "anxious"
     },
     "day2_body_2": {
       "background": "res://assets/cn/scenes/prologue_cold_open.png",
@@ -287,13 +297,15 @@
       "speaker": "凌瑶",
       "text": "（捂住嘴）这是……你昨晚说的同船那个人？",
       "next": "day2_body_4",
-      "portrait": "res://assets/cn/portraits/companion_lingyao_shocked.png"
+      "portrait": "res://assets/cn/portraits/companion_lingyao_shocked.png",
+      "emotion": "shocked"
     },
     "day2_body_4": {
       "speaker": "陆昭",
-      "text": "周德茂。布商。昨夜跟我说过几句话——带着仆从阿贵，要过江进货。\n\n（站起来，声音很轻）……他死了。而阿贵和老范都活着。",
+      "text": "周德茂。布商。昨夜跟我说过几句话——带着仆从阿贵，要过江进货。\n\n……他死了。而阿贵和老范都活着。",
       "next": "day2_body_4b",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "serious"
     },
     "day2_body_5": {
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
@@ -304,13 +316,15 @@
     "day2_zhou_1": {
       "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png",
       "speaker": "周氏",
-      "text": "老爷！老爷——！\n\n（突然抬头，血红的眼睛死死盯着你）你——！你是跟他同船的！",
-      "next": "day2_zhou_accuse_1"
+      "text": "老爷！老爷——！\n\n（猛地抬头）你——！你是跟他同船的！",
+      "next": "day2_zhou_accuse_1",
+      "emotion": "grief"
     },
     "day2_zhou_accuse_1": {
       "speaker": "周氏",
-      "text": "同船的人——他死了，你活着！\n\n（猛地扑过来，死死抓住你的衣领）上船的时候你连船钱都付不起，还是我家老爷替你垫的！五十两货银——钱呢？！你就是图财害命！！",
-      "next": "day2_agui_appears"
+      "text": "同船的人——他死了，你活着！\n\n（扑过来抓住你衣领）上船的时候你连船钱都付不起，还是我家老爷替你垫的！五十两货银——钱呢？！你就是图财害命！！",
+      "next": "day2_agui_appears",
+      "emotion": "grief"
     },
     "day2_agui_appears": {
       "text": "人群外围，一个穿着素色布衣的年轻男子缩着肩膀挤了进来。\n\n是阿贵——周德茂的随行仆从，眼圈通红，嘴唇还在微微颤抖。",
@@ -319,19 +333,22 @@
     },
     "day2_agui_1": {
       "speaker": "阿贵",
-      "text": "（哽咽）夫人……老爷他……\n\n（颤声，但眼神躲闪）昨晚三更刚过，我睡不着起来解手，看见这位爷……蹲在船底舱口那边。",
-      "next": "day2_agui_1b"
+      "text": "夫人……老爷他……\n\n昨晚三更刚过，我睡不着起来解手，看见这位爷……蹲在船底舱口那边。",
+      "next": "day2_agui_1b",
+      "emotion": "nervous"
     },
     "day2_agui_2": {
       "speaker": "阿贵",
-      "text": "（突然抬头，带着怨气）还有一件事——船沉的时候，我和船家都被困在舱里，门被货物堵死了！我拍了半天门才找到路爬出来！",
-      "next": "day2_agui_2b"
+      "text": "（抬头）还有一件事——船沉的时候，我和船家都被困在舱里，门被货物堵死了！我拍了半天门才找到路爬出来！",
+      "next": "day2_agui_2b",
+      "emotion": "angry"
     },
     "day2_zhou_accuse_2": {
       "speaker": "陆昭",
-      "text": "（攥住她的手腕，轻但有力地拨开）\n\n我是巡按御史陆昭。搭船过江，同样是受害者。",
+      "text": "（拨开她的手）\n\n我是巡按御史陆昭。搭船过江，同样是受害者。",
       "next": "day2_zhou_accuse_2b",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "cold"
     },
     "day2_zhou_accuse_3": {
       "speaker": "周氏",
@@ -352,7 +369,8 @@
       "speaker": "陆昭",
       "text": "官印落在了船舱里。连同行李、文书——全沉在江底了。\n\n（自嘲地扯了扯身上借来的干衣服）你看我现在这样，确实不像个御史。",
       "next": "day2_lizheng_3",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "serious"
     },
     "day2_lizheng_3": {
       "speaker": "钱里正",
@@ -375,19 +393,22 @@
     },
     "day2_lingyao_resolve": {
       "speaker": "凌瑶",
-      "text": "（低声，攥紧拳头）陆昭——你信我，我没有跟任何人串通。我就是听到响动跑出来的……\n\n……这帮人都疯了。你打算怎么办？",
-      "next": "day2_lu_resolve"
+      "text": "陆昭——你信我，我没有跟任何人串通。我就是听到响动跑出来的……\n\n……这帮人都疯了。你打算怎么办？",
+      "next": "day2_lu_resolve_narration",
+      "emotion": "worried"
     },
     "day2_lu_resolve": {
       "speaker": "陆昭",
-      "text": "（沉默了很长时间。\n\n他的手还在微微发抖——不是冷的。是昨晚在黑水里挣扎时积攒的东西，到现在还没完全退下去。）",
+      "text": "……他们的指控，表面上全都说得通。这不是巧合——有人在布局，把我框进去。",
       "next": "day2_lu_resolve_b",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "cold"
     },
     "day2_lingyao_join_framed": {
       "speaker": "凌瑶",
-      "text": "（眼睛亮了）对啊！那个阿贵说自己不会游水——那他怎么从翻了的船里爬出来的？！老范更离谱——跑了二十年的航道，偏偏走上暗礁？！",
-      "next": "day2_lingyao_join_b"
+      "text": "对啊！那个阿贵说自己不会游水——那他怎么从翻了的船里爬出来的？！老范更离谱——跑了二十年的航道，偏偏走上暗礁？！",
+      "next": "day2_lingyao_join_b",
+      "emotion": "excited"
     },
     "day2_start_game": {
       "text": "【操作说明】\n\n• 右侧菜单：地图 / 对话 / 移动 / 探索 / 笔记本 / 讨论\n• 「讨论」：随时与凌瑶交流，获取下一步方向\n• 跨地点移动花费一个时段；探索某处也要花时段\n• 收集到足够证据后，对话中会出现「对峙」选项\n\n你被指控为杀人凶手。\n所有表面证据都指向你——没有官印、不付船钱、知道逃生路线、岸边有人‘接应’。\n\n两天内找到真凶，证明真正‘有准备’的人不是你——否则嫌疑永远洗不清。",
@@ -454,15 +475,17 @@
     },
     "day2_lu_resolve_b": {
       "speaker": "陆昭",
-      "text": "……他们的指控，表面上全都说得通。这不是巧合——有人在布局，把我框进去。\n\n（攥紧拳头，指节发白）谁提前准备了'活下来的方式'——谁才是真正的共犯。",
+      "text": "……他们的指控，表面上全都说得通。这不是巧合——有人在布局，把我框进去。\n\n谁提前准备了'活下来的方式'——谁才是真正的共犯。",
       "next": "day2_lu_resolve_c",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "cold"
     },
     "day2_lu_resolve_c": {
       "speaker": "陆昭",
       "text": "我什么都没准备。我差点死在那条船里。\n\n而那个'不会游水'的仆从——和那个跑了二十年船的老船家——他们是怎么活得那么从容的？",
       "next": "day2_lingyao_join_framed",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "cold"
     },
     "day2_lizheng_5b": {
       "text": "（竖起两根指头）两天。这雨两天内停不了，反正谁也走不了。两天之内——要么你找到真凶，要么等县衙的人来处置你。",
@@ -470,17 +493,19 @@
       "speaker": "钱里正"
     },
     "day2_agui_2b": {
-      "text": "可这位爷呢？他直接从天窗出去的！那扇天窗平时用铁锁锁死——他怎么打开的？！\n\n（哽咽）除非……除非他事先就知道船要沉！！",
+      "text": "可这位爷呢？他直接从天窗出去的！那扇天窗平时用铁锁锁死——他怎么打开的？！\n\n除非……除非他事先就知道船要沉！！",
       "next": "day2_crowd_murmur",
-      "speaker": "阿贵"
+      "speaker": "阿贵",
+      "emotion": "crying"
     },
     "day2_lingyao_join_b": {
       "text": "（一拍巴掌）好！两天就两天——走，先去查那条破船！我昨晚在码头还看见几个人鬼鬼祟祟说话呢！",
       "next": "day2_start_game",
-      "speaker": "凌瑶"
+      "speaker": "凌瑶",
+      "emotion": "cheerful"
     },
     "day2_agui_1b": {
-      "text": "他手里好像攥着个铁家伙——我当时没多想，以为是什么随身的物件……（声音越来越低）现在想来……",
+      "text": "他手里好像攥着个铁家伙——我当时没多想，以为是什么随身的物件……现在想来……",
       "next": "day2_agui_2",
       "speaker": "阿贵"
     },
@@ -489,14 +514,16 @@
       "speaker": "陆昭",
       "text": "有件事让我在意。水是从脚底下涌上来的——灌得很急，像是从一个豁口里喷出来的。\n\n当时来不及细看。但那个位置、那个速度……不像是撞礁裂开的。",
       "next": "inn_warm_4_not_observed",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "serious"
     },
     "inn_warm_4_observed_a": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "陆昭",
       "text": "有件事。船沉的时候，我蹲下去摸过涌水的位置。\n\n是一个方形的洞——边缘很整齐。不是撞出来的。是凿的。",
       "next": "inn_warm_4_observed",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "serious"
     },
     "day2_framed_resolve_b": {
       "text": "阿贵低着头跟在人群后面走了——走之前，他飞快地瞥了你一眼。那一眼里有东西，不像悲伤。",
@@ -535,10 +562,11 @@
       "text": "三个人落水，只有不会游泳的那个死了。",
       "next": "day2_body_5",
       "speaker": "陆昭",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "serious"
     },
     "inn_warm_5a_certain_b": {
-      "text": "（抬头）也就是说——今晚有人想杀我。或者，想杀船上所有人。",
+      "text": "也就是说——今晚有人想杀我。或者，想杀船上所有人。",
       "next": "inn_warm_6",
       "speaker": "凌瑶",
       "portrait": "res://assets/cn/portraits/companion_lingyao_shocked.png",
@@ -557,10 +585,11 @@
       "next": "cabin_break_out"
     },
     "day2_zhou_accuse_2b": {
-      "text": "（语气压得很低，但下颌线绷紧了）船沉时我也差点淹死——你丈夫的命我没有拿。",
+      "text": "船沉时我也差点淹死——你丈夫的命我没有拿。",
       "next": "day2_zhou_accuse_3",
       "speaker": "陆昭",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "emotion": "cold"
     },
     "inn_change_clothes": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -568,6 +597,18 @@
       "text": "你换上了掌柜找来的旧棉袍——宽大了些，但至少是干的。\n\n没了乌纱帽和官袍，铜镜里只剩一个落魄书生的面孔。",
       "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
       "next": "inn_warm_1"
+    },
+    "day2_lu_resolve_narration": {
+      "speaker": "",
+      "text": "陆昭沉默了很长时间。他的手还在微微发抖——不是冷的。是昨晚在黑水里挣扎时积攒的东西，到现在还没完全退下去。",
+      "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+      "next": "day2_lu_resolve"
+    },
+    "inn_warm_3b_narration": {
+      "speaker": "",
+      "text": "他的手指不自觉地攥紧了袖口。衣服还是湿的，冰凉贴在皮肤上，像那舱里的水。",
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "next": "inn_warm_4"
     }
   }
 }

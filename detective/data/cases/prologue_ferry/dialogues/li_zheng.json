@@ -59,11 +59,19 @@
           "requires": [
             {
               "all": [
-                { "flag": "lizheng_talked_once" },
-                { "any": [
-                  { "flag": "zhou_letter_revealed" },
-                  { "evidence": "evidence_hull_hole" }
-                ]}
+                {
+                  "flag": "lizheng_talked_once"
+                },
+                {
+                  "any": [
+                    {
+                      "flag": "zhou_letter_revealed"
+                    },
+                    {
+                      "evidence": "evidence_hull_hole"
+                    }
+                  ]
+                }
               ]
             }
           ],
@@ -208,7 +216,8 @@
         },
         {
           "speaker_id": "lu_zhao",
-          "text": "打听什么？"
+          "text": "打听什么？",
+          "emotion": "surprised"
         },
         {
           "speaker_id": "li_zheng",
@@ -223,7 +232,9 @@
           "speaker_id": "li_zheng",
           "text": "说是南京来的。做茶叶生意。名号嘛……我不太记得了。姓——好像姓顾？还是姓谷？反正文绉绉的。",
           "emotion": "evasive",
-          "highlight": ["南京来的"]
+          "highlight": [
+            "南京来的"
+          ]
         },
         {
           "speaker_id": "xia_lingyao",
@@ -262,7 +273,9 @@
         }
       ],
       "gain_clue": "clue_third_handwriting",
-      "set_flags": ["stranger_from_nanjing_known"]
+      "set_flags": [
+        "stranger_from_nanjing_known"
+      ]
     }
   }
 }
