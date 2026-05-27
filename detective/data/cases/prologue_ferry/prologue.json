@@ -125,7 +125,7 @@
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "",
       "text": "石矶渡。客栈。\n\n凌瑶半扶半拖着你进了门。掌柜给了热水和干衣服。\n\n你坐在火堆旁，寒意还没完全退去。外面的雨越下越大。",
-      "next": "inn_warm_1"
+      "next": "inn_change_clothes"
     },
     "inn_warm_1": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
@@ -561,6 +561,13 @@
       "next": "day2_zhou_accuse_3",
       "speaker": "陆昭",
       "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+    },
+    "inn_change_clothes": {
+      "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
+      "speaker": "",
+      "text": "你换上了掌柜找来的旧棉袍——宽大了些，但至少是干的。\n\n没了乌纱帽和官袍，铜镜里只剩一个落魄书生的面孔。",
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+      "next": "inn_warm_1"
     }
   }
 }
