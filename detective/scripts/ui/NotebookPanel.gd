@@ -66,7 +66,7 @@ func _make_margin(parent: Control) -> MarginContainer:
 	margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	margin.add_theme_constant_override("margin_left", 18)
 	margin.add_theme_constant_override("margin_right", 18)
-	margin.add_theme_constant_override("margin_top", 18)
+	margin.add_theme_constant_override("margin_top", 28)
 	margin.add_theme_constant_override("margin_bottom", 18)
 	parent.add_child(margin)
 	return margin
@@ -76,7 +76,7 @@ func _make_margin(parent: Control) -> MarginContainer:
 
 func _add_list_item(parent: Container, name_text: String, desc: String, color: Color, tag: String, source: String = "", item_id: String = "") -> void:
 	var btn := Button.new()
-	btn.custom_minimum_size = Vector2(0, 72)
+	btn.custom_minimum_size = Vector2(0, 80)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
@@ -90,10 +90,10 @@ func _add_list_item(parent: Container, name_text: String, desc: String, color: C
 	style.corner_radius_top_right = 7
 	style.corner_radius_bottom_left = 7
 	style.corner_radius_bottom_right = 7
-	style.content_margin_left = 10
+	style.content_margin_left = 14
 	style.content_margin_right = 14
-	style.content_margin_top = 8
-	style.content_margin_bottom = 8
+	style.content_margin_top = 12
+	style.content_margin_bottom = 12
 	btn.add_theme_stylebox_override("normal", style)
 
 	var hover_style := style.duplicate() as StyleBoxFlat
@@ -109,10 +109,10 @@ func _add_list_item(parent: Container, name_text: String, desc: String, color: C
 	var hbox := HBoxContainer.new()
 	hbox.anchor_right = 1.0
 	hbox.anchor_bottom = 1.0
-	hbox.offset_left = 10
+	hbox.offset_left = 14
 	hbox.offset_right = -14
-	hbox.offset_top = 8
-	hbox.offset_bottom = -8
+	hbox.offset_top = 12
+	hbox.offset_bottom = -12
 	hbox.add_theme_constant_override("separation", 12)
 	hbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	btn.add_child(hbox)
@@ -561,7 +561,7 @@ func _build_record_tab() -> void:
 		_add_empty_state(empty_vbox, "尚无卷宗记录")
 		return
 	var list_vbox := VBoxContainer.new()
-	list_vbox.add_theme_constant_override("separation", 8)
+	list_vbox.add_theme_constant_override("separation", 10)
 	list_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	margin.add_child(list_vbox)
 	for record in records:
@@ -576,15 +576,28 @@ func _build_record_tab() -> void:
 		_add_list_item(list_vbox, record.get("title", "卷宗记录"), record.get("text", ""), Color(1.0, 0.74, 0.48, 1), tag, record.get("source", ""))
 	var summaries := _build_dialogue_summaries(dialogues)
 	if not summaries.is_empty():
-		var sep := HSeparator.new()
-		sep.add_theme_constant_override("separation", 10)
+		# 间距占位，让分隔线和标题有呼吸空间
+		var top_spacer := Control.new()
+		top_spacer.custom_minimum_size = Vector2(0, 12)
+		list_vbox.add_child(top_spacer)
+		# 自定义可见分隔线
+		var sep := ColorRect.new()
+		sep.custom_minimum_size = Vector2(0, 1)
+		sep.color = Color(0.55, 0.42, 0.22, 0.5)
+		sep.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		list_vbox.add_child(sep)
+		# 标题区增加上下padding
+		var title_margin := MarginContainer.new()
+		title_margin.add_theme_constant_override("margin_top", 10)
+		title_margin.add_theme_constant_override("margin_bottom", 6)
+		title_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		list_vbox.add_child(title_margin)
 		var title := Label.new()
 		title.text = "── 角色对话卷宗 ──"
 		title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		title.add_theme_font_size_override("font_size", 18)
 		title.add_theme_color_override("font_color", Color(1.0, 0.86, 0.48, 1))
-		list_vbox.add_child(title)
+		title_margin.add_child(title)
 		for summary in summaries:
 			var speaker: String = summary.get("speaker", "旁白")
 			var lines: Array = summary.get("lines", [])

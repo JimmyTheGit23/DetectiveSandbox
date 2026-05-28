@@ -59,7 +59,19 @@ var _dot_container: HBoxContainer
 var _press_btn: Button
 var _present_btn: Button
 var _evidence_panel: PanelContainer
-var _evidence_container: HBoxContainer
+# ─── 证物册分页 ───
+const EVIDENCE_PER_PAGE := 8
+const EVIDENCE_GRID_COLUMNS := 4
+var _evidence_items_cache: Array = []       # 缓存当前可出示证物ID列表
+var _selected_evidence_index: int = 0       # 全局选中索引（跨页）
+var _evidence_page_index: int = 0           # 当前页
+var _evidence_grid: GridContainer = null
+var _evidence_detail_icon: TextureRect = null
+var _evidence_detail_name: Label = null
+var _evidence_detail_desc: RichTextLabel = null
+var _evidence_detail_category: Label = null
+var _evidence_page_label: Label = null
+var _evidence_statement_quote: RichTextLabel = null  # 当前证词引用
 var _dialogue_box: PanelContainer
 var _dialogue_speaker: Label
 var _dialogue_text: RichTextLabel
@@ -314,75 +326,231 @@ func _build_ui() -> void:
 	_present_btn.pressed.connect(_on_present_clicked)
 	_action_bar.add_child(_present_btn)
 
-	# ── 证据面板（覆盖底部，默认隐藏） ──
+	# ════════════════════════════════════════════
+	#  证物册弹窗（居中，默认隐藏）
+	# ════════════════════════════════════════════
 	_evidence_panel = PanelContainer.new()
-	_evidence_panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	_evidence_panel.offset_top = -260
+	_evidence_panel.set_anchors_preset(Control.PRESET_CENTER)
+	_evidence_panel.offset_left = -480
+	_evidence_panel.offset_top = -300
+	_evidence_panel.offset_right = 480
+	_evidence_panel.offset_bottom = 300
 	_evidence_panel.visible = false
 	var ev_style := StyleBoxFlat.new()
-	ev_style.bg_color = Color(0.04, 0.03, 0.02, 0.97)
-	ev_style.border_color = Color(0.6, 0.45, 0.2, 0.7)
-	ev_style.set_border_width_all(2)
-	ev_style.border_width_top = 3
-	ev_style.content_margin_left = 20
-	ev_style.content_margin_right = 20
-	ev_style.content_margin_top = 14
-	ev_style.content_margin_bottom = 14
+	ev_style.bg_color = Color(0.05, 0.04, 0.025, 0.98)
+	ev_style.border_color = Color(0.65, 0.50, 0.22, 0.85)
+	ev_style.set_border_width_all(3)
+	ev_style.set_corner_radius_all(8)
+	ev_style.content_margin_left = 24
+	ev_style.content_margin_right = 24
+	ev_style.content_margin_top = 18
+	ev_style.content_margin_bottom = 18
 	_evidence_panel.add_theme_stylebox_override("panel", ev_style)
 	_panel.add_child(_evidence_panel)
 
-	_evidence_ev_vbox = VBoxContainer.new()
-	_evidence_ev_vbox.add_theme_constant_override("separation", 8)
-	_evidence_panel.add_child(_evidence_ev_vbox)
+	var ev_main_vbox := VBoxContainer.new()
+	ev_main_vbox.add_theme_constant_override("separation", 10)
+	_evidence_panel.add_child(ev_main_vbox)
+
+	# ── 标题行 ──
+	var ev_title_row := HBoxContainer.new()
+	ev_title_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	ev_main_vbox.add_child(ev_title_row)
 
 	var ev_title := Label.new()
-	ev_title.text = "── 选择证物反驳当前证词 ──"
+	ev_title.text = "呈 堂 证 供"
 	ev_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	ev_title.add_theme_font_size_override("font_size", 17)
+	ev_title.add_theme_font_size_override("font_size", 22)
 	ev_title.add_theme_color_override("font_color", CLR_GOLD)
-	_evidence_ev_vbox.add_child(ev_title)
+	ev_title_row.add_child(ev_title)
 
-	var ev_scroll := ScrollContainer.new()
-	ev_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	ev_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ev_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	ev_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
-	_evidence_ev_vbox.add_child(ev_scroll)
+	# ── 当前证词引用 ──
+	_evidence_statement_quote = RichTextLabel.new()
+	_evidence_statement_quote.bbcode_enabled = true
+	_evidence_statement_quote.fit_content = true
+	_evidence_statement_quote.scroll_active = false
+	_evidence_statement_quote.custom_minimum_size = Vector2(0, 36)
+	_evidence_statement_quote.add_theme_font_size_override("normal_font_size", 15)
+	_evidence_statement_quote.add_theme_color_override("default_color", Color(0.85, 0.80, 0.65))
+	_evidence_statement_quote.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	ev_main_vbox.add_child(_evidence_statement_quote)
 
-	_evidence_container = HBoxContainer.new()
-	_evidence_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_evidence_container.add_theme_constant_override("separation", 12)
-	ev_scroll.add_child(_evidence_container)
+	# ── 分隔线 ──
+	var sep1 := HSeparator.new()
+	sep1.add_theme_stylebox_override("separator", _make_line_style(Color(0.5, 0.4, 0.18, 0.5)))
+	ev_main_vbox.add_child(sep1)
 
-	# ── 悬浮信息区（固定在滚动区外，始终可见） ──
-	_evidence_info_panel = PanelContainer.new()
-	var info_style := StyleBoxFlat.new()
-	info_style.bg_color = Color(0.06, 0.05, 0.03, 0.95)
-	info_style.border_color = Color(0.5, 0.4, 0.2, 0.5)
-	info_style.set_border_width_all(1)
-	info_style.set_corner_radius_all(4)
-	info_style.content_margin_left = 16
-	info_style.content_margin_right = 16
-	info_style.content_margin_top = 8
-	info_style.content_margin_bottom = 8
-	_evidence_info_panel.add_theme_stylebox_override("panel", info_style)
-	_evidence_info_panel.custom_minimum_size = Vector2(0, 44)
-	_evidence_ev_vbox.add_child(_evidence_info_panel)
+	# ── 中间主体：左侧详情 + 右侧网格 ──
+	var body_hbox := HBoxContainer.new()
+	body_hbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body_hbox.add_theme_constant_override("separation", 18)
+	ev_main_vbox.add_child(body_hbox)
 
-	_evidence_info_label = RichTextLabel.new()
-	_evidence_info_label.bbcode_enabled = true
-	_evidence_info_label.fit_content = true
-	_evidence_info_label.scroll_active = false
-	_evidence_info_label.add_theme_font_size_override("normal_font_size", 15)
-	_evidence_info_label.add_theme_color_override("default_color", Color(0.8, 0.75, 0.6))
-	_evidence_info_label.text = "[color=#666655]悬浮查看详情，点击选择证物[/color]"
-	_evidence_info_panel.add_child(_evidence_info_label)
+	# ── 左侧：证物详情 ──
+	var detail_panel := PanelContainer.new()
+	detail_panel.custom_minimum_size = Vector2(240, 0)
+	detail_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var detail_style := StyleBoxFlat.new()
+	detail_style.bg_color = Color(0.035, 0.025, 0.015, 0.95)
+	detail_style.border_color = Color(0.45, 0.35, 0.15, 0.5)
+	detail_style.set_border_width_all(1)
+	detail_style.set_corner_radius_all(4)
+	detail_style.content_margin_left = 14
+	detail_style.content_margin_right = 14
+	detail_style.content_margin_top = 12
+	detail_style.content_margin_bottom = 12
+	detail_panel.add_theme_stylebox_override("panel", detail_style)
+	body_hbox.add_child(detail_panel)
 
-	# ── 按钮行（固定在滚动区外，始终可见） ──
-	_evidence_btn_row = HBoxContainer.new()
-	_evidence_btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	_evidence_btn_row.add_theme_constant_override("separation", 24)
-	_evidence_ev_vbox.add_child(_evidence_btn_row)
+	var detail_vbox := VBoxContainer.new()
+	detail_vbox.add_theme_constant_override("separation", 8)
+	detail_panel.add_child(detail_vbox)
+
+	_evidence_detail_icon = TextureRect.new()
+	_evidence_detail_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_evidence_detail_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_evidence_detail_icon.custom_minimum_size = Vector2(200, 200)
+	_evidence_detail_icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_evidence_detail_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_evidence_detail_icon.visible = false
+	detail_vbox.add_child(_evidence_detail_icon)
+
+	# 无图占位
+	var _detail_placeholder := Label.new()
+	_detail_placeholder.text = "📜"
+	_detail_placeholder.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_detail_placeholder.add_theme_font_size_override("font_size", 64)
+	_detail_placeholder.custom_minimum_size = Vector2(200, 120)
+	_detail_placeholder.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_detail_placeholder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_detail_placeholder.name = "DetailPlaceholder"
+	detail_vbox.add_child(_detail_placeholder)
+
+	_evidence_detail_category = Label.new()
+	_evidence_detail_category.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_evidence_detail_category.add_theme_font_size_override("font_size", 13)
+	_evidence_detail_category.add_theme_color_override("font_color", Color(0.6, 0.55, 0.4))
+	detail_vbox.add_child(_evidence_detail_category)
+
+	_evidence_detail_name = Label.new()
+	_evidence_detail_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_evidence_detail_name.add_theme_font_size_override("font_size", 20)
+	_evidence_detail_name.add_theme_color_override("font_color", CLR_GOLD_BRIGHT)
+	detail_vbox.add_child(_evidence_detail_name)
+
+	_evidence_detail_desc = RichTextLabel.new()
+	_evidence_detail_desc.bbcode_enabled = true
+	_evidence_detail_desc.fit_content = true
+	_evidence_detail_desc.scroll_active = false
+	_evidence_detail_desc.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_evidence_detail_desc.add_theme_font_size_override("normal_font_size", 15)
+	_evidence_detail_desc.add_theme_color_override("default_color", Color(0.82, 0.77, 0.62))
+	detail_vbox.add_child(_evidence_detail_desc)
+
+	# ── 右侧：证物网格 + 分页 ──
+	var right_vbox := VBoxContainer.new()
+	right_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	right_vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	right_vbox.add_theme_constant_override("separation", 8)
+	body_hbox.add_child(right_vbox)
+
+	_evidence_grid = GridContainer.new()
+	_evidence_grid.columns = EVIDENCE_GRID_COLUMNS
+	_evidence_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_evidence_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_evidence_grid.add_theme_constant_override("h_separation", 10)
+	_evidence_grid.add_theme_constant_override("v_separation", 10)
+	right_vbox.add_child(_evidence_grid)
+
+	# ── 分页行 ──
+	var page_row := HBoxContainer.new()
+	page_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	page_row.add_theme_constant_override("separation", 20)
+	right_vbox.add_child(page_row)
+
+	var prev_page_btn := Button.new()
+	prev_page_btn.text = "◀ 上页"
+	prev_page_btn.custom_minimum_size = Vector2(100, 34)
+	prev_page_btn.add_theme_font_size_override("font_size", 15)
+	prev_page_btn.add_theme_color_override("font_color", CLR_GOLD)
+	prev_page_btn.flat = true
+	prev_page_btn.pressed.connect(func(): _evidence_change_page(-1))
+	prev_page_btn.name = "PrevPageBtn"
+	page_row.add_child(prev_page_btn)
+
+	_evidence_page_label = Label.new()
+	_evidence_page_label.add_theme_font_size_override("font_size", 15)
+	_evidence_page_label.add_theme_color_override("font_color", CLR_DIM)
+	_evidence_page_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_evidence_page_label.custom_minimum_size = Vector2(100, 34)
+	page_row.add_child(_evidence_page_label)
+
+	var next_page_btn := Button.new()
+	next_page_btn.text = "下页 ▶"
+	next_page_btn.custom_minimum_size = Vector2(100, 34)
+	next_page_btn.add_theme_font_size_override("font_size", 15)
+	next_page_btn.add_theme_color_override("font_color", CLR_GOLD)
+	next_page_btn.flat = true
+	next_page_btn.pressed.connect(func(): _evidence_change_page(1))
+	next_page_btn.name = "NextPageBtn"
+	page_row.add_child(next_page_btn)
+
+	# ── 分隔线 ──
+	var sep2 := HSeparator.new()
+	sep2.add_theme_stylebox_override("separator", _make_line_style(Color(0.5, 0.4, 0.18, 0.5)))
+	ev_main_vbox.add_child(sep2)
+
+	# ── 底部操作行 ──
+	var action_row := HBoxContainer.new()
+	action_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	action_row.add_theme_constant_override("separation", 30)
+	ev_main_vbox.add_child(action_row)
+
+	var submit_btn := Button.new()
+	submit_btn.text = "⚡ 呈堂"
+	submit_btn.custom_minimum_size = Vector2(150, 44)
+	submit_btn.add_theme_font_size_override("font_size", 20)
+	submit_btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.4))
+	submit_btn.add_theme_color_override("font_hover_color", Color(1.0, 1.0, 0.7))
+	var sub_style := StyleBoxFlat.new()
+	sub_style.bg_color = Color(0.14, 0.09, 0.04, 0.92)
+	sub_style.border_color = Color(0.95, 0.7, 0.2, 0.9)
+	sub_style.set_border_width_all(2)
+	sub_style.set_corner_radius_all(6)
+	sub_style.content_margin_top = 8
+	sub_style.content_margin_bottom = 8
+	submit_btn.add_theme_stylebox_override("normal", sub_style)
+	var sub_hover := sub_style.duplicate() as StyleBoxFlat
+	sub_hover.bg_color = Color(0.18, 0.12, 0.05, 0.96)
+	sub_hover.border_color = Color(1.0, 0.82, 0.3, 1.0)
+	submit_btn.add_theme_stylebox_override("hover", sub_hover)
+	submit_btn.pressed.connect(_on_submit_evidence)
+	submit_btn.name = "SubmitBtn"
+	action_row.add_child(submit_btn)
+
+	var cancel_btn := Button.new()
+	cancel_btn.text = "✕ 返回"
+	cancel_btn.custom_minimum_size = Vector2(120, 44)
+	cancel_btn.add_theme_font_size_override("font_size", 17)
+	cancel_btn.add_theme_color_override("font_color", Color(0.65, 0.6, 0.5))
+	cancel_btn.add_theme_color_override("font_hover_color", Color(0.9, 0.85, 0.7))
+	cancel_btn.flat = true
+	cancel_btn.pressed.connect(_on_evidence_cancel)
+	cancel_btn.name = "CancelBtn"
+	action_row.add_child(cancel_btn)
+
+	# ── 键盘操作提示 ──
+	var hint_row := HBoxContainer.new()
+	hint_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	hint_row.add_theme_constant_override("separation", 24)
+	ev_main_vbox.add_child(hint_row)
+
+	var hint_text := Label.new()
+	hint_text.text = "← → 选择    Q/E 翻页    Enter 呈堂    Esc 返回"
+	hint_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint_text.add_theme_font_size_override("font_size", 13)
+	hint_text.add_theme_color_override("font_color", Color(0.5, 0.45, 0.35, 0.7))
+	hint_row.add_child(hint_text)
 
 	# ── 对话框（覆盖底部，默认隐藏） ──
 	_dialogue_box = PanelContainer.new()
@@ -818,19 +986,36 @@ func _on_present_clicked() -> void:
 	_enter_state(State.EVIDENCE_OPEN)
 
 
-var _evidence_info_label: RichTextLabel = null  # 悬浮信息区
-var _evidence_info_panel: PanelContainer = null  # 悬浮信息面板（固定在滚动区外）
-var _evidence_btn_row: HBoxContainer = null  # 按钮行（固定在滚动区外）
-var _evidence_ev_vbox: VBoxContainer = null  # 证据面板主布局
+# （旧变量已移除，证物册相关变量见类头部声明）
 
 func _open_evidence() -> void:
-	# 打开证物栏时保持当前证人/嫌疑人立绘可见。
 	_portrait_state = PortraitState.NORMAL
 	_update_portrait()
 	_set_browsing_visible(false)
 	_evidence_panel.visible = true
-	_selected_evidence_id = ""
-	_refresh_evidence_list()
+
+	# 缓存证物列表
+	_evidence_items_cache.clear()
+	for eid in GameManager.collected_evidence:
+		var data: Dictionary = GameManager.evidence_data.get(eid, {})
+		if not data.is_empty() and data.get("type", "") == "evidence" and not data.get("hidden", false):
+			_evidence_items_cache.append(eid)
+
+	_selected_evidence_index = 0
+	_evidence_page_index = 0
+	if not _evidence_items_cache.is_empty():
+		_selected_evidence_id = _evidence_items_cache[0]
+	else:
+		_selected_evidence_id = ""
+
+	# 显示当前证词引用
+	if not _statements.is_empty():
+		var stmt: Dictionary = _statements[_current_stmt_idx]
+		_evidence_statement_quote.text = "[color=#aa9966]当前证词：[/color]「" + stmt.get("text", "") + "」"
+	else:
+		_evidence_statement_quote.text = ""
+
+	_render_evidence_page()
 
 
 func _on_evidence_cancel() -> void:
@@ -843,7 +1028,12 @@ func _on_evidence_clicked(eid: String) -> void:
 	if _state != State.EVIDENCE_OPEN:
 		return
 	_selected_evidence_id = eid
-	_refresh_evidence_list()
+	# 更新全局索引
+	for i in range(_evidence_items_cache.size()):
+		if _evidence_items_cache[i] == eid:
+			_selected_evidence_index = i
+			break
+	_render_evidence_page()
 
 
 func _on_submit_evidence() -> void:
@@ -853,66 +1043,115 @@ func _on_submit_evidence() -> void:
 	_judge_evidence(_selected_evidence_id)
 
 
-func _refresh_evidence_list() -> void:
-	for c in _evidence_container.get_children():
+func _evidence_change_page(delta: int) -> void:
+	var max_page := maxi(0, (_evidence_items_cache.size() - 1) / EVIDENCE_PER_PAGE)
+	_evidence_page_index = clampi(_evidence_page_index + delta, 0, max_page)
+	# 将选中索引调整到新页范围内
+	var page_start := _evidence_page_index * EVIDENCE_PER_PAGE
+	var page_end := mini(page_start + EVIDENCE_PER_PAGE, _evidence_items_cache.size())
+	if _selected_evidence_index < page_start:
+		_selected_evidence_index = page_start
+	elif _selected_evidence_index >= page_end:
+		_selected_evidence_index = page_end - 1
+	_render_evidence_page()
+
+
+func _evidence_navigate(dx: int, dy: int) -> void:
+	if _evidence_items_cache.is_empty():
+		return
+	var page_start := _evidence_page_index * EVIDENCE_PER_PAGE
+	var page_end := mini(page_start + EVIDENCE_PER_PAGE, _evidence_items_cache.size())
+	var page_count := page_end - page_start
+	if page_count <= 0:
+		return
+
+	# 计算当前在页内的局部行列
+	var local_idx := _selected_evidence_index - page_start
+	var cur_row := local_idx / EVIDENCE_GRID_COLUMNS
+	var cur_col := local_idx % EVIDENCE_GRID_COLUMNS
+
+	var new_row := clampi(cur_row + dy, 0, (page_count - 1) / EVIDENCE_GRID_COLUMNS)
+	var new_col := clampi(cur_col + dx, 0, mini(EVIDENCE_GRID_COLUMNS, page_count - new_row * EVIDENCE_GRID_COLUMNS) - 1)
+	var new_local := new_row * EVIDENCE_GRID_COLUMNS + new_col
+	new_local = clampi(new_local, 0, page_count - 1)
+
+	_selected_evidence_index = page_start + new_local
+	_selected_evidence_id = _evidence_items_cache[_selected_evidence_index]
+	_render_evidence_page()
+
+
+func _render_evidence_page() -> void:
+	# 清空网格
+	for c in _evidence_grid.get_children():
 		c.queue_free()
 
-	# 只显示证物（不显示线索标签页），过滤隐藏条目
-	var evidences: Array = []
-	for eid in GameManager.collected_evidence:
-		var data: Dictionary = GameManager.evidence_data.get(eid, {})
-		if not data.is_empty() and data.get("type", "") == "evidence" and not data.get("hidden", false):
-			evidences.append(eid)
+	var page_start := _evidence_page_index * EVIDENCE_PER_PAGE
+	var page_end := mini(page_start + EVIDENCE_PER_PAGE, _evidence_items_cache.size())
 
-	for eid in evidences:
-		_evidence_container.add_child(_make_evidence_sheet(eid, "evidence"))
+	for i in range(page_start, page_end):
+		var eid: String = _evidence_items_cache[i]
+		_evidence_grid.add_child(_make_evidence_card(eid, eid == _selected_evidence_id))
 
-	# ── 更新固定按钮行 ──
-	for c in _evidence_btn_row.get_children():
-		c.queue_free()
+	# 补空格子保持布局
+	var page_count := page_end - page_start
+	var remainder := page_count % EVIDENCE_GRID_COLUMNS
+	if remainder > 0:
+		for _j in range(EVIDENCE_GRID_COLUMNS - remainder):
+			var spacer := Control.new()
+			spacer.custom_minimum_size = Vector2(100, 110)
+			_evidence_grid.add_child(spacer)
 
-	if _selected_evidence_id != "":
-		var submit_btn := Button.new()
-		submit_btn.text = "⚡ 呈堂"
-		submit_btn.custom_minimum_size = Vector2(150, 44)
-		submit_btn.add_theme_font_size_override("font_size", 20)
-		submit_btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.4))
-		var sub_style := StyleBoxFlat.new()
-		sub_style.bg_color = Color(0.14, 0.09, 0.04, 0.92)
-		sub_style.border_color = Color(0.95, 0.7, 0.2, 0.9)
-		sub_style.set_border_width_all(2)
-		sub_style.set_corner_radius_all(6)
-		sub_style.content_margin_top = 8
-		sub_style.content_margin_bottom = 8
-		submit_btn.add_theme_stylebox_override("normal", sub_style)
-		submit_btn.pressed.connect(_on_submit_evidence)
-		_evidence_btn_row.add_child(submit_btn)
+	# 更新分页标签
+	var max_page := maxi(0, (_evidence_items_cache.size() - 1) / EVIDENCE_PER_PAGE)
+	_evidence_page_label.text = "第 %d / %d 页" % [_evidence_page_index + 1, max_page + 1]
 
-	var cancel_btn := Button.new()
-	cancel_btn.text = "✕ 收起"
-	cancel_btn.custom_minimum_size = Vector2(120, 44)
-	cancel_btn.add_theme_font_size_override("font_size", 17)
-	cancel_btn.add_theme_color_override("font_color", Color(0.65, 0.6, 0.5))
-	cancel_btn.add_theme_color_override("font_hover_color", Color(0.9, 0.85, 0.7))
-	cancel_btn.flat = true
-	cancel_btn.pressed.connect(_on_evidence_cancel)
-	_evidence_btn_row.add_child(cancel_btn)
-
-	# ── 重置悬浮信息显示 ──
-	_evidence_info_label.text = "[center][color=#888870]— 将鼠标悬浮在证物上查看详情 —[/color][/center]"
+	# 更新详情
+	_update_evidence_detail()
 
 
-func _make_evidence_sheet(eid: String, category: String) -> Button:
-	var data: Dictionary = GameManager.evidence_data.get(eid, {})
-	var is_sel: bool = (eid == _selected_evidence_id)
-	var ename: String = data.get("name", eid)
+func _update_evidence_detail() -> void:
+	if _selected_evidence_id == "" or _evidence_items_cache.is_empty():
+		_evidence_detail_icon.visible = false
+		var placeholder = _evidence_panel.find_child("DetailPlaceholder", true, false)
+		if placeholder:
+			placeholder.visible = true
+		_evidence_detail_name.text = "— 选择证物 —"
+		_evidence_detail_desc.text = ""
+		_evidence_detail_category.text = ""
+		return
+
+	var data: Dictionary = GameManager.evidence_data.get(_selected_evidence_id, {})
+	var ename: String = data.get("name", _selected_evidence_id)
 	var edesc: String = data.get("description", "")
+	var ecat: String = data.get("type", "evidence")
 
-	var sheet := Button.new()
-	sheet.custom_minimum_size = Vector2(100, 110)
-	sheet.clip_text = false
-	# 使用透明文字（内容通过子节点绘制）
-	sheet.text = ""
+	_evidence_detail_name.text = ename
+	_evidence_detail_desc.text = edesc
+	_evidence_detail_category.text = "物证" if ecat == "evidence" else "线索"
+
+	# 更新大图
+	var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % _selected_evidence_id
+	var placeholder = _evidence_panel.find_child("DetailPlaceholder", true, false)
+	if ResourceLoader.exists(icon_path):
+		var tex: Texture2D = load(icon_path)
+		if tex:
+			_evidence_detail_icon.texture = tex
+			_evidence_detail_icon.visible = true
+			if placeholder:
+				placeholder.visible = false
+			return
+	_evidence_detail_icon.visible = false
+	if placeholder:
+		placeholder.visible = true
+
+
+func _make_evidence_card(eid: String, is_sel: bool) -> Button:
+	var data: Dictionary = GameManager.evidence_data.get(eid, {})
+	var ename: String = data.get("name", eid)
+
+	var card := Button.new()
+	card.custom_minimum_size = Vector2(100, 110)
+	card.text = ""
 
 	# normal 样式
 	var s_style := StyleBoxFlat.new()
@@ -929,27 +1168,25 @@ func _make_evidence_sheet(eid: String, category: String) -> Button:
 	s_style.content_margin_right = 6
 	s_style.content_margin_top = 6
 	s_style.content_margin_bottom = 6
-	sheet.add_theme_stylebox_override("normal", s_style)
+	card.add_theme_stylebox_override("normal", s_style)
 
-	# hover 样式
 	var hover_style := s_style.duplicate() as StyleBoxFlat
 	hover_style.bg_color = Color(0.12, 0.09, 0.04, 0.97)
 	hover_style.border_color = Color(0.85, 0.6, 0.2, 0.9)
 	hover_style.set_border_width_all(2)
-	sheet.add_theme_stylebox_override("hover", hover_style)
+	card.add_theme_stylebox_override("hover", hover_style)
 
-	# pressed 样式
 	var pressed_style := hover_style.duplicate() as StyleBoxFlat
 	pressed_style.bg_color = Color(0.18, 0.12, 0.05, 0.98)
-	sheet.add_theme_stylebox_override("pressed", pressed_style)
+	card.add_theme_stylebox_override("pressed", pressed_style)
 
-	# ── 内部布局：图标 + 名称 ──
+	# 内部布局：图标 + 名称
 	var vbox := VBoxContainer.new()
 	vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
 	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	vbox.add_theme_constant_override("separation", 4)
 	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	sheet.add_child(vbox)
+	card.add_child(vbox)
 
 	# 图标
 	var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % eid
@@ -962,20 +1199,20 @@ func _make_evidence_sheet(eid: String, category: String) -> Button:
 			img.texture = tex
 			img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			img.custom_minimum_size = Vector2(64, 64)
+			img.custom_minimum_size = Vector2(56, 56)
 			img.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 			img.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			vbox.add_child(img)
 	if not has_icon:
-		var placeholder := Label.new()
-		placeholder.text = "📜"
-		placeholder.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		placeholder.add_theme_font_size_override("font_size", 36)
-		placeholder.custom_minimum_size = Vector2(64, 64)
-		placeholder.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		placeholder.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		vbox.add_child(placeholder)
+		var ph := Label.new()
+		ph.text = "📜"
+		ph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		ph.add_theme_font_size_override("font_size", 32)
+		ph.custom_minimum_size = Vector2(56, 56)
+		ph.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		ph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		vbox.add_child(ph)
 
 	# 名称
 	var name_lbl := Label.new()
@@ -999,30 +1236,58 @@ func _make_evidence_sheet(eid: String, category: String) -> Button:
 		sel_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		vbox.add_child(sel_lbl)
 
-	# 信号连接
+	# 信号
 	var ev_id: String = eid
-	var ev_desc: String = edesc
-	var ev_name: String = ename
-	var ev_cat: String = category
-	sheet.pressed.connect(func(): _on_evidence_clicked(ev_id))
-	sheet.mouse_entered.connect(func(): _on_sheet_hover(ev_name, ev_desc, ev_cat))
-	sheet.mouse_exited.connect(func(): _on_sheet_hover_exit())
+	card.pressed.connect(func(): _on_evidence_clicked(ev_id))
+	card.mouse_entered.connect(func(): _on_card_hover(ev_id))
+	card.focus_entered.connect(func(): _on_card_hover(ev_id))
 
-	return sheet
+	return card
 
 
-func _on_sheet_hover(ename: String, edesc: String, category: String) -> void:
-	if _evidence_info_label == null:
+func _on_card_hover(eid: String) -> void:
+	# 鼠标悬浮/聚焦时自动选中并显示详情
+	if _state != State.EVIDENCE_OPEN:
 		return
-	var color_tag: String = "#ffcc55" if category == "evidence" else "#77ccee"
-	var icon: String = "📜" if category == "evidence" else "🔍"
-	_evidence_info_label.text = "[b][color=" + color_tag + "]" + icon + " " + ename + "[/color][/b]\n" + edesc
+	_selected_evidence_id = eid
+	for i in range(_evidence_items_cache.size()):
+		if _evidence_items_cache[i] == eid:
+			_selected_evidence_index = i
+			break
+	# 只更新详情和高亮，不重渲整个页面
+	_update_evidence_detail()
+	_update_card_selection_highlight()
 
 
-func _on_sheet_hover_exit() -> void:
-	if _evidence_info_label == null:
-		return
-	_evidence_info_label.text = "[center][color=#888870]— 将鼠标悬浮在证物上查看详情 —[/color][/center]"
+func _update_card_selection_highlight() -> void:
+	# 轻量更新网格中卡片选中态，避免整页重渲
+	var page_start := _evidence_page_index * EVIDENCE_PER_PAGE
+	var cards := _evidence_grid.get_children()
+	for i in range(cards.size()):
+		var card: Control = cards[i]
+		if not card is Button:
+			continue
+		var card_idx := page_start + i
+		var is_sel: bool = (card_idx < _evidence_items_cache.size() and
+							_evidence_items_cache[card_idx] == _selected_evidence_id)
+		var style: StyleBoxFlat = card.get_theme_stylebox("normal") as StyleBoxFlat
+		if not style:
+			continue
+		if is_sel:
+			style.bg_color = Color(0.16, 0.11, 0.04, 0.97)
+			style.border_color = Color(1.0, 0.75, 0.2, 1.0)
+			style.set_border_width_all(2)
+		else:
+			style.bg_color = Color(0.06, 0.05, 0.03, 0.9)
+			style.border_color = Color(0.55, 0.4, 0.15, 0.6)
+			style.set_border_width_all(1)
+		# 更新名称颜色
+		for child in card.get_children():
+			if child is VBoxContainer:
+				for sub in child.get_children():
+					if sub is Label and sub.text != "📜" and not sub.text.begins_with("▸"):
+						sub.add_theme_color_override("font_color",
+							CLR_GOLD_BRIGHT if is_sel else Color(0.85, 0.8, 0.65))
 
 
 # ═══════════════════════════════════════════════════
@@ -1358,15 +1623,40 @@ func _handle_browsing_mouse_click(event: InputEvent) -> bool:
 
 func _input(event: InputEvent) -> void:
 	# 浏览状态下手动兜底处理关键按钮区域。
-	# 有些首次从事件流进入对峙的情况下，按钮 signal 可能被上层输入流吞掉；这里直接按全局矩形命中。
 	if _state == State.BROWSING:
 		_click_callback = Callable()
 		if _handle_browsing_mouse_click(event):
 			get_viewport().set_input_as_handled()
 		return
+
+	# ── 证物册键盘导航 ──
 	if _state == State.EVIDENCE_OPEN:
 		_click_callback = Callable()
+		if event is InputEventKey and event.pressed:
+			var handled := true
+			match event.keycode:
+				KEY_LEFT, KEY_A:
+					_evidence_navigate(-1, 0)
+				KEY_RIGHT, KEY_D:
+					_evidence_navigate(1, 0)
+				KEY_UP, KEY_W:
+					_evidence_navigate(0, -1)
+				KEY_DOWN, KEY_S:
+					_evidence_navigate(0, 1)
+				KEY_Q:
+					_evidence_change_page(-1)
+				KEY_E:
+					_evidence_change_page(1)
+				KEY_ENTER, KEY_SPACE:
+					_on_submit_evidence()
+				KEY_ESCAPE, KEY_BACKSPACE:
+					_on_evidence_cancel()
+				_:
+					handled = false
+			if handled:
+				get_viewport().set_input_as_handled()
 		return
+
 	var trigger: bool = false
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		trigger = true
@@ -1385,6 +1675,17 @@ func _input(event: InputEvent) -> void:
 	var cb := _click_callback
 	_click_callback = Callable()
 	cb.call()
+
+
+func _make_line_style(color: Color) -> StyleBoxFlat:
+	var s := StyleBoxFlat.new()
+	s.bg_color = color
+	s.set_corner_radius_all(0)
+	s.content_margin_left = 0
+	s.content_margin_right = 0
+	s.content_margin_top = 2
+	s.content_margin_bottom = 2
+	return s
 
 
 # ═══════════════════════════════════════════════════
