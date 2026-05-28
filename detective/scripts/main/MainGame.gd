@@ -32,11 +32,9 @@ var _active_subpanel: Control = null
 var _pending_events: Array[String] = []
 var _event_hint_auto_pending := false
 var _pending_adhoc_lines: Array = []
-var _pending_day_info: Dictionary = {}   # 延迟的日期过场 { "day": int, "sub": String }
-var _last_location_period: int = -1      # 上次进入场景时的 period
 var _last_location_day: int = -1         # 上次进入场景时的 day
-var _time_card_playing: bool = false     # 时间过场是否正在播放
-var _visited_locations: Dictionary = {}  # 已访问过的场景 ID → true（首次访问时显示时间卡）
+var _time_card_playing: bool = false     # 场景过场是否正在播放
+var _visited_locations: Dictionary = {}  # 已访问过的场景 ID → true（首次访问时显示地名卡）
 var _title_layer: Control = null
 var _title_props_layer: Control = null
 var _scene_fx: Node = null
@@ -54,8 +52,6 @@ var _settings_btn_pressed_visual := false
 
 func _ready() -> void:
 	GameManager.location_changed.connect(_on_location_changed)
-	GameManager.time_advanced.connect(_on_time_advanced)
-	GameManager.day_changed.connect(_on_day_changed)
 	GameManager.evidence_added.connect(_on_evidence_added)
 	GameManager.clue_added.connect(_on_clue_added)
 	GameManager.day_event_available.connect(_on_day_event_available)
@@ -638,7 +634,7 @@ func _continue_game() -> void:
 		return
 	GameManager.set_state(GameManager.STATE_PLAYING)
 	_on_location_changed(GameManager.current_location)
-	_on_time_advanced(GameManager.current_day, GameManager.current_period)
+	_update_top_bar()
 	menu_panel.visible = true
 	if menu_panel.has_method("refresh_visibility"):
 		menu_panel.refresh_visibility()
@@ -656,19 +652,14 @@ func _on_location_changed(loc_id: String) -> void:
 	var data := GameManager.get_location_data(loc_id)
 	location_label.text = data.get("name", loc_id)
 	var bg_path: String = AssetResolver.get_scene_background(data)
-	# 时间过场：首次访问该场景，或时间变化较大时显示（换天 / ≥2个时段差异）
-	# 使用持久化的 shown_time_cards 避免继续游戏后重复显示
-	var cur_period := GameManager.current_period
+	# 场景过场：首次访问该场景时显示地名过场
 	var cur_day := GameManager.current_day
-	var time_card_key := "D%d_P%d_%s" % [cur_day, cur_period, loc_id]
+	var time_card_key := "D%d_%s" % [cur_day, loc_id]
 	var already_shown: bool = GameManager.shown_time_cards.has(time_card_key)
 	var is_first_visit: bool = not _visited_locations.has(loc_id)
-	var period_diff: int = abs(cur_period - _last_location_period) if _last_location_period >= 0 else 0
-	var day_diff: int = abs(cur_day - _last_location_day) if _last_location_day >= 0 else 0
-	var significant_change: bool = not already_shown and (is_first_visit or day_diff > 0 or period_diff >= 2)
+	var significant_change: bool = not already_shown and is_first_visit
 	# 无论是否显示时间卡，都更新记录
 	_visited_locations[loc_id] = true
-	_last_location_period = cur_period
 	_last_location_day = cur_day
 	var should_show_time: bool = significant_change and GameManager.current_state == GameManager.STATE_PLAYING and not day_transition.visible and not _time_card_playing
 	if should_show_time:
@@ -676,10 +667,10 @@ func _on_location_changed(loc_id: String) -> void:
 		GameManager.save_game()
 		_time_card_playing = true
 		_set_background(bg_path, false)
-		var period_name: String = GameManager.PERIOD_NAMES[cur_period] if cur_period < GameManager.PERIOD_NAMES.size() else ""
 		var loc_name: String = data.get("name", "")
-		if period_name != "":
-			day_transition.show_period("%s · %s" % [period_name, loc_name])
+		if loc_name != "":
+			var card_text := "%s · %s" % [GameManager.get_current_time_label(), loc_name]
+			day_transition.show_period(card_text)
 			day_transition.finished.connect(func():
 				_time_card_playing = false
 				if _npc_layer and _npc_layer.has_method("refresh_npcs"):
@@ -706,23 +697,10 @@ func _on_location_changed(loc_id: String) -> void:
 		_try_companion_banter("arrive_location:" + loc_id)
 
 
-func _on_time_advanced(_day: int, _period: int) -> void:
-	top_bar_label.text = "第 %d 日 · %s" % [_day, GameManager.PERIOD_NAMES[_period] if _period < GameManager.PERIOD_NAMES.size() else ""]
-
-
-func _on_day_changed(new_day: int) -> void:
-	_try_companion_banter("new_day")
-	# 如果对话或叙述正在进行，延迟日期过场，等说话完毕再显示
-	if dialogue_box.visible:
-		var sub := "%s · %s" % [location_label.text.strip_edges(), GameManager.PERIOD_NAMES[GameManager.current_period]]
-		_pending_day_info = { "day": new_day, "sub": sub }
-		return
-	_show_day_transition(new_day)
-
-
-func _show_day_transition(day: int) -> void:
-	var sub := "%s · %s" % [location_label.text.strip_edges(), GameManager.PERIOD_NAMES[GameManager.current_period]]
-	day_transition.show_day(day, sub)
+func _update_top_bar() -> void:
+	var loc_data := GameManager.current_location_data()
+	var loc_name: String = loc_data.get("name", GameManager.current_location)
+	top_bar_label.text = loc_name
 
 
 func _on_evidence_added(eid: String) -> void:
@@ -1030,7 +1008,6 @@ func _on_game_reset() -> void:
 	# 只重置内存中的游戏状态，存档已在 SettingsPanel._do_reset 中删除
 	GameManager.current_state = GameManager.STATE_PROLOGUE
 	GameManager.current_day = 1
-	GameManager.current_period = 0
 	GameManager.collected_evidence.clear()
 	GameManager.collected_clues.clear()
 	GameManager.dialogue_flags.clear()
@@ -1236,7 +1213,6 @@ func _on_dialogue_ended() -> void:
 	dialogue_box.visible = false
 	menu_panel.visible = true
 	_refresh_event_hint()
-	_try_show_pending_day_transition()
 	if _npc_layer and _npc_layer.has_method("show_npcs"):
 		_npc_layer.show_npcs()
 
@@ -1271,10 +1247,9 @@ func _on_narration_ended() -> void:
 		GameManager.set_state(GameManager.STATE_PLAYING)
 		top_bar_label.get_parent().visible = true
 		GameManager.change_location(GameManager.case_main_scene, false)
-		_on_time_advanced(GameManager.current_day, GameManager.current_period)
+		_update_top_bar()
 	menu_panel.visible = true
 	_refresh_event_hint()
-	_try_show_pending_day_transition()
 	if _npc_layer and _npc_layer.has_method("show_npcs"):
 		_npc_layer.show_npcs()
 
@@ -1385,15 +1360,6 @@ func _do_screen_shake(intensity: float = 6.0, duration: float = 0.4) -> void:
 		var offset_y: float = intensity * 0.5 * (1.0 if i % 3 == 0 else -1.0) * (1.0 - float(i) / steps)
 		tw.tween_property(scene_bg, "position", original_pos + Vector2(offset_x, offset_y), 0.05)
 	tw.tween_property(scene_bg, "position", original_pos, 0.05)
-
-
-## 检查是否有延迟的日期过场等待显示（对话/叙述结束后调用）
-func _try_show_pending_day_transition() -> void:
-	if _pending_day_info.is_empty():
-		return
-	var info := _pending_day_info
-	_pending_day_info = {}
-	_show_day_transition(info.get("day", 1))
 
 
 # ─── 选择案件 ───

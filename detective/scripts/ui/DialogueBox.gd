@@ -161,9 +161,11 @@ func _input(event: InputEvent) -> void:
 
 func show_narration(speaker: String, text: String, has_next: bool, portrait: String = "") -> void:
 	"""叙述模式：与 DialogueManager 的 narration 信号对接，点击推进"""
+	print("[DialogueBox] show_narration called. speaker='%s' has_next=%s run_id=%d" % [speaker, has_next, _dialogue_run_id + 1])
 	_narration_mode = true
 	_narration_has_next = has_next
 	_dialogue_run_id += 1
+	var my_run_id := _dialogue_run_id
 	_hide_options()
 	if _log_panel != null:
 		_log_panel.visible = false
@@ -182,10 +184,15 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 	# 打字机播放文字（不调用说话动画，避免立绘偏移）
 	_typewriter.play(text_label, display_text)
 	await _typewriter.finished
+	print("[DialogueBox] typewriter finished. my_run_id=%d current_run_id=%d" % [my_run_id, _dialogue_run_id])
+	if my_run_id != _dialogue_run_id:
+		print("[DialogueBox] !!! RUN ID MISMATCH - another show_narration was called during await!")
+		return
 	# 文字播放完毕，等待点击
 	var hint := "▼ 点击继续" if has_next else "▼ 点击进入游戏"
 	_set_choice_hint(hint, true)
 	_waiting_for_advance = true
+	print("[DialogueBox] _waiting_for_advance = true")
 
 
 func _apply_narration_speaker(speaker: String, portrait: String) -> void:

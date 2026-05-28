@@ -376,13 +376,6 @@ func _point_name(point_id: String) -> String:
 	return point_id
 
 
-func _point_cost(point_id: String) -> int:
-	for sp in GameManager.current_location_data().get("search_points", []):
-		if sp.get("id", "") == point_id:
-			return int(sp.get("time_cost", 1))
-	return 1
-
-
 func _set_all_disabled(disabled: bool) -> void:
 	# 搜索时隐藏热点层（避免边框透出弹窗）
 	var hotspot_layer = get_node_or_null("HotspotLayer")

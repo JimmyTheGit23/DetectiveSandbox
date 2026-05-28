@@ -6,10 +6,10 @@ uid="uid://bt5ju20fdjnyi"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/schedule_conditional_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.en.translation"]
+files=["res://data/case_tables/prologue_ferry/schedule_conditional_overrides.order.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.if.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.location.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.activity.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.public.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/schedule_conditional_overrides.csv"
-dest_files=["res://data/case_tables/prologue_ferry/schedule_conditional_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.en.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/schedule_conditional_overrides.order.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.if.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.location.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.activity.translation", "res://data/case_tables/prologue_ferry/schedule_conditional_overrides.public.translation"]
 
 [params]
 

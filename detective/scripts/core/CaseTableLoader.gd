@@ -101,6 +101,7 @@ static func load_case(case_id: String) -> Dictionary:
 		"day_events": _compile_day_events(src, docs.get("day_events_base", {})),
 		"npc_states": _compile_npc_states(src, docs.get("npc_states_base", {})),
 		"progression": _compile_progression(src, docs.get("progression_base", {})),
+		"time_progression": _compile_time_progression(src),
 		"schedules": _compile_schedules(src, docs.get("schedules_base", {})),
 		"culprit_actions": _compile_culprit_actions(src, docs.get("culprit_actions_base", {})),
 		"portrait_expressions": _compile_portrait_expressions(src),
@@ -796,6 +797,19 @@ static func _compile_progression(src: String, base: Dictionary = {}) -> Dictiona
 			if phase_id != "":
 				notifications[phase_id] = {"speaker": _cell(row, "speaker"), "text": _cell(row, "text")}
 		out["phase_notifications"] = notifications
+	return out
+
+
+static func _compile_time_progression(src: String) -> Array:
+	var out: Array = []
+	for row in _rows("%s/time_progression.csv" % src):
+		var entry := {}
+		entry["order"] = _parse_int(row.get("order", ""), 99)
+		entry["trigger_condition"] = _parse_condition(row.get("trigger_condition", ""))
+		entry["day"] = _parse_int(row.get("day", ""), 1)
+		entry["period_label"] = _cell(row, "period_label", "辰时")
+		out.append(entry)
+	out.sort_custom(func(a, b): return int(a.get("order", 99)) < int(b.get("order", 99)))
 	return out
 
 

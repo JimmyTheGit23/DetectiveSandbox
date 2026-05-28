@@ -19,8 +19,7 @@
       "unlock_condition": {
         "any": [
           { "evidence": "evidence_hull_hole" },
-          { "evidence": "evidence_wrong_channel" },
-          { "total_periods_used_gte": 10 }
+          { "evidence": "evidence_wrong_channel" }
         ]
       }
     },
@@ -87,8 +86,7 @@
       "condition": {
         "any": [
           { "evidence": "evidence_hull_hole" },
-          { "clue": "clue_reef_common_knowledge" },
-          { "total_periods_used_gte": 10 }
+          { "clue": "clue_reef_common_knowledge" }
         ]
       }
     },

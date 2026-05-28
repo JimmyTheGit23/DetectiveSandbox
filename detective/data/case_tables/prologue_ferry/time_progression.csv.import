@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cfuc8ou6n5nbo"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/time_progression.trigger.translation", "res://data/case_tables/prologue_ferry/time_progression.day.translation", "res://data/case_tables/prologue_ferry/time_progression.period.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/time_progression.csv"
+dest_files=["res://data/case_tables/prologue_ferry/time_progression.trigger.translation", "res://data/case_tables/prologue_ferry/time_progression.day.translation", "res://data/case_tables/prologue_ferry/time_progression.period.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

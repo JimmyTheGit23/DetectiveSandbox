@@ -8,7 +8,10 @@
         {
           "text": "说说当晚的事",
           "goto": "intro",
-          "type": "ask"
+          "type": "ask",
+          "requires": {
+            "not": { "flag": "agui_confessed_mastermind" }
+          }
         },
         {
           "text": "为什么走那条航道？",
@@ -43,21 +46,23 @@
         {
           "text": "你那条船，船底以前修过没有？",
           "goto": "show_hull",
-          "requires": [
-            {
-              "evidence": "evidence_hull_hole"
-            }
-          ],
+          "requires": {
+            "all": [
+              { "evidence": "evidence_hull_hole" },
+              { "not": { "flag": "agui_confessed_mastermind" } }
+            ]
+          },
           "type": "press"
         },
         {
           "text": "听说你最近手头有点紧？",
           "goto": "show_iou",
-          "requires": [
-            {
-              "evidence": "evidence_gambling_iou"
-            }
-          ],
+          "requires": {
+            "all": [
+              { "evidence": "evidence_gambling_iou" },
+              { "not": { "flag": "agui_confessed_mastermind" } }
+            ]
+          },
           "type": "press"
         },
         {

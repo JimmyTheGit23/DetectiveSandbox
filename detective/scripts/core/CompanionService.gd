@@ -39,9 +39,6 @@ func _ready() -> void:
 	_load_registry()
 	# 在 GameManager 加载完案件后初始化（GameManager 在 autoload 列表中排在前面，已就绪）
 	_init_for_case()
-	# 监听日切换重置每日计数
-	if GameManager:
-		GameManager.day_changed.connect(_on_day_changed)
 
 
 # ─── 加载 ──────────────────────────────────────────────────────────────────
@@ -394,11 +391,6 @@ func _evaluate_discussion_condition(when) -> bool:
 		if GameManager.current_day > int(d["day_lte"]):
 			return false
 
-	# period 条件
-	if d.has("period_lte"):
-		if GameManager.current_period > int(d["period_lte"]):
-			return false
-
 	# 线索条件
 	if d.has("has_clue"):
 		if not GameManager.has_clue(d["has_clue"]):
@@ -497,10 +489,6 @@ func _trigger_matches(rule_trigger: String, actual_trigger: String) -> bool:
 	if synonyms.has(rule_base) and actual_base in synonyms[rule_base]:
 		return true
 	return false
-
-
-func _on_day_changed(_new_day: int) -> void:
-	topic_state_changed.emit()
 
 
 ## 构造助手语音文件路径

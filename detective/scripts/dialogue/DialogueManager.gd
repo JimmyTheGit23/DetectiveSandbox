@@ -376,17 +376,22 @@ func start_narration(doc_id: String = "prologue") -> void:
 
 
 func narration_next() -> void:
+	print("[NARRATION] narration_next() called. mode=%s node='%s'" % [_narration_mode, _narration_node])
 	if not _narration_mode:
+		print("[NARRATION] narration_next called but _narration_mode=false! (node was '%s')" % _narration_node)
 		return
 	var node: Dictionary = _current_tree.get("nodes", {}).get(_narration_node, {})
 	if node.get("end", false):
+		print("[NARRATION] narration_next: node '%s' has end=true, ending." % _narration_node)
 		_end_narration()
 		return
 	# 有选项的节点不走 narration_next，等 narration_choose
 	if node.has("choices") and not node.get("choices", []).is_empty():
+		print("[NARRATION] narration_next: node '%s' has choices, blocked." % _narration_node)
 		return
 	var nxt: String = node.get("next", "")
 	if nxt == "":
+		print("[NARRATION] narration_next: node '%s' has empty next, ending." % _narration_node)
 		_end_narration()
 		return
 	_narration_node = nxt
@@ -414,7 +419,9 @@ func narration_choose(index: int) -> void:
 
 func _emit_narration() -> void:
 	var node: Dictionary = _current_tree.get("nodes", {}).get(_narration_node, {})
+	print("[NARRATION] _emit_narration node='%s' empty=%s" % [_narration_node, node.is_empty()])
 	if node.is_empty():
+		print("[NARRATION] !!! NODE EMPTY - ending narration at '%s'" % _narration_node)
 		_end_narration()
 		return
 	# 时间卡片节点：发出信号让 MainGame 显示时间过场，然后自动跳到下一节点
@@ -471,6 +478,8 @@ func _apply_narration_effects(effects) -> void:
 
 
 func _end_narration() -> void:
+	print("[NARRATION] _end_narration() called. Last node was '%s'. Stack:" % _narration_node)
+	print(get_stack())
 	_narration_mode = false
 	_current_tree = {}
 	VoicePlayer.end_session()

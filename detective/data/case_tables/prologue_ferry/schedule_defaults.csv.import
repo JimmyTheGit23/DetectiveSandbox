@@ -6,10 +6,10 @@ uid="uid://cx2cvorfl5fwx"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/schedule_defaults.en.translation", "res://data/case_tables/prologue_ferry/schedule_defaults.en.translation", "res://data/case_tables/prologue_ferry/schedule_defaults.en.translation", "res://data/case_tables/prologue_ferry/schedule_defaults.en.translation"]
+files=["res://data/case_tables/prologue_ferry/schedule_defaults.role.translation", "res://data/case_tables/prologue_ferry/schedule_defaults.location.translation", "res://data/case_tables/prologue_ferry/schedule_defaults.activity.translation", "res://data/case_tables/prologue_ferry/schedule_defaults.public.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/schedule_defaults.csv"
-dest_files=["res://data/case_tables/prologue_ferry/schedule_defaults.en.translation", "res://data/case_tables/prologue_ferry/schedule_defaults.en.translation", "res://data/case_tables/prologue_ferry/schedule_defaults.en.translation", "res://data/case_tables/prologue_ferry/schedule_defaults.en.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/schedule_defaults.role.translation", "res://data/case_tables/prologue_ferry/schedule_defaults.location.translation", "res://data/case_tables/prologue_ferry/schedule_defaults.activity.translation", "res://data/case_tables/prologue_ferry/schedule_defaults.public.translation"]
 
 [params]
 

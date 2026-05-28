@@ -5,5 +5,6 @@ search_point_unlock,shen_room.shen_desk,"{""any"":[{""evidence"":""evidence_shen
 search_point_unlock,gambling_alley.gambling_den,"{""flag"":""agui_confessed_mastermind""}",赌坊在渡口后街。目前没有理由去那里。,
 npc_unlock,fisherman_wang,"{""any"":[{""evidence"":""evidence_hull_hole""},{""clue"":""clue_reef_common_knowledge""},{""total_periods_used_gte"":10}]}",,
 npc_unlock,shen_qingyue,,,沈清月在phase_1就可以交谈（她是'追债的外地人'），但Phase 3后对话树会解锁新分支。
+npc_unlock,agui,"{""not"":{""flag"":""agui_confessed_mastermind""}}",阿贵已被押往后院柴房。,阿贵认罪后从对话列表中移除
 confrontation_unlock,confrontation_a,"{""all"":[{""evidence"":""evidence_hull_hole""},{""evidence"":""evidence_float_bladder""},{""evidence"":""evidence_no_blunt_trauma""},{""evidence"":""evidence_wrong_channel""},{""any"":[{""evidence"":""evidence_dismissal_note""},{""evidence"":""evidence_gambling_iou""}]}]}",,阿贵中BOSS对质——需要至少3件Phase A证据
 confrontation_unlock,confrontation_final,"{""all"":[{""flag"":""agui_confessed_mastermind""},{""evidence_count_gte"":2,""from"":[""evidence_salvage_mark"",""evidence_shen_connection"",""evidence_dock_timing"",""evidence_father_ledger""]}]}",,沈清月FINAL BOSS对质——需要阿贵认罪 + 至少2件Phase B证据

@@ -229,7 +229,7 @@
       "trigger": {
         "all": [
           {
-            "day_gte": 2
+            "evidence_count_gte": 3
           },
           {
             "not": {

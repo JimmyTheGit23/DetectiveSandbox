@@ -98,13 +98,6 @@ func _point_name(point_id: String) -> String:
 	return point_id
 
 
-func _point_cost(point_id: String) -> int:
-	for sp in GameManager.current_location_data().get("search_points", []):
-		if sp.get("id", "") == point_id:
-			return int(sp.get("time_cost", 1))
-	return 1
-
-
 func _set_buttons_disabled(disabled: bool) -> void:
 	for child in list_vbox.get_children():
 		if child is Button:

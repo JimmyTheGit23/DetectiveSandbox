@@ -115,8 +115,15 @@
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
       "speaker": "???",
       "text": "船沉了？！我说呢——刚才江上轰隆一声巨响！我以为是打雷……\n\n你等着，别动。客栈就在那边，本姑娘扶你过去。",
-      "next": "inn_arrival",
+      "next": "shore_5a_name",
       "portrait": "res://assets/cn/portraits/companion_lingyao_shocked.png"
+    },
+    "shore_5a_name": {
+      "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
+      "speaker": "凌瑶",
+      "text": "对了——我叫凌瑶。金鳞镖局跑信的。\n\n别的等进了屋再说——你再淋下去非冻成冰棍不可。走！",
+      "next": "inn_arrival",
+      "portrait": "res://assets/cn/portraits/companion_lingyao_cheerful.png"
     },
     "shore_5b": {
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",

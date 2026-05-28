@@ -1,9 +1,7 @@
 extends Node
-## 全局游戏管理器：状态、时间、地点、证据、线索、剧情标记、NPC 状态机、日程事件
+## 全局游戏管理器：状态、地点、证据、线索、剧情标记、NPC 状态机、日程事件
 
 signal state_changed(new_state: String)
-signal time_advanced(day: int, period: int)
-signal day_changed(new_day: int)
 signal evidence_added(evidence_id: String)
 signal clue_added(clue_id: String)
 signal location_changed(location_id: String)
@@ -20,14 +18,6 @@ const STATE_DIALOGUE := "dialogue"
 const STATE_MENU := "menu"
 const STATE_ENDING := "ending"
 const STATE_TRANSITION := "transition"  # 日期切换过场
-
-# 时间系统：6 时段/天，共 7 天
-const PERIODS_PER_DAY := 14
-const TOTAL_DAYS := 3
-const PERIOD_NAMES := [
-	"清晨", "辰时", "近午", "正午", "未初", "未时", "申初",
-	"申时", "酉初", "酉时", "戌初", "戌时", "亥初", "亥时"
-]
 
 # 当前案件（动态可切换）
 const CURRENT_CASE_PATH := "user://current_case.json"
@@ -50,7 +40,6 @@ var SAVE_PATH: String = "user://saves/%s.json" % DEFAULT_CASE
 
 var current_state: String = STATE_PROLOGUE
 var current_day: int = 1
-var current_period: int = 0
 var current_location: String = "post_station"
 
 # 数据
@@ -68,6 +57,7 @@ var unlocked_phases: Array[String] = ["phase_1"]
 
 # 新：NPC 时段日程 + 凶手行动表（动态案件可选）
 var schedules_data: Dictionary = {}
+var time_progression_data: Array = []
 var culprit_actions_data: Dictionary = {}
 
 # 对峙数据路由：由对话系统设置，ConfrontationPanel 读取
@@ -157,7 +147,6 @@ func switch_case(case_id: String) -> bool:
 	# 重置当前会话状态（但不清存档；玩家选了案件后再决定开新游戏还是继续）
 	current_state = STATE_PROLOGUE
 	current_day = 1
-	current_period = 0
 	current_location = case_main_scene
 	collected_evidence.clear()
 	collected_clues.clear()
@@ -197,6 +186,7 @@ func _load_data() -> void:
 	progression_data = table_data.get("progression", {})
 	# 新：NPC schedule 与凶手行动表（可选，没有就退回静态行为）
 	schedules_data = table_data.get("schedules", {})
+	time_progression_data = table_data.get("time_progression", [])
 	culprit_actions_data = table_data.get("culprit_actions", {})
 	_resolve_culprit_action_schedule()
 	# 通知资产解析器加载本案的 casting / bgm_config
@@ -237,7 +227,6 @@ func _init_npc_states() -> void:
 func reset_progress() -> void:
 	current_state = STATE_PROLOGUE
 	current_day = 1
-	current_period = 0
 	current_location = case_main_scene
 	collected_evidence.clear()
 	collected_clues.clear()
@@ -286,7 +275,6 @@ func save_game() -> void:
 	var data := {
 		"current_state": current_state,
 		"current_day": current_day,
-		"current_period": current_period,
 		"current_location": current_location,
 		"collected_evidence": collected_evidence,
 		"collected_clues": collected_clues,
@@ -329,7 +317,6 @@ func load_game() -> bool:
 	var data: Dictionary = parsed
 	current_state = data.get("current_state", STATE_PLAYING)
 	current_day = int(data.get("current_day", 1))
-	current_period = int(data.get("current_period", 0))
 	current_location = data.get("current_location", case_main_scene)
 	collected_evidence.assign(data.get("collected_evidence", []))
 	collected_clues.assign(data.get("collected_clues", []))
@@ -376,44 +363,6 @@ func set_state(new_state: String) -> void:
 	state_changed.emit(new_state)
 	if new_state != STATE_PROLOGUE:
 		save_game()
-
-
-# ─── 时间 ───
-func advance_period(periods: int = 1) -> void:
-	var old_day := current_day
-	for i in range(periods):
-		current_period += 1
-		if current_period >= PERIODS_PER_DAY:
-			current_period = 0
-			current_day += 1
-	time_advanced.emit(current_day, current_period)
-	if current_day != old_day:
-		day_changed.emit(current_day)
-	_run_culprit_tick()
-	_check_day_events()
-	_check_progression()
-	save_game()
-
-
-func is_time_up() -> bool:
-	return current_day > TOTAL_DAYS
-
-
-func current_time_text() -> String:
-	return "第 %d 日 · %s" % [current_day, PERIOD_NAMES[current_period]]
-
-
-func remaining_periods() -> int:
-	var used = (current_day - 1) * PERIODS_PER_DAY + current_period
-	return TOTAL_DAYS * PERIODS_PER_DAY - used
-
-
-func periods_until_next_day() -> int:
-	return PERIODS_PER_DAY - current_period
-
-
-func total_periods_used() -> int:
-	return (current_day - 1) * PERIODS_PER_DAY + current_period
 
 
 # ─── 地点 ───
@@ -520,7 +469,7 @@ func add_case_record(record: Dictionary) -> bool:
 		"text": text,
 		"source": str(record.get("source", "")),
 		"day": current_day,
-		"period": current_period,
+		"period": 0,
 	}
 	case_records.append(entry)
 	save_game()
@@ -539,7 +488,7 @@ func add_dialogue_record(speaker: String, text: String) -> void:
 		"speaker": speaker if speaker != "" else "旁白",
 		"text": clean_text,
 		"day": current_day,
-		"period": current_period,
+		"period": 0,
 	})
 	while dialogue_records.size() > 240:
 		dialogue_records.pop_front()
@@ -645,9 +594,8 @@ func _apply_transitions_for_npc(npc_id: String, event_key: String) -> void:
 ##   { "clue": "clue_id" }
 ##   { "flag": "flag_id" }
 ##   { "visited": "npc_id.node_id" }
-##   { "day_gte": N }  / { "day_lte": N } / { "day_eq": N }
-##   { "period_gte": N }
 ##   { "location_unlocked": "loc_id" }  地点已解锁
+##   { "evidence_count_gte": N }  证据总数 >= N
 ##   { "state": "npc.stat", "lt": N } / "lte" / "gt" / "gte" / "eq"
 ##   { "not": <cond> }
 ##   { "all": [cond1, cond2, ...] }
@@ -703,7 +651,7 @@ func evaluate_condition(cond) -> bool:
 			var loc_id: String = str(loc_spec.get("location", ""))
 			if loc_npc == "" or loc_id == "":
 				return false
-			return get_npc_schedule_at(loc_npc, current_day, current_period).get("location", "") == loc_id
+			return get_npc_schedule(loc_npc).get("location", "") == loc_id
 		return false
 	# NPC 当前活动条件：{ "npc_activity": { "npc": "bu_zhang", "activity": "collect_debt" } }
 	if d.has("npc_activity"):
@@ -713,7 +661,7 @@ func evaluate_condition(cond) -> bool:
 			var act_id: String = str(act_spec.get("activity", ""))
 			if act_npc == "" or act_id == "":
 				return false
-			return get_npc_schedule_at(act_npc, current_day, current_period).get("activity", "") == act_id
+			return get_npc_schedule(act_npc).get("activity", "") == act_id
 		return false
 	if d.has("visited"):
 		var v: String = d["visited"]
@@ -721,20 +669,17 @@ func evaluate_condition(cond) -> bool:
 		if parts.size() == 2:
 			return has_visited(parts[0], parts[1])
 		return false
+	if d.has("location_unlocked"):
+		return is_location_unlocked(str(d["location_unlocked"]))
 	if d.has("day_gte"):
 		return current_day >= int(d["day_gte"])
 	if d.has("day_lte"):
 		return current_day <= int(d["day_lte"])
-	if d.has("day_eq"):
-		return current_day == int(d["day_eq"])
-	if d.has("period_gte"):
-		return current_period >= int(d["period_gte"])
 	if d.has("total_periods_used_gte"):
-		return total_periods_used() >= int(d["total_periods_used_gte"])
-	if d.has("total_periods_used_lte"):
-		return total_periods_used() <= int(d["total_periods_used_lte"])
-	if d.has("location_unlocked"):
-		return is_location_unlocked(str(d["location_unlocked"]))
+		var total := 0
+		for v in search_history.values():
+			total += int(v)
+		return total >= int(d["total_periods_used_gte"])
 	if d.has("state"):
 		var sk: String = d["state"]
 		var p := sk.split(".")
@@ -851,6 +796,9 @@ func is_npc_name_revealed(nid: String) -> bool:
 func _check_progression() -> void:
 	if progression_data.is_empty():
 		return
+	# 序章叙事期间不触发阶段解锁
+	if current_state == STATE_PROLOGUE:
+		return
 	for phase in progression_data.get("phases", []):
 		var pid: String = phase.get("id", "")
 		if pid == "" or unlocked_phases.has(pid):
@@ -959,8 +907,25 @@ func get_current_phase_hint() -> String:
 	return phase.get("hint", "")
 
 
+## 根据 time_progression 数据返回当前时间标签（数据驱动）
+func get_current_time_label() -> String:
+	var day_names := ["", "第一天", "第二天", "第三天", "第四天", "第五天"]
+	for entry in time_progression_data:
+		if evaluate_condition(entry.get("trigger_condition", null)):
+			var d: int = int(entry.get("day", 1))
+			var day_str: String = day_names[clampi(d, 1, day_names.size() - 1)]
+			var period: String = entry.get("period_label", "辰时")
+			return "%s · %s" % [day_str, period]
+	# 默认
+	var day_str: String = day_names[clampi(current_day, 1, day_names.size() - 1)]
+	return "%s · 辰时" % day_str
+
+
 # ─── 日程事件 ───
 func _check_day_events() -> void:
+	# 序章叙事期间不触发日程事件
+	if current_state == STATE_PROLOGUE:
+		return
 	for evt in day_events_data.get("events", []):
 		var evt_id: String = evt.get("id", "")
 		if triggered_events.get(evt_id, false):
@@ -1044,20 +1009,7 @@ func get_ending(ending_id: String) -> Dictionary:
 	return case_data.get("endings", {}).get(ending_id, {})
 
 
-# ─── NPC 调度（schedule + culprit actions）─────────────────────────────────
-
-## "D{day}_P{period}" → 绝对时段（0-23），方便比大小与抖动
-static func _to_abs_period(day: int, period: int) -> int:
-	return (day - 1) * PERIODS_PER_DAY + period
-
-
-static func _from_abs_period(abs_p: int) -> Vector2i:
-	abs_p = max(0, abs_p)
-	@warning_ignore("integer_division")
-	var d: int = abs_p / PERIODS_PER_DAY + 1
-	var p: int = abs_p % PERIODS_PER_DAY
-	return Vector2i(d, p)
-
+# ─── NPC 调度（schedule）─────────────────────────────────
 
 ## "D2_P3" → Vector2i(day, period)；解析失败返回 (-1,-1)
 static func _parse_dp(s: String) -> Vector2i:
@@ -1072,6 +1024,7 @@ static func _parse_dp(s: String) -> Vector2i:
 
 
 ## 用 case_seed 解算凶手每个动作的实际执行时段（基础时刻 + ±jitter 抖动）
+## 注：此功能为未来动态案件保留，当前不依赖时段推进
 func _resolve_culprit_action_schedule() -> void:
 	culprit_action_resolved.clear()
 	if case_seed == 0:
@@ -1079,6 +1032,8 @@ func _resolve_culprit_action_schedule() -> void:
 	var actions: Array = culprit_actions_data.get("actions", [])
 	if actions.is_empty():
 		return
+	const _PERIODS_PER_DAY := 14
+	const _TOTAL_DAYS := 3
 	var rng := RandomNumberGenerator.new()
 	rng.seed = case_seed
 	for a in actions:
@@ -1090,30 +1045,25 @@ func _resolve_culprit_action_schedule() -> void:
 		var dp := _parse_dp(dp_str)
 		if dp.x < 0:
 			continue
-		var base_abs := _to_abs_period(dp.x, dp.y)
+		var base_abs := (dp.x - 1) * _PERIODS_PER_DAY + dp.y
 		var delta := 0
 		if jitter > 0:
 			delta = rng.randi_range(-jitter, jitter)
-		var final_abs: int = clamp(base_abs + delta, 0, TOTAL_DAYS * PERIODS_PER_DAY - 1)
-		var v := _from_abs_period(final_abs)
-		culprit_action_resolved[aid] = "D%d_P%d" % [v.x, v.y]
+		var final_abs: int = clamp(base_abs + delta, 0, _TOTAL_DAYS * _PERIODS_PER_DAY - 1)
+		@warning_ignore("integer_division")
+		var vd: int = final_abs / _PERIODS_PER_DAY + 1
+		var vp: int = final_abs % _PERIODS_PER_DAY
+		culprit_action_resolved[aid] = "D%d_P%d" % [vd, vp]
 
 
-## 取某 NPC 在 day/period 时段的所在地与活动
+## 取某 NPC 的当前调度（基于 flag 条件）
 ## 返回 {"location": "...", "activity": "...", "public": bool} 或 {} 表示无调度
-## 优先级：时段 override > conditional_override（flag 触发） > default
-func get_npc_schedule_at(npc_id: String, day: int, period: int) -> Dictionary:
+## 优先级：conditional_override（flag 触发） > default
+func get_npc_schedule(npc_id: String) -> Dictionary:
 	var entry = schedules_data.get(npc_id, null)
 	if typeof(entry) != TYPE_DICTIONARY:
 		return {}
-	# 1) 时段精确 override（最高优先级）
-	var key := "D%d_P%d" % [day, period]
-	var overrides: Dictionary = entry.get("overrides", {})
-	if overrides.has(key):
-		var ov = overrides[key]
-		if typeof(ov) == TYPE_DICTIONARY:
-			return ov
-	# 2) 条件 override（flag 被设置后替换 default）
+	# 条件 override（flag 被设置后替换 default）
 	var cond_overrides: Array = entry.get("conditional_overrides", [])
 	for co in cond_overrides:
 		if typeof(co) != TYPE_DICTIONARY:
@@ -1123,19 +1073,22 @@ func get_npc_schedule_at(npc_id: String, day: int, period: int) -> Dictionary:
 			var sched = co.get("schedule", null)
 			if typeof(sched) == TYPE_DICTIONARY:
 				return sched
-	# 3) default
+	# default
 	var def = entry.get("default", null)
 	if typeof(def) == TYPE_DICTIONARY:
 		return def
 	return {}
 
 
-## 取当前时段所在 location_id 的有效 NPC 列表（public=true 的才会自然出现）
+## 兼容旧接口：带 day/period 参数（忽略时段，仅用 flag 逻辑）
+func get_npc_schedule_at(npc_id: String, _day: int, _period: int) -> Dictionary:
+	return get_npc_schedule(npc_id)
+
+
+## 取当前位置的有效 NPC 列表（public=true 的才会自然出现）
 ## 优先用 schedule，schedule 缺失则回退到 locations.json 的静态 npcs 字段
 ## 会过滤渐进系统中未解锁的 NPC
-func get_active_npcs_at(location_id: String, day: int = -1, period: int = -1) -> Array:
-	if day < 0: day = current_day
-	if period < 0: period = current_period
+func get_active_npcs_at(location_id: String, _day: int = -1, _period: int = -1) -> Array:
 	# 如果当前案件没配 schedules，直接回退到静态
 	if schedules_data.is_empty():
 		var fallback_loc := get_location_data(location_id)
@@ -1154,7 +1107,7 @@ func get_active_npcs_at(location_id: String, day: int = -1, period: int = -1) ->
 			continue
 		if not is_npc_unlocked(nid):
 			continue
-		var sched := get_npc_schedule_at(nid, day, period)
+		var sched := get_npc_schedule(nid)
 		if sched.is_empty():
 			continue
 		if sched.get("location", "") != location_id:
@@ -1170,43 +1123,6 @@ func get_active_npcs_at(location_id: String, day: int = -1, period: int = -1) ->
 			if is_npc_unlocked(nid_s):
 				result.append(nid_s)
 	return result
-
-
-## 凶手动作 tick：进入某个时段时调用
-##  - 若动作时段已到，投放痕迹证据（标记为"案件隐藏证据"，玩家搜索到才显形）
-##  - 若玩家正在动作地点，且 public=false → 直接撞见，设置 witness flag
-func _run_culprit_tick() -> void:
-	var actions: Array = culprit_actions_data.get("actions", [])
-	if actions.is_empty() or culprit_action_resolved.is_empty():
-		return
-	var now_abs := _to_abs_period(current_day, current_period)
-	for a in actions:
-		if typeof(a) != TYPE_DICTIONARY:
-			continue
-		var aid: String = a.get("id", "")
-		if aid == "":
-			continue
-		if has_flag("culprit_action_done:" + aid):
-			continue
-		var resolved_key: String = culprit_action_resolved.get(aid, a.get("day_period", ""))
-		var dp := _parse_dp(resolved_key)
-		if dp.x < 0:
-			continue
-		var action_abs := _to_abs_period(dp.x, dp.y)
-		if now_abs < action_abs:
-			continue
-		# 已到执行时段：判定玩家是否目击
-		var loc: Dictionary = a.get("leaves_trace", {})
-		var loc_id: String = loc.get("location", "")
-		# 玩家只要在场就算"撞见"（public 动作=公开看到；private=撞破偷偷做）
-		# 撞见会设置 if_witnessed flag → 触发 day_events.json 中 auto_play 遭遇剧情
-		if current_location == loc_id:
-			var wflag: String = a.get("if_witnessed", "")
-			if wflag != "":
-				set_flag(wflag)
-		# 标记动作已发生（即使玩家没看见，也会留下痕迹）
-		set_flag("culprit_action_done:" + aid)
-		culprit_actions_witnessed[aid] = current_location == loc_id
 
 
 ## "重置随机种子" —— 新游戏开局时调用

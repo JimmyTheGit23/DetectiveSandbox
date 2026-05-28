@@ -1,0 +1,5 @@
+order,trigger_condition,day,period_label
+1,"{""flag"":""agui_confessed_mastermind""}",2,辰时
+2,"{""flag"":""fan_motive_known""}",1,未时
+3,"{""flag"":""agui_premeditation_known""}",1,午时
+4,"{""flag"":""hull_sabotage_known""}",1,巳时

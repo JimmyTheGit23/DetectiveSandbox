@@ -86,6 +86,9 @@
           "requires": {
             "all": [
               {
+                "evidence": "evidence_cargo_silver"
+              },
+              {
                 "evidence": "evidence_salvage_mark"
               },
               {
