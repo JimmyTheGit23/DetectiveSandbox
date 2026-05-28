@@ -214,10 +214,10 @@ func _build_ui() -> void:
 		_companion_rect.anchor_right = 0.0
 		_companion_rect.anchor_top = 0.0
 		_companion_rect.anchor_bottom = 1.0
-		_companion_rect.offset_left = -300   # 屏幕左侧外
-		_companion_rect.offset_top = 120
-		_companion_rect.offset_right = -50
-		_companion_rect.offset_bottom = 30
+		_companion_rect.offset_left = -280
+		_companion_rect.offset_top = 60
+		_companion_rect.offset_right = 20
+		_companion_rect.offset_bottom = 150
 		_companion_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		_companion_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		_companion_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -1850,8 +1850,8 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3) ->
 		if _companion_rect:
 			_companion_rect.visible = true
 			_update_companion_portrait()
-			_camera_tween.tween_property(_companion_rect, "offset_left", 320.0, duration)
-			_camera_tween.tween_property(_companion_rect, "offset_right", 520.0, duration)
+			_camera_tween.tween_property(_companion_rect, "offset_left", 350.0, duration)
+			_camera_tween.tween_property(_companion_rect, "offset_right", 650.0, duration)
 			_camera_tween.tween_property(_companion_rect, "modulate:a", 0.9, duration * 0.5)
 
 	# 等动画完成后隐藏NPC
