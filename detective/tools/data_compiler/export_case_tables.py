@@ -314,18 +314,24 @@ def export_confrontations(case_dir: Path, out_dir: Path) -> None:
                         "confrontation_id": confrontation_id,
                         "section": section,
                         "order": idx,
+                        "speaker_id": line.get("speaker_id", ""),
                         "speaker": line.get("speaker", ""),
                         "text": line.get("text", ""),
                         "emotion": line.get("emotion", ""),
+                        "portrait_emotion": line.get("portrait_emotion", ""),
+                        "portrait_override": line.get("portrait_override", ""),
                     })
                 else:
                     confrontation_line_rows.append({
                         "confrontation_id": confrontation_id,
                         "section": section,
                         "order": idx,
+                        "speaker_id": "",
                         "speaker": "",
                         "text": str(line),
                         "emotion": "",
+                        "portrait_emotion": "",
+                        "portrait_override": "",
                     })
         for t_idx, testimony in enumerate(data.get("testimonies", []), start=1):
             if not isinstance(testimony, dict):
@@ -347,9 +353,12 @@ def export_confrontations(case_dir: Path, out_dir: Path) -> None:
                         "testimony_id": testimony_id,
                         "section": section,
                         "order": idx,
+                        "speaker_id": line.get("speaker_id", ""),
                         "speaker": line.get("speaker", ""),
                         "text": line.get("text", ""),
                         "emotion": line.get("emotion", ""),
+                        "portrait_emotion": line.get("portrait_emotion", ""),
+                        "portrait_override": line.get("portrait_override", ""),
                     })
             for s_idx, stmt in enumerate(testimony.get("statements", []), start=1):
                 if not isinstance(stmt, dict):
@@ -376,26 +385,30 @@ def export_confrontations(case_dir: Path, out_dir: Path) -> None:
         "bgm_final_round", "confidence", "writer_note",
     ], confrontation_rows)
     write_csv(out_dir / "confrontation_lines.csv", [
-        "confrontation_id", "section", "order", "speaker", "text", "emotion",
+        "confrontation_id", "section", "order", "speaker_id", "speaker", "text", "emotion",
+        "portrait_emotion", "portrait_override",
     ], confrontation_line_rows)
     write_csv(out_dir / "testimony_sets.csv", [
         "confrontation_id", "order", "testimony_id", "witness", "title", "writer_note",
     ], testimony_rows)
     write_csv(out_dir / "testimony_lines.csv", [
-        "testimony_id", "section", "order", "speaker", "text", "emotion",
+        "testimony_id", "section", "order", "speaker_id", "speaker", "text", "emotion",
+        "portrait_emotion", "portrait_override",
     ], testimony_line_rows)
     write_csv(out_dir / "testimony_statements.csv", [
-        "testimony_id", "statement_id", "order", "speaker", "text", "is_contradiction",
-        "counter_evidence", "alt_evidence", "break_evidence", "press_add_trigger", "press_add_after", "writer_note",
+        "testimony_id", "statement_id", "order", "speaker_id", "speaker", "text", "emotion",
+        "portrait_emotion", "portrait_override", "is_contradiction", "counter_evidence", "alt_evidence",
+        "break_evidence", "press_add_trigger", "press_add_after", "writer_note",
     ], statement_rows)
     write_csv(out_dir / "testimony_press_lines.csv", [
-        "statement_id", "order", "speaker", "text", "emotion",
+        "statement_id", "order", "speaker_id", "speaker", "text", "emotion", "portrait_emotion", "portrait_override",
     ], press_rows)
     write_csv(out_dir / "testimony_break_lines.csv", [
-        "statement_id", "order", "speaker", "text", "emotion",
+        "statement_id", "order", "speaker_id", "speaker", "text", "emotion", "portrait_emotion", "portrait_override",
     ], break_rows)
     write_csv(out_dir / "testimony_wrong_reactions.csv", [
-        "statement_id", "evidence_id", "order", "speaker", "text", "emotion",
+        "statement_id", "evidence_id", "order", "speaker_id", "speaker", "text", "emotion",
+        "portrait_emotion", "portrait_override",
     ], wrong_rows)
 
 
@@ -415,8 +428,12 @@ def _append_statement_rows(
         "testimony_id": testimony_id,
         "statement_id": statement_id,
         "order": order,
+        "speaker_id": stmt.get("speaker_id", ""),
         "speaker": stmt.get("speaker", ""),
         "text": stmt.get("text", ""),
+        "emotion": stmt.get("emotion", ""),
+        "portrait_emotion": stmt.get("portrait_emotion", ""),
+        "portrait_override": stmt.get("portrait_override", ""),
         "is_contradiction": compact(stmt.get("is_contradiction", "")),
         "counter_evidence": stmt.get("counter_evidence", ""),
         "alt_evidence": json.dumps(stmt["alt_evidence"], ensure_ascii=False, separators=(",", ":")) if "alt_evidence" in stmt else "",
@@ -430,18 +447,24 @@ def _append_statement_rows(
             press_rows.append({
                 "statement_id": statement_id,
                 "order": idx,
+                "speaker_id": line.get("speaker_id", ""),
                 "speaker": line.get("speaker", ""),
                 "text": line.get("text", ""),
                 "emotion": line.get("emotion", ""),
+                "portrait_emotion": line.get("portrait_emotion", ""),
+                "portrait_override": line.get("portrait_override", ""),
             })
     for idx, line in enumerate(stmt.get("break_dialogue", []), start=1):
         if isinstance(line, dict):
             break_rows.append({
                 "statement_id": statement_id,
                 "order": idx,
+                "speaker_id": line.get("speaker_id", ""),
                 "speaker": line.get("speaker", ""),
                 "text": line.get("text", ""),
                 "emotion": line.get("emotion", ""),
+                "portrait_emotion": line.get("portrait_emotion", ""),
+                "portrait_override": line.get("portrait_override", ""),
             })
     wrong_reactions = stmt.get("wrong_reactions", {})
     if isinstance(wrong_reactions, dict):
@@ -454,9 +477,12 @@ def _append_statement_rows(
                         "statement_id": statement_id,
                         "evidence_id": evidence_id,
                         "order": idx,
+                        "speaker_id": line.get("speaker_id", ""),
                         "speaker": line.get("speaker", ""),
                         "text": line.get("text", ""),
                         "emotion": line.get("emotion", ""),
+                        "portrait_emotion": line.get("portrait_emotion", ""),
+                        "portrait_override": line.get("portrait_override", ""),
                     })
 
 
@@ -708,6 +734,81 @@ def export_culprit_actions(case_dir: Path, out_dir: Path) -> None:
     ], rows)
 
 
+def export_json_docs(case_dir: Path, out_dir: Path) -> None:
+    """Export complex runtime documents that are not normalized yet into CSV-backed docs.
+
+    Godot runtime reads this CSV, not the original JSON files. Structured tables still remain
+    the preferred authoring surface; these docs preserve metadata, prologue/cinematics,
+    companion rules, BGM maps, and legacy fields while the table model expands.
+    """
+    doc_paths = {
+        "manifest": case_dir / "manifest.json",
+        "key_info": case_dir / "key_info.json",
+        "bgm_config": case_dir / "bgm_config.json",
+        "prologue": case_dir / "prologue.json",
+        "epilogue_meta": case_dir / "epilogue_meta.json",
+        "companion_config": case_dir / "companion" / "companion.json",
+        "companion_discussions": case_dir / "companion" / "discussions.json",
+        "companion_banter": case_dir / "companion" / "banter.json",
+        # Base docs preserve fields that are not yet represented by the normalized CSV tables.
+        "case_base": case_dir / "case.json",
+        "progression_base": case_dir / "progression.json",
+        "npc_states_base": case_dir / "npc_states.json",
+        "day_events_base": case_dir / "day_events.json",
+        "schedules_base": case_dir / "schedules.json",
+        "culprit_actions_base": case_dir / "culprit_actions.json",
+    }
+    rows: List[JsonDict] = []
+    for doc_id, path in doc_paths.items():
+        if not path.exists():
+            continue
+        data = load_json(path)
+        rows.append({
+            "doc_id": doc_id,
+            "json": json.dumps(data, ensure_ascii=False, separators=(",", ":")),
+        })
+
+    dialogues_base: JsonDict = {}
+    dlg_dir = case_dir / "dialogues"
+    if dlg_dir.exists():
+        for path in sorted(dlg_dir.glob("*.json")):
+            dialogues_base[path.stem] = load_json(path)
+    if dialogues_base:
+        rows.append({
+            "doc_id": "dialogues_base",
+            "json": json.dumps(dialogues_base, ensure_ascii=False, separators=(",", ":")),
+        })
+    write_csv(out_dir / "json_docs.csv", ["doc_id", "json"], rows)
+
+
+def export_case_index(out_root: Path) -> None:
+    index = load_json(DATA / "cases" / "_index.json")
+    default_case = index.get("default_case", "")
+    rows: List[JsonDict] = []
+    for entry in index.get("cases", []):
+        if not isinstance(entry, dict):
+            continue
+        rows.append({
+            "id": entry.get("id", ""),
+            "default": "true" if entry.get("id", "") == default_case else "",
+            "order": entry.get("order", ""),
+            "locked": compact(entry.get("locked", "")),
+            "lock_reason": entry.get("lock_reason", ""),
+            "tag": entry.get("tag", ""),
+            "voice_status": entry.get("voice_status", "full"),
+            "unlock_after": entry.get("unlock_after", ""),
+            "style": entry.get("style", ""),
+            "category": entry.get("category", ""),
+            "era": entry.get("era", "ancient"),
+            "is_tutorial": compact(entry.get("is_tutorial", "")),
+            "preview_blurb": entry.get("preview_blurb", ""),
+        })
+    write_csv(out_root / "case_index.csv", [
+        "id", "default", "order", "locked", "lock_reason", "tag", "voice_status",
+        "unlock_after", "style", "category", "era", "is_tutorial", "preview_blurb",
+    ], rows)
+
+
 def export_case(case_id: str, out_root: Path) -> None:
     case_dir = DATA / "cases" / case_id
     if not case_dir.exists():
@@ -725,14 +826,28 @@ def export_case(case_id: str, out_root: Path) -> None:
     export_schedules(case_dir, out_dir)
     export_culprit_actions(case_dir, out_dir)
     export_portrait_expressions(case_dir, out_dir)
+    export_json_docs(case_dir, out_dir)
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--case", dest="case_id", required=True)
+    ap.add_argument("--case", dest="case_id", help="case id to export")
+    ap.add_argument("--all", action="store_true", help="export all cases listed in data/cases/_index.json")
+    ap.add_argument("--index", action="store_true", help="export data/case_tables/case_index.csv")
     ap.add_argument("--out-root", default=str(DATA / "case_tables"))
     args = ap.parse_args()
-    export_case(args.case_id, Path(args.out_root).resolve())
+    out_root = Path(args.out_root).resolve()
+    if args.index or args.all:
+        export_case_index(out_root)
+    if args.all:
+        index = load_json(DATA / "cases" / "_index.json")
+        for entry in index.get("cases", []):
+            if isinstance(entry, dict) and entry.get("id", ""):
+                export_case(entry["id"], out_root)
+    elif args.case_id:
+        export_case(args.case_id, out_root)
+    elif not args.index:
+        ap.error("use --case <case_id>, --all, or --index")
     return 0
 
 

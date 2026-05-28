@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://jhe6n2j0pat0"
+
+[deps]
+
+files=["res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation"]
+
+source_file="res://data/case_tables/linchuan_inn/confrontation_lines.csv"
+dest_files=["res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation", "res://data/case_tables/linchuan_inn/confrontation_lines.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

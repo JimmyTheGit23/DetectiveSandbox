@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dt0yt0ncqay0a"
+
+[deps]
+
+files=["res://data/case_tables/linchuan_inn/search_results.point.translation", "res://data/case_tables/linchuan_inn/search_results.variant.translation", "res://data/case_tables/linchuan_inn/search_results.when.translation", "res://data/case_tables/linchuan_inn/search_results.en.translation", "res://data/case_tables/linchuan_inn/search_results.narration.translation", "res://data/case_tables/linchuan_inn/search_results.gain.translation", "res://data/case_tables/linchuan_inn/search_results.gain.translation", "res://data/case_tables/linchuan_inn/search_results.set.translation", "res://data/case_tables/linchuan_inn/search_results.trigger.translation", "res://data/case_tables/linchuan_inn/search_results.trigger.translation", "res://data/case_tables/linchuan_inn/search_results.en.translation"]
+
+source_file="res://data/case_tables/linchuan_inn/search_results.csv"
+dest_files=["res://data/case_tables/linchuan_inn/search_results.point.translation", "res://data/case_tables/linchuan_inn/search_results.variant.translation", "res://data/case_tables/linchuan_inn/search_results.when.translation", "res://data/case_tables/linchuan_inn/search_results.en.translation", "res://data/case_tables/linchuan_inn/search_results.narration.translation", "res://data/case_tables/linchuan_inn/search_results.gain.translation", "res://data/case_tables/linchuan_inn/search_results.gain.translation", "res://data/case_tables/linchuan_inn/search_results.set.translation", "res://data/case_tables/linchuan_inn/search_results.trigger.translation", "res://data/case_tables/linchuan_inn/search_results.trigger.translation", "res://data/case_tables/linchuan_inn/search_results.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

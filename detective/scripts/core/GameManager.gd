@@ -30,7 +30,6 @@ const PERIOD_NAMES := [
 ]
 
 # 当前案件（动态可切换）
-const CASE_INDEX_PATH := "res://data/cases/_index.json"
 const CURRENT_CASE_PATH := "user://current_case.json"
 const DEFAULT_CASE := "linchuan_inn"
 
@@ -40,7 +39,7 @@ var ACTIVE_CASE: String = DEFAULT_CASE
 const DEFAULT_MAIN_SCENE := "post_station"
 var case_main_scene: String = DEFAULT_MAIN_SCENE
 
-# 当前案件元信息（来自 manifest.json）
+# 当前案件元信息（来自 CSV 表格 manifest 文档）
 var case_manifest: Dictionary = {}
 
 # 案件索引（来自 _index.json）
@@ -103,14 +102,7 @@ func _ready() -> void:
 
 # ─── 案件管理 ───
 func _load_case_index() -> void:
-	if not FileAccess.file_exists(CASE_INDEX_PATH):
-		return
-	var f := FileAccess.open(CASE_INDEX_PATH, FileAccess.READ)
-	if f == null:
-		return
-	var parsed = JSON.parse_string(f.get_as_text())
-	if typeof(parsed) == TYPE_DICTIONARY:
-		case_index = parsed
+	case_index = CaseTableLoader.load_case_index()
 
 
 func _resolve_active_case() -> void:
@@ -131,8 +123,7 @@ func _resolve_active_case() -> void:
 
 
 func _case_exists(case_id: String) -> bool:
-	return DirAccess.dir_exists_absolute(ProjectSettings.globalize_path("res://data/cases/%s" % case_id)) \
-		or FileAccess.file_exists("res://data/cases/%s/case.json" % case_id)
+	return CaseTableLoader.case_exists(case_id)
 
 
 func _set_active_case(case_id: String, persist: bool = true) -> void:
@@ -141,8 +132,8 @@ func _set_active_case(case_id: String, persist: bool = true) -> void:
 	# 确保 user://saves/ 目录存在
 	if not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path("user://saves")):
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("user://saves"))
-	# 加载 manifest
-	case_manifest = _read_json(_case_path("manifest.json"))
+	# 加载 manifest（运行时来自 data/case_tables/<case_id>/json_docs.csv）
+	case_manifest = CaseTableLoader.load_manifest(case_id)
 	case_main_scene = case_manifest.get("main_scene", DEFAULT_MAIN_SCENE)
 	if persist:
 		var f := FileAccess.open(CURRENT_CASE_PATH, FileAccess.WRITE)
@@ -152,7 +143,7 @@ func _set_active_case(case_id: String, persist: bool = true) -> void:
 
 ## 切换到另一个案件。会：
 ##   1) 写 current_case.json，下次启动会记得
-##   2) 重新加载该案件的全套 JSON 数据
+##   2) 重新加载该案件的全套 CSV 表格数据
 ##   3) 通知 AssetResolver 切换 casting/bgm_config
 ##   4) 重置玩家进度（不是清存档，仅当前会话的状态变量）
 ## 注意：调用方负责把 UI 切回标题画面/序章
@@ -193,23 +184,20 @@ func get_case_index_entries() -> Array:
 
 
 # ─── 数据加载 ───
-func _case_path(filename: String) -> String:
-	return "res://data/cases/%s/%s" % [ACTIVE_CASE, filename]
-
-
 func _load_data() -> void:
-	locations_data = _read_json(_case_path("locations.json"))
-	npcs_data = _read_json(_case_path("npcs.json"))
-	evidence_data = _read_json(_case_path("evidence.json"))
-	key_info_data = _read_json(_case_path("key_info.json"))
-	search_results_data = _read_json(_case_path("search_results.json"))
-	case_data = _read_json(_case_path("case.json"))
-	day_events_data = _read_json(_case_path("day_events.json"))
-	npc_states_data = _read_json(_case_path("npc_states.json"))
-	progression_data = _read_json(_case_path("progression.json"))
+	var table_data := CaseTableLoader.load_case(ACTIVE_CASE)
+	locations_data = table_data.get("locations", {})
+	npcs_data = table_data.get("npcs", {})
+	evidence_data = table_data.get("evidence", {})
+	key_info_data = table_data.get("key_info", {})
+	search_results_data = table_data.get("search_results", {})
+	case_data = table_data.get("case", {})
+	day_events_data = table_data.get("day_events", {})
+	npc_states_data = table_data.get("npc_states", {})
+	progression_data = table_data.get("progression", {})
 	# 新：NPC schedule 与凶手行动表（可选，没有就退回静态行为）
-	schedules_data = _read_json(_case_path("schedules.json"))
-	culprit_actions_data = _read_json(_case_path("culprit_actions.json"))
+	schedules_data = table_data.get("schedules", {})
+	culprit_actions_data = table_data.get("culprit_actions", {})
 	_resolve_culprit_action_schedule()
 	# 通知资产解析器加载本案的 casting / bgm_config
 	if Engine.has_singleton("AssetResolver") or get_node_or_null("/root/AssetResolver") != null:

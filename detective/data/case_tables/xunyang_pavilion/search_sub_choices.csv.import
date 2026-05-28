@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://by0ll61bb4bhp"
+
+[deps]
+
+files=["res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation"]
+
+source_file="res://data/case_tables/xunyang_pavilion/search_sub_choices.csv"
+dest_files=["res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation", "res://data/case_tables/xunyang_pavilion/search_sub_choices.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

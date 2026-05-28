@@ -16,8 +16,8 @@ import urllib.error
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, "assets", "ai_processed", "objects", "evidence_icons")
 
-API_KEY = "AIzaSyC0_sovY-q4Z6WjihkZM6xFWuScWfGgQo0"
-API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key={API_KEY}"
+API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key={API_KEY}" if API_KEY else ""
 
 CASES = {
     "prologue_ferry": {
@@ -167,6 +167,10 @@ def main():
         help="Regenerate even if icon already exists",
     )
     args = parser.parse_args()
+
+    if not API_KEY:
+        print("错误：请先设置环境变量 GEMINI_API_KEY 或 GOOGLE_API_KEY", file=sys.stderr)
+        sys.exit(1)
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dpakibdeqll7c"
+
+[deps]
+
+files=["res://data/case_tables/linchuan_inn/schedule_conditional_overrides.en.translation", "res://data/case_tables/linchuan_inn/schedule_conditional_overrides.en.translation", "res://data/case_tables/linchuan_inn/schedule_conditional_overrides.en.translation", "res://data/case_tables/linchuan_inn/schedule_conditional_overrides.en.translation", "res://data/case_tables/linchuan_inn/schedule_conditional_overrides.en.translation"]
+
+source_file="res://data/case_tables/linchuan_inn/schedule_conditional_overrides.csv"
+dest_files=["res://data/case_tables/linchuan_inn/schedule_conditional_overrides.en.translation", "res://data/case_tables/linchuan_inn/schedule_conditional_overrides.en.translation", "res://data/case_tables/linchuan_inn/schedule_conditional_overrides.en.translation", "res://data/case_tables/linchuan_inn/schedule_conditional_overrides.en.translation", "res://data/case_tables/linchuan_inn/schedule_conditional_overrides.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

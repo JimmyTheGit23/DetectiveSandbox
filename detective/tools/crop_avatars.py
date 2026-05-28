@@ -20,6 +20,7 @@ NPCS = [
     "xiao_cui",
     "daoming",
     "ma_san",
+    "prologue_shen_qingyue",
 ]
 
 # 输出尺寸

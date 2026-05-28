@@ -167,7 +167,7 @@ Step 10: 测试联调
 
 ## Gemini API 配置
 
-- API Key: AIzaSyC0_sovY-q4Z6WjihkZM6xFWuScWfGgQo0
+- API Key: 使用本机环境变量 `GEMINI_API_KEY` 或 `GOOGLE_API_KEY`，不要写入仓库
 - 用途：角色立绘生成
 - 新角色：text-to-image 生成
 - 已有角色修改：image-to-image 方式保持一致性

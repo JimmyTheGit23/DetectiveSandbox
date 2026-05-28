@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cc1bl65k2iu40"
+
+[deps]
+
+files=["res://data/case_tables/xunyang_pavilion/characters.name.translation", "res://data/case_tables/xunyang_pavilion/characters.title.translation", "res://data/case_tables/xunyang_pavilion/characters.intro.translation", "res://data/case_tables/xunyang_pavilion/characters.dialogue.translation", "res://data/case_tables/xunyang_pavilion/characters.actor.translation", "res://data/case_tables/xunyang_pavilion/characters.portrait.translation", "res://data/case_tables/xunyang_pavilion/characters.en.translation", "res://data/case_tables/xunyang_pavilion/characters.en.translation", "res://data/case_tables/xunyang_pavilion/characters.is.translation", "res://data/case_tables/xunyang_pavilion/characters.is.translation"]
+
+source_file="res://data/case_tables/xunyang_pavilion/characters.csv"
+dest_files=["res://data/case_tables/xunyang_pavilion/characters.name.translation", "res://data/case_tables/xunyang_pavilion/characters.title.translation", "res://data/case_tables/xunyang_pavilion/characters.intro.translation", "res://data/case_tables/xunyang_pavilion/characters.dialogue.translation", "res://data/case_tables/xunyang_pavilion/characters.actor.translation", "res://data/case_tables/xunyang_pavilion/characters.portrait.translation", "res://data/case_tables/xunyang_pavilion/characters.en.translation", "res://data/case_tables/xunyang_pavilion/characters.en.translation", "res://data/case_tables/xunyang_pavilion/characters.is.translation", "res://data/case_tables/xunyang_pavilion/characters.is.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

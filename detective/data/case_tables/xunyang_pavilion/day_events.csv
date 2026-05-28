@@ -1,0 +1,8 @@
+event_id,order,title,hint,trigger,effects,auto_play,writer_note
+evt_redemption_revealed,1,赎身故案,（你发现了赎身契）,"{""all"":[{""evidence"":""evidence_courtesan_redemption""},{""not"":{""flag"":""evt_redemption_revealed_done""}}]}","{""set_flag"":[""evt_redemption_revealed_done"",""redemption_known""]}",,
+evt_encounter_dock_figure,2,水阁夜影,（你在水阁撞见一个人影）,"{""all"":[{""any"":[{""flag"":""qingjie_seen_at_dock""},{""flag"":""qing_xuan_seen_at_dock""}]},{""not"":{""flag"":""evt_encounter_dock_done""}}]}","{""set_flag"":[""evt_encounter_dock_done"",""dock_encounter_seen""]}",True,
+evt_encounter_chamber_intruder,3,闺阁来客,（闺阁里有人翻动）,"{""all"":[{""any"":[{""flag"":""qingjie_caught_altering""},{""flag"":""qing_xuan_caught_at_chamber""}]},{""not"":{""flag"":""evt_encounter_chamber_done""}}]}","{""set_flag"":[""evt_encounter_chamber_done"",""chamber_intruder_seen""]}",True,
+evt_encounter_convent_visitor,4,庵前来客,（有人在庵里打听案发夜的事）,"{""all"":[{""flag"":""qingjie_seen_at_convent""},{""not"":{""flag"":""evt_encounter_convent_done""}}]}","{""set_flag"":[""evt_encounter_convent_done"",""convent_visitor_seen""]}",True,
+evt_silk_clue_points_south,5,红绸出处,（孙娘提起城南布庄）,"{""all"":[{""evidence"":""evidence_torn_silk""},{""not"":{""flag"":""evt_silk_south_done""}},{""total_periods_used_gte"":6}]}","{""set_flag"":""evt_silk_south_done"",""gain_clue"":""clue_silk_seller""}",,
+evt_lu_pressures_closing,6,知府催结,（鲁知府遣人来催）,"{""all"":[{""total_periods_used_gte"":20},{""not"":{""flag"":""evt_lu_pressure_done""}}]}","{""set_flag"":""evt_lu_pressure_done""}",,
+evt_final_day_warning,7,最后时限,（明日便是三天之期）,"{""all"":[{""total_periods_used_gte"":30},{""not"":{""flag"":""evt_final_warning_done""}}]}","{""set_flag"":""evt_final_warning_done""}",,

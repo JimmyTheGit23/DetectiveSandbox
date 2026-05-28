@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://boe8w418hjnyt"
+
+[deps]
+
+files=["res://data/case_tables/xunyang_pavilion/phase_notifications.speaker.translation", "res://data/case_tables/xunyang_pavilion/phase_notifications.text.translation"]
+
+source_file="res://data/case_tables/xunyang_pavilion/phase_notifications.csv"
+dest_files=["res://data/case_tables/xunyang_pavilion/phase_notifications.speaker.translation", "res://data/case_tables/xunyang_pavilion/phase_notifications.text.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

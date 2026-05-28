@@ -1,0 +1,12 @@
+npc_id,order,event,delta,writer_note
+qing_xuan,1,node_visited:show_hairpin,"{""composure"":-2}",
+qing_xuan,2,node_visited:show_letter_q,"{""composure"":-1}",
+qing_xuan,3,evidence_obtained:evidence_witness_lantern,"{""composure"":-1}",
+qing_xuan,4,evidence_obtained:evidence_silver_hairpin,"{""composure"":-1}",
+qing_jie,1,node_visited:speak_truth,"{""openness"":1}",
+qing_jie,2,node_visited:show_redemption,"{""openness"":1}",
+sun_laoliu,1,node_visited:heard_what,"{""composure"":-1}",
+lady_zhou,1,node_visited:show_redemption_z,"{""openness"":2}",
+ma_san,1,node_visited:request_help,"{""trust"":1}",
+magistrate_lu,1,evidence_obtained:evidence_torn_silk,"{""composure"":-1}",
+magistrate_lu,2,evidence_obtained:evidence_witness_lantern,"{""composure"":-1}",

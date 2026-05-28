@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://b5cyydo66kb8x"
+
+[deps]
+
+files=["res://data/case_tables/case_index.default.translation", "res://data/case_tables/case_index.order.translation", "res://data/case_tables/case_index.locked.translation", "res://data/case_tables/case_index.lock.translation", "res://data/case_tables/case_index.tag.translation", "res://data/case_tables/case_index.voice.translation", "res://data/case_tables/case_index.unlock.translation", "res://data/case_tables/case_index.style.translation", "res://data/case_tables/case_index.category.translation", "res://data/case_tables/case_index.era.translation", "res://data/case_tables/case_index.is.translation", "res://data/case_tables/case_index.preview.translation"]
+
+source_file="res://data/case_tables/case_index.csv"
+dest_files=["res://data/case_tables/case_index.default.translation", "res://data/case_tables/case_index.order.translation", "res://data/case_tables/case_index.locked.translation", "res://data/case_tables/case_index.lock.translation", "res://data/case_tables/case_index.tag.translation", "res://data/case_tables/case_index.voice.translation", "res://data/case_tables/case_index.unlock.translation", "res://data/case_tables/case_index.style.translation", "res://data/case_tables/case_index.category.translation", "res://data/case_tables/case_index.era.translation", "res://data/case_tables/case_index.is.translation", "res://data/case_tables/case_index.preview.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

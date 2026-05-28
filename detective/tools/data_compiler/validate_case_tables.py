@@ -106,6 +106,18 @@ def _check_condition_cell(value: Any, label: str, rep: Reporter) -> None:
         rep.error("%s 条件解析失败: %s" % (label, e))
 
 
+SPECIAL_SPEAKER_IDS = {"lu_zhao", "xia_lingyao", "lingyao", "you", "player"}
+
+
+def _check_portrait_line_fields(row: JsonDict, table_name: str, npc_ids: Set[str], rep: Reporter) -> None:
+    speaker_id = _cell(row, "speaker_id")
+    if speaker_id and speaker_id not in npc_ids and speaker_id not in SPECIAL_SPEAKER_IDS:
+        rep.warn("%s speaker_id 未在 NPC/特殊说话人中声明: %s" % (table_name, speaker_id))
+    portrait_override = _cell(row, "portrait_override")
+    if portrait_override and not _res_path_exists(portrait_override):
+        rep.error("%s portrait_override 资源不存在: %s" % (table_name, portrait_override))
+
+
 def _runtime_sets(case_id: str) -> Tuple[Set[str], Set[str], Set[str]]:
     case_dir = DATA / "cases" / case_id
     npcs = _non_meta_keys(_load_json(case_dir / "npcs.json"))
@@ -155,6 +167,8 @@ def validate_case(case_id: str, tables_root: Path) -> bool:
     portrait_expressions = _rows(src / "portrait_expressions.csv")
 
     npc_ids = {key[0] for key in _check_unique(characters, ["npc_id"], "characters.csv", rep)} or runtime_npcs
+    character_portraits = {_cell(row, "portrait") for row in characters if _cell(row, "portrait")}
+    known_base_portraits = character_portraits | {"res://assets/cn/portraits/companion_lingyao.png"}
     item_ids = {key[0] for key in _check_unique(evidence, ["item_id"], "evidence_items.csv", rep)} or runtime_items
     loc_ids = {key[0] for key in _check_unique(locations, ["location_id"], "locations.csv", rep)} or runtime_locations
     point_ids = _check_unique(points, ["location_id", "point_id"], "search_points.csv", rep)
@@ -268,6 +282,7 @@ def validate_case(case_id: str, tables_root: Path) -> bool:
             rep.error("confrontation_lines.csv section 非法: %s" % section)
         if not _cell(row, "text"):
             rep.error("confrontation_lines.csv %s.%s 缺 text" % (confrontation_id, section))
+        _check_portrait_line_fields(row, "confrontation_lines.csv", npc_ids, rep)
 
     for row in testimony_sets:
         confrontation_id = _cell(row, "confrontation_id")
@@ -290,6 +305,7 @@ def validate_case(case_id: str, tables_root: Path) -> bool:
             rep.error("testimony_lines.csv section 非法: %s" % section)
         if not _cell(row, "text"):
             rep.error("testimony_lines.csv %s.%s 缺 text" % (testimony_id, section))
+        _check_portrait_line_fields(row, "testimony_lines.csv", npc_ids, rep)
 
     contradiction_by_testimony: Dict[str, int] = {}
     for row in testimony_statements:
@@ -299,6 +315,7 @@ def validate_case(case_id: str, tables_root: Path) -> bool:
             rep.error("testimony_statements.csv testimony_id 不存在: %s" % testimony_id)
         if not _cell(row, "text"):
             rep.error("testimony_statements.csv statement_id=%s 缺 text" % statement_id)
+        _check_portrait_line_fields(row, "testimony_statements.csv", npc_ids, rep)
         counter = _cell(row, "counter_evidence")
         if counter and counter not in item_ids:
             rep.error("testimony_statements.csv counter_evidence 不存在: %s" % counter)
@@ -329,6 +346,7 @@ def validate_case(case_id: str, tables_root: Path) -> bool:
                 rep.error("%s statement_id 不存在: %s" % (table_name, statement_id))
             if not _cell(row, "text"):
                 rep.error("%s statement_id=%s 缺 text" % (table_name, statement_id))
+            _check_portrait_line_fields(row, table_name, npc_ids, rep)
             if table_name == "testimony_wrong_reactions.csv":
                 evidence_id = _cell(row, "evidence_id")
                 if evidence_id != "_default" and evidence_id and evidence_id not in item_ids:
@@ -462,6 +480,8 @@ def validate_case(case_id: str, tables_root: Path) -> bool:
             rep.error("portrait_expressions.csv 缺 base_portrait")
         elif not _res_path_exists(base_portrait):
             rep.error("portrait_expressions.csv base_portrait 资源不存在: %s" % base_portrait)
+        elif known_base_portraits and base_portrait not in known_base_portraits:
+            rep.warn("portrait_expressions.csv base_portrait 未在 characters.csv/助手基础立绘中出现: %s" % base_portrait)
         if not _cell(row, "emotion"):
             rep.error("portrait_expressions.csv base_portrait=%s 缺 emotion" % base_portrait)
         if not portrait:

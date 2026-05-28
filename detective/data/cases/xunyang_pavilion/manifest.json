@@ -23,5 +23,14 @@
       "scene_xunyang_main_hall: lantern_flicker / rain_on_window / curtain_sway"
     ]
   },
-  "intro": "三月夜雨，浔阳楼。当家花魁秋菱倚栏赏雨，半夜从阁楼凭栏摔下，府衙判作'醉酒失足'。\n借宿楼内的御史发觉脖颈红绸的扯痕方向不对——\n三日为限，能否替这江南名伶讨个明白。"
+  "intro": "三月夜雨，浔阳楼。当家花魁秋菱倚栏赏雨，半夜从阁楼凭栏摔下，府衙判作'醉酒失足'。\n借宿楼内的御史发觉脖颈红绸的扯痕方向不对——\n三日为限，能否替这江南名伶讨个明白。",
+  "rewards": {
+    "unlock_cases": ["linchuan_inn"]
+  },
+  "meta_clue": {
+    "id": "xunyang_salt_shards",
+    "name": "盐引转运单残页",
+    "description": "秋菱房间密格中发现的残页，记录了周德茂生前与南方盐商的私下资金往来。",
+    "unlock_at_ending": ["perfect", "good", "s_ending", "a_ending"]
+  }
 }

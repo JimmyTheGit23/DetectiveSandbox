@@ -289,6 +289,28 @@ func record_case_cleared(case_id: String, ending_id: String) -> Dictionary:
 					if not unlocked_cases.has(s):
 						unlocked_cases.append(s)
 						newly_unlocked.append(s)
+				
+				# 预埋 P3: meta_clue
+				var meta_clue_data = pm.get("meta_clue", null)
+				if typeof(meta_clue_data) == TYPE_DICTIONARY:
+					var clue_id: String = meta_clue_data.get("id", "")
+					var unlock_endings: Array = meta_clue_data.get("unlock_at_ending", [])
+					var should_unlock_clue := false
+					if unlock_endings.is_empty() or ending_id in unlock_endings:
+						should_unlock_clue = true
+					if should_unlock_clue and clue_id != "":
+						if not meta_flags.has("unlocked_clues"):
+							meta_flags["unlocked_clues"] = []
+						if not meta_flags["unlocked_clues"].has(clue_id):
+							meta_flags["unlocked_clues"].append(clue_id)
+						if not meta_flags.has("clues_details"):
+							meta_flags["clues_details"] = {}
+						meta_flags["clues_details"][clue_id] = {
+							"name": meta_clue_data.get("name", ""),
+							"description": meta_clue_data.get("description", ""),
+							"unlocked_from": case_id,
+							"unlocked_at_ending": ending_id
+						}
 	if not newly_unlocked.is_empty():
 		save_profile()
 		for nu in newly_unlocked:

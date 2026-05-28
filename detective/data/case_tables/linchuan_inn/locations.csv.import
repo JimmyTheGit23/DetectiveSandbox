@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cc86yqsuhjm03"
+
+[deps]
+
+files=["res://data/case_tables/linchuan_inn/locations.name.translation", "res://data/case_tables/linchuan_inn/locations.en.translation", "res://data/case_tables/linchuan_inn/locations.description.translation", "res://data/case_tables/linchuan_inn/locations.unlock.translation", "res://data/case_tables/linchuan_inn/locations.background.translation", "res://data/case_tables/linchuan_inn/locations.scene.translation", "res://data/case_tables/linchuan_inn/locations.npcs.translation"]
+
+source_file="res://data/case_tables/linchuan_inn/locations.csv"
+dest_files=["res://data/case_tables/linchuan_inn/locations.name.translation", "res://data/case_tables/linchuan_inn/locations.en.translation", "res://data/case_tables/linchuan_inn/locations.description.translation", "res://data/case_tables/linchuan_inn/locations.unlock.translation", "res://data/case_tables/linchuan_inn/locations.background.translation", "res://data/case_tables/linchuan_inn/locations.scene.translation", "res://data/case_tables/linchuan_inn/locations.npcs.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

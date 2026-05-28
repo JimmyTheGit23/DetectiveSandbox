@@ -38,5 +38,11 @@
   "rewards": {
     "xp": 50,
     "unlock_cases": ["xunyang_pavilion"]
+  },
+  "meta_clue": {
+    "id": "prologue_ferry_letter",
+    "name": "被泡烂的密信",
+    "description": "通关此案后在渡口搜集到的密信残页，隐约提到“沈氏旧案 / 棋子不知棋盘”，收信人姓沈。",
+    "unlock_at_ending": ["perfect", "good", "s_ending", "a_ending", "b_ending", "c_ending", "d_ending"]
   }
 }

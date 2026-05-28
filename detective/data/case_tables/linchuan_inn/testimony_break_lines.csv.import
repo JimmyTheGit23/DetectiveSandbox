@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://7h1qufy7jrm"
+
+[deps]
+
+files=["res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation", "res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation", "res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation", "res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation", "res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation", "res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation", "res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation"]
+
+source_file="res://data/case_tables/linchuan_inn/testimony_break_lines.csv"
+dest_files=["res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation", "res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation", "res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation", "res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation", "res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation", "res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation", "res://data/case_tables/linchuan_inn/testimony_break_lines.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

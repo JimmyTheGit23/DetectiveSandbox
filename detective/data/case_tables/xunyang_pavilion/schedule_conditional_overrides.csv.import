@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://b2s82p5o01c5y"
+
+[deps]
+
+files=["res://data/case_tables/xunyang_pavilion/schedule_conditional_overrides.order.translation", "res://data/case_tables/xunyang_pavilion/schedule_conditional_overrides.if.translation", "res://data/case_tables/xunyang_pavilion/schedule_conditional_overrides.location.translation", "res://data/case_tables/xunyang_pavilion/schedule_conditional_overrides.activity.translation", "res://data/case_tables/xunyang_pavilion/schedule_conditional_overrides.public.translation"]
+
+source_file="res://data/case_tables/xunyang_pavilion/schedule_conditional_overrides.csv"
+dest_files=["res://data/case_tables/xunyang_pavilion/schedule_conditional_overrides.order.translation", "res://data/case_tables/xunyang_pavilion/schedule_conditional_overrides.if.translation", "res://data/case_tables/xunyang_pavilion/schedule_conditional_overrides.location.translation", "res://data/case_tables/xunyang_pavilion/schedule_conditional_overrides.activity.translation", "res://data/case_tables/xunyang_pavilion/schedule_conditional_overrides.public.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://ds5sqojml4wop"
+
+[deps]
+
+files=["res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation"]
+
+source_file="res://data/case_tables/xunyang_pavilion/testimony_statements.csv"
+dest_files=["res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_statements.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

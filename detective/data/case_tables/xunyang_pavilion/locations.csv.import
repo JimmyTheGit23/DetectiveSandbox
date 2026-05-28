@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bkwum1sj0y8u8"
+
+[deps]
+
+files=["res://data/case_tables/xunyang_pavilion/locations.name.translation", "res://data/case_tables/xunyang_pavilion/locations.parent.translation", "res://data/case_tables/xunyang_pavilion/locations.description.translation", "res://data/case_tables/xunyang_pavilion/locations.unlock.translation", "res://data/case_tables/xunyang_pavilion/locations.background.translation", "res://data/case_tables/xunyang_pavilion/locations.scene.translation", "res://data/case_tables/xunyang_pavilion/locations.npcs.translation"]
+
+source_file="res://data/case_tables/xunyang_pavilion/locations.csv"
+dest_files=["res://data/case_tables/xunyang_pavilion/locations.name.translation", "res://data/case_tables/xunyang_pavilion/locations.parent.translation", "res://data/case_tables/xunyang_pavilion/locations.description.translation", "res://data/case_tables/xunyang_pavilion/locations.unlock.translation", "res://data/case_tables/xunyang_pavilion/locations.background.translation", "res://data/case_tables/xunyang_pavilion/locations.scene.translation", "res://data/case_tables/xunyang_pavilion/locations.npcs.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

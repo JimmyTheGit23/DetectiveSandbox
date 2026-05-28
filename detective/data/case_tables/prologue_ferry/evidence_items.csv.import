@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://baa8f77d430no"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/evidence_items.type.translation", "res://data/case_tables/prologue_ferry/evidence_items.en.translation", "res://data/case_tables/prologue_ferry/evidence_items.name.translation", "res://data/case_tables/prologue_ferry/evidence_items.description.translation", "res://data/case_tables/prologue_ferry/evidence_items.hidden.translation", "res://data/case_tables/prologue_ferry/evidence_items.meta.translation", "res://data/case_tables/prologue_ferry/evidence_items.en.translation", "res://data/case_tables/prologue_ferry/evidence_items.en.translation", "res://data/case_tables/prologue_ferry/evidence_items.en.translation", "res://data/case_tables/prologue_ferry/evidence_items.en.translation", "res://data/case_tables/prologue_ferry/evidence_items.en.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/evidence_items.csv"
+dest_files=["res://data/case_tables/prologue_ferry/evidence_items.type.translation", "res://data/case_tables/prologue_ferry/evidence_items.en.translation", "res://data/case_tables/prologue_ferry/evidence_items.name.translation", "res://data/case_tables/prologue_ferry/evidence_items.description.translation", "res://data/case_tables/prologue_ferry/evidence_items.hidden.translation", "res://data/case_tables/prologue_ferry/evidence_items.meta.translation", "res://data/case_tables/prologue_ferry/evidence_items.en.translation", "res://data/case_tables/prologue_ferry/evidence_items.en.translation", "res://data/case_tables/prologue_ferry/evidence_items.en.translation", "res://data/case_tables/prologue_ferry/evidence_items.en.translation", "res://data/case_tables/prologue_ferry/evidence_items.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

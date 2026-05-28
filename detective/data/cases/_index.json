@@ -43,6 +43,21 @@
       "category": "solo",
       "era": "ancient",
       "preview_blurb": "万历廿三年秋，临川夜雨。古井旁的诡案，等你来明断。"
+    },
+    {
+      "id": "jinling_purge",
+      "manifest": "res://data/cases/jinling_purge/manifest.json",
+      "order": 3,
+      "locked": true,
+      "lock_reason": "开发中",
+      "tag": "终章",
+      "voice_status": "missing",
+      "unlock_after": "linchuan_inn",
+      "style": "ming_qing",
+      "category": "solo",
+      "era": "ancient",
+      "rank_required": 3,
+      "preview_blurb": "万历廿四年冬，金陵大清洗。上司暴毙，迷雾重重，由你来破局。"
     }
   ]
 }

@@ -1,0 +1,22 @@
+{
+  "id": "jinling_purge",
+  "title": "金陵大清洗",
+  "subtitle": "万历廿四年 · 冬 · 金陵",
+  "difficulty": "困难",
+  "estimated_days": 4,
+  "main_scene": "jinling_yamen",
+  "preview_image": "res://assets/cn/scenes/jinling_purge_preview.png",
+  "voice_status": "missing",
+  "art_status": "placeholder",
+  "intro": "万历廿四年冬，金陵。陆昭回京述职，刚到南京，其顶头上司都察院右副都御史便暴病死亡。\n顾清玄在狱中的低语、消失的矿税密账、以及伤痕累累的金鳞镖局大纛——\n这是最后也是最险恶的棋局。你能否找出幕后黑手，打破那盖着火漆印的宿命？",
+  "rewards": {
+    "xp": 300,
+    "unlock_cases": []
+  },
+  "meta_clue": {
+    "id": "jinling_western_seal",
+    "name": "西方纹章火漆印",
+    "description": "盖在未寄出密信上的神秘红色火漆印，带有非东方的西式纹章，象征着跨越时空和海域的神秘力量。",
+    "unlock_at_ending": ["perfect"]
+  }
+}

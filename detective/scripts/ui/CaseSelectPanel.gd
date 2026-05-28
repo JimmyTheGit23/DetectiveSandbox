@@ -246,7 +246,6 @@ func _refresh_cards() -> void:
 
 func _make_case_card(entry: Dictionary) -> Control:
 	var case_id: String = entry.get("id", "")
-	var manifest_path: String = entry.get("manifest", "")
 	var locked_field: bool = entry.get("locked", false)
 	var unlock_after: String = entry.get("unlock_after", "")
 	var tag: String = entry.get("tag", "")
@@ -266,13 +265,7 @@ func _make_case_card(entry: Dictionary) -> Control:
 			best_ending = rec.get("best_ending", "")
 			play_count = int(rec.get("play_count", 0))
 
-	var manifest: Dictionary = {}
-	if manifest_path != "" and FileAccess.file_exists(manifest_path):
-		var f := FileAccess.open(manifest_path, FileAccess.READ)
-		if f:
-			var parsed = JSON.parse_string(f.get_as_text())
-			if typeof(parsed) == TYPE_DICTIONARY:
-				manifest = parsed
+	var manifest: Dictionary = CaseTableLoader.load_manifest(case_id)
 
 	var is_current: bool = (case_id == GameManager.ACTIVE_CASE)
 

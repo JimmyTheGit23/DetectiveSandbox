@@ -5,8 +5,8 @@
 ## 目标
 
 - 编剧/策划维护 `CSV` 或表格源数据，不直接改 Godot 脚本。
-- 运行时继续读取 `data/cases/<case_id>/*.json`，降低重构风险。
-- 通过编译器把 `data/case_tables/<case_id>/*.csv` 转成运行时 JSON。
+- Godot 运行时直接读取 `data/case_tables/<case_id>/*.csv`，由 `CaseTableLoader.gd` 在内存中组装为既有系统需要的字典结构。
+- `data/cases/<case_id>/*.json` 仅作为历史兼容/导出来源，不再是案件运行时主数据源。
 - 通过校验器提前发现 ID 重复、引用不存在、对话跳转错误、证据无来源等问题。
 
 ## 工作流
@@ -16,20 +16,21 @@
         ↓
 tools/data_compiler/validate_case_tables.py 校验
         ↓
-tools/data_compiler/compile_case.py 编译
+Godot 运行时 CaseTableLoader.gd 读取 CSV
         ↓
-data/cases/<case_id>/*.json
+内存 Dictionary：locations_data / npcs_data / case_data / dialogues / companion / manifest ...
         ↓
-Godot 运行时读取
+既有 UI 与玩法系统继续消费这些 Dictionary
 ```
 
-第一阶段不改运行时代码，只新增表格源数据、编译器和校验器。
+当前阶段已经改造运行时代码：案件索引、核心案件数据、对话、序章、尾声、助手、BGM/casting/表情映射均从 `data/case_tables/` 读取。`tools/data_compiler/compile_case.py` 保留为离线预览/兼容工具，不再是运行时必经步骤。
 
 ## 目录约定
 
 ```text
 data/
   case_tables/
+    case_index.csv
     prologue_ferry/
       characters.csv
       locations.csv
@@ -41,21 +42,14 @@ data/
       dialogue_nodes.csv
       dialogue_lines.csv
       dialogue_options.csv
+      json_docs.csv
 
   cases/
     prologue_ferry/
-      casting.json
-      npcs.json
-      locations.json
-      evidence.json
-      search_results.json
-      case.json
-      dialogues/
-        agui.json
-        fisherman_wang.json
+      *.json   # 历史数据/导出来源，不再作为案件运行时主数据源
 ```
 
-`data/case_tables/` 是人工维护源数据；`data/cases/` 是运行时数据。短期内允许继续人工维护运行时 JSON，但最终以表格源数据为准。
+`data/case_tables/` 是当前运行时主数据源；`data/cases/` 保留用于历史兼容、反向导出和人工比对。新增案件必须提供 `data/case_tables/<case_id>/`。
 
 ## ID 命名规范
 
@@ -73,11 +67,13 @@ data/
 
 ## 已支持表格
 
-当前已覆盖：角色、地点、搜索点、探索结果、证据、普通对话、对峙、证词、威慑、举证、击破、错证反馈。
+当前已覆盖：案件索引、角色、地点、搜索点、探索结果、证据、普通对话、对峙、证词、威慑、举证、击破、错证反馈、进度、NPC 状态、日程、凶手行动、表情立绘，以及 `json_docs.csv` 承载的 manifest/序章/尾声/助手/BGM 等复杂文档。
 
 ```text
-characters.csv                    → npcs.json + casting.json
-locations.csv                     → locations.json
+case_index.csv                    → GameManager.case_index
+json_docs.csv                     → manifest / prologue / epilogue_meta / companion / bgm_config / legacy base docs
+characters.csv                    → npcs_data + casting
+locations.csv                     → locations_data
 location_links.csv                → locations.json.sub_locations
 search_points.csv                 → locations.json.search_points
 evidence_items.csv                → evidence.json
@@ -141,17 +137,15 @@ period>=5
 - `trigger_confrontation`：是否触发对峙。
 - `confrontation_key`：对峙键名。
 
-## 迁移计划
+## 迁移状态
 
-1. 归档本设计文档。
-2. 新增 `tools/data_compiler/` 工具链。
-3. 从现有 `data/cases/prologue_ferry/` 反向导出第一批 CSV。
-4. 校验 CSV。
-5. 编译到预览目录，与现有 JSON 做差异对比。
-6. 稳定后再允许 `--write-runtime` 写回 `data/cases/`。
+1. `prologue_ferry`、`xunyang_pavilion`、`linchuan_inn` 均已具备 `data/case_tables/<case_id>/` 表格目录。
+2. `data/case_tables/case_index.csv` 已替代 `data/cases/_index.json` 成为运行时案件索引。
+3. `CaseTableLoader.gd` 在运行时直接读取 CSV，并组装为既有 UI/玩法代码使用的 Dictionary。
+4. `tools/data_compiler/export_case_tables.py --all --index` 可从历史 JSON 重新导出 CSV；`compile_case.py` 仅保留为预览/兼容工具。
 
 ## 风险控制
 
-- 编译器默认输出到 `data/case_tables/<case_id>/_compiled/`，不会直接覆盖运行时数据。
-- 只有显式传入 `--write-runtime` 才写回 `data/cases/<case_id>/`。
-- 校验器允许增量迁移：没有表格的模块继续使用现有 JSON。
+- 复杂文档暂由 `json_docs.csv` 承载，保证运行时不再打开 `data/cases/<case_id>/*.json`。
+- 后续可逐步把 `json_docs.csv` 中的 prologue、companion、bgm_config 等继续拆成更细的结构化表。
+- 如果制作导出版，需要确认 Godot export preset 会包含 `data/case_tables/**/*.csv` 原始文件。

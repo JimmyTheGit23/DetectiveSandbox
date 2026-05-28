@@ -1,0 +1,4 @@
+phase_id,order,title,description,hint,locations,unlock_condition,writer_note
+phase_1,1,初勘现场,勘察案发后院与浔阳楼内部，询问在场人员,先仔细查看后院坠落现场和秋菱闺阁，听听楼里人怎么说。,pavilion_courtyard;pavilion_main;qiu_chamber;yamen,,
+phase_2,2,扩大走访,红绸线索指向城南，江畔水阁有人深夜活动,红绸的出处在城南布庄，江畔水阁也有蹊跷。对面慈航庵的师太可能看到了什么。,convent;riverside_dock;silk_shop,"{""any"":[{""evidence"":""evidence_torn_silk""},{""clue"":""clue_silk_seller""},{""total_periods_used_gte"":8}]}",
+phase_3,3,收网锁凶,证据指向楼内人，账册涂改暴露动机,赎身契、涂改的账册、泥底绣鞋……证据链已逐渐成形。,marketplace,"{""any"":[{""evidence"":""evidence_qingjie_altered_ledger""},{""evidence"":""evidence_courtesan_redemption""},{""clue"":""clue_wine_cup_lipstick""},{""total_periods_used_gte"":18}]}",

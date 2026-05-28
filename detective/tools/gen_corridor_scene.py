@@ -11,7 +11,7 @@ import time
 import urllib.request
 import urllib.error
 
-API_KEY = "AIzaSyBWhSpEaur43hFv6oC08PKcVDfPeKopuVI"
+API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
 MODEL = "gemini-2.5-flash-image"
 OUTPUT_PATH = "E:/godot/DetectiveSandbox/detective/assets/cn/scenes/prologue_inn_corridor.png"
 
@@ -37,6 +37,8 @@ Scene details:
 """.strip()
 
 def call_gemini_image(prompt: str, retries: int = 4) -> bytes:
+    if not API_KEY:
+        raise RuntimeError("请先设置环境变量 GEMINI_API_KEY 或 GOOGLE_API_KEY")
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent?key={API_KEY}"
 
     payload = {

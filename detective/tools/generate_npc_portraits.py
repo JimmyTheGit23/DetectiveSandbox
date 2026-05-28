@@ -3,6 +3,7 @@ NPC Portrait Generator for 序章渡口沉舟 (Prologue Ferry Case)
 Uses Gemini 2.5 Flash Image API with image-to-image for style consistency.
 """
 
+import argparse
 import os
 import time
 import base64
@@ -18,9 +19,11 @@ from rembg import remove
 from scipy.ndimage import binary_erosion
 
 # ─── Config ───
-API_KEY = "AIzaSyDcYbFROXhHKHVS42ucJXQ6cHt8XpcA4pg"
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
 MODEL = "gemini-2.5-flash-image"
-OUTPUT_DIR = Path(r"E:/godot/DetectiveSandbox/detective/assets/cn/portraits")
+OUTPUT_DIR = PROJECT_ROOT / "assets" / "cn" / "portraits"
+RAW_DIR = PROJECT_ROOT / "assets" / "ai_raw" / "portraits"
 REFERENCE_DIR = OUTPUT_DIR
 
 # Style reference images (existing portraits for consistency)
@@ -29,7 +32,7 @@ STYLE_REFS = [
     REFERENCE_DIR / "lu_zhao.png",
 ]
 
-client = genai.Client(api_key=API_KEY)
+client = genai.Client(api_key=API_KEY) if API_KEY else None
 
 # ─── Character Definitions ───
 CHARACTERS = {
@@ -41,6 +44,9 @@ CHARACTERS = {
             "nervous": "rubbing hands together nervously, forced smile, sweating slightly",
             "stern": "furrowed brows, arms crossed, scrutinizing gaze, suspicious look",
             "sighing": "eyes closed, exhaling, one hand touching forehead, weary expression",
+            "shocked": "suddenly shocked expression, eyes wide, forced smile gone, mouth slightly open, hands frozen mid-gesture",
+            "gossip": "leaning forward conspiratorially, one hand half-cupped near the side of his mouth as if whispering, eyes glancing sideways with a sly knowing look, shoulders slightly hunched, eager rumor-mongering smirk on his lips",
+            "evasive": "head turned slightly away, eyes looking sideways at the floor avoiding direct contact, one hand rubbing his temple or the back of his neck, mouth corners pressed down in a non-committal grimace, body language of someone deflecting blame",
         }
     },
     "agui": {
@@ -51,7 +57,24 @@ CHARACTERS = {
             "crying": "tears streaming down face, mouth trembling, hands clutching at robe, sobbing",
             "nervous": "eyes darting to the side, hands clenched into fists, tense shoulders, sweating",
             "shocked": "wide eyes, mouth slightly open, frozen mid-gesture, stunned expression",
+            "broken": "utterly defeated expression, shoulders collapsed forward, tear-streaked face, hollow eyes, hands clutching robe, guilt and despair",
             "collapsed": "on knees, head bowed, hands on ground, completely broken look, defeated",
+        }
+    },
+    "lu_zhao": {
+        "name": "陆昭",
+        "file_prefix": "prologue_lu_zhao",
+        "description": "A young Ming Dynasty Chinese male detective protagonist in simple pale travel robes, upright scholar-official bearing, black hair tied in a neat topknot. Semi-realistic ancient Chinese detective game portrait style.",
+        "emotions": {
+            "nervous": "subtle nervous expression, brows slightly tense, lips pressed, one hand half-raised as if thinking under pressure; still composed and dignified",
+        }
+    },
+    "xia_lingyao": {
+        "name": "凌瑶",
+        "file_prefix": "companion_lingyao",
+        "description": "A spirited young Ming Dynasty Chinese female companion, agile courier and detective assistant, wearing blue-gray practical martial traveler clothing with long dark hair. Semi-realistic ancient Chinese detective game portrait style.",
+        "emotions": {
+            "embarrassed": "embarrassed comedic expression, cheeks slightly flushed, awkward smile, eyes averted, one hand scratching cheek; still clearly the same energetic companion",
         }
     },
     "lao_fan": {
@@ -82,6 +105,19 @@ CHARACTERS = {
             "evasive": "looking away, mouth shut tight, slightly hunched as if wanting to hide something",
         }
     },
+    "shen_qingyue": {
+        "name": "沈清月",
+        "description": "A 22-year-old Chinese young woman from the Ming Dynasty era, daughter of a herbal-medicine merchant in Xunyang. She wears MALE attire — a dark indigo or blue-green scholar's straight robe (青色直裰) with a cloth belt at the waist; her long jet-black hair is tied back high in a tight topknot or single high tail (NOT a court hairpin, NOT female updo). Tall and lean build, sharp intelligent almond eyes, well-defined eyebrows, striking handsome bearing (英气逼人). Despite the male clothes she is clearly a young woman — slender neck, softer jawline. She is the secret culprit who hides ruthless calculation behind a brisk merchant facade. Same semi-realistic Chinese historical anime illustration style as the reference (半写实古风插画), clean linework, soft shading.",
+        "emotions": {
+            "base": "composed half-smile, arms loosely crossed, calm sharp gaze with a hint of mockery",
+            "bold": "confident swaggering merchant pose, arms crossed firmly in front of chest, chin slightly lifted, one eyebrow arched, a brisk fearless half-smile, weight on one leg — the very picture of a sharp-tongued young debt collector who is unafraid of officials",
+            "cooperative": "relaxed cooperative posture, one hand extending a folded paper IOU forward as if handing evidence over, the other hand open at her side, gentle disarming smile, eyes meeting the viewer openly — performing the role of a reasonable witness",
+            "sharp": "narrowed piercing eyes, one eyebrow raised aggressively, mouth pressed into a thin sharp line about to snap back a retort, head tilted slightly with a needle-sharp accusatory expression, body subtly tense",
+            "deflecting": "head turned three-quarters away, eyes glancing aside avoiding the viewer, one hand unconsciously gripping the opposite elbow tightly (white-knuckled), mouth slightly pursed, a forced casual smile that does not reach the eyes — the body language of someone hiding something",
+            "cold_fury": "an unsettling, icy smile of grudging admiration — the mask has just cracked. Eyes are dead cold and steady, no warmth, lips curved up in a small precise smile but with absolutely no kindness, head slightly lowered while still staring forward from beneath the brows, arms now lowered to her sides with hands relaxed and open in a quietly dangerous way — this is the real Shen Qingyue revealed, the killer beneath the merchant disguise",
+            "confrontation": "courtroom confrontation pose under harsh dramatic lighting, standing tall and defiant facing forward, one hand placed firmly on the courtroom rail or table in front of her, the other balled into a fist at her side, eyes locked forward in cold focused glare, jaw set, dramatic high-contrast shadow under her chin — Ace-Attorney-style cornered-suspect base pose, ready to be pressed",
+        }
+    },
 }
 
 
@@ -105,16 +141,16 @@ def _image_to_part(img):
 
 def generate_portrait(char_id, char_data, emotion_key, emotion_desc, ref_images, base_image=None):
     """Generate a single portrait using Gemini API."""
+    if client is None:
+        raise RuntimeError("请先设置环境变量 GEMINI_API_KEY 或 GOOGLE_API_KEY")
 
     prompt_parts = []
 
-    # Add style reference
-    if ref_images:
-        prompt_parts.append(_image_to_part(ref_images[0]))
-
-    # Add base portrait as reference for emotion variants
+    # Existing-character variants must prioritize the character reference image.
     if base_image and emotion_key != "base":
         prompt_parts.append(_image_to_part(base_image))
+    elif ref_images:
+        prompt_parts.append(_image_to_part(ref_images[0]))
 
     # Build text prompt
     if emotion_key == "base":
@@ -134,7 +170,7 @@ IMPORTANT: NO TEXT. NO CHARACTERS/WRITING anywhere in the image. Pure green back
     else:
         text_prompt = f"""Generate an emotion variant of this character portrait.
 
-The character is the SAME person as the reference portrait provided. Keep the EXACT same face shape, hairstyle, clothing, and body proportions.
+The character is the SAME person as the reference portrait provided. Keep the EXACT same face shape, hairstyle, clothing (every garment, color, collar style, belt, hat/headwear), body proportions, social class, gender presentation, and overall identity. Do NOT change them into a different character, do NOT alter the clothing color, do NOT swap male attire for female attire or vice versa.
 
 ONLY change the expression and gesture to: {emotion_desc}
 
@@ -241,6 +277,32 @@ def despill_green(img):
     return Image.fromarray(arr.astype(np.uint8), 'RGBA')
 
 
+def fit_to_canvas(img, target_size):
+    """Autocrop transparent pixels, scale into target canvas, bottom-center aligned."""
+    if target_size is None:
+        return img
+    img = img.convert("RGBA")
+    arr = np.array(img)
+    alpha = arr[:, :, 3]
+    nz = np.argwhere(alpha > 10)
+    if nz.size:
+        y0, x0 = nz.min(axis=0)
+        y1, x1 = nz.max(axis=0)
+        pad = 4
+        x0 = max(0, x0 - pad)
+        y0 = max(0, y0 - pad)
+        x1 = min(arr.shape[1] - 1, x1 + pad)
+        y1 = min(arr.shape[0] - 1, y1 + pad)
+        img = img.crop((x0, y0, x1 + 1, y1 + 1))
+    target_w, target_h = target_size
+    scale = min(target_w / img.size[0], target_h / img.size[1])
+    new_size = (max(1, int(img.size[0] * scale)), max(1, int(img.size[1] * scale)))
+    resized = img.resize(new_size, Image.Resampling.LANCZOS)
+    canvas = Image.new("RGBA", target_size, (0, 0, 0, 0))
+    canvas.paste(resized, ((target_w - new_size[0]) // 2, target_h - new_size[1]), resized)
+    return canvas
+
+
 def verify_despill(img):
     """Check green contamination levels."""
     arr = np.array(img).astype(np.float32)
@@ -257,89 +319,103 @@ def verify_despill(img):
     return passed, sg_count, gd_count
 
 
-def process_character(char_id, char_data, ref_images):
-    """Generate all portraits for a character."""
+def process_character(char_id, char_data, ref_images, only_emotions=None, force=False):
+    """Generate portraits for a character."""
     print(f"\n{'='*60}")
     print(f"  CHARACTER: {char_data['name']} ({char_id})")
     print(f"{'='*60}")
 
-    base_image = None
+    RAW_DIR.mkdir(parents=True, exist_ok=True)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    file_prefix = char_data.get("file_prefix", f"prologue_{char_id}")
+    base_path = OUTPUT_DIR / f"{file_prefix}.png"
+    base_image = Image.open(base_path) if base_path.exists() else None
+    target_size = base_image.size if base_image is not None else None
 
     for emotion_key, emotion_desc in char_data["emotions"].items():
+        if only_emotions and emotion_key not in only_emotions:
+            continue
         suffix = "" if emotion_key == "base" else f"_{emotion_key}"
-        filename = f"prologue_{char_id}{suffix}.png"
-        greenscreen_filename = f"prologue_{char_id}{suffix}_greenscreen.png"
+        filename = f"{file_prefix}{suffix}.png"
+        greenscreen_filename = f"{file_prefix}{suffix}_greenscreen.png"
         output_path = OUTPUT_DIR / filename
-        greenscreen_path = OUTPUT_DIR / greenscreen_filename
+        greenscreen_path = RAW_DIR / greenscreen_filename
 
-        # Skip if already exists
-        if output_path.exists():
+        if output_path.exists() and not force:
             print(f"\n  [{emotion_key}] Already exists: {filename}, skipping")
             if emotion_key == "base":
                 base_image = Image.open(output_path)
+                target_size = base_image.size
             continue
 
         print(f"\n  [{emotion_key}] Generating: {filename}")
         print(f"    Prompt: {emotion_desc[:60]}...")
 
-        # Generate
         raw_img = generate_portrait(char_id, char_data, emotion_key, emotion_desc, ref_images, base_image)
         if raw_img is None:
             print(f"    FAILED generation, skipping")
             continue
 
-        # Save greenscreen version
         raw_img.save(greenscreen_path)
-        print(f"    Saved greenscreen: {greenscreen_filename}")
+        print(f"    Saved greenscreen draft: {greenscreen_path.relative_to(PROJECT_ROOT)}")
 
-        # Remove background
         print(f"    Removing background...")
         nobg = remove_background(raw_img)
 
-        # Despill
         print(f"    Running green despill...")
         final = despill_green(nobg)
+        final = fit_to_canvas(final, target_size)
 
-        # Verify
         passed, sg, gd = verify_despill(final)
         status_str = "PASS" if passed else "WARN"
         print(f"    Verification: strong_green={sg}, green_in_dark={gd} [{status_str}]")
 
-        # Save final
         final.save(output_path)
         print(f"    DONE: {filename}")
 
-        # Store base for emotion variants
         if emotion_key == "base":
-            base_image = raw_img  # Use greenscreen version as reference
+            base_image = raw_img
+            target_size = output_path.size if hasattr(output_path, "size") else target_size
 
-        # Rate limiting
         time.sleep(3)
 
     return True
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Generate prologue NPC portraits with Gemini img2img")
+    parser.add_argument("--character", action="append", choices=sorted(CHARACTERS.keys()), help="Only generate this character; repeatable")
+    parser.add_argument("--emotion", action="append", help="Only generate this emotion; repeatable")
+    parser.add_argument("--force", action="store_true", help="Overwrite existing final portrait files")
+    args = parser.parse_args()
+
     print("NPC Portrait Generator - 序章渡口沉舟")
     print("="*60)
 
-    # Load references
     print("\nLoading style references...")
     ref_images = load_reference_images()
     if not ref_images:
         print("WARNING: No reference images found!")
 
-    # Process each character
+    selected = args.character or list(CHARACTERS.keys())
+    only_emotions = set(args.emotion or [])
+
     results = {}
-    for char_id, char_data in CHARACTERS.items():
+    for char_id in selected:
+        char_data = CHARACTERS[char_id]
+        unknown = only_emotions - set(char_data["emotions"].keys())
+        if unknown:
+            print(f"  ERROR {char_id}: unknown emotion(s): {', '.join(sorted(unknown))}")
+            results[char_id] = False
+            continue
         try:
-            success = process_character(char_id, char_data, ref_images)
+            success = process_character(char_id, char_data, ref_images, only_emotions, args.force)
             results[char_id] = success
         except Exception as e:
             print(f"  ERROR processing {char_id}: {e}")
             results[char_id] = False
 
-    # Summary
     print(f"\n{'='*60}")
     print("SUMMARY")
     print(f"{'='*60}")

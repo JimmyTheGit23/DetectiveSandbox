@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c8axouca7v4f"
+
+[deps]
+
+files=["res://data/case_tables/xunyang_pavilion/day_event_lines.order.translation", "res://data/case_tables/xunyang_pavilion/day_event_lines.line.translation", "res://data/case_tables/xunyang_pavilion/day_event_lines.speaker.translation", "res://data/case_tables/xunyang_pavilion/day_event_lines.text.translation", "res://data/case_tables/xunyang_pavilion/day_event_lines.en.translation", "res://data/case_tables/xunyang_pavilion/day_event_lines.en.translation"]
+
+source_file="res://data/case_tables/xunyang_pavilion/day_event_lines.csv"
+dest_files=["res://data/case_tables/xunyang_pavilion/day_event_lines.order.translation", "res://data/case_tables/xunyang_pavilion/day_event_lines.line.translation", "res://data/case_tables/xunyang_pavilion/day_event_lines.speaker.translation", "res://data/case_tables/xunyang_pavilion/day_event_lines.text.translation", "res://data/case_tables/xunyang_pavilion/day_event_lines.en.translation", "res://data/case_tables/xunyang_pavilion/day_event_lines.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

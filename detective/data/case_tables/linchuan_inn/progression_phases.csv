@@ -1,0 +1,4 @@
+phase_id,order,title,description,hint,locations,unlock_condition,writer_note
+phase_1,1,案发现场,勘察案发现场，初步了解案情,先仔细勘察临川驿和县衙，搜集基础证据。,post_station;yamen,,
+phase_2,2,扩大调查,死者宅院被人闯入，调查范围扩大,沈宅已可进入，春风楼和观音庙也出现了线索。,shen_residence;spring_wind_tower;guanyin_temple,"{""any"":[{""flag"":""shen_house_broken""},{""total_periods_used_gte"":8}]}",
+phase_3,3,深入追查,朱砂线索指向集市，真相逐渐浮出,集市药铺有关键证人。谁在大量购买朱砂？,market,"{""any"":[{""clue"":""clue_drug_buyer_hint""},{""clue"":""clue_temple_paper""},{""evidence"":""evidence_red_powder""},{""flag"":""met_ma_at_bridge""},{""flag"":""ma_bridge_invite""},{""total_periods_used_gte"":14}]}",

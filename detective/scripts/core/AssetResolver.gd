@@ -86,14 +86,15 @@ func _read_section(path: String, key: String) -> Dictionary:
 # ─── 案件加载（由 GameManager 调用） ───
 func load_case(case_id: String) -> void:
 	_current_case_id = case_id
-	_casting = _read_dict("res://data/cases/%s/casting.json" % case_id).get("casting", {})
-	_bgm_config = _read_dict("res://data/cases/%s/bgm_config.json" % case_id)
-	_portrait_expressions = _read_dict("res://data/cases/%s/portrait_expressions.json" % case_id).get("portraits", {})
-	# 读 voice_status：优先 manifest.voice_status；找不到时从 _index.json 读；都没有默认 full
-	var manifest := _read_dict("res://data/cases/%s/manifest.json" % case_id)
+	var table_data := CaseTableLoader.load_case(case_id)
+	_casting = table_data.get("casting", {}).get("casting", {})
+	_bgm_config = table_data.get("bgm_config", {})
+	_portrait_expressions = table_data.get("portrait_expressions", {}).get("portraits", {})
+	# 读 voice_status：优先 manifest.voice_status；找不到时从 case_index.csv 读；都没有默认 full
+	var manifest: Dictionary = table_data.get("manifest", {})
 	_voice_status = manifest.get("voice_status", "")
 	if _voice_status == "":
-		var idx := _read_dict("res://data/cases/_index.json")
+		var idx := CaseTableLoader.load_case_index()
 		for entry in idx.get("cases", []):
 			if typeof(entry) == TYPE_DICTIONARY and entry.get("id", "") == case_id:
 				_voice_status = entry.get("voice_status", "full")
@@ -168,6 +169,98 @@ func resolve_portrait_expression(base_path: String, emotion: String) -> String:
 	if path != "" and ResourceLoader.exists(path):
 		return path
 	return ""
+
+
+## 统一解析案件角色立绘：角色 ID + 情绪/上下文 + 可选强制覆盖 → 最终资源路径。
+## 优先级：portrait_override > characters/casting 基础立绘 > portrait_expressions.csv > 文件名变体 > 基础立绘。
+func resolve_case_portrait(npc_id: String, emotion: String = "", npcs_data: Dictionary = {}, context: String = "", portrait_override: String = "") -> String:
+	var override_path := portrait_override.strip_edges()
+	if override_path != "" and ResourceLoader.exists(override_path):
+		return override_path
+	var base_path := get_portrait(npc_id, npcs_data)
+	if base_path == "":
+		base_path = _companion_base_portrait(npc_id)
+	if base_path == "":
+		return ""
+	for key in _portrait_expression_candidates(emotion, context):
+		var mapped := resolve_portrait_expression(base_path, key)
+		if mapped != "":
+			return mapped
+		var variant := _portrait_variant_path(base_path, key)
+		if variant != "" and ResourceLoader.exists(variant):
+			return variant
+	return base_path
+
+
+func _companion_base_portrait(speaker_id: String) -> String:
+	if speaker_id != "xia_lingyao" and speaker_id != "lingyao":
+		return ""
+	var cs := get_node_or_null("/root/CompanionService")
+	if cs != null and cs.has_method("get_companion_portrait"):
+		var portrait := str(cs.get_companion_portrait())
+		if portrait != "":
+			return portrait
+	return "res://assets/cn/portraits/companion_lingyao.png"
+
+
+func _portrait_expression_candidates(emotion: String, context: String) -> Array:
+	var raw := emotion.strip_edges()
+	var normalized := _normalize_portrait_emotion(raw)
+	var candidates := []
+	if context == "confrontation":
+		if raw == "" or raw == "normal" or raw == "base":
+			_append_unique(candidates, "confrontation")
+		else:
+			_append_unique(candidates, raw)
+			if normalized != raw:
+				_append_unique(candidates, normalized)
+			if raw.begins_with("confrontation_"):
+				_append_unique(candidates, raw.substr("confrontation_".length()))
+			elif raw != "confrontation":
+				_append_unique(candidates, "confrontation_%s" % raw)
+			if normalized != "" and normalized != raw and not normalized.begins_with("confrontation"):
+				_append_unique(candidates, "confrontation_%s" % normalized)
+			_append_unique(candidates, "confrontation")
+	else:
+		if raw != "" and raw != "normal" and raw != "base":
+			_append_unique(candidates, raw)
+		if normalized != "" and normalized != raw and normalized != "normal" and normalized != "base":
+			_append_unique(candidates, normalized)
+	_append_unique(candidates, "normal")
+	_append_unique(candidates, "base")
+	return candidates
+
+
+func _normalize_portrait_emotion(emotion: String) -> String:
+	match emotion:
+		"accusatory", "piercing", "serious", "firm":
+			return "serious"
+		"cold", "stern", "angry":
+			return "cold"
+		"thinking", "alert", "ponder":
+			return "worried"
+		"determined", "resolute":
+			return "determined"
+		"nervous", "panic", "anxious", "uneasy":
+			return "anxious"
+		"surprised", "shock", "startled":
+			return "shocked"
+		"worried", "concerned", "sad":
+			return "worried"
+		"cheerful", "happy", "relief":
+			return "cheerful"
+	return emotion
+
+
+func _portrait_variant_path(base_path: String, emotion: String) -> String:
+	if base_path == "" or emotion == "" or emotion == "normal" or emotion == "base":
+		return ""
+	return base_path.replace(".png", "_%s.png" % emotion)
+
+
+func _append_unique(arr: Array, value: String) -> void:
+	if value != "" and not arr.has(value):
+		arr.append(value)
 
 
 ## 取角色语音配置。返回 {style, pitch} 或空字典。

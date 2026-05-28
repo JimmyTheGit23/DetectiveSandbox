@@ -1,0 +1,6 @@
+unlock_type,target_id,condition,locked_hint,writer_note
+search_point_unlock,shen_residence.drawer,"{""flag"":""shen_house_broken""}",门锁完好，暂时无法深入搜查。,
+search_point_unlock,guanyin_temple.altar,"{""any"":[{""clue"":""clue_temple_paper""},{""clue"":""clue_drug_question""},{""visited"":""daoming.intro""}]}",佛龛供奉庄严，贸然翻动恐引人注目。需要先找到理由。,
+search_point_unlock,market.bridge,"{""any"":[{""flag"":""met_ma_at_bridge""},{""flag"":""ma_bridge_invite""}]}",石桥下只有流水，没什么特别的。,
+npc_unlock,gu_qingxuan,"{""any"":[{""total_periods_used_gte"":6},{""evidence"":""evidence_account_draft""}]}",,
+npc_unlock,su_wan,"{""any"":[{""clue"":""clue_handkerchief""},{""total_periods_used_gte"":14}]}",,

@@ -60,13 +60,11 @@ func _load_registry() -> void:
 
 func _init_for_case() -> void:
 	var case_id: String = GameManager.ACTIVE_CASE
-	var config_path := "res://data/cases/%s/companion/companion.json" % case_id
-	var discuss_path := "res://data/cases/%s/companion/discussions.json" % case_id
-	var banter_path := "res://data/cases/%s/companion/banter.json" % case_id
+	var companion_data := CaseTableLoader.load_companion_data(case_id)
 
-	_case_config = _read_json(config_path)
-	_discussions = _read_json(discuss_path)
-	_banter_data = _read_json(banter_path)
+	_case_config = companion_data.get("config", {})
+	_discussions = companion_data.get("discussions", {})
+	_banter_data = companion_data.get("banter", {})
 
 	if _case_config.is_empty():
 		_active = false

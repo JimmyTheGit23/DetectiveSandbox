@@ -1,0 +1,11 @@
+npc_id,stat,value
+qing_xuan,composure,5
+qing_jie,composure,3
+qing_jie,openness,1
+sun_laoliu,composure,4
+lady_zhou,composure,3
+lady_zhou,openness,1
+wuchen,composure,5
+ma_san,composure,4
+ma_san,trust,1
+magistrate_lu,composure,5

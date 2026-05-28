@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bpfdrwaxrg8eg"
+
+[deps]
+
+files=["res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation"]
+
+source_file="res://data/case_tables/linchuan_inn/culprit_actions.csv"
+dest_files=["res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation", "res://data/case_tables/linchuan_inn/culprit_actions.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cksw5nbp5h155"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/npc_state_initial.stat.translation", "res://data/case_tables/prologue_ferry/npc_state_initial.value.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/npc_state_initial.csv"
+dest_files=["res://data/case_tables/prologue_ferry/npc_state_initial.stat.translation", "res://data/case_tables/prologue_ferry/npc_state_initial.value.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

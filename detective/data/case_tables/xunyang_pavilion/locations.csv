@@ -1,0 +1,9 @@
+location_id,name,parent,description,unlock_phase,background,scene_type,npcs
+pavilion_courtyard,浔阳楼·后院,pavilion_main,案发后院。青石板上还留着死者坠落的痕迹，一段红绸斜搭在墙角。,phase_1,res://assets/cn/scenes/xunyang_courtyard.png,scene_xunyang_courtyard,sun_laoliu
+qiu_chamber,秋菱闺阁,pavilion_main,死者私室。妆台尚有未拭的胭脂，案上一本未送出的小笺。,phase_1,res://assets/cn/scenes/xunyang_qiu_chamber.png,scene_xunyang_qiu_chamber,
+yamen,府衙,,本府衙门。鲁知府和马捕头在此等你议案。,phase_1,res://assets/cn/scenes/yamen.png,scene_government_hall,magistrate_lu;ma_san
+pavilion_main,浔阳楼·正厅,,灯笼摇曳的酒楼正厅。当家青姐和借宿的白衣公子都在此。,phase_1,res://assets/cn/scenes/xunyang_pavilion_main.png,scene_xunyang_main_hall,qing_jie;qing_xuan
+convent,慈航庵,,浔阳楼对面的小庵。无尘老僧夜夜诵经守门。窗外雨声淅沥。,phase_2,res://assets/cn/scenes/guanyin_temple.png,scene_xunyang_temple,wuchen
+marketplace,城南市集,,本城最热闹的集市。布庄、茶肆、当铺一字排开。雨天行人稀少，檐下滴水。,phase_3,res://assets/cn/scenes/market.png,scene_xunyang_market,lady_zhou
+riverside_dock,江畔水阁,pavilion_main,浔阳楼后的江畔水阁。泊船摇晃，雾深。案发夜可能有人在此销毁证物。,phase_2,res://assets/cn/scenes/xunyang_riverside_dock.png,scene_xunyang_dock,liu_chuan
+silk_shop,城南布庄,,城南老字号布庄。绛红云纹绸的卖出之处，柜上账册有名。,phase_2,res://assets/cn/scenes/xunyang_silk_shop.png,scene_xunyang_silk_shop,bu_zhang

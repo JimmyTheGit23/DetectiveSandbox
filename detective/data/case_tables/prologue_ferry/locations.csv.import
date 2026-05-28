@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cq4f82sf8l7bj"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/locations.name.translation", "res://data/case_tables/prologue_ferry/locations.parent.translation", "res://data/case_tables/prologue_ferry/locations.description.translation", "res://data/case_tables/prologue_ferry/locations.unlock.translation", "res://data/case_tables/prologue_ferry/locations.background.translation", "res://data/case_tables/prologue_ferry/locations.scene.translation", "res://data/case_tables/prologue_ferry/locations.npcs.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/locations.csv"
+dest_files=["res://data/case_tables/prologue_ferry/locations.name.translation", "res://data/case_tables/prologue_ferry/locations.parent.translation", "res://data/case_tables/prologue_ferry/locations.description.translation", "res://data/case_tables/prologue_ferry/locations.unlock.translation", "res://data/case_tables/prologue_ferry/locations.background.translation", "res://data/case_tables/prologue_ferry/locations.scene.translation", "res://data/case_tables/prologue_ferry/locations.npcs.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

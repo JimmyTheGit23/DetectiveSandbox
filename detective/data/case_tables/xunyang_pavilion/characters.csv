@@ -1,0 +1,11 @@
+npc_id,name,title,intro,dialogue_id,actor_id,portrait,always_in_notebook,is_victim,is_player,is_culprit
+bu_zhang,卜掌柜,城南布庄东家,四十来岁的布庄东家。绛红云纹绸自他柜上而出，账册记的客户名让人意外。,bu_zhang,actor_wealthy_merchant,res://assets/cn/portraits/actor_wealthy_merchant.png,,,,
+lady_zhou,周老夫人,望族遗孀,本城望族遗孀。,lady_zhou,actor_elder_grandmother,,,,,
+liu_chuan,刘船家,江上船家,三十来岁的渡船船家。案发夜恰好在江畔过夜，似乎看到了什么但欲言又止。,liu_chuan,actor_foreign_traveler,res://assets/cn/portraits/actor_foreign_traveler.png,,,,
+lu_zhao,陆昭,巡按御史,玩家本人。借宿浔阳楼，发现命案。,,actor_imperial_inspector,,,,True,
+ma_san,马三,本府捕头,受陆昭委派协查的本府捕头。,ma_san,actor_scarred_constable,,,,,
+magistrate_lu,鲁知府,本府知府,倾向'醉后失足'结案的父母官。,magistrate_lu,actor_senior_prefect,,,,,
+qing_jie,青姐,浔阳楼当家,三十余岁的当家娘子。死者秋菱的义姐。,qing_jie,actor_madam_proprietress,,,,,True
+qing_xuan,顾清玄,白衣公子,案发当夜借宿浔阳楼的客人。,qing_xuan,actor_opera_performer,,,,,
+sun_laoliu,孙娘,茶坊娘子,浔阳楼楼下茶坊老板。,sun_laoliu,actor_innkeeper_wife,,,,,
+wuchen,无尘师太,慈航庵主,对面慈航庵的老僧。,wuchen,actor_buddhist_nun,,,,,

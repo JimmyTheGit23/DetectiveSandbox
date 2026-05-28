@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dw3h14m7f3mad"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/progression_unlocks.target.translation", "res://data/case_tables/prologue_ferry/progression_unlocks.condition.translation", "res://data/case_tables/prologue_ferry/progression_unlocks.locked.translation", "res://data/case_tables/prologue_ferry/progression_unlocks.writer.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/progression_unlocks.csv"
+dest_files=["res://data/case_tables/prologue_ferry/progression_unlocks.target.translation", "res://data/case_tables/prologue_ferry/progression_unlocks.condition.translation", "res://data/case_tables/prologue_ferry/progression_unlocks.locked.translation", "res://data/case_tables/prologue_ferry/progression_unlocks.writer.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

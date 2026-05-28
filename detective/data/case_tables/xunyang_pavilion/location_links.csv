@@ -1,0 +1,8 @@
+from_location,target_location,name,description,requires,time_cost
+pavilion_courtyard,pavilion_main,回正厅,从后门返回酒楼正厅。,,
+pavilion_courtyard,riverside_dock,走小径 → 江畔水阁,沿院后石径通往水阁码头。,,
+qiu_chamber,pavilion_main,下楼 → 正厅,从三楼阁子下楼回正厅。,,
+qiu_chamber,pavilion_courtyard,后窗翻下 → 后院,从阁子后窗可以看到后院。,,
+pavilion_main,pavilion_courtyard,穿过后门 → 后院,经小门走向后院天井。,,
+pavilion_main,qiu_chamber,上楼梯 → 秋菱闺阁,沿木楼梯上三楼阁子。,,
+riverside_dock,pavilion_courtyard,回后院,沿石径返回浔阳楼后院。,,

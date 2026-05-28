@@ -27,13 +27,9 @@ var _discuss_callback: Callable = Callable()
 
 # ─── NPC 对话 ───
 func start_dialogue(npc_id: String) -> void:
-	var path := "res://data/cases/%s/dialogues/%s.json" % [GameManager.ACTIVE_CASE, npc_id]
-	if not FileAccess.file_exists(path):
-		push_warning("No dialogue tree: " + path)
-		return
-	var f := FileAccess.open(path, FileAccess.READ)
-	var parsed = JSON.parse_string(f.get_as_text())
-	if typeof(parsed) != TYPE_DICTIONARY:
+	var parsed := CaseTableLoader.load_dialogue(GameManager.ACTIVE_CASE, npc_id)
+	if parsed.is_empty():
+		push_warning("No dialogue tree in CSV tables: %s/%s" % [GameManager.ACTIVE_CASE, npc_id])
 		return
 	_current_tree = parsed
 	_current_npc_id = npc_id
@@ -45,13 +41,9 @@ func start_dialogue(npc_id: String) -> void:
 
 ## 从指定节点开始对话（用于剧情事件触发某个特定场景对话）
 func start_dialogue_at(npc_id: String, node_id: String) -> void:
-	var path := "res://data/cases/%s/dialogues/%s.json" % [GameManager.ACTIVE_CASE, npc_id]
-	if not FileAccess.file_exists(path):
-		push_warning("No dialogue tree: " + path)
-		return
-	var f := FileAccess.open(path, FileAccess.READ)
-	var parsed = JSON.parse_string(f.get_as_text())
-	if typeof(parsed) != TYPE_DICTIONARY:
+	var parsed := CaseTableLoader.load_dialogue(GameManager.ACTIVE_CASE, npc_id)
+	if parsed.is_empty():
+		push_warning("No dialogue tree in CSV tables: %s/%s" % [GameManager.ACTIVE_CASE, npc_id])
 		return
 	_current_tree = parsed
 	_current_npc_id = npc_id
@@ -371,12 +363,10 @@ func _should_skip_to_hub(options: Array) -> bool:
 
 
 # ─── 序章 / 叙述模式 ───
-func start_narration(json_path: String) -> void:
-	if not FileAccess.file_exists(json_path):
-		return
-	var f := FileAccess.open(json_path, FileAccess.READ)
-	var parsed = JSON.parse_string(f.get_as_text())
-	if typeof(parsed) != TYPE_DICTIONARY:
+func start_narration(doc_id: String = "prologue") -> void:
+	var parsed := CaseTableLoader.load_narration(GameManager.ACTIVE_CASE, doc_id)
+	if parsed.is_empty():
+		push_warning("No narration in CSV tables: %s/%s" % [GameManager.ACTIVE_CASE, doc_id])
 		return
 	_current_tree = parsed
 	_narration_mode = true

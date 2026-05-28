@@ -1,0 +1,7 @@
+location_id,name,parent,description,unlock_phase,background,scene_type,npcs
+post_station,临川驿,,案发地。古井旁还残留着沈砚秋的血迹和一段散乱的麻绳。,phase_1,res://assets/cn/scenes/post_station.png,scene_post_station,zhao_dayou
+shen_residence,沈砚秋宅,,死者独居的住处。屋里灯还没熄，茶水洒了一桌。,phase_2,res://assets/cn/scenes/shen_residence.png,scene_private_residence,
+yamen,县衙,,临川县衙门所在。明镜高悬之下，知县柳文卿正等着你的回话。,phase_1,res://assets/cn/scenes/yamen.png,scene_government_hall,liu_wenqing;ma_san
+spring_wind_tower,春风楼,,临川有名的酒楼。死者生前常来。红绸金灯，胭脂香气里似乎藏着话。,phase_2,res://assets/cn/scenes/spring_wind_tower.png,scene_pleasure_house,xiao_cui;gu_qingxuan
+guanyin_temple,观音庙,,镇北的古庙，香烟缥缈。道明法师独自住在这里。,phase_2,res://assets/cn/scenes/guanyin_temple.png,scene_temple,daoming
+market,集市,,临川镇的中心。布庄、茶摊、米行都在这里，三教九流都来。,phase_3,res://assets/cn/scenes/market.png,scene_market,su_wan

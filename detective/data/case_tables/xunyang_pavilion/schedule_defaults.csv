@@ -1,0 +1,10 @@
+npc_id,role_note,location,activity,public
+qing_jie,死者义姐 / 浔阳楼当家（真凶）,pavilion_main,mourning,True
+sun_laoliu,茶坊娘子,pavilion_courtyard,tea_stall,True
+lady_zhou,望族老遗孀,marketplace,shopping,True
+wuchen,庵主师太,convent,sutra,True
+ma_san,本府捕头,yamen,on_duty,True
+magistrate_lu,本府知府,yamen,review_case,True
+bu_zhang,布庄掌柜,silk_shop,mind_shop,True
+liu_chuan,江上船家,riverside_dock,idle_boat,True
+qing_xuan,白衣公子（红鲱鱼：出于愧疚做了大量看起来像销证的事）,pavilion_main,calm_pose,True

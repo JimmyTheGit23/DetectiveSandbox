@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://68a5y3wba5bv"
+
+[deps]
+
+files=["res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation"]
+
+source_file="res://data/case_tables/linchuan_inn/testimony_statements.csv"
+dest_files=["res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation", "res://data/case_tables/linchuan_inn/testimony_statements.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

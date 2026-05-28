@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dfpui22htlrh2"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/day_events.order.translation", "res://data/case_tables/prologue_ferry/day_events.title.translation", "res://data/case_tables/prologue_ferry/day_events.hint.translation", "res://data/case_tables/prologue_ferry/day_events.trigger.translation", "res://data/case_tables/prologue_ferry/day_events.effects.translation", "res://data/case_tables/prologue_ferry/day_events.en.translation", "res://data/case_tables/prologue_ferry/day_events.en.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/day_events.csv"
+dest_files=["res://data/case_tables/prologue_ferry/day_events.order.translation", "res://data/case_tables/prologue_ferry/day_events.title.translation", "res://data/case_tables/prologue_ferry/day_events.hint.translation", "res://data/case_tables/prologue_ferry/day_events.trigger.translation", "res://data/case_tables/prologue_ferry/day_events.effects.translation", "res://data/case_tables/prologue_ferry/day_events.en.translation", "res://data/case_tables/prologue_ferry/day_events.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://drwrtx25y1ovk"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/search_sub_choices.point.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.variant.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.choice.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.order.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.text.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.narration.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.gain.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.gain.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.set.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.en.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/search_sub_choices.csv"
+dest_files=["res://data/case_tables/prologue_ferry/search_sub_choices.point.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.variant.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.choice.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.order.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.text.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.narration.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.gain.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.gain.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.set.translation", "res://data/case_tables/prologue_ferry/search_sub_choices.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

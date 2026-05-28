@@ -1,0 +1,2 @@
+npc_id,order,if_flag,location,activity,public
+ma_san,1,ma_san_watching,pavilion_courtyard,watching_pavilion,True

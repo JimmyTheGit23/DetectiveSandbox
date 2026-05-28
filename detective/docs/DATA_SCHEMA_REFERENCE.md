@@ -184,9 +184,12 @@
 | `confrontation_id` | 是 | 对峙 ID |
 | `section` | 是 | `intro_dialogue` / `victory_dialogue` / `defeat_dialogue` / `epilogue_text` |
 | `order` | 是 | 顺序 |
+| `speaker_id` | 否 | 稳定说话人 ID，优先于显示名；支持 NPC ID、`lu_zhao`、`xia_lingyao` |
 | `speaker` | 否 | 说话人显示名；旁白可留空 |
 | `text` | 是 | 文本 |
-| `emotion` | 否 | 情绪 |
+| `emotion` | 否 | 文本/演出情绪 |
+| `portrait_emotion` | 否 | 立绘表情 key；留空时使用 `emotion` |
+| `portrait_override` | 否 | 强制指定立绘资源路径 |
 
 ## `testimony_sets.csv`
 
@@ -206,9 +209,12 @@
 | `testimony_id` | 是 | 证词 ID |
 | `section` | 是 | `preamble` / `readthrough_end_hint` / `transition_dialogue` / `fail_dialogue` |
 | `order` | 是 | 顺序 |
+| `speaker_id` | 否 | 稳定说话人 ID，优先于显示名 |
 | `speaker` | 否 | 说话人显示名 |
 | `text` | 是 | 文本 |
-| `emotion` | 否 | 情绪 |
+| `emotion` | 否 | 文本/演出情绪 |
+| `portrait_emotion` | 否 | 立绘表情 key；留空时使用 `emotion` |
+| `portrait_override` | 否 | 强制指定立绘资源路径 |
 
 ## `testimony_statements.csv`
 
@@ -217,8 +223,12 @@
 | `testimony_id` | 是 | 所属证词 ID |
 | `statement_id` | 是 | 语句 ID |
 | `order` | 是 | 顺序；追加句可用 `3.1` |
+| `speaker_id` | 否 | 稳定说话人 ID，优先于显示名 |
 | `speaker` | 否 | 说话人显示名 |
 | `text` | 是 | 证词文本 |
+| `emotion` | 否 | 文本/演出情绪 |
+| `portrait_emotion` | 否 | 立绘表情 key；留空时使用 `emotion` |
+| `portrait_override` | 否 | 强制指定立绘资源路径 |
 | `is_contradiction` | 否 | 是否矛盾句 |
 | `counter_evidence` | 否 | 正解证据 |
 | `alt_evidence` | 否 | 备选证据，支持 `[]` / JSON 数组 / 分号列表 |
@@ -233,9 +243,12 @@
 |---|---|---|
 | `statement_id` | 是 | 证词语句 ID |
 | `order` | 是 | 顺序 |
+| `speaker_id` | 否 | 稳定说话人 ID，优先于显示名 |
 | `speaker` | 否 | 说话人显示名 |
 | `text` | 是 | 威慑对白 |
-| `emotion` | 否 | 情绪 |
+| `emotion` | 否 | 文本/演出情绪 |
+| `portrait_emotion` | 否 | 立绘表情 key；留空时使用 `emotion` |
+| `portrait_override` | 否 | 强制指定立绘资源路径 |
 
 ## `testimony_break_lines.csv`
 
@@ -243,9 +256,12 @@
 |---|---|---|
 | `statement_id` | 是 | 被击破的语句 ID |
 | `order` | 是 | 顺序 |
+| `speaker_id` | 否 | 稳定说话人 ID，优先于显示名 |
 | `speaker` | 否 | 说话人显示名 |
 | `text` | 是 | 击破对白 |
-| `emotion` | 否 | 情绪 |
+| `emotion` | 否 | 文本/演出情绪 |
+| `portrait_emotion` | 否 | 立绘表情 key；留空时使用 `emotion` |
+| `portrait_override` | 否 | 强制指定立绘资源路径 |
 
 ## `testimony_wrong_reactions.csv`
 
@@ -254,9 +270,12 @@
 | `statement_id` | 是 | 证词语句 ID |
 | `evidence_id` | 是 | 错误证据 ID；通用反馈用 `_default` |
 | `order` | 是 | 顺序 |
+| `speaker_id` | 否 | 稳定说话人 ID，优先于显示名 |
 | `speaker` | 否 | 说话人显示名 |
 | `text` | 是 | 错证反馈文本 |
-| `emotion` | 否 | 情绪 |
+| `emotion` | 否 | 文本/演出情绪 |
+| `portrait_emotion` | 否 | 立绘表情 key；留空时使用 `emotion` |
+| `portrait_override` | 否 | 强制指定立绘资源路径 |
 
 ## `progression_phases.csv`
 
@@ -388,3 +407,5 @@
 | `emotion` | 是 | 表情 key；普通对话用 `crying` / `nervous` 等，对峙可用 `confrontation` / `confrontation_shaken` / `confrontation_collapsed` |
 | `portrait` | 是 | 该表情对应的实际 PNG 资源路径 |
 | `writer_note` | 否 | 备注 |
+
+立绘统一解析规则：对峙中央大立绘和底部对话头像都使用 `speaker_id + portrait_emotion/emotion` 查 `portrait_expressions.csv`；若未命中，会按文件名后缀回退，最后回退到 `characters.csv` 的基础 `portrait`。

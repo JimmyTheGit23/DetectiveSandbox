@@ -110,16 +110,8 @@ func show_progression_summary(summary: Dictionary, iv: Node) -> void:
 
 
 static func _case_title(case_id: String) -> String:
-	var path := "res://data/cases/%s/manifest.json" % case_id
-	if not FileAccess.file_exists(path):
-		return case_id
-	var f := FileAccess.open(path, FileAccess.READ)
-	if f == null:
-		return case_id
-	var parsed = JSON.parse_string(f.get_as_text())
-	if typeof(parsed) != TYPE_DICTIONARY:
-		return case_id
-	return parsed.get("title", case_id)
+	var manifest := CaseTableLoader.load_manifest(case_id)
+	return manifest.get("title", case_id)
 
 
 func _on_return_to_case_select() -> void:

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c7x3inlcda88i"
+
+[deps]
+
+files=["res://data/case_tables/linchuan_inn/phase_notifications.speaker.translation", "res://data/case_tables/linchuan_inn/phase_notifications.text.translation"]
+
+source_file="res://data/case_tables/linchuan_inn/phase_notifications.csv"
+dest_files=["res://data/case_tables/linchuan_inn/phase_notifications.speaker.translation", "res://data/case_tables/linchuan_inn/phase_notifications.text.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

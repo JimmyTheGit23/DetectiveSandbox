@@ -1,0 +1,7 @@
+unlock_type,target_id,condition,locked_hint,writer_note
+search_point_unlock,pavilion_main.wine_cellar,"{""any"":[{""flag"":""qingjie_knew_redemption""},{""visited"":""qing_jie.intro""}]}",酒窖账册青姐管着，贸然翻动不合适。需要先跟她搭上话。,
+search_point_unlock,pavilion_main.qingjie_room,"{""any"":[{""evidence"":""evidence_courtyard_second_figure""},{""flag"":""chamber_intruder_seen""},{""total_periods_used_gte"":16}]}",青姐的私人房间，没有理由强行搜查。,
+search_point_unlock,riverside_dock.ferry_boat,"{""any"":[{""flag"":""dock_encounter_seen""},{""flag"":""liu_saw_cloaked_figure""}]}",渡船看上去普普通通，没有搜查理由。,
+npc_unlock,bu_zhang,"{""any"":[{""clue"":""clue_silk_seller""},{""evidence"":""evidence_torn_silk""},{""total_periods_used_gte"":10}]}",,
+npc_unlock,liu_chuan,"{""any"":[{""flag"":""dock_encounter_seen""},{""evidence"":""evidence_dock_disturbed""},{""total_periods_used_gte"":12}]}",,
+npc_unlock,lady_zhou,"{""any"":[{""clue"":""clue_pawn_ticket""},{""evidence"":""evidence_unpaid_loan""},{""total_periods_used_gte"":18}]}",,

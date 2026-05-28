@@ -1,0 +1,4 @@
+id,default,order,locked,lock_reason,tag,voice_status,unlock_after,style,category,era,is_tutorial,preview_blurb
+prologue_ferry,true,0,False,,序章,missing,,ming_qing,solo,ancient,True,万历廿二年冬，荆江暴雨。商人溺亡石矶渡，是天灾还是人祸？
+xunyang_pavilion,,1,True,开发中,首部曲,missing,prologue_ferry,ming_qing,solo,ancient,,万历廿三年春，浔阳夜雨。红绸断处，是失足还是被推下楼？
+linchuan_inn,,2,True,开发中,二部曲,full,xunyang_pavilion,ming_qing,solo,ancient,,万历廿三年秋，临川夜雨。古井旁的诡案，等你来明断。

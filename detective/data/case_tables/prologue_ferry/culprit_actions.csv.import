@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://clq4xfj7qcv5t"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/culprit_actions.csv"
+dest_files=["res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation", "res://data/case_tables/prologue_ferry/culprit_actions.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bn1eje52f1pgp"
+
+[deps]
+
+files=["res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation"]
+
+source_file="res://data/case_tables/linchuan_inn/testimony_wrong_reactions.csv"
+dest_files=["res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation", "res://data/case_tables/linchuan_inn/testimony_wrong_reactions.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

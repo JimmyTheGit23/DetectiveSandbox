@@ -621,7 +621,7 @@ func _start_new_game() -> void:
 	GameManager.reset_progress()
 	GameManager.set_state(GameManager.STATE_PROLOGUE)
 	BgmPlayer.play("prologue")
-	DialogueManager.start_narration("res://data/cases/%s/prologue.json" % GameManager.ACTIVE_CASE)
+	DialogueManager.start_narration("prologue")
 
 
 func _continue_game() -> void:
@@ -634,7 +634,7 @@ func _continue_game() -> void:
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:
 		_set_background("res://assets/cn/scenes/pure_black.png", false)
 		BgmPlayer.play("prologue")
-		DialogueManager.start_narration("res://data/cases/%s/prologue.json" % GameManager.ACTIVE_CASE)
+		DialogueManager.start_narration("prologue")
 		return
 	GameManager.set_state(GameManager.STATE_PLAYING)
 	_on_location_changed(GameManager.current_location)
@@ -1189,14 +1189,8 @@ func _after_mid_confrontation(result: String) -> void:
 
 
 func _try_play_case_epilogue(ending_id: String) -> bool:
-	var path := "res://data/cases/%s/epilogue_meta.json" % GameManager.ACTIVE_CASE
-	if not FileAccess.file_exists(path):
-		return false
-	var f := FileAccess.open(path, FileAccess.READ)
-	if f == null:
-		return false
-	var root = JSON.parse_string(f.get_as_text())
-	if typeof(root) != TYPE_DICTIONARY:
+	var root := CaseTableLoader.load_narration(GameManager.ACTIVE_CASE, "epilogue_meta")
+	if root.is_empty():
 		return false
 	var triggers: Array = root.get("trigger_endings", [])
 	if not triggers.has(ending_id):

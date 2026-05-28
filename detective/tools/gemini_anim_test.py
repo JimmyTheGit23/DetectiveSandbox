@@ -19,7 +19,7 @@ from google import genai
 from google.genai import types
 
 # ─── Configuration ───
-API_KEY = "AIzaSyC0_sovY-q4Z6WjihkZM6xFWuScWfGgQo0"
+API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
 MODEL = "gemini-2.5-flash-image"
 
 # Paths
@@ -34,6 +34,8 @@ SOURCE_IMAGE = PORTRAITS_DIR / f"{CHARACTER}.png"
 
 def setup_client():
     """Initialize Gemini client."""
+    if not API_KEY:
+        raise RuntimeError("请先设置环境变量 GEMINI_API_KEY 或 GOOGLE_API_KEY")
     client = genai.Client(api_key=API_KEY)
     return client
 

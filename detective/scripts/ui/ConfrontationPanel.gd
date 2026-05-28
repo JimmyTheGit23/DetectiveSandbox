@@ -92,13 +92,8 @@ func _ready() -> void:
 	_confrontation_data = GameManager.case_data.get(_confront_key, {})
 	if _confrontation_data.is_empty():
 		push_warning("ConfrontationPanel: No confrontation data for key '%s'!" % _confront_key)
-		# 尝试直接读取 case.json
-		var path := "res://data/cases/%s/case.json" % GameManager.ACTIVE_CASE
-		if FileAccess.file_exists(path):
-			var f := FileAccess.open(path, FileAccess.READ)
-			var parsed = JSON.parse_string(f.get_as_text())
-			if parsed is Dictionary:
-				_confrontation_data = parsed.get(_confront_key, {})
+		var parsed: Dictionary = CaseTableLoader.load_case(GameManager.ACTIVE_CASE).get("case", {})
+		_confrontation_data = parsed.get(_confront_key, {})
 	_testimonies = _confrontation_data.get("testimonies", [])
 	_max_confidence = int(_confrontation_data.get("confidence", 3))
 	_confidence = _max_confidence
@@ -656,7 +651,7 @@ func _readthrough_next() -> void:
 	_dialogue_box.visible = true
 
 	# 更新对话头像
-	_update_dialogue_portrait(speaker, "")
+	_update_dialogue_portrait(speaker, str(stmt.get("emotion", "")), stmt)
 
 	# 打字机效果
 	var text: String = "「" + stmt.get("text", "") + "」"
@@ -705,7 +700,6 @@ func _refresh_stmt_display() -> void:
 	if _statements.is_empty():
 		return
 	var stmt: Dictionary = _statements[_current_stmt_idx]
-	var speaker: String = stmt.get("speaker", "")
 	_stmt_text_label.text = "[center]「" + stmt.get("text", "") + "」[/center]"
 	_stmt_counter_label.text = "%d / %d" % [_current_stmt_idx + 1, _statements.size()]
 	_testimony_title_label.text = _testimonies[_current_testimony_idx].get("title", "")
@@ -828,7 +822,6 @@ var _evidence_info_label: RichTextLabel = null  # 悬浮信息区
 var _evidence_info_panel: PanelContainer = null  # 悬浮信息面板（固定在滚动区外）
 var _evidence_btn_row: HBoxContainer = null  # 按钮行（固定在滚动区外）
 var _evidence_ev_vbox: VBoxContainer = null  # 证据面板主布局
-var _evidence_tab_content: HFlowContainer = null  # 当前标签页内容
 
 func _open_evidence() -> void:
 	# 打开证物栏时保持当前证人/嫌疑人立绘可见。
@@ -1300,13 +1293,15 @@ func _show_next_dialogue_line(on_done: Callable) -> void:
 		on_done.call()
 		return
 	var line = _dialogue_queue[_dialogue_idx]
+	var line_data: Dictionary = {}
 	var speaker: String = ""
 	var text: String = ""
 	var emotion: String = ""
 	if line is Dictionary:
-		speaker = str(line.get("speaker", ""))
-		text = str(line.get("text", ""))
-		emotion = str(line.get("emotion", ""))
+		line_data = line
+		speaker = str(line_data.get("speaker", ""))
+		text = str(line_data.get("text", ""))
+		emotion = str(line_data.get("emotion", ""))
 	else:
 		text = str(line)
 
@@ -1317,7 +1312,7 @@ func _show_next_dialogue_line(on_done: Callable) -> void:
 	_dialogue_box.visible = true
 
 	# 更新对话头像
-	_update_dialogue_portrait(speaker, emotion)
+	_update_dialogue_portrait(speaker, emotion, line_data)
 
 	# 打字机效果
 	_typewriter_playing = true
@@ -1419,43 +1414,17 @@ func _update_portrait() -> void:
 		witness_id = _confrontation_data.get("suspect", "")
 	if witness_id == "":
 		return
-	var portrait_path: String = AssetResolver.get_portrait(witness_id, GameManager.npcs_data)
-	if portrait_path == "":
-		var npc_data: Dictionary = GameManager.get_npc_data(witness_id)
-		portrait_path = npc_data.get("portrait", "")
-	if portrait_path == "":
-		return
-	var confront_base: String = portrait_path.replace(".png", "_confrontation.png")
-	var mapped_base := AssetResolver.resolve_portrait_expression(portrait_path, "confrontation")
-	var path := mapped_base if mapped_base != "" else (confront_base if ResourceLoader.exists(confront_base) else portrait_path)
+	var emotion_key := "confrontation"
 	match _portrait_state:
 		PortraitState.SHAKEN:
-			var mapped_shaken := AssetResolver.resolve_portrait_expression(portrait_path, "confrontation_shaken")
-			if mapped_shaken != "":
-				path = mapped_shaken
-			else:
-				var alt := confront_base.replace(".png", "_shaken.png")
-				if ResourceLoader.exists(alt):
-					path = alt
-				else:
-					alt = portrait_path.replace(".png", "_shaken.png")
-					if ResourceLoader.exists(alt):
-						path = alt
+			emotion_key = "confrontation_shaken"
 		PortraitState.COLLAPSED:
-			var mapped_collapsed := AssetResolver.resolve_portrait_expression(portrait_path, "confrontation_collapsed")
-			if mapped_collapsed != "":
-				path = mapped_collapsed
-			else:
-				var alt := confront_base.replace(".png", "_collapsed.png")
-				if ResourceLoader.exists(alt):
-					path = alt
-				else:
-					alt = portrait_path.replace(".png", "_collapsed.png")
-					if ResourceLoader.exists(alt):
-						path = alt
-	if ResourceLoader.exists(path):
-		_portrait_rect.texture = load(path)
-		_portrait_rect.visible = true
+			emotion_key = "confrontation_collapsed"
+	var path := AssetResolver.resolve_case_portrait(witness_id, emotion_key, GameManager.npcs_data, "confrontation")
+	if path == "" or not ResourceLoader.exists(path):
+		return
+	_portrait_rect.texture = load(path)
+	_portrait_rect.visible = true
 	# 视觉效果
 	_portrait_rect.rotation = 0.0
 	_portrait_rect.modulate = Color(1, 1, 1, 1)
@@ -1555,41 +1524,63 @@ func _flash_screen_white() -> void:
 
 
 # ═══════════════════════════════════════════════════
-#  对话头像（陆昭/凌瑶）
+#  对话头像 / 说话人立绘
 # ═══════════════════════════════════════════════════
 
-func _update_dialogue_portrait(speaker: String, emotion: String) -> void:
+func _update_dialogue_portrait(speaker: String, emotion: String, line_data: Dictionary = {}) -> void:
 	if _dlg_portrait_rect == null:
 		return
-	var portrait_path: String = ""
-	if speaker == "陆昭" or speaker == "你":
-		# 对峙中陆昭默认表情为 serious；不再隐藏中央 NPC 立绘，保证举证/击破时目标仍在场。
-		var emo: String = emotion if emotion != "" and emotion != "normal" else "serious"
-		portrait_path = _resolve_speaker_portrait("res://assets/cn/portraits/prologue_lu_zhao.png", emo)
-	elif speaker == "凌瑶":
-		portrait_path = _resolve_speaker_portrait("res://assets/cn/portraits/companion_lingyao.png", emotion)
-	elif speaker != "" and emotion != "narration" and emotion != "inner_thought":
-		# NPC 说话：尝试显示他们的居中立绘
+	if speaker == "" or emotion == "narration" or emotion == "inner_thought":
 		_dlg_portrait_rect.visible = false
-		var npc_id := _find_npc_id_by_speaker(speaker)
-		if npc_id != "":
-			var npc_portrait: String = AssetResolver.get_portrait(npc_id, GameManager.npcs_data)
-			if npc_portrait != "" and ResourceLoader.exists(npc_portrait):
-				_portrait_rect.texture = load(npc_portrait)
-				_portrait_rect.visible = true
 		return
-
-	if portrait_path != "" and ResourceLoader.exists(portrait_path):
+	var speaker_id := _speaker_id_from_line(speaker, line_data)
+	if speaker_id == "":
+		_dlg_portrait_rect.visible = false
+		return
+	var portrait_emotion := str(line_data.get("portrait_emotion", ""))
+	if portrait_emotion == "":
+		portrait_emotion = emotion
+	if (speaker_id == "lu_zhao" or speaker == "陆昭" or speaker == "你") and (portrait_emotion == "" or portrait_emotion == "normal"):
+		portrait_emotion = "serious"
+	var portrait_override := str(line_data.get("portrait_override", ""))
+	var portrait_path := AssetResolver.resolve_case_portrait(speaker_id, portrait_emotion, GameManager.npcs_data, "dialogue", portrait_override)
+	if portrait_path == "" or not ResourceLoader.exists(portrait_path):
+		_dlg_portrait_rect.visible = false
+		return
+	if speaker_id == "lu_zhao" or speaker_id == "xia_lingyao" or speaker_id == "lingyao":
 		_dlg_portrait_rect.texture = load(portrait_path)
 		_dlg_portrait_rect.visible = true
 	else:
+		# NPC 台词仍显示在中央立绘位，但立绘路径同样走统一 resolver。
 		_dlg_portrait_rect.visible = false
+		_portrait_rect.texture = load(portrait_path)
+		_portrait_rect.visible = true
+
+
+func _speaker_id_from_line(speaker: String, line_data: Dictionary) -> String:
+	var speaker_id := str(line_data.get("speaker_id", ""))
+	if speaker_id != "":
+		return _normalize_speaker_id(speaker_id)
+	return _find_npc_id_by_speaker(speaker)
+
+
+func _normalize_speaker_id(speaker_id: String) -> String:
+	match speaker_id:
+		"you", "player", "陆昭", "你":
+			return "lu_zhao"
+		"凌瑶", "lingyao":
+			return "xia_lingyao"
+	return speaker_id
 
 
 func _find_npc_id_by_speaker(speaker_name: String) -> String:
-	"""通过显示名查找 NPC ID"""
-	# 直接映射常见名字
+	"""通过显示名查找 NPC ID。CSV 里有 speaker_id 时优先使用 speaker_id，这里只兜底兼容旧表。"""
+	var normalized_name := speaker_name
+	if normalized_name == "你":
+		normalized_name = "陆昭"
 	var name_map := {
+		"陆昭": "lu_zhao",
+		"凌瑶": "xia_lingyao",
 		"钱里正": "li_zheng",
 		"阿贵": "agui",
 		"老范": "lao_fan",
@@ -1597,43 +1588,10 @@ func _find_npc_id_by_speaker(speaker_name: String) -> String:
 		"王大爷": "fisherman_wang",
 		"沈清月": "shen_qingyue",
 	}
-	if name_map.has(speaker_name):
-		return name_map[speaker_name]
+	if name_map.has(normalized_name):
+		return name_map[normalized_name]
 	# 回退：遍历 npcs_data 查找
 	for npc_id in GameManager.npcs_data.keys():
-		if GameManager.get_npc_display_name(str(npc_id)) == speaker_name:
+		if GameManager.get_npc_display_name(str(npc_id)) == normalized_name:
 			return str(npc_id)
 	return ""
-
-
-func _resolve_speaker_portrait(base_path: String, emotion: String) -> String:
-	if emotion == "" or emotion == "normal":
-		return base_path
-	# 尝试直接匹配情绪变体文件
-	var variant := base_path.replace(".png", "_%s.png" % emotion)
-	if ResourceLoader.exists(variant):
-		return variant
-	# 映射到近似情绪
-	var mapped_emotion: String = ""
-	match emotion:
-		"accusatory", "piercing", "serious", "firm":
-			mapped_emotion = "serious"
-		"cold", "stern", "angry":
-			mapped_emotion = "cold"
-		"thinking", "alert", "ponder":
-			mapped_emotion = "worried"
-		"determined", "resolute":
-			mapped_emotion = "determined"
-		"nervous", "panic", "anxious", "uneasy":
-			mapped_emotion = "anxious"
-		"surprised", "shock", "startled":
-			mapped_emotion = "shocked"
-		"worried", "concerned", "sad":
-			mapped_emotion = "worried"
-		"cheerful", "happy", "relief":
-			mapped_emotion = "cheerful"
-	if mapped_emotion != "":
-		variant = base_path.replace(".png", "_%s.png" % mapped_emotion)
-		if ResourceLoader.exists(variant):
-			return variant
-	return base_path
