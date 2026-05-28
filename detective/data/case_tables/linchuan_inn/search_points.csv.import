@@ -6,14 +6,12 @@ uid="uid://b81qfkuatxyio"
 
 [deps]
 
-files=["res://data/case_tables/linchuan_inn/search_points.point.translation", "res://data/case_tables/linchuan_inn/search_points.name.translation", "res://data/case_tables/linchuan_inn/search_points.time.translation", "res://data/case_tables/linchuan_inn/search_points.hint.translation", "res://data/case_tables/linchuan_inn/search_points.en.translation", "res://data/case_tables/linchuan_inn/search_points.en.translation"]
+files=["res://data/case_tables/linchuan_inn/search_points.point.translation", "res://data/case_tables/linchuan_inn/search_points.name.translation", "res://data/case_tables/linchuan_inn/search_points.time.translation", "res://data/case_tables/linchuan_inn/search_points.hint.translation", "res://data/case_tables/linchuan_inn/search_points.unlock.translation", "res://data/case_tables/linchuan_inn/search_points.locked.translation"]
 
 source_file="res://data/case_tables/linchuan_inn/search_points.csv"
-dest_files=["res://data/case_tables/linchuan_inn/search_points.point.translation", "res://data/case_tables/linchuan_inn/search_points.name.translation", "res://data/case_tables/linchuan_inn/search_points.time.translation", "res://data/case_tables/linchuan_inn/search_points.hint.translation", "res://data/case_tables/linchuan_inn/search_points.en.translation", "res://data/case_tables/linchuan_inn/search_points.en.translation"]
+dest_files=["res://data/case_tables/linchuan_inn/search_points.point.translation", "res://data/case_tables/linchuan_inn/search_points.name.translation", "res://data/case_tables/linchuan_inn/search_points.time.translation", "res://data/case_tables/linchuan_inn/search_points.hint.translation", "res://data/case_tables/linchuan_inn/search_points.unlock.translation", "res://data/case_tables/linchuan_inn/search_points.locked.translation"]
 
 [params]
 
 compress=1
 delimiter=0
-unescape_keys=false
-unescape_translations=true

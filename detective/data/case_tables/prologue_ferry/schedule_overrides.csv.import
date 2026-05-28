@@ -6,14 +6,12 @@ uid="uid://cn75ul6eqitoy"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/schedule_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_overrides.en.translation"]
+files=["res://data/case_tables/prologue_ferry/schedule_overrides.time.translation", "res://data/case_tables/prologue_ferry/schedule_overrides.location.translation", "res://data/case_tables/prologue_ferry/schedule_overrides.activity.translation", "res://data/case_tables/prologue_ferry/schedule_overrides.public.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/schedule_overrides.csv"
-dest_files=["res://data/case_tables/prologue_ferry/schedule_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_overrides.en.translation", "res://data/case_tables/prologue_ferry/schedule_overrides.en.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/schedule_overrides.time.translation", "res://data/case_tables/prologue_ferry/schedule_overrides.location.translation", "res://data/case_tables/prologue_ferry/schedule_overrides.activity.translation", "res://data/case_tables/prologue_ferry/schedule_overrides.public.translation"]
 
 [params]
 
 compress=1
 delimiter=0
-unescape_keys=false
-unescape_translations=true

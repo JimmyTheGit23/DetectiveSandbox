@@ -6,14 +6,12 @@ uid="uid://bvuhjmxyruvpv"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/npc_state_transitions.order.translation", "res://data/case_tables/prologue_ferry/npc_state_transitions.event.translation", "res://data/case_tables/prologue_ferry/npc_state_transitions.delta.translation", "res://data/case_tables/prologue_ferry/npc_state_transitions.en.translation"]
+files=["res://data/case_tables/prologue_ferry/npc_state_transitions.order.translation", "res://data/case_tables/prologue_ferry/npc_state_transitions.event.translation", "res://data/case_tables/prologue_ferry/npc_state_transitions.delta.translation", "res://data/case_tables/prologue_ferry/npc_state_transitions.writer.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/npc_state_transitions.csv"
-dest_files=["res://data/case_tables/prologue_ferry/npc_state_transitions.order.translation", "res://data/case_tables/prologue_ferry/npc_state_transitions.event.translation", "res://data/case_tables/prologue_ferry/npc_state_transitions.delta.translation", "res://data/case_tables/prologue_ferry/npc_state_transitions.en.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/npc_state_transitions.order.translation", "res://data/case_tables/prologue_ferry/npc_state_transitions.event.translation", "res://data/case_tables/prologue_ferry/npc_state_transitions.delta.translation", "res://data/case_tables/prologue_ferry/npc_state_transitions.writer.translation"]
 
 [params]
 
 compress=1
 delimiter=0
-unescape_keys=false
-unescape_translations=true

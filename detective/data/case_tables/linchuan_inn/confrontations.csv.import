@@ -6,14 +6,12 @@ uid="uid://5uyt3m30ya2v"
 
 [deps]
 
-files=["res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation"]
+files=["res://data/case_tables/linchuan_inn/confrontations.suspect.translation", "res://data/case_tables/linchuan_inn/confrontations.is.translation", "res://data/case_tables/linchuan_inn/confrontations.background.translation", "res://data/case_tables/linchuan_inn/confrontations.bgm.translation", "res://data/case_tables/linchuan_inn/confrontations.bgm.translation", "res://data/case_tables/linchuan_inn/confrontations.bgm.translation", "res://data/case_tables/linchuan_inn/confrontations.confidence.translation", "res://data/case_tables/linchuan_inn/confrontations.writer.translation"]
 
 source_file="res://data/case_tables/linchuan_inn/confrontations.csv"
-dest_files=["res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation", "res://data/case_tables/linchuan_inn/confrontations.en.translation"]
+dest_files=["res://data/case_tables/linchuan_inn/confrontations.suspect.translation", "res://data/case_tables/linchuan_inn/confrontations.is.translation", "res://data/case_tables/linchuan_inn/confrontations.background.translation", "res://data/case_tables/linchuan_inn/confrontations.bgm.translation", "res://data/case_tables/linchuan_inn/confrontations.bgm.translation", "res://data/case_tables/linchuan_inn/confrontations.bgm.translation", "res://data/case_tables/linchuan_inn/confrontations.confidence.translation", "res://data/case_tables/linchuan_inn/confrontations.writer.translation"]
 
 [params]
 
 compress=1
 delimiter=0
-unescape_keys=false
-unescape_translations=true

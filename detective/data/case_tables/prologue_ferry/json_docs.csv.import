@@ -15,5 +15,3 @@ dest_files=["res://data/case_tables/prologue_ferry/json_docs.json.translation"]
 
 compress=1
 delimiter=0
-unescape_keys=false
-unescape_translations=true

@@ -6,14 +6,12 @@ uid="uid://binytvdv5qe06"
 
 [deps]
 
-files=["res://data/case_tables/linchuan_inn/testimony_sets.en.translation", "res://data/case_tables/linchuan_inn/testimony_sets.en.translation", "res://data/case_tables/linchuan_inn/testimony_sets.en.translation", "res://data/case_tables/linchuan_inn/testimony_sets.en.translation", "res://data/case_tables/linchuan_inn/testimony_sets.en.translation"]
+files=["res://data/case_tables/linchuan_inn/testimony_sets.order.translation", "res://data/case_tables/linchuan_inn/testimony_sets.testimony.translation", "res://data/case_tables/linchuan_inn/testimony_sets.witness.translation", "res://data/case_tables/linchuan_inn/testimony_sets.title.translation", "res://data/case_tables/linchuan_inn/testimony_sets.writer.translation"]
 
 source_file="res://data/case_tables/linchuan_inn/testimony_sets.csv"
-dest_files=["res://data/case_tables/linchuan_inn/testimony_sets.en.translation", "res://data/case_tables/linchuan_inn/testimony_sets.en.translation", "res://data/case_tables/linchuan_inn/testimony_sets.en.translation", "res://data/case_tables/linchuan_inn/testimony_sets.en.translation", "res://data/case_tables/linchuan_inn/testimony_sets.en.translation"]
+dest_files=["res://data/case_tables/linchuan_inn/testimony_sets.order.translation", "res://data/case_tables/linchuan_inn/testimony_sets.testimony.translation", "res://data/case_tables/linchuan_inn/testimony_sets.witness.translation", "res://data/case_tables/linchuan_inn/testimony_sets.title.translation", "res://data/case_tables/linchuan_inn/testimony_sets.writer.translation"]
 
 [params]
 
 compress=1
 delimiter=0
-unescape_keys=false
-unescape_translations=true
