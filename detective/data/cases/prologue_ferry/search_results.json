@@ -141,8 +141,20 @@
   },
   "wreck_site.wreck_shore_bag": {
     "default": {
-      "narration": "在沉船下游的芦苇丛中，你发现一只被江水冲到岸上的包袱——和阿贵在客栈用的是同一种粗布。打开一看，底层藏着一只鼓鼓囊囊的皮囊。是水牛皮缝制的浮囊，充了气，还是满的。落水的人不会带着这种东西随波逐流——这是提前准备好的逃生工具。",
-      "evidence": "evidence_float_bladder"
+      "intro_text": "在沉船下游的芦苇丛中，你发现一只被江水冲到岸上的包袱——和阿贵在客栈用的是同一种粗布。打开一看，底层藏着一只鼓鼓囊囊的皮囊。",
+      "sub_choices": [
+        {
+          "text": "检查浮囊整体",
+          "narration": "水牛皮缝制的浮囊，充了气，还是满的。落水的人不会带着这种东西随波逐流——这是提前准备好的逃生工具。",
+          "evidence": "evidence_float_bladder"
+        },
+        {
+          "text": "仔细观察封口缝法",
+          "narration": "你凑近看浮囊的封口——针脚极密，密到几乎看不见缝隙。而且缝线走过的地方涂了一层薄蜡，像是为了防止渗水。\n\n码头上卖的浮囊你见过——那些是粗麻线大针脚，泡水就胀。这个精细多了。像是做细活的人缝的——但你想不起在哪见过这种手艺。",
+          "clue": "clue_bladder_stitch_detail",
+          "requires": { "evidence": "evidence_float_bladder" }
+        }
+      ]
     }
   },
   "river_bend.village_wang_home": {
@@ -154,10 +166,21 @@
 
   "shen_room.shen_desk": {
     "default": {
-      "intro_text": "桌上账册摆得很整齐，像是主人故意让它看起来无懈可击。",
-      "narration": "账册最后一页夹着一张药铺欠单：人参、鹿茸、续命汤药，合计八十两。旁边另有一行小字：'家中现银四十二两，差额另想办法。'\n\n周德茂欠沈家的三十八两旧债，加上船上失踪的五十两货银——数字一下对上了。",
-      "evidence": "evidence_father_ledger",
-      "set_flags": ["found_shen_father_ledger"],
+      "intro_text": "桌上账册摆得很整齐，像是主人故意让它看起来无懈可击。桌角放着一个小竹篓，里面塞着几个空的油纸药袋。",
+      "sub_choices": [
+        {
+          "text": "翻看账册",
+          "narration": "账册最后一页夹着一张药铺欠单：人参、鹿茸、续命汤药，合计八十两。旁边另有一行小字：'家中现银四十二两，差额另想办法。'\n\n周德茂欠沈家的三十八两旧债，加上船上失踪的五十两货银——数字一下对上了。",
+          "evidence": "evidence_father_ledger",
+          "set_flags": ["found_shen_father_ledger"]
+        },
+        {
+          "text": "检查桌角的药袋竹篓",
+          "narration": "竹篓里装着三四个空的油纸药袋，是药材行用来分装草药的。封口处的蜡渍还没完全干透——她最近才用过。\n\n你拿起一个翻看——封口的缝法让你一愣。\n\n针脚极密。密到几乎看不见缝隙。缝线走过的地方涂了一层薄蜡。\n\n……你在哪见过这种手艺？",
+          "clue": "clue_pharma_bag_stitch",
+          "set_flags": ["found_pharma_bag_stitch"]
+        }
+      ],
       "time_cost": 0
     }
   },

@@ -9,6 +9,13 @@
         ]
       },
       {
+        "when": { "all": [{ "clue": "clue_bladder_stitch_detail" }, { "clue": "clue_pharma_bag_stitch" }, { "not_flag": "bladder_stitch_identified" }] },
+        "lines": [
+          "等等——我突然想起来了！你记得那个浮囊吗？封口缝得特别密的那个！\n沈清月桌上的药袋——那个封口的缝法跟浮囊一模一样！都是细针密蜡——药材行包装封袋的手艺！\n不是船工的活计，不是普通百姓——是做药材生意的人缝的。石矶渡做药材生意的女人……只有一个。"
+        ],
+        "set_flags": ["bladder_stitch_identified", "bladder_meaning_revised"]
+      },
+      {
         "when": { "all": [{ "flag": "bladder_meaning_revised" }, { "not_flag": "shen_confrontation_triggered" }] },
         "lines": [
           "浮囊这件证物要重新看。它不只是阿贵的退路——如果真是沈清月帮他买的，它就是她接触阿贵、给阿贵留退路的证据。\n接下来要找能把她钉死的实证：货银去哪了、谁找了老范、她案发那晚到底在不在客栈。"

@@ -78,10 +78,20 @@ var _dialogue_text: RichTextLabel
 var _objection_layer: Control
 var _action_bar: HBoxContainer
 
+# ─── 功能开关 ───
+## 启用后，对话时镜头会切换：NPC说话=NPC居中；主角/搭档说话=从左侧滑入
+const CAMERA_SWITCH_ENABLED := true
+
 # ─── 立绘 ───
 enum PortraitState { NORMAL, SHAKEN, COLLAPSED }
 var _portrait_state: int = PortraitState.NORMAL
 var _shake_tween: Tween = null
+
+# ─── 主角/搭档立绘（镜头切换） ───
+var _protagonist_rect: TextureRect = null   # 陆昭立绘
+var _companion_rect: TextureRect = null     # 凌瑶立绘
+var _camera_tween: Tween = null             # 镜头滑动动画
+var _current_camera_view: String = "npc"    # "npc" | "protagonist" | "clash"
 
 # ─── 风格常量 ───
 const CLR_GOLD := Color(0.96, 0.88, 0.65)
@@ -194,6 +204,41 @@ func _build_ui() -> void:
 	_panel.add_child(_portrait_rect)
 	# intro 期间不显示立绘，等进入证言阶段再显示
 	_portrait_rect.visible = false
+
+	# ── 主角立绘（左侧，镜头切换用，初始在屏幕外） ──
+	if CAMERA_SWITCH_ENABLED:
+		_protagonist_rect = TextureRect.new()
+		_protagonist_rect.anchor_left = 0.0
+		_protagonist_rect.anchor_right = 0.0
+		_protagonist_rect.anchor_top = 0.0
+		_protagonist_rect.anchor_bottom = 1.0
+		_protagonist_rect.offset_left = -520   # 屏幕左侧外
+		_protagonist_rect.offset_top = 40
+		_protagonist_rect.offset_right = -60
+		_protagonist_rect.offset_bottom = 80
+		_protagonist_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_protagonist_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		_protagonist_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_protagonist_rect.visible = false
+		_protagonist_rect.modulate = Color(1, 1, 1, 0)
+		_panel.add_child(_protagonist_rect)
+
+		# 搭档立绘（左侧偏下，更小，初始在屏幕外）
+		_companion_rect = TextureRect.new()
+		_companion_rect.anchor_left = 0.0
+		_companion_rect.anchor_right = 0.0
+		_companion_rect.anchor_top = 0.0
+		_companion_rect.anchor_bottom = 1.0
+		_companion_rect.offset_left = -400
+		_companion_rect.offset_top = 280
+		_companion_rect.offset_right = -100
+		_companion_rect.offset_bottom = 200
+		_companion_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_companion_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		_companion_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_companion_rect.visible = false
+		_companion_rect.modulate = Color(1, 1, 1, 0)
+		_panel.add_child(_companion_rect)
 
 	# ── 证词显示区（中下，带导航箭头） ──
 	var stmt_area := PanelContainer.new()
@@ -843,6 +888,8 @@ func _enter_browsing() -> void:
 	_click_callback = Callable()  # 确保无残留回调吞掉点击
 	_hide_dialogue()
 	_evidence_panel.visible = false
+	# 镜头回到NPC居中
+	_camera_ensure_browsing()
 	# 确保证人立绘可见
 	_portrait_state = PortraitState.NORMAL
 	_update_portrait()
@@ -1576,6 +1623,9 @@ func _show_next_dialogue_line(on_done: Callable) -> void:
 	_dialogue_speaker.text = speaker
 	_dialogue_box.visible = true
 
+	# 镜头切换（在更新头像之前，这样头像逻辑可以参考镜头状态）
+	_auto_camera_switch(speaker, emotion, line_data)
+
 	# 更新对话头像
 	_update_dialogue_portrait(speaker, emotion, line_data)
 
@@ -1700,6 +1750,179 @@ func _update_confidence_display() -> void:
 		else:
 			hearts += "♡ "
 	_confidence_label.text = "信心 " + hearts
+
+
+# ═══════════════════════════════════════════════════
+#  镜头切换系统（逆转裁判式）
+# ═══════════════════════════════════════════════════
+
+## 判断说话人是否为"我方"（陆昭/凌瑶/叙述中的陆昭）
+func _is_protagonist_speaker(speaker: String, line_data: Dictionary = {}) -> bool:
+	if speaker == "陆昭" or speaker == "你":
+		return true
+	var sid: String = str(line_data.get("speaker_id", ""))
+	if sid == "lu_zhao" or sid == "you" or sid == "player":
+		return true
+	return false
+
+## 判断说话人是否为搭档（凌瑶）
+func _is_companion_speaker(speaker: String, line_data: Dictionary = {}) -> bool:
+	if speaker == "凌瑶":
+		return true
+	var sid: String = str(line_data.get("speaker_id", ""))
+	if sid == "xia_lingyao" or sid == "lingyao":
+		return true
+	return false
+
+## 切换到NPC镜头：NPC居中，主角/搭档退出
+func _camera_switch_to_npc(duration: float = 0.3) -> void:
+	if not CAMERA_SWITCH_ENABLED:
+		return
+	if _current_camera_view == "npc":
+		return
+	_current_camera_view = "npc"
+
+	# 杀死之前的镜头动画
+	if _camera_tween and _camera_tween.is_valid():
+		_camera_tween.kill()
+	_camera_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+
+	# NPC 滑回居中
+	_camera_tween.tween_property(_portrait_rect, "offset_left", -260.0, duration)
+	_camera_tween.tween_property(_portrait_rect, "offset_right", 260.0, duration)
+	_camera_tween.tween_property(_portrait_rect, "modulate:a", 1.0, duration * 0.5)
+
+	# 主角滑出左侧
+	if _protagonist_rect:
+		_camera_tween.tween_property(_protagonist_rect, "offset_left", -520.0, duration)
+		_camera_tween.tween_property(_protagonist_rect, "offset_right", -60.0, duration)
+		_camera_tween.tween_property(_protagonist_rect, "modulate:a", 0.0, duration * 0.6)
+
+	# 搭档滑出左侧
+	if _companion_rect:
+		_camera_tween.tween_property(_companion_rect, "offset_left", -400.0, duration)
+		_camera_tween.tween_property(_companion_rect, "offset_right", -100.0, duration)
+		_camera_tween.tween_property(_companion_rect, "modulate:a", 0.0, duration * 0.6)
+
+	# 隐藏小头像（NPC镜头下不需要）
+	_dlg_portrait_rect.visible = false
+
+	# 等动画完成后隐藏左侧角色
+	_camera_tween.chain().tween_callback(func():
+		if _protagonist_rect:
+			_protagonist_rect.visible = false
+		if _companion_rect:
+			_companion_rect.visible = false
+	)
+
+
+## 切换到主角镜头：NPC滑出右侧，主角+搭档从左侧滑入
+func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3) -> void:
+	if not CAMERA_SWITCH_ENABLED:
+		return
+	if _current_camera_view == "protagonist":
+		# 已经在主角镜头，只更新立绘
+		_update_protagonist_portraits(speaker_id)
+		return
+	_current_camera_view = "protagonist"
+
+	# 杀死之前的镜头动画
+	if _camera_tween and _camera_tween.is_valid():
+		_camera_tween.kill()
+	_camera_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+
+	# NPC 滑出右侧 + 淡出
+	_camera_tween.tween_property(_portrait_rect, "offset_left", 560.0, duration)
+	_camera_tween.tween_property(_portrait_rect, "offset_right", 1080.0, duration)
+	_camera_tween.tween_property(_portrait_rect, "modulate:a", 0.0, duration * 0.6)
+
+	# 主角从左侧滑入
+	if _protagonist_rect:
+		_protagonist_rect.visible = true
+		_update_protagonist_portraits(speaker_id)
+		_camera_tween.tween_property(_protagonist_rect, "offset_left", 30.0, duration)
+		_camera_tween.tween_property(_protagonist_rect, "offset_right", 490.0, duration)
+		_camera_tween.tween_property(_protagonist_rect, "modulate:a", 1.0, duration * 0.5)
+
+	# 搭档从左侧滑入（更小，偏下）
+	if _companion_rect:
+		_companion_rect.visible = true
+		_update_companion_portrait()
+		_camera_tween.tween_property(_companion_rect, "offset_left", 20.0, duration)
+		_camera_tween.tween_property(_companion_rect, "offset_right", 320.0, duration)
+		_camera_tween.tween_property(_companion_rect, "modulate:a", 0.85, duration * 0.5)
+
+	# 等动画完成后隐藏NPC
+	_camera_tween.chain().tween_callback(func():
+		_portrait_rect.visible = false
+	)
+
+	# 隐藏小头像（角色已经在屏幕上了）
+	_dlg_portrait_rect.visible = false
+
+
+## 更新主角立绘纹理
+func _update_protagonist_portraits(speaker_id: String) -> void:
+	if not _protagonist_rect:
+		return
+	var emotion := "serious"
+	var path := AssetResolver.resolve_case_portrait(speaker_id, emotion, GameManager.npcs_data, "confrontation")
+	if path == "" or not ResourceLoader.exists(path):
+		path = AssetResolver.resolve_case_portrait(speaker_id, "normal", GameManager.npcs_data, "dialogue")
+	if path != "" and ResourceLoader.exists(path):
+		_protagonist_rect.texture = load(path)
+
+## 更新搭档立绘纹理
+func _update_companion_portrait() -> void:
+	if not _companion_rect:
+		return
+	var path := AssetResolver.resolve_case_portrait("xia_lingyao", "anxious", GameManager.npcs_data, "dialogue")
+	if path == "" or not ResourceLoader.exists(path):
+		path = AssetResolver.resolve_case_portrait("xia_lingyao", "normal", GameManager.npcs_data, "dialogue")
+	if path != "" and ResourceLoader.exists(path):
+		_companion_rect.texture = load(path)
+
+## 镜头恢复到NPC：用于浏览模式和对话结束后
+func _camera_reset_to_npc() -> void:
+	if not CAMERA_SWITCH_ENABLED:
+		return
+	_camera_switch_to_npc(0.3)
+
+## 在对话行播放前自动切换镜头
+func _auto_camera_switch(speaker: String, emotion: String, line_data: Dictionary = {}) -> void:
+	if not CAMERA_SWITCH_ENABLED:
+		return
+	# 叙述/内心独白 → 不切换镜头，保持当前状态
+	if emotion == "narration" or emotion == "inner_thought" or speaker == "":
+		return
+	# 主角说话 → 切到主角镜头
+	if _is_protagonist_speaker(speaker, line_data):
+		var speaker_id: String = "lu_zhao"
+		var sid: String = str(line_data.get("speaker_id", ""))
+		if sid != "":
+			speaker_id = _normalize_speaker_id(sid)
+		_camera_switch_to_protagonist(speaker_id)
+	# 搭档说话 → 也切到主角镜头（搭档已经在屏幕上）
+	elif _is_companion_speaker(speaker, line_data):
+		_camera_switch_to_protagonist("lu_zhao")
+		# 高亮搭档：搭档更亮，主角稍暗
+		if _companion_rect:
+			_companion_rect.modulate = Color(1, 1, 1, 1.0)
+		if _protagonist_rect:
+			_protagonist_rect.modulate = Color(0.7, 0.7, 0.7, 0.8)
+	# NPC/其他人说话 → 切到NPC镜头
+	else:
+		_camera_switch_to_npc()
+		# 恢复搭档亮度（为下次切回做准备）
+		if _companion_rect:
+			_companion_rect.modulate = Color(1, 1, 1, 0.85)
+		if _protagonist_rect:
+			_protagonist_rect.modulate = Color(1, 1, 1, 1.0)
+
+## 在浏览模式进入时确保NPC镜头
+func _camera_ensure_browsing() -> void:
+	if CAMERA_SWITCH_ENABLED:
+		_camera_reset_to_npc()
 
 
 # ═══════════════════════════════════════════════════
@@ -1848,14 +2071,20 @@ func _update_dialogue_portrait(speaker: String, emotion: String, line_data: Dict
 	if portrait_path == "" or not ResourceLoader.exists(portrait_path):
 		_dlg_portrait_rect.visible = false
 		return
-	if speaker_id == "lu_zhao" or speaker_id == "xia_lingyao" or speaker_id == "lingyao":
-		_dlg_portrait_rect.texture = load(portrait_path)
-		_dlg_portrait_rect.visible = true
-	else:
-		# NPC 台词仍显示在中央立绘位，但立绘路径同样走统一 resolver。
+	# 镜头切换模式下：主角和搭档已经在屏幕上了，不需要小头像
+	if CAMERA_SWITCH_ENABLED and (speaker_id == "lu_zhao" or speaker_id == "xia_lingyao" or speaker_id == "lingyao"):
 		_dlg_portrait_rect.visible = false
-		_portrait_rect.texture = load(portrait_path)
-		_portrait_rect.visible = true
+		# 主角/搭档的立绘由镜头系统管理，这里不额外处理
+	else:
+		# 非镜头切换模式，或NPC说话时的传统逻辑
+		if speaker_id == "lu_zhao" or speaker_id == "xia_lingyao" or speaker_id == "lingyao":
+			_dlg_portrait_rect.texture = load(portrait_path)
+			_dlg_portrait_rect.visible = true
+		else:
+			# NPC 台词仍显示在中央立绘位，但立绘路径同样走统一 resolver。
+			_dlg_portrait_rect.visible = false
+			_portrait_rect.texture = load(portrait_path)
+			_portrait_rect.visible = true
 
 
 func _speaker_id_from_line(speaker: String, line_data: Dictionary) -> String:
