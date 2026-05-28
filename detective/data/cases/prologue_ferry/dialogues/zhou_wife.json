@@ -109,6 +109,14 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
+      ],
+      "text_variants": [
+        {
+          "when": {
+            "flag": "agui_confessed_mastermind"
+          },
+          "text": "阿贵认了……可你说他背后还有人。\n\n我现在连该恨谁都不知道。你问吧，只要能把老爷的死查清楚，我都说。"
+        }
       ]
     },
     "intro": {
@@ -247,7 +255,7 @@
     },
     "comfort": {
       "text": "……你不像凶手。凶手不会还留在这里问话。\n\n里正让你查——你要是真能查出来……老爷的文书都在房间桌上。你看吧。",
-      "emotion": "silent",
+      "emotion": "grief",
       "options": [
         {
           "text": "继续询问",
@@ -257,8 +265,7 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "emotion": "grief"
+      ]
     },
     "ask_documents": {
       "text": "都在房间里。大人自己去看吧——遣散字据、货单都在桌上。\n\n（她指了指房间的方向。）",

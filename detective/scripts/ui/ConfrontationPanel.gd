@@ -1174,7 +1174,11 @@ func _play_victory() -> void:
 
 
 func _play_epilogue_text() -> void:
-	# 黑屏收尾文字（逐段显示）
+	# 只有最终对峙播放黑屏结局文字；中间对峙胜利后直接返回调查阶段。
+	if not bool(_confrontation_data.get("is_final", false)):
+		confrontation_finished.emit("victory", _mistakes)
+		return
+
 	var epilogue_lines: Array = _confrontation_data.get("epilogue_text", [])
 	if epilogue_lines.is_empty():
 		confrontation_finished.emit("victory", _mistakes)
@@ -1336,9 +1340,36 @@ func _set_waiting_for_click(cb: Callable) -> void:
 	_click_callback = cb
 
 
+func _handle_browsing_mouse_click(event: InputEvent) -> bool:
+	if not (event is InputEventMouseButton):
+		return false
+	if not event.pressed or event.button_index != MOUSE_BUTTON_LEFT:
+		return false
+	var pos: Vector2 = event.position
+	if _prev_btn != null and is_instance_valid(_prev_btn) and not _prev_btn.disabled and _prev_btn.get_global_rect().has_point(pos):
+		_navigate_stmt(-1)
+		return true
+	if _next_btn != null and is_instance_valid(_next_btn) and not _next_btn.disabled and _next_btn.get_global_rect().has_point(pos):
+		_navigate_stmt(1)
+		return true
+	if _press_btn != null and is_instance_valid(_press_btn) and _press_btn.get_global_rect().has_point(pos):
+		_on_press_clicked()
+		return true
+	if _present_btn != null and is_instance_valid(_present_btn) and _present_btn.get_global_rect().has_point(pos):
+		_on_present_clicked()
+		return true
+	return false
+
+
 func _input(event: InputEvent) -> void:
-	# 浏览/举证状态下不拦截鼠标，确保按钮可点击
-	if _state == State.BROWSING or _state == State.EVIDENCE_OPEN:
+	# 浏览状态下手动兜底处理关键按钮区域。
+	# 有些首次从事件流进入对峙的情况下，按钮 signal 可能被上层输入流吞掉；这里直接按全局矩形命中。
+	if _state == State.BROWSING:
+		_click_callback = Callable()
+		if _handle_browsing_mouse_click(event):
+			get_viewport().set_input_as_handled()
+		return
+	if _state == State.EVIDENCE_OPEN:
 		_click_callback = Callable()
 		return
 	var trigger: bool = false

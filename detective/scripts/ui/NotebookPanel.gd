@@ -358,7 +358,12 @@ func _build_evidence_tab() -> void:
 	var scroll := _make_scroll_container("证 物")
 	var margin := _make_margin(scroll)
 
-	_evidence_items_cache = GameManager.collected_evidence.duplicate()
+	_evidence_items_cache = []
+	for item_id in GameManager.collected_evidence:
+		var item_data: Dictionary = GameManager.evidence_data.get(item_id, {})
+		if item_data.get("hidden", false):
+			continue
+		_evidence_items_cache.append(item_id)
 
 	if _evidence_items_cache.is_empty():
 		var empty_vbox := VBoxContainer.new()

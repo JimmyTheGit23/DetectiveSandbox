@@ -434,33 +434,6 @@
       ]
     },
     {
-      "id": "phase_unlocked_3",
-      "when": {
-        "trigger": "phase_unlocked:phase_3"
-      },
-      "lines": [
-        [
-          {
-            "speaker": "凌瑶",
-            "text": "等等——沈清月？！我说呢——她那种人怎么可能只是在追债！"
-          },
-          {
-            "speaker": "凌瑶",
-            "text": "她一直在这客栈里！就在楼上！天哪……她一直在看着我们查案？！"
-          },
-          {
-            "speaker": "陆昭",
-            "text": "冷静。阿贵的口供不够。我们需要实证。",
-            "emotion": "serious"
-          },
-          {
-            "speaker": "凌瑶",
-            "text": "好好好……赌坊那条线、码头的时间、还有那五十两银子——我来帮你理！"
-          }
-        ]
-      ]
-    },
-    {
       "id": "after_talk_shen_phase1",
       "when": {
         "trigger": "dialogue_end",

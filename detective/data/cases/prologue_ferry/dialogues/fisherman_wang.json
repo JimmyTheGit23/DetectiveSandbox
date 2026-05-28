@@ -64,6 +64,14 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
+      ],
+      "text_variants": [
+        {
+          "when": {
+            "flag": "agui_confessed_mastermind"
+          },
+          "text": "老头子听说阿贵招了，脸色反而更沉。\n\n'招一个不够。江上漂下来的东西、天亮前摸水的人——这些账，还没算完。'"
+        }
       ]
     },
     "intro": {
@@ -127,7 +135,7 @@
       "set_flags": [
         "wang_talked_once"
       ],
-      "gain_clue": "clue_fan_alibi_hole"
+      "gain_evidence": "clue_fan_alibi_hole"
     },
     "ask_channel": {
       "text": "走的东汊那条。\n\n在这一带跑船的人都知道——东汊有暗礁。涨水没涨水都不能走。\n\n老范在这儿跑了二十年。他不知道？放屁！他比谁都知道！\n\n除非——他就是故意走那条路。",

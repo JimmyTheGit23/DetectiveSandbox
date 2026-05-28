@@ -297,14 +297,13 @@
             "evidence": "evidence_wrong_channel"
           },
           {
-            "any": [
-              {
-                "evidence": "evidence_dismissal_note"
-              },
-              {
-                "evidence": "evidence_gambling_iou"
-              }
-            ]
+            "evidence": "clue_fan_alibi_hole"
+          },
+          {
+            "evidence": "evidence_dismissal_note"
+          },
+          {
+            "evidence": "evidence_gambling_iou"
           },
           {
             "flag": "agui_premeditation_known"
@@ -321,11 +320,11 @@
       "narration": [
         {
           "speaker": "凌瑶",
-          "text": "陆大人！航道、验尸、船底破洞、浮囊，还有阿贵的动机——对峙要用的证据链都齐了！"
+          "text": "陆大人！航道、验尸、船底破洞、浮囊、老范获救时间、阿贵遣散字据和赌债——对峙要用的证据链都齐了！"
         },
         {
           "speaker": "凌瑶",
-          "text": "不能再拖了。去找里正——让他把人都叫来，当面对质！"
+          "text": "这次不能只盯阿贵。先让老范把船和时间说清楚，再逼阿贵开口。"
         },
         {
           "speaker": "陆昭",
@@ -353,51 +352,76 @@
           }
         ]
       },
-      "title": "真正的对手",
+      "title": "客栈变局",
       "narration": [
-        "阿贵被带走了。他走时回头看了一眼——不是看你，是看着走廊尽头灵位的方向。",
+        "阿贵被两个帮工押进后院柴房。门闩落下的一刻，客栈大堂像被人抽走了声音。",
         {
-          "speaker": "凌瑶",
-          "text": "（小声）……他在看老爷灵位。"
+          "speaker": "钱里正",
+          "text": "陆大人。先前是小人眼拙。从现在起，客栈上下听您调遣。"
         },
-        "一阵沉默。雨打在屋瓦上的声音格外清晰。",
         {
           "speaker": "凌瑶",
-          "text": "陆大人。他是凶手——但十二年被人当牲口使……换了我我也恨。"
+          "text": "你看——位置都变了。阿贵不在屋里了，老范那边也有人盯着，沈清月退回二楼房间。"
         },
         {
           "speaker": "陆昭",
-          "text": "恨不等于杀人。"
+          "text": "她没有跑。"
         },
         {
           "speaker": "凌瑶",
-          "text": "……我知道。但如果没人'教'他——他可能一辈子也不敢动手吧。"
+          "text": "因为她觉得阿贵的口供不够。那我们就找她不能抵赖的东西。"
+        },
+        "雨声压着屋檐。大堂的人不再看你像嫌犯，而是等着你下一个命令。"
+      ],
+      "effects": {
+        "set_flag": [
+          "evt_phase3_transition_done",
+          "phase3_scene_rearranged"
+        ]
+      }
+    },
+    {
+      "id": "evt_bladder_meaning_changed",
+      "trigger": {
+        "all": [
+          {
+            "flag": "evt_phase3_transition_done"
+          },
+          {
+            "location": "ferry_inn"
+          },
+          {
+            "evidence": "evidence_float_bladder"
+          },
+          {
+            "not": {
+              "flag": "bladder_meaning_revised"
+            }
+          }
+        ]
+      },
+      "title": "重新审视的物证",
+      "narration": [
+        {
+          "speaker": "",
+          "text": "陆昭重新捏起那只牛皮浮囊。缝线极细，针脚密得不像船工手里的粗活。"
         },
         {
           "speaker": "凌瑶",
-          "text": "教他的人——才是最该抓的。那个人现在还在这栋楼里。"
+          "text": "等等——浮囊。咱们之前以为那是阿贵自己藏的退路。可他刚才说，连浮囊都是沈清月帮他买的。"
         },
-        "沈清月。客栈二楼。",
+        {
+          "speaker": "凌瑶",
+          "text": "那件证物，从一开始就是她的指纹。我们之前看它的角度——错了。"
+        },
         {
           "speaker": "陆昭",
-          "text": "她可能已经知道阿贵招了。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "……你说得对。像她那种人——什么都算好了。但她没跑。"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "她不跑，是因为她觉得我们拿不出证据。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "那就让她看看。——陆大人，去查她！赌坊、码头时间线、那五十两货银——总有一条能钉死她。"
+          "text": "重新看。"
         }
       ],
       "effects": {
         "set_flag": [
-          "evt_phase3_transition_done"
+          "bladder_meaning_revised"
         ]
       }
     },
@@ -407,6 +431,9 @@
         "all": [
           {
             "flag": "agui_confessed_mastermind"
+          },
+          {
+            "evidence": "evidence_cargo_silver"
           },
           {
             "evidence": "evidence_salvage_mark"
@@ -428,7 +455,7 @@
       "narration": [
         {
           "speaker": "凌瑶",
-          "text": "陆大人。三条证据——打捞目击、中间人、时间矛盾。全指向沈清月。"
+          "text": "陆大人。四条证据——货银未沉、打捞目击、中间人、时间矛盾。全指向沈清月。"
         },
         {
           "speaker": "凌瑶",

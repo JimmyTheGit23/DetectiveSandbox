@@ -84,6 +84,14 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
+      ],
+      "text_variants": [
+        {
+          "when": {
+            "flag": "agui_confessed_mastermind"
+          },
+          "text": "老范坐在船边，旁边两个帮工盯着他。他的烟杆没点着，手却一直在抖。\n\n看见你来，他先看了一眼后路——已经没人给他让路了。"
+        }
       ]
     },
     "intro": {
@@ -188,7 +196,7 @@
       "text_variants": [
         {
           "when": {
-            "clue": "clue_fan_alibi_hole"
+            "evidence": "clue_fan_alibi_hole"
           },
           "text": "老汉自己爬上岸的——不对，是在水里扒了半个时辰，被下游渔民拉上去的。\n\n（你记下这个时间。与王大爷说的'不到一刻钟'明显矛盾。）"
         },

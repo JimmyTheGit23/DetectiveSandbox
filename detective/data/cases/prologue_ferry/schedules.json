@@ -1,2 +1,111 @@
 {
+  "_comment": "NPC 日程。Phase 3 后使用 conditional_overrides 重排客栈与码头局势。public=false 表示该 NPC 不作为普通交谈对象出现。",
+  "li_zheng": {
+    "_role": "里正",
+    "default": {
+      "location": "ferry_inn",
+      "activity": "press_for_closure",
+      "public": true
+    },
+    "conditional_overrides": [
+      {
+        "if_flag": "agui_confessed_mastermind",
+        "schedule": {
+          "location": "ferry_inn",
+          "activity": "assist_investigation",
+          "public": true
+        }
+      }
+    ]
+  },
+  "zhou_wife": {
+    "_role": "死者妻子",
+    "default": {
+      "location": "zhou_room",
+      "activity": "mourning",
+      "public": true
+    },
+    "conditional_overrides": [
+      {
+        "if_flag": "agui_confessed_mastermind",
+        "schedule": {
+          "location": "zhou_room",
+          "activity": "shocked_waiting",
+          "public": true
+        }
+      }
+    ]
+  },
+  "agui": {
+    "_role": "仆从，中间凶手",
+    "default": {
+      "location": "agui_room",
+      "activity": "hide_in_room",
+      "public": true
+    },
+    "conditional_overrides": [
+      {
+        "if_flag": "agui_confessed_mastermind",
+        "schedule": {
+          "location": "agui_room",
+          "activity": "detained_in_woodshed",
+          "public": false
+        }
+      }
+    ]
+  },
+  "shen_qingyue": {
+    "_role": "药材行姑娘，最终对手",
+    "default": {
+      "location": "inn_corridor",
+      "activity": "openly_provoke",
+      "public": true
+    },
+    "conditional_overrides": [
+      {
+        "if_flag": "agui_confessed_mastermind",
+        "schedule": {
+          "location": "shen_room",
+          "activity": "closed_door_defense",
+          "public": true
+        }
+      }
+    ]
+  },
+  "lao_fan": {
+    "_role": "船家，共犯",
+    "default": {
+      "location": "ferry_dock",
+      "activity": "guard_boat",
+      "public": true
+    },
+    "conditional_overrides": [
+      {
+        "if_flag": "agui_confessed_mastermind",
+        "schedule": {
+          "location": "ferry_dock",
+          "activity": "watched_by_helpers",
+          "public": true
+        }
+      }
+    ]
+  },
+  "fisherman_wang": {
+    "_role": "下游渔翁，关键证人",
+    "default": {
+      "location": "river_bend",
+      "activity": "mend_nets",
+      "public": true
+    },
+    "conditional_overrides": [
+      {
+        "if_flag": "agui_confessed_mastermind",
+        "schedule": {
+          "location": "river_bend",
+          "activity": "recall_dawn_sighting",
+          "public": true
+        }
+      }
+    ]
+  }
 }

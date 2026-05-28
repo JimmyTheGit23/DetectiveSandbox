@@ -6,10 +6,12 @@
   "key_evidence": [
     "evidence_hull_hole",
     "evidence_float_bladder",
-    "evidence_gambling_iou",
-    "evidence_dismissal_note"
+    "evidence_cargo_silver",
+    "evidence_shen_connection",
+    "evidence_dock_timing",
+    "evidence_father_ledger"
   ],
-  "min_evidence_required": 3,
+  "min_evidence_required": 4,
   "confrontation": {
     "suspect": "agui",
     "is_final": false,
@@ -17,7 +19,7 @@
     "bgm": "ferry_confrontation",
     "bgm_break": "ferry_court_opening",
     "bgm_final_round": "ferry_confrontation",
-    "confidence": 3,
+    "confidence": 5,
     "intro_dialogue": [
       {
         "speaker": "",
@@ -69,12 +71,9 @@
         ],
         "transition_dialogue": [
           { "speaker": "陆昭", "text": "王大爷的证言已经说明——航道是故意选的，有人提前约定了时间和路线。", "emotion": "cold" },
-          { "speaker": "陆昭", "text": "阿贵——", "emotion": "cold" },
-          { "speaker": "阿贵", "text": "（不等陆昭说完，猛然站起）大人！不用再查了！是他干的！", "emotion": "angry" },
-          { "speaker": "", "text": "堂上一阵骚动。周氏的手攥紧了帕子。钱里正张了张嘴，没说出话。", "emotion": "narration" },
-          { "speaker": "阿贵", "text": "是他杀了老爷！我用性命担保——是他用铁器打的！", "emotion": "angry" },
-          { "speaker": "凌瑶", "text": "（低声）他先发制人了——不等我们审就先倒打一耙。", "emotion": "determined" },
-          { "speaker": "凌瑶", "text": "不过……也好。主动开口的人，破绽最多。", "emotion": "determined" }
+          { "speaker": "陆昭", "text": "老范。那条船是你的，航道也是你选的。现在轮到你解释。", "emotion": "cold" },
+          { "speaker": "老范", "text": "（旱烟杆在手里转了半圈）大人……老汉跑船二十年，最怕的就是这种事。可江上的事，谁说得准？", "emotion": "evasive" },
+          { "speaker": "凌瑶", "text": "（低声）他开始把一切推给'江上的事'了。别让他躲在水雾里。", "emotion": "determined" }
         ],
         "statements": [
           {
@@ -125,6 +124,206 @@
         "fail_dialogue": [
           { "speaker": "王大爷", "text": "大人……这个跟老汉说的事搭不上边吧。", "emotion": "evasive" },
           { "speaker": "凌瑶", "text": "（低声）方向不太对。再想想——他那句'也正常'，什么东西能证明不正常？", "emotion": "worried" }
+        ]
+      },
+      {
+        "id": "testimony_lao_fan_route",
+        "witness": "lao_fan",
+        "title": "— 证人证词：老范其一·翻船原因 —",
+        "preamble": [
+          { "speaker": "钱里正", "text": "老范，你别缩着。船是你的，你得说清楚。", "emotion": "nervous" },
+          { "speaker": "老范", "text": "（咳了一声）老汉说。说错了，大人只管问。", "emotion": "evasive" }
+        ],
+        "readthrough_end_hint": [
+          { "speaker": "凌瑶", "text": "（低声）他说来说去都在把翻船推给暗礁和浪。可船底到底是什么样，咱们亲眼看过。", "emotion": "determined" }
+        ],
+        "transition_dialogue": [
+          { "speaker": "陆昭", "text": "船不是被浪打翻的。是有人事先在船底动了手脚。", "emotion": "cold" },
+          { "speaker": "老范", "text": "（脸色发白）大人……船、船底那事，老汉真不知道……", "emotion": "shaken" },
+          { "speaker": "凌瑶", "text": "（低声）他退了。现在问他落水之后的时间。王大爷那句话，正好能堵他。", "emotion": "determined" }
+        ],
+        "statements": [
+          {
+            "id": "fan_route_1",
+            "speaker": "老范",
+            "text": "那晚雨急，江面全是雾。船出码头时还稳，到了东汊才突然被浪顶了一下。",
+            "press": [
+              { "speaker": "你", "text": "东汊。你知道那里有暗礁。", "emotion": "cold" },
+              { "speaker": "老范", "text": "知道是知道……可涨水时看不见礁，老汉也以为能过去。", "emotion": "evasive" },
+              { "speaker": "凌瑶", "text": "（低声）他承认知道暗礁，却说自己'以为能过去'。这不是船夫会犯的错。", "emotion": "anxious" }
+            ]
+          },
+          {
+            "id": "fan_route_2",
+            "speaker": "老范",
+            "text": "船底破开，是撞上暗礁和浪头后裂的。老船再结实，也经不住江水折腾。",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_hull_hole",
+            "alt_evidence": ["evidence_nail_marks"],
+            "press": [
+              { "speaker": "你", "text": "你说是撞裂。撞裂的木板应该是什么样？", "emotion": "cold" },
+              { "speaker": "老范", "text": "木茬乱，板缝开……江水一冲，什么样都有。", "emotion": "evasive" },
+              { "speaker": "你", "text": "那如果边缘整齐，像从内侧凿开的呢？", "emotion": "cold" },
+              { "speaker": "老范", "text": "……大人，夜里黑，谁看得清？", "emotion": "shaken" },
+              { "speaker": "凌瑶", "text": "（低声）他不敢正面答。船底那件证物能说明不是暗礁。", "emotion": "determined" }
+            ],
+            "break_dialogue": [
+              { "speaker": "你", "text": "不是暗礁。船底破洞的边缘整齐，凿痕清楚。", "emotion": "cold" },
+              { "speaker": "你", "text": "木板像是被人从内侧开过活板，又重新钉回去。周围还有新旧两圈钉眼。", "emotion": "cold" },
+              { "speaker": "老范", "text": "……", "emotion": "shaken" },
+              { "speaker": "你", "text": "浪只会撞碎船。不会替人拆板、凿洞、再钉回去。", "emotion": "cold" },
+              { "speaker": "凌瑶", "text": "他把'凿船'说成'撞礁'，第一层谎破了。", "emotion": "determined" }
+            ]
+          },
+          {
+            "id": "fan_route_3",
+            "speaker": "老范",
+            "text": "老汉也是受害人。船翻了，老汉差点把命丢在江里。",
+            "press": [
+              { "speaker": "你", "text": "差点丢命？你说清楚，船翻之后你在哪里。", "emotion": "cold" },
+              { "speaker": "老范", "text": "水里啊。冰水灌进嘴里，老汉差点没缓过来。", "emotion": "evasive" },
+              { "speaker": "凌瑶", "text": "（低声）他马上把话题转到自己'可怜'。别被带偏。", "emotion": "anxious" }
+            ]
+          }
+        ],
+        "fail_dialogue": [
+          { "speaker": "老范", "text": "大人，江上翻船不稀奇。您这证物……跟暗礁浪头对不上啊。", "emotion": "evasive" },
+          { "speaker": "凌瑶", "text": "（低声）别跟他争水性。先证明船不是浪撞的——船底破洞，或者那些钉痕。", "emotion": "worried" }
+        ]
+      },
+      {
+        "id": "testimony_lao_fan_rescue",
+        "witness": "lao_fan",
+        "title": "— 证人证词：老范其二·落水之后 —",
+        "preamble": [
+          { "speaker": "陆昭", "text": "继续。船翻之后，你如何上岸？", "emotion": "cold" },
+          { "speaker": "老范", "text": "老汉……老汉命大。扒着块船板，漂了许久。", "emotion": "evasive" }
+        ],
+        "readthrough_end_hint": [
+          { "speaker": "凌瑶", "text": "（低声）他把时间说得很长。王大爷可不是这么说的。", "emotion": "determined" }
+        ],
+        "transition_dialogue": [
+          { "speaker": "陆昭", "text": "半个时辰是假的。不到一刻钟上岸，说明你早有准备。", "emotion": "cold" },
+          { "speaker": "老范", "text": "大人……老汉水性好，上岸快些也不能说老汉杀人啊。", "emotion": "shaken" },
+          { "speaker": "陆昭", "text": "所以还要问最后一件事——你为什么愿意冒这个险。", "emotion": "cold" },
+          { "speaker": "老范", "text": "……老汉跟周老爷无冤无仇。", "emotion": "evasive" }
+        ],
+        "statements": [
+          {
+            "id": "fan_rescue_1",
+            "speaker": "老范",
+            "text": "船一翻，老汉也被卷进水里。冬江冷得像刀子，哪里还分得清东南西北。",
+            "press": [
+              { "speaker": "你", "text": "你是老船家，熟悉这片江。", "emotion": "cold" },
+              { "speaker": "老范", "text": "熟归熟，翻船时谁都慌。再熟的水也能要命。", "emotion": "evasive" },
+              { "speaker": "凌瑶", "text": "（低声）这句还只是喊冤。关键是他到底在水里待了多久。", "emotion": "anxious" }
+            ]
+          },
+          {
+            "id": "fan_rescue_2",
+            "speaker": "老范",
+            "text": "老汉在水里泡了半个时辰，后来才被下游渔民拉上去。要不是命硬，早没了。",
+            "is_contradiction": true,
+            "counter_evidence": "clue_fan_alibi_hole",
+            "alt_evidence": [],
+            "press": [
+              { "speaker": "你", "text": "半个时辰？谁救的你？", "emotion": "cold" },
+              { "speaker": "老范", "text": "下游的渔民……夜里乱，老汉也没看清是哪家。", "emotion": "evasive" },
+              { "speaker": "你", "text": "你连救命恩人是谁都不知道？", "emotion": "cold" },
+              { "speaker": "老范", "text": "冻糊涂了，真记不清。", "emotion": "shaken" },
+              { "speaker": "凌瑶", "text": "（低声）他把时间拖长，是想让自己看起来也像受害者。可王大爷看见的不是这样。", "emotion": "determined" }
+            ],
+            "break_dialogue": [
+              { "speaker": "你", "text": "不是半个时辰。王大爷说，船翻后不到一刻钟，就有人从南岸爬上去了。", "emotion": "cold" },
+              { "speaker": "你", "text": "动作利索，不像快淹死的人。那个人就是你。", "emotion": "cold" },
+              { "speaker": "老范", "text": "……他、他夜里看错了。", "emotion": "panic" },
+              { "speaker": "你", "text": "他看错一次，或许可能。可你连救你的人是谁都说不出。因为根本没人救你。你是自己按计划上岸的。", "emotion": "cold" },
+              { "speaker": "凌瑶", "text": "所以他不是侥幸活下来。他是知道自己会活下来。", "emotion": "shocked" }
+            ]
+          },
+          {
+            "id": "fan_rescue_3",
+            "speaker": "老范",
+            "text": "周老爷不会水，阿贵又慌。老汉自己都顾不上，哪里还能救人？",
+            "press": [
+              { "speaker": "你", "text": "你没救人。因为那不是你的目的。", "emotion": "cold" },
+              { "speaker": "老范", "text": "大人这话……老汉不敢认。", "emotion": "evasive" },
+              { "speaker": "凌瑶", "text": "（低声）他已经从'差点死'退到'顾不上救人'了。", "emotion": "determined" }
+            ]
+          }
+        ],
+        "fail_dialogue": [
+          { "speaker": "老范", "text": "大人，落水之后的事乱得很。您拿这个压老汉，老汉也说不出别的。", "emotion": "evasive" },
+          { "speaker": "凌瑶", "text": "（低声）他说'半个时辰后被救'。我们手里有王大爷记下的时间矛盾。", "emotion": "worried" }
+        ]
+      },
+      {
+        "id": "testimony_lao_fan_motive",
+        "witness": "lao_fan",
+        "title": "— 证人证词：老范其三·无冤无仇 —",
+        "preamble": [
+          { "speaker": "陆昭", "text": "老范。你说无冤无仇。那就说清楚——你为什么没有动机。", "emotion": "cold" },
+          { "speaker": "老范", "text": "老汉一个跑船的，跟周老爷不过一趟生意。哪来的仇？", "emotion": "evasive" }
+        ],
+        "readthrough_end_hint": [
+          { "speaker": "凌瑶", "text": "（低声）他把自己说成没动机的外人。可码头竹棚里那张字据不是这么说的。", "emotion": "determined" }
+        ],
+        "transition_dialogue": [
+          { "speaker": "老范", "text": "（瘫坐回椅子）老汉……老汉只是缺钱。可主意不是老汉出的。", "emotion": "shaken" },
+          { "speaker": "陆昭", "text": "那是谁出的？", "emotion": "cold" },
+          { "speaker": "老范", "text": "是阿贵！是那仆从先说周老爷带着五十两货银！老汉只是、只是被他拖下水！", "emotion": "panic" },
+          { "speaker": "阿贵", "text": "（猛然站起）你胡说！明明是你——", "emotion": "angry" },
+          { "speaker": "", "text": "堂上一阵骚动。周氏的手攥紧了帕子。钱里正张了张嘴，没说出话。", "emotion": "narration" },
+          { "speaker": "阿贵", "text": "大人！不用再查了！是他杀了老爷！我用性命担保——是他用铁器打的！", "emotion": "angry" },
+          { "speaker": "凌瑶", "text": "（低声）两个人开始互咬了。现在轮到阿贵——主动开口的人，破绽最多。", "emotion": "determined" }
+        ],
+        "statements": [
+          {
+            "id": "fan_motive_1",
+            "speaker": "老范",
+            "text": "老汉跟周老爷第一次见。收了船钱，送他过江，仅此而已。",
+            "press": [
+              { "speaker": "你", "text": "第一次见，就愿意深夜走东汊？", "emotion": "cold" },
+              { "speaker": "老范", "text": "客人赶路，给了加钱。跑船的，总不能有钱不赚。", "emotion": "evasive" },
+              { "speaker": "凌瑶", "text": "（低声）他说的是'有钱不赚'。他缺钱。", "emotion": "anxious" }
+            ]
+          },
+          {
+            "id": "fan_motive_2",
+            "speaker": "老范",
+            "text": "老汉不缺这点船钱，也不缺银子。杀人？为了什么？",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_gambling_iou",
+            "alt_evidence": [],
+            "press": [
+              { "speaker": "你", "text": "你不缺银子？", "emotion": "cold" },
+              { "speaker": "老范", "text": "老汉虽穷，船还在，网还在，饿不死。", "emotion": "evasive" },
+              { "speaker": "你", "text": "如果腊月底还不上债呢？", "emotion": "cold" },
+              { "speaker": "老范", "text": "……什么债？", "emotion": "panic" },
+              { "speaker": "凌瑶", "text": "（低声）他装不知道。那张赌债字据就是他的命门。", "emotion": "determined" }
+            ],
+            "break_dialogue": [
+              { "speaker": "你", "text": "四十二两赌债。腊月底还不上，就断指抵债。", "emotion": "cold" },
+              { "speaker": "你", "text": "这是你藏在码头竹棚下的借据。日期是上月。", "emotion": "cold" },
+              { "speaker": "老范", "text": "（旱烟杆从手里掉下来）……", "emotion": "shaken" },
+              { "speaker": "你", "text": "你不是不缺银子。你是快被债逼到断指的人。五十两货银，足够救你的手。", "emotion": "cold" },
+              { "speaker": "凌瑶", "text": "航道、时间、动机——三层都破了。他不是什么倒霉船家，是共犯。", "emotion": "determined" }
+            ]
+          },
+          {
+            "id": "fan_motive_3",
+            "speaker": "老范",
+            "text": "再说了，周老爷死了，货银也沉江。老汉能落着什么好？",
+            "press": [
+              { "speaker": "你", "text": "如果货银真的沉江，你确实落不着好。", "emotion": "cold" },
+              { "speaker": "老范", "text": "是、是啊。老汉就是这个意思。", "emotion": "evasive" },
+              { "speaker": "凌瑶", "text": "（低声）他这句话以后还会有用——货银真的沉了吗？先把阿贵审完。", "emotion": "determined" }
+            ]
+          }
+        ],
+        "fail_dialogue": [
+          { "speaker": "老范", "text": "大人，老汉是穷，可穷不等于杀人。您得拿出老汉非做不可的理由。", "emotion": "evasive" },
+          { "speaker": "凌瑶", "text": "（低声）动机。老范的动机就在那张借据上——四十二两，腊月底，断指。", "emotion": "worried" }
         ]
       },
       {
@@ -961,7 +1160,7 @@
                 "text": "好……好吧！是有人跟我说过'带个浮囊保险'！但那是好心提醒——不是预谋！",
                 "is_contradiction": true,
                 "counter_evidence": "evidence_dismissal_note",
-                "alt_evidence": ["evidence_gambling_iou"],
+                "alt_evidence": [],
                 "press": [
                   {
                     "speaker": "你",
@@ -1162,9 +1361,7 @@
             "text": "老爷遣散我的时候还给了路费银子——他是体恤我，让我自由！",
             "is_contradiction": true,
             "counter_evidence": "evidence_dismissal_note",
-            "alt_evidence": [
-              "evidence_gambling_iou"
-            ],
+            "alt_evidence": [],
             "press": [
               {
                 "speaker": "你",
@@ -1471,6 +1668,16 @@
         "emotion": "broken"
       },
       {
+        "speaker": "",
+        "text": "（浮囊上那种过细的密封缝——不像船工手艺。那条线索，一直在手里。）",
+        "emotion": "inner_thought"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "等等……那只浮囊。咱们之前以为是阿贵自己的退路。可如果是她买的——意思完全变了。",
+        "emotion": "shocked"
+      },
+      {
         "speaker": "阿贵",
         "text": "怎么凿船。凿哪里。什么时候动手——全是她教的。她连货银会漂到哪里都算好了……",
         "emotion": "broken"
@@ -1622,15 +1829,6 @@
         "text": "走吧。回去把证物翻出来一样一样对。这案子没那么难——是咱出牌的顺序不对。",
         "emotion": "worried"
       }
-    ],
-    "epilogue_text": [
-      "阿贵被押往县衙。\n\n走到门口时他停了一步。回头看了你一眼。",
-      "「大人。下辈子——小的不做仆从了。」\n\n然后他低下头，一路再没有回头。",
-      "钱里正连夜派人拿了老范——他正收拾行李准备跑。\n赌债字据、分赃银两——人赃并获。",
-      "周氏跪在丈夫灵前，终于等到了一个交代。\n她说：'老爷走了。但至少……不是白走的。'",
-      "石矶渡恢复了平静。\n渡口立了新规：不再接独行客的夜船。",
-      "这是你到浔阳后办的第一桩案子。\n不会是最后一桩。",
-      "—— 序章「渡口沉舟」 终 ——"
     ]
   },
   "confrontation_final": {
@@ -1823,7 +2021,7 @@
             "text": "五十两货银随船沉了江。人死了，钱也没了——我是这件事里亏得最惨的人。",
             "is_contradiction": true,
             "counter_evidence": "evidence_salvage_mark",
-            "alt_evidence": ["evidence_father_ledger"],
+            "alt_evidence": ["evidence_cargo_silver", "evidence_father_ledger"],
             "press": [
               {
                 "speaker": "你",
@@ -1874,17 +2072,17 @@
             "break_dialogue": [
               {
                 "speaker": "你",
-                "text": "五十两沉了江？（拍出证词）你看看这个。",
+                "text": "五十两沉了江？先看货舱。沉船里一两银子都没有。",
                 "emotion": "cold"
               },
               {
                 "speaker": "你",
-                "text": "王大爷——下游的渔翁。他亲眼看到，天亮前有人在浅滩打捞东西。",
+                "text": "五十两银锭不会被水冲走。它要么本来就不在船上，要么船一沉就被人从下游捞走。",
                 "emotion": "cold"
               },
               {
                 "speaker": "你",
-                "text": "打捞的人——身量高挑，穿深色衣裳。像个女子。",
+                "text": "王大爷亲眼看到，天亮前有人在下游浅滩用长竿打捞东西。那人身量高挑，穿深色衣裳。",
                 "emotion": "cold"
               },
               {
@@ -1909,7 +2107,7 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）第一道裂缝出现了。她说'巧合'——但声音跟刚才不一样了。继续！",
+                "text": "（低声）第一道裂缝出现了。货银不是'跟船沉了'，她的'亏钱'逻辑不成立。继续！",
                 "emotion": "determined"
               },
               {
@@ -1924,7 +2122,7 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）嘶……她把'去打捞'说成'去查看'——还在狡辩！但这个说法……确实很难直接反驳……",
+                "text": "（低声）嘶……她把'去打捞'说成'去查看'——还在狡辩！但至少已经证明：她不是亏得最惨的人。",
                 "emotion": "worried"
               }
             ],
@@ -2123,7 +2321,7 @@
             "text": "老范欠赌坊四十二两——这种事码头人尽皆知。我也是听说的。我跟赌坊没有任何来往。",
             "is_contradiction": true,
             "counter_evidence": "evidence_shen_connection",
-            "alt_evidence": [],
+            "alt_evidence": ["evidence_gambling_iou"],
             "press": [
               {
                 "speaker": "你",
@@ -2174,12 +2372,12 @@
             "break_dialogue": [
               {
                 "speaker": "你",
-                "text": "你跟赌坊没来往？（甩出证据）老范自己交代了。",
+                "text": "你跟赌坊没来往？老范欠赌坊四十二两，这个数字不是码头闲话。",
                 "emotion": "cold"
               },
               {
                 "speaker": "你",
-                "text": "是一个'药材行的姑娘'先找到他——知道他欠赌债，给他指了一条'发财的路'。",
+                "text": "借据上写着四十二两；赌坊账簿又记着，案发前有个'药材行的姑娘'特地来问范某债数，许诺事成后替他兑债。",
                 "emotion": "cold"
               },
               {
@@ -2204,7 +2402,7 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）两个人指向同一个人——她还在硬撑。但声音已经不对了……",
+                "text": "（低声）赌债数字和赌坊记录互相咬住了——她还在硬撑，但声音已经不对了……",
                 "emotion": "determined"
               }
             ]
@@ -2263,7 +2461,7 @@
                 "text": "就算我跟他说过话——在码头碰见聊两句而已。我同情他的遭遇。这有什么不对？",
                 "is_contradiction": true,
                 "counter_evidence": "evidence_dock_timing",
-                "alt_evidence": ["evidence_father_ledger"],
+                "alt_evidence": ["evidence_float_bladder", "evidence_dismissal_note"],
                 "press": [
                   {
                     "speaker": "你",
@@ -2299,12 +2497,17 @@
                 "break_dialogue": [
                   {
                     "speaker": "你",
-                    "text": "你说你只是'在码头碰见聊两句'。可你那天晚上——一直在码头。",
+                    "text": "你说你只是'在码头碰见聊两句'。可你知道阿贵遣散字据上的二两银子，也知道他不会水。",
                     "emotion": "cold"
                   },
                   {
                     "speaker": "你",
-                    "text": "凌瑶看到你——船走了一刻钟之后你还在。你不是'碰见'阿贵——你是在确认计划执行。",
+                    "text": "更重要的是——阿贵的浮囊。上面的密封缝不是本地船工手艺，而像药材行封袋的缝法。",
+                    "emotion": "cold"
+                  },
+                  {
+                    "speaker": "你",
+                    "text": "那不是阿贵临时买来的保命物。是你替他准备的退路。",
                     "emotion": "cold"
                   },
                   {
@@ -2314,7 +2517,7 @@
                   },
                   {
                     "speaker": "你",
-                    "text": "你说你'同情他'。可同情一个仆从——需要在码头陪他等到深夜吗？需要告诉他怎么凿船吗？",
+                    "text": "凌瑶看到你——船走了一刻钟之后你还在码头。你不是'碰见'阿贵，你是在确认计划执行。",
                     "emotion": "cold"
                   },
                   {
@@ -2324,7 +2527,7 @@
                   },
                   {
                     "speaker": "凌瑶",
-                    "text": "（低声）她说不出话了。'碰见聊两句'的谎——被时间线彻底击穿了。",
+                    "text": "（低声）浮囊这件证物转了一圈，意思全变了——它不是只指向阿贵，它指向给阿贵留退路的人。",
                     "emotion": "determined"
                   }
                 ]

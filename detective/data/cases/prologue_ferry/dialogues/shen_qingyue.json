@@ -103,7 +103,15 @@
           "goto": "__exit__"
         }
       ],
-      "emotion": "cold_smile"
+      "emotion": "cold_smile",
+      "text_variants": [
+        {
+          "when": {
+            "flag": "agui_confessed_mastermind"
+          },
+          "text": "二楼房间比走廊安静。沈清月坐在窗边，账册收得整整齐齐。\n\n她没有再靠柱挑衅，只是抬眼看你：'阿贵说什么，是阿贵的事。大人要问我，就拿证据来。'"
+        }
+      ]
     },
     "intro": {
       "lines": [

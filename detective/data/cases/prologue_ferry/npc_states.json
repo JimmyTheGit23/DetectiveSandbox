@@ -15,6 +15,7 @@
       { "on": "node_visited:lao_fan.press_route", "delta": { "composure": -1 } },
       { "on": "node_visited:lao_fan.show_iou", "delta": { "composure": -2 } },
       { "on": "evidence_obtained:evidence_hull_hole", "delta": { "composure": -1 } },
+      { "on": "evidence_obtained:clue_fan_alibi_hole", "delta": { "composure": -1 } },
       { "on": "evidence_obtained:evidence_gambling_iou", "delta": { "composure": -1 } }
     ]
   },

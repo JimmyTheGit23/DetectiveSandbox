@@ -63,19 +63,22 @@
       "locked_hint": "芦苇丛似乎有什么东西，但太远了看不清。需要更多线索才能确定该不该去翻。"
     },
     "shen_room.shen_desk": {
-      "condition": {
-        "any": [
-          { "evidence": "evidence_shen_connection" },
-          { "clue": "clue_agui_spending" }
-        ]
-      },
-      "locked_hint": "没有搜查理由。需要先找到沈清月与本案有关的证据。"
+      "condition": { "flag": "agui_confessed_mastermind" },
+      "locked_hint": "阿贵还没招供，现在没有理由搜沈清月的房间。"
+    },
+    "shen_room.shen_window": {
+      "condition": { "flag": "agui_confessed_mastermind" },
+      "locked_hint": "阿贵还没招供，现在没有理由搜沈清月的房间。"
     },
     "gambling_alley.gambling_den": {
       "condition": {
         "flag": "agui_confessed_mastermind"
       },
       "locked_hint": "赌坊在渡口后街。目前没有理由去那里。"
+    },
+    "gambling_alley.gambling_alley_wall": {
+      "condition": { "flag": "agui_confessed_mastermind" },
+      "locked_hint": "后巷暂时没有调查价值。"
     }
   },
 
@@ -97,26 +100,28 @@
 
   "confrontation_unlock": {
     "confrontation_a": {
-      "_comment": "阿贵中BOSS对质——需要至少3件Phase A证据",
+      "_comment": "阿贵中BOSS对质——需要船底破洞、浮囊、尸检、错误航道、老范时间矛盾、阿贵遣散动机、老范赌债。",
       "condition": {
         "all": [
           { "evidence": "evidence_hull_hole" },
           { "evidence": "evidence_float_bladder" },
           { "evidence": "evidence_no_blunt_trauma" },
           { "evidence": "evidence_wrong_channel" },
-          { "any": [
-            { "evidence": "evidence_dismissal_note" },
-            { "evidence": "evidence_gambling_iou" }
-          ]}
+          { "evidence": "clue_fan_alibi_hole" },
+          { "evidence": "evidence_dismissal_note" },
+          { "evidence": "evidence_gambling_iou" }
         ]
       }
     },
     "confrontation_final": {
-      "_comment": "沈清月FINAL BOSS对质——需要阿贵认罪 + 至少2件Phase B证据",
+      "_comment": "沈清月FINAL BOSS对质——需要阿贵认罪 + 货银未沉 + 打捞目击 + 中间人/赌坊连接 + 码头时间矛盾。",
       "condition": {
         "all": [
           { "flag": "agui_confessed_mastermind" },
-          { "evidence_count_gte": 2, "from": ["evidence_salvage_mark", "evidence_shen_connection", "evidence_dock_timing", "evidence_father_ledger"] }
+          { "evidence": "evidence_cargo_silver" },
+          { "evidence": "evidence_salvage_mark" },
+          { "evidence": "evidence_shen_connection" },
+          { "evidence": "evidence_dock_timing" }
         ]
       }
     }
@@ -129,7 +134,7 @@
     },
     "phase_3": {
       "speaker": "凌瑶",
-      "text": "等等——沈清月？！那个追债的女人？！她才是幕后主使？！\n……陆大人，光凭阿贵一个人的话不够。她要是咬定'诬告'——你拿她没办法。得找更多证据把她钉死！"
+      "text": "阿贵被押下去了。客栈里的局势变了：沈清月退回二楼房间，老范被看住，钱里正也不再催你结案。\n现在别急着抓人——去补实证。赌坊、码头时间线、沈清月房里的账册，才是下一步。"
     }
   }
 }

@@ -80,8 +80,26 @@
           "type": "ask"
         },
         {
+          "text": "现在客栈这边怎么安排？",
+          "goto": "phase3_orders",
+          "requires": [
+            {
+              "flag": "agui_confessed_mastermind"
+            }
+          ],
+          "type": "ask"
+        },
+        {
           "text": "先告辞",
           "goto": "__exit__"
+        }
+      ],
+      "text_variants": [
+        {
+          "when": {
+            "flag": "agui_confessed_mastermind"
+          },
+          "text": "陆大人，阿贵已经押在后院柴房。先前两天期限的话不作数了。您要查沈姑娘、查赌坊、查码头，小人都配合。只求这案子别再拖成糊涂账。"
         }
       ]
     },
@@ -281,6 +299,43 @@
       "gain_clue": "clue_third_handwriting",
       "set_flags": [
         "stranger_from_nanjing_known"
+      ]
+    },
+    "phase3_orders": {
+      "lines": [
+        {
+          "speaker_id": "li_zheng",
+          "text": "阿贵押在后院柴房，门口有人守着。老范那边我也派了两个脚夫盯住，他要上船就拦。",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "li_zheng",
+          "text": "沈姑娘……咳，沈清月回二楼房间了。她说谁要搜房，最好带着官面理由。",
+          "emotion": "nervous"
+        },
+        {
+          "speaker_id": "lu_zhao",
+          "text": "理由已经有了。她若问，就说阿贵供述牵涉她。",
+          "emotion": "cold"
+        },
+        {
+          "speaker_id": "xia_lingyao",
+          "text": "这才像办案。刚才还催着结案，现在终于知道配合了。",
+          "emotion": "determined"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ],
+      "set_flags": [
+        "li_zheng_phase3_briefed"
       ]
     }
   }
