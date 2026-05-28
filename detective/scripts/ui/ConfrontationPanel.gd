@@ -205,14 +205,33 @@ func _build_ui() -> void:
 	# intro 期间不显示立绘，等进入证言阶段再显示
 	_portrait_rect.visible = false
 
-	# ── 主角立绘（左侧，镜头切换用，初始在屏幕外） ──
+	# ── 主角/搭档立绘（镜头切换用，初始在屏幕外） ──
+	# 注意：搭档先添加，主角后添加 → 主角始终在搭档前面（z-order）
 	if CAMERA_SWITCH_ENABLED:
+		# 搭档立绘（主角身后偏右，稍矮，初始在屏幕外）
+		_companion_rect = TextureRect.new()
+		_companion_rect.anchor_left = 0.0
+		_companion_rect.anchor_right = 0.0
+		_companion_rect.anchor_top = 0.0
+		_companion_rect.anchor_bottom = 1.0
+		_companion_rect.offset_left = -300   # 屏幕左侧外
+		_companion_rect.offset_top = 120
+		_companion_rect.offset_right = -50
+		_companion_rect.offset_bottom = 30
+		_companion_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_companion_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		_companion_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_companion_rect.visible = false
+		_companion_rect.modulate = Color(1, 1, 1, 0)
+		_panel.add_child(_companion_rect)
+
+		# 主角立绘（前方，左侧，初始在屏幕外）
 		_protagonist_rect = TextureRect.new()
 		_protagonist_rect.anchor_left = 0.0
 		_protagonist_rect.anchor_right = 0.0
 		_protagonist_rect.anchor_top = 0.0
 		_protagonist_rect.anchor_bottom = 1.0
-		_protagonist_rect.offset_left = -520   # 屏幕左侧外
+		_protagonist_rect.offset_left = -520
 		_protagonist_rect.offset_top = 40
 		_protagonist_rect.offset_right = -60
 		_protagonist_rect.offset_bottom = 80
@@ -222,23 +241,6 @@ func _build_ui() -> void:
 		_protagonist_rect.visible = false
 		_protagonist_rect.modulate = Color(1, 1, 1, 0)
 		_panel.add_child(_protagonist_rect)
-
-		# 搭档立绘（左侧偏下，更小，初始在屏幕外）
-		_companion_rect = TextureRect.new()
-		_companion_rect.anchor_left = 0.0
-		_companion_rect.anchor_right = 0.0
-		_companion_rect.anchor_top = 0.0
-		_companion_rect.anchor_bottom = 1.0
-		_companion_rect.offset_left = -400
-		_companion_rect.offset_top = 280
-		_companion_rect.offset_right = -100
-		_companion_rect.offset_bottom = 200
-		_companion_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		_companion_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		_companion_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		_companion_rect.visible = false
-		_companion_rect.modulate = Color(1, 1, 1, 0)
-		_panel.add_child(_companion_rect)
 
 	# ── 证词显示区（中下，带导航箭头） ──
 	var stmt_area := PanelContainer.new()
@@ -1800,8 +1802,8 @@ func _camera_switch_to_npc(duration: float = 0.3) -> void:
 
 	# 搭档滑出左侧
 	if _companion_rect:
-		_camera_tween.tween_property(_companion_rect, "offset_left", -400.0, duration)
-		_camera_tween.tween_property(_companion_rect, "offset_right", -100.0, duration)
+		_camera_tween.tween_property(_companion_rect, "offset_left", -350.0, duration)
+		_camera_tween.tween_property(_companion_rect, "offset_right", -80.0, duration)
 		_camera_tween.tween_property(_companion_rect, "modulate:a", 0.0, duration * 0.6)
 
 	# 隐藏小头像（NPC镜头下不需要）
@@ -1844,13 +1846,13 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3) ->
 		_camera_tween.tween_property(_protagonist_rect, "offset_right", 490.0, duration)
 		_camera_tween.tween_property(_protagonist_rect, "modulate:a", 1.0, duration * 0.5)
 
-	# 搭档从左侧滑入（更小，偏下）
-	if _companion_rect:
-		_companion_rect.visible = true
-		_update_companion_portrait()
-		_camera_tween.tween_property(_companion_rect, "offset_left", 20.0, duration)
-		_camera_tween.tween_property(_companion_rect, "offset_right", 320.0, duration)
-		_camera_tween.tween_property(_companion_rect, "modulate:a", 0.85, duration * 0.5)
+		# 搭档从左侧滑入（身后位置，主角右侧偏后）
+		if _companion_rect:
+			_companion_rect.visible = true
+			_update_companion_portrait()
+			_camera_tween.tween_property(_companion_rect, "offset_left", 320.0, duration)
+			_camera_tween.tween_property(_companion_rect, "offset_right", 520.0, duration)
+			_camera_tween.tween_property(_companion_rect, "modulate:a", 0.9, duration * 0.5)
 
 	# 等动画完成后隐藏NPC
 	_camera_tween.chain().tween_callback(func():
