@@ -90,28 +90,28 @@ static func load_case(case_id: String) -> Dictionary:
 	var docs := _load_json_docs(src)
 	var npcs_and_casting := _compile_characters(src, case_id)
 	var data := {
-		"manifest": docs.get("manifest", {}),
+		"manifest": _compile_manifest(src, docs.get("manifest", {})),
 		"locations": _compile_locations(src),
 		"npcs": npcs_and_casting.get("npcs", {}),
 		"casting": npcs_and_casting.get("casting", {}),
 		"evidence": _compile_evidence(src),
 		"key_info": docs.get("key_info", {}),
 		"search_results": _compile_search_results(src),
-		"case": _compile_case_data(src, docs.get("case_base", {})),
-		"day_events": _compile_day_events(src, docs.get("day_events_base", {})),
-		"npc_states": _compile_npc_states(src, docs.get("npc_states_base", {})),
-		"progression": _compile_progression(src, docs.get("progression_base", {})),
+		"case": _compile_case_data(src),
+		"day_events": _compile_day_events(src),
+		"npc_states": _compile_npc_states(src),
+		"progression": _compile_progression(src),
 		"time_progression": _compile_time_progression(src),
-		"schedules": _compile_schedules(src, docs.get("schedules_base", {})),
-		"culprit_actions": _compile_culprit_actions(src, docs.get("culprit_actions_base", {})),
+		"schedules": _compile_schedules(src),
+		"culprit_actions": _compile_culprit_actions(src),
 		"portrait_expressions": _compile_portrait_expressions(src),
-		"dialogues": _compile_dialogues(src, docs.get("dialogues_base", {})),
+		"dialogues": _compile_dialogues(src),
 		"bgm_config": docs.get("bgm_config", {}),
-		"prologue": _compile_prologue(src, docs.get("prologue", {})),
-		"epilogue_meta": _compile_epilogue_meta(src, docs.get("epilogue_meta", {})),
-		"companion_config": docs.get("companion_config", {}),
-		"companion_discussions": _compile_companion_discussions(src, docs.get("companion_discussions", {})),
-		"companion_banter": _compile_companion_banter(src, docs.get("companion_banter", {})),
+		"prologue": _compile_prologue(src),
+		"epilogue_meta": _compile_epilogue_meta(src),
+		"companion_config": _compile_companion_config(src),
+		"companion_discussions": _compile_companion_discussions(src),
+		"companion_banter": _compile_companion_banter(src),
 	}
 	_case_cache[case_id] = data.duplicate(true)
 	return data
@@ -1136,5 +1136,66 @@ static func _compile_companion_banter(src: String, fallback: Dictionary = {}) ->
 			rule["priority"] = priority
 		rules.append(rule)
 	return {"_comment": fallback.get("_comment", "Generated at runtime from companion_banter.csv"), "rules": rules}
+
+
+# ─── 表格编译：manifest / companion_config ─────────────────────────────────
+
+static func _compile_manifest(src: String, fallback: Dictionary = {}) -> Dictionary:
+	var rows := _rows("%s/case_info.csv" % src)
+	if rows.is_empty():
+		return fallback.duplicate(true)
+	var row: Dictionary = rows[0]
+	var out := {}
+	for key in ["id", "title", "subtitle", "order", "difficulty", "estimated_days", "max_days",
+			"main_scene", "preview_image", "synopsis", "intro", "era", "locale",
+			"companion", "voice_status"]:
+		_set_if(out, key, _cell(row, key))
+	if _parse_bool(row.get("is_tutorial", false)):
+		out["is_tutorial"] = true
+	for key in ["scenes", "files", "directories", "rewards"]:
+		var val := _cell(row, key)
+		if val != "":
+			out[key] = _parse_json_any(val, {})
+	# Preserve legacy file references for compatibility
+	if not out.has("scenes"):
+		out["scenes"] = fallback.get("scenes", {})
+	if not out.has("files"):
+		out["files"] = fallback.get("files", {})
+	return out
+
+
+static func _compile_companion_config(src: String) -> Dictionary:
+	var rows := _rows("%s/companion_config.csv" % src)
+	if rows.is_empty():
+		return {}
+	var row: Dictionary = rows[0]
+	var out := {}
+	_set_if(out, "companion_id", _cell(row, "companion_id"))
+	_set_if(out, "role_name", _cell(row, "role_name"))
+	_set_if(out, "actor_id", _cell(row, "actor_id"))
+	_set_if(out, "intro_hint", _cell(row, "intro_hint"))
+	if _parse_bool(row.get("tutorial_mode", false)):
+		out["tutorial_mode"] = true
+	if _parse_bool(row.get("lock_on_final_day", false)):
+		out["lock_on_final_day"] = true
+	var bmp = _parse_int(row.get("banter_max_per_day", ""), null)
+	if bmp != null:
+		out["banter_max_per_day"] = bmp
+	var topics_str := _cell(row, "available_topics")
+	if topics_str != "":
+		out["available_topics"] = _parse_json_any(topics_str, [])
+	var limits_str := _cell(row, "limits")
+	if limits_str != "":
+		out["limits"] = _parse_json_any(limits_str, {})
+	# Tutorial hints from separate CSV
+	var hint_rows := _rows("%s/companion_tutorial_hints.csv" % src)
+	if not hint_rows.is_empty():
+		var hints := {}
+		for hrow in hint_rows:
+			var hkey := _cell(hrow, "hint_key")
+			if hkey != "":
+				hints[hkey] = _cell(hrow, "text")
+		out["tutorial_hints"] = hints
+	return out
 
 
