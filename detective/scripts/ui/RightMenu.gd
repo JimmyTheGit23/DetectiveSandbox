@@ -31,7 +31,9 @@ var _btn_tweens: Dictionary = {}
 
 func _ready() -> void:
 	# 动态加载字体
-	if ResourceLoader.exists("res://assets/fonts/NotoSerifSC.ttf"):
+	if ResourceLoader.exists("res://assets/fonts/SourceHanMonoSC-Regular.otf"):
+		UI_FONT = load("res://assets/fonts/SourceHanMonoSC-Regular.otf")
+	elif ResourceLoader.exists("res://assets/fonts/NotoSerifSC.ttf"):
 		UI_FONT = load("res://assets/fonts/NotoSerifSC.ttf")
 	elif ResourceLoader.exists("res://assets/fonts/NotoSansSC.otf"):
 		UI_FONT = load("res://assets/fonts/NotoSansSC.otf")

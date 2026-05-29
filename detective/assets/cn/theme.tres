@@ -2,6 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://csbl05ly218an" path="res://assets/fonts/NotoSerifCJKsc-Regular.otf" id="1_regular"]
 [ext_resource type="FontFile" path="res://assets/fonts/NotoSerifCJKsc-Bold.otf" id="2_bold"]
+[ext_resource type="FontFile" path="res://assets/fonts/SourceHanMonoSC-Regular.otf" id="3_mono"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
 content_margin_left = 12.0
@@ -20,7 +21,7 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [resource]
-default_font = ExtResource("1_regular")
+default_font = ExtResource("3_mono")
 default_font_size = 18
 Button/colors/font_color = Color(0.95, 0.9, 0.75, 1)
 Button/colors/font_hover_color = Color(1, 1, 0.85, 1)

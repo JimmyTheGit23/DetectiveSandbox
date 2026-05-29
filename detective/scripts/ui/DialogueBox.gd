@@ -90,7 +90,9 @@ const AVATAR_OFFSET_BOTTOM := 0.0
 
 func _ready() -> void:
 	# 动态加载字体（避免 preload 在编辑器未导入时失败）
-	if ResourceLoader.exists("res://assets/fonts/NotoSerifSC.ttf"):
+	if ResourceLoader.exists("res://assets/fonts/SourceHanMonoSC-Regular.otf"):
+		UI_FONT = load("res://assets/fonts/SourceHanMonoSC-Regular.otf")
+	elif ResourceLoader.exists("res://assets/fonts/NotoSerifSC.ttf"):
 		UI_FONT = load("res://assets/fonts/NotoSerifSC.ttf")
 	elif ResourceLoader.exists("res://assets/fonts/NotoSansSC.otf"):
 		UI_FONT = load("res://assets/fonts/NotoSansSC.otf")

@@ -19,6 +19,13 @@ confrontation,victory_dialogue,3,你,,阿贵。不成立的钝器指控、提前
 confrontation,victory_dialogue,4,阿贵,,……,broken
 confrontation,victory_dialogue,5,阿贵,,我认了。船底是我凿的。浮囊是我带的。,broken
 confrontation,victory_dialogue,6,凌瑶,,！,shocked
+confrontation,victory_dialogue,6a,阿贵,,（突然抬头，眼中闪过一丝混乱）可……可遣散的事……,panic
+confrontation,victory_dialogue,6b,阿贵,,不是老爷要遣散我的……是有人跟老爷说了什么。老爷本来没想赶我走——是有人在他耳边吹了风。,shaken
+confrontation,victory_dialogue,6c,凌瑶,,什么？！你是说——你的遣散也是被人操纵的？,shocked
+confrontation,victory_dialogue,6d,,,（阿贵的恨——十二年的怨——不是自然积累的。有人在背后推了一把，让周德茂做出了那个决定。让阿贵的仇恨彻底爆发。）,inner_thought
+confrontation,victory_dialogue,6e,你,,……谁？谁跟周德茂说的？,serious
+confrontation,victory_dialogue,6f,阿贵,,我……我不知道。我只知道老爷突然就变了脸。之前还说'再干一年看看'——然后某天回来就说'滚'。,broken
+confrontation,victory_dialogue,6g,凌瑶,,（低声）如果遣散本身就是被设计的……那阿贵的恨、他的动机——全是被人制造出来的。他不只是帮凶——他也是棋子。,worried
 confrontation,victory_dialogue,7,你,,是你策划的整件事？,cold
 confrontation,victory_dialogue,8,阿贵,,……不是。,broken
 confrontation,victory_dialogue,9,阿贵,,不是我想的。我——我不会想这种事。,broken
@@ -142,6 +149,9 @@ confrontation_final,victory_dialogue,47,,,"门关上了。
 
 ……为什么你恰好也在那条船上。
 这个问题，像一根刺，扎在了某个地方。",narration
+confrontation_final,victory_dialogue,48,,,（你低头看了看桌上那张匿名纸条。纸上的字迹工整，笔画有力——不是随手写的。'周德茂腊月十七走石矶渡。五十两货银。夜船。船上会有一个南京来的读书人。他会活着上岸。'写这张纸条的人——不仅知道周德茂的行程。他**知道你会在那条船上**。）,inner_thought
+confrontation_final,victory_dialogue,49,凌瑶,,（低声）陆大人……这张纸条。写纸条的人——才是真正的幕后。,worried
+confrontation_final,victory_dialogue,50,,,（沈清月认了罪。但递刀的人——还在暗处。这个案子，还没有真正结束。）,inner_thought
 confrontation_final,defeat_dialogue,0,沈清月,,大人。你手里所有的证据加在一起——也只够定阿贵的罪。跟我有什么关系？,cold_fury
 confrontation_final,defeat_dialogue,1,沈清月,,一个赌鬼的口供、一个杀人犯的攀咬、一个老渔翁在黑夜里看到的'模糊身影'——大人拿这些去县衙告我试试？,cold_smile
 confrontation_final,defeat_dialogue,2,沈清月,,回去再读读大明律吧。'指向'和'证明'之间——隔着一条人命。,sharp

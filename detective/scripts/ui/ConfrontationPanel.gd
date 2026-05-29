@@ -61,7 +61,7 @@ var _press_btn: Button
 var _present_btn: Button
 var _evidence_panel: PanelContainer
 # ─── 证物册分页 ───
-const EVIDENCE_PER_PAGE := 12
+const EVIDENCE_PER_PAGE := 18
 const EVIDENCE_GRID_COLUMNS := 6
 var _evidence_items_cache: Array = []       # 缓存当前可出示证物ID列表
 var _selected_evidence_index: int = 0       # 全局选中索引（跨页）
@@ -1206,7 +1206,7 @@ func _render_evidence_page() -> void:
 	if remainder > 0:
 		for _j in range(EVIDENCE_GRID_COLUMNS - remainder):
 			var spacer := Control.new()
-			spacer.custom_minimum_size = Vector2(100, 110)
+			spacer.custom_minimum_size = Vector2(100, 90)
 			_evidence_grid.add_child(spacer)
 
 	# 更新分页标签
@@ -1260,7 +1260,7 @@ func _make_evidence_card(eid: String, is_sel: bool) -> Button:
 	var ename: String = data.get("name", eid)
 
 	var card := Button.new()
-	card.custom_minimum_size = Vector2(100, 110)
+	card.custom_minimum_size = Vector2(100, 90)
 	card.text = ""
 
 	# normal 样式
@@ -1281,9 +1281,9 @@ func _make_evidence_card(eid: String, is_sel: bool) -> Button:
 	card.add_theme_stylebox_override("normal", s_style)
 
 	var hover_style := s_style.duplicate() as StyleBoxFlat
-	hover_style.bg_color = Color(0.12, 0.09, 0.04, 0.97)
-	hover_style.border_color = Color(0.85, 0.6, 0.2, 0.9)
-	hover_style.set_border_width_all(2)
+	hover_style.bg_color = Color(0.10, 0.07, 0.03, 0.95)
+	hover_style.border_color = Color(0.7, 0.55, 0.2, 0.8)
+	hover_style.set_border_width_all(1)
 	card.add_theme_stylebox_override("hover", hover_style)
 
 	var pressed_style := hover_style.duplicate() as StyleBoxFlat
@@ -1309,7 +1309,7 @@ func _make_evidence_card(eid: String, is_sel: bool) -> Button:
 			img.texture = tex
 			img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			img.custom_minimum_size = Vector2(56, 56)
+			img.custom_minimum_size = Vector2(50, 50)
 			img.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 			img.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			img.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -1319,7 +1319,7 @@ func _make_evidence_card(eid: String, is_sel: bool) -> Button:
 		ph.text = "📜"
 		ph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		ph.add_theme_font_size_override("font_size", 32)
-		ph.custom_minimum_size = Vector2(56, 56)
+		ph.custom_minimum_size = Vector2(50, 50)
 		ph.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		ph.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		vbox.add_child(ph)
@@ -1339,21 +1339,10 @@ func _make_evidence_card(eid: String, is_sel: bool) -> Button:
 		name_lbl.add_theme_color_override("font_color", Color(0.85, 0.8, 0.65))
 	vbox.add_child(name_lbl)
 
-	# 选中标记
-	if is_sel:
-		var sel_lbl := Label.new()
-		sel_lbl.text = "▸ 选中"
-		sel_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		sel_lbl.add_theme_font_size_override("font_size", 11)
-		sel_lbl.add_theme_color_override("font_color", CLR_GOLD)
-		sel_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		vbox.add_child(sel_lbl)
-
 	# 信号
 	var ev_id: String = eid
 	card.pressed.connect(func(): _on_evidence_clicked(ev_id))
 	card.mouse_entered.connect(func(): _on_card_hover(ev_id))
-	card.focus_entered.connect(func(): _on_card_hover(ev_id))
 
 	return card
 
