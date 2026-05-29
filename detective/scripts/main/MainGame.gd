@@ -1154,6 +1154,20 @@ func _play_mid_confrontation_result(confront_key: String, confront_data: Diction
 
 
 func _after_mid_confrontation(result: String) -> void:
+	if result == "victory":
+		# 胜利后增加一段情感缓冲，避免从高潮直接跳到菜单
+		var buffer_lines: Array = [
+			{"speaker": "凌瑶", "text": "……这案子比我想的要深多了。阿贵只是棋子——真正的对手还在后面。", "emotion": "worried"},
+			{"speaker": "凌瑶", "text": "走吧。趁她还没反应过来——我们去查。", "emotion": "determined"}
+		]
+		DialogueManager.play_adhoc_narration(buffer_lines, func():
+			_return_to_investigation(result)
+		)
+	else:
+		_return_to_investigation(result)
+
+
+func _return_to_investigation(result: String) -> void:
 	# 返回主界面继续调查
 	menu_panel.visible = true
 	BgmPlayer.play("investigation")

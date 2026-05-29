@@ -1,0 +1,481 @@
+{
+  "case_id": "prologue_ferry",
+  "timestamp": "2026-05-30T00:19:16.364298",
+  "stats": {
+    "case_id": "prologue_ferry",
+    "total_nodes": 51,
+    "total_npcs": 6,
+    "start_nodes": 6,
+    "total_options": 138,
+    "total_flags": 26,
+    "total_evidence": 9,
+    "total_clues": 10
+  },
+  "npc_stats": {
+    "agui": {
+      "nodes": 8,
+      "options": 20,
+      "has_start": true
+    },
+    "fisherman_wang": {
+      "nodes": 7,
+      "options": 19,
+      "has_start": true
+    },
+    "lao_fan": {
+      "nodes": 9,
+      "options": 25,
+      "has_start": true
+    },
+    "li_zheng": {
+      "nodes": 7,
+      "options": 19,
+      "has_start": true
+    },
+    "shen_qingyue": {
+      "nodes": 10,
+      "options": 27,
+      "has_start": true
+    },
+    "zhou_wife": {
+      "nodes": 10,
+      "options": 28,
+      "has_start": true
+    }
+  },
+  "error_summary": {
+    "goto_targets": 0,
+    "unreachable_nodes": 0,
+    "dead_end_nodes": 0,
+    "missing_content": 0,
+    "dead_cycles": 0
+  },
+  "total_errors": 0,
+  "checks": {
+    "goto_targets": [],
+    "unreachable_nodes": [],
+    "dead_end_nodes": [],
+    "missing_content": [],
+    "dead_cycles": []
+  },
+  "graph": {
+    "nodes": {
+      "agui.hub": {
+        "npc_id": "agui",
+        "node_id": "hub",
+        "is_start": true,
+        "end": false,
+        "options_count": 7,
+        "lines_count": 0
+      },
+      "agui.intro": {
+        "npc_id": "agui",
+        "node_id": "intro",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 5
+      },
+      "agui.ask_relationship": {
+        "npc_id": "agui",
+        "node_id": "ask_relationship",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 2
+      },
+      "agui.press_alibi": {
+        "npc_id": "agui",
+        "node_id": "press_alibi",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 4
+      },
+      "agui.show_dismissal": {
+        "npc_id": "agui",
+        "node_id": "show_dismissal",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 4
+      },
+      "agui.show_bladder": {
+        "npc_id": "agui",
+        "node_id": "show_bladder",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 3
+      },
+      "agui.confession": {
+        "npc_id": "agui",
+        "node_id": "confession",
+        "is_start": false,
+        "end": false,
+        "options_count": 1,
+        "lines_count": 4
+      },
+      "agui.ask_twelve_years": {
+        "npc_id": "agui",
+        "node_id": "ask_twelve_years",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 14
+      },
+      "fisherman_wang.hub": {
+        "npc_id": "fisherman_wang",
+        "node_id": "hub",
+        "is_start": true,
+        "end": false,
+        "options_count": 7,
+        "lines_count": 0
+      },
+      "fisherman_wang.intro": {
+        "npc_id": "fisherman_wang",
+        "node_id": "intro",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 6
+      },
+      "fisherman_wang.ask_channel": {
+        "npc_id": "fisherman_wang",
+        "node_id": "ask_channel",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "fisherman_wang.ask_meeting": {
+        "npc_id": "fisherman_wang",
+        "node_id": "ask_meeting",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "fisherman_wang.trust": {
+        "npc_id": "fisherman_wang",
+        "node_id": "trust",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "fisherman_wang.ask_dawn_sighting": {
+        "npc_id": "fisherman_wang",
+        "node_id": "ask_dawn_sighting",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "fisherman_wang.ask_river_life": {
+        "npc_id": "fisherman_wang",
+        "node_id": "ask_river_life",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "lao_fan.hub": {
+        "npc_id": "lao_fan",
+        "node_id": "hub",
+        "is_start": true,
+        "end": false,
+        "options_count": 9,
+        "lines_count": 0
+      },
+      "lao_fan.intro": {
+        "npc_id": "lao_fan",
+        "node_id": "intro",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 5
+      },
+      "lao_fan.ask_route": {
+        "npc_id": "lao_fan",
+        "node_id": "ask_route",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "lao_fan.press_route": {
+        "npc_id": "lao_fan",
+        "node_id": "press_route",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 3
+      },
+      "lao_fan.ask_rescue": {
+        "npc_id": "lao_fan",
+        "node_id": "ask_rescue",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 4
+      },
+      "lao_fan.show_hull": {
+        "npc_id": "lao_fan",
+        "node_id": "show_hull",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 4
+      },
+      "lao_fan.show_iou": {
+        "npc_id": "lao_fan",
+        "node_id": "show_iou",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 4
+      },
+      "lao_fan.ask_gambling_story": {
+        "npc_id": "lao_fan",
+        "node_id": "ask_gambling_story",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 10
+      },
+      "lao_fan.press_shen_connection": {
+        "npc_id": "lao_fan",
+        "node_id": "press_shen_connection",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 12
+      },
+      "li_zheng.hub": {
+        "npc_id": "li_zheng",
+        "node_id": "hub",
+        "is_start": true,
+        "end": false,
+        "options_count": 7,
+        "lines_count": 0
+      },
+      "li_zheng.intro": {
+        "npc_id": "li_zheng",
+        "node_id": "intro",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 5
+      },
+      "li_zheng.ask_reef": {
+        "npc_id": "li_zheng",
+        "node_id": "ask_reef",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 4
+      },
+      "li_zheng.ask_fan": {
+        "npc_id": "li_zheng",
+        "node_id": "ask_fan",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "li_zheng.ask_agui_spending": {
+        "npc_id": "li_zheng",
+        "node_id": "ask_agui_spending",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "li_zheng.ask_victim": {
+        "npc_id": "li_zheng",
+        "node_id": "ask_victim",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "li_zheng.ask_recent_strangers": {
+        "npc_id": "li_zheng",
+        "node_id": "ask_recent_strangers",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 11
+      },
+      "shen_qingyue.hub": {
+        "npc_id": "shen_qingyue",
+        "node_id": "hub",
+        "is_start": true,
+        "end": false,
+        "options_count": 10,
+        "lines_count": 0
+      },
+      "shen_qingyue.intro": {
+        "npc_id": "shen_qingyue",
+        "node_id": "intro",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 7
+      },
+      "shen_qingyue.ask_quarrel": {
+        "npc_id": "shen_qingyue",
+        "node_id": "ask_quarrel",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 8
+      },
+      "shen_qingyue.ask_alibi": {
+        "npc_id": "shen_qingyue",
+        "node_id": "ask_alibi",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 6
+      },
+      "shen_qingyue.ask_fan_connection": {
+        "npc_id": "shen_qingyue",
+        "node_id": "ask_fan_connection",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 7
+      },
+      "shen_qingyue.ask_father": {
+        "npc_id": "shen_qingyue",
+        "node_id": "ask_father",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 9
+      },
+      "shen_qingyue.press_dock_timing": {
+        "npc_id": "shen_qingyue",
+        "node_id": "press_dock_timing",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 8
+      },
+      "shen_qingyue.press_salvage": {
+        "npc_id": "shen_qingyue",
+        "node_id": "press_salvage",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 9
+      },
+      "shen_qingyue.press_connection": {
+        "npc_id": "shen_qingyue",
+        "node_id": "press_connection",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 9
+      },
+      "shen_qingyue.confession_trigger": {
+        "npc_id": "shen_qingyue",
+        "node_id": "confession_trigger",
+        "is_start": false,
+        "end": false,
+        "options_count": 1,
+        "lines_count": 8
+      },
+      "zhou_wife.hub": {
+        "npc_id": "zhou_wife",
+        "node_id": "hub",
+        "is_start": true,
+        "end": false,
+        "options_count": 10,
+        "lines_count": 0
+      },
+      "zhou_wife.intro": {
+        "npc_id": "zhou_wife",
+        "node_id": "intro",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "zhou_wife.ask_agui": {
+        "npc_id": "zhou_wife",
+        "node_id": "ask_agui",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 7
+      },
+      "zhou_wife.ask_suspicion": {
+        "npc_id": "zhou_wife",
+        "node_id": "ask_suspicion",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "zhou_wife.ask_swimming": {
+        "npc_id": "zhou_wife",
+        "node_id": "ask_swimming",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 5
+      },
+      "zhou_wife.comfort": {
+        "npc_id": "zhou_wife",
+        "node_id": "comfort",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "zhou_wife.ask_documents": {
+        "npc_id": "zhou_wife",
+        "node_id": "ask_documents",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "zhou_wife.ask_why_night_ferry": {
+        "npc_id": "zhou_wife",
+        "node_id": "ask_why_night_ferry",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 11
+      },
+      "zhou_wife.react_murder_confirmed": {
+        "npc_id": "zhou_wife",
+        "node_id": "react_murder_confirmed",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 7
+      },
+      "zhou_wife.react_agui_confessed": {
+        "npc_id": "zhou_wife",
+        "node_id": "react_agui_confessed",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 9
+      }
+    },
+    "npc_start_nodes": {
+      "agui": "hub",
+      "fisherman_wang": "hub",
+      "lao_fan": "hub",
+      "li_zheng": "hub",
+      "shen_qingyue": "hub",
+      "zhou_wife": "hub"
+    }
+  }
+}

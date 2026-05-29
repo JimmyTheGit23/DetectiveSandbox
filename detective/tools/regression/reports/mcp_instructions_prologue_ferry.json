@@ -1,0 +1,39 @@
+{
+  "steps": [
+    {
+      "description": "启动游戏主场景",
+      "mcp_tool": "play_scene",
+      "params": {
+        "mode": "main"
+      }
+    },
+    {
+      "description": "等待游戏初始化",
+      "wait_seconds": 2.0
+    },
+    {
+      "description": "运行对话路径测试脚本",
+      "mcp_tool": "execute_game_script",
+      "params": {
+        "code": "## 对话路径运行时测试脚本\n##\n## 由 MCP 客户端调用 godot-mcp-pro.execute_game_script 执行。\n## 调用前：play_scene mode=main 让游戏处于运行态。\n##\n## 功能：\n##   - 遍历指定 NPC 的所有对话路径\n##   - 注入游戏状态以解锁条件分支\n##   - 验证对话内容和状态变化\n##   - 输出结构化测试结果\n##\n## 输出格式：每行 key=value\n##   - npc_id=<npc_id>  : 当前测试的 NPC\n##   - node_id=<node_id>: 当前测试的节点\n##   - status=PASS/FAIL/SKIP : 测试结果\n##   - message=<message> : 详细信息\n##   - path_count=<count> : 已测试路径数\n##   - error_count=<count> : 错误数\n##   - TEST_COMPLETE : 测试完成标记\n\nextends RefCounted\n\nvar _gm = null\nvar _dm = null\nvar _path_count: int = 0\nvar _error_count: int = 0\nvar _tested_nodes: Dictionary = {}\n\nfunc _run() -> void:\n\t_gm = get_node(\"/root/GameManager\")\n\t_dm = get_node(\"/root/DialogueManager\")\n\n\tif _gm == null or _dm == null:\n\t\t_mcp_print(\"FAIL=missing_autoload\")\n\t\treturn\n\n\t_mcp_print(\"case_id=\" + _gm.ACTIVE_CASE)\n\n\t# 测试所有 NPC\n\tvar npc_ids = _get_npc_ids()\n\t_mcp_print(\"npc_count=\" + str(npc_ids.size()))\n\n\tfor npc_id in npc_ids:\n\t\t_test_npc_dialogue(npc_id)\n\n\t_mcp_print(\"path_count=\" + str(_path_count))\n\t_mcp_print(\"error_count=\" + str(_error_count))\n\n\tif _error_count == 0:\n\t\t_mcp_print(\"TEST_STATUS=PASS\")\n\telse:\n\t\t_mcp_print(\"TEST_STATUS=FAIL\")\n\n\t_mcp_print(\"TEST_COMPLETE\")\n\n\nfunc _get_npc_ids() -> Array:\n\t\"\"\"获取所有有对话数据的 NPC\"\"\"\n\tvar npc_ids = []\n\tvar dialogue_data = _gm.get(\"dialogue_data\")\n\tif dialogue_data == null:\n\t\t# 尝试从 CaseTableLoader 获取\n\t\tvar case_id = _gm.ACTIVE_CASE\n\t\t# 这里需要根据实际的数据结构调整\n\t\t# 暂时返回已知的 NPC 列表\n\t\tnpc_ids = [\"agui\", \"fisherman_wang\", \"lao_fan\", \"li_zheng\", \"shen_qingyue\", \"zhou_wife\"]\n\telse:\n\t\tfor npc_id in dialogue_data.keys():\n\t\t\tif not npc_id.begins_with(\"_\"):\n\t\t\t\tnpc_ids.append(npc_id)\n\treturn npc_ids\n\n\nfunc _test_npc_dialogue(npc_id: String) -> void:\n\t\"\"\"测试单个 NPC 的对话树\"\"\"\n\t_mcp_print(\"npc_id=\" + npc_id)\n\n\t# 重置游戏状态以确保干净的测试环境\n\t_reset_game_state()\n\n\t# 注入所有可能需要的状态以解锁所有分支\n\t_inject_all_states()\n\n\t# 开始对话\n\t_dm.start_dialogue(npc_id)\n\n\t# 等待对话开始\n\tawait get_tree().create_timer(0.1).timeout\n\n\t# 遍历对话树\n\t_traverse_dialogue_tree(npc_id, \"hub\", 0)\n\n\t# 结束对话\n\t_dm.end_dialogue(true)  # 抑制助手旁白\n\n\t_mcp_print(\"npc_complete=\" + npc_id)\n\n\nfunc _reset_game_state() -> void:\n\t\"\"\"重置游戏状态\"\"\"\n\t_gm.reset_progress()\n\t# 等待状态重置完成\n\tawait get_tree().create_timer(0.1).timeout\n\n\nfunc _inject_all_states() -> void:\n\t\"\"\"注入所有可能需要的状态以解锁所有对话分支\"\"\"\n\t# 注入所有 flags\n\tvar all_flags = [\n\t\t\"agui_talked_once\",\n\t\t\"wang_talked_once\",\n\t\t\"fan_talked_once\",\n\t\t\"li_zheng_talked_once\",\n\t\t\"shen_qingyue_talked_once\",\n\t\t\"zhou_wife_talked_once\",\n\t\t\"agui_dismissal_confronted\",\n\t\t\"agui_bladder_confronted\",\n\t\t\"fan_alibi_contradiction\",\n\t\t\"confrontation_triggered\",\n\t\t\"agui_confessed_mastermind\",\n\t\t\"clue_fan_alibi_hole\",\n\t\t\"clue_secret_meeting\",\n\t\t\"clue_reef_common_knowledge\",\n\t\t\"clue_fan_boat_skill\",\n\t\t\"lie_exposed:agui.press_alibi\",\n\t\t\"lie_exposed:lao_fan.press_route\",\n\t]\n\n\tfor flag in all_flags:\n\t\t_gm.set_flag(flag)\n\n\t# 注入所有证据\n\tvar all_evidence = [\n\t\t\"evidence_dismissal_note\",\n\t\t\"evidence_float_bladder\",\n\t\t\"evidence_wrong_channel\",\n\t\t\"evidence_hull_hole\",\n\t\t\"evidence_gambling_iou\",\n\t\t\"evidence_salvage_mark\",\n\t\t\"evidence_anonymous_note\",\n\t]\n\n\tfor evidence in all_evidence:\n\t\t_gm.add_evidence(evidence)\n\n\t# 注入所有线索\n\tvar all_clues = [\n\t\t\"clue_fan_alibi_hole\",\n\t\t\"clue_secret_meeting\",\n\t\t\"clue_reef_common_knowledge\",\n\t\t\"clue_fan_boat_skill\",\n\t]\n\n\tfor clue in all_clues:\n\t\t_gm.add_clue(clue)\n\n\nfunc _traverse_dialogue_tree(npc_id: String, node_id: String, depth: int) -> void:\n\t\"\"\"递归遍历对话树\"\"\"\n\tif depth > 20:  # 防止无限递归\n\t\t_report_node(npc_id, node_id, \"SKIP\", \"max_depth_exceeded\")\n\t\treturn\n\n\tvar node_key = npc_id + \".\" + node_id\n\tif _tested_nodes.has(node_key):\n\t\t_report_node(npc_id, node_id, \"SKIP\", \"already_tested\")\n\t\treturn\n\n\t_tested_nodes[node_key] = true\n\t_path_count += 1\n\n\t# 跳过系统节点\n\tif node_id in (\"__exit__\", \"__confront__\"):\n\t\t_report_node(npc_id, node_id, \"SKIP\", \"system_node\")\n\t\treturn\n\n\t# 选择当前节点的选项\n\tvar options = _get_current_options()\n\tif options.is_empty():\n\t\t_report_node(npc_id, node_id, \"FAIL\", \"no_options\")\n\t\t_error_count += 1\n\t\treturn\n\n\t# 测试每个选项\n\tfor i in range(options.size()):\n\t\tvar option = options[i]\n\t\tvar goto = option.get(\"goto\", \"\")\n\n\t\tif goto == \"\" or goto == \"__exit__\" or goto == \"__confront__\":\n\t\t\t_report_node(npc_id, node_id, \"PASS\", \"exit_option\")\n\t\t\tcontinue\n\n\t\t# 选择选项\n\t\t_dm.choose_option(i)\n\n\t\t# 等待对话更新\n\t\tawait get_tree().create_timer(0.1).timeout\n\n\t\t# 验证状态变化\n\t\t_verify_state_changes(npc_id, node_id, option)\n\n\t\t# 递归遍历下一个节点\n\t\t_traverse_dialogue_tree(npc_id, goto, depth + 1)\n\n\t\t# 返回上一级（如果需要）\n\t\tif depth > 0:\n\t\t\t_dm.choose_option(0)  # 假设第一个选项是\"返回\"\n\t\t\tawait get_tree().create_timer(0.1).timeout\n\n\nfunc _get_current_options() -> Array:\n\t\"\"\"获取当前对话节点的选项\"\"\"\n\tvar current_node = _dm._current_tree.get(\"nodes\", {}).get(_dm._current_node_id, {})\n\treturn _dm._filter_options(current_node.get(\"options\", []))\n\n\nfunc _verify_state_changes(npc_id: String, node_id: String, option: Dictionary) -> void:\n\t\"\"\"验证状态变化\"\"\"\n\t# 检查 set_flags\n\tvar set_flags = option.get(\"set_flags\", [])\n\tfor flag in set_flags:\n\t\tif not _gm.has_flag(flag):\n\t\t\t_report_node(npc_id, node_id, \"FAIL\", \"flag_not_set:\" + flag)\n\t\t\t_error_count += 1\n\n\t# 检查 gain_evidence\n\tvar gain_evidence = option.get(\"gain_evidence\", \"\")\n\tif gain_evidence != \"\" and not _gm.has_evidence(gain_evidence):\n\t\t_report_node(npc_id, node_id, \"FAIL\", \"evidence_not_gained:\" + gain_evidence)\n\t\t_error_count += 1\n\n\t# 检查 gain_clue\n\tvar gain_clue = option.get(\"gain_clue\", \"\")\n\tif gain_clue != \"\" and not _gm.has_clue(gain_clue):\n\t\t_report_node(npc_id, node_id, \"FAIL\", \"clue_not_gained:\" + gain_clue)\n\t\t_error_count += 1\n\n\nfunc _report_node(npc_id: String, node_id: String, status: String, message: String) -> void:\n\t\"\"\"报告节点测试结果\"\"\"\n\t_mcp_print(\"node_test=\" + npc_id + \".\" + node_id)\n\t_mcp_print(\"status=\" + status)\n\t_mcp_print(\"message=\" + message)\n\n\nfunc _mcp_print(msg: String) -> void:\n\tprint(msg)\n"
+      }
+    },
+    {
+      "description": "停止游戏",
+      "mcp_tool": "stop_scene",
+      "params": {}
+    }
+  ],
+  "expected_output": [
+    "case_id=<case_id>",
+    "npc_count=<count>",
+    "npc_id=<npc_id>",
+    "node_test=<npc_id>.<node_id>",
+    "status=PASS/FAIL/SKIP",
+    "message=<message>",
+    "path_count=<count>",
+    "error_count=<count>",
+    "TEST_STATUS=PASS/FAIL",
+    "TEST_COMPLETE"
+  ]
+}
