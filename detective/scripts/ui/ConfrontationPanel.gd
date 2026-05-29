@@ -35,6 +35,7 @@ var _confidence: int = 3
 var _max_confidence: int = 3
 var _mistakes: int = 0
 var _selected_evidence_id: String = ""
+var _hovered_evidence_id: String = ""   # 鼠标悬浮时的证物ID（仅用于详情预览）
 
 # ─── 对话播放 ───
 var _dialogue_queue: Array = []
@@ -399,9 +400,9 @@ func _build_ui() -> void:
 	_evidence_panel = PanelContainer.new()
 	_evidence_panel.set_anchors_preset(Control.PRESET_CENTER)
 	_evidence_panel.offset_left = -480
-	_evidence_panel.offset_top = -300
+	_evidence_panel.offset_top = -360
 	_evidence_panel.offset_right = 480
-	_evidence_panel.offset_bottom = 300
+	_evidence_panel.offset_bottom = 360
 	_evidence_panel.visible = false
 	var ev_style := StyleBoxFlat.new()
 	ev_style.bg_color = Color(0.05, 0.04, 0.025, 0.98)
@@ -470,14 +471,16 @@ func _build_ui() -> void:
 	body_hbox.add_child(detail_panel)
 
 	var detail_vbox := VBoxContainer.new()
+	detail_vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	detail_vbox.add_theme_constant_override("separation", 8)
 	detail_panel.add_child(detail_vbox)
 
 	_evidence_detail_icon = TextureRect.new()
 	_evidence_detail_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_evidence_detail_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_evidence_detail_icon.custom_minimum_size = Vector2(200, 200)
-	_evidence_detail_icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_evidence_detail_icon.custom_minimum_size = Vector2(180, 180)
+	_evidence_detail_icon.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_evidence_detail_icon.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_evidence_detail_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_evidence_detail_icon.visible = false
 	detail_vbox.add_child(_evidence_detail_icon)
@@ -488,6 +491,7 @@ func _build_ui() -> void:
 	_detail_placeholder.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_detail_placeholder.add_theme_font_size_override("font_size", 64)
 	_detail_placeholder.custom_minimum_size = Vector2(200, 120)
+	_detail_placeholder.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_detail_placeholder.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_detail_placeholder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_detail_placeholder.name = "DetailPlaceholder"
@@ -1104,6 +1108,7 @@ func _open_evidence() -> void:
 
 	_selected_evidence_index = 0
 	_evidence_page_index = 0
+	_hovered_evidence_id = ""
 	if not _evidence_items_cache.is_empty():
 		_selected_evidence_id = _evidence_items_cache[0]
 	else:
@@ -1129,6 +1134,7 @@ func _on_evidence_clicked(eid: String) -> void:
 	if _state != State.EVIDENCE_OPEN:
 		return
 	_selected_evidence_id = eid
+	_hovered_evidence_id = eid
 	# 更新全局索引
 	for i in range(_evidence_items_cache.size()):
 		if _evidence_items_cache[i] == eid:
@@ -1178,6 +1184,7 @@ func _evidence_navigate(dx: int, dy: int) -> void:
 
 	_selected_evidence_index = page_start + new_local
 	_selected_evidence_id = _evidence_items_cache[_selected_evidence_index]
+	_hovered_evidence_id = _selected_evidence_id
 	_render_evidence_page()
 
 
@@ -1211,7 +1218,9 @@ func _render_evidence_page() -> void:
 
 
 func _update_evidence_detail() -> void:
-	if _selected_evidence_id == "" or _evidence_items_cache.is_empty():
+	# 优先使用悬浮ID显示详情，回退到选中ID
+	var display_id := _hovered_evidence_id if _hovered_evidence_id != "" else _selected_evidence_id
+	if display_id == "" or _evidence_items_cache.is_empty():
 		_evidence_detail_icon.visible = false
 		var placeholder = _evidence_panel.find_child("DetailPlaceholder", true, false)
 		if placeholder:
@@ -1221,8 +1230,8 @@ func _update_evidence_detail() -> void:
 		_evidence_detail_category.text = ""
 		return
 
-	var data: Dictionary = GameManager.evidence_data.get(_selected_evidence_id, {})
-	var ename: String = data.get("name", _selected_evidence_id)
+	var data: Dictionary = GameManager.evidence_data.get(display_id, {})
+	var ename: String = data.get("name", display_id)
 	var edesc: String = data.get("description", "")
 	var ecat: String = data.get("type", "evidence")
 
@@ -1231,7 +1240,7 @@ func _update_evidence_detail() -> void:
 	_evidence_detail_category.text = "物证" if ecat == "evidence" else "线索"
 
 	# 更新大图
-	var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % _selected_evidence_id
+	var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % display_id
 	var placeholder = _evidence_panel.find_child("DetailPlaceholder", true, false)
 	if ResourceLoader.exists(icon_path):
 		var tex: Texture2D = load(icon_path)
@@ -1350,17 +1359,12 @@ func _make_evidence_card(eid: String, is_sel: bool) -> Button:
 
 
 func _on_card_hover(eid: String) -> void:
-	# 鼠标悬浮/聚焦时自动选中并显示详情
+	# 鼠标悬浮/聚焦时只更新悬浮ID，不改变实际选中ID
 	if _state != State.EVIDENCE_OPEN:
 		return
-	_selected_evidence_id = eid
-	for i in range(_evidence_items_cache.size()):
-		if _evidence_items_cache[i] == eid:
-			_selected_evidence_index = i
-			break
-	# 只更新详情和高亮，不重渲整个页面
+	_hovered_evidence_id = eid
+	# 只更新详情预览，不改变 _selected_evidence_id
 	_update_evidence_detail()
-	_update_card_selection_highlight()
 
 
 func _update_card_selection_highlight() -> void:
@@ -2173,21 +2177,25 @@ func _play_objection_fx() -> void:
 	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_objection_layer.add_child(flash)
 
-	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_objection_layer.add_child(center)
-
 	var label := Label.new()
 	label.text = "异  议！"
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.add_theme_font_size_override("font_size", 72)
 	label.add_theme_color_override("font_color", Color(1.0, 0.2, 0.1, 1.0))
 	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
 	label.add_theme_constant_override("outline_size", 6)
+	# 使用 PRESET_CENTER + pivot_offset 让缩放从中心开始
+	# 修改 offset_top/offset_bottom 即可上下移动
+	label.set_anchors_preset(Control.PRESET_CENTER)
+	label.offset_left = -300
+	label.offset_right = 300
+	label.offset_top = -200    # 改这个值来上下移动（负=上，正=下）
+	label.offset_bottom = -100
+	label.pivot_offset = Vector2(300, 50)
 	label.scale = Vector2(0.3, 0.3)
 	label.modulate.a = 0.0
-	center.add_child(label)
+	_objection_layer.add_child(label)
 
 	var tw := create_tween()
 	tw.set_parallel(true)
@@ -2196,7 +2204,8 @@ func _play_objection_fx() -> void:
 	tw.tween_property(label, "scale", Vector2(1.15, 1.15), 0.12)
 	tw.chain()
 	tw.tween_property(label, "scale", Vector2(1.0, 1.0), 0.08)
-	tw.tween_interval(0.6)
+	# 停留至少1.5秒后再淡出
+	tw.tween_interval(1.5)
 	tw.set_parallel(true)
 	tw.tween_property(flash, "color:a", 0.0, 0.3)
 	tw.tween_property(label, "modulate:a", 0.0, 0.3)
@@ -2512,9 +2521,11 @@ func _play_evidence_present_fx(evidence_id: String) -> void:
 	fx_layer.z_index = 95
 	_panel.add_child(fx_layer)
 
-	var vp_size := get_viewport_rect().size
+	# 获取证物名称
+	var data: Dictionary = GameManager.evidence_data.get(evidence_id, {})
+	var ename: String = data.get("name", evidence_id)
 
-	# 证据图标
+	# ── 证物图标（上方偏移） ──
 	var icon := TextureRect.new()
 	var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % evidence_id
 	if ResourceLoader.exists(icon_path):
@@ -2527,11 +2538,12 @@ func _play_evidence_present_fx(evidence_id: String) -> void:
 		placeholder.set_anchors_preset(Control.PRESET_CENTER)
 		placeholder.offset_left = -30
 		placeholder.offset_right = 30
-		placeholder.offset_top = -30
-		placeholder.offset_bottom = 30
+		placeholder.offset_top = -60
+		placeholder.offset_bottom = 0
 		fx_layer.add_child(placeholder)
-		# 占位也要做动画，但不需要图标飞入
-		_play_evidence_present_anim(fx_layer, placeholder)
+		# 名称标签
+		var name_label := _make_evidence_present_name(ename, fx_layer)
+		_play_evidence_present_anim(fx_layer, placeholder, name_label)
 		return
 
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -2540,20 +2552,46 @@ func _play_evidence_present_fx(evidence_id: String) -> void:
 	icon.set_anchors_preset(Control.PRESET_CENTER)
 	icon.offset_left = -64
 	icon.offset_right = 64
-	icon.offset_top = -64
-	icon.offset_bottom = 64
+	icon.offset_top = -120
+	icon.offset_bottom = 8
 	icon.scale = Vector2(0.5, 0.5)
 	icon.modulate.a = 0.0
 	fx_layer.add_child(icon)
 
-	_play_evidence_present_anim(fx_layer, icon)
+	# ── 证物名称标签（图标下方） ──
+	var name_label := _make_evidence_present_name(ename, fx_layer)
+
+	_play_evidence_present_anim(fx_layer, icon, name_label)
 
 
-func _play_evidence_present_anim(fx_layer: Control, icon_node: Control) -> void:
-	# 飞入 → 放大 → 闪光 → 淡出
+## 创建举证时的证物名称标签
+func _make_evidence_present_name(ename: String, parent: Control) -> Label:
+	var name_label := Label.new()
+	name_label.text = ename
+	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	name_label.set_anchors_preset(Control.PRESET_CENTER)
+	name_label.offset_left = -250
+	name_label.offset_right = 250
+	name_label.offset_top = 20
+	name_label.offset_bottom = 70
+	name_label.add_theme_font_size_override("font_size", 30)
+	name_label.add_theme_color_override("font_color", Color(1.0, 0.92, 0.55))
+	name_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+	name_label.add_theme_constant_override("outline_size", 4)
+	name_label.modulate.a = 0.0
+	parent.add_child(name_label)
+	return name_label
+
+
+func _play_evidence_present_anim(fx_layer: Control, icon_node: Control, name_label: Label = null) -> void:
+	# 飞入 → 放大 → 闪光 → 停留至少1.5秒 → 淡出
 	var tw := create_tween()
 	tw.tween_property(icon_node, "modulate:a", 1.0, 0.15)
 	tw.parallel().tween_property(icon_node, "scale", Vector2(1.2, 1.2), 0.25).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	# 名称标签同步淡入
+	if name_label:
+		tw.parallel().tween_property(name_label, "modulate:a", 1.0, 0.2)
 	tw.tween_interval(0.3)
 
 	# 白色闪光爆发
@@ -2564,8 +2602,13 @@ func _play_evidence_present_anim(fx_layer: Control, icon_node: Control) -> void:
 	fx_layer.add_child(flash)
 	tw.tween_property(flash, "color:a", 0.7, 0.06)
 	tw.tween_property(icon_node, "scale", Vector2(1.5, 1.5), 0.1)
-	tw.parallel().tween_property(icon_node, "modulate:a", 0.0, 0.15)
 	tw.tween_property(flash, "color:a", 0.0, 0.2)
+	# 证物和名称至少停留1.5秒
+	tw.tween_interval(1.5)
+	# 淡出
+	tw.parallel().tween_property(icon_node, "modulate:a", 0.0, 0.3)
+	if name_label:
+		tw.parallel().tween_property(name_label, "modulate:a", 0.0, 0.3)
 	tw.tween_callback(fx_layer.queue_free)
 
 

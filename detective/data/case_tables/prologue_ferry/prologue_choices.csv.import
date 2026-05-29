@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cm0gih75y0w7d"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/prologue_choices.order.translation", "res://data/case_tables/prologue_ferry/prologue_choices.text.translation", "res://data/case_tables/prologue_ferry/prologue_choices.goto.translation", "res://data/case_tables/prologue_ferry/prologue_choices.requires.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/prologue_choices.csv"
+dest_files=["res://data/case_tables/prologue_ferry/prologue_choices.order.translation", "res://data/case_tables/prologue_ferry/prologue_choices.text.translation", "res://data/case_tables/prologue_ferry/prologue_choices.goto.translation", "res://data/case_tables/prologue_ferry/prologue_choices.requires.translation"]
+
+[params]
+
+compress=true
+delimiter=0

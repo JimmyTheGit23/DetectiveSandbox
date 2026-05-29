@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bj21222twl6dj"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/epilogue_scenes.type.translation", "res://data/case_tables/prologue_ferry/epilogue_scenes.background.translation", "res://data/case_tables/prologue_ferry/epilogue_scenes.bgm.translation", "res://data/case_tables/prologue_ferry/epilogue_scenes.order.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/epilogue_scenes.csv"
+dest_files=["res://data/case_tables/prologue_ferry/epilogue_scenes.type.translation", "res://data/case_tables/prologue_ferry/epilogue_scenes.background.translation", "res://data/case_tables/prologue_ferry/epilogue_scenes.bgm.translation", "res://data/case_tables/prologue_ferry/epilogue_scenes.order.translation"]
+
+[params]
+
+compress=true
+delimiter=0

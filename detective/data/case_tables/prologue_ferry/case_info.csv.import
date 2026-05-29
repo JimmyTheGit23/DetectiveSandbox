@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c8vwe1gwm7vy3"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/case_info.title.translation", "res://data/case_tables/prologue_ferry/case_info.subtitle.translation", "res://data/case_tables/prologue_ferry/case_info.order.translation", "res://data/case_tables/prologue_ferry/case_info.difficulty.translation", "res://data/case_tables/prologue_ferry/case_info.estimated.translation", "res://data/case_tables/prologue_ferry/case_info.max.translation", "res://data/case_tables/prologue_ferry/case_info.main.translation", "res://data/case_tables/prologue_ferry/case_info.preview.translation", "res://data/case_tables/prologue_ferry/case_info.synopsis.translation", "res://data/case_tables/prologue_ferry/case_info.intro.translation", "res://data/case_tables/prologue_ferry/case_info.era.translation", "res://data/case_tables/prologue_ferry/case_info.locale.translation", "res://data/case_tables/prologue_ferry/case_info.companion.translation", "res://data/case_tables/prologue_ferry/case_info.is.translation", "res://data/case_tables/prologue_ferry/case_info.voice.translation", "res://data/case_tables/prologue_ferry/case_info.scenes.translation", "res://data/case_tables/prologue_ferry/case_info.files.translation", "res://data/case_tables/prologue_ferry/case_info.directories.translation", "res://data/case_tables/prologue_ferry/case_info.rewards.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/case_info.csv"
+dest_files=["res://data/case_tables/prologue_ferry/case_info.title.translation", "res://data/case_tables/prologue_ferry/case_info.subtitle.translation", "res://data/case_tables/prologue_ferry/case_info.order.translation", "res://data/case_tables/prologue_ferry/case_info.difficulty.translation", "res://data/case_tables/prologue_ferry/case_info.estimated.translation", "res://data/case_tables/prologue_ferry/case_info.max.translation", "res://data/case_tables/prologue_ferry/case_info.main.translation", "res://data/case_tables/prologue_ferry/case_info.preview.translation", "res://data/case_tables/prologue_ferry/case_info.synopsis.translation", "res://data/case_tables/prologue_ferry/case_info.intro.translation", "res://data/case_tables/prologue_ferry/case_info.era.translation", "res://data/case_tables/prologue_ferry/case_info.locale.translation", "res://data/case_tables/prologue_ferry/case_info.companion.translation", "res://data/case_tables/prologue_ferry/case_info.is.translation", "res://data/case_tables/prologue_ferry/case_info.voice.translation", "res://data/case_tables/prologue_ferry/case_info.scenes.translation", "res://data/case_tables/prologue_ferry/case_info.files.translation", "res://data/case_tables/prologue_ferry/case_info.directories.translation", "res://data/case_tables/prologue_ferry/case_info.rewards.translation"]
+
+[params]
+
+compress=true
+delimiter=0

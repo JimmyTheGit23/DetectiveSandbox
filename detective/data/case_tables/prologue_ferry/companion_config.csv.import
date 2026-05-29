@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bv5brwlvk2w01"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/companion_config.role.translation", "res://data/case_tables/prologue_ferry/companion_config.actor.translation", "res://data/case_tables/prologue_ferry/companion_config.available.translation", "res://data/case_tables/prologue_ferry/companion_config.limits.translation", "res://data/case_tables/prologue_ferry/companion_config.lock.translation", "res://data/case_tables/prologue_ferry/companion_config.banter.translation", "res://data/case_tables/prologue_ferry/companion_config.intro.translation", "res://data/case_tables/prologue_ferry/companion_config.tutorial.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/companion_config.csv"
+dest_files=["res://data/case_tables/prologue_ferry/companion_config.role.translation", "res://data/case_tables/prologue_ferry/companion_config.actor.translation", "res://data/case_tables/prologue_ferry/companion_config.available.translation", "res://data/case_tables/prologue_ferry/companion_config.limits.translation", "res://data/case_tables/prologue_ferry/companion_config.lock.translation", "res://data/case_tables/prologue_ferry/companion_config.banter.translation", "res://data/case_tables/prologue_ferry/companion_config.intro.translation", "res://data/case_tables/prologue_ferry/companion_config.tutorial.translation"]
+
+[params]
+
+compress=true
+delimiter=0

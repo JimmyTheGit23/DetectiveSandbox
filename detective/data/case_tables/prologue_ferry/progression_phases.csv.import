@@ -6,14 +6,12 @@ uid="uid://dheugwrdgj752"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/progression_phases.order.translation", "res://data/case_tables/prologue_ferry/progression_phases.title.translation", "res://data/case_tables/prologue_ferry/progression_phases.description.translation", "res://data/case_tables/prologue_ferry/progression_phases.hint.translation", "res://data/case_tables/prologue_ferry/progression_phases.locations.translation", "res://data/case_tables/prologue_ferry/progression_phases.unlock.translation", "res://data/case_tables/prologue_ferry/progression_phases.en.translation"]
+files=["res://data/case_tables/prologue_ferry/progression_phases.title.translation", "res://data/case_tables/prologue_ferry/progression_phases.description.translation", "res://data/case_tables/prologue_ferry/progression_phases.hint.translation", "res://data/case_tables/prologue_ferry/progression_phases.locations.translation", "res://data/case_tables/prologue_ferry/progression_phases.unlock.translation", "res://data/case_tables/prologue_ferry/progression_phases.writer.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/progression_phases.csv"
-dest_files=["res://data/case_tables/prologue_ferry/progression_phases.order.translation", "res://data/case_tables/prologue_ferry/progression_phases.title.translation", "res://data/case_tables/prologue_ferry/progression_phases.description.translation", "res://data/case_tables/prologue_ferry/progression_phases.hint.translation", "res://data/case_tables/prologue_ferry/progression_phases.locations.translation", "res://data/case_tables/prologue_ferry/progression_phases.unlock.translation", "res://data/case_tables/prologue_ferry/progression_phases.en.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/progression_phases.title.translation", "res://data/case_tables/prologue_ferry/progression_phases.description.translation", "res://data/case_tables/prologue_ferry/progression_phases.hint.translation", "res://data/case_tables/prologue_ferry/progression_phases.locations.translation", "res://data/case_tables/prologue_ferry/progression_phases.unlock.translation", "res://data/case_tables/prologue_ferry/progression_phases.writer.translation"]
 
 [params]
 
 compress=1
 delimiter=0
-unescape_keys=false
-unescape_translations=true

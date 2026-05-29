@@ -15,5 +15,3 @@ dest_files=["res://data/case_tables/linchuan_inn/json_docs.json.translation"]
 
 compress=1
 delimiter=0
-unescape_keys=false
-unescape_translations=true

@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dccal24n5jbvo"
+
+[deps]
+
+files=["res://data/case_tables/prologue_ferry/companion_tutorial_hints.text.translation"]
+
+source_file="res://data/case_tables/prologue_ferry/companion_tutorial_hints.csv"
+dest_files=["res://data/case_tables/prologue_ferry/companion_tutorial_hints.text.translation"]
+
+[params]
+
+compress=true
+delimiter=0
