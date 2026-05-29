@@ -101,6 +101,21 @@ const CLR_RED := Color(0.85, 0.25, 0.18, 0.9)
 const CLR_GREEN := Color(0.3, 0.8, 0.35)
 const CLR_NEW_DOT := Color(0.4, 0.85, 1.0)
 
+# ─── 威慑语音台词池 ───
+## 符合陆昭性格：冷静、简洁、逻辑压迫感强
+const PROTAGONIST_PRESS_LINES: Array = [
+	"慢着。",
+	"把话说清楚。",
+	"这件事，没那么简单。",
+	"你确定吗？",
+	"再说一遍。",
+	"细节。我需要细节。",
+	"这话，你自己信吗？",
+	"有意思。继续。",
+	"等一下——我有问题。",
+	"你漏了什么。",
+]
+
 
 func _ready() -> void:
 	# 隐藏右侧菜单，避免遮挡
@@ -223,6 +238,11 @@ func _build_ui() -> void:
 		_companion_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_companion_rect.visible = false
 		_companion_rect.modulate = Color(1, 1, 1, 0)
+		_companion_rect.flip_h = true  # 搭档脸朝右（朝向对话文字）
+		# 搭档立绘翻转后 pivot 必须设为中心，否则 flip 会偏移到屏幕外
+		var companion_w := _companion_rect.offset_right - _companion_rect.offset_left
+		var companion_h := _companion_rect.offset_bottom - _companion_rect.offset_top
+		_companion_rect.pivot_offset = Vector2(companion_w * 0.5, companion_h * 0.5)
 		_panel.add_child(_companion_rect)
 
 		# 主角立绘（前方，左侧，初始在屏幕外）
@@ -245,12 +265,12 @@ func _build_ui() -> void:
 	# ── 证词显示区（中下，带导航箭头） ──
 	var stmt_area := PanelContainer.new()
 	stmt_area.name = "StmtArea"
-	stmt_area.anchor_left = 0.04
-	stmt_area.anchor_right = 0.96
+	stmt_area.anchor_left = 0.06
+	stmt_area.anchor_right = 0.94
 	stmt_area.anchor_top = 1.0
 	stmt_area.anchor_bottom = 1.0
-	stmt_area.offset_top = -280
-	stmt_area.offset_bottom = -170
+	stmt_area.offset_top = -240
+	stmt_area.offset_bottom = -60
 	var stmt_style := StyleBoxFlat.new()
 	stmt_style.bg_color = Color(0.04, 0.03, 0.02, 0.94)
 	stmt_style.border_color = Color(0.7, 0.5, 0.2, 0.7)
@@ -316,15 +336,15 @@ func _build_ui() -> void:
 	_next_btn.pressed.connect(func(): _navigate_stmt(1))
 	stmt_hbox.add_child(_next_btn)
 
-	# ── 操作按钮栏（底部，始终可见） ──
+	# ── 操作按钮栏（底部，始终可见，紧跟证词区） ──
 	_action_bar = HBoxContainer.new()
 	_action_bar.name = "ActionBar"
-	_action_bar.anchor_left = 0.15
-	_action_bar.anchor_right = 0.85
+	_action_bar.anchor_left = 0.0
+	_action_bar.anchor_right = 1.0
 	_action_bar.anchor_top = 1.0
 	_action_bar.anchor_bottom = 1.0
-	_action_bar.offset_top = -150
-	_action_bar.offset_bottom = -95
+	_action_bar.offset_top = -55
+	_action_bar.offset_bottom = -10
 	_action_bar.alignment = BoxContainer.ALIGNMENT_CENTER
 	_action_bar.add_theme_constant_override("separation", 40)
 	_panel.add_child(_action_bar)
@@ -653,6 +673,7 @@ func _build_ui() -> void:
 	_dlg_portrait_rect.offset_bottom = 0
 	_dlg_portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_dlg_portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_dlg_portrait_rect.flip_h = true  # 左侧立绘默认水平翻转，脸朝右（朝向对话文字）
 	_dlg_portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_dlg_portrait_rect.visible = false
 	# 底部渐变淡出 shader
@@ -671,6 +692,44 @@ func _build_ui() -> void:
 	_objection_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_objection_layer.visible = false
 	add_child(_objection_layer)
+
+	# ── 氛围层：暖色静态叠加（烛光底色，不闪烁）──
+	var candle_overlay := ColorRect.new()
+	candle_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	candle_overlay.color = Color(1.0, 0.55, 0.25, 0.04)
+	candle_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	candle_overlay.z_index = 50
+	candle_overlay.name = "CandleOverlay"
+	_panel.add_child(candle_overlay)
+
+	# ── 氛围层：暗角 vignette（四角压暗，增强压迫感）──
+	var vignette := ColorRect.new()
+	vignette.set_anchors_preset(Control.PRESET_FULL_RECT)
+	vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	vignette.z_index = 51
+	vignette.name = "VignetteOverlay"
+	var vignette_shader_code := """
+shader_type canvas_item;
+uniform float intensity : hint_range(0.0, 1.0) = 0.5;
+void fragment() {
+	vec2 uv = UV;
+	float dist = distance(uv, vec2(0.5));
+	float vignette = smoothstep(0.3, 0.85, dist);
+	COLOR = vec4(0.0, 0.0, 0.0, vignette * intensity);
+}
+"""
+	var vignette_shader := Shader.new()
+	vignette_shader.code = vignette_shader_code
+	var vignette_mat := ShaderMaterial.new()
+	vignette_mat.shader = vignette_shader
+	vignette_mat.set_shader_parameter("intensity", 0.45)
+	vignette.material = vignette_mat
+	_panel.add_child(vignette)
+
+	# ── 环境音：雨声循环 ──
+	var sfx_player := get_node_or_null("/root/SfxPlayer")
+	if sfx_player and sfx_player.has_method("play_ambient"):
+		sfx_player.play_ambient("rain_ambient")
 
 	# 初始隐藏交互元素
 	_set_browsing_visible(false)
@@ -917,7 +976,8 @@ func _refresh_stmt_display() -> void:
 	if _statements.is_empty():
 		return
 	var stmt: Dictionary = _statements[_current_stmt_idx]
-	_stmt_text_label.text = "[center]「" + stmt.get("text", "") + "」[/center]"
+	var stmt_text: String = stmt.get("text", "")
+	_stmt_text_label.text = "[center]「" + stmt_text + "」[/center]"
 	_stmt_counter_label.text = "%d / %d" % [_current_stmt_idx + 1, _statements.size()]
 	_testimony_title_label.text = _testimonies[_current_testimony_idx].get("title", "")
 
@@ -967,23 +1027,12 @@ func _on_press_clicked() -> void:
 	_state = State.PRESSING
 	_set_browsing_visible(false)
 
-	# 陆昭喊出"慢着！"
-	_play_protagonist_tts("慢着！")
-
+	# 固定威慑台词
 	var stmt: Dictionary = _statements[_current_stmt_idx]
-	var stmt_id: String = stmt.get("id", "")
-	var press_dlg: Array = stmt.get("press", [])
+	var voice_line: String = str(stmt.get("press_voice_line", "慢着！"))
 
-	if press_dlg.is_empty():
-		# 无特殊威慑对话，给个通用反应
-		press_dlg = [
-			{"speaker": "你", "text": "把这件事再说详细一点。"},
-			{"speaker": stmt.get("speaker", "阿贵"), "text": "就……就是我说的那样。没什么好补充的。"}
-		]
-
-	_dialogue_queue = press_dlg
-	_dialogue_idx = 0
-	_show_dialogue_queue(func(): _after_press(stmt_id, stmt))
+	# ── 威慑演出：定格 + 主角特写 + 冲击特效 + 语音 ──
+	_play_press_effect(voice_line, stmt)
 
 
 func _after_press(stmt_id: String, stmt: Dictionary) -> void:
@@ -1366,7 +1415,16 @@ func _play_break_anim() -> void:
 	_set_browsing_visible(false)
 	_evidence_panel.visible = false
 
+	# ── 举证成功特效：证据图标飞入 → 闪光 ──
+	_play_evidence_present_fx(_selected_evidence_id)
+	await get_tree().create_timer(0.4).timeout
+
+	# ── 异议特效 + 集中线 + Hit Stop ──
+	_play_focus_lines(1.0)
 	await _play_objection_fx()
+
+	# Hit Stop 定格
+	await _play_hit_stop(0.12)
 
 	# 击破时切换BGM（数据驱动，默认 "pursuit"）
 	var break_bgm: String = _confrontation_data.get("bgm_break", "pursuit")
@@ -1375,13 +1433,20 @@ func _play_break_anim() -> void:
 		if bgm_player and bgm_player.has_method("play"):
 			bgm_player.play(break_bgm)
 
-	# 击破闪屏效果
+	# 击破闪屏效果 + 全屏震动
 	_flash_screen_white()
+	_shake_screen(18.0, 10, 0.035)
 
-	# 立绘动摇
+	# 立绘动摇 + 特写放大
 	_portrait_state = PortraitState.SHAKEN
 	_update_portrait()
 	_shake_portrait()
+
+	# ── 击破瞬间：立绘特写放大 → 定格 → 回弹 ──
+	var zoom_tw := create_tween()
+	zoom_tw.tween_property(_portrait_rect, "scale", Vector2(1.15, 1.15), 0.12).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	zoom_tw.tween_interval(0.25)
+	zoom_tw.tween_property(_portrait_rect, "scale", Vector2(1.0, 1.0), 0.15).set_ease(Tween.EASE_IN_OUT)
 
 	# 播放击破对话
 	var stmt: Dictionary = _statements[_current_stmt_idx]
@@ -1440,10 +1505,18 @@ func _advance_to_next_testimony() -> void:
 func _play_fail_anim() -> void:
 	_mistakes += 1
 	_confidence = max(0, _confidence - 1)
-	_update_confidence_display()
 	_set_browsing_visible(false)
 
+	# ── 失败举证特效：红色冲击波 + 犯人退缩 ──
+	_play_evidence_fail_fx()
+
+	# ── 红闪 + 全屏震动 ──
 	await _play_red_flash()
+	_shake_screen(10.0, 6, 0.03)
+
+	# ── 信心值脉冲动画（扣血后更新显示）──
+	_update_confidence_display()
+	_play_confidence_pulse()
 
 	# 优先使用当前陈述的角色化错误反馈（wrong_reactions）
 	var stmt: Dictionary = _statements[_current_stmt_idx]
@@ -1474,8 +1547,22 @@ func _play_fail_anim() -> void:
 
 func _play_victory() -> void:
 	_set_browsing_visible(false)
+
+	# ── "有罪"判决大字特效 ──
+	await _play_guilty_verdict()
+
+	# 击破闪屏 + 震屏
+	_flash_screen_white()
+	_shake_screen(20.0, 12, 0.03)
+
+	# 犯人崩潰立绘
 	_portrait_state = PortraitState.COLLAPSED
 	_update_portrait()
+
+	# BGM 切换到胜利主题
+	var bgm_player := get_node_or_null("/root/BgmPlayer")
+	if bgm_player and bgm_player.has_method("play"):
+		bgm_player.play("ferry_court_opening")
 
 	var victory_dlg: Array = _confrontation_data.get("victory_dialogue", [])
 	_dialogue_queue = victory_dlg
@@ -1582,6 +1669,54 @@ func _play_epilogue_lines(lines: Array, idx: int, label: RichTextLabel, layer: C
 
 func _play_defeat() -> void:
 	_set_browsing_visible(false)
+
+	# ── 失败演出：红屏渐暗 → "证据不足"大字 ──
+	var defeat_layer := Control.new()
+	defeat_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	defeat_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	defeat_layer.z_index = 110
+	_panel.add_child(defeat_layer)
+
+	var red_bg := ColorRect.new()
+	red_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	red_bg.color = Color(0.3, 0.05, 0.05, 0.0)
+	red_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	defeat_layer.add_child(red_bg)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	defeat_layer.add_child(center)
+
+	var fail_text := Label.new()
+	fail_text.text = "证 据 不 足"
+	fail_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	fail_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	fail_text.add_theme_font_size_override("font_size", 72)
+	fail_text.add_theme_color_override("font_color", Color(0.9, 0.3, 0.25, 1.0))
+	fail_text.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+	fail_text.add_theme_constant_override("outline_size", 6)
+	fail_text.scale = Vector2(0.5, 0.5)
+	fail_text.modulate.a = 0.0
+	center.add_child(fail_text)
+
+	var tw := create_tween()
+	# 红色背景渐入
+	tw.tween_property(red_bg, "color:a", 0.7, 0.3)
+	# 文字缩放进入
+	tw.tween_property(fail_text, "modulate:a", 1.0, 0.15)
+	tw.parallel().tween_property(fail_text, "scale", Vector2(1.05, 1.05), 0.2).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	tw.tween_property(fail_text, "scale", Vector2(1.0, 1.0), 0.1)
+	# 震屏
+	tw.parallel().tween_callback(func(): _shake_screen(12.0, 6, 0.03))
+	# 停留
+	tw.tween_interval(1.2)
+	# 淡出
+	tw.tween_property(fail_text, "modulate:a", 0.0, 0.4)
+	tw.parallel().tween_property(red_bg, "color:a", 0.0, 0.4)
+	tw.tween_callback(defeat_layer.queue_free)
+	await tw.finished
+
 	var defeat_dlg: Array = _confrontation_data.get("defeat_dialogue", [])
 	_dialogue_queue = defeat_dlg
 	_dialogue_idx = 0
@@ -2193,19 +2328,334 @@ func _find_npc_id_by_speaker(speaker_name: String) -> String:
 # ═══════════════════════════════════════════════════
 
 ## 为主角（陆昭）播放 TTS 语音，用于威慑等动作时的喊话
+## 威慑完整演出：定格 + 主角特写 + 语音 + 台词屏幕显示 + NPC 反应
+func _play_press_effect(voice_line: String, stmt: Dictionary) -> void:
+	var stmt_id: String = stmt.get("id", "")
+	var press_dlg: Array = stmt.get("press", [])
+
+	# ── 1. 集中线特效（定格感）──
+	_play_focus_lines(1.2)
+
+	# ── 2. 镜头切到主角特写 ──
+	_camera_switch_to_protagonist("lu_zhao", 0.2)
+
+	# ── 3. Hit Stop 短暂定格 ──
+	await _play_hit_stop(0.08)
+
+	# ── 4. 全屏白闪 ──
+	_flash_screen_white()
+
+	# ── 5. 轻微震屏 ──
+	_shake_screen(8.0, 4, 0.03)
+
+	# ── 6. 主角台词大字显示在屏幕上 ──
+	_show_press_subtitle(voice_line)
+
+	# ── 7. TTS 语音播放（与字幕同步，异步不阻塞）──
+	_play_protagonist_tts(voice_line)
+	await get_tree().create_timer(0.3).timeout
+
+	# ── 8. NPC 立绘受冲击 ──
+	if _portrait_rect.visible:
+		_portrait_state = PortraitState.SHAKEN
+		_update_portrait()
+		_shake_portrait()
+
+	# ── 9. 等台词显示结束后，进入威慑对话 ──
+	if press_dlg.is_empty():
+		press_dlg = [
+			{"speaker": "你", "text": voice_line},
+			{"speaker": stmt.get("speaker", "阿贵"), "text": "就……就是我说的那样。没什么好补充的。"}
+		]
+
+	_dialogue_queue = press_dlg
+	_dialogue_idx = 0
+	_show_dialogue_queue(func(): _after_press(stmt_id, stmt))
+
+
+## 屏幕上方居中显示主角台词（大字 + 淡入淡出）
+func _show_press_subtitle(text: String) -> void:
+	var subtitle_layer := Control.new()
+	subtitle_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	subtitle_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	subtitle_layer.z_index = 120
+	_panel.add_child(subtitle_layer)
+
+	var label := Label.new()
+	label.text = "「" + text + "」"
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.set_anchors_preset(Control.PRESET_CENTER)
+	label.offset_left = -500
+	label.offset_right = 500
+	label.offset_top = -200
+	label.offset_bottom = -130
+	label.add_theme_font_size_override("font_size", 36)
+	label.add_theme_color_override("font_color", Color(1.0, 0.95, 0.85))
+	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+	label.add_theme_constant_override("outline_size", 5)
+	label.modulate.a = 0.0
+	subtitle_layer.add_child(label)
+
+	# 淡入 → 停留 → 淡出
+	var tw := create_tween()
+	tw.tween_property(label, "modulate:a", 1.0, 0.15)
+	tw.tween_interval(1.2)
+	tw.tween_property(label, "modulate:a", 0.0, 0.3).set_ease(Tween.EASE_IN)
+	tw.tween_callback(subtitle_layer.queue_free)
+
+
 func _play_protagonist_tts(text: String) -> void:
 	var tts := get_node_or_null("/root/TTSService")
 	if tts == null or not tts.is_available():
 		return
-	var voice_id: String = tts.get_voice_id("lu_zhao")
-	if voice_id == "":
+	# 威慑语音风格：中年男性，沉稳冷静，威严有力
+	var style_hint := "用沉稳有力的中年男性声音大声喝断对方，语气严厉但不急躁，带着御史台官员特有的威严和压迫感。音调偏低沉，共鸣饱满，每个字都掷地有声，像惊堂木一拍。不拖沓，干净利落。"
+	tts.request_tts_speaker("陆昭", text, "lu_zhao", style_hint)
+
+
+# ═══════════════════════════════════════════════════
+#  阶段一：冲击力强化 — 新增特效方法
+# ═══════════════════════════════════════════════════
+
+## Hit Stop：短暂冻结画面，模拟打击感
+func _play_hit_stop(duration: float = 0.15) -> void:
+	var prev_scale := Engine.time_scale
+	# 收集并暂停所有活跃 tween
+	var paused_tweens: Array[Tween] = []
+	for tw in get_tree().get_processed_tweens():
+		if tw.is_valid() and tw.is_running():
+			paused_tweens.append(tw)
+			tw.pause()
+	Engine.time_scale = 0.02
+	await get_tree().create_timer(duration, true, false, true).timeout
+	Engine.time_scale = prev_scale
+	for tw in paused_tweens:
+		if tw.is_valid():
+			tw.play()
+
+
+## 全屏震动（UI 级别，不依赖 Camera2D）
+func _shake_screen(intensity: float = 15.0, count: int = 8, single_dur: float = 0.04) -> void:
+	var original_pos := _panel.position
+	var tw := create_tween()
+	for i in range(count):
+		var offset := Vector2(
+			randf_range(-intensity, intensity),
+			randf_range(-intensity * 0.5, intensity * 0.5)
+		)
+		tw.tween_property(_panel, "position", original_pos + offset, single_dur)
+	tw.tween_property(_panel, "position", original_pos, single_dur)
+
+
+## 集中线/速度线特效：从画面四角向中心汇聚的放射线
+func _play_focus_lines(duration: float = 0.8) -> void:
+	var focus_layer := Control.new()
+	focus_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	focus_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	focus_layer.z_index = 100
+	_panel.add_child(focus_layer)
+
+	var vp_size := get_viewport_rect().size
+	var center := vp_size * 0.5
+
+	# 创建放射线
+	var line_count := 24
+	var draw_node := _FocusLinesDraw.new()
+	draw_node.center = center
+	draw_node.line_count = line_count
+	draw_node.intensity = 1.0
+	draw_node.focus_color = Color(1.0, 0.92, 0.55, 0.0)  # 金色，初始透明
+	focus_layer.add_child(draw_node)
+
+	# 动画：淡入 → 停留 → 淡出
+	var tw := create_tween()
+	tw.tween_property(draw_node, "focus_color:a", 0.6, 0.12)
+	tw.tween_property(draw_node, "intensity", 0.4, duration * 0.6).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(draw_node, "focus_color:a", 0.0, duration * 0.4).set_ease(Tween.EASE_IN)
+	tw.tween_callback(func():
+		focus_layer.queue_free()
+	)
+
+
+## 信心值扣减动画：心形脉冲 + 屏幕边缘红光
+func _play_confidence_pulse() -> void:
+	# 心形文字脉冲
+	var original_size := 24
+	var tw := create_tween()
+	tw.tween_property(_confidence_label, "theme_override_font_sizes/font_size", 36, 0.08).set_ease(Tween.EASE_OUT)
+	tw.tween_property(_confidence_label, "theme_override_font_sizes/font_size", 20, 0.12).set_ease(Tween.EASE_IN_OUT)
+	tw.tween_property(_confidence_label, "theme_override_font_sizes/font_size", original_size, 0.15).set_ease(Tween.EASE_OUT)
+
+	# 红色边框脉冲（屏幕边缘闪烁）
+	var red_border := ColorRect.new()
+	red_border.set_anchors_preset(Control.PRESET_FULL_RECT)
+	red_border.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	red_border.color = Color(0.85, 0.15, 0.1, 0.0)
+	red_border.z_index = 90
+	_panel.add_child(red_border)
+
+	var border_tw := create_tween()
+	border_tw.tween_property(red_border, "color:a", 0.3, 0.06)
+	border_tw.tween_property(red_border, "color:a", 0.0, 0.35).set_ease(Tween.EASE_IN)
+	border_tw.tween_callback(red_border.queue_free)
+
+
+## 举证成功特效：证据图标飞入中央 → 放大闪光
+func _play_evidence_present_fx(evidence_id: String) -> void:
+	var fx_layer := Control.new()
+	fx_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	fx_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fx_layer.z_index = 95
+	_panel.add_child(fx_layer)
+
+	var vp_size := get_viewport_rect().size
+
+	# 证据图标
+	var icon := TextureRect.new()
+	var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % evidence_id
+	if ResourceLoader.exists(icon_path):
+		icon.texture = load(icon_path)
+	else:
+		# 无图时用文字占位
+		var placeholder := Label.new()
+		placeholder.text = "📜"
+		placeholder.add_theme_font_size_override("font_size", 48)
+		placeholder.set_anchors_preset(Control.PRESET_CENTER)
+		placeholder.offset_left = -30
+		placeholder.offset_right = 30
+		placeholder.offset_top = -30
+		placeholder.offset_bottom = 30
+		fx_layer.add_child(placeholder)
+		# 占位也要做动画，但不需要图标飞入
+		_play_evidence_present_anim(fx_layer, placeholder)
 		return
-	# 用固定缓存 key 避免重复请求
-	var cache_key := "press_lu_zhao_%d" % hash(text)
-	var cache_dir := "user://tts_cache/"
-	var cache_path := cache_dir + cache_key + ".mp3"
-	if FileAccess.file_exists(cache_path):
-		VoicePlayer.play_voice_path(cache_path)
-		return
-	# 使用 TTSService 的 request_tts_speaker 发起请求并自动播放
-	tts.request_tts_speaker("陆昭", text, voice_id)
+
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.custom_minimum_size = Vector2(128, 128)
+	icon.set_anchors_preset(Control.PRESET_CENTER)
+	icon.offset_left = -64
+	icon.offset_right = 64
+	icon.offset_top = -64
+	icon.offset_bottom = 64
+	icon.scale = Vector2(0.5, 0.5)
+	icon.modulate.a = 0.0
+	fx_layer.add_child(icon)
+
+	_play_evidence_present_anim(fx_layer, icon)
+
+
+func _play_evidence_present_anim(fx_layer: Control, icon_node: Control) -> void:
+	# 飞入 → 放大 → 闪光 → 淡出
+	var tw := create_tween()
+	tw.tween_property(icon_node, "modulate:a", 1.0, 0.15)
+	tw.parallel().tween_property(icon_node, "scale", Vector2(1.2, 1.2), 0.25).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	tw.tween_interval(0.3)
+
+	# 白色闪光爆发
+	var flash := ColorRect.new()
+	flash.set_anchors_preset(Control.PRESET_FULL_RECT)
+	flash.color = Color(1, 1, 1, 0.0)
+	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fx_layer.add_child(flash)
+	tw.tween_property(flash, "color:a", 0.7, 0.06)
+	tw.tween_property(icon_node, "scale", Vector2(1.5, 1.5), 0.1)
+	tw.parallel().tween_property(icon_node, "modulate:a", 0.0, 0.15)
+	tw.tween_property(flash, "color:a", 0.0, 0.2)
+	tw.tween_callback(fx_layer.queue_free)
+
+
+## 举证失败特效：证据碎裂 + 红色冲击
+func _play_evidence_fail_fx() -> void:
+	var vp_size := get_viewport_rect().size
+
+	# 红色冲击波
+	var shockwave := ColorRect.new()
+	shockwave.set_anchors_preset(Control.PRESET_FULL_RECT)
+	shockwave.color = Color(0.8, 0.1, 0.05, 0.0)
+	shockwave.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	shockwave.z_index = 95
+	_panel.add_child(shockwave)
+
+	var tw := create_tween()
+	tw.tween_property(shockwave, "color:a", 0.35, 0.05)
+	tw.tween_property(shockwave, "color:a", 0.0, 0.3)
+	tw.tween_callback(shockwave.queue_free)
+
+	# 犯人立绘微退缩（威慑感）
+	if _portrait_rect.visible:
+		var orig_x := _portrait_rect.offset_left
+		var shake_tw := create_tween()
+		shake_tw.tween_property(_portrait_rect, "offset_left", orig_x + 15.0, 0.06)
+		shake_tw.tween_property(_portrait_rect, "offset_left", orig_x - 5.0, 0.04)
+		shake_tw.tween_property(_portrait_rect, "offset_left", orig_x, 0.06)
+
+
+## "有罪"判决大字特效
+func _play_guilty_verdict() -> void:
+	var verdict_layer := Control.new()
+	verdict_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	verdict_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	verdict_layer.z_index = 110
+	_panel.add_child(verdict_layer)
+
+	# 黑幕
+	var black := ColorRect.new()
+	black.set_anchors_preset(Control.PRESET_FULL_RECT)
+	black.color = Color(0.0, 0.0, 0.0, 0.0)
+	black.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	verdict_layer.add_child(black)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	verdict_layer.add_child(center)
+
+	var verdict := Label.new()
+	verdict.text = "有  罪"
+	verdict.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	verdict.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	verdict.add_theme_font_size_override("font_size", 96)
+	verdict.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3, 1.0))
+	verdict.add_theme_color_override("font_outline_color", Color(0.8, 0.2, 0.1, 1.0))
+	verdict.add_theme_constant_override("outline_size", 8)
+	verdict.scale = Vector2(2.5, 2.5)
+	verdict.modulate.a = 0.0
+	center.add_child(verdict)
+
+	var tw := create_tween()
+	# 黑幕渐入
+	tw.tween_property(black, "color:a", 0.85, 0.2)
+	# 大字砸下（弹性）
+	tw.tween_property(verdict, "modulate:a", 1.0, 0.08)
+	tw.parallel().tween_property(verdict, "scale", Vector2(1.0, 1.0), 0.25).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+	# 屏幕震动
+	tw.parallel().tween_callback(func(): _shake_screen(12.0, 6, 0.03))
+	# 停留
+	tw.tween_interval(1.5)
+	# 淡出
+	tw.tween_property(verdict, "modulate:a", 0.0, 0.4)
+	tw.parallel().tween_property(black, "color:a", 0.0, 0.4)
+	tw.tween_callback(verdict_layer.queue_free)
+	await tw.finished
+
+
+# ─── 内部辅助类：集中线绘制 ───
+class _FocusLinesDraw extends Control:
+	var center: Vector2 = Vector2.ZERO
+	var line_count: int = 24
+	var intensity: float = 1.0
+	var focus_color: Color = Color(1, 1, 1, 0.6)
+
+	func _draw() -> void:
+		var vp_size := get_viewport_rect().size
+		var max_dist := vp_size.length() * 0.6
+		for i in range(line_count):
+			var angle := float(i) / float(line_count) * TAU
+			var inner_radius := max_dist * 0.15 * intensity
+			var outer_radius := max_dist * (0.4 + 0.6 * intensity)
+			var start_pt := center + Vector2(cos(angle), sin(angle)) * inner_radius
+			var end_pt := center + Vector2(cos(angle), sin(angle)) * outer_radius
+			var width := 2.0 + randf() * 2.0
+			draw_line(start_pt, end_pt, focus_color, width)

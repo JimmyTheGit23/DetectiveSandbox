@@ -108,14 +108,34 @@ func stop() -> void:
 
 func _play_path(path: String) -> bool:
 	stop()
-	if not ResourceLoader.exists(path):
-		return false
-	var stream: AudioStream = load(path)
-	if stream == null:
-		return false
-	_player.stream = stream
-	_player.play()
-	return true
+	if path.begins_with("user://"):
+		# user:// 路径：从文件系统加载
+		if not FileAccess.file_exists(path):
+			push_warning("VoicePlayer: file not found: " + path)
+			return false
+		var stream: AudioStream = null
+		if path.ends_with(".wav"):
+			stream = AudioStreamWAV.load_from_file(path)
+		elif path.ends_with(".mp3"):
+			stream = AudioStreamMP3.load_from_file(path)
+		else:
+			stream = load(path)
+		if stream == null:
+			push_warning("VoicePlayer: failed to load audio: " + path)
+			return false
+		_player.stream = stream
+		_player.play()
+		return true
+	else:
+		# res:// 路径：原有逻辑
+		if not ResourceLoader.exists(path):
+			return false
+		var stream: AudioStream = load(path)
+		if stream == null:
+			return false
+		_player.stream = stream
+		_player.play()
+		return true
 
 
 ## 当没有预录音频时，尝试 TTS 回退

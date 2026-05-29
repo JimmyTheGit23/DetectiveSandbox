@@ -3,7 +3,8 @@ extends Control
 ## 支持多帧动画循环（说话/待机），为 AI 生成动画帧做准备。
 
 const TypewriterEffectScript = preload("res://scripts/ui/TypewriterEffect.gd")
-const UI_FONT = preload("res://assets/fonts/NotoSansSC.otf")
+# 字体通过 theme.tres 的 default_font 统一管理，不再硬编码
+var UI_FONT: Font = null
 
 @onready var dim_bg: PanelContainer = $DimBg
 @onready var box: Control = $Box
@@ -88,6 +89,11 @@ const AVATAR_OFFSET_BOTTOM := 0.0
 
 
 func _ready() -> void:
+	# 动态加载字体（避免 preload 在编辑器未导入时失败）
+	if ResourceLoader.exists("res://assets/fonts/NotoSerifSC.ttf"):
+		UI_FONT = load("res://assets/fonts/NotoSerifSC.ttf")
+	elif ResourceLoader.exists("res://assets/fonts/NotoSansSC.otf"):
+		UI_FONT = load("res://assets/fonts/NotoSansSC.otf")
 	legacy_options.visible = false
 	exit_btn.visible = false
 	# ── 立绘区域设置（全屏居中大图） ──
@@ -105,7 +111,7 @@ func _ready() -> void:
 	text_label.fit_content = false
 	text_label.scroll_active = false
 	text_label.custom_minimum_size = Vector2(0, 112)
-	text_label.add_theme_font_override("normal_font", UI_FONT)
+	# 字体由 theme.tres 的 default_font 统一管理
 	text_label.add_theme_font_size_override("normal_font_size", 22)
 	text_label.add_theme_color_override("default_color", CLR_INK)
 	text_label.add_theme_constant_override("line_separation", 6)
@@ -673,7 +679,6 @@ func _apply_dialogue_chrome() -> void:
 	speaker_label.offset_top = 10.0
 	speaker_label.offset_right = 260.0
 	speaker_label.offset_bottom = 42.0
-	speaker_label.add_theme_font_override("font", UI_FONT)
 	speaker_label.add_theme_font_size_override("font_size", 24)
 	speaker_label.add_theme_color_override("font_color", Color(1.0, 0.87, 0.56, 1.0))
 	speaker_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.84))
@@ -683,7 +688,7 @@ func _apply_dialogue_chrome() -> void:
 	text_label.offset_top = 56.0
 	text_label.offset_right = -20.0
 	text_label.offset_bottom = -24.0
-	text_label.add_theme_font_override("normal_font", UI_FONT)
+	# 字体由 theme.tres 的 default_font 统一管理
 	text_label.add_theme_font_size_override("normal_font_size", 21)
 	text_label.add_theme_color_override("default_color", Color(0.95, 0.90, 0.78, 1.0))
 	text_label.add_theme_constant_override("line_separation", 6)
@@ -744,7 +749,6 @@ func _build_choice_hint() -> void:
 	_choice_hint_label.offset_bottom = -6.0
 	_choice_hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_choice_hint_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_choice_hint_label.add_theme_font_override("font", UI_FONT)
 	_choice_hint_label.add_theme_font_size_override("font_size", 16)
 	_choice_hint_label.add_theme_color_override("font_color", Color(0.85, 0.80, 0.60, 0.80))
 	_choice_hint_label.add_theme_constant_override("outline_size", 0)
@@ -774,7 +778,6 @@ func _build_log_controls() -> void:
 	_log_button.mouse_filter = Control.MOUSE_FILTER_STOP
 	_log_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_log_button.z_index = 20
-	_log_button.add_theme_font_override("font", UI_FONT)
 	_log_button.add_theme_font_size_override("font_size", 15)
 	_log_button.add_theme_color_override("font_color", Color(0.94, 0.84, 0.62, 0.96))
 	_log_button.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.84))
@@ -818,7 +821,6 @@ func _build_log_controls() -> void:
 	var title := Label.new()
 	title.text = "对话卷宗"
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.add_theme_font_override("font", UI_FONT)
 	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_color_override("font_color", CLR_GOLD)
 	title.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.88))
@@ -826,7 +828,6 @@ func _build_log_controls() -> void:
 	hb.add_child(title)
 	var close := Button.new()
 	close.text = "收起"
-	close.add_theme_font_override("font", UI_FONT)
 	close.add_theme_font_size_override("font_size", 14)
 	close.pressed.connect(func(): _log_panel.visible = false)
 	_apply_plain_button_style(close, Color(0.10, 0.06, 0.03, 0.94), Color(0.70, 0.52, 0.20, 0.68))
@@ -839,7 +840,6 @@ func _build_log_controls() -> void:
 	_log_text.bbcode_enabled = true
 	_log_text.fit_content = true
 	_log_text.scroll_active = false
-	_log_text.add_theme_font_override("normal_font", UI_FONT)
 	_log_text.add_theme_font_size_override("normal_font_size", 17)
 	_log_text.add_theme_color_override("default_color", Color(0.92, 0.86, 0.74, 1.0))
 	_log_text.add_theme_constant_override("line_separation", 8)
@@ -1013,7 +1013,6 @@ func _make_option_group(title_text: String, items: Array) -> PanelContainer:
 	var title := Label.new()
 	title.text = title_text
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_override("font", UI_FONT)
 	title.add_theme_font_size_override("font_size", 17)
 	title.add_theme_color_override("font_color", Color(0.95, 0.82, 0.48, 0.96))
 	title.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.88))
@@ -1053,7 +1052,6 @@ func _make_option_button(text: String, opt: Dictionary = {}) -> Button:
 	btn.custom_minimum_size = Vector2(0, 52)
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	btn.add_theme_font_override("font", UI_FONT)
 	btn.add_theme_font_size_override("font_size", 19)
 	_apply_option_button_style(btn, info.get("type", "ask"))
 	return btn
@@ -1214,7 +1212,6 @@ func _evidence_title(opt: Dictionary) -> String:
 func _apply_evidence_option_style(btn: Button) -> void:
 	var had_visited := btn.text.begins_with("✓")
 	btn.text = ("✓ " if had_visited else "") + "〔呈证〕  " + _strip_evidence_label(btn.text)
-	btn.add_theme_font_override("font", UI_FONT)
 	btn.add_theme_font_size_override("font_size", 20)
 	btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.50, 1.0))
 	btn.add_theme_color_override("font_hover_color", Color(1.0, 0.97, 0.70, 1.0))

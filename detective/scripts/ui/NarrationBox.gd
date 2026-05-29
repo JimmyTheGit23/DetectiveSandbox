@@ -4,7 +4,7 @@ extends Control
 ## 支持叙述中的选项（密室逃脱等交互场景）
 
 const TypewriterEffectScript = preload("res://scripts/ui/TypewriterEffect.gd")
-const UI_FONT = preload("res://assets/fonts/NotoSansSC.otf")
+var UI_FONT: Font = null
 
 @onready var dim_bg: ColorRect = $DimBg
 @onready var box: PanelContainer = $Box
@@ -68,16 +68,13 @@ func _create_portrait_rect() -> void:
 func _apply_chrome() -> void:
 	box_vbox.add_theme_constant_override("separation", 4)
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	speaker_label.add_theme_font_override("font", UI_FONT)
 	speaker_label.add_theme_font_size_override("font_size", 24)
 	speaker_label.add_theme_color_override("font_color", Color(1.0, 0.87, 0.56, 1.0))
 	speaker_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.84))
 	speaker_label.add_theme_constant_override("outline_size", 2)
-	text_label.add_theme_font_override("normal_font", UI_FONT)
 	text_label.add_theme_font_size_override("normal_font_size", 21)
 	text_label.add_theme_color_override("default_color", Color(0.95, 0.90, 0.78, 1.0))
 	text_label.add_theme_constant_override("line_separation", 6)
-	continue_label.add_theme_font_override("font", UI_FONT)
 	continue_label.add_theme_font_size_override("font_size", 16)
 	continue_label.add_theme_color_override("font_color", Color(0.85, 0.80, 0.60, 0.80))
 	continue_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.86))
@@ -107,7 +104,6 @@ func _create_choices_container() -> void:
 	var title := Label.new()
 	title.text = "叙事抉择"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_override("font", UI_FONT)
 	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_color_override("font_color", Color(0.98, 0.86, 0.52, 0.98))
 	title.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.90))
@@ -227,7 +223,6 @@ func _show_choices(choices: Array) -> void:
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		btn.focus_mode = Control.FOCUS_NONE
 		btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-		btn.add_theme_font_override("font", UI_FONT)
 		btn.add_theme_font_size_override("font_size", 18)
 		_apply_choice_style(btn)
 		var idx := i

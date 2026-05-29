@@ -67,7 +67,7 @@
           { "speaker": "王大爷", "text": "（慢吞吞站起来，清了清嗓子）行。那就说说。", "emotion": "evasive" }
         ],
         "readthrough_end_hint": [
-          { "speaker": "凌瑶", "text": "（低声）证言说完了。哪句能和我们手里的证据对上——你来判断。", "emotion": "determined" }
+          { "speaker": "凌瑶", "text": "（低声）他倒是觉得'正常'。可你想——两个跑船的，合计出一条什么路？", "emotion": "determined" }
         ],
         "transition_dialogue": [
           { "speaker": "陆昭", "text": "王大爷的证言已经说明——航道是故意选的，有人提前约定了时间和路线。", "emotion": "cold" },
@@ -135,7 +135,7 @@
           { "speaker": "老范", "text": "（咳了一声）老汉说。说错了，大人只管问。", "emotion": "evasive" }
         ],
         "readthrough_end_hint": [
-          { "speaker": "凌瑶", "text": "（低声）他说来说去都在把翻船推给暗礁和浪。可船底到底是什么样，咱们亲眼看过。", "emotion": "determined" }
+          { "speaker": "凌瑶", "text": "（低声）他把什么都说成浪打的。可那些痕迹，浪真能留下吗？", "emotion": "determined" }
         ],
         "transition_dialogue": [
           { "speaker": "陆昭", "text": "船不是被浪打翻的。是有人事先在船底动了手脚。", "emotion": "cold" },
@@ -200,7 +200,7 @@
           { "speaker": "老范", "text": "老汉……老汉命大。扒着块船板，漂了许久。", "emotion": "evasive" }
         ],
         "readthrough_end_hint": [
-          { "speaker": "凌瑶", "text": "（低声）他把时间说得很长。王大爷可不是这么说的。", "emotion": "determined" }
+          { "speaker": "凌瑶", "text": "（低声）他在水里泡了'半个时辰'？——可有人看到的，不是这样。", "emotion": "determined" }
         ],
         "transition_dialogue": [
           { "speaker": "陆昭", "text": "半个时辰是假的。不到一刻钟上岸，说明你早有准备。", "emotion": "cold" },
@@ -266,7 +266,7 @@
           { "speaker": "老范", "text": "老汉一个跑船的，跟周老爷不过一趟生意。哪来的仇？", "emotion": "evasive" }
         ],
         "readthrough_end_hint": [
-          { "speaker": "凌瑶", "text": "（低声）他把自己说成没动机的外人。可码头竹棚里那张字据不是这么说的。", "emotion": "determined" }
+          { "speaker": "凌瑶", "text": "（低声）他说跟周老爷没关系。可穷到那份上的人……真的什么都做得出来。", "emotion": "determined" }
         ],
         "transition_dialogue": [
           { "speaker": "老范", "text": "（瘫坐回椅子）老汉……老汉只是缺钱。可主意不是老汉出的。", "emotion": "shaken" },
@@ -333,6 +333,9 @@
           { "speaker": "陆昭", "text": "……坐下。一个字一个字说。", "emotion": "cold" },
           { "speaker": "阿贵", "text": "我说！那晚三更刚过——", "emotion": "angry" },
           { "speaker": "凌瑶", "text": "（低声）他急着把罪名扣你头上。哪句跟咱们手里的证据对不上，就拿出来打他脸。", "emotion": "determined" }
+        ],
+        "readthrough_end_hint": [
+          { "speaker": "凌瑶", "text": "（低声）他说用铁器打的。那你看看尸体——身上真有那种痕迹？", "emotion": "determined" }
         ],
         "statements": [
           {
@@ -441,6 +444,9 @@
         "preamble": [
           { "speaker": "陆昭", "text": "阿贵。从上船开始——一句一句说。", "emotion": "cold" },
           { "speaker": "阿贵", "text": "（吞了口口水）是……是，大人。", "emotion": "nervous" }
+        ],
+        "readthrough_end_hint": [
+          { "speaker": "凌瑶", "text": "（低声）他说什么都没准备。可你看看他包袱里的东西——真叫'没准备'？", "emotion": "determined" }
         ],
         "statements": [
           {
@@ -919,6 +925,9 @@
       {
         "id": "testimony_2",
         "title": "— 证词其三：关于那个洞 —",
+        "readthrough_end_hint": [
+          { "speaker": "凌瑶", "text": "（低声）又是暗礁的说辞。可船底那个洞……到底是怎么来的？", "emotion": "determined" }
+        ],
         "statements": [
           {
             "id": "s2_1",
@@ -1307,6 +1316,9 @@
       {
         "id": "testimony_3",
         "title": "— 证词其四：不是我干的 —",
+        "readthrough_end_hint": [
+          { "speaker": "凌瑶", "text": "（低声）他说十二年'不薄'。可你听听——二两银子和十二年的账，对得上吗？", "emotion": "determined" }
+        ],
         "statements": [
           {
             "id": "s3_1",
@@ -1920,6 +1932,9 @@
       {
         "id": "shen_testimony_1",
         "title": "— 证词其一：我没有理由 —",
+        "readthrough_end_hint": [
+          { "speaker": "凌瑶", "text": "（低声）她说五十两'沉了江'。可谁真的去看过——江底有没有那笔银子？", "emotion": "determined" }
+        ],
         "statements": [
           {
             "id": "sf1_1",
@@ -2277,6 +2292,9 @@
       {
         "id": "shen_testimony_2",
         "title": "— 证词其二：我跟他们没有关系 —",
+        "readthrough_end_hint": [
+          { "speaker": "凌瑶", "text": "（低声）她说跟谁都不熟。可她知道的事……比一个'不熟'的人该知道的多太多了。", "emotion": "determined" }
+        ],
         "statements": [
           {
             "id": "sf2_1",
@@ -2603,6 +2621,9 @@
       {
         "id": "shen_testimony_3",
         "title": "— 证词其三：你没有证据 —",
+        "readthrough_end_hint": [
+          { "speaker": "凌瑶", "text": "（低声）她一直在说'不是我'。可那天晚上——她到底在哪？", "emotion": "determined" }
+        ],
         "statements": [
           {
             "id": "sf3_1",

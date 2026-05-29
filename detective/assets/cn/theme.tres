@@ -1,6 +1,7 @@
 [gd_resource type="Theme" format=3 uid="uid://chinesetheme"]
 
 [ext_resource type="FontFile" uid="uid://csbl05ly218an" path="res://assets/fonts/NotoSansSC.otf" id="1_font"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSerifSC.ttf" id="2_serif"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
 content_margin_left = 12.0
@@ -19,7 +20,7 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [resource]
-default_font = ExtResource("1_font")
+default_font = ExtResource("2_serif")
 default_font_size = 18
 Button/colors/font_color = Color(0.95, 0.9, 0.75, 1)
 Button/colors/font_hover_color = Color(1, 1, 0.85, 1)
