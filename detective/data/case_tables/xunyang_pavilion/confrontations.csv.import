@@ -6,12 +6,14 @@ uid="uid://d3yyy2vkq5xhn"
 
 [deps]
 
-files=["res://data/case_tables/xunyang_pavilion/confrontations.suspect.translation", "res://data/case_tables/xunyang_pavilion/confrontations.is.translation", "res://data/case_tables/xunyang_pavilion/confrontations.background.translation", "res://data/case_tables/xunyang_pavilion/confrontations.bgm.translation", "res://data/case_tables/xunyang_pavilion/confrontations.bgm.translation", "res://data/case_tables/xunyang_pavilion/confrontations.bgm.translation", "res://data/case_tables/xunyang_pavilion/confrontations.confidence.translation", "res://data/case_tables/xunyang_pavilion/confrontations.writer.translation"]
+files=["res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation"]
 
 source_file="res://data/case_tables/xunyang_pavilion/confrontations.csv"
-dest_files=["res://data/case_tables/xunyang_pavilion/confrontations.suspect.translation", "res://data/case_tables/xunyang_pavilion/confrontations.is.translation", "res://data/case_tables/xunyang_pavilion/confrontations.background.translation", "res://data/case_tables/xunyang_pavilion/confrontations.bgm.translation", "res://data/case_tables/xunyang_pavilion/confrontations.bgm.translation", "res://data/case_tables/xunyang_pavilion/confrontations.bgm.translation", "res://data/case_tables/xunyang_pavilion/confrontations.confidence.translation", "res://data/case_tables/xunyang_pavilion/confrontations.writer.translation"]
+dest_files=["res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation", "res://data/case_tables/xunyang_pavilion/confrontations.en.translation"]
 
 [params]
 
 compress=1
 delimiter=0
+unescape_keys=false
+unescape_translations=true
