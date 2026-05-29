@@ -187,6 +187,10 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 		display_text = "\n".join(lines.slice(0, 3))
 	# 显示说话者和立绘
 	_apply_narration_speaker(speaker, portrait)
+	# 根据说话人角色切换打字音效 profile
+	_typewriter.set_blip_profile(_resolve_blip_profile(speaker))
+	# 叙述模式不播放打字电子音（物品描述等场景不需要）
+	_typewriter.typing_sound_enabled = false
 	# 打字机播放文字（不调用说话动画，避免立绘偏移）
 	_typewriter.play(text_label, display_text)
 	await _typewriter.finished
@@ -231,6 +235,49 @@ func _apply_narration_speaker(speaker: String, portrait: String) -> void:
 	else:
 		portrait_rect.visible = false
 		_hide_avatar()
+
+
+## 根据说话者名字解析打字音效 profile
+func _resolve_blip_profile(speaker: String) -> String:
+	if speaker == "":
+		return "default"
+	if speaker == "陆昭" or speaker == "lu_zhao":
+		return "default"
+	var reg_path := "res://data/actors/registry.json"
+	var actors: Dictionary = {}
+	if ResourceLoader.exists(reg_path):
+		var reg_data = load(reg_path)
+		if reg_data is Dictionary:
+			actors = reg_data.get("actors", {})
+	var casting: Dictionary = AssetResolver.get_casting()
+	var actor_id: String = ""
+	for npc_id in casting.keys():
+		var entry = casting[npc_id]
+		if typeof(entry) == TYPE_DICTIONARY:
+			if entry.get("role_name", "") == speaker:
+				actor_id = entry.get("actor_id", "")
+				break
+	if actor_id == "" and actors.has(speaker):
+		actor_id = speaker
+	if actor_id == "" or not actors.has(actor_id):
+		return "default"
+	var actor: Dictionary = actors[actor_id]
+	var tags: Array = actor.get("tags", [])
+	if "male" in tags:
+		if "rough" in tags or "constable" in tags:
+			return "male_rough"
+		if "young" in tags or "young_teen" in tags:
+			return "male_young"
+		if "elder" in tags:
+			return "male_elder"
+		return "male_middle"
+	elif "female" in tags:
+		if "young" in tags or "young_teen" in tags:
+			return "female_young"
+		if "elder" in tags:
+			return "female_elder"
+		return "female_middle"
+	return "default"
 
 
 func _resolve_portrait_for_speaker(speaker_name: String) -> String:
@@ -317,6 +364,9 @@ func _play_current_page(run_id: int) -> void:
 	_apply_speaker(page.get("speaker", ""), page.get("portrait", ""), page.get("emotion", ""))
 	var page_text: String = page.get("text", "")
 	_append_dialogue_log(page.get("speaker", ""), page_text)
+	_typewriter.set_blip_profile(_resolve_blip_profile(page.get("speaker", "")))
+	# 对话模式启用打字电子音
+	_typewriter.typing_sound_enabled = true
 	_start_talk_animation()
 	_typewriter.play(text_label, _decorate_text(page_text, page.get("highlight", [])))
 	await _typewriter.finished

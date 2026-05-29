@@ -31,6 +31,10 @@ signal sfx_requested(sfx_name: String)
 @export var punctuation_pause_ellipsis: float = 2.5 # 省略号中的每个点
 ## 括号内（旁白/动作描写）加速倍率
 @export var parenthesis_speed: float = 1.5
+## 打字音效开关
+@export var typing_sound_enabled: bool = true
+## 打字音效音量（dB）
+@export var typing_sound_volume_db: float = -14.0
 
 var _target: RichTextLabel = null
 var _raw_text: String = ""
@@ -41,6 +45,54 @@ var _skip_requested: bool = false
 var _current_speed: float = 1.0
 var _in_parenthesis: bool = false
 var _run_id: int = 0                 # 用于使旧协程失效，防止闪烁
+
+# ─── 打字音效（16-bit RPG 风格） ───
+var _audio_player: AudioStreamPlayer = null
+var _blip_sounds: Array[AudioStream] = []  # 3 个变体
+var _blip_index: int = 0                   # 用于轮换变体
+var _current_profile: String = "default"   # 当前角色音效 profile
+
+
+func _ready() -> void:
+	# 创建 AudioStreamPlayer 用于播放打字音效
+	_audio_player = AudioStreamPlayer.new()
+	_audio_player.name = "TypewriterBlipPlayer"
+	_audio_player.bus = "Master"
+	add_child(_audio_player)
+	_load_blip_sounds()
+
+
+## 切换角色音效 profile（如 "male_young", "female_young", "male_rough" 等）
+func set_blip_profile(profile: String) -> void:
+	if _current_profile == profile:
+		return
+	_current_profile = profile
+	_load_blip_sounds()
+	_blip_index = 0  # 重置轮换索引
+
+
+func get_blip_profile() -> String:
+	return _current_profile
+
+
+func _load_blip_sounds() -> void:
+	_blip_sounds.clear()
+	# 优先加载 profile 专属音效
+	for i in range(1, 4):
+		var path := "res://assets/cn/sfx/blip_%s_%d.wav" % [_current_profile, i]
+		if ResourceLoader.exists(path):
+			_blip_sounds.append(load(path))
+	# 回退到默认 profile
+	if _blip_sounds.is_empty() and _current_profile != "default":
+		for i in range(1, 4):
+			var path := "res://assets/cn/sfx/blip_default_%d.wav" % i
+			if ResourceLoader.exists(path):
+				_blip_sounds.append(load(path))
+	# 最终回退：旧版 text_blip 文件
+	if _blip_sounds.is_empty():
+		var fallback := "res://assets/cn/sfx/text_blip.wav"
+		if ResourceLoader.exists(fallback):
+			_blip_sounds.append(load(fallback))
 
 
 func play(target: RichTextLabel, text: String) -> void:
@@ -60,6 +112,8 @@ func play(target: RichTextLabel, text: String) -> void:
 
 func skip() -> void:
 	_skip_requested = true
+	if _audio_player != null and _audio_player.playing:
+		_audio_player.stop()
 
 
 func is_playing() -> bool:
@@ -133,6 +187,9 @@ func _run_typewriter(run_id: int) -> void:
 		char_index += 1
 		_target.visible_characters = char_index
 
+		# 播放打字音效（跳过空白字符和标点）
+		_play_blip_for_char(char_index - 1)
+
 		# 计算延迟
 		var delay := _get_char_delay(char_index - 1)
 		if delay > 0.0:
@@ -151,7 +208,37 @@ func _run_typewriter(run_id: int) -> void:
 func _finish() -> void:
 	_target.visible_characters = -1
 	_playing = false
+	if _audio_player != null and _audio_player.playing:
+		_audio_player.stop()
 	finished.emit()
+
+
+## 为当前字符播放打字 blip 音效
+## 跳过空白、标点、省略号等非文字字符（避免噪音感）
+func _play_blip_for_char(char_pos: int) -> void:
+	if not typing_sound_enabled:
+		return
+	if _audio_player == null or _blip_sounds.is_empty():
+		return
+	if char_pos < 0 or char_pos >= _display_text.length():
+		return
+	var ch := _display_text[char_pos]
+	# 只为实际文字字符播放 blip，跳过标点和空白
+	if ch in [" ", "\t", "\n", "\r", "，", "、", ".", "。", "！", "？", "…", "—", "；", "：", ",", "!", "?", ":", ";", "(", ")", "（", "）", "\"", "\"", "'", "'", "《", "》", "「", "」"]:
+		return
+	# 有配音/TTS 播放时自动静音打字音效，避免声音冲突
+	var vp := get_node_or_null("/root/VoicePlayer")
+	if vp != null:
+		var vp_player = vp.get("_player")
+		if vp_player != null and vp_player.playing:
+			return
+	_audio_player.stream = _blip_sounds[_blip_index % _blip_sounds.size()]
+	_audio_player.volume_db = typing_sound_volume_db
+	# 每个 blip 稍微随机音高，增加自然感（16-bit RPG 风格）
+	_audio_player.pitch_scale = randf_range(0.94, 1.06)
+	_audio_player.play()
+	# 轮换变体
+	_blip_index = (_blip_index + 1) % _blip_sounds.size()
 
 
 ## 根据字符类型计算延迟

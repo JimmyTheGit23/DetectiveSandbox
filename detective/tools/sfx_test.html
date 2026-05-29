@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>音效测试 - SFX Test</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #1a1a2e; color: #eee; padding: 20px; }
+  h1 { text-align: center; margin-bottom: 20px; color: #e94560; }
+  .category { margin-bottom: 24px; }
+  .category h2 { color: #0f3460; background: #e94560; padding: 8px 16px; border-radius: 6px; margin-bottom: 10px; font-size: 16px; }
+  .sfx-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+  .sfx-btn {
+    background: #16213e; border: 1px solid #0f3460; color: #eee; padding: 12px 16px;
+    border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .sfx-btn:hover { background: #0f3460; border-color: #e94560; transform: translateY(-1px); }
+  .sfx-btn:active { transform: translateY(0); }
+  .sfx-btn .name { font-weight: bold; }
+  .sfx-btn .desc { color: #888; font-size: 12px; }
+  .sfx-btn.playing { border-color: #4ecca3; box-shadow: 0 0 10px #4ecca355; }
+  .play-all { display: block; margin: 0 auto 30px; padding: 12px 32px; background: #e94560; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+  .play-all:hover { background: #c73550; }
+  .status { text-align: center; margin-bottom: 20px; color: #4ecca3; }
+</style>
+</head>
+<body>
+<h1>🎵 音效测试面板</h1>
+<button class="play-all" onclick="playAll()">▶ 按顺序播放全部音效</button>
+<div class="status" id="status">点击按钮试听音效（共 22 个）</div>
+
+<div class="category">
+  <h2>🖱️ UI 音效</h2>
+  <div class="sfx-list" id="ui-sfx"></div>
+</div>
+
+<div class="category">
+  <h2>⌨️ 打字音效（16-bit RPG 风格）</h2>
+  <div class="sfx-list" id="typewriter-sfx"></div>
+</div>
+
+<div class="category">
+  <h2>🎮 游戏事件音效</h2>
+  <div class="sfx-list" id="event-sfx"></div>
+</div>
+
+<div class="category">
+  <h2>⚔️ 战斗音效</h2>
+  <div class="sfx-list" id="combat-sfx"></div>
+</div>
+
+<div class="category">
+  <h2>🌑 氛围音效</h2>
+  <div class="sfx-list" id="atmo-sfx"></div>
+</div>
+
+<script>
+const SFX_BASE = '../assets/cn/sfx/';
+
+const sfxData = {
+  ui: [
+    { file: 'click.wav', name: 'click', desc: '鼠标点击声' },
+    { file: 'ui_confirm.wav', name: 'ui_confirm', desc: '确认按钮 (C5→G5)' },
+    { file: 'ui_cancel.wav', name: 'ui_cancel', desc: '取消/返回 (A4→E4)' },
+    { file: 'ui_hover.wav', name: 'ui_hover', desc: '悬停聚焦' },
+    { file: 'ui_tab_switch.wav', name: 'ui_tab_switch', desc: '标签页切换' },
+  ],
+  typewriter: [
+    { file: 'text_blip.wav', name: 'text_blip', desc: '打字逐字音效 (480Hz 方波)' },
+    { file: 'text_blip_1.wav', name: 'text_blip_1', desc: '打字变体1 (480Hz)' },
+    { file: 'text_blip_2.wav', name: 'text_blip_2', desc: '打字变体2 (540Hz 高)' },
+    { file: 'text_blip_3.wav', name: 'text_blip_3', desc: '打字变体3 (420Hz 低)' },
+  ],
+  event: [
+    { file: 'discovery.wav', name: 'discovery', desc: '发现线索（小）' },
+    { file: 'discovery_big.wav', name: 'discovery_big', desc: '重大发现 (C5→E5→G5)' },
+    { file: 'page_flip.wav', name: 'page_flip', desc: '翻页声' },
+    { file: 'lock.wav', name: 'lock', desc: '上锁声' },
+    { file: 'unlock.wav', name: 'unlock', desc: '开锁声' },
+    { file: 'tick.wav', name: 'tick', desc: '滴答/倒计时' },
+    { file: 'notification.wav', name: 'notification', desc: '通知提示音' },
+    { file: 'investigate.wav', name: 'investigate', desc: '调查/检查' },
+    { file: 'map_open.wav', name: 'map_open', desc: '地图打开' },
+    { file: 'map_close.wav', name: 'map_close', desc: '地图关闭' },
+  ],
+  combat: [
+    { file: 'combat_hit.wav', name: 'combat_hit', desc: '攻击命中' },
+    { file: 'combat_dodge.wav', name: 'combat_dodge', desc: '闪避' },
+  ],
+  atmo: [
+    { file: 'suspense.wav', name: 'suspense', desc: '悬疑/紧张氛围' },
+  ]
+};
+
+function createBtn(sfx, containerId) {
+  const div = document.createElement('div');
+  div.className = 'sfx-btn';
+  div.innerHTML = `<div><div class="name">${sfx.name}</div><div class="desc">${sfx.desc}</div></div><span>🔊</span>`;
+  div.onclick = () => playSfx(sfx.file, div);
+  document.getElementById(containerId).appendChild(div);
+}
+
+function playSfx(file, btnEl) {
+  if (btnEl) {
+    btnEl.classList.add('playing');
+    setTimeout(() => btnEl.classList.remove('playing'), 500);
+  }
+  const audio = new Audio(SFX_BASE + file);
+  audio.play().catch(e => {
+    document.getElementById('status').textContent = '⚠️ 加载失败: ' + file + ' — 请确认文件路径正确';
+  });
+  document.getElementById('status').textContent = '▶ 播放: ' + file;
+}
+
+const catMap = { ui: 'ui-sfx', typewriter: 'typewriter-sfx', event: 'event-sfx', combat: 'combat-sfx', atmo: 'atmo-sfx' };
+Object.keys(sfxData).forEach(cat => {
+  sfxData[cat].forEach(sfx => createBtn(sfx, catMap[cat]));
+});
+
+let playAllTimer = null;
+function playAll() {
+  if (playAllTimer) { clearTimeout(playAllTimer); playAllTimer = null; return; }
+  const all = [...sfxData.ui, ...sfxData.typewriter, ...sfxData.event, ...sfxData.combat, ...sfxData.atmo];
+  let i = 0;
+  function next() {
+    if (i >= all.length) { document.getElementById('status').textContent = '✅ 全部播放完毕！'; return; }
+    document.getElementById('status').textContent = `▶ (${i+1}/${all.length}) ${all[i].name} — ${all[i].desc}`;
+    const audio = new Audio(SFX_BASE + all[i].file);
+    audio.play().catch(() => {});
+    i++;
+    playAllTimer = setTimeout(next, 800);
+  }
+  next();
+}
+</script>
+</body>
+</html>

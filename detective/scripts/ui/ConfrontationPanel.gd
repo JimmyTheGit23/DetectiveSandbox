@@ -60,8 +60,8 @@ var _press_btn: Button
 var _present_btn: Button
 var _evidence_panel: PanelContainer
 # ─── 证物册分页 ───
-const EVIDENCE_PER_PAGE := 8
-const EVIDENCE_GRID_COLUMNS := 4
+const EVIDENCE_PER_PAGE := 12
+const EVIDENCE_GRID_COLUMNS := 6
 var _evidence_items_cache: Array = []       # 缓存当前可出示证物ID列表
 var _selected_evidence_index: int = 0       # 全局选中索引（跨页）
 var _evidence_page_index: int = 0           # 当前页
@@ -1315,9 +1315,12 @@ func _make_evidence_card(eid: String, is_sel: bool) -> Button:
 		ph.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		vbox.add_child(ph)
 
-	# 名称
+	# 名称（卡片上最多显示5字，超出截断加省略号）
+	var display_name: String = ename
+	if display_name.length() > 5:
+		display_name = display_name.substr(0, 5) + "…"
 	var name_lbl := Label.new()
-	name_lbl.text = ename
+	name_lbl.text = display_name
 	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	name_lbl.add_theme_font_size_override("font_size", 13)
 	name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
