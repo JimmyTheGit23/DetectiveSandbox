@@ -215,9 +215,9 @@ func _build_ui() -> void:
 		_companion_rect.anchor_top = 0.0
 		_companion_rect.anchor_bottom = 1.0
 		_companion_rect.offset_left = -280
-		_companion_rect.offset_top = 60
+		_companion_rect.offset_top = -80
 		_companion_rect.offset_right = 20
-		_companion_rect.offset_bottom = 150
+		_companion_rect.offset_bottom = 80
 		_companion_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		_companion_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		_companion_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -966,6 +966,9 @@ func _on_press_clicked() -> void:
 		return
 	_state = State.PRESSING
 	_set_browsing_visible(false)
+
+	# 陆昭喊出"慢着！"
+	_play_protagonist_tts("慢着！")
 
 	var stmt: Dictionary = _statements[_current_stmt_idx]
 	var stmt_id: String = stmt.get("id", "")
@@ -1818,17 +1821,21 @@ func _camera_switch_to_npc(duration: float = 0.3) -> void:
 	)
 
 
-## 切换到主角镜头：NPC滑出右侧，主角+搭档从左侧滑入
-func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3) -> void:
+## 切换到主角镜头：NPC滑出右侧，说话角色从左侧滑入
+## show_both=true 时同时显示搭档（两人同框）
+func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3, show_both: bool = false) -> void:
 	if not CAMERA_SWITCH_ENABLED:
 		return
 	if _current_camera_view == "protagonist":
-		# 已经在主角镜头，只更新立绘
 		_update_protagonist_portraits(speaker_id)
+		# 如果需要显示两人，确保搭档可见
+		if show_both and _companion_rect:
+			_companion_rect.visible = true
+			_update_companion_portrait()
+			_companion_rect.modulate = Color(1, 1, 1, 0.9)
 		return
 	_current_camera_view = "protagonist"
 
-	# 杀死之前的镜头动画
 	if _camera_tween and _camera_tween.is_valid():
 		_camera_tween.kill()
 	_camera_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
@@ -1846,20 +1853,61 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3) ->
 		_camera_tween.tween_property(_protagonist_rect, "offset_right", 490.0, duration)
 		_camera_tween.tween_property(_protagonist_rect, "modulate:a", 1.0, duration * 0.5)
 
-		# 搭档从左侧滑入（身后位置，主角右侧偏后）
 		if _companion_rect:
-			_companion_rect.visible = true
-			_update_companion_portrait()
-			_camera_tween.tween_property(_companion_rect, "offset_left", 350.0, duration)
-			_camera_tween.tween_property(_companion_rect, "offset_right", 650.0, duration)
-			_camera_tween.tween_property(_companion_rect, "modulate:a", 0.9, duration * 0.5)
+			if show_both:
+				_companion_rect.visible = true
+				_update_companion_portrait()
+				_camera_tween.tween_property(_companion_rect, "offset_left", 350.0, duration)
+				_camera_tween.tween_property(_companion_rect, "offset_right", 650.0, duration)
+				_camera_tween.tween_property(_companion_rect, "modulate:a", 0.9, duration * 0.5)
+			else:
+				# 只显示主角，搭档淡出
+				_camera_tween.tween_property(_companion_rect, "modulate:a", 0.0, duration * 0.4)
 
-	# 等动画完成后隐藏NPC
 	_camera_tween.chain().tween_callback(func():
 		_portrait_rect.visible = false
+		if _companion_rect and not show_both:
+			_companion_rect.visible = false
 	)
 
-	# 隐藏小头像（角色已经在屏幕上了）
+	_dlg_portrait_rect.visible = false
+
+
+## 切换到搭档单独镜头：只显示搭档从左侧滑入（较小尺寸）
+func _camera_switch_to_companion_only(duration: float = 0.3) -> void:
+	if not CAMERA_SWITCH_ENABLED:
+		return
+	_current_camera_view = "protagonist"
+
+	if _camera_tween and _camera_tween.is_valid():
+		_camera_tween.kill()
+	_camera_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+
+	# NPC 滑出右侧 + 淡出
+	_camera_tween.tween_property(_portrait_rect, "offset_left", 560.0, duration)
+	_camera_tween.tween_property(_portrait_rect, "offset_right", 1080.0, duration)
+	_camera_tween.tween_property(_portrait_rect, "modulate:a", 0.0, duration * 0.6)
+
+	# 主角淡出
+	if _protagonist_rect:
+		_camera_tween.tween_property(_protagonist_rect, "modulate:a", 0.0, duration * 0.4)
+
+	# 搭档从左侧滑入（缩小：窄+矮，约主角的 70%）
+	if _companion_rect:
+		_companion_rect.visible = true
+		_update_companion_portrait()
+		_camera_tween.tween_property(_companion_rect, "offset_left", 50.0, duration)
+		_camera_tween.tween_property(_companion_rect, "offset_right", 400.0, duration)
+		_camera_tween.tween_property(_companion_rect, "offset_top", 100.0, duration)
+		_camera_tween.tween_property(_companion_rect, "offset_bottom", -100.0, duration)
+		_camera_tween.tween_property(_companion_rect, "modulate:a", 1.0, duration * 0.5)
+
+	_camera_tween.chain().tween_callback(func():
+		_portrait_rect.visible = false
+		if _protagonist_rect:
+			_protagonist_rect.visible = false
+	)
+
 	_dlg_portrait_rect.visible = false
 
 
@@ -1874,10 +1922,16 @@ func _update_protagonist_portraits(speaker_id: String) -> void:
 	if path != "" and ResourceLoader.exists(path):
 		_protagonist_rect.texture = load(path)
 
-## 更新搭档立绘纹理
+## 更新搭档立绘纹理（对峙模式使用 confrontation_pose 立绘）
 func _update_companion_portrait() -> void:
 	if not _companion_rect:
 		return
+	# 优先使用对峙专用立绘
+	var confrontation_path := "res://assets/cn/portraits/companion_lingyao_confrontation_normal.png"
+	if ResourceLoader.exists(confrontation_path):
+		_companion_rect.texture = load(confrontation_path)
+		return
+	# 回退
 	var path := AssetResolver.resolve_case_portrait("xia_lingyao", "anxious", GameManager.npcs_data, "dialogue")
 	if path == "" or not ResourceLoader.exists(path):
 		path = AssetResolver.resolve_case_portrait("xia_lingyao", "normal", GameManager.npcs_data, "dialogue")
@@ -1891,31 +1945,36 @@ func _camera_reset_to_npc() -> void:
 	_camera_switch_to_npc(0.3)
 
 ## 在对话行播放前自动切换镜头
+## 默认只显示说话角色，除非 line_data 中有 "show_both": true
 func _auto_camera_switch(speaker: String, emotion: String, line_data: Dictionary = {}) -> void:
 	if not CAMERA_SWITCH_ENABLED:
 		return
 	# 叙述/内心独白 → 不切换镜头，保持当前状态
 	if emotion == "narration" or emotion == "inner_thought" or speaker == "":
 		return
+	# 检查是否需要显示两人同框
+	var show_both: bool = bool(line_data.get("show_both", false))
 	# 主角说话 → 切到主角镜头
 	if _is_protagonist_speaker(speaker, line_data):
 		var speaker_id: String = "lu_zhao"
 		var sid: String = str(line_data.get("speaker_id", ""))
 		if sid != "":
 			speaker_id = _normalize_speaker_id(sid)
-		_camera_switch_to_protagonist(speaker_id)
-	# 搭档说话 → 也切到主角镜头（搭档已经在屏幕上）
+		_camera_switch_to_protagonist(speaker_id, 0.3, show_both)
 	elif _is_companion_speaker(speaker, line_data):
-		_camera_switch_to_protagonist("lu_zhao")
-		# 高亮搭档：搭档更亮，主角稍暗
-		if _companion_rect:
-			_companion_rect.modulate = Color(1, 1, 1, 1.0)
-		if _protagonist_rect:
-			_protagonist_rect.modulate = Color(0.7, 0.7, 0.7, 0.8)
+		if show_both:
+			# 两人同框：主角+搭档都可见
+			_camera_switch_to_protagonist("lu_zhao", 0.3, true)
+			if _companion_rect:
+				_companion_rect.modulate = Color(1, 1, 1, 1.0)
+			if _protagonist_rect:
+				_protagonist_rect.modulate = Color(0.7, 0.7, 0.7, 0.8)
+		else:
+			# 只显示搭档
+			_camera_switch_to_companion_only(0.3)
 	# NPC/其他人说话 → 切到NPC镜头
 	else:
 		_camera_switch_to_npc()
-		# 恢复搭档亮度（为下次切回做准备）
 		if _companion_rect:
 			_companion_rect.modulate = Color(1, 1, 1, 0.85)
 		if _protagonist_rect:
@@ -2127,3 +2186,26 @@ func _find_npc_id_by_speaker(speaker_name: String) -> String:
 		if GameManager.get_npc_display_name(str(npc_id)) == normalized_name:
 			return str(npc_id)
 	return ""
+
+
+# ═══════════════════════════════════════════════════
+#  TTS 语音合成
+# ═══════════════════════════════════════════════════
+
+## 为主角（陆昭）播放 TTS 语音，用于威慑等动作时的喊话
+func _play_protagonist_tts(text: String) -> void:
+	var tts := get_node_or_null("/root/TTSService")
+	if tts == null or not tts.is_available():
+		return
+	var voice_id: String = tts.get_voice_id("lu_zhao")
+	if voice_id == "":
+		return
+	# 用固定缓存 key 避免重复请求
+	var cache_key := "press_lu_zhao_%d" % hash(text)
+	var cache_dir := "user://tts_cache/"
+	var cache_path := cache_dir + cache_key + ".mp3"
+	if FileAccess.file_exists(cache_path):
+		VoicePlayer.play_voice_path(cache_path)
+		return
+	# 使用 TTSService 的 request_tts_speaker 发起请求并自动播放
+	tts.request_tts_speaker("陆昭", text, voice_id)
