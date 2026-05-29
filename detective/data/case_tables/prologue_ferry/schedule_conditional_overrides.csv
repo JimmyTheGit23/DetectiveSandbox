@@ -1,2 +1,7 @@
-npc_id,order,if_flag,location,activity,public
-shen_qingyue,1,agui_confessed_mastermind,shen_room,退回二楼房间闭门不出,true
+﻿npc_id,if_flag,location,activity,public
+li_zheng,agui_confessed_mastermind,ferry_inn,assist_investigation,true
+zhou_wife,agui_confessed_mastermind,zhou_room,shocked_waiting,true
+agui,agui_confessed_mastermind,agui_room,detained_in_woodshed,
+shen_qingyue,agui_confessed_mastermind,shen_room,closed_door_defense,true
+lao_fan,agui_confessed_mastermind,ferry_dock,watched_by_helpers,true
+fisherman_wang,agui_confessed_mastermind,river_bend,recall_dawn_sighting,true

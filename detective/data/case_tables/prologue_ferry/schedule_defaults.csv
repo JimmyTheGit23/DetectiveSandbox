@@ -1,2 +1,7 @@
-npc_id,role_note,location,activity,public
-shen_qingyue,追债的外地药材商女儿,inn_corridor,靠在柱子上抱臂等人,true
+﻿npc_id,role_note,location,activity,public
+li_zheng,里正,ferry_inn,press_for_closure,true
+zhou_wife,死者妻子,zhou_room,mourning,true
+agui,仆从，中间凶手,agui_room,hide_in_room,true
+shen_qingyue,药材行姑娘，最终对手,inn_corridor,openly_provoke,true
+lao_fan,船家，共犯,ferry_dock,guard_boat,true
+fisherman_wang,下游渔翁，关键证人,river_bend,mend_nets,true

@@ -1,10 +1,11 @@
-unlock_type,target_id,condition,locked_hint,writer_note
-search_point_unlock,ferry_inn.inn_agui_room,"{""all"":[{""evidence"":""evidence_hull_hole""},{""any"":[{""clue"":""clue_wife_suspicion""},{""clue"":""clue_agui_dry_inner""}]}]}",没有理由搜查别人的房间。也许先找到船被动手脚的证据，再回来找嫌疑人的破绽。,
-search_point_unlock,wreck_site.wreck_shore_bag,"{""any"":[{""clue"":""clue_agui_suspicious_bag""},{""evidence"":""evidence_hull_hole""}]}",芦苇丛似乎有什么东西，但太远了看不清。需要更多线索才能确定该不该去翻。,
-search_point_unlock,shen_room.shen_desk,"{""any"":[{""evidence"":""evidence_shen_connection""},{""clue"":""clue_agui_spending""}]}",没有搜查理由。需要先找到沈清月与本案有关的证据。,
-search_point_unlock,gambling_alley.gambling_den,"{""flag"":""agui_confessed_mastermind""}",赌坊在渡口后街。目前没有理由去那里。,
-npc_unlock,fisherman_wang,"{""any"":[{""evidence"":""evidence_hull_hole""},{""clue"":""clue_reef_common_knowledge""},{""total_periods_used_gte"":10}]}",,
-npc_unlock,shen_qingyue,,,沈清月在phase_1就可以交谈（她是'追债的外地人'），但Phase 3后对话树会解锁新分支。
-npc_unlock,agui,"{""not"":{""flag"":""agui_confessed_mastermind""}}",阿贵已被押往后院柴房。,阿贵认罪后从对话列表中移除
-confrontation_unlock,confrontation_a,"{""all"":[{""evidence"":""evidence_hull_hole""},{""evidence"":""evidence_float_bladder""},{""evidence"":""evidence_no_blunt_trauma""},{""evidence"":""evidence_wrong_channel""},{""any"":[{""evidence"":""evidence_dismissal_note""},{""evidence"":""evidence_gambling_iou""}]}]}",,阿贵中BOSS对质——需要至少3件Phase A证据
-confrontation_unlock,confrontation_final,"{""all"":[{""flag"":""agui_confessed_mastermind""},{""evidence_count_gte"":2,""from"":[""evidence_salvage_mark"",""evidence_shen_connection"",""evidence_dock_timing"",""evidence_father_ledger""]}]}",,沈清月FINAL BOSS对质——需要阿贵认罪 + 至少2件Phase B证据
+﻿unlock_type,target_id,condition,locked_hint,writer_note
+search_point_unlock,ferry_inn.inn_agui_room,"{""all"": [{""evidence"": ""evidence_hull_hole""}, {""any"": [{""clue"": ""clue_wife_suspicion""}, {""clue"": ""clue_agui_dry_inner""}]}]}",没有理由搜查别人的房间。也许先找到船被动手脚的证据，再回来找嫌疑人的破绽。,
+search_point_unlock,wreck_site.wreck_shore_bag,"{""any"": [{""clue"": ""clue_agui_suspicious_bag""}, {""evidence"": ""evidence_hull_hole""}]}",芦苇丛似乎有什么东西，但太远了看不清。需要更多线索才能确定该不该去翻。,
+search_point_unlock,shen_room.shen_desk,"{""flag"": ""agui_confessed_mastermind""}",阿贵还没招供，现在没有理由搜沈清月的房间。,
+search_point_unlock,shen_room.shen_window,"{""flag"": ""agui_confessed_mastermind""}",阿贵还没招供，现在没有理由搜沈清月的房间。,
+search_point_unlock,gambling_alley.gambling_den,"{""flag"": ""agui_confessed_mastermind""}",赌坊在渡口后街。目前没有理由去那里。,
+search_point_unlock,gambling_alley.gambling_alley_wall,"{""flag"": ""agui_confessed_mastermind""}",后巷暂时没有调查价值。,
+npc_unlock,fisherman_wang,"{""any"": [{""evidence"": ""evidence_hull_hole""}, {""clue"": ""clue_reef_common_knowledge""}, {""total_periods_used_gte"": 10}]}",,
+npc_unlock,shen_qingyue,null,,沈清月在phase_1就可以交谈（她是'追债的外地人'），但Phase 3后对话树会解锁新分支。
+confrontation_unlock,confrontation_a,"{""all"": [{""evidence"": ""evidence_hull_hole""}, {""evidence"": ""evidence_float_bladder""}, {""evidence"": ""evidence_no_blunt_trauma""}, {""evidence"": ""evidence_wrong_channel""}, {""evidence"": ""clue_fan_alibi_hole""}, {""evidence"": ""evidence_dismissal_note""}, {""evidence"": ""evidence_gambling_iou""}]}",,阿贵中BOSS对质——需要船底破洞、浮囊、尸检、错误航道、老范时间矛盾、阿贵遣散动机、老范赌债。
+confrontation_unlock,confrontation_final,"{""all"": [{""flag"": ""agui_confessed_mastermind""}, {""evidence"": ""evidence_cargo_silver""}, {""evidence"": ""evidence_salvage_mark""}, {""evidence"": ""evidence_shen_connection""}, {""evidence"": ""evidence_dock_timing""}]}",,沈清月FINAL BOSS对质——需要阿贵认罪 + 货银未沉 + 打捞目击 + 中间人/赌坊连接 + 码头时间矛盾。

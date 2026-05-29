@@ -1,9 +1,12 @@
-confrontation_id,order,testimony_id,witness,title,writer_note
-confrontation,1,testimony_wang,fisherman_wang,— 证人证词：王大爷 —,
-confrontation,2,testimony_0,,— 证词其一：他杀了老爷！ —,
-confrontation,3,testimony_1,,— 证词其二：那晚的经过 —,
-confrontation,4,testimony_2,,— 证词其三：关于那个洞 —,
-confrontation,5,testimony_3,,— 证词其四：不是我干的 —,
-confrontation_final,1,shen_testimony_1,,— 证词其一：我没有理由 —,
-confrontation_final,2,shen_testimony_2,,— 证词其二：我跟他们没有关系 —,
-confrontation_final,3,shen_testimony_3,,— 证词其三：你没有证据 —,
+﻿confrontation_id,testimony_id,witness,title,order
+confrontation,testimony_wang,fisherman_wang,— 证人证词：王大爷 —,0
+confrontation,testimony_lao_fan_route,lao_fan,— 证人证词：老范其一·翻船原因 —,1
+confrontation,testimony_lao_fan_rescue,lao_fan,— 证人证词：老范其二·落水之后 —,2
+confrontation,testimony_lao_fan_motive,lao_fan,— 证人证词：老范其三·无冤无仇 —,3
+confrontation,testimony_0,,— 证词其一：他杀了老爷！ —,4
+confrontation,testimony_1,,— 证词其二：那晚的经过 —,5
+confrontation,testimony_2,,— 证词其三：关于那个洞 —,6
+confrontation,testimony_3,,— 证词其四：不是我干的 —,7
+confrontation_final,shen_testimony_1,,— 证词其一：我没有理由 —,8
+confrontation_final,shen_testimony_2,,— 证词其二：我跟他们没有关系 —,9
+confrontation_final,shen_testimony_3,,— 证词其三：你没有证据 —,10

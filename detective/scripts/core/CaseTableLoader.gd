@@ -107,11 +107,11 @@ static func load_case(case_id: String) -> Dictionary:
 		"portrait_expressions": _compile_portrait_expressions(src),
 		"dialogues": _compile_dialogues(src, docs.get("dialogues_base", {})),
 		"bgm_config": docs.get("bgm_config", {}),
-		"prologue": docs.get("prologue", {}),
-		"epilogue_meta": docs.get("epilogue_meta", {}),
+		"prologue": _compile_prologue(src, docs.get("prologue", {})),
+		"epilogue_meta": _compile_epilogue_meta(src, docs.get("epilogue_meta", {})),
 		"companion_config": docs.get("companion_config", {}),
-		"companion_discussions": docs.get("companion_discussions", {}),
-		"companion_banter": docs.get("companion_banter", {}),
+		"companion_discussions": _compile_companion_discussions(src, docs.get("companion_discussions", {})),
+		"companion_banter": _compile_companion_banter(src, docs.get("companion_banter", {})),
 	}
 	_case_cache[case_id] = data.duplicate(true)
 	return data
@@ -961,5 +961,180 @@ static func _compile_portrait_expressions(src: String) -> Dictionary:
 			continue
 		_ensure_dict(portraits, base)[emotion] = portrait
 	return {"_comment": "Generated at runtime from portrait_expressions.csv", "portraits": portraits}
+
+
+# ─── 表格编译：序章 / 尾声 / 伙伴系统 ───────────────────────────────────────
+
+static func _compile_prologue(src: String, fallback: Dictionary = {}) -> Dictionary:
+	var node_rows := _rows("%s/prologue_nodes.csv" % src)
+	if node_rows.is_empty():
+		return fallback.duplicate(true)
+	var line_rows := _rows("%s/prologue_lines.csv" % src)
+	var choice_rows := _rows("%s/prologue_choices.csv" % src)
+	var lines_by_node := {}
+	for row in line_rows:
+		var nid := _cell(row, "node_id")
+		if nid == "":
+			continue
+		_append_group(lines_by_node, nid, row)
+	var choices_by_node := {}
+	for row in choice_rows:
+		var nid := _cell(row, "node_id")
+		if nid == "":
+			continue
+		_append_group(choices_by_node, nid, row)
+	var nodes := {}
+	var start_node := ""
+	for row in node_rows:
+		var nid := _cell(row, "node_id")
+		if nid == "":
+			continue
+		if start_node == "":
+			start_node = nid
+		var node := {}
+		_set_if(node, "background", _cell(row, "background"))
+		_set_if(node, "next", _cell(row, "next"))
+		if _parse_bool(row.get("centered", false)):
+			node["centered"] = true
+		if _parse_bool(row.get("end", false)):
+			node["end"] = true
+		_set_if(node, "portrait", _cell(row, "portrait"))
+		_set_if(node, "emotion", _cell(row, "emotion"))
+		var fx_str := _cell(row, "fx")
+		if fx_str != "":
+			node["fx"] = _parse_json_any(fx_str, {})
+		var effect_str := _cell(row, "effect")
+		if effect_str != "":
+			node["effect"] = _parse_json_any(effect_str, {})
+		var node_type := _cell(row, "type")
+		if node_type != "":
+			node["type"] = node_type
+		# Lines (text)
+		var nlines: Array = lines_by_node.get(nid, [])
+		if not nlines.is_empty():
+			var first_line: Dictionary = nlines[0]
+			_set_if(node, "speaker", _cell(first_line, "speaker"))
+			_set_if(node, "text", _cell(first_line, "text"))
+		# Choices
+		var nchoices: Array = choices_by_node.get(nid, [])
+		if not nchoices.is_empty():
+			var c_arr: Array = []
+			for crow in nchoices:
+				var c := {"text": _cell(crow, "text"), "goto": _cell(crow, "goto")}
+				var req_str := _cell(crow, "requires")
+				if req_str != "":
+					c["requires"] = _parse_json_any(req_str, {})
+				c_arr.append(c)
+			node["choices"] = c_arr
+		nodes[nid] = node
+	# Preserve start metadata from fallback
+	var out := {}
+	_set_if(out, "_comment", fallback.get("_comment", ""))
+	_set_if(out, "_design_note", fallback.get("_design_note", ""))
+	out["start"] = fallback.get("start", start_node)
+	out["nodes"] = nodes
+	return out
+
+
+static func _compile_epilogue_meta(src: String, fallback: Dictionary = {}) -> Dictionary:
+	var scene_rows := _rows("%s/epilogue_scenes.csv" % src)
+	if scene_rows.is_empty():
+		return fallback.duplicate(true)
+	var line_rows := _rows("%s/epilogue_lines.csv" % src)
+	var lines_by_scene := {}
+	for row in line_rows:
+		var sid := _cell(row, "scene_id")
+		if sid == "":
+			continue
+		_append_group(lines_by_scene, sid, row)
+	var scenes: Array = []
+	for srow in scene_rows:
+		var sid := _cell(srow, "scene_id")
+		if sid == "":
+			continue
+		var scene := {}
+		_set_if(scene, "id", sid)
+		_set_if(scene, "type", _cell(srow, "type"))
+		_set_if(scene, "background", _cell(srow, "background"))
+		_set_if(scene, "bgm", _cell(srow, "bgm"))
+		var slines: Array = []
+		for lr in lines_by_scene.get(sid, []):
+			slines.append({"speaker": _cell(lr, "speaker"), "text": _cell(lr, "text")})
+		if not slines.is_empty():
+			scene["lines"] = slines
+		scenes.append(scene)
+	var out := {}
+	_set_if(out, "_comment", fallback.get("_comment", ""))
+	out["trigger_endings"] = fallback.get("trigger_endings", [])
+	out["scenes"] = scenes
+	return out
+
+
+static func _compile_companion_discussions(src: String, fallback: Dictionary = {}) -> Dictionary:
+	var rows := _rows("%s/companion_discussions.csv" % src)
+	if rows.is_empty():
+		return fallback.duplicate(true)
+	var out := {}
+	for row in rows:
+		var topic_id := _cell(row, "topic_id")
+		if topic_id == "":
+			continue
+		if not out.has(topic_id):
+			out[topic_id] = {"rules": []}
+		var rule := {}
+		var when_str := _cell(row, "when")
+		if when_str != "":
+			rule["when"] = _parse_json_any(when_str, {})
+		var lines_str := _cell(row, "lines")
+		if lines_str != "":
+			rule["lines"] = _parse_json_any(lines_str, [])
+		if _parse_bool(row.get("once", false)):
+			rule["once"] = true
+		var priority = _parse_int(row.get("priority", ""), null)
+		if priority != null:
+			rule["priority"] = priority
+		# Check for pool-style (chitchat) with default:true when
+		var when_dict = rule.get("when", {})
+		if when_dict is Dictionary and when_dict.get("default", false):
+			var lines_arr = rule.get("lines", [])
+			if lines_arr is Array and not lines_arr.is_empty() and out[topic_id]["rules"].is_empty():
+				out[topic_id]["pool"] = lines_arr
+				continue
+		out[topic_id]["rules"].append(rule)
+	# Preserve _comment keys from fallback
+	for topic_id in fallback.keys():
+		if topic_id.begins_with("_"):
+			if not out.has(topic_id):
+				out[topic_id] = fallback[topic_id]
+	return out
+
+
+static func _compile_companion_banter(src: String, fallback: Dictionary = {}) -> Dictionary:
+	var rows := _rows("%s/companion_banter.csv" % src)
+	if rows.is_empty():
+		return fallback.duplicate(true)
+	var rules: Array = []
+	for row in rows:
+		var rule := {}
+		_set_if(rule, "id", _cell(row, "banter_id"))
+		var when_str := _cell(row, "when")
+		if when_str != "":
+			rule["when"] = _parse_json_any(when_str, {})
+		var req_str := _cell(row, "requires")
+		if req_str != "":
+			rule["requires"] = _parse_json_any(req_str, {})
+		var lines_str := _cell(row, "lines")
+		if lines_str != "":
+			rule["lines"] = _parse_json_any(lines_str, [])
+		var effect_str := _cell(row, "effect")
+		if effect_str != "":
+			rule["effect"] = _parse_json_any(effect_str, {})
+		if _parse_bool(row.get("once", false)):
+			rule["once"] = true
+		var priority = _parse_int(row.get("priority", ""), null)
+		if priority != null:
+			rule["priority"] = priority
+		rules.append(rule)
+	return {"_comment": fallback.get("_comment", "Generated at runtime from companion_banter.csv"), "rules": rules}
 
 
