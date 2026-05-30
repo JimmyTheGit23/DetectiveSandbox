@@ -1,9 +1,10 @@
 {
-  "_comment": "阿贵对话树。主犯。初始伪装悲痛，被质问后逐渐露出马脚。",
+  "_comment": "Generated from data/case_tables dialogue CSV.",
   "start": "hub",
   "nodes": {
     "hub": {
       "text": "你……你是昨晚同船的那位？听说里正给了你两天。你要问什么……问吧。",
+      "emotion": "crying",
       "options": [
         {
           "text": "问问当晚发生了什么",
@@ -13,70 +14,72 @@
         {
           "text": "你和周德茂关系怎样？",
           "goto": "ask_relationship",
+          "type": "press",
           "requires": [
             {
               "flag": "agui_talked_once"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "你是怎么从水里活下来的？",
           "goto": "press_alibi",
+          "type": "press",
           "requires": [
             {
               "flag": "agui_talked_once"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "你被遣散的时候，心里没怨气？",
           "goto": "show_dismissal",
+          "type": "press",
           "requires": [
             {
               "evidence": "evidence_dismissal_note"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "你包袱里的东西，都是你自己的？",
           "goto": "show_bladder",
+          "type": "press",
           "requires": [
             {
               "evidence": "evidence_float_bladder"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "你跟了周德茂十二年……这些年过得怎么样？",
           "goto": "ask_twelve_years",
+          "type": "observe",
           "requires": [
             {
               "flag": "agui_talked_once"
             }
-          ],
-          "type": "observe"
+          ]
         },
         {
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "emotion": "crying"
+      ]
     },
     "intro": {
+      "set_flags": [
+        "agui_talked_once"
+      ],
       "lines": [
         {
-          "speaker_id": "agui",
           "text": "那天晚上……老爷急着过江，老范说夜里也能走。小的只是跟着上了船，哪敢多嘴。",
+          "speaker_id": "agui",
           "emotion": "grief"
         },
         {
-          "speaker_id": "agui",
           "text": "到了江心，突然船就晃得厉害——然后水就涌进来了！什么都看不见！小的拼命去拉老爷的手，没拉住……",
+          "speaker_id": "agui",
           "emotion": "grief",
           "highlight": [
             "水涌进来",
@@ -84,18 +87,23 @@
           ]
         },
         {
-          "speaker_id": "agui",
-          "text": "小的不知道是谁害了老爷……小的只知道，自己没把老爷救回来。",
-          "emotion": "grief"
-        },
-        {
+          "text": "他没有急着咬谁，只把自己说成了一个慌乱救主的人。",
           "speaker_id": "xia_lingyao",
-          "text": "他没有急着咬谁，只把自己说成了一个慌乱救主的人。听起来可怜，但也太干净了。",
           "emotion": "worried"
         },
         {
-          "speaker_id": "lu_zhao",
+          "text": "小的不知道是谁害了老爷……小的只知道，自己没把老爷救回来。",
+          "speaker_id": "agui",
+          "emotion": "grief"
+        },
+        {
+          "text": "他没有急着咬谁，只把自己说成了一个慌乱救主的人。听起来可怜，但也太干净了。",
+          "speaker_id": "xia_lingyao",
+          "emotion": "worried"
+        },
+        {
           "text": "先听着。看他后面怎么说。",
+          "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
       ],
@@ -108,21 +116,18 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "agui_talked_once"
       ]
     },
     "ask_relationship": {
       "lines": [
         {
-          "speaker_id": "agui",
           "text": "老爷对小的有知遇之恩。十六岁进的门，什么都不会——是老爷手把手教的。",
+          "speaker_id": "agui",
           "emotion": "grief"
         },
         {
-          "speaker_id": "agui",
           "text": "十二年了……小的半条命都是老爷给的。现在老爷没了……小的不知道该怎么办。",
+          "speaker_id": "agui",
           "emotion": "grief"
         }
       ],
@@ -140,29 +145,29 @@
     "press_alibi": {
       "lines": [
         {
-          "speaker_id": "agui",
           "text": "小的不会水……当时什么都看不见，只觉得冷。手里好像抓到了一块板子——死死抱住不敢放。",
+          "speaker_id": "agui",
           "emotion": "grief",
-          "highlight": [
-            "抱着一块船板"
-          ],
           "record_type": "testimony",
           "record_title": "证词记录：阿贵的生还说法",
-          "record_text": "阿贵声称自己抱着一块船板漂上岸。"
+          "record_text": "阿贵声称自己抱着一块船板漂上岸。",
+          "highlight": [
+            "抱着一块船板"
+          ]
         },
         {
-          "speaker_id": "agui",
           "text": "后来就什么都不知道了。醒过来已经在岸上。命大吧……可老爷就没这么幸运了……",
+          "speaker_id": "agui",
           "emotion": "grief"
         },
         {
-          "speaker_id": "xia_lingyao",
           "text": "冬天的江水，不会游泳的人抱块板子就能活？说得倒轻巧。",
+          "speaker_id": "xia_lingyao",
           "emotion": "worried"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "先记下。他的说法站不稳。",
+          "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
       ],
@@ -178,25 +183,38 @@
       ]
     },
     "show_dismissal": {
+      "set_flags": [
+        "agui_dismissal_confronted"
+      ],
       "lines": [
         {
+          "text": "大、大人——遣散？那是……那是老爷另有安排。老爷说让小的回乡置点田产，过自在日子。",
           "speaker_id": "agui",
-          "text": "（猛然紧张起来，改了称呼）大、大人——遣散？那是……那是老爷另有安排。老爷说让小的回乡置点田产，过自在日子。",
           "emotion": "nervous"
         },
         {
+          "text": "老爷是为小的好。十二年了……也该放小的走了。",
           "speaker_id": "agui",
-          "text": "（攥紧拳头，声音微颤）老爷是为小的好。十二年了……也该放小的走了。",
           "emotion": "shaken"
         },
         {
+          "text": "另有安排？什么样的安排？",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "小的没有怨恨。真的。",
           "speaker_id": "agui",
-          "text": "（松开手）小的没有怨恨。真的。",
           "emotion": "defensive"
         },
         {
+          "text": "十二年了，就换来一句放你走？",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "嘴上说没有，拳头都攥白了。记下来——演技不错，但细节骗不了人。",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）嘴上说没有，拳头都攥白了。记下来——演技不错，但细节骗不了人。",
           "emotion": "determined"
         }
       ],
@@ -209,26 +227,26 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "agui_dismissal_confronted"
       ]
     },
     "show_bladder": {
+      "set_flags": [
+        "agui_bladder_confronted"
+      ],
       "lines": [
         {
-          "speaker_id": "agui",
           "text": "包袱？当、当然都是小的的……衣服被褥什么的……",
+          "speaker_id": "agui",
           "emotion": "nervous"
         },
         {
+          "text": "大……您、您为什么突然问这个……",
           "speaker_id": "agui",
-          "text": "（眼神飘忽，突然换了称呼）大……您、您为什么突然问这个……",
           "emotion": "panic"
         },
         {
+          "text": "心虚了。他包袱里肯定有鬼，回头正式审的时候再拿出来——打他个措手不及。",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）心虚了。他包袱里肯定有鬼，回头正式审的时候再拿出来——打他个措手不及。",
           "emotion": "determined"
         }
       ],
@@ -241,38 +259,35 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "agui_bladder_confronted"
       ]
     },
     "confession": {
-      "lines": [
-        {
-          "speaker_id": "lu_zhao",
-          "text": "阿贵。我不想再绕弯子了。",
-          "emotion": "cold"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "浮囊、船底的洞、你那身衣服——所有证据都指向你。",
-          "emotion": "cold"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "大人！小的——小的是冤枉的！",
-          "emotion": "panic"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "那好。一条一条过。你说的每一句话——我都有东西反驳。",
-          "emotion": "serious"
-        }
-      ],
       "set_flags": [
         "confrontation_triggered"
       ],
       "trigger_confrontation": true,
+      "lines": [
+        {
+          "text": "阿贵。我不想再绕弯子了。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "浮囊、船底的洞、你那身衣服——所有证据都指向你。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "大人！小的——小的是冤枉的！",
+          "speaker_id": "agui",
+          "emotion": "panic"
+        },
+        {
+          "text": "那好。一条一条过。你说的每一句话——我都有东西反驳。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
       "options": [
         {
           "text": "开始对峙",
@@ -284,71 +299,81 @@
     "ask_twelve_years": {
       "lines": [
         {
-          "speaker_id": "agui",
-          "text": "十二年？……大人怎么突然问这个？"
+          "text": "十二年？……大人怎么突然问这个？",
+          "speaker_id": "agui"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "随便聊聊。十二年不短了。",
+          "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
+          "text": "……不短。",
           "speaker_id": "agui",
-          "text": "……不短。（沉默了一会儿，开始搓手）",
           "emotion": "nervous"
         },
         {
-          "speaker_id": "agui",
           "text": "小的十六岁进周家。什么都不会。老爷说'跟着学三年就放你出师'。",
+          "speaker_id": "agui",
           "emotion": "crying"
         },
         {
-          "speaker_id": "agui",
-          "text": "三年……五年……八年。出师的事再没提过。"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "中间想走过。跟老爷说想回乡。他说'走可以，把这些年吃穿的钱还了再走'。小的哪还得起？只好继续待着。",
-          "emotion": "nervous"
-        },
-        {
-          "speaker_id": "xia_lingyao",
-          "text": "……这不是卖身契？",
-          "emotion": "shocked"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "大约……算是吧。但小的没地方去。爹娘早没了。只有这一个主人。",
-          "emotion": "grief"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "前几年还好。老爷生意好的时候心情也好，偶尔给几十文赏钱。后来生意差了——骂的就多了。打也打过。",
-          "emotion": "nervous"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "小的有个相好的——隔壁村的姑娘。存了两年钱想下聘。结果钱被老爷'借走'——说是补生意上的窟窿。",
-          "emotion": "grief"
-        },
-        {
-          "speaker_id": "agui",
-          "text": "那姑娘等了一年……后来嫁别人了。",
-          "emotion": "grief"
-        },
-        {
+          "text": "三年五年八年……出师的事再没提过。",
           "speaker_id": "lu_zhao",
-          "text": "……",
           "emotion": "serious"
         },
         {
+          "text": "三年……五年……八年。出师的事再没提过。",
+          "speaker_id": "agui"
+        },
+        {
+          "text": "中间想走过。跟老爷说想回乡。他说'走可以，把这些年吃穿的钱还了再走'。小的哪还得起？只好继续待着。",
+          "speaker_id": "agui",
+          "emotion": "nervous"
+        },
+        {
+          "text": "……这不是卖身契？",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）……",
+          "emotion": "shocked"
+        },
+        {
+          "text": "大约……算是吧。但小的没地方去。爹娘早没了。只有这一个主人。",
+          "speaker_id": "agui",
+          "emotion": "grief"
+        },
+        {
+          "text": "前几年还好。老爷生意好的时候心情也好，偶尔给几十文赏钱。后来生意差了——骂的就多了。打也打过。",
+          "speaker_id": "agui",
+          "emotion": "nervous"
+        },
+        {
+          "text": "骂的就多了。打也打过……十二年。",
+          "speaker_id": "xia_lingyao",
           "emotion": "worried"
         },
         {
+          "text": "小的有个相好的——隔壁村的姑娘。存了两年钱想下聘。结果钱被老爷'借走'——说是补生意上的窟窿。",
           "speaker_id": "agui",
-          "text": "大人，小的不是好人。但小的……这十二年过的也不是人过的日子。（低下头）",
+          "emotion": "grief"
+        },
+        {
+          "text": "那姑娘等了一年……后来嫁别人了。",
+          "speaker_id": "agui",
+          "emotion": "grief"
+        },
+        {
+          "text": "……",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "……",
+          "speaker_id": "xia_lingyao",
+          "emotion": "worried"
+        },
+        {
+          "text": "大人，小的不是好人。但小的……这十二年过的也不是人过的日子。",
+          "speaker_id": "agui",
           "emotion": "grief"
         }
       ],

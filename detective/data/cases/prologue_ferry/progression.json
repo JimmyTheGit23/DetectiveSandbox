@@ -1,13 +1,16 @@
 {
   "_comment": "渐进式信息开放。三阶段结构：调查A（指向阿贵）→ 阿贵对质 → 调查B（追查沈清月）→ 最终对质。",
-
   "phases": [
     {
       "id": "phase_1",
       "title": "初步调查",
       "description": "勘察沉船残骸，走访滞留人员",
       "hint": "先去码头和打捞处看看那条船，再问问死者妻子和那个仆从。",
-      "locations": ["ferry_inn", "ferry_dock", "wreck_site"],
+      "locations": [
+        "ferry_inn",
+        "ferry_dock",
+        "wreck_site"
+      ],
       "unlock_condition": null
     },
     {
@@ -15,11 +18,17 @@
       "title": "深入追查",
       "description": "船底的破洞说明这不是意外。下游渔村有人知道更多。",
       "hint": "有个老渔翁住在下游江湾，案发当夜他在江上。去找他。",
-      "locations": ["river_bend"],
+      "locations": [
+        "river_bend"
+      ],
       "unlock_condition": {
         "any": [
-          { "evidence": "evidence_hull_hole" },
-          { "evidence": "evidence_wrong_channel" }
+          {
+            "evidence": "evidence_hull_hole"
+          },
+          {
+            "evidence": "evidence_wrong_channel"
+          }
         ]
       }
     },
@@ -28,24 +37,31 @@
       "title": "追查幕后",
       "description": "阿贵不是主谋——他背后还有人。那个'教他的人'，就在这客栈里。",
       "hint": "沈清月还在客栈二楼。现在需要找到能把她钉死的证据——阿贵的口供不够。查赌坊线索、码头时间线、还有那笔消失的货银。",
-      "locations": ["shen_room", "gambling_alley"],
+      "locations": [
+        "shen_room",
+        "gambling_alley"
+      ],
       "unlock_condition": {
         "flag": "agui_confessed_mastermind"
       }
     }
   ],
-
   "panel_unlock": {},
-
   "search_point_unlock": {
     "ferry_inn.inn_agui_room": {
       "condition": {
         "all": [
-          { "evidence": "evidence_hull_hole" },
+          {
+            "evidence": "evidence_hull_hole"
+          },
           {
             "any": [
-              { "clue": "clue_wife_suspicion" },
-              { "clue": "clue_agui_dry_inner" }
+              {
+                "clue": "clue_wife_suspicion"
+              },
+              {
+                "clue": "clue_agui_dry_inner"
+              }
             ]
           }
         ]
@@ -55,18 +71,26 @@
     "wreck_site.wreck_shore_bag": {
       "condition": {
         "any": [
-          { "clue": "clue_agui_suspicious_bag" },
-          { "evidence": "evidence_hull_hole" }
+          {
+            "clue": "clue_agui_suspicious_bag"
+          },
+          {
+            "evidence": "evidence_hull_hole"
+          }
         ]
       },
       "locked_hint": "芦苇丛似乎有什么东西，但太远了看不清。需要更多线索才能确定该不该去翻。"
     },
     "shen_room.shen_desk": {
-      "condition": { "flag": "agui_confessed_mastermind" },
+      "condition": {
+        "flag": "agui_confessed_mastermind"
+      },
       "locked_hint": "阿贵还没招供，现在没有理由搜沈清月的房间。"
     },
     "shen_room.shen_window": {
-      "condition": { "flag": "agui_confessed_mastermind" },
+      "condition": {
+        "flag": "agui_confessed_mastermind"
+      },
       "locked_hint": "阿贵还没招供，现在没有理由搜沈清月的房间。"
     },
     "gambling_alley.gambling_den": {
@@ -76,55 +100,85 @@
       "locked_hint": "赌坊在渡口后街。目前没有理由去那里。"
     },
     "gambling_alley.gambling_alley_wall": {
-      "condition": { "flag": "agui_confessed_mastermind" },
+      "condition": {
+        "flag": "agui_confessed_mastermind"
+      },
       "locked_hint": "后巷暂时没有调查价值。"
     }
   },
-
   "npc_unlock": {
     "fisherman_wang": {
       "condition": {
         "any": [
-          { "evidence": "evidence_hull_hole" },
-          { "clue": "clue_reef_common_knowledge" }
+          {
+            "evidence": "evidence_hull_hole"
+          },
+          {
+            "clue": "clue_reef_common_knowledge"
+          },
+          {
+            "total_periods_used_gte": 10
+          }
         ]
       }
     },
     "shen_qingyue": {
-      "_comment": "沈清月在phase_1就可以交谈（她是'追债的外地人'），但Phase 3后对话树会解锁新分支。",
-      "condition": null
+      "condition": null,
+      "_comment": "沈清月在phase_1就可以交谈（她是'追债的外地人'），但Phase 3后对话树会解锁新分支。"
     }
   },
-
   "confrontation_unlock": {
     "confrontation_a": {
-      "_comment": "阿贵中BOSS对质——需要船底破洞、浮囊、尸检、错误航道、老范时间矛盾、阿贵遣散动机、老范赌债。",
       "condition": {
         "all": [
-          { "evidence": "evidence_hull_hole" },
-          { "evidence": "evidence_float_bladder" },
-          { "evidence": "evidence_no_blunt_trauma" },
-          { "evidence": "evidence_wrong_channel" },
-          { "evidence": "clue_fan_alibi_hole" },
-          { "evidence": "evidence_dismissal_note" },
-          { "evidence": "evidence_gambling_iou" }
+          {
+            "evidence": "evidence_hull_hole"
+          },
+          {
+            "evidence": "evidence_float_bladder"
+          },
+          {
+            "evidence": "evidence_no_blunt_trauma"
+          },
+          {
+            "evidence": "evidence_wrong_channel"
+          },
+          {
+            "evidence": "clue_fan_alibi_hole"
+          },
+          {
+            "evidence": "evidence_dismissal_note"
+          },
+          {
+            "evidence": "evidence_gambling_iou"
+          }
         ]
-      }
+      },
+      "_comment": "阿贵中BOSS对质——需要船底破洞、浮囊、尸检、错误航道、老范时间矛盾、阿贵遣散动机、老范赌债。"
     },
     "confrontation_final": {
-      "_comment": "沈清月FINAL BOSS对质——需要阿贵认罪 + 货银未沉 + 打捞目击 + 中间人/赌坊连接 + 码头时间矛盾。",
       "condition": {
         "all": [
-          { "flag": "agui_confessed_mastermind" },
-          { "evidence": "evidence_cargo_silver" },
-          { "evidence": "evidence_salvage_mark" },
-          { "evidence": "evidence_shen_connection" },
-          { "evidence": "evidence_dock_timing" }
+          {
+            "flag": "agui_confessed_mastermind"
+          },
+          {
+            "evidence": "evidence_cargo_silver"
+          },
+          {
+            "evidence": "evidence_salvage_mark"
+          },
+          {
+            "evidence": "evidence_shen_connection"
+          },
+          {
+            "evidence": "evidence_dock_timing"
+          }
         ]
-      }
+      },
+      "_comment": "沈清月FINAL BOSS对质——需要阿贵认罪 + 货银未沉 + 打捞目击 + 中间人/赌坊连接 + 码头时间矛盾。"
     }
   },
-
   "phase_notifications": {
     "phase_2": {
       "speaker": "凌瑶",
@@ -132,7 +186,7 @@
     },
     "phase_3": {
       "speaker": "凌瑶",
-      "text": "新地点解锁了——沈清月的房间和赌坊后巷，现在可以调查了。"
+      "text": "阿贵被押下去了。客栈里的局势变了：沈清月退回二楼房间，老范被看住，钱里正也不再催你结案。\n现在别急着抓人——去补实证。赌坊、码头时间线、沈清月房里的账册，才是下一步。"
     }
   }
 }

@@ -3,6 +3,8 @@
   "events": [
     {
       "id": "evt_hull_discovered",
+      "title": "人为破坏",
+      "hint": "（你发现了船底的人工破洞）",
       "trigger": {
         "all": [
           {
@@ -15,8 +17,6 @@
           }
         ]
       },
-      "title": "人为破坏",
-      "hint": "（你发现了船底的人工破洞）",
       "narration": [
         "船底那个洞——边缘整齐，凿痕清晰。这不是暗礁撞出来的。",
         {
@@ -41,6 +41,8 @@
     },
     {
       "id": "evt_bladder_found",
+      "title": "预谋逃生",
+      "hint": "（你在沉船下游的芦苇丛中发现了阿贵的包袱和浮囊）",
       "trigger": {
         "all": [
           {
@@ -53,8 +55,6 @@
           }
         ]
       },
-      "title": "预谋逃生",
-      "hint": "（你在沉船下游的芦苇丛中发现了阿贵的包袱和浮囊）",
       "narration": [
         "粗布包袱，和阿贵在客栈用的是同一种。里面是一只充了气的牛皮浮囊。",
         {
@@ -83,6 +83,8 @@
     },
     {
       "id": "evt_dismissal_revealed",
+      "title": "二两遣散银",
+      "hint": "（你发现了遣散字据）",
       "trigger": {
         "all": [
           {
@@ -95,8 +97,6 @@
           }
         ]
       },
-      "title": "二两遣散银",
-      "hint": "（你发现了遣散字据）",
       "narration": [
         "「兹遣仆人阿贵，给银二两，各不相欠。」",
         {
@@ -121,6 +121,8 @@
     },
     {
       "id": "evt_gambling_debt",
+      "title": "赌鬼的绝路",
+      "hint": "（你发现了老范的赌债借据）",
       "trigger": {
         "all": [
           {
@@ -133,8 +135,6 @@
           }
         ]
       },
-      "title": "赌鬼的绝路",
-      "hint": "（你发现了老范的赌债借据）",
       "narration": [
         "四十二两赌债。腊月底还不上就断指。",
         {
@@ -159,6 +159,7 @@
     },
     {
       "id": "evt_quiet_moment",
+      "title": "馒头",
       "trigger": {
         "all": [
           {
@@ -179,7 +180,6 @@
           }
         ]
       },
-      "title": "馒头",
       "narration": [
         {
           "speaker": "凌瑶",
@@ -226,10 +226,11 @@
     },
     {
       "id": "evt_lizheng_pressure",
+      "title": "催促",
       "trigger": {
         "all": [
           {
-            "evidence_count_gte": 3
+            "day_gte": 2
           },
           {
             "not": {
@@ -243,7 +244,6 @@
           }
         ]
       },
-      "title": "催促",
       "narration": [
         {
           "speaker": "钱里正",
@@ -281,374 +281,9 @@
       }
     },
     {
-      "id": "evt_agui_breakdown",
-      "trigger": {
-        "all": [
-          {
-            "visited": "agui.ask_twelve_years"
-          },
-          {
-            "not": {
-              "flag": "evt_agui_breakdown_done"
-            }
-          },
-          {
-            "not": {
-              "flag": "agui_confessed_mastermind"
-            }
-          }
-        ]
-      },
-      "title": "崩溃",
-      "hint": "阿贵突然崩溃了……",
-      "narration": [
-        {
-          "speaker": "",
-          "text": "你刚转身要走——身后传来一声闷响。"
-        },
-        {
-          "speaker": "",
-          "text": "阿贵跪在地上，双手死死抓着草席，整个人在发抖。"
-        },
-        {
-          "speaker": "阿贵",
-          "text": "十二年……十二年啊……"
-        },
-        {
-          "speaker": "阿贵",
-          "text": "我十六岁进来的时候……我娘还在。她说跟着老爷好好干，以后能出头。"
-        },
-        {
-          "speaker": "阿贵",
-          "text": "我娘死了三年了……我连回去看她最后一眼都没能……"
-        },
-        {
-          "speaker": "",
-          "text": "他的声音从哽咽变成了嚎啕。像是什么东西在胸腔里碎掉了。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "……"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "陆大人……他哭成这样……不像是演的。"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "走吧。让他自己待一会儿。"
-        },
-        {
-          "speaker": "",
-          "text": "你走出后院。身后阿贵的哭声被雨声盖住了——但你知道，那不是装的。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "十二年……就算他真的做了什么，那十二年也是真的。"
-        }
-      ],
-      "effects": {
-        "set_flag": [
-          "evt_agui_breakdown_done"
-        ]
-      }
-    },
-    {
-      "id": "evt_lao_fan_silence",
-      "trigger": {
-        "all": [
-          {
-            "visited": "lao_fan.ask_gambling_story"
-          },
-          {
-            "not": {
-              "flag": "evt_lao_fan_silence_done"
-            }
-          },
-          {
-            "not": {
-              "flag": "agui_confessed_mastermind"
-            }
-          }
-        ]
-      },
-      "title": "沉默",
-      "hint": "老范不说话了……",
-      "narration": [
-        {
-          "speaker": "",
-          "text": "老范说完那段往事，突然不说话了。"
-        },
-        {
-          "speaker": "",
-          "text": "他把烟杆别回腰间，低着头，看着江面。雨打在他斗笠上，啪嗒啪嗒。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "……"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "……"
-        },
-        {
-          "speaker": "",
-          "text": "沉默持续了很久。久到你开始听见江水拍岸的声音。"
-        },
-        {
-          "speaker": "老范",
-          "text": "大人。"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "嗯。"
-        },
-        {
-          "speaker": "老范",
-          "text": "……没什么。"
-        },
-        {
-          "speaker": "",
-          "text": "他转身走向船边。背影在雨里显得很老。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "他想说什么……但没说出口。"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "记下这个时刻。他动摇了。"
-        }
-      ],
-      "effects": {
-        "set_flag": [
-          "evt_lao_fan_silence_done"
-        ]
-      }
-    },
-    {
-      "id": "evt_fan_night_sighting",
-      "trigger": {
-        "all": [
-          {
-            "visited": "fisherman_wang.ask_meeting"
-          },
-          {
-            "visited": "lao_fan.ask_rescue"
-          },
-          {
-            "not": {
-              "flag": "evt_fan_night_sighting_done"
-            }
-          },
-          {
-            "not": {
-              "flag": "agui_confessed_mastermind"
-            }
-          }
-        ]
-      },
-      "title": "夜间行踪",
-      "hint": "有人看到老范案发当晚不在船上……",
-      "narration": [
-        {
-          "speaker": "",
-          "text": "你正在码头整理思路——一个渡口的帮工凑了过来。"
-        },
-        {
-          "speaker": "帮工",
-          "text": "陆……陆大人？小的不知道该不该说……"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "说。"
-        },
-        {
-          "speaker": "帮工",
-          "text": "案发那晚……小的起夜的时候，看到老范从码头那边回来。不是从船上——是从下游。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "下游？他不是说在船上吗？"
-        },
-        {
-          "speaker": "帮工",
-          "text": "小的看不太清……但那个身形，那个走路的样子，肯定是老范。他手里好像还拎着什么东西。"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "什么时辰？"
-        },
-        {
-          "speaker": "帮工",
-          "text": "亥时过后吧……船刚走没多久。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "亥时过后……那不就是船刚翻的时候？他不在船上——他在下游？"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "他在下游做什么？"
-        },
-        {
-          "speaker": "帮工",
-          "text": "小的不知道……小的当时没多想。后来出了事才想起来。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "陆大人……如果老范案发时不在船上……那他在哪？他在下游干什么？"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "记下来。这条线索——比什么都重要。"
-        }
-      ],
-      "effects": {
-        "set_flag": [
-          "evt_fan_night_sighting_done",
-          "clue_fan_night_sighting"
-        ]
-      }
-    },
-    {
-      "id": "evt_shen_approach",
-      "trigger": {
-        "all": [
-          {
-            "evidence_count_gte": 2
-          },
-          {
-            "visited": "shen_qingyue.intro"
-          },
-          {
-            "not": {
-              "flag": "evt_shen_approach_done"
-            }
-          },
-          {
-            "not": {
-              "flag": "agui_confessed_mastermind"
-            }
-          }
-        ]
-      },
-      "title": "不速之客",
-      "hint": "沈清月来找你了……",
-      "narration": [
-        {
-          "speaker": "",
-          "text": "你在客栈大堂整理线索——门口传来脚步声。"
-        },
-        {
-          "speaker": "",
-          "text": "沈清月靠在门框上，抱着双臂，看着你。"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "陆公子。忙什么呢？"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "……你来做什么？"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "来看看你查得怎么样了。毕竟——我也想知道谁杀了我的债主。"
-        },
-        {
-          "speaker": "",
-          "text": "她走进来，在你对面坐下。一条腿搁在椅子扶手上，姿态随意。"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "听说你在查船底那个洞？还有阿贵的浮囊？"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "你怎么知道我们在查这些？"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "码头就这么大。你们问了谁、看了什么——半天之内全渡口都知道了。"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "陆公子。我来是想告诉你一件事。"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "周德茂欠我三十八两。他死了——这笔钱就永远要不回来了。"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "所以我希望你查清楚。真的查清楚——不是随便找个人顶罪。"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "你在担心什么？"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "我担心你查到最后——发现凶手是老范。然后老范说是我指使的。"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "一个赌鬼的话——你信吗？"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "她在试探。她在看你手里有什么牌。"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "我信证据。不信任何人。"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "好。那就好。"
-        },
-        {
-          "speaker": "",
-          "text": "她站起来，理了理衣襟。走到门口时停了一步。"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "对了。陆公子。"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "如果你需要查我——尽管查。我没什么好隐瞒的。"
-        },
-        {
-          "speaker": "",
-          "text": "她走了。留下一缕药材的气味。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "陆大人……她为什么主动来找你？"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "因为她想知道我们查到了什么。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "那她刚才说的那些——是在示好？还是在警告？"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "都是。她在说——'我不好惹'。"
-        }
-      ],
-      "effects": {
-        "set_flag": [
-          "evt_shen_approach_done"
-        ]
-      }
-    },
-    {
       "id": "evt_confrontation_ready",
+      "title": "证据齐了——可以对峙了",
+      "hint": "✦ 关键证据已齐，点击发起对峙",
       "trigger": {
         "all": [
           {
@@ -682,8 +317,6 @@
           }
         ]
       },
-      "title": "证据齐了——可以对峙了",
-      "hint": "✦ 关键证据已齐，点击发起对峙",
       "narration": [
         {
           "speaker": "凌瑶",
@@ -707,6 +340,7 @@
     },
     {
       "id": "evt_phase3_transition",
+      "title": "客栈变局",
       "trigger": {
         "all": [
           {
@@ -719,12 +353,15 @@
           }
         ]
       },
-      "title": "客栈变局",
       "narration": [
-        "雨声压着屋檐。你站在大堂里，环顾四周——一切都不一样了。",
+        "阿贵被两个帮工押进后院柴房。门闩落下的一刻，客栈大堂像被人抽走了声音。",
+        {
+          "speaker": "钱里正",
+          "text": "陆大人。先前是小人眼拙。从现在起，客栈上下听您调遣。"
+        },
         {
           "speaker": "凌瑶",
-          "text": "你看——沈清月退回二楼房间了。老范那边也有帮工盯着。整个客栈的格局都变了。"
+          "text": "你看——位置都变了。阿贵不在屋里了，老范那边也有人盯着，沈清月退回二楼房间。"
         },
         {
           "speaker": "陆昭",
@@ -733,7 +370,8 @@
         {
           "speaker": "凌瑶",
           "text": "因为她觉得阿贵的口供不够。那我们就找她不能抵赖的东西。"
-        }
+        },
+        "雨声压着屋檐。大堂的人不再看你像嫌犯，而是等着你下一个命令。"
       ],
       "effects": {
         "set_flag": [
@@ -744,6 +382,7 @@
     },
     {
       "id": "evt_bladder_meaning_changed",
+      "title": "重新审视的物证",
       "trigger": {
         "all": [
           {
@@ -762,7 +401,6 @@
           }
         ]
       },
-      "title": "重新审视的物证",
       "narration": [
         {
           "speaker": "",
@@ -789,6 +427,7 @@
     },
     {
       "id": "evt_shen_evidence_ready",
+      "title": "该收网了",
       "trigger": {
         "all": [
           {
@@ -813,7 +452,6 @@
           }
         ]
       },
-      "title": "该收网了",
       "narration": [
         {
           "speaker": "凌瑶",

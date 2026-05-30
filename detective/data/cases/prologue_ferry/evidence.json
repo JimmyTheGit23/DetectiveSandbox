@@ -1,5 +1,5 @@
 {
-  "_comment": "序章「渡口沉舟」证据与线索。运行时使用扁平 evidence_id/clue_id 字典。",
+  "_comment": "Generated from data/case_tables evidence_items.csv. Do not hand-edit long term.",
   "evidence_hull_hole": {
     "type": "evidence",
     "name": "船底人工破洞",
@@ -8,9 +8,7 @@
   "evidence_float_bladder": {
     "type": "evidence",
     "name": "牛皮浮囊",
-    "description": "在阿贵的包袱底层发现一只充好气的水牛皮浮囊。表面有明显的江水浸泡痕迹——泥沙卡在牛皮缝线里，河草挂在系绳上。一个'以防万一'的人不会提前充好气（又鼓又硬，占半个包袱），更不会有江水的痕迹。除非——他落水之前就把它准备好了，而且确实用了。",
-    "linked_clue": "clue_bladder_stitch_detail",
-    "linked_description": "在阿贵的包袱底层发现一只充好气的水牛皮浮囊。表面有明显的江水浸泡痕迹——泥沙卡在牛皮缝线里，河草挂在系绳上。一个'以防万一'的人不会提前充好气（又鼓又硬，占半个包袱），更不会有江水的痕迹。除非——他落水之前就把它准备好了，而且确实用了。牛皮的密封缝极细，不像本地船工的粗活——这种针脚，你在沈清月房里的药材行药袋上见过一模一样的。"
+    "description": "在阿贵的包袱底层发现一只充好气的水牛皮浮囊。表面有明显的江水浸泡痕迹——泥沙卡在牛皮缝线里，河草挂在系绳上。一个'以防万一'的人不会提前充好气（又鼓又硬，占半个包袱），更不会有江水的痕迹。除非——他落水之前就把它准备好了，而且确实用了。"
   },
   "evidence_gambling_iou": {
     "type": "evidence",
@@ -20,7 +18,7 @@
   "evidence_dismissal_note": {
     "type": "evidence",
     "name": "遣散字据",
-    "description": "周德茂亲笔写的字据：兹遣仆人阿贵，给银二两，各不相欠。落款日期是出发前三日。字据末尾'十二年吃住已抵清'的小字颜色更深，像是事后补上去的。"
+    "description": "周德茂亲笔写的字据：兹遣仆人阿贵，给银二两，各不相欠。落款日期是出发前三日。"
   },
   "evidence_cargo_silver": {
     "type": "evidence",
@@ -35,7 +33,7 @@
   "evidence_shen_connection": {
     "type": "evidence",
     "name": "赌坊中间人",
-    "description": "赌坊账簿与老范供述互相印证：案发前有个'药材行的姑娘'打听老范债数，许诺事成后替他兑债。她知道老范欠赌债，并把这笔债变成了逼他入局的绳子。"
+    "description": "老范被逼急后交代：当初不是阿贵来找的他——是一个'药材行的姑娘'先找到他，说有门发财的路子。那姑娘知道他欠赌债，问他'想不想一笔勾销'。"
   },
   "evidence_dock_timing": {
     "type": "evidence",
@@ -74,8 +72,8 @@
   },
   "clue_fan_alibi_hole": {
     "type": "evidence",
-    "name": "证词记录：老范时间矛盾",
-    "description": "老范说自己是半个时辰后被下游渔民救起。但王大爷说他不到一刻钟就自己爬上岸了。两个说法相差太远，说明老范在隐瞒真正的上岸过程。"
+    "name": "老范时间矛盾",
+    "description": "老范说自己是半个时辰后被下游渔民救起。但王大爷说他不到一刻钟就自己爬上岸了。"
   },
   "clue_secret_meeting": {
     "type": "clue",
@@ -102,8 +100,6 @@
     "name": "死者不识水性",
     "description": "周氏说：老爷是旱鸭子，连洗澡都怕水深。这也是他平时不坐夜船的原因——这次是急着赶路才破了例。"
   },
-
-  "_comment_hidden": "以下条目已从对峙系统中移除，但保留名称数据供通知显示和剧情触发使用。",
   "clue_reef_common_knowledge": {
     "type": "clue",
     "name": "暗礁是常识",
@@ -120,22 +116,22 @@
     "type": "clue",
     "name": "沉船记忆：方形的洞",
     "description": "逃生时你在黑暗中摸到了船底的洞——边缘整齐得不像是撞击。",
-    "meta_clue": true,
-    "hidden": true
+    "hidden": true,
+    "meta_clue": true
   },
   "clue_route_change": {
     "type": "clue",
     "name": "改道的建议",
     "description": "平水驿的驿丞好心建议你改走水路夜船。",
-    "meta_clue": true,
-    "hidden": true
+    "hidden": true,
+    "meta_clue": true
   },
   "clue_lingyao_dock_witness": {
     "type": "clue",
     "name": "码头的三个人影",
     "description": "凌瑶说：翻船前一晚，她看见两三个人蹲在码头角落说话。",
-    "meta_clue": true,
-    "hidden": true
+    "hidden": true,
+    "meta_clue": true
   },
   "clue_cargo_money_record": {
     "type": "clue",
@@ -167,29 +163,19 @@
     "description": "阿贵包袱上系的是止索结——船上人才用的绳法。",
     "hidden": true
   },
-  "clue_bladder_stitch_detail": {
-    "type": "clue",
-    "name": "浮囊缝法异常",
-    "description": "浮囊的封口缝法跟本地船工的粗活不一样——针脚极密，用蜡封过。像是做细活的人缝的。但具体像谁的手艺，暂时看不出来。"
-  },
-  "clue_pharma_bag_stitch": {
-    "type": "clue",
-    "name": "药袋封口缝法",
-    "description": "沈清月桌上的药材行药袋，封口处的缝法：细针密蜡，跟浮囊的封口一模一样。这是药材行包装的手艺——不是船工，不是普通百姓。"
-  },
   "evidence_wet_letter": {
     "type": "evidence",
     "name": "泡烂的密信",
     "description": "一封被江水泡得几乎看不清的书信。",
-    "meta_clue": true,
-    "hidden": true
+    "hidden": true,
+    "meta_clue": true
   },
   "evidence_anonymous_note": {
     "type": "evidence",
     "name": "匿名字条残片",
     "description": "藏在老范杂物最底层的纸条。",
-    "meta_clue": true,
-    "hidden": true
+    "hidden": true,
+    "meta_clue": true
   },
   "clue_shen_motive_calculation": {
     "type": "clue",

@@ -1,5 +1,5 @@
 {
-  "_comment": "周氏对话树。死者妻子。悲痛但清醒，提供关键背景信息。",
+  "_comment": "Generated from data/case_tables dialogue CSV.",
   "start": "hub",
   "nodes": {
     "hub": {
@@ -14,26 +14,27 @@
         {
           "text": "阿贵这个人怎么样？",
           "goto": "ask_agui",
+          "type": "ask",
           "requires": [
             {
               "flag": "zhou_talked_once"
             }
-          ],
-          "type": "ask"
+          ]
         },
         {
           "text": "你为什么觉得不是意外？",
           "goto": "ask_suspicion",
+          "type": "press",
           "requires": [
             {
               "flag": "zhou_talked_once"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "你丈夫会游泳吗？",
           "goto": "ask_swimming",
+          "type": "ask",
           "requires": [
             {
               "any": [
@@ -45,12 +46,12 @@
                 }
               ]
             }
-          ],
-          "type": "ask"
+          ]
         },
         {
           "text": "节哀。我一定查清楚。",
           "goto": "comfort",
+          "type": "observe",
           "requires": [
             {
               "any": [
@@ -62,65 +63,76 @@
                 }
               ]
             }
-          ],
-          "type": "observe"
+          ]
         },
         {
           "text": "能看看你丈夫的文书吗？",
           "goto": "ask_documents",
+          "type": "ask",
           "requires": [
             {
               "flag": "zhou_revealed_dismissal"
             }
-          ],
-          "type": "ask"
+          ]
         },
         {
           "text": "你丈夫为什么突然决定走夜船？",
           "goto": "ask_why_night_ferry",
+          "type": "press",
           "requires": [
             {
               "flag": "zhou_suspicion_heard"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "船是被人凿沉的。你丈夫……是被谋杀。",
           "goto": "react_murder_confirmed",
+          "type": "press",
           "requires": [
             {
               "evidence": "evidence_hull_hole"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "阿贵已经认罪了。但他背后还有人。",
           "goto": "react_agui_confessed",
+          "type": "press",
           "requires": [
             {
               "flag": "agui_confessed_mastermind"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "先告辞",
           "goto": "__exit__"
-        }
-      ],
-      "text_variants": [
-        {
-          "when": {
-            "flag": "agui_confessed_mastermind"
-          },
-          "text": "阿贵认了……可你说他背后还有人。\n\n我现在连该恨谁都不知道。你问吧，只要能把老爷的死查清楚，我都说。"
         }
       ]
     },
     "intro": {
       "text": "（她冷冷地看着你，好一会儿才开口）……里正说你要自证清白。随你。\n\n老爷做布匹生意。这次是去武昌府进一批棉布，过了年好卖。\n\n他带了五十两货银。还有阿贵跟着。\n\n我劝他别坐夜船。他说急着赶路……要是那天我拦住了他——",
+      "set_flags": [
+        "zhou_talked_once"
+      ],
+      "lines": [
+        {
+          "text": "里正说让你查。我拦不住。",
+          "speaker_id": "zhou_wife",
+          "emotion": "trembling"
+        },
+        {
+          "text": "问吧。但你最好是来找真凶的——不是来替自己脱罪的。",
+          "speaker_id": "zhou_wife",
+          "emotion": "trembling"
+        },
+        {
+          "text": "我会查清楚。不管你信不信我是谁。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
       "options": [
         {
           "text": "继续询问",
@@ -130,50 +142,60 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "zhou_talked_once"
       ]
     },
     "ask_agui": {
+      "set_flags": [
+        "zhou_revealed_dismissal"
+      ],
       "lines": [
         {
-          "speaker_id": "zhou_wife",
-          "text": "阿贵跟了老爷十二年了。以前什么都好——忠心、勤快。"
+          "text": "阿贵跟了老爷十二年了。以前什么都好——忠心、勤快。",
+          "speaker_id": "zhou_wife"
         },
         {
-          "speaker_id": "zhou_wife",
-          "text": "可这两年……老爷嫌他笨手笨脚，动不动就骂。上船前一天还当着外人面骂了他一顿。"
+          "text": "可这两年……老爷嫌他笨手笨脚，动不动就骂。上船前一天还当着外人面骂了他一顿。",
+          "speaker_id": "zhou_wife"
         },
         {
+          "text": "而且……老爷上船前跟我说过，到了武昌就把阿贵打发走。",
           "speaker_id": "zhou_wife",
-          "text": "（犹豫）而且……老爷上船前跟我说过，到了武昌就把阿贵打发走。",
           "emotion": "suspicious"
         },
         {
+          "text": "上船前还被骂了一顿……当晚就哭天抹泪？",
           "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
           "text": "打发走？给多少遣散银？",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "打发走？给多少遣散银？",
+          "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "speaker_id": "zhou_wife",
           "text": "老爷写了字据……二两。",
+          "speaker_id": "zhou_wife",
           "emotion": "silent",
-          "highlight": [
-            "二两"
-          ],
           "record_type": "testimony",
           "record_title": "证词记录：阿贵被遣散",
-          "record_text": "周氏证实周德茂准备到武昌后遣散阿贵，遣散银只有二两。"
+          "record_text": "周氏证实周德茂准备到武昌后遣散阿贵，遣散银只有二两。",
+          "highlight": [
+            "二两"
+          ]
         },
         {
-          "speaker_id": "xia_lingyao",
           "text": "二两？十二年就换二两？这也太寒碜了。",
+          "speaker_id": "xia_lingyao",
           "emotion": "shocked"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "寒心不等于杀人。但确实是动机。",
+          "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
       ],
@@ -186,13 +208,42 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "zhou_revealed_dismissal"
       ]
     },
     "ask_suspicion": {
       "text": "阿贵不对劲。案发后他哭得比我都凶——可他跟老爷关系好吗？不好。\n\n上船前还被骂了一通，当晚就哭天抹泪？我不信。\n\n还有——老爷是旱鸭子。连洗澡都怕水深。让他坐夜船，一定是阿贵催的。",
+      "emotion": "suspicious",
+      "set_flags": [
+        "zhou_suspicion_heard"
+      ],
+      "gain_clue": "clue_wife_suspicion",
+      "lines": [
+        {
+          "text": "阿贵不对劲。案发后他哭得比我都凶——可他跟老爷关系好吗？不好。",
+          "speaker_id": "zhou_wife",
+          "emotion": "suspicious"
+        },
+        {
+          "text": "上船前还被骂了一通，当晚就哭天抹泪？我不信。",
+          "speaker_id": "zhou_wife",
+          "emotion": "suspicious"
+        },
+        {
+          "text": "被骂了一通，当晚就哭天抹泪……确实反常。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "还有——老爷是旱鸭子。连洗澡都怕水深。让他坐夜船，一定是阿贵催的。",
+          "speaker_id": "zhou_wife",
+          "emotion": "suspicious"
+        },
+        {
+          "text": "她说的有道理。一个被骂了一顿的仆从，当晚哭得比主人的妻子还凶——确实反常。",
+          "speaker_id": "xia_lingyao",
+          "emotion": "determined"
+        }
+      ],
       "options": [
         {
           "text": "继续询问",
@@ -202,42 +253,43 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "zhou_suspicion_heard"
-      ],
-      "gain_clue": "clue_wife_suspicion",
-      "emotion": "suspicious"
+      ]
     },
     "ask_swimming": {
+      "gain_clue": "clue_victim_cant_swim",
       "lines": [
         {
-          "speaker_id": "zhou_wife",
           "text": "不会！完全不会！他连河边都不敢走太近。",
+          "speaker_id": "zhou_wife",
           "emotion": "trembling",
-          "highlight": [
-            "不会"
-          ],
           "record_type": "testimony",
           "record_title": "证词记录：死者不识水性",
-          "record_text": "周氏确认周德茂完全不会游泳，平时也畏惧深水。"
+          "record_text": "周氏确认周德茂完全不会游泳，平时也畏惧深水。",
+          "highlight": [
+            "不会"
+          ]
         },
         {
-          "speaker_id": "zhou_wife",
-          "text": "以前在家洗澡，水深过膝盖他就不下去。别人笑他，他也不改。"
+          "text": "以前在家洗澡，水深过膝盖他就不下去。别人笑他，他也不改。",
+          "speaker_id": "zhou_wife"
         },
         {
-          "speaker_id": "zhou_wife",
-          "text": "这也是他平时从不坐夜船的原因——白天能看到岸。"
+          "text": "连洗澡都怕水深……这样的人会主动坐夜船？",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
         },
         {
-          "speaker_id": "xia_lingyao",
+          "text": "这也是他平时从不坐夜船的原因——白天能看到岸。",
+          "speaker_id": "zhou_wife"
+        },
+        {
           "text": "怕水的人深夜上船，不是被催的，就是被骗的。",
+          "speaker_id": "xia_lingyao",
           "emotion": "worried"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "这点可以和阿贵的说法互证。",
+          "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
       ],
@@ -250,12 +302,28 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "gain_clue": "clue_victim_cant_swim"
+      ]
     },
     "comfort": {
       "text": "……你不像凶手。凶手不会还留在这里问话。\n\n里正让你查——你要是真能查出来……老爷的文书都在房间桌上。你看吧。",
       "emotion": "grief",
+      "lines": [
+        {
+          "text": "节哀。我一定查清楚。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "……你不像凶手。凶手不会还留在这里问话。",
+          "speaker_id": "zhou_wife",
+          "emotion": "grief"
+        },
+        {
+          "text": "里正让你查——你要是真能查出来……老爷的文书都在房间桌上。你看吧。",
+          "speaker_id": "zhou_wife",
+          "emotion": "grief"
+        }
+      ],
       "options": [
         {
           "text": "继续询问",
@@ -269,6 +337,24 @@
     },
     "ask_documents": {
       "text": "都在房间里。大人自己去看吧——遣散字据、货单都在桌上。\n\n（她指了指房间的方向。）",
+      "emotion": "suspicious",
+      "lines": [
+        {
+          "text": "都在房间里。大人自己去看吧——遣散字据、货单都在桌上。",
+          "speaker_id": "zhou_wife",
+          "emotion": "suspicious"
+        },
+        {
+          "text": "都在房间里……多谢。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "多谢。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
       "options": [
         {
           "text": "继续询问",
@@ -278,69 +364,72 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "emotion": "suspicious"
+      ]
     },
     "ask_why_night_ferry": {
+      "set_flags": [
+        "zhou_letter_revealed"
+      ],
+      "gain_clue": "clue_route_change",
       "lines": [
         {
-          "speaker_id": "lu_zhao",
           "text": "你丈夫平时不坐夜船。这次为什么突然改了主意？",
+          "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
+          "text": "说起来……他收到了一封信。出发前两天。",
           "speaker_id": "zhou_wife",
-          "text": "（皱眉）说起来……他收到了一封信。出发前两天。",
           "emotion": "suspicious"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "什么信？",
+          "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
-          "speaker_id": "zhou_wife",
           "text": "南京那边来的。说是有个大买家急着要货。'到了南京棉布能翻一倍'——老爷看了就坐不住了。",
-          "highlight": [
-            "南京那边来的"
-          ],
+          "speaker_id": "zhou_wife",
+          "emotion": "suspicious",
           "record_type": "testimony",
           "record_title": "证词记录：南京来信",
           "record_text": "周氏说周德茂出发前两天收到一封南京来信，称有大买家急需棉布，利润翻倍。这促使他改坐夜船赶路。",
-          "emotion": "suspicious"
+          "highlight": [
+            "南京那边来的"
+          ]
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "那封信现在在哪？",
-          "emotion": "serious"
-        },
-        {
-          "speaker_id": "zhou_wife",
-          "text": "老爷带在身上了。应该……随船沉了。"
-        },
-        {
-          "speaker_id": "zhou_wife",
-          "text": "（顿了顿）说起来——那封信的写法有点奇怪。",
-          "emotion": "suspicious"
-        },
-        {
           "speaker_id": "lu_zhao",
-          "text": "哪里奇怪？",
           "emotion": "serious"
         },
         {
+          "text": "老爷带在身上了。应该……随船沉了。",
+          "speaker_id": "zhou_wife"
+        },
+        {
+          "text": "说起来——那封信的写法有点奇怪。",
           "speaker_id": "zhou_wife",
-          "text": "字写得很工整——老爷平时来往的商人没几个字好看的。而且……没有署名。只说'故友知会'。老爷的故友里没有字写得那么好的。",
           "emotion": "suspicious"
         },
         {
+          "text": "哪里奇怪？",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "字写得很工整——老爷平时来往的商人没几个字好看的。而且……没有署名。只说'故友知会'。老爷的故友里没有字写得那么好的。",
+          "speaker_id": "zhou_wife",
+          "emotion": "suspicious"
+        },
+        {
+          "text": "匿名信把他引到夜船上……嘶——如果那封信本身就是诱饵呢？",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）匿名信把他引到夜船上……嘶——如果那封信本身就是诱饵呢？",
           "emotion": "anxious"
         },
         {
+          "text": "……工整的字迹。匿名。精准地知道他做布匹生意、精准地用'翻倍利润'引诱他赶路。这不像是巧合——像是有人特意把他引到这条船上。",
           "speaker_id": "lu_zhao",
-          "text": "（……工整的字迹。匿名。精准地知道他做布匹生意、精准地用'翻倍利润'引诱他赶路。这不像是巧合——像是有人特意把他引到这条船上。）",
           "emotion": "serious"
         }
       ],
@@ -353,47 +442,51 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "gain_clue": "clue_route_change",
-      "set_flags": [
-        "zhou_letter_revealed"
       ]
     },
     "react_murder_confirmed": {
+      "set_flags": [
+        "zhou_knows_murder"
+      ],
       "lines": [
         {
-          "speaker_id": "lu_zhao",
           "text": "周氏。我不想对你隐瞒——你丈夫的船底有一个人为凿出的洞。",
+          "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "这不是意外。是谋杀。",
+          "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
+          "text": "全身僵住。手里的帕子掉在地上，她没去捡。",
           "speaker_id": "zhou_wife",
-          "text": "（全身僵住。手里的帕子掉在地上，她没去捡。）",
           "emotion": "grief"
         },
         {
-          "speaker_id": "zhou_wife",
+          "text": "是谋杀。我不会骗你。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
           "text": "……我就知道。我就知道不是意外。老爷他————他是被人害的。",
+          "speaker_id": "zhou_wife",
           "emotion": "screaming"
         },
         {
-          "speaker_id": "zhou_wife",
           "text": "大人。求您一定要抓住凶手。不管是谁——不管是谁！",
+          "speaker_id": "zhou_wife",
           "emotion": "grief"
         },
         {
+          "text": "……她哭了。这种哭法不是假的。陆大人，她是真的不知道。",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）……她哭了。这种哭法不是假的。陆大人，她是真的不知道。",
           "emotion": "worried"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "我一定查清楚。——不管你信不信我是谁，凶手我会找到。",
+          "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
       ],
@@ -406,56 +499,56 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "zhou_knows_murder"
       ]
     },
     "react_agui_confessed": {
+      "set_flags": [
+        "zhou_knows_agui_guilty"
+      ],
       "lines": [
         {
-          "speaker_id": "lu_zhao",
           "text": "周氏。阿贵已经认了。是他凿的船。",
+          "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
-          "speaker_id": "zhou_wife",
           "text": "阿贵……他怎么……他跟了老爷十二年……",
-          "emotion": "shocked"
-        },
-        {
           "speaker_id": "zhou_wife",
-          "text": "十二年啊。吃一口锅里的饭、睡一个屋檐下——他怎么下得去手？",
           "emotion": "shocked"
         },
         {
-          "speaker_id": "lu_zhao",
+          "text": "十二年啊。吃一口锅里的饭、睡一个屋檐下——他怎么下得去手？",
+          "speaker_id": "zhou_wife",
+          "emotion": "shocked"
+        },
+        {
           "text": "你丈夫用二两银子遣散了他。十二年。",
+          "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "speaker_id": "zhou_wife",
           "text": "……二两。是少了。但、但也不至于杀人啊……",
+          "speaker_id": "zhou_wife",
           "emotion": "screaming"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "他背后还有人。有人教他怎么做的——利用了他的怨恨。",
+          "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
-          "speaker_id": "zhou_wife",
           "text": "还有人？！谁？！",
+          "speaker_id": "zhou_wife",
           "emotion": "grief"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "还在查。时间不多了——但会有结果。",
+          "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
+          "text": "她的表情……又是恨又是不敢信。十二年的旧仆——她可能把阿贵当半个家人的。",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）她的表情……又是恨又是不敢信。十二年的旧仆——她可能把阿贵当半个家人的。",
           "emotion": "worried"
         }
       ],
@@ -468,9 +561,6 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "zhou_knows_agui_guilty"
       ]
     }
   }

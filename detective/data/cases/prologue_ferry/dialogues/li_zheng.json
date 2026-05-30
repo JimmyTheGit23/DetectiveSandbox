@@ -1,5 +1,5 @@
 {
-  "_comment": "钱里正对话树。圆滑地方小吏，提供背景信息和侧面线索。",
+  "_comment": "Generated from data/case_tables dialogue CSV.",
   "start": "hub",
   "nodes": {
     "hub": {
@@ -14,49 +14,50 @@
         {
           "text": "那片礁石，本地人都知道？",
           "goto": "ask_reef",
+          "type": "ask",
           "requires": [
             {
               "flag": "lizheng_talked_once"
             }
-          ],
-          "type": "ask"
+          ]
         },
         {
           "text": "老范这个人怎么样？",
           "goto": "ask_fan",
+          "type": "ask",
           "requires": [
             {
               "flag": "lizheng_talked_once"
             }
           ],
-          "min_hub_visits": 1,
-          "type": "ask"
+          "min_hub_visits": 1
         },
         {
           "text": "阿贵这两天有什么异常吗？",
           "goto": "ask_agui_spending",
+          "type": "ask",
           "requires": [
             {
               "flag": "lizheng_talked_once"
             }
           ],
-          "min_hub_visits": 2,
-          "type": "ask"
+          "min_hub_visits": 2
         },
         {
           "text": "周德茂你了解吗？",
           "goto": "ask_victim",
+          "type": "ask",
           "requires": [
             {
               "flag": "lizheng_talked_once"
             }
           ],
-          "min_hub_visits": 2,
-          "type": "ask"
+          "min_hub_visits": 2
         },
         {
           "text": "渡口最近有什么异常吗？",
           "goto": "ask_recent_strangers",
+          "type": "ask",
           "requires": [
             {
               "all": [
@@ -76,57 +77,46 @@
               ]
             }
           ],
-          "min_hub_visits": 3,
-          "type": "ask"
-        },
-        {
-          "text": "现在客栈这边怎么安排？",
-          "goto": "phase3_orders",
-          "requires": [
-            {
-              "flag": "agui_confessed_mastermind"
-            }
-          ],
-          "type": "ask"
+          "min_hub_visits": 3
         },
         {
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "text_variants": [
-        {
-          "when": {
-            "flag": "agui_confessed_mastermind"
-          },
-          "text": "陆大人，阿贵已经押在后院柴房。先前两天期限的话不作数了。您要查沈姑娘、查赌坊、查码头，小人都配合。只求这案子别再拖成糊涂账。"
-        }
       ]
     },
     "intro": {
+      "set_flags": [
+        "lizheng_talked_once"
+      ],
       "lines": [
         {
-          "speaker_id": "li_zheng",
           "text": "我跟你说实话——周氏闹成那样，我不给你时间查不好收场。但反过来讲……",
+          "speaker_id": "li_zheng",
           "emotion": "nervous"
         },
         {
-          "speaker_id": "li_zheng",
-          "text": "这种事我见多了。冬天涨水，夜里走船——十年八年总得翻一回。老范跑了二十年没出过事，这次栽了，也不是不可能。"
+          "text": "这种事我见多了。冬天涨水，夜里走船——十年八年总得翻一回。老范跑了二十年没出过事，这次栽了，也不是不可能。",
+          "speaker_id": "li_zheng"
         },
         {
-          "speaker_id": "li_zheng",
+          "text": "意外……你倒是想大事化小。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
           "text": "我给你两天，是给周氏一个交代。但你要是查来查去没真凭实据……我上报县衙只能写'翻船落水，意外溺亡'。懂我意思？",
+          "speaker_id": "li_zheng",
           "emotion": "sighing"
         },
         {
+          "text": "这老滑头——他巴不得你查不出来。'意外'归他自己结案，'命案'得惊动县衙。他在赌你拿不出证据。",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）这老滑头——他巴不得你查不出来。'意外'归他自己结案，'命案'得惊动县衙。他在赌你拿不出证据。",
           "emotion": "anxious"
         },
         {
+          "text": "他的态度很明确——不帮忙，但也不拦着。除非我拿出东西来，否则他会把这事盖过去。",
           "speaker_id": "lu_zhao",
-          "text": "（他的态度很明确——不帮忙，但也不拦着。除非我拿出东西来，否则他会把这事盖过去。）",
           "emotion": "serious"
         }
       ],
@@ -139,35 +129,33 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "lizheng_talked_once"
       ]
     },
     "ask_reef": {
+      "gain_clue": "clue_reef_common_knowledge",
       "lines": [
         {
-          "speaker_id": "li_zheng",
           "text": "那可不是！我从小在这儿长大，那片礁石连小孩儿都知道要绕着走。",
-          "highlight": [
-            "连小孩儿都知道"
-          ],
+          "speaker_id": "li_zheng",
           "record_type": "testimony",
           "record_title": "证词记录：暗礁是常识",
-          "record_text": "钱里正确认东汊暗礁是本地常识，老范这样的老船家不可能不知道。"
+          "record_text": "钱里正确认东汊暗礁是本地常识，老范这样的老船家不可能不知道。",
+          "highlight": [
+            "连小孩儿都知道"
+          ]
         },
         {
-          "speaker_id": "li_zheng",
-          "text": "涨水了也不保险——石头尖的很，水面下照样能把船底划烂。"
+          "text": "涨水了也不保险——石头尖的很，水面下照样能把船底划烂。",
+          "speaker_id": "li_zheng"
         },
         {
-          "speaker_id": "xia_lingyao",
           "text": "那老范二十年老船家，他不知道？",
+          "speaker_id": "xia_lingyao",
           "emotion": "anxious"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "不可能不知道。",
+          "speaker_id": "lu_zhao",
           "emotion": "cold"
         }
       ],
@@ -180,12 +168,44 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "gain_clue": "clue_reef_common_knowledge"
+      ]
     },
     "ask_fan": {
       "text": "老范嘛……人还行。就是爱赌。以前小赌怡情，这两年越赌越大。\n\n听说欠了赌坊不少钱。前阵子还有人来找他要账，闹得挺凶。\n\n不过嘛——大事化小。他水性好，人也实在。年轻时候还救过落水的孩子，全渡口都知道。",
       "emotion": "nervous",
+      "gain_clue": "clue_fan_boat_skill",
+      "lines": [
+        {
+          "text": "老范嘛……人还行。就是爱赌。以前小赌怡情，这两年越赌越大。",
+          "speaker_id": "li_zheng",
+          "emotion": "nervous"
+        },
+        {
+          "text": "听说欠了赌坊不少钱。前阵子还有人来找他要账，闹得挺凶。",
+          "speaker_id": "li_zheng",
+          "emotion": "nervous"
+        },
+        {
+          "text": "欠了赌坊不少钱……前阵子有人来要账？",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "欠了赌坊的钱……如果有人拿这个做文章呢？",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "不过嘛——大事化小。他水性好，人也实在。年轻时候还救过落水的孩子，全渡口都知道。",
+          "speaker_id": "li_zheng",
+          "emotion": "nervous"
+        },
+        {
+          "text": "欠了赌坊的钱……如果有人拿这个做文章呢？",
+          "speaker_id": "xia_lingyao",
+          "emotion": "anxious"
+        }
+      ],
       "options": [
         {
           "text": "继续询问",
@@ -195,12 +215,39 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "gain_clue": "clue_fan_boat_skill"
+      ]
     },
     "ask_agui_spending": {
       "text": "异常嘛……嗐，也不能说异常。就是——\n\n他昨天在客栈买了壶好酒，又打了半斤卤肉。出手挺阔的。\n\n按说刚死了主人的仆从……哪有心情喝酒吃肉啊？而且他马上要被遣散了，身上能有几个钱？",
       "emotion": "nervous",
+      "gain_clue": "clue_agui_spending",
+      "lines": [
+        {
+          "text": "异常嘛……嗐，也不能说异常。就是——",
+          "speaker_id": "li_zheng",
+          "emotion": "nervous"
+        },
+        {
+          "text": "他昨天在客栈买了壶好酒，又打了半斤卤肉。出手挺阔的。",
+          "speaker_id": "li_zheng",
+          "emotion": "nervous"
+        },
+        {
+          "text": "刚死了主人就买酒吃肉……出手阔绰。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "按说刚死了主人的仆从……哪有心情喝酒吃肉啊？而且他马上要被遣散了，身上能有几个钱？",
+          "speaker_id": "li_zheng",
+          "emotion": "nervous"
+        },
+        {
+          "text": "刚死了主人就大吃大喝……要么是演戏，要么是心里有底。",
+          "speaker_id": "xia_lingyao",
+          "emotion": "determined"
+        }
+      ],
       "options": [
         {
           "text": "继续询问",
@@ -210,11 +257,37 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "gain_clue": "clue_agui_spending"
+      ]
     },
     "ask_victim": {
       "text": "知道知道。做布匹生意的，来往走水路常歇在咱这儿。\n\n人嘛……精明是精明的。就是待下人刻薄了些。动不动呵斥，我听过好几回了。\n\n不过嘛——人死了，大事化小，就别说那么多坏话了。",
+      "lines": [
+        {
+          "text": "知道知道。做布匹生意的，来往走水路常歇在咱这儿。",
+          "speaker_id": "li_zheng",
+          "emotion": "nervous"
+        },
+        {
+          "text": "人嘛……精明是精明的。就是待下人刻薄了些。动不动呵斥，我听过好几回了。",
+          "speaker_id": "li_zheng",
+          "emotion": "nervous"
+        },
+        {
+          "text": "待下人刻薄……阿贵跟了他十二年。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "不过嘛——人死了，大事化小，就别说那么多坏话了。",
+          "speaker_id": "li_zheng",
+          "emotion": "nervous"
+        },
+        {
+          "text": "待下人刻薄……阿贵跟了他十二年，受的恐怕不止这些。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
       "options": [
         {
           "text": "继续询问",
@@ -227,62 +300,66 @@
       ]
     },
     "ask_recent_strangers": {
+      "set_flags": [
+        "stranger_from_nanjing_known"
+      ],
+      "gain_clue": "clue_third_handwriting",
       "lines": [
         {
-          "speaker_id": "li_zheng",
           "text": "异常嘛……嗯，这个不知道算不算——",
+          "speaker_id": "li_zheng",
           "emotion": "nervous"
         },
         {
-          "speaker_id": "li_zheng",
           "text": "半个月前吧。有个外地来的人在渡口打听事儿。穿得挺体面——长衫马褂，像个读书人。",
+          "speaker_id": "li_zheng",
           "emotion": "gossip"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "打听什么？",
+          "speaker_id": "lu_zhao",
           "emotion": "surprised"
         },
         {
-          "speaker_id": "li_zheng",
-          "text": "打听水路。问哪条航道夜里走、什么船什么时辰开。还问了——常走这条路的商客有哪些。"
+          "text": "打听水路。问哪条航道夜里走、什么船什么时辰开。还问了——常走这条路的商客有哪些。",
+          "speaker_id": "li_zheng"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "他自称什么人？",
+          "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
-          "speaker_id": "li_zheng",
           "text": "说是南京来的。做茶叶生意。名号嘛……我不太记得了。姓——好像姓顾？还是姓谷？反正文绉绉的。",
+          "speaker_id": "li_zheng",
           "emotion": "evasive",
           "highlight": [
             "南京来的"
           ]
         },
         {
+          "text": "南京来的人，半个月前就在打听水路和常客？这时间点也太巧了……",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）南京来的人，半个月前就在打听水路和常客？这时间点也太巧了……",
           "emotion": "anxious"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "他后来呢？还在渡口吗？",
+          "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
-          "speaker_id": "li_zheng",
           "text": "待了两三天就走了。我也没多想——过路的商人来打听行情嘛，正常。",
+          "speaker_id": "li_zheng",
           "emotion": "evasive"
         },
         {
+          "text": "……南京来的读书人。打听航道、时间、常客。半个月后——'南京来信'引诱周德茂走夜船。这两件事之间……",
           "speaker_id": "lu_zhao",
-          "text": "（……南京来的读书人。打听航道、时间、常客。半个月后——'南京来信'引诱周德茂走夜船。这两件事之间……）",
           "emotion": "serious"
         },
         {
+          "text": "大人……这事跟周氏说的那封信——会不会有关系？先记下来。",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）大人……这事跟周氏说的那封信——会不会有关系？先记下来。",
           "emotion": "determined"
         }
       ],
@@ -295,47 +372,6 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "gain_clue": "clue_third_handwriting",
-      "set_flags": [
-        "stranger_from_nanjing_known"
-      ]
-    },
-    "phase3_orders": {
-      "lines": [
-        {
-          "speaker_id": "li_zheng",
-          "text": "阿贵押在后院柴房，门口有人守着。老范那边我也派了两个脚夫盯住，他要上船就拦。",
-          "emotion": "nervous"
-        },
-        {
-          "speaker_id": "li_zheng",
-          "text": "沈姑娘……咳，沈清月回二楼房间了。她说谁要搜房，最好带着官面理由。",
-          "emotion": "nervous"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "理由已经有了。她若问，就说阿贵供述牵涉她。",
-          "emotion": "cold"
-        },
-        {
-          "speaker_id": "xia_lingyao",
-          "text": "这才像办案。刚才还催着结案，现在终于知道配合了。",
-          "emotion": "determined"
-        }
-      ],
-      "options": [
-        {
-          "text": "继续询问",
-          "goto": "hub"
-        },
-        {
-          "text": "先告辞",
-          "goto": "__exit__"
-        }
-      ],
-      "set_flags": [
-        "li_zheng_phase3_briefed"
       ]
     }
   }

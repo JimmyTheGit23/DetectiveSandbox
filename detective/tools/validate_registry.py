@@ -132,13 +132,17 @@ def check_case(case_id: str, actors: dict, scenes: dict, tracks: dict, mood_inde
     # casting.json
     casting_root = _load_json(case_dir / "casting.json")
     casting = casting_root.get("casting", {})
+    npcs = _load_json(case_dir / "npcs.json")  # 加载npcs.json用于检查portrait
     for nid, entry in casting.items():
         if not isinstance(entry, dict):
             errors.append(f"[case:{case_id}/casting:{nid}] 必须是字典")
             continue
         aid = entry.get("actor_id", "")
         if not aid:
-            errors.append(f"[case:{case_id}/casting:{nid}] 缺少 actor_id")
+            # 允许空actor_id，如果npcs.json中有portrait字段或角色是受害者
+            npc_data = npcs.get(nid, {})
+            if not npc_data.get("portrait") and not npc_data.get("is_victim"):
+                errors.append(f"[case:{case_id}/casting:{nid}] 缺少 actor_id 且 npcs.json 无 portrait")
         elif aid not in actors:
             errors.append(f"[case:{case_id}/casting:{nid}] 引用未注册 actor_id: {aid}")
     # locations.json

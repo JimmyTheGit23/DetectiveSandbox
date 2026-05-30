@@ -48,8 +48,7 @@
         "if_flag": "agui_confessed_mastermind",
         "schedule": {
           "location": "agui_room",
-          "activity": "detained_in_woodshed",
-          "public": false
+          "activity": "detained_in_woodshed"
         }
       }
     ]

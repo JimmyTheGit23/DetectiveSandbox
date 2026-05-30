@@ -313,6 +313,46 @@
         "rain_light",
         "mist_slow"
       ]
+    },
+    "scene_prologue_zhou_room": {
+      "name": "序章·周氏房间",
+      "background": "res://assets/cn/scenes/prologue_zhou_room.png",
+      "tags": ["indoor", "private", "small", "rain", "winter"],
+      "mood": "tense",
+      "description": "死者妻子暂住的偏房。桌上散着纸笔，墙角堆着包袱行李。",
+      "effects": ["candle_flicker"]
+    },
+    "scene_prologue_agui_room": {
+      "name": "序章·阿贵住处",
+      "background": "res://assets/cn/scenes/prologue_agui_room.png",
+      "tags": ["indoor", "private", "small", "rain", "winter"],
+      "mood": "cold",
+      "description": "杂物间改的临时住处。一张矮床，地上散着湿衣物。",
+      "effects": ["candle_flicker"]
+    },
+    "scene_prologue_inn_corridor": {
+      "name": "序章·客栈走廊",
+      "background": "res://assets/cn/scenes/prologue_inn_corridor.png",
+      "tags": ["indoor", "corridor", "rain", "winter"],
+      "mood": "mysterious",
+      "description": "通往二楼的走廊，昏暗灯光下有个外地女子靠在柱子上。",
+      "effects": ["candle_flicker"]
+    },
+    "scene_prologue_shen_room": {
+      "name": "序章·二楼客房",
+      "background": "res://assets/cn/scenes/prologue_shen_room.png",
+      "tags": ["indoor", "private", "small", "rain", "winter"],
+      "mood": "mysterious",
+      "description": "沈清月的房间。整洁但透着一股疏离感。",
+      "effects": ["candle_flicker"]
+    },
+    "scene_prologue_gambling_alley": {
+      "name": "序章·赌坊巷子",
+      "background": "res://assets/cn/scenes/prologue_gambling_alley.png",
+      "tags": ["outdoor", "alley", "rain", "winter", "seedy"],
+      "mood": "tense",
+      "description": "客栈后面的小巷，通往地下赌坊。湿漉漉的青石板，昏暗的灯笼。",
+      "effects": ["rain_light"]
     }
   }
 }

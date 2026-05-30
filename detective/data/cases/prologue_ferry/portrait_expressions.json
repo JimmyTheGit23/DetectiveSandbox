@@ -41,7 +41,7 @@
     "res://assets/cn/portraits/prologue_lu_zhao.png": {
       "base": "res://assets/cn/portraits/prologue_lu_zhao.png",
       "cold": "res://assets/cn/portraits/prologue_lu_zhao_cold.png",
-      "nervous": "res://assets/cn/portraits/prologue_lu_zhao_surprised.png",
+      "nervous": "res://assets/cn/portraits/prologue_lu_zhao_nervous.png",
       "serious": "res://assets/cn/portraits/prologue_lu_zhao_serious.png",
       "surprised": "res://assets/cn/portraits/prologue_lu_zhao_surprised.png"
     },

@@ -1,43 +1,11 @@
 {
-  "_comment": "兼容字段保留：name/title/intro/portrait 仅作 AssetResolver 不可用时的 fallback。新系统读 casting.json。",
-  "lu_zhao": {
-    "name": "陆昭",
-    "title": "巡按御史"
-  },
-  "victim_zhou_demao": {
-    "name": "周德茂",
-    "title": "死者 · 布商",
-    "intro": "荆江布商，携五十两货银乘夜船过江，清晨被发现溺亡在石矶渡江边。",
-    "always_in_notebook": true,
-    "is_victim": true
-  },
+  "_comment": "Generated from data/case_tables characters.csv. Runtime fallback NPC data.",
   "agui": {
     "name": "阿贵",
     "title": "死者仆从",
     "intro": "跟随周德茂十二年的老仆。",
     "dialogue": "agui",
     "portrait": "res://assets/cn/portraits/prologue_agui.png"
-  },
-  "lao_fan": {
-    "name": "老范",
-    "title": "石矶渡船家",
-    "intro": "在这段江面跑了二十年船的老船家。",
-    "dialogue": "lao_fan",
-    "portrait": "res://assets/cn/portraits/prologue_lao_fan.png"
-  },
-  "zhou_wife": {
-    "name": "周氏",
-    "title": "死者妻子",
-    "intro": "周德茂之妻。",
-    "dialogue": "zhou_wife",
-    "portrait": "res://assets/cn/portraits/prologue_zhou_wife.png"
-  },
-  "li_zheng": {
-    "name": "钱里正",
-    "title": "石矶渡里正",
-    "intro": "地方小吏，圆滑世故。",
-    "dialogue": "li_zheng",
-    "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
   },
   "fisherman_wang": {
     "name": "王大爷",
@@ -46,11 +14,45 @@
     "dialogue": "fisherman_wang",
     "portrait": "res://assets/cn/portraits/prologue_fisherman_wang.png"
   },
+  "lao_fan": {
+    "name": "老范",
+    "title": "石矶渡船家",
+    "intro": "在这段江面跑了二十年船的老船家。",
+    "dialogue": "lao_fan",
+    "portrait": "res://assets/cn/portraits/prologue_lao_fan.png"
+  },
+  "li_zheng": {
+    "name": "钱里正",
+    "title": "石矶渡里正",
+    "intro": "地方小吏，圆滑世故。",
+    "dialogue": "li_zheng",
+    "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
+  },
+  "lu_zhao": {
+    "name": "陆昭",
+    "title": "巡按御史",
+    "intro": "玩家本人。途经石矶渡时被卷入命案。",
+    "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+  },
   "shen_qingyue": {
     "name": "沈清月",
     "title": "药材商之女",
     "intro": "浔阳沈氏药材行独女，替父追债。案发前一天当众与周德茂对骂。",
     "dialogue": "shen_qingyue",
     "portrait": "res://assets/cn/portraits/prologue_shen_qingyue.png"
+  },
+  "victim_zhou_demao": {
+    "name": "周德茂",
+    "title": "死者 · 布商",
+    "intro": "荆江布商，携五十两货银乘夜船过江，清晨被发现溺亡在石矶渡江边。",
+    "always_in_notebook": true,
+    "is_victim": true
+  },
+  "zhou_wife": {
+    "name": "周氏",
+    "title": "死者妻子",
+    "intro": "周德茂之妻。",
+    "dialogue": "zhou_wife",
+    "portrait": "res://assets/cn/portraits/prologue_zhou_wife.png"
   }
 }

@@ -1,9 +1,10 @@
 {
-  "_comment": "沈清月对话树。真凶。调查A阶段伪装飒爽债主；调查B阶段逐渐收紧。按逆转裁判规格：每轮6-12句含助手评论。",
+  "_comment": "Generated from data/case_tables dialogue CSV.",
   "start": "hub",
   "nodes": {
     "hub": {
       "text": "你就是那个……同船活下来的？听说周氏告了你杀人。嘁——冤不冤的我不知道，但你问话倒挺利索。问吧。",
+      "emotion": "cold_smile",
       "options": [
         {
           "text": "你跟死者什么关系？",
@@ -13,81 +14,79 @@
         {
           "text": "案发前一天你跟周德茂吵架了？",
           "goto": "ask_quarrel",
+          "type": "press",
           "requires": [
             {
               "flag": "shen_talked_once"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "案发当晚你在做什么？",
           "goto": "ask_alibi",
+          "type": "ask",
           "requires": [
             {
               "flag": "shen_talked_once"
             }
-          ],
-          "type": "ask"
+          ]
         },
         {
           "text": "你认识老范吗？",
           "goto": "ask_fan_connection",
+          "type": "ask",
           "requires": [
             {
               "flag": "shen_quarrel_told"
             }
-          ],
-          "type": "ask"
+          ]
         },
         {
           "text": "你父亲的病，很严重？",
           "goto": "ask_father",
+          "type": "press",
           "requires": [
             {
               "evidence": "evidence_father_ledger"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "码头那晚——你没有回客栈吧？",
           "goto": "press_dock_timing",
+          "type": "press",
           "requires": [
             {
               "evidence": "evidence_dock_timing"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "王大爷在下游看到有人打捞东西。",
           "goto": "press_salvage",
+          "type": "press",
           "requires": [
             {
               "evidence": "evidence_salvage_mark"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "老范说——是个'药材行的姑娘'先找的他。",
           "goto": "press_connection",
+          "type": "press",
           "requires": [
             {
               "evidence": "evidence_shen_connection"
             }
-          ],
-          "type": "press"
+          ]
         },
         {
           "text": "（对峙）沈姑娘。该你坐下来好好说了。",
           "goto": "confession_trigger",
+          "type": "confrontation",
           "requires": {
             "all": [
-              {
-                "evidence": "evidence_cargo_silver"
-              },
               {
                 "evidence": "evidence_salvage_mark"
               },
@@ -98,59 +97,67 @@
                 "evidence": "evidence_dock_timing"
               }
             ]
-          },
-          "type": "confrontation"
+          }
         },
         {
           "text": "先告辞",
           "goto": "__exit__"
-        }
-      ],
-      "emotion": "cold_smile",
-      "text_variants": [
-        {
-          "when": {
-            "flag": "agui_confessed_mastermind"
-          },
-          "text": "二楼房间比走廊安静。沈清月坐在窗边，账册收得整整齐齐。\n\n她没有再靠柱挑衅，只是抬眼看你：'阿贵说什么，是阿贵的事。大人要问我，就拿证据来。'"
         }
       ]
     },
     "intro": {
+      "set_flags": [
+        "shen_talked_once"
+      ],
       "lines": [
         {
-          "speaker_id": "shen_qingyue",
           "text": "关系？欠债的和讨债的——就这么简单。",
+          "speaker_id": "shen_qingyue",
           "emotion": "bold"
         },
         {
-          "speaker_id": "shen_qingyue",
           "text": "他欠我沈家三十八两药材款。白纸黑字的借据。三个月了——催了七八回，一两没还。",
-          "emotion": "bold"
-        },
-        {
           "speaker_id": "shen_qingyue",
-          "text": "现在他死了。三十八两——打水漂了。'大人'——哦对了，您的官印好像丢了？那就叫你'公子'吧。公子，您说我是不是天底下最倒霉的债主？",
           "emotion": "bold"
         },
         {
+          "text": "现在他死了。三十八两——打水漂了。'大人'——哦对了，您的官印好像丢了？那就叫你'公子'吧。公子，您说我是不是天底下最倒霉的债主？",
+          "speaker_id": "shen_qingyue",
+          "emotion": "bold"
+        },
+        {
+          "text": "三十八两。三个月。催了七八回。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "嘶——她说得倒坦然。欠她钱的人死了，她反而亏了……确实没有杀人理由？",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）嘶——她说得倒坦然。欠她钱的人死了，她反而亏了……确实没有杀人理由？",
           "emotion": "worried"
         },
         {
+          "text": "她说得倒坦然。欠她钱的人死了，她反而亏了。",
+          "speaker_id": "xia_lingyao",
+          "emotion": "worried"
+        },
+        {
+          "text": "……先记下。'没有理由'——这话说得太顺了。",
           "speaker_id": "lu_zhao",
-          "text": "（……先记下。'没有理由'——这话说得太顺了。）",
           "emotion": "serious"
         },
         {
+          "text": "借据留着……杀了他这张纸就是废纸。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "大人不信？这是借据。您看看日期——三个月前。看看签字——周德茂亲笔。",
           "speaker_id": "shen_qingyue",
-          "text": "大人不信？（掏出一张折了好几道的纸）这是借据。您看看日期——三个月前。看看签字——周德茂亲笔。",
           "emotion": "cooperative"
         },
         {
-          "speaker_id": "shen_qingyue",
           "text": "我要是想杀他，何必留着借据？杀了他这张纸就是废纸。",
+          "speaker_id": "shen_qingyue",
           "emotion": "cooperative"
         }
       ],
@@ -163,51 +170,61 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "shen_talked_once"
       ]
     },
     "ask_quarrel": {
+      "set_flags": [
+        "shen_quarrel_told"
+      ],
       "lines": [
         {
-          "speaker_id": "shen_qingyue",
           "text": "对。我骂了他。当着码头二十多号人的面。",
-          "emotion": "bold"
-        },
-        {
           "speaker_id": "shen_qingyue",
-          "text": "（理了理袖口）'不还钱就别想走'——我原话。大人觉得有问题？",
           "emotion": "bold"
         },
         {
-          "speaker_id": "lu_zhao",
+          "text": "'不还钱就别想走'——我原话。大人觉得有问题？",
+          "speaker_id": "shen_qingyue",
+          "emotion": "bold"
+        },
+        {
           "text": "这话听上去像威胁。",
+          "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
-          "speaker_id": "shen_qingyue",
           "text": "'别想走'是说我会堵路讨债——不是说我会杀他。",
+          "speaker_id": "shen_qingyue",
           "emotion": "sharp"
         },
         {
-          "speaker_id": "shen_qingyue",
+          "text": "做生意的人不会杀欠债的——逻辑通。但前提是真的只想讨债。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
           "text": "大人，我做生意的人。杀了欠债的——谁还我钱？我虎，但没虎到那份上。",
+          "speaker_id": "shen_qingyue",
           "emotion": "bold"
         },
         {
+          "text": "嘶……说的也是。她要钱不要命——这逻辑通啊。但总觉得她太自在了。像是——早就想好怎么答了。",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）嘶……说的也是。她要钱不要命——这逻辑通啊。但总觉得她太自在了。像是——早就想好怎么答了。",
           "emotion": "anxious"
         },
         {
-          "speaker_id": "shen_qingyue",
           "text": "而且——我跟他吵完了，他答应到武昌就还。我就在渡口等着呢。等他回来。",
+          "speaker_id": "shen_qingyue",
           "emotion": "cooperative"
         },
         {
+          "text": "等他回来……她一直在渡口等着。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "谁知道等来的是一具尸体。行吧。就我这运气。",
           "speaker_id": "shen_qingyue",
-          "text": "谁知道等来的是一具尸体。（摊手）行吧。就我这运气。",
           "emotion": "bold"
         }
       ],
@@ -220,47 +237,47 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "shen_quarrel_told"
       ]
     },
     "ask_alibi": {
+      "set_flags": [
+        "shen_alibi_told"
+      ],
       "lines": [
         {
-          "speaker_id": "shen_qingyue",
           "text": "那天晚上？在码头看着他上船。确认他没跑——然后回客栈睡觉了。",
+          "speaker_id": "shen_qingyue",
           "emotion": "cooperative",
-          "highlight": [
-            "回客栈睡觉"
-          ],
           "record_type": "testimony",
           "record_title": "证词记录：沈清月的不在场证明",
-          "record_text": "沈清月声称案发当夜看周德茂上船后即返回客栈休息。"
+          "record_text": "沈清月声称案发当夜看周德茂上船后即返回客栈休息。",
+          "highlight": [
+            "回客栈睡觉"
+          ]
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "几时回的？有人看到你吗？",
+          "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
+          "text": "亥时前？客栈掌柜应该看到了——我跟他要了壶热水。",
           "speaker_id": "shen_qingyue",
-          "text": "亥时前？（想了想）客栈掌柜应该看到了——我跟他要了壶热水。",
           "emotion": "cooperative"
         },
         {
+          "text": "亥时前……那时候船刚走没多久。如果是真的——她确实没时间做什么手脚。",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）亥时前……那时候船刚走没多久。如果是真的——她确实没时间做什么手脚。",
           "emotion": "worried"
         },
         {
-          "speaker_id": "xia_lingyao",
           "text": "不过'看着他上船'——她对他的行踪掌握得也太清楚了吧？",
+          "speaker_id": "xia_lingyao",
           "emotion": "anxious"
         },
         {
+          "text": "'亥时前回客栈'。记下了。待会跟其他人的证词比对。",
           "speaker_id": "lu_zhao",
-          "text": "（'亥时前回客栈'。记下了。待会跟其他人的证词比对。）",
           "emotion": "serious"
         }
       ],
@@ -273,46 +290,46 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "shen_alibi_told"
       ]
     },
     "ask_fan_connection": {
+      "set_flags": [
+        "shen_denied_fan"
+      ],
       "lines": [
         {
-          "speaker_id": "shen_qingyue",
           "text": "老范？那个船家？",
+          "speaker_id": "shen_qingyue",
           "emotion": "cooperative"
         },
         {
+          "text": "见过几面吧。码头这么大的地方——低头不见抬头见。但不熟。",
           "speaker_id": "shen_qingyue",
-          "text": "（随意地摆摆手）见过几面吧。码头这么大的地方——低头不见抬头见。但不熟。",
           "emotion": "deflecting"
         },
         {
-          "speaker_id": "lu_zhao",
           "text": "只是'见过面'？",
+          "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
-          "speaker_id": "shen_qingyue",
           "text": "大人这话什么意思？我一个做药材的姑娘，跟一个跑船的老头能有什么关系？",
+          "speaker_id": "shen_qingyue",
           "emotion": "sharp"
         },
         {
+          "text": "她眯眼了——刚才问别的问题时她可不这样。碰到老范的事就变了。",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）她眯眼了——刚才问别的问题时她可不这样。碰到老范的事就变了。",
           "emotion": "determined"
         },
         {
-          "speaker_id": "shen_qingyue",
           "text": "他欠赌债的事我倒是听说了。码头人嘴杂嘛——谁不知道？但那跟我有什么关系？",
+          "speaker_id": "shen_qingyue",
           "emotion": "deflecting"
         },
         {
+          "text": "她主动提到了赌债——但我没问这个。",
           "speaker_id": "lu_zhao",
-          "text": "（她主动提到了赌债——但我没问这个。）",
           "emotion": "serious"
         }
       ],
@@ -325,176 +342,176 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "shen_denied_fan"
       ]
     },
     "ask_father": {
-      "lines": [
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "（一瞬间——她的表情僵住了。手指微微蜷缩。）",
-          "emotion": "cracking"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "……你查到我爹了？",
-          "emotion": "cold_smile"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "八十两的药。你家里只有四十二两。差额——你打算怎么补？",
-          "emotion": "cold"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "……跑别的帐呗。沈家在浔阳还有其他欠账的。",
-          "emotion": "cold_smile"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "大人想说什么？周德茂欠我三十八两——加上别的帐，凑够了不就行了？",
-          "emotion": "sharp"
-        },
-        {
-          "speaker_id": "xia_lingyao",
-          "text": "（低声）嘶——她紧张了。一提到她爹，整个人都不一样了。",
-          "emotion": "determined"
-        },
-        {
-          "speaker_id": "xia_lingyao",
-          "text": "等等——四十二两差额。周德茂带了五十两货银上船。如果那五十两没真的沉江……",
-          "emotion": "shocked"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "（三十八两旧债 + 五十两货银 = 八十八两。刚好够药钱。）",
-          "emotion": "serious"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "（看到你的表情变了，她抿了抿嘴）大人。你想多了。那五十两沉在江底呢——跟我有什么关系？",
-          "emotion": "deflecting"
-        }
-      ],
-      "options": [
-        {
-          "text": "继续询问",
-          "goto": "hub"
-        },
-        {
-          "text": "先告辞",
-          "goto": "__exit__"
-        }
-      ],
       "set_flags": [
         "shen_father_asked"
       ],
-      "gain_clue": "clue_shen_motive_calculation"
-    },
-    "press_dock_timing": {
+      "gain_clue": "clue_shen_motive_calculation",
       "lines": [
         {
-          "speaker_id": "lu_zhao",
-          "text": "你说亥时前就回了客栈。但有人看到——船开走之后一刻钟，你还在码头。",
-          "emotion": "cold"
-        },
-        {
+          "text": "一瞬间——她的表情僵住了。手指微微蜷缩。",
           "speaker_id": "shen_qingyue",
-          "text": "（微不可察地顿了顿）……一刻钟？谁说的？夜里那么黑——看错了吧。",
-          "emotion": "deflecting"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "看错了？那个人描述得很清楚——穿男装的高挑女子。这里只有你一个符合。",
-          "emotion": "cold"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "（抱臂的手紧了一下）……好吧。也许我多站了一会儿。看看江面。吹吹风。犯法吗？",
-          "emotion": "sharp"
-        },
-        {
-          "speaker_id": "xia_lingyao",
-          "text": "（低声）'多站了一会儿'？刚才她可是说'看他上船就走了'。时间对不上了。",
-          "emotion": "determined"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "你之前说的是'上船就回'。现在又说'多站了一会儿'。哪个是真的？",
-          "emotion": "cold"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "……（微微侧头）好。是我多站了一会儿。看着船走远了才回来的。——满意了？",
           "emotion": "cracking"
         },
         {
-          "speaker_id": "xia_lingyao",
-          "text": "（低声）她在修正说法——一小步一小步地退。就跟阿贵被逼的时候一样。",
-          "emotion": "anxious"
-        }
-      ],
-      "options": [
-        {
-          "text": "继续询问",
-          "goto": "hub"
-        },
-        {
-          "text": "先告辞",
-          "goto": "__exit__"
-        }
-      ],
-      "set_flags": [
-        "shen_timing_cracked"
-      ]
-    },
-    "press_salvage": {
-      "lines": [
-        {
-          "speaker_id": "lu_zhao",
-          "text": "沈姑娘。案发当夜天亮前——下游浅滩有人打捞东西。",
-          "emotion": "cold"
-        },
-        {
+          "text": "……你查到我爹了？",
           "speaker_id": "shen_qingyue",
-          "text": "……所以？跟我有什么关系？",
-          "emotion": "sharp"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "打捞的人——身量高挑，穿深色衣裳。像个女子。",
-          "emotion": "cold"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "（微微停了半拍）大人。穿深色衣裳身量高的人多了去了。",
-          "emotion": "deflecting"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "你说你亥时前就回客栈了。天亮前在下游——这怎么解释？",
-          "emotion": "cold"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "那不是我。（声音平稳，但手指不自觉地扣住了臂弯。）我那时候在睡觉。",
           "emotion": "cold_smile"
         },
         {
+          "text": "八十两的药。你家里只有四十二两。差额——你打算怎么补？",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "……跑别的帐呗。沈家在浔阳还有其他欠账的。",
+          "speaker_id": "shen_qingyue",
+          "emotion": "cold_smile"
+        },
+        {
+          "text": "大人想说什么？周德茂欠我三十八两——加上别的帐，凑够了不就行了？",
+          "speaker_id": "shen_qingyue",
+          "emotion": "sharp"
+        },
+        {
+          "text": "嘶——她紧张了。一提到她爹，整个人都不一样了。",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）她说'不是我'——可你注意到没有，她的手？刚才一直松着的手指，现在死死扣着。",
           "emotion": "determined"
         },
         {
+          "text": "等等——四十二两差额。周德茂带了五十两货银上船。如果那五十两没真的沉江……",
           "speaker_id": "xia_lingyao",
-          "text": "而且——下游浅滩。沉船的位置正好在上游。东西顺水漂下来——刚好到那。她怎么知道去那里捞？除非她算过。",
           "emotion": "shocked"
         },
         {
+          "text": "三十八两旧债 + 五十两货银 = 八十八两。刚好够药钱。",
           "speaker_id": "lu_zhao",
-          "text": "（记下了。打捞目击 + 时间矛盾 + 五十两货银。线快连上了。）",
+          "emotion": "serious"
+        },
+        {
+          "text": "大人。你想多了。那五十两沉在江底呢——跟我有什么关系？",
+          "speaker_id": "shen_qingyue",
+          "emotion": "deflecting"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "press_dock_timing": {
+      "set_flags": [
+        "shen_timing_cracked"
+      ],
+      "lines": [
+        {
+          "text": "你说亥时前就回了客栈。但有人看到——船开走之后一刻钟，你还在码头。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "……一刻钟？谁说的？夜里那么黑——看错了吧。",
+          "speaker_id": "shen_qingyue",
+          "emotion": "deflecting"
+        },
+        {
+          "text": "看错了？那个人描述得很清楚——穿男装的高挑女子。这里只有你一个符合。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "……好吧。也许我多站了一会儿。看看江面。吹吹风。犯法吗？",
+          "speaker_id": "shen_qingyue",
+          "emotion": "sharp"
+        },
+        {
+          "text": "'多站了一会儿'？刚才她可是说'看他上船就走了'。时间对不上了。",
+          "speaker_id": "xia_lingyao",
+          "emotion": "determined"
+        },
+        {
+          "text": "你之前说的是'上船就回'。现在又说'多站了一会儿'。哪个是真的？",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "……好。是我多站了一会儿。看着船走远了才回来的。——满意了？",
+          "speaker_id": "shen_qingyue",
+          "emotion": "cracking"
+        },
+        {
+          "text": "她在修正说法——一小步一小步地退。就跟阿贵被逼的时候一样。",
+          "speaker_id": "xia_lingyao",
+          "emotion": "anxious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "press_salvage": {
+      "set_flags": [
+        "shen_salvage_pressed"
+      ],
+      "lines": [
+        {
+          "text": "沈姑娘。案发当夜天亮前——下游浅滩有人打捞东西。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "……所以？跟我有什么关系？",
+          "speaker_id": "shen_qingyue",
+          "emotion": "sharp"
+        },
+        {
+          "text": "打捞的人——身量高挑，穿深色衣裳。像个女子。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "大人。穿深色衣裳身量高的人多了去了。",
+          "speaker_id": "shen_qingyue",
+          "emotion": "deflecting"
+        },
+        {
+          "text": "你说你亥时前就回客栈了。天亮前在下游——这怎么解释？",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "那不是我。我那时候在睡觉。",
+          "speaker_id": "shen_qingyue",
+          "emotion": "cold_smile"
+        },
+        {
+          "text": "她说'不是我'——可你注意到没有，她的手？刚才一直松着的手指，现在死死扣着。",
+          "speaker_id": "xia_lingyao",
+          "emotion": "determined"
+        },
+        {
+          "text": "而且——下游浅滩。沉船的位置正好在上游。东西顺水漂下来——刚好到那。她怎么知道去那里捞？除非她算过。",
+          "speaker_id": "xia_lingyao",
+          "emotion": "shocked"
+        },
+        {
+          "text": "记下了。打捞目击 + 时间矛盾 + 五十两货银。线快连上了。",
+          "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
       ],
@@ -507,56 +524,61 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "shen_salvage_pressed"
       ]
     },
     "press_connection": {
+      "set_flags": [
+        "shen_connection_pressed"
+      ],
       "lines": [
         {
-          "speaker_id": "lu_zhao",
           "text": "沈姑娘。老范说了——最初找他商量这事的，是一个'药材行的姑娘'。",
-          "emotion": "cold"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "（一瞬间面部完全静止——像被冰冻了。然后她笑了。）",
-          "emotion": "cold_fury"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "他这样说了？……有意思。一个赌鬼的话，大人也信？",
-          "emotion": "cold_fury"
-        },
-        {
           "speaker_id": "lu_zhao",
-          "text": "不只老范。阿贵也说——'有人教我'。那个人教了他怎么凿船。一个仆从自己想不出这种计划。",
           "emotion": "cold"
         },
         {
+          "text": "一瞬间面部完全静止——像被冰冻了。然后她笑了。",
           "speaker_id": "shen_qingyue",
-          "text": "……",
-          "emotion": "cracking"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "（沉默了整整五息。然后她慢慢地——把一直抱着的双臂放了下来。）",
-          "emotion": "cracking"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "大人。你是来定我罪的——还是来问话的？",
           "emotion": "cold_fury"
         },
         {
+          "text": "他这样说了？……有意思。一个赌鬼的话，大人也信？",
+          "speaker_id": "shen_qingyue",
+          "emotion": "cold_fury"
+        },
+        {
+          "text": "不只老范。阿贵也说——'有人教我'。那个人教了他怎么凿船。一个仆从自己想不出这种计划。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "不只老范。阿贵也说——有人教他。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "……",
+          "speaker_id": "shen_qingyue",
+          "emotion": "cracking"
+        },
+        {
+          "text": "沉默了整整五息。然后她慢慢地——把一直抱着的双臂放了下来。",
+          "speaker_id": "shen_qingyue",
+          "emotion": "cracking"
+        },
+        {
+          "text": "大人。你是来定我罪的——还是来问话的？",
+          "speaker_id": "shen_qingyue",
+          "emotion": "cold_fury"
+        },
+        {
+          "text": "她变了。刚才那个'飒爽女商人'不见了——这个才是真的她。冷得……像另一个人。",
           "speaker_id": "xia_lingyao",
-          "text": "（低声）她变了。刚才那个'飒爽女商人'不见了——这个才是真的她。冷得……像另一个人。",
           "emotion": "anxious"
         },
         {
+          "text": "阿贵的供述 + 老范的供述 + 打捞目击 + 时间矛盾。——够了。",
           "speaker_id": "lu_zhao",
-          "text": "（阿贵的供述 + 老范的供述 + 打捞目击 + 时间矛盾。——够了。）",
           "emotion": "serious"
         }
       ],
@@ -569,59 +591,61 @@
           "text": "先告辞",
           "goto": "__exit__"
         }
-      ],
-      "set_flags": [
-        "shen_connection_pressed"
       ]
     },
     "confession_trigger": {
-      "lines": [
-        {
-          "speaker_id": "lu_zhao",
-          "text": "沈清月。",
-          "emotion": "cold"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "阿贵说有人教他凿船。老范说是'药材行的姑娘'找的他。你案发当夜没有回客栈。下游有人在打捞货银。",
-          "emotion": "cold"
-        },
-        {
-          "speaker_id": "lu_zhao",
-          "text": "三条线——全部指向你。",
-          "emotion": "cold"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "（久久凝视着你。然后她——笑了。不是之前的飒，是一种极冷的、赞赏的笑。）",
-          "emotion": "cold_fury"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "……你比我想象的快。",
-          "emotion": "cold_fury"
-        },
-        {
-          "speaker_id": "shen_qingyue",
-          "text": "好。那就坐下来谈。——不过大人，'指向'不等于'证明'。你想定我的罪——就拿真东西来。",
-          "emotion": "cold_fury"
-        },
-        {
-          "speaker_id": "xia_lingyao",
-          "text": "（低声）嘶——她认了？不……她没认。她是在说'你证据不够'。这比阿贵难对付多了……",
-          "emotion": "anxious"
-        },
-        {
-          "speaker_id": "xia_lingyao",
-          "text": "陆大人——她不会像阿贵那样哭着认罪的。这次你得一步一步把她的逻辑拆碎。准备好了吗？",
-          "emotion": "determined"
-        }
-      ],
       "set_flags": [
         "shen_confrontation_triggered"
       ],
       "trigger_confrontation": true,
       "confrontation_key": "confrontation_final",
+      "lines": [
+        {
+          "text": "沈清月。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "阿贵说有人教他凿船。老范说是'药材行的姑娘'找的他。你案发当夜没有回客栈。下游有人在打捞货银。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "阿贵说有人教他凿船。老范说是药材行的姑娘找的他。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "三条线——全部指向你。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "久久凝视着你。然后她——笑了。不是之前的飒，是一种极冷的、赞赏的笑。",
+          "speaker_id": "shen_qingyue",
+          "emotion": "cold_fury"
+        },
+        {
+          "text": "……你比我想象的快。",
+          "speaker_id": "shen_qingyue",
+          "emotion": "cold_fury"
+        },
+        {
+          "text": "好。那就坐下来谈。——不过大人，'指向'不等于'证明'。你想定我的罪——就拿真东西来。",
+          "speaker_id": "shen_qingyue",
+          "emotion": "cold_fury"
+        },
+        {
+          "text": "嘶——她认了？不……她没认。她是在说'你证据不够'。这比阿贵难对付多了……",
+          "speaker_id": "xia_lingyao",
+          "emotion": "anxious"
+        },
+        {
+          "text": "陆大人——她不会像阿贵那样哭着认罪的。这次你得一步一步把她的逻辑拆碎。准备好了吗？",
+          "speaker_id": "xia_lingyao",
+          "emotion": "determined"
+        }
+      ],
       "options": [
         {
           "text": "开始对峙",

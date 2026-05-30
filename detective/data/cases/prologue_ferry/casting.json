@@ -1,7 +1,31 @@
 {
-  "_comment": "序章「渡口沉舟」角色表。立绘路径回退由 npcs.json 提供，语音缺省。",
+  "_comment": "Generated from data/case_tables characters.csv.",
   "case_id": "prologue_ferry",
   "casting": {
+    "agui": {
+      "role_name": "阿贵",
+      "role_title": "死者仆从",
+      "role_intro": "跟随周德茂十二年的老仆。",
+      "portrait": "res://assets/cn/portraits/prologue_agui.png"
+    },
+    "fisherman_wang": {
+      "role_name": "王大爷",
+      "role_title": "打渔老翁",
+      "role_intro": "下游渔村的老渔翁。",
+      "portrait": "res://assets/cn/portraits/prologue_fisherman_wang.png"
+    },
+    "lao_fan": {
+      "role_name": "老范",
+      "role_title": "石矶渡船家",
+      "role_intro": "在这段江面跑了二十年船的老船家。",
+      "portrait": "res://assets/cn/portraits/prologue_lao_fan.png"
+    },
+    "li_zheng": {
+      "role_name": "钱里正",
+      "role_title": "石矶渡里正",
+      "role_intro": "地方小吏，圆滑世故。",
+      "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
+    },
     "lu_zhao": {
       "actor_id": "actor_imperial_inspector",
       "role_name": "陆昭",
@@ -10,53 +34,24 @@
       "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
       "is_player": true
     },
-    "victim_zhou_demao": {
-      "actor_id": "",
-      "role_name": "周德茂",
-      "role_title": "死者 · 布商",
-      "role_intro": "荆江布商，携五十两货银乘夜船过江，清晨被发现溺亡在石矶渡江边。"
-    },
-    "agui": {
-      "actor_id": "",
-      "role_name": "阿贵",
-      "role_title": "死者仆从",
-      "role_intro": "跟随周德茂十二年的老仆。案发后惊魂未定，泪流不止。被人利用的棋子。",
-      "portrait": "res://assets/cn/portraits/prologue_agui.png"
-    },
-    "lao_fan": {
-      "actor_id": "",
-      "role_name": "老范",
-      "role_title": "石矶渡船家",
-      "role_intro": "在这段江面跑了二十年船的老船家。黝黑精瘦，手上全是茧。",
-      "portrait": "res://assets/cn/portraits/prologue_lao_fan.png"
-    },
-    "zhou_wife": {
-      "actor_id": "",
-      "role_name": "周氏",
-      "role_title": "死者妻子",
-      "role_intro": "周德茂之妻。坚信丈夫之死不是意外，在码头跪地拦住了陆昭。",
-      "portrait": "res://assets/cn/portraits/prologue_zhou_wife.png"
-    },
-    "li_zheng": {
-      "actor_id": "",
-      "role_name": "钱里正",
-      "role_title": "石矶渡里正",
-      "role_intro": "五十多岁的地方小吏，圆滑世故。只想尽快把事情摁下去。",
-      "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
-    },
-    "fisherman_wang": {
-      "actor_id": "",
-      "role_name": "王大爷",
-      "role_title": "打渔老翁",
-      "role_intro": "下游渔村的老渔翁。案发当夜在江上，看到了一些不该看到的东西。",
-      "portrait": "res://assets/cn/portraits/prologue_fisherman_wang.png"
-    },
     "shen_qingyue": {
-      "actor_id": "",
       "role_name": "沈清月",
       "role_title": "药材商之女",
-      "role_intro": "浔阳沈氏药材行的独女。替病重的父亲追讨周德茂欠下的三十八两药材款，案发前一天当众与死者对骂。穿男装、束长发，英气逼人。",
+      "role_intro": "浔阳沈氏药材行独女，替父追债。案发前一天当众与周德茂对骂。",
+      "portrait": "res://assets/cn/portraits/prologue_shen_qingyue.png",
       "is_culprit": true
+    },
+    "victim_zhou_demao": {
+      "role_name": "周德茂",
+      "role_title": "死者 · 布商",
+      "role_intro": "荆江布商，携五十两货银乘夜船过江，清晨被发现溺亡在石矶渡江边。",
+      "is_victim": true
+    },
+    "zhou_wife": {
+      "role_name": "周氏",
+      "role_title": "死者妻子",
+      "role_intro": "周德茂之妻。",
+      "portrait": "res://assets/cn/portraits/prologue_zhou_wife.png"
     }
   }
 }

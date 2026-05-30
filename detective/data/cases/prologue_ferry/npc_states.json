@@ -1,38 +1,105 @@
 {
   "_comment": "序章 NPC 状态机。教学案较简单，主要追踪阿贵和老范的镇定值。",
   "agui": {
-    "initial": { "composure": 3 },
+    "initial": {
+      "composure": 3
+    },
     "transitions": [
-      { "on": "node_visited:agui.press_alibi", "delta": { "composure": -1 } },
-      { "on": "node_visited:agui.show_bladder", "delta": { "composure": -2 } },
-      { "on": "evidence_obtained:evidence_float_bladder", "delta": { "composure": -1 } },
-      { "on": "evidence_obtained:evidence_dismissal_note", "delta": { "composure": -1 } }
+      {
+        "on": "node_visited:agui.press_alibi",
+        "delta": {
+          "composure": -1
+        }
+      },
+      {
+        "on": "node_visited:agui.show_bladder",
+        "delta": {
+          "composure": -2
+        }
+      },
+      {
+        "on": "evidence_obtained:evidence_float_bladder",
+        "delta": {
+          "composure": -1
+        }
+      },
+      {
+        "on": "evidence_obtained:evidence_dismissal_note",
+        "delta": {
+          "composure": -1
+        }
+      }
     ]
   },
   "lao_fan": {
-    "initial": { "composure": 4 },
+    "initial": {
+      "composure": 4
+    },
     "transitions": [
-      { "on": "node_visited:lao_fan.press_route", "delta": { "composure": -1 } },
-      { "on": "node_visited:lao_fan.show_iou", "delta": { "composure": -2 } },
-      { "on": "evidence_obtained:evidence_hull_hole", "delta": { "composure": -1 } },
-      { "on": "evidence_obtained:clue_fan_alibi_hole", "delta": { "composure": -1 } },
-      { "on": "evidence_obtained:evidence_gambling_iou", "delta": { "composure": -1 } }
+      {
+        "on": "node_visited:lao_fan.press_route",
+        "delta": {
+          "composure": -1
+        }
+      },
+      {
+        "on": "node_visited:lao_fan.show_iou",
+        "delta": {
+          "composure": -2
+        }
+      },
+      {
+        "on": "evidence_obtained:evidence_hull_hole",
+        "delta": {
+          "composure": -1
+        }
+      },
+      {
+        "on": "evidence_obtained:clue_fan_alibi_hole",
+        "delta": {
+          "composure": -1
+        }
+      },
+      {
+        "on": "evidence_obtained:evidence_gambling_iou",
+        "delta": {
+          "composure": -1
+        }
+      }
     ]
   },
   "zhou_wife": {
-    "initial": { "composure": 2, "openness": 2 },
+    "initial": {
+      "composure": 2,
+      "openness": 2
+    },
     "transitions": [
-      { "on": "node_visited:zhou_wife.comfort", "delta": { "openness": 1 } }
+      {
+        "on": "node_visited:zhou_wife.comfort",
+        "delta": {
+          "openness": 1
+        }
+      }
     ]
   },
   "li_zheng": {
-    "initial": { "composure": 4 },
+    "initial": {
+      "composure": 4
+    },
     "transitions": []
   },
   "fisherman_wang": {
-    "initial": { "composure": 3, "openness": 1 },
+    "initial": {
+      "composure": 3,
+      "openness": 1
+    },
     "transitions": [
-      { "on": "node_visited:fisherman_wang.trust", "delta": { "openness": 1 } }
+      {
+        "on": "node_visited:fisherman_wang.trust",
+        "delta": {
+          "openness": 1
+        }
+      }
     ]
   }
 }

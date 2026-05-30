@@ -341,6 +341,9 @@ static func _parse_condition(value):
 	if value is Dictionary or value is Array:
 		return value
 	var text := str(value).strip_edges()
+	# 允许字符串"null"作为空值处理
+	if text.to_lower() == "null":
+		return null
 	if text.begins_with("{") or text.begins_with("["):
 		return JSON.parse_string(text)
 	if text.find(";") >= 0:

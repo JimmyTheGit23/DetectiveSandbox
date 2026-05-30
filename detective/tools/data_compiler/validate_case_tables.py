@@ -100,6 +100,10 @@ def _check_unique(rows: List[JsonDict], key_fields: List[str], label: str, rep: 
 def _check_condition_cell(value: Any, label: str, rep: Reporter) -> None:
     if is_blank(value):
         return
+    # 允许字符串"null"作为空值处理
+    text = str(value).strip()
+    if text.lower() == "null":
+        return
     try:
         parse_condition(value)
     except Exception as e:
@@ -427,7 +431,7 @@ def validate_case(case_id: str, tables_root: Path) -> bool:
         event_id = _cell(row, "event_id")
         if event_ids and event_id not in event_ids:
             rep.error("day_event_lines.csv event_id 不存在: %s" % event_id)
-        if _cell(row, "line_kind") not in {"text", "dict"}:
+        if _cell(row, "line_kind") not in {"text", "dict", "dialogue"}:
             rep.error("day_event_lines.csv line_kind 非法: %s" % _cell(row, "line_kind"))
         if not _cell(row, "text"):
             rep.error("day_event_lines.csv event_id=%s 缺 text" % event_id)
