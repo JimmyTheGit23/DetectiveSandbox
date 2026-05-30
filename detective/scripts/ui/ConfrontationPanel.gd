@@ -2008,7 +2008,7 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3, sh
 func _camera_switch_to_companion_only(duration: float = 0.3) -> void:
 	if not CAMERA_SWITCH_ENABLED:
 		return
-	_current_camera_view = "protagonist"
+	_current_camera_view = "protagonist"  # 使用 "protagonist" 状态，因为搭档镜头与主角镜头类似
 
 	if _camera_tween and _camera_tween.is_valid():
 		_camera_tween.kill()
@@ -2080,8 +2080,15 @@ func _camera_reset_to_npc() -> void:
 func _auto_camera_switch(speaker: String, emotion: String, line_data: Dictionary = {}) -> void:
 	if not CAMERA_SWITCH_ENABLED:
 		return
-	# 叙述/内心独白 → 不切换镜头，保持当前状态
+	# 叙述/内心独白 → 隐藏立绘，不切换镜头
 	if emotion == "narration" or emotion == "inner_thought" or speaker == "":
+		# 隐藏主角立绘
+		if _protagonist_rect and _protagonist_rect.visible:
+			_protagonist_rect.visible = false
+		# 隐藏搭档立绘
+		if _companion_rect and _companion_rect.visible:
+			_companion_rect.visible = false
+		# 对话小头像已在 _update_dialogue_portrait 中处理
 		return
 	# 检查是否需要显示两人同框
 	var show_both: bool = bool(line_data.get("show_both", false))
@@ -2106,10 +2113,7 @@ func _auto_camera_switch(speaker: String, emotion: String, line_data: Dictionary
 	# NPC/其他人说话 → 切到NPC镜头
 	else:
 		_camera_switch_to_npc()
-		if _companion_rect:
-			_companion_rect.modulate = Color(1, 1, 1, 0.85)
-		if _protagonist_rect:
-			_protagonist_rect.modulate = Color(1, 1, 1, 1.0)
+		# NPC镜头下不需要显示搭档/主角立绘，由 _camera_switch_to_npc 处理隐藏
 
 ## 在浏览模式进入时确保NPC镜头
 func _camera_ensure_browsing() -> void:
