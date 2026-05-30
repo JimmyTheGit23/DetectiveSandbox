@@ -44,7 +44,7 @@ lao_fan,hub,true,哟……你就是那个同船的？听说周氏告了你杀人
 lao_fan,intro,,,,fan_talked_once,,,,,,
 lao_fan,ask_route,,"那客人催得急啊！说要赶武昌的早市。走大路绕远，走那条——
 
-嗐，老汉也知道有礁石。但水涨了以后，以前那礁石应该没过去了嘛。谁知道还露着。",,,,,,,,
+嗐，我也知道有礁石。但水涨了以后，以前那礁石应该没过去了嘛。谁知道还露着。",,,,,,,,
 lao_fan,press_route,,,,,,,,,,
 lao_fan,ask_rescue,,,,fan_alibi_contradiction,,,,,,
 lao_fan,show_hull,,,,,,,,,,
