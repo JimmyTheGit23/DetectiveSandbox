@@ -89,6 +89,12 @@ testimony_2,fail_dialogue,0,阿贵,,暗礁撞的！石头不长眼！大人您�
 testimony_2,fail_dialogue,1,凌瑶,,（低声）他在死撑'暗礁'的谎。咱们手里有能证明船底是人凿的东西——用它堵他的嘴。,worried
 testimony_3,fail_dialogue,0,阿贵,,大人……小的只是个下人，哪有本事害人性命……您搞错了！,defensive
 testimony_3,fail_dialogue,1,凌瑶,,（低声）他装孝子呢。好主仆？那咱们手里那张字据怎么说？拿出来打他脸。,worried
+testimony_3,transition_dialogue,0,阿贵,,（双手抱头，蹲在地上）小的……小的只是个下人……
+testimony_3,transition_dialogue,1,凌瑶,,（低声）他又在装可怜了。可这次——遣散字据在他脸上。
+testimony_3,transition_dialogue,2,钱里正,,（低声）这……遣散字据……阿贵，你之前可没提过这个。
+testimony_3,transition_dialogue,3,周氏,,（突然开口）阿贵。老爷遣散你——是为什么？
+testimony_3,transition_dialogue,4,阿贵,,（身体一僵）夫、夫人……
+testimony_3,transition_dialogue,5,凌瑶,,（低声）周氏开口了。这下他更难编了。
 shen_testimony_1,transition_dialogue,0,,,沈清月的表情变了——只有一瞬间。嘴角的弧度消失了。她重新抱起双臂，但这次——手指攥得更紧了。,narration
 shen_testimony_1,transition_dialogue,1,凌瑶,,（低声）看到了吗？她在调整姿势——重新找站稳的方式。第一层壳被敲碎了。,determined
 shen_testimony_1,transition_dialogue,2,凌瑶,,（深吸一口气，小声）我手心全是汗……比刚才审阿贵紧张十倍。,anxious
@@ -120,3 +126,8 @@ shen_testimony_2,fail_dialogue,0,沈清月,,一个赌鬼和一个杀人犯的话
 shen_testimony_2,fail_dialogue,1,凌瑶,,（低声）她硬撑'别人的话不可信'——可老范亲口说了那个中间人。拿那条证据堵她！,worried
 shen_testimony_3,fail_dialogue,0,沈清月,,大人。巧合。全部都是巧合。——你带着这些'巧合'去县衙告我试试看？,cold_fury
 shen_testimony_3,fail_dialogue,1,凌瑶,,（低声）嘶……她的谎说了三遍了，咱们得把她时间线上的矛盾砸在她脸上——！,worried
+shen_testimony_3,transition_dialogue,0,沈清月,,（抱臂，下巴微抬）大人。您的证据——都是间接的。
+shen_testimony_3,transition_dialogue,1,凌瑶,,（低声）她在说'你没有直接证据'。这是她最后的防线。
+shen_testimony_3,transition_dialogue,2,你,,间接证据也是证据。一条链环扣一环——足以定罪。
+shen_testimony_3,transition_dialogue,3,沈清月,,（冷笑）链环？大人，您这链环——哪一环不是别人嘴里说出来的？
+shen_testimony_3,transition_dialogue,4,凌瑶,,（低声）她在质疑证据的可信度。得用最硬的那块——时间线矛盾。
