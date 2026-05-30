@@ -33,9 +33,6 @@
     "npc_id=shen_qingyue",
     "node_count=10",
     "option_count=27",
-    "node_check=shen_qingyue.condition",
-    "status=WARN",
-    "message=unknown_cond:hub requires.all",
     "node_check=shen_qingyue.structure",
     "status=PASS",
     "message=structure_valid",
@@ -49,7 +46,7 @@
     "npc_complete=zhou_wife",
     "path_count=51",
     "error_count=0",
-    "warning_count=1",
+    "warning_count=0",
     "TEST_STATUS=PASS",
     "TEST_COMPLETE"
   ]

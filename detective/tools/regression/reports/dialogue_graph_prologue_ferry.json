@@ -1,6 +1,6 @@
 {
   "case_id": "prologue_ferry",
-  "timestamp": "2026-05-30T00:19:16.364298",
+  "timestamp": "2026-05-30T10:28:58.554119",
   "stats": {
     "case_id": "prologue_ferry",
     "total_nodes": 51,
@@ -74,7 +74,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 5
+        "lines_count": 6
       },
       "agui.ask_relationship": {
         "npc_id": "agui",
@@ -98,7 +98,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 4
+        "lines_count": 6
       },
       "agui.show_bladder": {
         "npc_id": "agui",
@@ -122,7 +122,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 14
+        "lines_count": 16
       },
       "fisherman_wang.hub": {
         "npc_id": "fisherman_wang",
@@ -138,7 +138,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 6
+        "lines_count": 7
       },
       "fisherman_wang.ask_channel": {
         "npc_id": "fisherman_wang",
@@ -146,7 +146,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 8
       },
       "fisherman_wang.ask_meeting": {
         "npc_id": "fisherman_wang",
@@ -154,7 +154,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 7
       },
       "fisherman_wang.trust": {
         "npc_id": "fisherman_wang",
@@ -162,7 +162,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 7
       },
       "fisherman_wang.ask_dawn_sighting": {
         "npc_id": "fisherman_wang",
@@ -170,7 +170,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 5
       },
       "fisherman_wang.ask_river_life": {
         "npc_id": "fisherman_wang",
@@ -178,7 +178,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 5
       },
       "lao_fan.hub": {
         "npc_id": "lao_fan",
@@ -194,7 +194,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 5
+        "lines_count": 7
       },
       "lao_fan.ask_route": {
         "npc_id": "lao_fan",
@@ -202,7 +202,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 4
       },
       "lao_fan.press_route": {
         "npc_id": "lao_fan",
@@ -218,7 +218,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 4
+        "lines_count": 5
       },
       "lao_fan.show_hull": {
         "npc_id": "lao_fan",
@@ -226,7 +226,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 4
+        "lines_count": 5
       },
       "lao_fan.show_iou": {
         "npc_id": "lao_fan",
@@ -242,7 +242,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 10
+        "lines_count": 13
       },
       "lao_fan.press_shen_connection": {
         "npc_id": "lao_fan",
@@ -250,7 +250,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 12
+        "lines_count": 13
       },
       "li_zheng.hub": {
         "npc_id": "li_zheng",
@@ -266,7 +266,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 5
+        "lines_count": 6
       },
       "li_zheng.ask_reef": {
         "npc_id": "li_zheng",
@@ -282,7 +282,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 6
       },
       "li_zheng.ask_agui_spending": {
         "npc_id": "li_zheng",
@@ -290,7 +290,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 5
       },
       "li_zheng.ask_victim": {
         "npc_id": "li_zheng",
@@ -298,7 +298,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 5
       },
       "li_zheng.ask_recent_strangers": {
         "npc_id": "li_zheng",
@@ -322,7 +322,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 7
+        "lines_count": 10
       },
       "shen_qingyue.ask_quarrel": {
         "npc_id": "shen_qingyue",
@@ -330,7 +330,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 8
+        "lines_count": 10
       },
       "shen_qingyue.ask_alibi": {
         "npc_id": "shen_qingyue",
@@ -378,7 +378,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 9
+        "lines_count": 10
       },
       "shen_qingyue.confession_trigger": {
         "npc_id": "shen_qingyue",
@@ -386,7 +386,7 @@
         "is_start": false,
         "end": false,
         "options_count": 1,
-        "lines_count": 8
+        "lines_count": 9
       },
       "zhou_wife.hub": {
         "npc_id": "zhou_wife",
@@ -402,7 +402,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 3
       },
       "zhou_wife.ask_agui": {
         "npc_id": "zhou_wife",
@@ -410,7 +410,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 7
+        "lines_count": 9
       },
       "zhou_wife.ask_suspicion": {
         "npc_id": "zhou_wife",
@@ -418,7 +418,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 5
       },
       "zhou_wife.ask_swimming": {
         "npc_id": "zhou_wife",
@@ -426,7 +426,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 5
+        "lines_count": 6
       },
       "zhou_wife.comfort": {
         "npc_id": "zhou_wife",
@@ -434,7 +434,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 3
       },
       "zhou_wife.ask_documents": {
         "npc_id": "zhou_wife",
@@ -442,7 +442,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 0
+        "lines_count": 3
       },
       "zhou_wife.ask_why_night_ferry": {
         "npc_id": "zhou_wife",
@@ -458,7 +458,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 7
+        "lines_count": 8
       },
       "zhou_wife.react_agui_confessed": {
         "npc_id": "zhou_wife",
