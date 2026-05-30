@@ -1170,7 +1170,7 @@ func _after_mid_confrontation(result: String) -> void:
 func _return_to_investigation(result: String) -> void:
 	# 返回主界面继续调查
 	menu_panel.visible = true
-	BgmPlayer.play("investigation")
+	BgmPlayer.play("ferry_inn")
 	# 注意：set_flag("agui_confessed_mastermind") 已在上层调用。
 	# GameManager.set_flag 内部自动调用 _check_progression()，
 	# 所以 phase_3 的解锁条件（flag: agui_confessed_mastermind）已满足，

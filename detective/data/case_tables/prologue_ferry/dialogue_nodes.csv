@@ -70,6 +70,12 @@ li_zheng,ask_victim,,"知道知道。做布匹生意的，来往走水路常歇�
 
 不过嘛——人死了，大事化小，就别说那么多坏话了。",,,,,,,,
 li_zheng,ask_recent_strangers,,,,stranger_from_nanjing_known,,clue_third_handwriting,,,,
+li_zheng,ask_next_step,,"阿贵招了——但供出的人是沈清月。大人，这事……不好办啊。
+沈家在这一带做了几十年药材生意，人脉广。光凭阿贵一张嘴，县衙那边不会批捕的。
+您得找到实证。码头时间线、货银去向、她跟老范的联系——哪条都行，但得有实锤。",determined,,,,,,,
+li_zheng,ask_shen_opinion,,"沈清月……说实话，以前觉得她就是个精明的生意人。讨债凶是凶了点，但也没出过格。
+不过现在想想——她那天在码头骂周德茂'别想走'，我还以为是气话。
+大人，您要是去查她……小心点。这姑娘脑子好使，嘴也利索。",nervous,,,,,,,
 shen_qingyue,hub,true,你就是那个……同船活下来的？听说周氏告了你杀人。嘁——冤不冤的我不知道，但你问话倒挺利索。问吧。,cold_smile,,,,,,,
 shen_qingyue,intro,,,,shen_talked_once,,,,,,
 shen_qingyue,ask_quarrel,,,,shen_quarrel_told,,,,,,
