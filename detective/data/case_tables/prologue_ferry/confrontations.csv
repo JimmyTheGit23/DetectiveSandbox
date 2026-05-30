@@ -1,3 +1,3 @@
 ﻿confrontation_id,suspect,is_final,background,bgm,bgm_break,bgm_final_round,confidence,writer_note
-confrontation,agui,,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_court_opening,ferry_confrontation,5,
-confrontation_final,shen_qingyue,true,,accuse,pursuit,cornered,3,第二阶段对峙：沈清月（FINAL BOSS）。击破阿贵后进入。难度更高——她用逻辑防御而非哭诉。
+confrontation,agui,,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_court_opening,ferry_confrontation,10,
+confrontation_final,shen_qingyue,true,,accuse,pursuit,cornered,10,第二阶段对峙：沈清月（FINAL BOSS）。击破阿贵后进入。难度更高——她用逻辑防御而非哭诉。
