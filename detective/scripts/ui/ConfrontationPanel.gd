@@ -1914,9 +1914,17 @@ func _is_companion_speaker(speaker: String, line_data: Dictionary = {}) -> bool:
 func _camera_switch_to_npc(duration: float = 0.3) -> void:
 	if not CAMERA_SWITCH_ENABLED:
 		return
+	# 即使已经是NPC镜头，也要确保搭档/主角立绘被隐藏
+	if _protagonist_rect and _protagonist_rect.visible:
+		_protagonist_rect.visible = false
+	if _companion_rect and _companion_rect.visible:
+		_companion_rect.visible = false
 	if _current_camera_view == "npc":
 		return
 	_current_camera_view = "npc"
+	# 确保搭档立绘在NPC镜头下不可见
+	if _companion_rect:
+		_companion_rect.visible = false
 
 	# 杀死之前的镜头动画
 	if _camera_tween and _camera_tween.is_valid():
@@ -1990,6 +1998,9 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3, sh
 				_update_companion_portrait()
 				_camera_tween.tween_property(_companion_rect, "offset_left", 350.0, duration)
 				_camera_tween.tween_property(_companion_rect, "offset_right", 650.0, duration)
+				# 两人同框时，搭档立绘也调整高度，确保显示全身
+				_camera_tween.tween_property(_companion_rect, "offset_top", 0.0, duration)
+				_camera_tween.tween_property(_companion_rect, "offset_bottom", 0.0, duration)
 				_camera_tween.tween_property(_companion_rect, "modulate:a", 0.9, duration * 0.5)
 			else:
 				# 只显示主角，搭档淡出
@@ -2029,8 +2040,9 @@ func _camera_switch_to_companion_only(duration: float = 0.3) -> void:
 		_update_companion_portrait()
 		_camera_tween.tween_property(_companion_rect, "offset_left", 50.0, duration)
 		_camera_tween.tween_property(_companion_rect, "offset_right", 400.0, duration)
-		_camera_tween.tween_property(_companion_rect, "offset_top", 100.0, duration)
-		_camera_tween.tween_property(_companion_rect, "offset_bottom", -100.0, duration)
+		# 调整搭档立绘高度，确保显示全身（包括下半身）
+		_camera_tween.tween_property(_companion_rect, "offset_top", 0.0, duration)
+		_camera_tween.tween_property(_companion_rect, "offset_bottom", 0.0, duration)
 		_camera_tween.tween_property(_companion_rect, "modulate:a", 1.0, duration * 0.5)
 
 	_camera_tween.chain().tween_callback(func():
