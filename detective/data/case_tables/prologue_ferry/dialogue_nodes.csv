@@ -85,6 +85,8 @@ shen_qingyue,ask_father,,,,shen_father_asked,,clue_shen_motive_calculation,,,,
 shen_qingyue,press_dock_timing,,,,shen_timing_cracked,,,,,,
 shen_qingyue,press_salvage,,,,shen_salvage_pressed,,,,,,
 shen_qingyue,press_connection,,,,shen_connection_pressed,,,,,,
+shen_qingyue,react_agui_caught,,"阿贵招了？……意料之中。他那种人，扛不住的。",cold_fury,,,,,,,
+shen_qingyue,ask_father_after,,"……还在躺着。八十两的药，一天不能断。",broken,,,,,,,
 shen_qingyue,confession_trigger,,,,shen_confrontation_triggered,,,True,confrontation_final,,
 zhou_wife,hub,true,"……里正说让你查。我拦不住。
 
