@@ -281,6 +281,237 @@
       }
     },
     {
+      "id": "evt_agui_breakdown",
+      "trigger": {
+        "all": [
+          {
+            "visited": "agui.ask_twelve_years"
+          },
+          {
+            "not": {
+              "flag": "evt_agui_breakdown_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "agui_confessed_mastermind"
+            }
+          }
+        ]
+      },
+      "title": "崩溃",
+      "hint": "阿贵突然崩溃了……",
+      "narration": [
+        {
+          "speaker": "",
+          "text": "你刚转身要走——身后传来一声闷响。"
+        },
+        {
+          "speaker": "",
+          "text": "阿贵跪在地上，双手死死抓着草席，整个人在发抖。"
+        },
+        {
+          "speaker": "阿贵",
+          "text": "十二年……十二年啊……"
+        },
+        {
+          "speaker": "阿贵",
+          "text": "我十六岁进来的时候……我娘还在。她说跟着老爷好好干，以后能出头。"
+        },
+        {
+          "speaker": "阿贵",
+          "text": "我娘死了三年了……我连回去看她最后一眼都没能……"
+        },
+        {
+          "speaker": "",
+          "text": "他的声音从哽咽变成了嚎啕。像是什么东西在胸腔里碎掉了。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "……"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "陆大人……他哭成这样……不像是演的。"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "走吧。让他自己待一会儿。"
+        },
+        {
+          "speaker": "",
+          "text": "你走出后院。身后阿贵的哭声被雨声盖住了——但你知道，那不是装的。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "十二年……就算他真的做了什么，那十二年也是真的。"
+        }
+      ],
+      "effects": {
+        "set_flag": [
+          "evt_agui_breakdown_done"
+        ]
+      }
+    },
+    {
+      "id": "evt_lao_fan_silence",
+      "trigger": {
+        "all": [
+          {
+            "visited": "lao_fan.ask_gambling_story"
+          },
+          {
+            "not": {
+              "flag": "evt_lao_fan_silence_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "agui_confessed_mastermind"
+            }
+          }
+        ]
+      },
+      "title": "沉默",
+      "hint": "老范不说话了……",
+      "narration": [
+        {
+          "speaker": "",
+          "text": "老范说完那段往事，突然不说话了。"
+        },
+        {
+          "speaker": "",
+          "text": "他把烟杆别回腰间，低着头，看着江面。雨打在他斗笠上，啪嗒啪嗒。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "……"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "……"
+        },
+        {
+          "speaker": "",
+          "text": "沉默持续了很久。久到你开始听见江水拍岸的声音。"
+        },
+        {
+          "speaker": "老范",
+          "text": "大人。"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "嗯。"
+        },
+        {
+          "speaker": "老范",
+          "text": "……没什么。"
+        },
+        {
+          "speaker": "",
+          "text": "他转身走向船边。背影在雨里显得很老。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "他想说什么……但没说出口。"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "记下这个时刻。他动摇了。"
+        }
+      ],
+      "effects": {
+        "set_flag": [
+          "evt_lao_fan_silence_done"
+        ]
+      }
+    },
+    {
+      "id": "evt_fan_night_sighting",
+      "trigger": {
+        "all": [
+          {
+            "visited": "fisherman_wang.ask_meeting"
+          },
+          {
+            "visited": "lao_fan.ask_rescue"
+          },
+          {
+            "not": {
+              "flag": "evt_fan_night_sighting_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "agui_confessed_mastermind"
+            }
+          }
+        ]
+      },
+      "title": "夜间行踪",
+      "hint": "有人看到老范案发当晚不在船上……",
+      "narration": [
+        {
+          "speaker": "",
+          "text": "你正在码头整理思路——一个渡口的帮工凑了过来。"
+        },
+        {
+          "speaker": "帮工",
+          "text": "陆……陆大人？小的不知道该不该说……"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "说。"
+        },
+        {
+          "speaker": "帮工",
+          "text": "案发那晚……小的起夜的时候，看到老范从码头那边回来。不是从船上——是从下游。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "下游？他不是说在船上吗？"
+        },
+        {
+          "speaker": "帮工",
+          "text": "小的看不太清……但那个身形，那个走路的样子，肯定是老范。他手里好像还拎着什么东西。"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "什么时辰？"
+        },
+        {
+          "speaker": "帮工",
+          "text": "亥时过后吧……船刚走没多久。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "亥时过后……那不就是船刚翻的时候？他不在船上——他在下游？"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "他在下游做什么？"
+        },
+        {
+          "speaker": "帮工",
+          "text": "小的不知道……小的当时没多想。后来出了事才想起来。"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "陆大人……如果老范案发时不在船上……那他在哪？他在下游干什么？"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "记下来。这条线索——比什么都重要。"
+        }
+      ],
+      "effects": {
+        "set_flag": [
+          "evt_fan_night_sighting_done",
+          "clue_fan_night_sighting"
+        ]
+      }
+    },
+    {
       "id": "evt_confrontation_ready",
       "trigger": {
         "all": [
