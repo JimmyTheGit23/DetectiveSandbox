@@ -1,0 +1,4 @@
+location_id,name,parent,description,unlock_phase,background,scene_type,npcs
+main_location,主地点,,主地点描述。,phase_1,res://assets/cn/scenes/main_location.png,scene_main_location,npc_1
+sub_location_1,子地点1,main_location,子地点1描述。,phase_1,res://assets/cn/scenes/sub_location_1.png,scene_sub_location_1,npc_2
+sub_location_2,子地点2,main_location,子地点2描述。,phase_2,res://assets/cn/scenes/sub_location_2.png,scene_sub_location_2,

@@ -1,0 +1,6 @@
+npc_id,name,title,intro,dialogue_id,actor_id,portrait,always_in_notebook,is_victim,is_player,is_culprit
+player_char,玩家名,玩家身份,玩家角色简介。,,actor_id,res://assets/cn/portraits/player.png,,True,
+victim,受害者名,受害者身份,受害者简介。,,,res://assets/cn/portraits/victim.png,,,True,
+npc_1,NPC名1,NPC身份1,NPC简介1。,npc_1,,res://assets/cn/portraits/npc_1.png,,,,
+npc_2,NPC名2,NPC身份2,NPC简介2。,npc_2,,res://assets/cn/portraits/npc_2.png,,,,
+culprit,凶手名,凶手身份,凶手简介。,culprit,,res://assets/cn/portraits/culprit.png,,,,True
