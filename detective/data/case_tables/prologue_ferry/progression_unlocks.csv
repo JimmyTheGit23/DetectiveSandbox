@@ -6,6 +6,6 @@ search_point_unlock,shen_room.shen_window,"{""flag"": ""agui_confessed_mastermin
 search_point_unlock,gambling_alley.gambling_den,"{""flag"": ""agui_confessed_mastermind""}",赌坊在渡口后街。目前没有理由去那里。,
 search_point_unlock,gambling_alley.gambling_alley_wall,"{""flag"": ""agui_confessed_mastermind""}",后巷暂时没有调查价值。,
 npc_unlock,fisherman_wang,"{""any"": [{""evidence"": ""evidence_hull_hole""}, {""clue"": ""clue_reef_common_knowledge""}, {""total_periods_used_gte"": 10}]}",,
-npc_unlock,shen_qingyue,null,,沈清月在phase_1就可以交谈（她是'追债的外地人'），但Phase 3后对话树会解锁新分支。
+npc_unlock,shen_qingyue,,,沈清月在phase_1就可以交谈（她是'追债的外地人'），但Phase 3后对话树会解锁新分支。
 confrontation_unlock,confrontation_a,"{""all"": [{""evidence"": ""evidence_hull_hole""}, {""evidence"": ""evidence_float_bladder""}, {""evidence"": ""evidence_no_blunt_trauma""}, {""evidence"": ""evidence_wrong_channel""}, {""evidence"": ""clue_fan_alibi_hole""}, {""evidence"": ""evidence_dismissal_note""}, {""evidence"": ""evidence_gambling_iou""}]}",,阿贵中BOSS对质——需要船底破洞、浮囊、尸检、错误航道、老范时间矛盾、阿贵遣散动机、老范赌债。
 confrontation_unlock,confrontation_final,"{""all"": [{""flag"": ""agui_confessed_mastermind""}, {""evidence"": ""evidence_cargo_silver""}, {""evidence"": ""evidence_salvage_mark""}, {""evidence"": ""evidence_shen_connection""}, {""evidence"": ""evidence_dock_timing""}]}",,沈清月FINAL BOSS对质——需要阿贵认罪 + 货银未沉 + 打捞目击 + 中间人/赌坊连接 + 码头时间矛盾。
