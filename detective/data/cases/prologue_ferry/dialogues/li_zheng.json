@@ -9,7 +9,12 @@
         {
           "text": "这件事你怎么看？",
           "goto": "intro",
-          "type": "ask"
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "agui_confessed_mastermind"
+            }
+          ]
         },
         {
           "text": "那片礁石，本地人都知道？",
@@ -17,7 +22,14 @@
           "type": "ask",
           "requires": [
             {
-              "flag": "lizheng_talked_once"
+              "all": [
+                {
+                  "flag": "lizheng_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -27,10 +39,17 @@
           "type": "ask",
           "requires": [
             {
-              "flag": "lizheng_talked_once"
+              "all": [
+                {
+                  "flag": "lizheng_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ],
-          "min_hub_visits": 1
+          "hide_after_visit": true
         },
         {
           "text": "阿贵这两天有什么异常吗？",
@@ -38,10 +57,16 @@
           "type": "ask",
           "requires": [
             {
-              "flag": "lizheng_talked_once"
+              "all": [
+                {
+                  "flag": "lizheng_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
-          ],
-          "min_hub_visits": 2
+          ]
         },
         {
           "text": "周德茂你了解吗？",
@@ -49,10 +74,16 @@
           "type": "ask",
           "requires": [
             {
-              "flag": "lizheng_talked_once"
+              "all": [
+                {
+                  "flag": "lizheng_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
-          ],
-          "min_hub_visits": 2
+          ]
         },
         {
           "text": "渡口最近有什么异常吗？",
@@ -63,6 +94,9 @@
               "all": [
                 {
                   "flag": "lizheng_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
                 },
                 {
                   "any": [
@@ -76,8 +110,34 @@
                 }
               ]
             }
-          ],
-          "min_hub_visits": 3
+          ]
+        },
+        {
+          "text": "阿贵认了。接下来怎么查？",
+          "goto": "ask_next_step",
+          "type": "press",
+          "requires": [
+            {
+              "flag": "agui_confessed_mastermind"
+            }
+          ]
+        },
+        {
+          "text": "沈清月那边——你怎么看？",
+          "goto": "ask_shen_opinion",
+          "type": "press",
+          "requires": [
+            {
+              "all": [
+                {
+                  "flag": "agui_confessed_mastermind"
+                },
+                {
+                  "evidence": "evidence_shen_connection"
+                }
+              ]
+            }
+          ]
         },
         {
           "text": "先告辞",
@@ -363,6 +423,34 @@
           "emotion": "determined"
         }
       ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_next_step": {
+      "text": "阿贵招了——但供出的人是沈清月。大人，这事……不好办啊。\n沈家在这一带做了几十年药材生意，人脉广。光凭阿贵一张嘴，县衙那边不会批捕的。\n您得找到实证。码头时间线、货银去向、她跟老范的联系——哪条都行，但得有实锤。",
+      "emotion": "determined",
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_shen_opinion": {
+      "text": "沈清月……说实话，以前觉得她就是个精明的生意人。讨债凶是凶了点，但也没出过格。\n不过现在想想——她那天在码头骂周德茂'别想走'，我还以为是气话。\n大人，您要是去查她……小心点。这姑娘脑子好使，嘴也利索。",
+      "emotion": "nervous",
       "options": [
         {
           "text": "继续询问",

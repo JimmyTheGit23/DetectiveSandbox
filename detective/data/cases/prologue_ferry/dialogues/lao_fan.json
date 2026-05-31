@@ -8,7 +8,12 @@
         {
           "text": "说说当晚的事",
           "goto": "intro",
-          "type": "ask"
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "agui_confessed_mastermind"
+            }
+          ]
         },
         {
           "text": "为什么走那条航道？",
@@ -16,7 +21,14 @@
           "type": "press",
           "requires": [
             {
-              "flag": "fan_talked_once"
+              "all": [
+                {
+                  "flag": "fan_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -26,7 +38,14 @@
           "type": "press",
           "requires": [
             {
-              "clue": "clue_reef_common_knowledge"
+              "all": [
+                {
+                  "clue": "clue_reef_common_knowledge"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -36,7 +55,14 @@
           "type": "press",
           "requires": [
             {
-              "flag": "fan_talked_once"
+              "all": [
+                {
+                  "flag": "fan_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -46,7 +72,14 @@
           "type": "press",
           "requires": [
             {
-              "evidence": "evidence_hull_hole"
+              "all": [
+                {
+                  "evidence": "evidence_hull_hole"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -56,7 +89,14 @@
           "type": "press",
           "requires": [
             {
-              "evidence": "evidence_gambling_iou"
+              "all": [
+                {
+                  "evidence": "evidence_gambling_iou"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -66,12 +106,19 @@
           "type": "observe",
           "requires": [
             {
-              "clue": "clue_fan_boat_skill"
+              "all": [
+                {
+                  "clue": "clue_fan_boat_skill"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
         {
-          "text": "那个'药材行的姑娘'——是她先找你的吧？",
+          "text": "阿贵已经招了。那个'药材行的姑娘'——是她先找你的吧？",
           "goto": "press_shen_connection",
           "type": "press",
           "requires": [

@@ -1,4 +1,9 @@
 location_id,name,parent,description,unlock_phase,background,scene_type,npcs
+ferry_cabin,渡船船舱,,渡船内部。木质船舱，昏暗的灯光，窗外下着雨。,phase_0,res://assets/cn/scenes/prologue_ship_cabin_night.png,scene_prologue_ship_cabin,
+cabin_lu_room,自己的舱室,ferry_cabin,你单独的小舱。一张铺位、一只装着官印的木匣、湿斗篷挂在钩上。窗外雨声。,phase_0,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,scene_prologue_ship_cabin,
+cabin_agui_room,阿贵的舱角,ferry_cabin,仆从挤的小舱角落。一床草席、一只布袋、一盏摇晃的油灯。光线昏暗。,phase_0,res://assets/cn/scenes/prologue_ship_cabin_agui_room.png,scene_prologue_ship_cabin,agui_cabin
+cabin_lao_fan_deck,船尾甲板,ferry_cabin,船尾的雨夜甲板。木舵、缆绳、悬着的红灯笼。蓑衣斗笠挂在舱门外。,phase_0,res://assets/cn/scenes/prologue_ship_deck_lao_fan.png,scene_prologue_ship_cabin,lao_fan_cabin
+cabin_zhou_room,周老板的货舱,ferry_cabin,布商占的货舱。整齐堆放的布匹货箱、铜锁木箱、账册和油灯。比仆从舱体面些。,phase_0,res://assets/cn/scenes/prologue_ship_cabin_zhou_room.png,scene_prologue_ship_cabin,zhou_de_gui_cabin
 ferry_inn,石矶渡·客栈,,江畔一间简陋的客栈，土墙木梁，屋顶漏雨。冬雨绵绵，门口泥泞不堪。滞留旅客挤满了大堂。,phase_1,res://assets/cn/scenes/prologue_ferry_inn.png,scene_prologue_ferry_inn,li_zheng
 zhou_room,周氏房间,ferry_inn,一间狭小的偏房。桌上散着纸笔，墙角堆着包袱行李。空气中有淡淡的香烛气味。,phase_1,res://assets/cn/scenes/prologue_zhou_room.png,scene_prologue_zhou_room,zhou_wife
 agui_room,阿贵住处,ferry_inn,杂物间改的临时住处。一张矮床，地上散着湿衣物。空气潮湿阴冷。,phase_1,res://assets/cn/scenes/prologue_agui_room.png,scene_prologue_agui_room,agui

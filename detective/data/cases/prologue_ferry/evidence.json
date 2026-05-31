@@ -182,5 +182,138 @@
     "name": "沈清月的药钱动机",
     "description": "沈父急需八十两药钱，沈家只剩四十二两。周德茂欠下的三十八两旧债加上失踪的五十两货银，刚好能凑够救命钱。",
     "hidden": true
+  },
+  "evidence_cabin_escape_time": {
+    "type": "evidence",
+    "name": "逃生时间记录",
+    "description": "凌瑶证词：陆昭昏迷了大半个时辰才醒。船沉后不可能在一刻钟内清醒并爬上岸。"
+  },
+  "evidence_lingyao_identity": {
+    "type": "evidence",
+    "name": "凌瑶身份证明",
+    "description": "金鳞镖局的镖师铜牌——证明凌瑶是押送急件途经石矶渡的首席镖师，与陆昭素不相识。"
+  },
+  "evidence_iron_crowbar_location": {
+    "type": "evidence",
+    "name": "铁撬棍位置",
+    "description": "船舱内发现铁撬棍的使用痕迹——它被用来撬开天窗逃生，随船沉了。"
+  },
+  "evidence_weather_fog": {
+    "type": "evidence",
+    "name": "浓雾与江岸距离",
+    "description": "案发夜江面浓雾极重，岸边到翻船处相隔百丈以上。寻常人不可能隔着雾雨看清船上人物身形。"
+  },
+  "evidence_storm_noise": {
+    "type": "evidence",
+    "name": "狂风浪声",
+    "description": "案发夜狂风夹雨，江浪拍岸。即便有人在船上争执，岸边也难以听清具体话语。"
+  },
+  "evidence_no_motive": {
+    "type": "evidence",
+    "name": "陆昭无杀人动机",
+    "description": "陆昭初到石矶渡，与周德茂仅一面之缘，无财仇私怨。若为谋财，沉船后反而几乎丧命，逻辑不通。"
+  },
+  "evidence_blue_herb_residue": {
+    "type": "evidence",
+    "name": "蓝色草药碎屑",
+    "description": "周德茂指甲缝里残留极细的蓝色草药碎屑。药味辛冷，像某种能使人昏沉失力的罕见草药。",
+    "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_blue_herb_residue.png",
+    "tags": [
+      "herb",
+      "autopsy"
+    ],
+    "phase": "phase_1"
+  },
+  "evidence_neck_marks": {
+    "type": "evidence",
+    "name": "脖颈淡压痕",
+    "description": "死者脖颈侧面有极淡压痕，不像绳勒，更像昏迷前被人短暂压制过。说明他落水前可能已失去反抗能力。",
+    "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_neck_marks.png",
+    "tags": [
+      "autopsy"
+    ],
+    "phase": "phase_1"
+  },
+  "evidence_herb_sachet": {
+    "type": "evidence",
+    "name": "草药香囊",
+    "description": "江岸草丛里发现的刺绣香囊，带有与蓝色草药相近的辛冷气味。绣线精细，像富户女子随身之物。",
+    "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_herb_sachet.png",
+    "tags": [
+      "herb",
+      "sachet"
+    ],
+    "phase": "phase_3"
+  },
+  "evidence_fake_herb_sachet": {
+    "type": "evidence",
+    "name": "草药香囊赝品",
+    "description": "终局核验后确认：陆昭手里的香囊绣线配色和药材配比都被调换过。它足以说明有人布局，却不能作为定罪铁证。",
+    "hidden": true,
+    "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_fake_herb_sachet.png",
+    "tags": [
+      "herb",
+      "sachet",
+      "fake"
+    ],
+    "phase": "phase_4"
+  },
+  "evidence_seal_lost": {
+    "type": "evidence",
+    "name": "遗失官印",
+    "description": "陆昭的官印随沉船落入江底。没有官印，陆昭在石矶渡只能先以嫌疑人身份自证清白。",
+    "meta_clue": true,
+    "icon": "res://assets/cn/ui/evidence_icons/evidence_seal_lost.png",
+    "tags": [
+      "seal"
+    ],
+    "phase": "phase_1"
+  },
+  "evidence_seal_cloth_wrap": {
+    "type": "evidence",
+    "name": "锦袋残线索",
+    "description": "一小片油布锦袋残角，边缘有官印匣上的朱砂痕。有人在沉船后打捞过陆昭的随身物。",
+    "hidden": true,
+    "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_seal_cloth_wrap.png",
+    "tags": [
+      "seal",
+      "cloth"
+    ],
+    "phase": "phase_4"
+  },
+  "clue_travel_notes": {
+    "type": "clue",
+    "name": "旅途札记",
+    "description": "奉旨巡查南直隶，途经石矶渡。平水驿驿丞建议改走夜船，说半日可到。船上另有布商周德茂、仆从阿贵、船家老范。",
+    "hidden": true,
+    "meta_clue": true
+  },
+  "clue_cabin_seal_box": {
+    "type": "clue",
+    "name": "随身官印木匣",
+    "description": "自己的舱室里放着装官印的木匣。匣锁完好，油布内衬也在。只要它还在，身份就能证明。",
+    "hidden": true,
+    "meta_clue": true
+  },
+  "clue_cabin_route_note": {
+    "type": "clue",
+    "name": "夜船路线疑点",
+    "description": "桌上行程简记写着：平水驿建议夜渡东汊，半日可到武昌。东汊二字被墨迹洇开，像是写下时手上带着水。",
+    "hidden": true,
+    "meta_clue": true
+  },
+  "clue_cabin_storm_window": {
+    "type": "clue",
+    "name": "窗外风雨",
+    "description": "窗外风急雨斜，江面偶有闪电。这样的夜里行船，本就不是稳妥选择。",
+    "hidden": true,
+    "meta_clue": true
+  },
+  "clue_cabin_wet_cloak": {
+    "type": "clue",
+    "name": "异常湿斗篷",
+    "description": "挂在墙边的斗篷下方滴着水，湿痕比刚上船时更重。像是有人在你入舱后又从外面进来过。",
+    "hidden": true,
+    "meta_clue": true
   }
 }

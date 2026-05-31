@@ -1,0 +1,173 @@
+# 数据一致性检查规则
+
+# ID命名规范
+id_naming_rules:
+  # 节点ID规范
+  node_id:
+    pattern: "^[a-z][a-z0-9_]*$"
+    description: "节点ID使用snake_case，以小写字母开头"
+    examples: ["cabin_prologue_1", "day2_start_game", "inn_warm_1"]
+    
+  # 证据ID规范
+  evidence_id:
+    pattern: "^evidence_[a-z][a-z0-9_]*$"
+    description: "证据ID以evidence_开头，使用snake_case"
+    examples: ["evidence_hull_hole", "evidence_float_bladder"]
+    
+  # 线索ID规范
+  clue_id:
+    pattern: "^clue_[a-z][a-z0-9_]*$"
+    description: "线索ID以clue_开头，使用snake_case"
+    examples: ["clue_route_change", "clue_agui_lie"]
+    
+  # NPC ID规范
+  npc_id:
+    pattern: "^[a-z][a-z0-9_]*$"
+    description: "NPC ID使用snake_case"
+    examples: ["lu_zhao", "agui", "lao_fan"]
+    
+  # 场景ID规范
+  scene_id:
+    pattern: "^[a-z][a-z0-9_]*$"
+    description: "场景ID使用snake_case"
+    examples: ["ferry_dock", "inn_main_hall"]
+    
+  # Flag命名规范
+  flag_name:
+    pattern: "^[a-z][a-z0-9_]*$"
+    description: "Flag名称使用snake_case"
+    examples: ["cabin_explore_done", "observed_hole"]
+
+# 必填字段定义
+required_fields:
+  prologue_nodes:
+    required: [node_id]
+    optional: [type, background, next, centered, end, portrait, emotion, fx, effect]
+    
+  prologue_lines:
+    required: [node_id, order, text]
+    optional: [speaker, emotion, type]
+    
+  prologue_choices:
+    required: [node_id, order, text, goto]
+    optional: [requires]
+    
+  dialogue_nodes:
+    required: [npc_id, node_id]
+    optional: [is_start, text, emotion, set_flags, gain_evidence, gain_clue, trigger_confrontation, confrontation_key, end, writer_note]
+    
+  dialogue_options:
+    required: [npc_id, node_id, order, text, goto]
+    optional: [type, requires, set_flags, hide_after_visit, min_hub_visits, cost_time]
+    
+  dialogue_lines:
+    required: [npc_id, node_id, order, text]
+    optional: [speaker_id, speaker, type, emotion, requires, highlight, record_type, record_title, record_text, record_id]
+
+# 枚举值定义
+enum_values:
+  node_type:
+    - narration
+    - dialogue
+    - choice
+    - time_card
+    - auto
+    
+  emotion:
+    - serious
+    - cold
+    - nervous
+    - evasive
+    - defensive
+    - grief
+    - angry
+    - crying
+    - worried
+    - anxious
+    - shocked
+    - determined
+    - cheerful
+    - calm
+    - smirk
+    - bold
+    - cooperative
+    - cornered
+    - sighing
+    
+  weather:
+    - rain
+    - clear
+    - cloudy
+    - fog
+    
+  time_phase:
+    - night
+    - dawn
+    - morning
+    - noon
+    - afternoon
+    - evening
+    
+  social_status:
+    - official
+    - merchant
+    - commoner
+    - servant
+    - local_official
+
+# 引用完整性规则
+reference_integrity:
+  # 节点引用
+  node_references:
+    - source_file: prologue_nodes.csv
+      source_field: next
+      target_file: prologue_nodes.csv
+      target_field: node_id
+      description: "next字段必须指向存在的节点"
+      
+    - source_file: prologue_choices.csv
+      source_field: goto
+      target_file: prologue_nodes.csv
+      target_field: node_id
+      description: "goto字段必须指向存在的节点"
+      
+    - source_file: dialogue_options.csv
+      source_field: goto
+      target_file: dialogue_nodes.csv
+      target_field: node_id
+      description: "goto字段必须指向存在的对话节点"
+      
+  # 人物引用
+  character_references:
+    - source_file: prologue_lines.csv
+      source_field: speaker
+      target_file: characters.csv
+      target_field: character_id
+      description: "speaker必须是已定义的角色"
+      
+    - source_file: dialogue_lines.csv
+      source_field: speaker
+      target_file: characters.csv
+      target_field: character_id
+      description: "speaker必须是已定义的角色"
+      
+  # 资源引用
+  asset_references:
+    - source_file: prologue_nodes.csv
+      source_field: background
+      target_type: image
+      pattern: "res://assets/.*\\.png"
+      description: "background必须是有效的图片路径"
+      
+    - source_file: prologue_nodes.csv
+      source_field: portrait
+      target_type: image
+      pattern: "res://assets/.*\\.png"
+      description: "portrait必须是有效的图片路径"
+
+# 格式规范
+format_rules:
+  csv_encoding: "UTF-8"
+  csv_delimiter: ","
+  json_indent: 2
+  line_ending: "\n"

@@ -8,7 +8,12 @@
         {
           "text": "你看到了什么？",
           "goto": "intro",
-          "type": "ask"
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "agui_confessed_mastermind"
+            }
+          ]
         },
         {
           "text": "他们走的哪条航道？",
@@ -16,7 +21,14 @@
           "type": "ask",
           "requires": [
             {
-              "flag": "wang_talked_once"
+              "all": [
+                {
+                  "flag": "wang_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -26,7 +38,14 @@
           "type": "press",
           "requires": [
             {
-              "flag": "wang_talked_once"
+              "all": [
+                {
+                  "flag": "wang_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -36,7 +55,14 @@
           "type": "observe",
           "requires": [
             {
-              "flag": "wang_talked_once"
+              "all": [
+                {
+                  "flag": "wang_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -56,7 +82,14 @@
           "type": "observe",
           "requires": [
             {
-              "flag": "wang_talked_once"
+              "all": [
+                {
+                  "flag": "wang_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },

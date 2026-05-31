@@ -2,35 +2,49 @@
   "_comment": "渐进式信息开放。三阶段结构：调查A（指向阿贵）→ 阿贵对质 → 调查B（追查沈清月）→ 最终对质。",
   "phases": [
     {
+      "id": "phase_0",
+      "title": "船舱夜话",
+      "description": "渡船启航。在船舱里与乘客们交谈，了解他们的身份。",
+      "hint": "和船舱里的三个人都聊聊。",
+      "locations": [
+        "cabin_lu_room",
+        "cabin_agui_room",
+        "cabin_lao_fan_deck",
+        "cabin_zhou_room"
+      ],
+      "unlock_condition": null,
+      "_comment": "船沉前的自由调查阶段"
+    },
+    {
       "id": "phase_1",
-      "title": "初步调查",
-      "description": "勘察沉船残骸，走访滞留人员",
-      "hint": "先去码头和打捞处看看那条船，再问问死者妻子和那个仆从。",
+      "title": "被指控",
+      "description": "船沉了。你活下来了，但被指认为凶手。需要自证清白。",
+      "hint": "去码头搜索沉船残骸，找到证据反驳王大爷的证词。",
       "locations": [
         "ferry_inn",
         "ferry_dock",
         "wreck_site"
       ],
-      "unlock_condition": null
+      "unlock_condition": {
+        "flag": "accused_of_murder"
+      },
+      "_comment": "被指控后"
     },
     {
       "id": "phase_2",
       "title": "深入追查",
-      "description": "船底的破洞说明这不是意外。下游渔村有人知道更多。",
-      "hint": "有个老渔翁住在下游江湾，案发当夜他在江上。去找他。",
+      "description": "自证清白后，开始追查真凶。船底的破洞说明这不是意外。",
+      "hint": "先去码头和打捞处看看那条船，再问问死者妻子和那个仆从。",
       "locations": [
+        "ferry_inn",
+        "ferry_dock",
+        "wreck_site",
         "river_bend"
       ],
       "unlock_condition": {
-        "any": [
-          {
-            "evidence": "evidence_hull_hole"
-          },
-          {
-            "evidence": "evidence_wrong_channel"
-          }
-        ]
-      }
+        "flag": "self_cleared"
+      },
+      "_comment": "王大爷对峙完成后"
     },
     {
       "id": "phase_3",
@@ -43,12 +57,70 @@
       ],
       "unlock_condition": {
         "flag": "agui_confessed_mastermind"
-      }
+      },
+      "_comment": "阿贵认罪后"
+    },
+    {
+      "id": "phase_4",
+      "title": "序章败局",
+      "description": "你已推到真相，却因香囊赝品翻盘无法当庭定罪。案件未结。",
+      "hint": "证据有问题——沈清月暂时无法定罪。回到码头寻找官印暗线，准备下一章。",
+      "locations": [
+        "ferry_inn",
+        "ferry_dock"
+      ],
+      "unlock_condition": {
+        "flag": "prologue_defeated"
+      },
+      "_comment": "沈清月终局翻盘后"
     }
   ],
-  "panel_unlock": {},
+  "panel_unlock": {
+    "search": {
+      "condition": {
+        "any": [
+          {
+            "flag": "cabin_phase_done"
+          },
+          {
+            "location": "cabin_lu_room"
+          }
+        ]
+      },
+      "locked_hint": "此处无可调查之物。先和船舱里的人聊聊。",
+      "_comment": "船舱阶段仅自己的舱室可轻调查"
+    },
+    "notebook": {
+      "condition": {
+        "any": [
+          {
+            "flag": "cabin_phase_done"
+          },
+          {
+            "clue": "clue_travel_notes"
+          }
+        ]
+      },
+      "locked_hint": "此时无案可记。",
+      "_comment": "船舱阶段显示旅途札记"
+    },
+    "discuss": {
+      "condition": {
+        "flag": "cabin_phase_done"
+      },
+      "locked_hint": "此时无人可议。",
+      "_comment": "凌瑶要到岸边救助才登场"
+    },
+    "map": {
+      "condition": {
+        "flag": "cabin_phase_done"
+      },
+      "locked_hint": "此处不可远行。",
+      "_comment": "船舱阶段不允许打开大地图"
+    }
+  },
   "search_point_unlock": {
-    "ferry_inn.inn_agui_room": {
+    "agui_room.agui_clothes": {
       "condition": {
         "all": [
           {
@@ -104,6 +176,27 @@
         "flag": "agui_confessed_mastermind"
       },
       "locked_hint": "后巷暂时没有调查价值。"
+    },
+    "shen_room.shen_bedside": {
+      "condition": {
+        "all": [
+          {
+            "flag": "agui_confessed_mastermind"
+          },
+          {
+            "evidence": "evidence_blue_herb_residue"
+          }
+        ]
+      },
+      "locked_hint": "还没有足够理由搜到沈清月的床边细处。先确认尸体上的草药痕迹。",
+      "_comment": "草药香囊线索需先发现蓝色草药。"
+    },
+    "ferry_dock.dock_reed_seal": {
+      "condition": {
+        "flag": "prologue_defeated"
+      },
+      "locked_hint": "此时还没意识到官印暗线的重要性。",
+      "_comment": "序章败局后补官印暗线。"
     }
   },
   "npc_unlock": {
@@ -128,7 +221,14 @@
     }
   },
   "confrontation_unlock": {
-    "confrontation_a": {
+    "confrontation_wang": {
+      "condition": {
+        "flag": "accused_of_murder"
+      },
+      "locked_hint": "事态还没有发展到当面对质。",
+      "_comment": "王大爷对峙由船舱沉船事件自动触发，不再要求玩家先自由搜齐证据。"
+    },
+    "confrontation": {
       "condition": {
         "all": [
           {
@@ -173,10 +273,13 @@
           },
           {
             "evidence": "evidence_dock_timing"
+          },
+          {
+            "evidence": "evidence_herb_sachet"
           }
         ]
       },
-      "_comment": "沈清月FINAL BOSS对质——需要阿贵认罪 + 货银未沉 + 打捞目击 + 中间人/赌坊连接 + 码头时间矛盾。"
+      "_comment": "沈清月FINAL BOSS对质——需要阿贵认罪 + 货银未沉 + 打捞目击 + 中间人/赌坊连接 + 码头时间矛盾 + 草药香囊。"
     }
   },
   "phase_notifications": {

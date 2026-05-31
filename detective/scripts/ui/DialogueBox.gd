@@ -209,10 +209,7 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 
 func _apply_narration_speaker(speaker: String, portrait: String) -> void:
 	"""叙述模式的说话者/立绘处理"""
-	speaker_label.text = speaker
-	speaker_label.visible = speaker != ""
-	# 文字位置始终与 NPC 对话一致
-	text_label.offset_top = 56.0 if speaker != "" else 16.0
+	_set_speaker_name(speaker)
 	if speaker == "":
 		# 纯叙述：无立绘
 		portrait_rect.visible = false
@@ -237,6 +234,16 @@ func _apply_narration_speaker(speaker: String, portrait: String) -> void:
 	else:
 		portrait_rect.visible = false
 		_hide_avatar()
+
+
+func _set_speaker_name(speaker: String) -> void:
+	var has_speaker := speaker != ""
+	speaker_label.text = speaker
+	speaker_label.visible = has_speaker
+	if _speaker_plate != null:
+		_speaker_plate.visible = has_speaker
+	# 名字直接写在对话框内：有名字时正文下移，避免重叠。
+	text_label.offset_top = 52.0 if has_speaker else 18.0
 
 
 ## 根据说话者名字解析打字音效 profile
@@ -393,17 +400,14 @@ func _play_current_page(run_id: int) -> void:
 # ═══════════════════════════════════════════════════════════════
 
 func _apply_speaker(speaker: String, portrait_path: String, emotion: String = "") -> void:
+	_set_speaker_name(speaker)
 	# 主角/同伴：左下角头像 + 文字右移
 	if _is_protagonist_or_companion(speaker):
-		speaker_label.text = speaker
-		speaker_label.visible = speaker != ""
 		_last_speaker = speaker
 		_show_avatar(speaker, portrait_path, emotion)
 		return
 
 	# NPC：居中立绘 + 底部对话框
-	speaker_label.text = speaker
-	speaker_label.visible = speaker != ""
 	var _resolved_portrait := _resolve_emotion_portrait(portrait_path, emotion)
 	var was_returning_from_companion = _is_protagonist_or_companion(_last_speaker) and speaker == _current_center_portrait_speaker
 	_current_center_portrait_speaker = speaker
@@ -687,17 +691,46 @@ func _build_dialogue_frame() -> void:
 	_speaker_plate = PanelContainer.new()
 	_speaker_plate.name = "SpeakerPlate"
 	_speaker_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# 名字直接写在对话框内，不再浮出独立名字牌。
 	_speaker_plate.anchor_left = 0.0
 	_speaker_plate.anchor_top = 0.0
 	_speaker_plate.anchor_right = 0.0
 	_speaker_plate.anchor_bottom = 0.0
-	_speaker_plate.offset_left = 8.0
-	_speaker_plate.offset_top = 4.0
-	_speaker_plate.offset_right = 252.0
-	_speaker_plate.offset_bottom = 52.0
+	_speaker_plate.offset_left = 18.0
+	_speaker_plate.offset_top = 6.0
+	_speaker_plate.offset_right = 300.0
+	_speaker_plate.offset_bottom = 42.0
+	# 名字不再显示独立框，只保留文字；PanelContainer 仅用于跟随可见性和布局。
+	var plate_style := StyleBoxFlat.new()
+	plate_style.bg_color = Color(0, 0, 0, 0)
+	plate_style.border_width_left = 0
+	plate_style.border_width_top = 0
+	plate_style.border_width_right = 0
+	plate_style.border_width_bottom = 0
+	plate_style.content_margin_left = 0
+	plate_style.content_margin_right = 0
+	plate_style.content_margin_top = 0
+	plate_style.content_margin_bottom = 0
+	_speaker_plate.add_theme_stylebox_override("panel", plate_style)
 	_speaker_plate.visible = false
 	box.add_child(_speaker_plate)
-	box.move_child(_speaker_plate, 0)
+	# Reparent speaker_label inside the plate so the plate auto-sizes to the name
+	if speaker_label.get_parent() != null:
+		speaker_label.get_parent().remove_child(speaker_label)
+	# 解除原 anchor/offset，由 PanelContainer 自己布局
+	speaker_label.anchor_left = 0
+	speaker_label.anchor_top = 0
+	speaker_label.anchor_right = 0
+	speaker_label.anchor_bottom = 0
+	speaker_label.offset_left = 0
+	speaker_label.offset_top = 0
+	speaker_label.offset_right = 0
+	speaker_label.offset_bottom = 0
+	_speaker_plate.add_child(speaker_label)
+	# Plate visibility follows speaker_label
+	speaker_label.visibility_changed.connect(func() -> void:
+		_speaker_plate.visible = speaker_label.visible and speaker_label.text != ""
+	)
 
 
 func _apply_dialogue_chrome() -> void:
@@ -727,17 +760,15 @@ func _apply_dialogue_chrome() -> void:
 	box.offset_right = -42.0
 	box.offset_bottom = DIALOGUE_TEXT_BOTTOM_OFFSET
 
-	speaker_label.offset_left = 16.0
-	speaker_label.offset_top = 10.0
-	speaker_label.offset_right = 260.0
-	speaker_label.offset_bottom = 42.0
-	speaker_label.add_theme_font_size_override("font_size", 24)
+	# speaker_label 的位置由 _build_dialogue_frame 中的透明 SpeakerPlate 自动布局。
+	speaker_label.add_theme_font_size_override("font_size", 22)
 	speaker_label.add_theme_color_override("font_color", Color(1.0, 0.87, 0.56, 1.0))
 	speaker_label.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.0, 0.84))
 	speaker_label.add_theme_constant_override("outline_size", 2)
 
+	# 正文默认顶部留白；显示说话人时由 _set_speaker_name() 下移。
 	text_label.offset_left = 18.0
-	text_label.offset_top = 56.0
+	text_label.offset_top = 18.0
 	text_label.offset_right = -20.0
 	text_label.offset_bottom = -24.0
 	# 字体由 theme.tres 的 default_font 统一管理

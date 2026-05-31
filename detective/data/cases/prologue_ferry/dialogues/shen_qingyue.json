@@ -9,7 +9,12 @@
         {
           "text": "你跟死者什么关系？",
           "goto": "intro",
-          "type": "ask"
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "agui_confessed_mastermind"
+            }
+          ]
         },
         {
           "text": "案发前一天你跟周德茂吵架了？",
@@ -17,7 +22,14 @@
           "type": "press",
           "requires": [
             {
-              "flag": "shen_talked_once"
+              "all": [
+                {
+                  "flag": "shen_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -27,7 +39,14 @@
           "type": "ask",
           "requires": [
             {
-              "flag": "shen_talked_once"
+              "all": [
+                {
+                  "flag": "shen_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -37,7 +56,14 @@
           "type": "ask",
           "requires": [
             {
-              "flag": "shen_quarrel_told"
+              "all": [
+                {
+                  "flag": "shen_quarrel_told"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -47,7 +73,14 @@
           "type": "press",
           "requires": [
             {
-              "evidence": "evidence_father_ledger"
+              "all": [
+                {
+                  "evidence": "evidence_father_ledger"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -57,7 +90,14 @@
           "type": "press",
           "requires": [
             {
-              "evidence": "evidence_dock_timing"
+              "all": [
+                {
+                  "evidence": "evidence_dock_timing"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -67,7 +107,14 @@
           "type": "press",
           "requires": [
             {
-              "evidence": "evidence_salvage_mark"
+              "all": [
+                {
+                  "evidence": "evidence_salvage_mark"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -77,7 +124,14 @@
           "type": "press",
           "requires": [
             {
-              "evidence": "evidence_shen_connection"
+              "all": [
+                {
+                  "evidence": "evidence_shen_connection"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -98,6 +152,33 @@
               }
             ]
           }
+        },
+        {
+          "text": "阿贵已经招了。他说是你教他凿船的。",
+          "goto": "react_agui_caught",
+          "type": "press",
+          "requires": [
+            {
+              "flag": "agui_confessed_mastermind"
+            }
+          ]
+        },
+        {
+          "text": "你父亲的病……现在怎么样了？",
+          "goto": "ask_father_after",
+          "type": "observe",
+          "requires": [
+            {
+              "all": [
+                {
+                  "flag": "agui_confessed_mastermind"
+                },
+                {
+                  "evidence": "evidence_father_ledger"
+                }
+              ]
+            }
+          ]
         },
         {
           "text": "先告辞",
@@ -592,6 +673,14 @@
           "goto": "__exit__"
         }
       ]
+    },
+    "react_agui_caught": {
+      "text": "阿贵招了？……意料之中。他那种人，扛不住的。",
+      "emotion": "cold_fury"
+    },
+    "ask_father_after": {
+      "text": "……还在躺着。八十两的药，一天不能断。",
+      "emotion": "broken"
     },
     "confession_trigger": {
       "set_flags": [

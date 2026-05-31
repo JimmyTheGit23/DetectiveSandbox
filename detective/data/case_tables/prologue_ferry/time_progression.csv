@@ -3,3 +3,5 @@ order,trigger_condition,day,period_label
 2,"{""flag"":""fan_motive_known""}",1,未时
 3,"{""flag"":""agui_premeditation_known""}",1,午时
 4,"{""flag"":""hull_sabotage_known""}",1,巳时
+5,"{""flag"":""cabin_explore_done""}",0,亥时
+6,"{""default"":true}",0,亥时

@@ -9,8 +9,8 @@
   },
   "fisherman_wang": {
     "name": "王大爷",
-    "title": "打渔老翁",
-    "intro": "下游渔村的老渔翁。",
+    "title": "江边伪证者",
+    "intro": "下游渔村的老渔翁，贪小便宜，曾收周氏银两捏造夜间目击证词。",
     "dialogue": "fisherman_wang",
     "portrait": "res://assets/cn/portraits/prologue_fisherman_wang.png"
   },
@@ -32,12 +32,12 @@
     "name": "陆昭",
     "title": "巡按御史",
     "intro": "玩家本人。途经石矶渡时被卷入命案。",
-    "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+    "portrait": "res://assets/cn/portraits/lu_zhao.png"
   },
   "shen_qingyue": {
     "name": "沈清月",
-    "title": "药材商之女",
-    "intro": "浔阳沈氏药材行独女，替父追债。案发前一天当众与周德茂对骂。",
+    "title": "药材商之女兼讼师",
+    "intro": "浔阳沈氏药材行独女，兼通律法，受周氏之托出面协助审理此案。",
     "dialogue": "shen_qingyue",
     "portrait": "res://assets/cn/portraits/prologue_shen_qingyue.png"
   },
@@ -54,5 +54,26 @@
     "intro": "周德茂之妻。",
     "dialogue": "zhou_wife",
     "portrait": "res://assets/cn/portraits/prologue_zhou_wife.png"
+  },
+  "agui_cabin": {
+    "name": "阿贵",
+    "title": "死者仆从（船舱阶段）",
+    "intro": "跟随周德茂十二年的老仆。船舱中的紧张仆从。",
+    "dialogue": "agui_cabin",
+    "portrait": "res://assets/cn/portraits/prologue_agui.png"
+  },
+  "lao_fan_cabin": {
+    "name": "老范",
+    "title": "船家（船舱阶段）",
+    "intro": "在这段江面跑了二十年船的老船家。船舱中的老船家。",
+    "dialogue": "lao_fan_cabin",
+    "portrait": "res://assets/cn/portraits/prologue_lao_fan.png"
+  },
+  "zhou_de_gui_cabin": {
+    "name": "周德茂",
+    "title": "布商（船舱阶段）",
+    "intro": "荆江布商，携五十两货银乘夜船过江。船舱中的精明商人。",
+    "dialogue": "zhou_de_gui_cabin",
+    "portrait": "res://assets/cn/portraits/prologue_zhou_demao.png"
   }
 }

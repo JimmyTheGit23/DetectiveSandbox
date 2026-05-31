@@ -1,0 +1,204 @@
+# 验证系统配置
+
+# 全局设置
+global:
+  # 项目根目录
+  project_root: "/Users/zhoujiong/Documents/UGit/DetectiveSandbox/detective"
+  
+  # 数据目录
+  data_dir: "data"
+  case_tables_dir: "data/case_tables"
+  cases_dir: "data/cases"
+  validation_dir: "data/validation"
+  
+  # 输出设置
+  output:
+    format: "markdown"  # markdown, json, text
+    file: "validation_report.md"
+    console: true
+    
+  # 日志设置
+  logging:
+    level: "info"  # debug, info, warning, error
+    file: "validation.log"
+
+# Agent配置
+agents:
+  # 数据一致性检查
+  data_consistency:
+    enabled: true
+    priority: 1
+    rules_file: "data_consistency_rules.yaml"
+    checks:
+      - id_naming
+      - required_fields
+      - enum_values
+      - reference_integrity
+      - format_rules
+      
+  # 剧情逻辑验证
+  narrative_logic:
+    enabled: true
+    priority: 2
+    rules_file: "narrative_logic_rules.yaml"
+    checks:
+      - flag_logic
+      - dialogue_flow
+      - event_triggers
+      - evidence_chain
+      - progression_rules
+      - confrontation_rules
+      
+  # 美术资源一致性
+  asset_consistency:
+    enabled: true
+    priority: 3
+    rules_file: "asset_consistency_rules.yaml"
+    checks:
+      - path_patterns
+      - naming_conventions
+      - reference_integrity
+      - size_requirements
+      - format_requirements
+      - orphan_resources
+      - missing_resources
+      
+  # 流程正确性验证
+  flow_correctness:
+    enabled: true
+    priority: 4
+    rules_file: "flow_correctness_rules.yaml"
+    checks:
+      - prologue_flow
+      - node_connections
+      - branch_rules
+      - end_conditions
+      - state_machine
+      - progression
+      - dialogue_flow
+      - confrontation_flow
+      
+  # 导演验证
+  director:
+    enabled: true
+    priority: 5
+    rules_file: "director_rules.yaml"
+    checks:
+      - scene_characters
+      - timeline
+      - objects
+      - character_knowledge
+      - dialogue_consistency
+
+# 案件配置
+cases:
+  # 序章
+  prologue_ferry:
+    enabled: true
+    csv_files:
+      - prologue_nodes.csv
+      - prologue_lines.csv
+      - prologue_choices.csv
+      - characters.csv
+      - dialogue_nodes.csv
+      - dialogue_options.csv
+      - dialogue_lines.csv
+      - day_events.csv
+      - day_event_lines.csv
+      - confrontation_lines.csv
+    json_files:
+      - manifest.json
+      - case.json
+      - evidence.json
+      - locations.json
+      - progression.json
+      - npc_states.json
+      
+  # 浔阳楼案
+  xunyang_pavilion:
+    enabled: true
+    csv_files:
+      - characters.csv
+      - dialogue_nodes.csv
+      - dialogue_options.csv
+      - dialogue_lines.csv
+      - day_events.csv
+      - confrontation_lines.csv
+    json_files:
+      - manifest.json
+      - case.json
+      - evidence.json
+      - locations.json
+      - progression.json
+      - npc_states.json
+      
+  # 临川驿案
+  linchuan_inn:
+    enabled: true
+    csv_files:
+      - characters.csv
+      - dialogue_nodes.csv
+      - dialogue_options.csv
+      - dialogue_lines.csv
+      - day_events.csv
+      - confrontation_lines.csv
+    json_files:
+      - manifest.json
+      - case.json
+      - evidence.json
+      - locations.json
+      - progression.json
+      - npc_states.json
+
+# 检查级别
+severity_levels:
+  error:
+    description: "严重错误，必须修复"
+    action: "block_commit"
+    color: "red"
+    
+  warning:
+    description: "警告，建议修复"
+    action: "warn"
+    color: "yellow"
+    
+  info:
+    description: "信息，供参考"
+    action: "show"
+    color: "blue"
+    
+  hint:
+    description: "提示，可选优化"
+    action: "show"
+    color: "gray"
+
+# 报告模板
+report_template:
+  header: |
+    # 项目验证报告
+    生成时间: {timestamp}
+    案件: {case_name}
+    
+  summary: |
+    ## 检查总结
+    - 检查项: {total_checks}
+    - 通过: {passed}
+    - 失败: {failed}
+    - 警告: {warnings}
+    - 通过率: {pass_rate}%
+    
+  section: |
+    ## {section_name}
+    
+    ### 检查结果
+    {results}
+    
+  result: |
+    - [{status}] {message}
+      文件: {file}
+      行号: {line}
+      详情: {details}
+      
+  footer: |
+    ---
+    报告生成完毕

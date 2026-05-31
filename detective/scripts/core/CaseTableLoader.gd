@@ -635,6 +635,15 @@ static func _compile_dialogues(src: String, base: Dictionary = {}) -> Dictionary
 
 static func _compile_case_data(src: String, base: Dictionary = {}) -> Dictionary:
 	var out := base.duplicate(true)
+	for meta_row in _rows("%s/case_meta.csv" % src):
+		var meta_key := _cell(meta_row, "key")
+		var meta_value := _cell(meta_row, "value")
+		if meta_key == "":
+			continue
+		if meta_value.begins_with("{") or meta_value.begins_with("["):
+			out[meta_key] = _parse_json_any(meta_value, meta_value)
+		else:
+			out[meta_key] = _parse_scalar(meta_value)
 	var confrontation_rows := _rows("%s/confrontations.csv" % src)
 	if confrontation_rows.is_empty():
 		return out

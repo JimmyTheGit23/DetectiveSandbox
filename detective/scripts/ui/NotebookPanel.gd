@@ -17,6 +17,8 @@ func _ready() -> void:
 	_build_record_tab()
 	_build_key_info_tab()
 	_build_people_tab()
+	if GameManager.collected_evidence.is_empty() and not GameManager.collected_clues.is_empty():
+		tab_container.current_tab = 1
 
 
 func _style_root() -> void:

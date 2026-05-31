@@ -1,0 +1,227 @@
+{
+  "_comment": "Generated from data/case_tables dialogue CSV.",
+  "start": "hub",
+  "nodes": {
+    "hub": {
+      "text": "哟……又来一个问话的？我叫老范，跑了二十年船。这次是去武昌府的夜船。",
+      "emotion": "evasive",
+      "options": [
+        {
+          "text": "你是船家？",
+          "goto": "ask_route",
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "这天气行船安全吗？",
+          "goto": "ask_weather",
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "船舱里那根铁撬棍是干什么用的？",
+          "goto": "ask_cabin",
+          "type": "observe",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "你跑船二十年，应该攒了不少钱吧？",
+          "goto": "ask_money",
+          "type": "observe",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "看看船舱里有什么",
+          "goto": "observe_cabin",
+          "type": "observe",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_route": {
+      "set_flags": [
+        "cabin_lao_fan_talked"
+      ],
+      "lines": [
+        {
+          "text": "走东汊那条。快是快，就是……有暗礁。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        },
+        {
+          "text": "涨水的时候应该能过去。谁知道还露着。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        },
+        {
+          "text": "暗礁？你跑了二十年船，不知道有暗礁？",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "知道……但客人催得急啊！",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_weather": {
+      "set_flags": [
+        "cabin_lao_fan_talked"
+      ],
+      "lines": [
+        {
+          "text": "这天气……说实话，不太好。但客人催得急。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        },
+        {
+          "text": "老头子跑了二十年船，什么天气没经历过？",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_cabin": {
+      "set_flags": [
+        "cabin_lao_fan_talked",
+        "cabin_saw_crowbar"
+      ],
+      "lines": [
+        {
+          "text": "铁撬棍？那是……那是修船用的。有时候船板松了，得敲敲打打。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        },
+        {
+          "text": "放在舱壁上，方便拿。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        },
+        {
+          "text": "修船用的……放了多久了？",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "……记不清了。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_money": {
+      "set_flags": [
+        "cabin_lao_fan_talked"
+      ],
+      "lines": [
+        {
+          "text": "嗐……跑船挣的是辛苦钱。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        },
+        {
+          "text": "这两年行情不好，客人少，价钱也压得低。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        },
+        {
+          "text": "辛苦钱……但至少是安稳钱。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "安稳？嘿嘿……安稳。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "observe_cabin": {
+      "set_flags": [
+        "cabin_observed"
+      ],
+      "lines": [
+        {
+          "text": "这铁撬棍放得倒显眼……",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    }
+  }
+}

@@ -8,7 +8,7 @@
 |------|------|------|------|------|------|
 | `jinling_purge` | 金陵大清洗 | `missing` | 0 | 0 | ✅ 全量 |
 | `linchuan_inn` | 临川驿案 | `missing` | 99 | 53 | ⚠ 全部待生成（53 条） |
-| `prologue_ferry` | 渡口沉舟 | `missing` | 0 | 215 | ⚠ 全部待生成（215 条） |
+| `prologue_ferry` | 渡口沉舟 | `missing` | 0 | 191 | ⚠ 全部待生成（191 条） |
 | `xunyang_pavilion` | 浔阳楼·夜雨红绸案 | `missing` | 73 | 62 | ⚠ 全部待生成（62 条） |
 
 ## 临川驿案 (`linchuan_inn`)
@@ -80,7 +80,7 @@
 
 ## 渡口沉舟 (`prologue_ferry`)
 
-缺失 215 条。
+缺失 191 条。
 
 ### 对话
 
@@ -89,6 +89,12 @@
 | node_id | 预期路径 | 文本预览 |
 |---------|---------|---------|
 | `hub` | `assets/cn/voices/agui/hub.wav` | 你……你是昨晚同船的那位？听说里正给了你两天。你要问什么……问吧。 |
+
+#### agui_cabin → (无 casting)（1 条）
+
+| node_id | 预期路径 | 文本预览 |
+|---------|---------|---------|
+| `hub` | `assets/cn/voices/agui_cabin/hub.wav` | 你……你是同船的？我叫阿贵，跟了老爷十二年。这次是去武昌府进棉布。 |
 
 #### fisherman_wang → (无 casting)（6 条）
 
@@ -106,9 +112,15 @@
 | node_id | 预期路径 | 文本预览 |
 |---------|---------|---------|
 | `hub` | `assets/cn/voices/lao_fan/hub.wav` | 哟……你就是那个同船的？听说周氏告了你杀人啊。胆子不小——被告了还到处问话。 |
-| `ask_route` | `assets/cn/voices/lao_fan/ask_route.wav` | 那客人催得急啊！说要赶武昌的早市。走大路绕远，走那条——  嗐，老汉也知道有礁石。但水涨了以后，以前那礁石应该没过去了嘛。谁知道还露着。 |
+| `ask_route` | `assets/cn/voices/lao_fan/ask_route.wav` | 那客人催得急啊！说要赶武昌的早市。走大路绕远，走那条——  嗐，我也知道有礁石。但水涨了以后，以前那礁石应该没过去了嘛。谁知道还露着。 |
 
-#### li_zheng → (无 casting)（4 条）
+#### lao_fan_cabin → (无 casting)（1 条）
+
+| node_id | 预期路径 | 文本预览 |
+|---------|---------|---------|
+| `hub` | `assets/cn/voices/lao_fan_cabin/hub.wav` | 哟……又来一个问话的？我叫老范，跑了二十年船。这次是去武昌府的夜船。 |
+
+#### li_zheng → (无 casting)（6 条）
 
 | node_id | 预期路径 | 文本预览 |
 |---------|---------|---------|
@@ -116,12 +128,22 @@
 | `ask_fan` | `assets/cn/voices/li_zheng/ask_fan.wav` | 老范嘛……人还行。就是爱赌。以前小赌怡情，这两年越赌越大。  听说欠了赌坊不少钱。前阵子还有人来找他要账，闹得挺凶。  不过嘛——大事化小。他水性好，人也实在… |
 | `ask_agui_spending` | `assets/cn/voices/li_zheng/ask_agui_spending.wav` | 异常嘛……嗐，也不能说异常。就是——  他昨天在客栈买了壶好酒，又打了半斤卤肉。出手挺阔的。  按说刚死了主人的仆从……哪有心情喝酒吃肉啊？而且他马上要被遣散… |
 | `ask_victim` | `assets/cn/voices/li_zheng/ask_victim.wav` | 知道知道。做布匹生意的，来往走水路常歇在咱这儿。  人嘛……精明是精明的。就是待下人刻薄了些。动不动呵斥，我听过好几回了。  不过嘛——人死了，大事化小，就别… |
+| `ask_next_step` | `assets/cn/voices/li_zheng/ask_next_step.wav` | 阿贵招了——但供出的人是沈清月。大人，这事……不好办啊。 沈家在这一带做了几十年药材生意，人脉广。光凭阿贵一张嘴，县衙那边不会批捕的。 您得找到实证。码头时间… |
+| `ask_shen_opinion` | `assets/cn/voices/li_zheng/ask_shen_opinion.wav` | 沈清月……说实话，以前觉得她就是个精明的生意人。讨债凶是凶了点，但也没出过格。 不过现在想想——她那天在码头骂周德茂'别想走'，我还以为是气话。 大人，您要是… |
 
-#### shen_qingyue → (无 casting)（1 条）
+#### shen_qingyue → (无 casting)（3 条）
 
 | node_id | 预期路径 | 文本预览 |
 |---------|---------|---------|
 | `hub` | `assets/cn/voices/shen_qingyue/hub.wav` | 你就是那个……同船活下来的？听说周氏告了你杀人。嘁——冤不冤的我不知道，但你问话倒挺利索。问吧。 |
+| `react_agui_caught` | `assets/cn/voices/shen_qingyue/react_agui_caught.wav` | 阿贵招了？……意料之中。他那种人，扛不住的。 |
+| `ask_father_after` | `assets/cn/voices/shen_qingyue/ask_father_after.wav` | ……还在躺着。八十两的药，一天不能断。 |
+
+#### zhou_de_gui_cabin → (无 casting)（1 条）
+
+| node_id | 预期路径 | 文本预览 |
+|---------|---------|---------|
+| `hub` | `assets/cn/voices/zhou_de_gui_cabin/hub.wav` | ……你就是那个同船的御史？我叫周德茂，做布匹生意。这次是去武昌府进一批棉布。 |
 
 #### zhou_wife → (无 casting)（5 条）
 
@@ -142,6 +164,10 @@
 | `opening_monologue_3` | `assets/cn/voices/_prologue/prologue_ferry/opening_monologue_3.wav` | 那时候，我以为真相会让人好过一些。 |
 | `opening_monologue_4` | `assets/cn/voices/_prologue/prologue_ferry/opening_monologue_4.wav` | 后来才明白——  有些真相，比谎言更冷。 |
 | `time_card_opening` | `assets/cn/voices/_prologue/prologue_ferry/time_card_opening.wav` | 万历廿二年 · 腊月 · 亥时 |
+| `cabin_prologue_1` | `assets/cn/voices/_prologue/prologue_ferry/cabin_prologue_1.wav` | 我叫陆昭，御史台巡按。奉旨巡查南直隶，途经此地。 |
+| `cabin_prologue_2` | `assets/cn/voices/_prologue/prologue_ferry/cabin_prologue_2.wav` | 这条渡船，是平水驿驿丞推荐的。说是'夜船半日便到'。 |
+| `cabin_prologue_3` | `assets/cn/voices/_prologue/prologue_ferry/cabin_prologue_3.wav` | 船舱里还有三个人：一个布商和他的仆从，还有一个船家。外面下着雨，江面漆黑。 |
+| `cabin_free_explore` | `assets/cn/voices/_prologue/prologue_ferry/cabin_free_explore.wav` | 【操作说明】可以在船舱内自由走动，与三位乘客交谈。 |
 | `cabin_1` | `assets/cn/voices/_prologue/prologue_ferry/cabin_1.wav` | 黑暗。  身体猛烈一震——像是什么东西从脚底断裂了。  冰冷的水从某处涌上来，没过脚踝。 |
 | `cabin_2` | `assets/cn/voices/_prologue/prologue_ferry/cabin_2.wav` | 陆昭从睡梦中惊醒。船舱在晃——不是正常的颠簸，是倾斜。  水已经到了小腿。 |
 | `cabin_3` | `assets/cn/voices/_prologue/prologue_ferry/cabin_3.wav` | 船在沉。 |
@@ -228,6 +254,23 @@
 
 | node_id | 预期路径 | 文本预览 |
 |---------|---------|---------|
+| `evt_cabin_sleep_0` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_0.wav` | 夜深了。你躺在船板上，听着雨声，渐渐入睡。 |
+| `evt_cabin_sleep_1` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_1.wav` | 黑暗中，身体猛烈一震。冰冷的水从脚底涌上来，船舱正在倾斜。 |
+| `evt_cabin_sleep_2` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_2.wav` | 船在沉。 |
+| `evt_cabin_sleep_3` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_3.wav` | 你咬牙蹲入刺骨的冰水中，双手摸索船底。一个方形洞口，边缘整齐——不是撞击，是凿出来的。 |
+| `evt_cabin_sleep_4` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_4.wav` | 你扯下舱壁上的铁撬棍，踩上漂起的木箱，撬开天窗。下一刻，船体发出巨响，彻底沉入黑水。 |
+| `evt_cabin_sleep_5` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_5.wav` | 「喂！喂！你还活着吗！」有人把你从江边湿冷的沙砾上拖起来。 |
+| `evt_cabin_sleep_6` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_6.wav` | 别死啊你！我好不容易把你拖上来的！咳出来！把水咳出来！ |
+| `evt_cabin_sleep_7` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_7.wav` | 我叫凌瑶，金鳞镖局首席镖师。别的等进屋再说——你再淋下去非冻成冰棍不可！ |
+| `evt_cabin_sleep_8` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_8.wav` | 清晨，码头下游的浅滩发现了周德茂的尸体。人群围了上来，哭声、雨声和窃窃私语混成一片。 |
+| `evt_cabin_sleep_9` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_9.wav` | 就是他！一个来路不明的外乡人，图财害命！ |
+| `evt_cabin_sleep_10` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_10.wav` | 昨晚三更刚过，我看见这位爷蹲在船底舱口那边，手里好像攥着个铁家伙…… |
+| `evt_cabin_sleep_11` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_11.wav` | 周娘子莫急。人命案最怕情急乱判——但若有证人、有动机、有物证，也不能因他自称御史就轻放。 |
+| `evt_cabin_sleep_12` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_12.wav` | 你说你是御史？有官印文书吗？ |
+| `evt_cabin_sleep_13` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_13.wav` | 官印落在船舱里。连同行李、文书，全沉在江底了。 |
+| `evt_cabin_sleep_14` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_14.wav` | 没有官印，便只能先按眼前证据说话。陆公子，您若清白，就请当堂自证。 |
+| `evt_cabin_sleep_15` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_15.wav` | 他被我拖上来的时候都快断气了！昏迷了大半个时辰才醒！ |
+| `evt_cabin_sleep_16` | `assets/cn/voices/_events/prologue_ferry/evt_cabin_sleep_16.wav` | 既然你说冤枉——那就当面对质！王大爷，你把那天夜里看到的，再说一遍！ |
 | `evt_hull_discovered_0` | `assets/cn/voices/_events/prologue_ferry/evt_hull_discovered_0.wav` | 船底那个洞——边缘整齐，凿痕清晰。这不是暗礁撞出来的。 |
 | `evt_hull_discovered_1` | `assets/cn/voices/_events/prologue_ferry/evt_hull_discovered_1.wav` | 等等……这是被人凿开的？！那不是翻船——是有人故意弄沉的！ |
 | `evt_hull_discovered_2` | `assets/cn/voices/_events/prologue_ferry/evt_hull_discovered_2.wav` | 那是老范的船！只有他能在自己船上动这种手脚！那个赌鬼——他要弄死人捞钱！ |
@@ -261,83 +304,31 @@
 | `evt_lizheng_pressure_4` | `assets/cn/voices/_events/prologue_ferry/evt_lizheng_pressure_4.wav` | 我知道了。不会到那一步。 |
 | `evt_lizheng_pressure_5` | `assets/cn/voices/_events/prologue_ferry/evt_lizheng_pressure_5.wav` | ……那、那小人先走了。大人加油啊。（溜了） |
 | `evt_lizheng_pressure_6` | `assets/cn/voices/_events/prologue_ferry/evt_lizheng_pressure_6.wav` | 陆大人——时间不多了。证据够了就赶紧动手吧。 |
-| `evt_agui_breakdown_0` | `assets/cn/voices/_events/prologue_ferry/evt_agui_breakdown_0.wav` | 你刚转身要走——身后传来一声闷响。 |
-| `evt_agui_breakdown_1` | `assets/cn/voices/_events/prologue_ferry/evt_agui_breakdown_1.wav` | 阿贵跪在地上，双手死死抓着草席，整个人在发抖。 |
-| `evt_agui_breakdown_2` | `assets/cn/voices/_events/prologue_ferry/evt_agui_breakdown_2.wav` | 十二年……十二年啊…… |
-| `evt_agui_breakdown_3` | `assets/cn/voices/_events/prologue_ferry/evt_agui_breakdown_3.wav` | 我十六岁进来的时候……我娘还在。她说跟着老爷好好干，以后能出头。 |
-| `evt_agui_breakdown_4` | `assets/cn/voices/_events/prologue_ferry/evt_agui_breakdown_4.wav` | 我娘死了三年了……我连回去看她最后一眼都没能…… |
-| `evt_agui_breakdown_5` | `assets/cn/voices/_events/prologue_ferry/evt_agui_breakdown_5.wav` | 他的声音从哽咽变成了嚎啕。像是什么东西在胸腔里碎掉了。 |
-| `evt_agui_breakdown_6` | `assets/cn/voices/_events/prologue_ferry/evt_agui_breakdown_6.wav` | …… |
-| `evt_agui_breakdown_7` | `assets/cn/voices/_events/prologue_ferry/evt_agui_breakdown_7.wav` | 陆大人……他哭成这样……不像是演的。 |
-| `evt_agui_breakdown_8` | `assets/cn/voices/_events/prologue_ferry/evt_agui_breakdown_8.wav` | 走吧。让他自己待一会儿。 |
-| `evt_agui_breakdown_9` | `assets/cn/voices/_events/prologue_ferry/evt_agui_breakdown_9.wav` | 你走出后院。身后阿贵的哭声被雨声盖住了——但你知道，那不是装的。 |
-| `evt_agui_breakdown_10` | `assets/cn/voices/_events/prologue_ferry/evt_agui_breakdown_10.wav` | 十二年……就算他真的做了什么，那十二年也是真的。 |
-| `evt_lao_fan_silence_0` | `assets/cn/voices/_events/prologue_ferry/evt_lao_fan_silence_0.wav` | 老范说完那段往事，突然不说话了。 |
-| `evt_lao_fan_silence_1` | `assets/cn/voices/_events/prologue_ferry/evt_lao_fan_silence_1.wav` | 他把烟杆别回腰间，低着头，看着江面。雨打在他斗笠上，啪嗒啪嗒。 |
-| `evt_lao_fan_silence_2` | `assets/cn/voices/_events/prologue_ferry/evt_lao_fan_silence_2.wav` | …… |
-| `evt_lao_fan_silence_3` | `assets/cn/voices/_events/prologue_ferry/evt_lao_fan_silence_3.wav` | …… |
-| `evt_lao_fan_silence_4` | `assets/cn/voices/_events/prologue_ferry/evt_lao_fan_silence_4.wav` | 沉默持续了很久。久到你开始听见江水拍岸的声音。 |
-| `evt_lao_fan_silence_5` | `assets/cn/voices/_events/prologue_ferry/evt_lao_fan_silence_5.wav` | 大人。 |
-| `evt_lao_fan_silence_6` | `assets/cn/voices/_events/prologue_ferry/evt_lao_fan_silence_6.wav` | 嗯。 |
-| `evt_lao_fan_silence_7` | `assets/cn/voices/_events/prologue_ferry/evt_lao_fan_silence_7.wav` | ……没什么。 |
-| `evt_lao_fan_silence_8` | `assets/cn/voices/_events/prologue_ferry/evt_lao_fan_silence_8.wav` | 他转身走向船边。背影在雨里显得很老。 |
-| `evt_lao_fan_silence_9` | `assets/cn/voices/_events/prologue_ferry/evt_lao_fan_silence_9.wav` | 他想说什么……但没说出口。 |
-| `evt_lao_fan_silence_10` | `assets/cn/voices/_events/prologue_ferry/evt_lao_fan_silence_10.wav` | 记下这个时刻。他动摇了。 |
-| `evt_fan_night_sighting_0` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_0.wav` | 你正在码头整理思路——一个渡口的帮工凑了过来。 |
-| `evt_fan_night_sighting_1` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_1.wav` | 陆……陆大人？小的不知道该不该说…… |
-| `evt_fan_night_sighting_2` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_2.wav` | 说。 |
-| `evt_fan_night_sighting_3` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_3.wav` | 案发那晚……小的起夜的时候，看到老范从码头那边回来。不是从船上——是从下游。 |
-| `evt_fan_night_sighting_4` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_4.wav` | 下游？他不是说在船上吗？ |
-| `evt_fan_night_sighting_5` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_5.wav` | 小的看不太清……但那个身形，那个走路的样子，肯定是老范。他手里好像还拎着什么东西。 |
-| `evt_fan_night_sighting_6` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_6.wav` | 什么时辰？ |
-| `evt_fan_night_sighting_7` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_7.wav` | 亥时过后吧……船刚走没多久。 |
-| `evt_fan_night_sighting_8` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_8.wav` | 亥时过后……那不就是船刚翻的时候？他不在船上——他在下游？ |
-| `evt_fan_night_sighting_9` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_9.wav` | 他在下游做什么？ |
-| `evt_fan_night_sighting_10` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_10.wav` | 小的不知道……小的当时没多想。后来出了事才想起来。 |
-| `evt_fan_night_sighting_11` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_11.wav` | 陆大人……如果老范案发时不在船上……那他在哪？他在下游干什么？ |
-| `evt_fan_night_sighting_12` | `assets/cn/voices/_events/prologue_ferry/evt_fan_night_sighting_12.wav` | 记下来。这条线索——比什么都重要。 |
-| `evt_shen_approach_0` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_0.wav` | 你在客栈大堂整理线索——门口传来脚步声。 |
-| `evt_shen_approach_1` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_1.wav` | 沈清月靠在门框上，抱着双臂，看着你。 |
-| `evt_shen_approach_2` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_2.wav` | 陆公子。忙什么呢？ |
-| `evt_shen_approach_3` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_3.wav` | ……你来做什么？ |
-| `evt_shen_approach_4` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_4.wav` | 来看看你查得怎么样了。毕竟——我也想知道谁杀了我的债主。 |
-| `evt_shen_approach_5` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_5.wav` | 她走进来，在你对面坐下。一条腿搁在椅子扶手上，姿态随意。 |
-| `evt_shen_approach_6` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_6.wav` | 听说你在查船底那个洞？还有阿贵的浮囊？ |
-| `evt_shen_approach_7` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_7.wav` | 你怎么知道我们在查这些？ |
-| `evt_shen_approach_8` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_8.wav` | 码头就这么大。你们问了谁、看了什么——半天之内全渡口都知道了。 |
-| `evt_shen_approach_9` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_9.wav` | 陆公子。我来是想告诉你一件事。 |
-| `evt_shen_approach_10` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_10.wav` | 周德茂欠我三十八两。他死了——这笔钱就永远要不回来了。 |
-| `evt_shen_approach_11` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_11.wav` | 所以我希望你查清楚。真的查清楚——不是随便找个人顶罪。 |
-| `evt_shen_approach_12` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_12.wav` | 你在担心什么？ |
-| `evt_shen_approach_13` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_13.wav` | 我担心你查到最后——发现凶手是老范。然后老范说是我指使的。 |
-| `evt_shen_approach_14` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_14.wav` | 一个赌鬼的话——你信吗？ |
-| `evt_shen_approach_15` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_15.wav` | 她在试探。她在看你手里有什么牌。 |
-| `evt_shen_approach_16` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_16.wav` | 我信证据。不信任何人。 |
-| `evt_shen_approach_17` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_17.wav` | 好。那就好。 |
-| `evt_shen_approach_18` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_18.wav` | 她站起来，理了理衣襟。走到门口时停了一步。 |
-| `evt_shen_approach_19` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_19.wav` | 对了。陆公子。 |
-| `evt_shen_approach_20` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_20.wav` | 如果你需要查我——尽管查。我没什么好隐瞒的。 |
-| `evt_shen_approach_21` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_21.wav` | 她走了。留下一缕药材的气味。 |
-| `evt_shen_approach_22` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_22.wav` | 陆大人……她为什么主动来找你？ |
-| `evt_shen_approach_23` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_23.wav` | 因为她想知道我们查到了什么。 |
-| `evt_shen_approach_24` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_24.wav` | 那她刚才说的那些——是在示好？还是在警告？ |
-| `evt_shen_approach_25` | `assets/cn/voices/_events/prologue_ferry/evt_shen_approach_25.wav` | 都是。她在说——'我不好惹'。 |
 | `evt_confrontation_ready_0` | `assets/cn/voices/_events/prologue_ferry/evt_confrontation_ready_0.wav` | 陆大人！航道、验尸、船底破洞、浮囊、老范获救时间、阿贵遣散字据和赌债——对峙要用的证据链都齐了！ |
 | `evt_confrontation_ready_1` | `assets/cn/voices/_events/prologue_ferry/evt_confrontation_ready_1.wav` | 这次不能只盯阿贵。先让老范把船和时间说清楚，再逼阿贵开口。 |
 | `evt_confrontation_ready_2` | `assets/cn/voices/_events/prologue_ferry/evt_confrontation_ready_2.wav` | 好。是时候了。 |
-| `evt_phase3_transition_0` | `assets/cn/voices/_events/prologue_ferry/evt_phase3_transition_0.wav` | 雨声压着屋檐。你站在大堂里，环顾四周——一切都不一样了。 |
-| `evt_phase3_transition_1` | `assets/cn/voices/_events/prologue_ferry/evt_phase3_transition_1.wav` | 你看——沈清月退回二楼房间了。老范那边也有帮工盯着。整个客栈的格局都变了。 |
-| `evt_phase3_transition_2` | `assets/cn/voices/_events/prologue_ferry/evt_phase3_transition_2.wav` | 她没有跑。 |
-| `evt_phase3_transition_3` | `assets/cn/voices/_events/prologue_ferry/evt_phase3_transition_3.wav` | 因为她觉得阿贵的口供不够。那我们就找她不能抵赖的东西。 |
+| `evt_phase3_transition_0` | `assets/cn/voices/_events/prologue_ferry/evt_phase3_transition_0.wav` | 阿贵被两个帮工押进后院柴房。门闩落下的一刻，客栈大堂像被人抽走了声音。 |
+| `evt_phase3_transition_1` | `assets/cn/voices/_events/prologue_ferry/evt_phase3_transition_1.wav` | 陆大人。先前是小人眼拙。从现在起，客栈上下听您调遣。 |
+| `evt_phase3_transition_2` | `assets/cn/voices/_events/prologue_ferry/evt_phase3_transition_2.wav` | 你看——位置都变了。阿贵不在屋里了，老范那边也有人盯着，沈清月退回二楼房间。 |
+| `evt_phase3_transition_3` | `assets/cn/voices/_events/prologue_ferry/evt_phase3_transition_3.wav` | 她没有跑。 |
+| `evt_phase3_transition_4` | `assets/cn/voices/_events/prologue_ferry/evt_phase3_transition_4.wav` | 因为她觉得阿贵的口供不够。那我们就找她不能抵赖的东西。 |
+| `evt_phase3_transition_5` | `assets/cn/voices/_events/prologue_ferry/evt_phase3_transition_5.wav` | 雨声压着屋檐。大堂的人不再看你像嫌犯，而是等着你下一个命令。 |
 | `evt_bladder_meaning_changed_0` | `assets/cn/voices/_events/prologue_ferry/evt_bladder_meaning_changed_0.wav` | 陆昭重新捏起那只牛皮浮囊。缝线极细，针脚密得不像船工手里的粗活。 |
 | `evt_bladder_meaning_changed_1` | `assets/cn/voices/_events/prologue_ferry/evt_bladder_meaning_changed_1.wav` | 等等——浮囊。咱们之前以为那是阿贵自己藏的退路。可他刚才说，连浮囊都是沈清月帮他买的。 |
 | `evt_bladder_meaning_changed_2` | `assets/cn/voices/_events/prologue_ferry/evt_bladder_meaning_changed_2.wav` | 那件证物，从一开始就是她的指纹。我们之前看它的角度——错了。 |
 | `evt_bladder_meaning_changed_3` | `assets/cn/voices/_events/prologue_ferry/evt_bladder_meaning_changed_3.wav` | 重新看。 |
-| `evt_shen_evidence_ready_0` | `assets/cn/voices/_events/prologue_ferry/evt_shen_evidence_ready_0.wav` | 陆大人。四条证据——货银未沉、打捞目击、中间人、时间矛盾。全指向沈清月。 |
+| `evt_shen_evidence_ready_0` | `assets/cn/voices/_events/prologue_ferry/evt_shen_evidence_ready_0.wav` | 陆大人。五条证据——货银未沉、打捞目击、中间人、时间矛盾，还有草药香囊。全指向沈清月。 |
 | `evt_shen_evidence_ready_1` | `assets/cn/voices/_events/prologue_ferry/evt_shen_evidence_ready_1.wav` | 够了吧？这次是真正的对手。你准备好了吗？ |
 | `evt_shen_evidence_ready_2` | `assets/cn/voices/_events/prologue_ferry/evt_shen_evidence_ready_2.wav` | ……去吧。 |
 | `evt_shen_evidence_ready_3` | `assets/cn/voices/_events/prologue_ferry/evt_shen_evidence_ready_3.wav` | （深吸一口气）好。这次跟阿贵不一样——她不会哭。不会慌。她会用逻辑咬你。 |
 | `evt_shen_evidence_ready_4` | `assets/cn/voices/_events/prologue_ferry/evt_shen_evidence_ready_4.wav` | 但我在你旁边。有什么想法我会提醒你的。——走！ |
+| `evt_case_partially_resolved_0` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_0.wav` | 阿贵和老范被押往县衙。沈清月撑伞离开客栈。雨还在下，像是在替那只赝品香囊洗去最后一点药味。 |
+| `evt_case_partially_resolved_1` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_1.wav` | 大人……这个案子，算输了吗？ |
+| `evt_case_partially_resolved_2` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_2.wav` | 推理没有输。证据输了。 |
+| `evt_case_partially_resolved_3` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_3.wav` | 可我们明明知道是她。 |
+| `evt_case_partially_resolved_4` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_4.wav` | 知道，不等于能定罪。她提前调包香囊，就是算准了这一点。 |
+| `evt_case_partially_resolved_5` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_5.wav` | （低声）那我们从哪里查？ |
+| `evt_case_partially_resolved_6` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_6.wav` | 官印。沉船后它不该只是一件丢失的东西。有人若碰过它，就会留下痕迹。这个案子还没完。 |
 
 ## 浔阳楼·夜雨红绸案 (`xunyang_pavilion`)
 

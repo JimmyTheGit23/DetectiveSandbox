@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://1gilnprve2m0"
+
+[deps]
+
+files=["res://docs/case_template/dialogue_lines.node.translation", "res://docs/case_template/dialogue_lines.order.translation", "res://docs/case_template/dialogue_lines.speaker.translation", "res://docs/case_template/dialogue_lines.speaker.translation", "res://docs/case_template/dialogue_lines.type.translation", "res://docs/case_template/dialogue_lines.text.translation", "res://docs/case_template/dialogue_lines.emotion.translation", "res://docs/case_template/dialogue_lines.requires.translation", "res://docs/case_template/dialogue_lines.highlight.translation", "res://docs/case_template/dialogue_lines.record.translation", "res://docs/case_template/dialogue_lines.record.translation", "res://docs/case_template/dialogue_lines.record.translation", "res://docs/case_template/dialogue_lines.record.translation"]
+
+source_file="res://docs/case_template/dialogue_lines.csv"
+dest_files=["res://docs/case_template/dialogue_lines.node.translation", "res://docs/case_template/dialogue_lines.order.translation", "res://docs/case_template/dialogue_lines.speaker.translation", "res://docs/case_template/dialogue_lines.speaker.translation", "res://docs/case_template/dialogue_lines.type.translation", "res://docs/case_template/dialogue_lines.text.translation", "res://docs/case_template/dialogue_lines.emotion.translation", "res://docs/case_template/dialogue_lines.requires.translation", "res://docs/case_template/dialogue_lines.highlight.translation", "res://docs/case_template/dialogue_lines.record.translation", "res://docs/case_template/dialogue_lines.record.translation", "res://docs/case_template/dialogue_lines.record.translation", "res://docs/case_template/dialogue_lines.record.translation"]
+
+[params]
+
+compress=true
+delimiter=0

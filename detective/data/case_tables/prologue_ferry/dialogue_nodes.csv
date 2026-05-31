@@ -114,3 +114,23 @@ zhou_wife,ask_documents,,"都在房间里。大人自己去看吧——遣散字
 zhou_wife,ask_why_night_ferry,,,,zhou_letter_revealed,,clue_route_change,,,,
 zhou_wife,react_murder_confirmed,,,,zhou_knows_murder,,,,,,
 zhou_wife,react_agui_confessed,,,,zhou_knows_agui_guilty,,,,,,
+
+# === 船舱阶段对话节点 ===
+agui_cabin,hub,true,你……你是同船的？我叫阿贵，跟了老爷十二年。这次是去武昌府进棉布。,nervous,,,,,,,
+agui_cabin,ask_master,,,,cabin_agui_talked,,,,,,
+agui_cabin,ask_voyage,,,,cabin_agui_talked,,,,,,
+agui_cabin,ask_feelings,,,,cabin_agui_talked,,,,,,
+agui_cabin,observe_cabin,,,,cabin_observed,,,,,,
+
+lao_fan_cabin,hub,true,哟……又来一个问话的？我叫老范，跑了二十年船。这次是去武昌府的夜船。,evasive,,,,,,,
+lao_fan_cabin,ask_route,,,,cabin_lao_fan_talked,,,,,,
+lao_fan_cabin,ask_weather,,,,cabin_lao_fan_talked,,,,,,
+lao_fan_cabin,ask_cabin,,,,cabin_lao_fan_talked;cabin_saw_crowbar,,,,,,
+lao_fan_cabin,ask_money,,,,cabin_lao_fan_talked,,,,,,
+lao_fan_cabin,observe_cabin,,,,cabin_observed,,,,,,
+
+zhou_de_gui_cabin,hub,true,……你就是那个同船的御史？我叫周德茂，做布匹生意。这次是去武昌府进一批棉布。,serious,,,,,,,
+zhou_de_gui_cabin,ask_business,,,,cabin_zhou_talked,,,,,,
+zhou_de_gui_cabin,ask_night_ferry,,,,cabin_zhou_talked,,,,,,
+zhou_de_gui_cabin,ask_servant,,,,cabin_zhou_talked,,,,,,
+zhou_de_gui_cabin,observe_cabin,,,,cabin_observed,,,,,,

@@ -9,7 +9,12 @@
         {
           "text": "说说你丈夫",
           "goto": "intro",
-          "type": "ask"
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "agui_confessed_mastermind"
+            }
+          ]
         },
         {
           "text": "阿贵这个人怎么样？",
@@ -17,7 +22,14 @@
           "type": "ask",
           "requires": [
             {
-              "flag": "zhou_talked_once"
+              "all": [
+                {
+                  "flag": "zhou_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -27,7 +39,14 @@
           "type": "press",
           "requires": [
             {
-              "flag": "zhou_talked_once"
+              "all": [
+                {
+                  "flag": "zhou_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -37,12 +56,19 @@
           "type": "ask",
           "requires": [
             {
-              "any": [
+              "all": [
                 {
-                  "flag": "zhou_revealed_dismissal"
+                  "not_flag": "agui_confessed_mastermind"
                 },
                 {
-                  "flag": "zhou_suspicion_heard"
+                  "any": [
+                    {
+                      "flag": "zhou_revealed_dismissal"
+                    },
+                    {
+                      "flag": "zhou_suspicion_heard"
+                    }
+                  ]
                 }
               ]
             }
@@ -54,12 +80,19 @@
           "type": "observe",
           "requires": [
             {
-              "any": [
+              "all": [
                 {
-                  "flag": "zhou_revealed_dismissal"
+                  "not_flag": "agui_confessed_mastermind"
                 },
                 {
-                  "flag": "zhou_suspicion_heard"
+                  "any": [
+                    {
+                      "flag": "zhou_revealed_dismissal"
+                    },
+                    {
+                      "flag": "zhou_suspicion_heard"
+                    }
+                  ]
                 }
               ]
             }
@@ -71,7 +104,14 @@
           "type": "ask",
           "requires": [
             {
-              "flag": "zhou_revealed_dismissal"
+              "all": [
+                {
+                  "flag": "zhou_revealed_dismissal"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -81,7 +121,14 @@
           "type": "press",
           "requires": [
             {
-              "flag": "zhou_suspicion_heard"
+              "all": [
+                {
+                  "flag": "zhou_suspicion_heard"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -91,7 +138,14 @@
           "type": "press",
           "requires": [
             {
-              "evidence": "evidence_hull_hole"
+              "all": [
+                {
+                  "evidence": "evidence_hull_hole"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },

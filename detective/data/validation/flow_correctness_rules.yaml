@@ -1,0 +1,296 @@
+# 流程正确性验证规则
+
+# 序章流程定义
+prologue_flow:
+  # 主流程节点
+  main_flow:
+    start: cabin_prologue_1
+    end: day2_start_game
+    
+  # 预期流程顺序
+  expected_sequence:
+    # 第一幕：船舱夜话
+    - phase: cabin_prologue
+      nodes:
+        - cabin_prologue_1
+        - cabin_prologue_2
+        - cabin_prologue_3
+        
+    # 冷开场独白
+    - phase: opening_monologue
+      nodes:
+        - opening_monologue_1
+        - opening_monologue_2
+        - opening_monologue_3
+        - opening_monologue_4
+        - time_card_opening
+        
+    # 沉船过程
+    - phase: sinking
+      nodes:
+        - cabin_1
+        - cabin_2
+        - cabin_3
+        - cabin_flood
+        - cabin_discover_hole
+        - cabin_discover_hole_b
+        - cabin_act
+        - cabin_act_b
+        - cabin_break_out
+        - cabin_deck
+        - cabin_swim
+        - cabin_swim_b
+        
+    # 岸边救援
+    - phase: shore_rescue
+      nodes:
+        - shore_1
+        - shore_2
+        - shore_3
+        - shore_4  # 选项分支
+        - shore_5a / shore_5b
+        - shore_5a_name
+        
+    # 客栈休整
+    - phase: inn_warm
+      nodes:
+        - inn_arrival
+        - inn_change_clothes
+        - inn_warm_1
+        - inn_warm_2
+        - inn_warm_3
+        - inn_warm_3b
+        - inn_warm_3b_narration
+        - inn_warm_4  # 选项分支
+        - inn_warm_4_observed / inn_warm_4_not_observed
+        - inn_warm_5a / inn_warm_5b
+        - inn_warm_6
+        - inn_warm_7
+        - inn_night
+        - inn_night_b
+        - inn_night_injury_check
+        
+    # 第二天：发现尸体
+    - phase: day2_discovery
+      nodes:
+        - day2_dawn
+        - day2_dawn_innkeeper
+        - day2_dawn_innkeeper_b
+        - day2_dawn_commotion
+        - day2_body_1
+        - day2_body_2
+        - day2_body_2b
+        - day2_body_3
+        - day2_body_4
+        - day2_body_4b
+        - day2_body_5
+        
+    # 第二天：指控
+    - phase: day2_accusation
+      nodes:
+        - day2_zhou_1
+        - day2_zhou_accuse_1
+        - day2_agui_appears
+        - day2_agui_1
+        - day2_agui_1b
+        - day2_agui_1c
+        - day2_agui_2
+        - day2_agui_2b
+        - day2_accused_silence
+        - day2_zhou_accuse_3
+        - day2_lizheng_appear
+        - day2_lizheng_1
+        - day2_lizheng_2
+        - day2_lizheng_3
+        - day2_lizheng_3b
+        - day2_lizheng_4
+        - day2_lizheng_5
+        - day2_lizheng_5b
+        
+    # 第二天：决心
+    - phase: day2_resolve
+      nodes:
+        - day2_framed_resolve
+        - day2_framed_resolve_b
+        - day2_lingyao_resolve
+        - day2_lu_resolve_narration
+        - day2_lu_resolve
+        - day2_lu_resolve_b
+        - day2_lu_resolve_c
+        - day2_lingyao_join_framed
+        - day2_lingyao_join_b
+        - day2_start_game  # 结束
+
+# 节点连接规则
+node_connection_rules:
+  # 必须有next或end
+  - rule: must_have_next_or_end
+    description: "每个节点必须有next字段或end=true"
+    severity: error
+    exceptions: [choice_nodes, branch_merge_points]
+    
+  # next必须指向存在的节点
+  - rule: next_must_exist
+    description: "next字段指向的节点必须存在"
+    severity: error
+    
+  # 不能有孤立节点
+  - rule: no_orphan_nodes
+    description: "所有节点必须从start节点可达"
+    severity: error
+    
+  # 不能有循环
+  - rule: no_infinite_loops
+    description: "不能有无限循环（除非有退出条件）"
+    severity: warning
+    
+  # 结束节点必须唯一
+  - rule: single_end_node
+    description: "应该只有一个明确的结束节点"
+    severity: warning
+
+# 选项分支规则
+branch_rules:
+  # 选项必须指向有效节点
+  - rule: choice_goto_must_exist
+    description: "选项的goto必须指向存在的节点"
+    severity: error
+    
+  # 选项分支必须汇合
+  - rule: branches_must_merge
+    description: "选项分支最终应该汇合到主线"
+    severity: warning
+    
+  # 选项条件必须有效
+  - rule: choice_requires_valid
+    description: "选项的requires条件必须引用有效的flag"
+    severity: error
+
+# 结束条件规则
+end_condition_rules:
+  # 结束节点标识
+  - rule: end_node_marked
+    description: "结束节点必须标记end=true"
+    severity: error
+    
+  # 结束节点内容
+  - rule: end_node_content
+    description: "结束节点应该有明确的结束内容（如操作说明）"
+    severity: warning
+    
+  # 结束后跳转
+  - rule: no_after_end
+    description: "结束节点不应该有next字段"
+    severity: error
+
+# 状态机规则
+state_machine_rules:
+  # 状态转换
+  transitions:
+    - from: prologue
+      to: playing
+      trigger: narration_ended
+      
+    - from: playing
+      to: dialogue
+      trigger: start_dialogue
+      
+    - from: dialogue
+      to: playing
+      trigger: end_dialogue
+      
+    - from: playing
+      to: confrontation
+      trigger: start_confrontation
+      
+    - from: confrontation
+      to: playing
+      trigger: end_confrontation
+      
+  # 状态检查
+  checks:
+    - rule: valid_state_transition
+      description: "状态转换必须在允许的列表中"
+      severity: error
+      
+    - rule: state_data_consistent
+      description: "状态数据必须与当前状态一致"
+      severity: error
+
+# 进度系统规则
+progression_rules:
+  # 阶段解锁条件
+  phase_conditions:
+    phase_1_initial:
+      condition: "always"
+      description: "初始阶段，无条件解锁"
+      
+    phase_2_investigation:
+      condition: "accused_of_murder"
+      description: "被指控后进入调查阶段"
+      
+    phase_3_confrontation:
+      condition: "hull_evidence_found"
+      description: "找到船体证据后进入质询阶段"
+      
+  # 解锁依赖
+  unlock_dependencies:
+    - source: phase_2_investigation
+      requires: phase_1_initial
+      
+    - source: phase_3_confrontation
+      requires: phase_2_investigation
+      
+  # 死锁检查
+  deadlock_check:
+    enabled: true
+    description: "检查是否有条件永远无法满足导致死锁"
+
+# 对话流程规则
+dialogue_flow_rules:
+  # 对话入口
+  entry_points:
+    - rule: npc_has_entry
+      description: "每个NPC必须有对话入口节点"
+      severity: error
+      
+    - rule: entry_reachable
+      description: "对话入口必须可达"
+      severity: error
+      
+  # 对话退出
+  exit_points:
+    - rule: dialogue_has_exit
+      description: "对话必须有退出选项"
+      severity: error
+      
+    - rule: exit_returns_to_game
+      description: "对话退出应该返回游戏状态"
+      severity: warning
+      
+  # 对话循环
+  loops:
+    - rule: hub_node_exists
+      description: "对话应该有hub节点供循环询问"
+      severity: warning
+      
+    - rule: no_dead_end_dialogue
+      description: "对话不能有死胡同（除非是剧情杀）"
+      severity: error
+
+# 质询流程规则
+confrontation_flow_rules:
+  # 质询入口
+  - rule: confrontation_requires_evidence
+    description: "质询必须携带相关证据"
+    severity: error
+    
+  # 质询流程
+  - rule: confrontation_has_outcome
+    description: "质询必须有明确的结果（成功/失败/部分）"
+    severity: error
+    
+  # 质询后状态
+  - rule: confrontation_updates_state
+    description: "质询后应该更新游戏状态"
+    severity: warning

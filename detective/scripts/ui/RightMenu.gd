@@ -2,6 +2,7 @@ extends PanelContainer
 ## 底部菜单栏：案卷牌匾式分段按钮
 
 signal menu_clicked(menu_id: String)
+signal locked_hint_requested(hint: String)
 
 const LABELS = {
 	"move": "移动",
@@ -344,7 +345,7 @@ func _on_pressed(menu_id: String) -> void:
 	if not GameManager.is_panel_unlocked(menu_id):
 		var hint := GameManager.get_panel_locked_hint(menu_id)
 		if hint != "":
-			_flash_locked_hint(hint)
+			locked_hint_requested.emit(hint)
 		return
 	menu_clicked.emit(menu_id)
 

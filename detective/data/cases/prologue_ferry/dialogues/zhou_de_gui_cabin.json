@@ -1,0 +1,225 @@
+{
+  "_comment": "Generated from data/case_tables dialogue CSV.",
+  "start": "hub",
+  "nodes": {
+    "hub": {
+      "text": "……你就是那个同船的御史？我叫周德茂，做布匹生意。这次是去武昌府进一批棉布。",
+      "emotion": "serious",
+      "options": [
+        {
+          "text": "周老板是做什么生意的？",
+          "goto": "ask_business",
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "为什么选夜船？",
+          "goto": "ask_night_ferry",
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "阿贵跟了你多久？",
+          "goto": "ask_servant",
+          "type": "observe",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "看看船舱里有什么",
+          "goto": "observe_cabin",
+          "type": "observe",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "夜深了，先休息",
+          "goto": "__exit__",
+          "type": "observe",
+          "requires": [
+            {
+              "all": [
+                {
+                  "flag": "cabin_agui_talked"
+                },
+                {
+                  "flag": "cabin_lao_fan_talked"
+                },
+                {
+                  "flag": "cabin_zhou_talked"
+                },
+                {
+                  "not_flag": "cabin_explore_done"
+                }
+              ]
+            }
+          ],
+          "set_flags": [
+            "cabin_explore_done"
+          ]
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_business": {
+      "set_flags": [
+        "cabin_zhou_talked"
+      ],
+      "lines": [
+        {
+          "text": "不算大。就是混口饭吃。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "这次是去武昌府进一批棉布，过了年好卖。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "周老板谦虚了。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_night_ferry": {
+      "set_flags": [
+        "cabin_zhou_talked"
+      ],
+      "lines": [
+        {
+          "text": "急着赶路。武昌的早市不能错过。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "夜船快。半天就到。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "夜船危险。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "我知道。但时间不等人。而且……有人告诉我这条路快。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "是个做药材的朋友。说这条船靠谱，船家跑了二十年。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "做药材的朋友？",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "嗯。姓沈。以前在武昌做过药材生意。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_servant": {
+      "set_flags": [
+        "cabin_zhou_talked"
+      ],
+      "lines": [
+        {
+          "text": "阿贵跟了我十二年。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "十六岁进的门。什么都不会——是我手把手教的。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "十二年了……不短了。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "十二年……确实不短。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "observe_cabin": {
+      "set_flags": [
+        "cabin_observed"
+      ],
+      "lines": [
+        {
+          "text": "这铁撬棍放得倒显眼……",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    }
+  }
+}

@@ -55,7 +55,7 @@ text = "    第 1 日 · 晨"
 [node name="LocationLabel" type="Label" parent="TopBar" unique_id=2112358323]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "临川驿    "
+text = "    "
 horizontal_alignment = 2
 
 [node name="RightMenu" type="PanelContainer" parent="." unique_id=399983465]

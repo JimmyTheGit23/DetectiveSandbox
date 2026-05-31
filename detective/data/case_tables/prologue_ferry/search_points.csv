@@ -17,3 +17,9 @@ shen_room,shen_desk,桌上账册,0,0.3;0.4;0.3;0.25,,
 shen_room,shen_window,窗口（望向码头）,0,0.65;0.15;0.25;0.4,,
 gambling_alley,gambling_den,赌坊柜台,0,0.25;0.3;0.5;0.4,,
 gambling_alley,gambling_alley_wall,后巷墙角,0,0.8;0.5;0.15;0.3,,
+shen_room,shen_bedside,床边草屑,0,0.08;0.62;0.25;0.18,"{""flag"": ""agui_confessed_mastermind""}",阿贵还没招供，现在没有理由搜沈清月的房间。
+ferry_dock,dock_reed_seal,芦苇里的锦袋残角,0,0.82;0.72;0.12;0.14,"{""flag"": ""prologue_defeated""}",此时还没意识到官印暗线的重要性。
+cabin_lu_room,cabin_seal_box,官印木匣,0,0.31;0.57;0.13;0.16,,
+cabin_lu_room,cabin_route_note,桌上行程简记,0,0.55;0.41;0.24;0.18,,
+cabin_lu_room,cabin_storm_window,雨夜小窗,0,0.56;0.13;0.19;0.18,,
+cabin_lu_room,cabin_wet_cloak,墙边湿斗篷,0,0.78;0.19;0.15;0.52,,

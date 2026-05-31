@@ -35,8 +35,39 @@
       "type": "time_card",
       "text": "万历廿二年 · 腊月 · 亥时",
       "sub_text": "荆江 · 石矶渡",
-      "next": "cabin_1",
+      "next": "cabin_prologue_1",
       "background": ""
+    },
+    "cabin_prologue_1": {
+      "speaker": "陆昭",
+      "text": "我叫陆昭，御史台巡按。奉旨巡查南直隶，途经此地。",
+      "next": "cabin_prologue_2",
+      "portrait": "res://assets/cn/portraits/lu_zhao.png",
+      "emotion": "serious",
+      "background": "res://assets/cn/scenes/prologue_ship_cabin_lu_room.png",
+      "effect": {
+        "gain_clue": "clue_travel_notes"
+      }
+    },
+    "cabin_prologue_2": {
+      "speaker": "陆昭",
+      "text": "这条渡船，是平水驿驿丞推荐的。说是'夜船半日便到'。",
+      "next": "cabin_prologue_3",
+      "portrait": "res://assets/cn/portraits/lu_zhao.png",
+      "emotion": "serious",
+      "background": "res://assets/cn/scenes/prologue_ship_cabin_lu_room.png"
+    },
+    "cabin_prologue_3": {
+      "speaker": "",
+      "text": "船舱里还有三个人：一个布商和他的仆从，还有一个船家。外面下着雨，江面漆黑。",
+      "next": "cabin_free_explore",
+      "background": "res://assets/cn/scenes/prologue_ship_cabin_lu_room.png"
+    },
+    "cabin_free_explore": {
+      "speaker": "",
+      "text": "雨夜行船，总该多看一眼。\n\n【目标】先检查自己的舱室，再去问问船上的三个人：这趟夜船为什么非走东汊？",
+      "end": true,
+      "background": "res://assets/cn/scenes/prologue_ship_cabin_lu_room.png"
     },
     "cabin_1": {
       "speaker": "",

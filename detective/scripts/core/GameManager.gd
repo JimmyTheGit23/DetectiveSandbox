@@ -159,7 +159,7 @@ func switch_case(case_id: String) -> bool:
 	dialogue_records.clear()
 	shown_time_cards.clear()
 	culprit_actions_witnessed.clear()
-	unlocked_phases = ["phase_1"]
+	unlocked_phases = ["phase_0", "phase_1"]
 	reroll_case_seed()
 	# 切换案件时刷新助手系统数据
 	var cs = get_node_or_null("/root/CompanionService")
@@ -239,7 +239,7 @@ func reset_progress() -> void:
 	dialogue_records.clear()
 	shown_time_cards.clear()
 	culprit_actions_witnessed.clear()
-	unlocked_phases = ["phase_1"]
+	unlocked_phases = ["phase_0", "phase_1"]
 	reroll_case_seed()
 	_init_npc_states()
 	save_game()
@@ -331,7 +331,7 @@ func load_game() -> bool:
 	shown_time_cards = data.get("shown_time_cards", {})
 	case_seed = int(data.get("case_seed", 0))
 	culprit_actions_witnessed = data.get("culprit_actions_witnessed", {})
-	var saved_phases = data.get("unlocked_phases", ["phase_1"])
+	var saved_phases = data.get("unlocked_phases", ["phase_0", "phase_1"])
 	unlocked_phases.clear()
 	for p in saved_phases:
 		unlocked_phases.append(str(p))
@@ -796,15 +796,39 @@ func is_npc_name_revealed(nid: String) -> bool:
 func _check_progression() -> void:
 	if progression_data.is_empty():
 		return
-	# 序章叙事期间不触发阶段解锁
+	# 序章叙事期间不触发阶段解锁（但允许无条件的阶段如phase_0解锁）
 	if current_state == STATE_PROLOGUE:
+		# 序章期间只解锁无条件的阶段（如phase_0）
+		for phase in progression_data.get("phases", []):
+			var pid: String = phase.get("id", "")
+			if pid == "" or unlocked_phases.has(pid):
+				continue
+			var cond = phase.get("unlock_condition", null)
+			if cond == null:
+				unlocked_phases.append(pid)
+				phase_unlocked.emit(pid)
+				# 发送助手引导提示
+				var notifs: Dictionary = progression_data.get("phase_notifications", {})
+				if notifs.has(pid):
+					var n: Dictionary = notifs[pid]
+					progression_hint.emit(n.get("speaker", ""), n.get("text", ""))
+				save_game()
 		return
 	for phase in progression_data.get("phases", []):
 		var pid: String = phase.get("id", "")
 		if pid == "" or unlocked_phases.has(pid):
 			continue
 		var cond = phase.get("unlock_condition", null)
+		# 如果条件为null，自动解锁（如phase_0）
 		if cond == null:
+			unlocked_phases.append(pid)
+			phase_unlocked.emit(pid)
+			# 发送助手引导提示
+			var notifs: Dictionary = progression_data.get("phase_notifications", {})
+			if notifs.has(pid):
+				var n: Dictionary = notifs[pid]
+				progression_hint.emit(n.get("speaker", ""), n.get("text", ""))
+			save_game()
 			continue
 		if evaluate_condition(cond):
 			unlocked_phases.append(pid)
@@ -909,16 +933,21 @@ func get_current_phase_hint() -> String:
 
 ## 根据 time_progression 数据返回当前时间标签（数据驱动）
 func get_current_time_label() -> String:
+	# 万历格式的日期标签
 	var day_names := ["", "第一天", "第二天", "第三天", "第四天", "第五天"]
+	# 万历格式的时辰标签（从case_info的subtitle获取）
+	var era_prefix := "万历廿二年 · 腊月"
+	
 	for entry in time_progression_data:
 		if evaluate_condition(entry.get("trigger_condition", null)):
 			var d: int = int(entry.get("day", 1))
 			var day_str: String = day_names[clampi(d, 1, day_names.size() - 1)]
 			var period: String = entry.get("period_label", "辰时")
-			return "%s · %s" % [day_str, period]
+			# 使用万历格式：万历廿二年 · 腊月 · 亥时
+			return "%s · %s" % [era_prefix, period]
 	# 默认
 	var day_str: String = day_names[clampi(current_day, 1, day_names.size() - 1)]
-	return "%s · 辰时" % day_str
+	return "%s · 辰时" % era_prefix
 
 
 # ─── 日程事件 ───
@@ -953,19 +982,31 @@ func apply_event_effects(evt: Dictionary) -> void:
 			for x in f:
 				set_flag(x)
 	if effects.has("gain_clue"):
-		add_clue(effects["gain_clue"])
+		var clue_value = effects["gain_clue"]
+		if clue_value is Array:
+			for clue_id in clue_value:
+				add_clue(str(clue_id))
+		else:
+			add_clue(str(clue_value))
 	# 自动设置一个 evt_id_done 的 flag（与事件 trigger 中的 not flag 配对）
 	var evt_id: String = evt.get("id", "")
 	if evt_id != "":
 		set_flag(evt_id + "_done")
 	if effects.has("gain_evidence"):
-		add_evidence(effects["gain_evidence"])
+		var evidence_value = effects["gain_evidence"]
+		if evidence_value is Array:
+			for evidence_id in evidence_value:
+				add_evidence(str(evidence_id))
+		else:
+			add_evidence(str(evidence_value))
 	if effects.has("unlock_phase"):
 		var phase_id: String = effects["unlock_phase"]
 		if not unlocked_phases.has(phase_id):
 			unlocked_phases.append(phase_id)
 			phase_unlocked.emit(phase_id)
 			save_game()
+	if effects.has("change_location"):
+		change_location(str(effects["change_location"]), false)
 
 
 # ─── 指证 ───

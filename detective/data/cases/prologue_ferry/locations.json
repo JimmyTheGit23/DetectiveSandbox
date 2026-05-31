@@ -1,5 +1,171 @@
 {
   "_comment": "Generated from data/case_tables locations/search_points/location_links CSV.",
+  "ferry_cabin": {
+    "name": "渡船船舱",
+    "description": "渡船内部。木质船舱，昏暗的灯光，窗外下着雨。",
+    "unlock_phase": "phase_0",
+    "background": "res://assets/cn/scenes/prologue_ship_cabin_night.png",
+    "scene_type": "scene_prologue_ship_cabin",
+    "search_points": []
+  },
+  "cabin_lu_room": {
+    "name": "自己的舱室",
+    "parent": "ferry_cabin",
+    "description": "你单独的小舱。一张铺位、一只装着官印的木匣、湿斗篷挂在钩上。窗外雨声。",
+    "unlock_phase": "phase_0",
+    "background": "res://assets/cn/scenes/prologue_ship_cabin_lu_room.png",
+    "scene_type": "scene_prologue_ship_cabin",
+    "search_points": [
+      {
+        "id": "cabin_seal_box",
+        "name": "官印木匣",
+        "time_cost": 0,
+        "hint_rect": [
+          0.31,
+          0.57,
+          0.13,
+          0.16
+        ]
+      },
+      {
+        "id": "cabin_route_note",
+        "name": "桌上行程简记",
+        "time_cost": 0,
+        "hint_rect": [
+          0.55,
+          0.41,
+          0.24,
+          0.18
+        ]
+      },
+      {
+        "id": "cabin_storm_window",
+        "name": "雨夜小窗",
+        "time_cost": 0,
+        "hint_rect": [
+          0.56,
+          0.13,
+          0.19,
+          0.18
+        ]
+      },
+      {
+        "id": "cabin_wet_cloak",
+        "name": "墙边湿斗篷",
+        "time_cost": 0,
+        "hint_rect": [
+          0.78,
+          0.19,
+          0.15,
+          0.52
+        ]
+      }
+    ],
+    "sub_locations": [
+      {
+        "target": "cabin_agui_room",
+        "name": "阿贵的舱角",
+        "description": "去仆从阿贵的小舱角落"
+      },
+      {
+        "target": "cabin_lao_fan_deck",
+        "name": "船尾甲板",
+        "description": "去船尾的雨夜甲板"
+      },
+      {
+        "target": "cabin_zhou_room",
+        "name": "周老板的货舱",
+        "description": "去布商占的货舱"
+      }
+    ]
+  },
+  "cabin_agui_room": {
+    "name": "阿贵的舱角",
+    "parent": "ferry_cabin",
+    "description": "仆从挤的小舱角落。一床草席、一只布袋、一盏摇晃的油灯。光线昏暗。",
+    "unlock_phase": "phase_0",
+    "background": "res://assets/cn/scenes/prologue_ship_cabin_agui_room.png",
+    "scene_type": "scene_prologue_ship_cabin",
+    "npcs": [
+      "agui_cabin"
+    ],
+    "search_points": [],
+    "sub_locations": [
+      {
+        "target": "cabin_lu_room",
+        "name": "自己的舱室",
+        "description": "回到你单独的小舱"
+      },
+      {
+        "target": "cabin_lao_fan_deck",
+        "name": "船尾甲板",
+        "description": "去船尾的雨夜甲板"
+      },
+      {
+        "target": "cabin_zhou_room",
+        "name": "周老板的货舱",
+        "description": "去布商占的货舱"
+      }
+    ]
+  },
+  "cabin_lao_fan_deck": {
+    "name": "船尾甲板",
+    "parent": "ferry_cabin",
+    "description": "船尾的雨夜甲板。木舵、缆绳、悬着的红灯笼。蓑衣斗笠挂在舱门外。",
+    "unlock_phase": "phase_0",
+    "background": "res://assets/cn/scenes/prologue_ship_deck_lao_fan.png",
+    "scene_type": "scene_prologue_ship_cabin",
+    "npcs": [
+      "lao_fan_cabin"
+    ],
+    "search_points": [],
+    "sub_locations": [
+      {
+        "target": "cabin_lu_room",
+        "name": "自己的舱室",
+        "description": "回到你单独的小舱"
+      },
+      {
+        "target": "cabin_agui_room",
+        "name": "阿贵的舱角",
+        "description": "去仆从阿贵的小舱角落"
+      },
+      {
+        "target": "cabin_zhou_room",
+        "name": "周老板的货舱",
+        "description": "去布商占的货舱"
+      }
+    ]
+  },
+  "cabin_zhou_room": {
+    "name": "周老板的货舱",
+    "parent": "ferry_cabin",
+    "description": "布商占的货舱。整齐堆放的布匹货箱、铜锁木箱、账册和油灯。比仆从舱体面些。",
+    "unlock_phase": "phase_0",
+    "background": "res://assets/cn/scenes/prologue_ship_cabin_zhou_room.png",
+    "scene_type": "scene_prologue_ship_cabin",
+    "npcs": [
+      "zhou_de_gui_cabin"
+    ],
+    "search_points": [],
+    "sub_locations": [
+      {
+        "target": "cabin_lu_room",
+        "name": "自己的舱室",
+        "description": "回到你单独的小舱"
+      },
+      {
+        "target": "cabin_agui_room",
+        "name": "阿贵的舱角",
+        "description": "去仆从阿贵的小舱角落"
+      },
+      {
+        "target": "cabin_lao_fan_deck",
+        "name": "船尾甲板",
+        "description": "去船尾的雨夜甲板"
+      }
+    ]
+  },
   "ferry_inn": {
     "name": "石矶渡·客栈",
     "description": "江畔一间简陋的客栈，土墙木梁，屋顶漏雨。冬雨绵绵，门口泥泞不堪。滞留旅客挤满了大堂。",
@@ -236,6 +402,21 @@
           0.2,
           0.2
         ]
+      },
+      {
+        "id": "dock_reed_seal",
+        "name": "芦苇里的锦袋残角",
+        "time_cost": 0,
+        "hint_rect": [
+          0.82,
+          0.72,
+          0.12,
+          0.14
+        ],
+        "unlock_condition": {
+          "flag": "prologue_defeated"
+        },
+        "locked_hint": "此时还没意识到官印暗线的重要性。"
       }
     ]
   },
@@ -347,6 +528,21 @@
           0.25,
           0.4
         ]
+      },
+      {
+        "id": "shen_bedside",
+        "name": "床边草屑",
+        "time_cost": 0,
+        "hint_rect": [
+          0.08,
+          0.62,
+          0.25,
+          0.18
+        ],
+        "unlock_condition": {
+          "flag": "agui_confessed_mastermind"
+        },
+        "locked_hint": "阿贵还没招供，现在没有理由搜沈清月的房间。"
       }
     ],
     "sub_locations": [

@@ -32,3 +32,5 @@ agui_room,agui_bundle,default,choice_02,2,检查包袱布料和绳结,"包袱是
 agui_room,agui_bundle,default,choice_03,3,闻闻包袱的气味,"凑近一闻——酒味。浓烈的烧酒味，从包袱布上渗出来。
 
 里面大概藏了酒。一个差点淹死的人，行李里第一时间塞的是酒？还是说……酒是事先准备好的？",,,noticed_alcohol_smell,
+ferry_dock,dock_body_examine,default,choice_herb_residue,4,检查指甲缝隙,"凌瑶蹲下身，指尖轻轻拨开死者僵硬的手指。指甲缝里有一点极细的蓝色碎屑，混在泥沙里几乎看不出来。她凑近闻了闻，眉头立刻皱紧：不是水草，是药。",evidence_blue_herb_residue,,found_blue_herb_residue,
+ferry_dock,dock_body_examine,default,choice_neck_marks,5,检查脖颈皮肤,"你扶起死者下颌。脖颈侧面有一道极浅的压痕，被江水泡过后几乎消失。凌瑶低声道：如果他落水前清醒，不该这么安静地沉下去。",evidence_neck_marks,,found_neck_marks,

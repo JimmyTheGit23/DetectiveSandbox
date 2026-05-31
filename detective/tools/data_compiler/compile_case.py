@@ -356,6 +356,19 @@ def compile_case_json(src: Path, case_id: str) -> JsonDict:
     if not isinstance(base, dict):
         base = {}
 
+    for meta_row in _rows(src / "case_meta.csv"):
+        meta_key = _cell(meta_row, "key")
+        meta_value = _cell(meta_row, "value")
+        if not meta_key:
+            continue
+        if meta_value.startswith("{") or meta_value.startswith("["):
+            try:
+                base[meta_key] = json.loads(meta_value)
+            except json.JSONDecodeError:
+                base[meta_key] = meta_value
+        else:
+            base[meta_key] = _parse_scalar(meta_value)
+
     confrontation_rows = _rows(src / "confrontations.csv")
     if not confrontation_rows:
         return base

@@ -37,3 +37,9 @@ shen_testimony_2,sf2_3b,沈清月,就算我跟他说过话——在码头碰见�
 shen_testimony_3,sf3_1,沈清月,就算我在码头待到深夜。盯着自己的债务人——合情合理。这不叫犯罪。,,,,,,,
 shen_testimony_3,sf3_2,沈清月,你有的只是：一个赌鬼的指认、一个杀人犯的攀咬、和一个老渔翁在黑夜里看到的模糊身影。这些——够判死刑吗？,,true,evidence_dock_timing,evidence_father_ledger,,,
 shen_testimony_3,sf3_3,沈清月,就算……就算那笔账说得通。'有动机'和'做了'是两回事。你没有亲眼看到我教阿贵凿船——你永远证明不了。,,,,,,,
+shen_testimony_3,sf3_4,沈清月,你没有任何能直接连到我身上的物证。没有物证，就算你的故事再漂亮，也只是故事。,,true,evidence_herb_sachet,,,,
+
+# === 王大爷自证对峙证词（指向主角） ===
+testimony_wang_self,wang_s1,王大爷,"那天夜里我在岸边收网。船翻之前，我看见陆公子和周老板在船头争执，影子清清楚楚。",,true,evidence_weather_fog,,,,
+testimony_wang_self,wang_s2,王大爷,"我还听见有人喊'银子'、'别走'。随后船身一晃，周老板就没了声。",,true,evidence_storm_noise,,,,
+testimony_wang_self,wang_s3,王大爷,"周老板带着五十两货银，陆公子又是唯一活下来的外乡人。老头子不敢乱说，可这事……太巧。",,true,evidence_no_motive,,,,

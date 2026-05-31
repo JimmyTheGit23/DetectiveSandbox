@@ -101,7 +101,25 @@
   "ferry_dock.dock_body_examine": {
     "default": {
       "narration": "你蹲下翻看尸体。面色青紫，口鼻有白色泡沫——这是溺亡的特征。\n\n头部、躯干——没有一处钝器击打的伤痕。没有淤青，没有裂口，没有肿包。\n\n如果有人用铁器打了他——不可能不留痕迹。阿贵说的'铁器打人'，是假的。",
-      "evidence": "evidence_no_blunt_trauma"
+      "evidence": "evidence_no_blunt_trauma",
+      "sub_choices": [
+        {
+          "text": "检查指甲缝隙",
+          "narration": "凌瑶蹲下身，指尖轻轻拨开死者僵硬的手指。指甲缝里有一点极细的蓝色碎屑，混在泥沙里几乎看不出来。她凑近闻了闻，眉头立刻皱紧：不是水草，是药。",
+          "evidence": "evidence_blue_herb_residue",
+          "set_flags": [
+            "found_blue_herb_residue"
+          ]
+        },
+        {
+          "text": "检查脖颈皮肤",
+          "narration": "你扶起死者下颌。脖颈侧面有一道极浅的压痕，被江水泡过后几乎消失。凌瑶低声道：如果他落水前清醒，不该这么安静地沉下去。",
+          "evidence": "evidence_neck_marks",
+          "set_flags": [
+            "found_neck_marks"
+          ]
+        }
+      ]
     }
   },
   "ferry_dock.dock_wreck_hull": {
@@ -165,6 +183,60 @@
     "default": {
       "narration": "王大爷的小屋里挂满了渔网。老人坐在门口补网，看到你来并不意外：「我就知道会有人来问。那天夜里的事……我全看到了。」他从墙角翻出一卷泡烂的纸：「那天在江边捡到的，一直不知道该给谁。」",
       "evidence": "evidence_wet_letter"
+    }
+  },
+  "shen_room.shen_bedside": {
+    "default": {
+      "narration": "床边缝隙里卡着几根干草和一缕辛冷药香。再往里拨，摸出一只绣工极细的香囊。香囊内残留蓝色草药碎末，气味与尸体指甲缝里的碎屑相近。",
+      "evidence": "evidence_herb_sachet",
+      "set_flags": [
+        "found_herb_sachet"
+      ]
+    }
+  },
+  "ferry_dock.dock_reed_seal": {
+    "default": {
+      "narration": "雨后的芦苇伏在江边。你在泥水里捡到一小片油布锦袋残角，边缘有朱砂印泥的痕迹——像是官印匣上的封布。官印没有回来，但有人碰过它。",
+      "evidence": "evidence_seal_cloth_wrap",
+      "set_flags": [
+        "found_seal_cloth_wrap"
+      ]
+    }
+  },
+  "cabin_lu_room.cabin_seal_box": {
+    "default": {
+      "narration": "木匣压在床边，铜锁还扣着。里面是官印、敕牒和巡按令牌。你伸手按了按锁舌——完好。至少此刻，你的身份还稳稳放在这里。",
+      "clue": "clue_cabin_seal_box",
+      "set_flags": [
+        "cabin_seal_box_checked"
+      ]
+    }
+  },
+  "cabin_lu_room.cabin_route_note": {
+    "default": {
+      "narration": "桌上压着一页行程简记：平水驿、石矶渡、夜船、东汊、武昌。东汊二字被一点水痕洇开。你想起驿丞说过“这条水路快”——但他没提过夜里的风浪。",
+      "clue": "clue_cabin_route_note",
+      "set_flags": [
+        "cabin_route_note_checked"
+      ]
+    }
+  },
+  "cabin_lu_room.cabin_storm_window": {
+    "default": {
+      "narration": "窗外一道闪电照亮江面。船身随浪轻轻一偏，油灯火苗被风压得发蓝。这样的天气还要夜渡，急的不是路，是人。",
+      "clue": "clue_cabin_storm_window",
+      "set_flags": [
+        "cabin_storm_window_checked"
+      ]
+    }
+  },
+  "cabin_lu_room.cabin_wet_cloak": {
+    "default": {
+      "narration": "墙边斗篷下已经积了一小摊水。你上船时明明拧过水，如今却像又淋过一场雨。门缝里灌来冷风，带着淡淡的江腥味。",
+      "clue": "clue_cabin_wet_cloak",
+      "set_flags": [
+        "cabin_wet_cloak_checked"
+      ]
     }
   }
 }

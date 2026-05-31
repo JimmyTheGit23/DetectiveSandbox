@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://upwc5dj4vu3a"
+
+[deps]
+
+files=["res://docs/case_template/search_results.point.translation", "res://docs/case_template/search_results.variant.translation", "res://docs/case_template/search_results.intro.translation", "res://docs/case_template/search_results.narration.translation", "res://docs/case_template/search_results.gain.translation", "res://docs/case_template/search_results.gain.translation", "res://docs/case_template/search_results.set.translation", "res://docs/case_template/search_results.when.translation", "res://docs/case_template/search_results.trigger.translation", "res://docs/case_template/search_results.time.translation"]
+
+source_file="res://docs/case_template/search_results.csv"
+dest_files=["res://docs/case_template/search_results.point.translation", "res://docs/case_template/search_results.variant.translation", "res://docs/case_template/search_results.intro.translation", "res://docs/case_template/search_results.narration.translation", "res://docs/case_template/search_results.gain.translation", "res://docs/case_template/search_results.gain.translation", "res://docs/case_template/search_results.set.translation", "res://docs/case_template/search_results.when.translation", "res://docs/case_template/search_results.trigger.translation", "res://docs/case_template/search_results.time.translation"]
+
+[params]
+
+compress=true
+delimiter=0

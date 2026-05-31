@@ -1,0 +1,174 @@
+{
+  "_comment": "Generated from data/case_tables dialogue CSV.",
+  "start": "hub",
+  "nodes": {
+    "hub": {
+      "text": "你……你是同船的？我叫阿贵，跟了老爷十二年。这次是去武昌府进棉布。",
+      "emotion": "nervous",
+      "options": [
+        {
+          "text": "你是做什么的？",
+          "goto": "ask_master",
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "这次夜船是谁安排的？",
+          "goto": "ask_voyage",
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "你跟老爷关系好吗？",
+          "goto": "ask_feelings",
+          "type": "observe",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "看看船舱里有什么",
+          "goto": "observe_cabin",
+          "type": "observe",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_master": {
+      "set_flags": [
+        "cabin_agui_talked"
+      ],
+      "lines": [
+        {
+          "text": "小的叫阿贵，跟了老爷十二年。老爷是做布匹生意的，这次是去武昌府进一批棉布。",
+          "speaker_id": "agui_cabin",
+          "emotion": "nervous"
+        },
+        {
+          "text": "老爷对小的有知遇之恩。十六岁进的门，什么都不会——是老爷手把手教的。",
+          "speaker_id": "agui_cabin",
+          "emotion": "nervous"
+        },
+        {
+          "text": "十二年了……不短。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_voyage": {
+      "set_flags": [
+        "cabin_agui_talked"
+      ],
+      "lines": [
+        {
+          "text": "这次夜船是老爷安排的。说是急着赶路，要赶武昌的早市。",
+          "speaker_id": "agui_cabin",
+          "emotion": "nervous"
+        },
+        {
+          "text": "小的不敢多嘴。老爷说什么就是什么。",
+          "speaker_id": "agui_cabin",
+          "emotion": "nervous"
+        },
+        {
+          "text": "夜船危险，他不敢多嘴？",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_feelings": {
+      "set_flags": [
+        "cabin_agui_talked"
+      ],
+      "lines": [
+        {
+          "text": "老爷……老爷对小的严厉，但也是为小的好。",
+          "speaker_id": "agui_cabin",
+          "emotion": "nervous"
+        },
+        {
+          "text": "十二年了……小的半条命都是老爷给的。",
+          "speaker_id": "agui_cabin",
+          "emotion": "crying"
+        },
+        {
+          "text": "严厉……但也是为你好。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "observe_cabin": {
+      "set_flags": [
+        "cabin_observed"
+      ],
+      "lines": [
+        {
+          "text": "这铁撬棍放得倒显眼……",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    }
+  }
+}

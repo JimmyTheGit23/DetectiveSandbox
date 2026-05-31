@@ -6,12 +6,9 @@
   "key_evidence": [
     "evidence_hull_hole",
     "evidence_float_bladder",
-    "evidence_cargo_silver",
-    "evidence_shen_connection",
-    "evidence_dock_timing",
-    "evidence_father_ledger"
+    "evidence_dismissal_note"
   ],
-  "min_evidence_required": 4,
+  "min_evidence_required": 3,
   "confrontation": {
     "suspect": "agui",
     "background": "res://assets/cn/scenes/prologue_confrontation_hall.png",
@@ -24,6 +21,26 @@
         "speaker": "",
         "text": "客栈大堂。外面的雨还没有要停的意思。\n\n钱里正把相关的人都叫了来——不情不愿的，但拗不过你拿出的证据。",
         "emotion": "narration"
+      },
+      {
+        "speaker": "阿贵",
+        "text": "（猛地站起来，指着陆昭）大人！不要听他的！是他杀了老爷！那天夜里我亲眼看见他蹲在船舱里——手里攥着个铁家伙！他才是凶手！",
+        "emotion": "angry"
+      },
+      {
+        "speaker": "陆昭",
+        "text": "……你的指控，一会儿我会逐一回应。现在——先请证人说话。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "里正大人，我受周娘子所托在此旁听。陆公子若要把船家和仆从都拖成共犯，证据链必须比他的推测更硬。",
+        "emotion": "cooperative"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "浮囊也好、航道也好，都可能只是船上常备用具与行船失误。若只凭“可能”，那人人都能成凶手。",
+        "emotion": "sharp"
       },
       {
         "speaker": "",
@@ -47,7 +64,7 @@
       },
       {
         "speaker": "陆昭",
-        "text": "好。先请一位证人说话。——王大爷。",
+        "text": "好。那就让证词和证据说话。——王大爷。",
         "emotion": "cold"
       },
       {
@@ -123,7 +140,7 @@
         "emotion": "inner_thought"
       },
       {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "……谁？谁跟周德茂说的？",
         "emotion": "serious"
       },
@@ -148,8 +165,8 @@
         "emotion": "worried"
       },
       {
-        "speaker": "你",
-        "text": "阿贵。不成立的钝器指控、提前准备好的浮囊、人工凿出的船洞、十二年二两银子的遣散字据——四段证词，四重铁证。你还有什么话说？",
+        "speaker": "陆昭",
+        "text": "阿贵。不成立的钝器指控、提前准备好的浮囊、船底的钉痕、十二年二两银子的遣散字据——四段证词，四重铁证。你还有什么话说？",
         "emotion": "cold"
       },
       {
@@ -168,7 +185,7 @@
         "emotion": "shocked"
       },
       {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "是你策划的整件事？",
         "emotion": "cold"
       },
@@ -198,7 +215,7 @@
         "emotion": "shaken"
       },
       {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "……她？",
         "emotion": "cold"
       },
@@ -213,7 +230,7 @@
         "emotion": "panic"
       },
       {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "阿贵。你已经认罪了。现在说出她是谁——不会让你的处境更差。但隐瞒——会。",
         "emotion": "cold"
       },
@@ -258,7 +275,7 @@
         "emotion": "worried"
       },
       {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "阿贵。你做了你该做的。",
         "emotion": "cold"
       },
@@ -278,7 +295,7 @@
         "emotion": "shocked"
       },
       {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "认了。船底是他凿的。但他背后还有人——这案子没完。把他看住，别让他跑了。",
         "emotion": "cold"
       },
@@ -333,7 +350,7 @@
         "emotion": "determined"
       },
       {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "（……不。她可能已经知道了。像她这种人——什么都算好了。）",
         "emotion": "serious"
       },
@@ -343,12 +360,12 @@
         "emotion": "anxious"
       },
       {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "不。光凭阿贵一个人的口供不够。她会说阿贵在诬陷她。",
         "emotion": "cold"
       },
       {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "我们需要更多证据——能把她钉死的证据。然后——当面拆穿她。",
         "emotion": "cold"
       },
@@ -361,6 +378,26 @@
         "speaker": "",
         "text": "阿贵被带走了。他的供述揭开了案件下面的第二层。\n\n真正的对手——还在客栈里等着你。",
         "emotion": "narration"
+      },
+      {
+        "speaker": "钱里正",
+        "text": "（站直身子，清了清嗓子）石矶渡渡口命案——经陆大人查明：",
+        "emotion": "stern"
+      },
+      {
+        "speaker": "钱里正",
+        "text": "船底系人为凿沉，仆从阿贵亲手实施。证据确凿。",
+        "emotion": "stern"
+      },
+      {
+        "speaker": "钱里正",
+        "text": "阿贵——",
+        "emotion": "stern"
+      },
+      {
+        "speaker": "钱里正",
+        "text": "有罪。",
+        "emotion": "stern"
       }
     ],
     "defeat_dialogue": [
@@ -375,7 +412,7 @@
         "emotion": "nervous"
       },
       {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "……",
         "emotion": "serious"
       },
@@ -2562,72 +2599,58 @@
     ]
   },
   "confrontation_final": {
-    "_comment": "第二阶段对峙：沈清月（FINAL BOSS）。击破阿贵后进入。难度更高——她用逻辑防御而非哭诉。",
+    "_comment": "终局对峙：沈清月从讼师变为被告。玩家完成击破后进入香囊赝品翻盘，机制胜利但剧情败局。",
     "suspect": "shen_qingyue",
     "is_final": true,
-    "bgm": "accuse",
+    "background": "res://assets/cn/scenes/prologue_confrontation_hall.png",
+    "bgm": "cornered",
     "bgm_break": "pursuit",
     "bgm_final_round": "cornered",
     "confidence": 10,
     "intro_dialogue": [
       {
         "speaker": "",
-        "text": "客栈二楼。沈清月的房间。\n\n她坐在窗边，一条腿搁在椅子扶手上。看到你进门——她连姿势都没换。",
+        "text": "客栈大堂临时设下的公堂。阿贵和老范被押在一侧，周氏伏案发抖，钱里正坐在上首。\n\n沈清月原本站在周氏身后。此刻，她被请到了堂中。",
         "emotion": "narration"
       },
       {
-        "speaker": "",
-        "text": "她的右手拢在袖子里——自始至终没有露出来过。",
-        "emotion": "narration"
+        "speaker": "钱里正",
+        "text": "沈姑娘……陆大人说，此案还没完。你得把话说清楚。",
+        "emotion": "nervous"
       },
       {
         "speaker": "沈清月",
-        "text": "来了啊。比我预计的快了半天。",
-        "emotion": "cold_fury"
+        "text": "（平静走到堂中）我一直在这里。陆公子要问，我自然奉陪。",
+        "emotion": "cooperative"
       },
       {
         "speaker": "凌瑶",
-        "text": "（低声）嘶——她一点都不慌。像是早就知道你会来。",
+        "text": "（低声）她从讼师的位置走到被问的位置了……可她还是一点都不慌。",
         "emotion": "anxious"
       },
       {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "沈清月。阿贵已经招了。",
         "emotion": "cold"
       },
       {
         "speaker": "沈清月",
-        "text": "（微微挑眉）哦？他说什么了？",
+        "text": "（微微挑眉）哦？一个杀人犯为了减罪攀咬别人，他说什么都能算数？",
         "emotion": "sharp"
       },
       {
-        "speaker": "你",
-        "text": "他说——是你教他凿船的。是你找的老范。是你策划了整件事。",
-        "emotion": "cold"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "（沉默了三息。然后她笑了——一种极冷的、带着赞赏的笑。）",
-        "emotion": "cold_smile"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "一个因谋杀被捕的人——为了减轻自己的罪，把锅推给别人。大人觉得这种供词有几分可信？",
-        "emotion": "cold_smile"
-      },
-      {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "所以我不只带了阿贵的供词。我带了证据。",
         "emotion": "cold"
       },
       {
         "speaker": "沈清月",
-        "text": "（从椅子上站起来，理了理衣襟）好。那就来吧。——不过大人，'指向'和'证明'之间，隔着一条人命。",
-        "emotion": "cold_fury"
+        "text": "（沉默三息，然后笑了）好。那就来吧。——不过大人，“指向”和“证明”之间，隔着一条人命。",
+        "emotion": "cold_smile"
       },
       {
         "speaker": "沈清月",
-        "text": "你要定我的罪——就拿能让我闭嘴的东西出来。",
+        "text": "你要定我的罪，就拿能让我闭嘴的东西出来。",
         "emotion": "cold_fury"
       },
       {
@@ -2637,269 +2660,129 @@
       },
       {
         "speaker": "凌瑶",
-        "text": "她会用'反向逻辑'——'杀他对我没好处'。你得先证明她有好处。然后再堵她的退路。",
+        "text": "她会用反向逻辑——杀他对她没好处、口供不能定罪、物证可能被嫁祸。你得一层一层堵死。",
         "emotion": "determined"
       },
       {
-        "speaker": "凌瑶",
-        "text": "准备好了？这次是真正的对手。",
-        "emotion": "determined"
+        "speaker": "陆昭",
+        "text": "开始。",
+        "emotion": "cold"
       }
     ],
     "victory_dialogue": [
       {
-        "speaker": "沈清月",
-        "text": "……",
-        "emotion": "broken"
-      },
-      {
         "speaker": "",
-        "text": "很长的沉默。\n\n窗外的雨声变得清晰了。像是房间里所有其他的声音都消失了。",
+        "text": "客栈大堂临时设下的公堂里，雨声压在屋檐上。所有人的目光都落在那只草药香囊上。",
         "emotion": "narration"
       },
       {
-        "speaker": "",
-        "text": "她的右手——从你进门起就一直攥在袖子里的那只手——手指松开了。",
-        "emotion": "narration"
-      },
-      {
-        "speaker": "",
-        "text": "一张折了无数道的纸从袖口滑落，飘到地上。\n\n是一张药方。墨迹陈旧，纸角磨得起毛——被人攥了不知多少个日夜。",
-        "emotion": "narration"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "（慢慢地——极慢地——她笑了。不是冷笑。是一种……释然的、疲惫的笑。）",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "……你赢了。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "凌瑶",
-        "text": "！",
-        "emotion": "shocked"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "我没杀他。我只是让他死在他该死的地方。——你说这叫什么？",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "你",
-        "text": "叫谋杀。",
-        "emotion": "cold"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "（沉默了三息）……是。大约是吧。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "（她转身看向窗外。雨沿着屋檐滴落。）",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "你知道我爹是怎么病倒的吗？",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "三个月前。周德茂不仅赖了我家三十八两——他还在上游散话，说沈家的药材'以次充好、坑骗客商'。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "那是谣言。三十年的字号——从来没有一笔假货。但谣言传开了。半个月里退了六笔大单。我爹去找他理论——他说'你有证据吗？没证据就别乱扣帽子'。",
-        "emotion": "cold_fury"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "（声音开始颤抖）我爹气得……当场吐血。回来之后就起不了床了。大夫说——急火攻心，伤了五脏。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "八十两的药。我去哪找八十两？周德茂欠我的三十八两不还——还毁了我家的生路。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "凌瑶",
-        "text": "……",
-        "emotion": "worried"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "（转过身来，直视陆昭）你知道什么叫——一个人欠了另一个人的命吗？",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "不是三十八两。是我爹的命。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "阿贵恨了他十二年。老范被他逼到走投无路。我——",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "我只是那个——不愿意再忍了的人。我给了他们机会。也给了自己一个——交代。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "你",
-        "text": "……",
-        "emotion": "serious"
-      },
-      {
-        "speaker": "你",
-        "text": "你把阿贵当棋子用。一个被克扣了十二年的人——你利用了他的恨。",
-        "emotion": "cold"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "（身体一僵）……他也恨周德茂。我没有逼他。",
-        "emotion": "cracking"
-      },
-      {
-        "speaker": "你",
-        "text": "你教他凿船。教他藏浮囊。算好了沉船位置——然后你去捞钱。他去坐牢。",
-        "emotion": "cold"
-      },
-      {
-        "speaker": "你",
-        "text": "从头到尾——你的手是干净的。脏活是别人做的。牢是别人坐的。这叫什么？",
-        "emotion": "cold"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "……",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "（垂下头。很久没有说话。当她再开口时——声音几乎听不清。）",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "……我知道。我对不起阿贵。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "但我不后悔周德茂的死。他活着一天——我爹就多痛一天。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "你",
-        "text": "法不容情。周德茂该受制裁——但不是这种制裁。你选择了杀人。这是你的罪。",
+        "speaker": "陆昭",
+        "text": "蓝色草药、脖颈压痕、阿贵口供、老范赌债、货银去向——证据链已经闭合。",
         "emotion": "cold"
       },
       {
         "speaker": "凌瑶",
-        "text": "（弯腰捡起了地上那张药方。看了一眼——手微微颤了一下。然后轻轻放在桌上。）",
-        "emotion": "worried"
-      },
-      {
-        "speaker": "你",
-        "text": "（走到门口，对外面的帮工说）去叫钱里正。",
-        "emotion": "serious"
-      },
-      {
-        "speaker": "",
-        "text": "钱里正来得很快——大概一直在楼下等着。他看了看沈清月，又看了看你。这一次——他没有搓手。",
-        "emotion": "narration"
-      },
-      {
-        "speaker": "你",
-        "text": "她认了。带走吧。——另外，她父亲的药费……从查没的货银中扣出治病的钱，转交沈家。",
-        "emotion": "serious"
+        "text": "她输了。陆大人，她真的输了。",
+        "emotion": "determined"
       },
       {
         "speaker": "沈清月",
-        "text": "（猛然抬头）……什么？",
-        "emotion": "broken"
+        "text": "（看着香囊，忽然笑了）是吗？陆公子，你确定你手里的，是“那一只”香囊？",
+        "emotion": "cold_smile"
       },
       {
-        "speaker": "你",
-        "text": "她的罪归她。她父亲的病——不归。",
-        "emotion": "serious"
-      },
-      {
-        "speaker": "凌瑶",
-        "text": "……（看了看陆昭，又看了看沈清月。沈清月的眼眶终于红了——但她咬着牙，没让泪落下来。）",
-        "emotion": "worried"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "（被带走时在门口停了一步。没有回头。）",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "……陆昭。你是个好官。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "可惜我遇到你——晚了三个月。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "",
-        "text": "她快走到门口时——突然停住了。没有回头。",
-        "emotion": "narration"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "对了。大人。",
-        "emotion": "broken"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "你有没有想过——为什么你恰好也在那条船上？",
-        "emotion": "cold_fury"
-      },
-      {
-        "speaker": "你",
+        "speaker": "陆昭",
         "text": "……什么意思？",
         "emotion": "serious"
       },
       {
         "speaker": "沈清月",
-        "text": "（没有回答。她被押着走出了房间。）",
-        "emotion": "broken"
+        "text": "凌姑娘懂药，也懂针线。劳烦你看看：这只香囊的绣线配色、药材配比，和你方才说的“专属香囊”是否一致。",
+        "emotion": "sharp"
       },
       {
         "speaker": "凌瑶",
-        "text": "（低声）什么意思？！她最后那句话……什么意思？",
-        "emotion": "anxious"
+        "text": "（接过香囊，脸色一点点变了）……不对。蓝草药味很淡，里面少了一味定香的辅料。绣线也不对，外圈该是银灰线，这只是灰白棉线。",
+        "emotion": "shocked"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "所以，这不是我的香囊。或者说——它已经不是原来那只了。",
+        "emotion": "deflecting"
+      },
+      {
+        "speaker": "钱里正",
+        "text": "这、这是什么意思？",
+        "emotion": "shocked"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "意思是：陆公子拿来定我罪的核心物证，是赝品。孤证不立，赝物更不能立。",
+        "emotion": "cold_fury"
+      },
+      {
+        "speaker": "陆昭",
+        "text": "你提前调包了。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "大人说话要讲证据。你能证明是我调包，而不是有人嫁祸，甚至不是你自己急于定罪而拿错了东西吗？",
+        "emotion": "sharp"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "你——！",
+        "emotion": "angry"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "阿贵是杀人犯，老范是赌鬼，王大爷刚被拆成伪证者。现在，唯一能直接指向我的香囊也是赝品。陆公子，你还剩什么？",
+        "emotion": "cold_smile"
+      },
+      {
+        "speaker": "陆昭",
+        "text": "还剩真相。",
+        "emotion": "serious"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "真相不能替你签押，证据才能。",
+        "emotion": "cold_fury"
+      },
+      {
+        "speaker": "钱里正",
+        "text": "陆大人……若物证存疑，县衙那边恐怕不会准押沈姑娘。",
+        "emotion": "nervous"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "（转身向门外走去）你推理得很好。可惜，公堂上赢的不是推理，是证据。",
+        "emotion": "cold_smile"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "陆昭，下次再拿证据来找我时，记得先确认它还在不在你手里。",
+        "emotion": "sharp"
       },
       {
         "speaker": "",
-        "text": "门关上了。\n\n雨声又大了起来。\n\n……为什么你恰好也在那条船上。\n这个问题，像一根刺，扎在了某个地方。",
+        "text": "她撑伞走入雨幕。没有奔逃，没有回头，像只是赴完一场早已写好结局的约。",
         "emotion": "narration"
       },
       {
-        "speaker": "",
-        "text": "（你低头看了看桌上那张匿名纸条。纸上的字迹工整，笔画有力——不是随手写的。'周德茂腊月十七走石矶渡。五十两货银。夜船。船上会有一个南京来的读书人。他会活着上岸。'写这张纸条的人——不仅知道周德茂的行程。他**知道你会在那条船上**。）",
-        "emotion": "inner_thought"
-      },
-      {
         "speaker": "凌瑶",
-        "text": "（低声）陆大人……这张纸条。写纸条的人——才是真正的幕后。",
+        "text": "陆大人……我从一开始就觉得她不对劲。下次，不会再让她得逞。",
         "emotion": "worried"
       },
       {
+        "speaker": "陆昭",
+        "text": "嗯。我们输的不是案情，是证据规则。那就从证据重新查。",
+        "emotion": "serious"
+      },
+      {
         "speaker": "",
-        "text": "（沈清月认了罪。但递刀的人——还在暗处。这个案子，还没有真正结束。）",
+        "text": "你第一次如此清楚地意识到：知道真相，与赢下案件，并不是同一件事。",
         "emotion": "inner_thought"
       }
     ],
@@ -3803,6 +3686,81 @@
                 "emotion": "anxious"
               }
             ]
+          },
+          {
+            "id": "sf3_4",
+            "speaker": "沈清月",
+            "text": "你没有任何能直接连到我身上的物证。没有物证，就算你的故事再漂亮，也只是故事。",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_herb_sachet",
+            "press": [
+              {
+                "speaker": "你",
+                "text": "没有物证？你终于问到这一步了。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "（微笑）是啊。口供会变，目击会错。物证呢？",
+                "emotion": "cold_smile"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）她在逼你出最后一张牌。香囊——只有这个能把草药线连到她身上。",
+                "emotion": "determined"
+              }
+            ],
+            "break_dialogue": [
+              {
+                "speaker": "你",
+                "text": "物证在这里。（出示草药香囊）",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "江岸草丛里发现的香囊，里面残留蓝色草药碎末。气味与死者指甲缝里的碎屑一致。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "香囊绣工精细，不是渔民船夫会带的东西。药味也不是寻常香料。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……",
+                "emotion": "cracking"
+              },
+              {
+                "speaker": "你",
+                "text": "蓝色草药能让人昏沉失力。周德茂不是清醒落水，他先被药制住，才被沉船带入江中。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "这只香囊，就是你接触蓝色草药、并把药带到案发现场的物证。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "（很轻地笑了一声）终于……拿出来了。",
+                "emotion": "cold_smile"
+              }
+            ],
+            "wrong_reactions": {
+              "_default": [
+                {
+                  "speaker": "沈清月",
+                  "text": "大人，这东西只能证明你的想象力很好。可惜，想象不能入案。",
+                  "emotion": "sharp"
+                },
+                {
+                  "speaker": "凌瑶",
+                  "text": "（低声）她现在要的是“物证”。不是动机，不是时间，是能和草药线扣上的东西。",
+                  "emotion": "worried"
+                }
+              ]
+            }
           }
         ]
       }
@@ -3900,98 +3858,257 @@
   ],
   "endings": {
     "perfect": {
-      "title": "「舟覆人明」结局",
-      "narration": "你揭破了全部真相。\n\n周德茂之死并非暗礁意外——是一场精心策划的谋杀。沈清月利用阿贵十二年的积怨和老范的赌债，一手导演了凿船沉舟。\n\n执行者阿贵、工具人老范被押往县衙。真正的主谋沈清月——也没有逃脱。\n\n你从她的房间搜出了打捞上来的五十两货银。铁证如山。\n\n周氏终于得到了完整的交代。沈家老父的药钱从货银中拨出——法有法度，情有情理。\n\n石矶渡恢复了平静。渡口立了新规：不再接独行客的夜船。"
+      "title": "「真相抵岸，证据沉江」",
+      "narration": "你完成了所有推理，也亲手把草药香囊摆上公堂。\n\n但沈清月早已调包核心物证。香囊成了赝品，阿贵、老范、王大爷的口供也都因各自的罪与谎而被削弱。\n\n你知道真相，却无法在这一刻定她的罪。沈清月撑伞离开，留下第一场真正的败局。\n\n这不是结束。官印暗线、香囊调包、沈清月背后的关系网，都将成为下一案的起点。"
     },
     "good": {
-      "title": "「水落石出」结局",
-      "narration": "你抓到了执行者阿贵和老范，也追查到了幕后主谋沈清月。\n\n但对沈清月的证据链仍有缺口。她承认了在场，但咬死否认直接参与策划。\n\n案子大体结清，但主谋的定罪仍需县衙进一步审理。真相已经浮出水面——只差最后一个铁钉。"
+      "title": "「败局留痕」",
+      "narration": "你逼近了真相，也让沈清月露出破绽。\n\n然而香囊赝品翻盘，使她暂时脱身。阿贵和老范被押往县衙，真正的主谋仍在雨幕之后。\n\n陆昭记住了这次失败：真相需要证据，而证据会被敌人提前动手。"
     },
     "partial": {
-      "title": "「半截真相」结局",
-      "narration": "你击破了阿贵的谎言，证明了沉船是人为。\n\n但幕后的沈清月——你没有来得及追查。阿贵供出了她的名字，却没有足够证据让她定罪。\n\n她带着五十两货银消失在了雨夜里。这案子——只挖出了一半。"
+      "title": "「半截真相」",
+      "narration": "你击破了沉船案的大半证据链，却没能让终局铁证站稳。\n\n沈清月借香囊赝品脱身。案件留下裂缝，等待下一次追查。"
     },
     "bad": {
-      "title": "「沉冤江底」结局",
-      "narration": "你指错了人。\n\n错误的推断让真正的凶手避开了审断，周德茂之死被草草归入另一套说辞。\n\n石矶渡重新恢复平静，但真相仍沉在江底。"
-    },
-    "timeout": {
-      "title": "「雨停人散」结局",
-      "pre_narration": [
-        {
-          "speaker": "",
-          "text": "第三天。清晨。\n\n雨终于停了。阳光透过云层洒在码头上——但你没有心情欣赏。"
-        },
-        {
-          "speaker": "",
-          "text": "一阵马蹄声从官道方向传来。"
-        },
-        {
-          "speaker": "钱里正",
-          "text": "（跑进来，满头大汗）陆、陆大人！县衙来人了！张县令派了两个差役——"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "什么？！不是说给两天吗？！"
-        },
-        {
-          "speaker": "钱里正",
-          "text": "两天到了啊姑娘！今天是第三天了！"
-        },
-        {
-          "speaker": "",
-          "text": "两个穿公服的差役走进客栈院子。为首的那个扫了你一眼。"
-        },
-        {
-          "speaker": "差役",
-          "text": "你就是那个自称巡按御史的？跟我们走一趟吧——张县令有话要问。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "等等！他真的是御史！他是被冤枉的——凶手另有其人！"
-        },
-        {
-          "speaker": "差役",
-          "text": "（不耐烦）有证据吗？有官印文书吗？没有就走。到了县衙再说。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "（抓住你的袖子）陆昭——！"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "……走吧。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "你怎么这么冷静？！他们要把你当嫌疑人带走啊！"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "我没有在期限内找到凶手。这是我的失职。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "……"
-        },
-        {
-          "speaker": "",
-          "text": "你走出客栈门口时，回头看了一眼。\n\n二楼的窗户边——沈清月站在那里。远远地看着你。\n\n她的表情，像是在微笑。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "（小声，声音发颤）陆大人。我会去找证据的。我不会让你——"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "别。先把你的急件送完。"
-        },
-        {
-          "speaker": "",
-          "text": "雨停了。\n\n但真相仍然沉在江底。"
-        }
-      ],
-      "narration": "两天过去，雨停了。\n\n你错过了查清此案的时机。沈清月早已不动声色地离开了渡口。阿贵缩在客栈不敢出门。老范收拾行李跑了。\n\n周德茂之死最终被记作一场夜船意外。真相没有浮出水面。\n\n——但故事并未结束。因为真相不会因为你被捕而消失。"
+      "title": "「沉冤江底」",
+      "narration": "错误的出牌让证据链过早断裂。\n\n真正的真相仍沉在江底，沈清月也没有留下足以定罪的破绽。"
     }
+  },
+  "confrontation_wang": {
+    "_comment": "自证清白对峙：王大爷。被指控后立即触发，用证据反驳钱里正的推理。",
+    "suspect": "fisherman_wang",
+    "background": "res://assets/cn/scenes/prologue_confrontation_hall.png",
+    "bgm": "ferry_confrontation",
+    "bgm_break": "ferry_court_opening",
+    "bgm_final_round": "ferry_confrontation",
+    "confidence": 10,
+    "intro_dialogue": [
+      {
+        "speaker": "钱里正",
+        "text": "（拍桌子）肃静！既然陆大人说冤枉——那就当面对质！",
+        "emotion": "nervous"
+      },
+      {
+        "speaker": "周氏",
+        "text": "就是他！我家老爷死得冤，若不是他，还能是谁？！",
+        "emotion": "screaming"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "里正大人。周娘子悲痛失态，但证人既在，不妨让证词说话。若陆公子真无辜，也该经得住问。",
+        "emotion": "cooperative"
+      },
+      {
+        "speaker": "钱里正",
+        "text": "王大爷，你只说你亲眼所见、亲耳所闻，不必替谁下结论。",
+        "emotion": "nervous"
+      },
+      {
+        "speaker": "王大爷",
+        "text": "（慢吞吞站起来，避开周氏的目光）行。老头子……只说看到的。",
+        "emotion": "evasive"
+      },
+      {
+        "speaker": "王大爷",
+        "text": "那天夜里我在岸边收网。船翻之前，我看见陆公子和周老板在船头争执，影子清清楚楚。",
+        "emotion": "evasive"
+      },
+      {
+        "speaker": "王大爷",
+        "text": "我还听见有人喊'银子'、'别走'。随后船身一晃，周老板就没了声。",
+        "emotion": "evasive"
+      },
+      {
+        "speaker": "王大爷",
+        "text": "周老板带着五十两货银，陆公子又是唯一活下来的外乡人。老头子不敢乱说，可这事……太巧。",
+        "emotion": "evasive"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "陆公子，唯一生还者最有机会毁船灭口。你若只说自己冤枉，恐怕不能服众。",
+        "emotion": "sharp"
+      },
+      {
+        "speaker": "陆昭",
+        "text": "那就从这份证词开始。一句一句拆。",
+        "emotion": "cold"
+      },
+      {
+        "speaker": "凌瑶",
+        "text": "（低声）他说得太满了。雾、风、动机——全有破绽。",
+        "emotion": "determined"
+      }
+    ],
+    "testimonies": [
+      {
+        "id": "testimony_wang_self",
+        "witness": "fisherman_wang",
+        "title": "— 王大爷的伪证：我亲眼所见 —",
+        "statements": [
+          {
+            "id": "wang_s1",
+            "speaker": "王大爷",
+            "text": "那天夜里我在岸边收网。船翻之前，我看见陆公子和周老板在船头争执，影子清清楚楚。",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_weather_fog",
+            "break_dialogue": [
+              {
+                "speaker": "你",
+                "text": "你说你在岸边看清了船头争执？先看案发夜的天气。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "那夜江面浓雾极重，岸边到翻船处相隔百丈以上。隔着雨雾，你不可能看清船上人物身形。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "（喉结动了动）我……老头子眼神还行……",
+                "emotion": "evasive"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "陆公子，雾中看不清细节，不代表看不见轮廓。你不能只凭天气就说证人撒谎。",
+                "emotion": "sharp"
+              },
+              {
+                "speaker": "你",
+                "text": "我说的不是细节。是身份。你所谓“清清楚楚”，从第一句开始就不成立。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）第一道破绽。继续压，他在躲周氏的眼神。",
+                "emotion": "determined"
+              }
+            ]
+          },
+          {
+            "id": "wang_s2",
+            "speaker": "王大爷",
+            "text": "我还听见有人喊'银子'、'别走'。随后船身一晃，周老板就没了声。",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_storm_noise",
+            "break_dialogue": [
+              {
+                "speaker": "你",
+                "text": "你还说听见了“银子”“别走”。可案发夜的风浪声，足够盖过整条江。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "狂风夹雨，浪拍船舷。站在岸边，连船上普通争执都听不清，更别说分辨具体词句。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "（支吾）我、我也许是听旁人后来提起……",
+                "emotion": "evasive"
+              },
+              {
+                "speaker": "你",
+                "text": "刚才你说的是“亲耳听见”。现在变成“后来提起”？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "证人年纪大了，记忆先后混乱也不奇怪。陆公子，别把老人逼得太急。",
+                "emotion": "cooperative"
+              },
+              {
+                "speaker": "你",
+                "text": "证词可以模糊，但不能凭空补上最关键的动机词。",
+                "emotion": "cold"
+              }
+            ]
+          },
+          {
+            "id": "wang_s3",
+            "speaker": "王大爷",
+            "text": "周老板带着五十两货银，陆公子又是唯一活下来的外乡人。老头子不敢乱说，可这事……太巧。",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_no_motive",
+            "break_dialogue": [
+              {
+                "speaker": "你",
+                "text": "最后，你说我为了五十两货银杀人。那我与周德茂有什么仇？有什么债？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "我初到石矶渡，与他仅一面之缘。若为谋财，我为何还要把自己困在沉船里，几乎溺死？",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "（额头冒汗）这……外乡人嘛，谁知道你心里想什么……",
+                "emotion": "evasive"
+              },
+              {
+                "speaker": "你",
+                "text": "不知道，就不能作证。猜测不是证词。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "他不是看错。他是把别人教他的话背出来了。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "（猛地抬头）没、没人教我！",
+                "emotion": "panic"
+              },
+              {
+                "speaker": "你",
+                "text": "王大爷。浓雾之下，你看不清人；风浪之中，你听不清话；我与死者无财仇私怨。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "三句话，三处破绽。你所谓“亲眼所见”，其实是有人要你这么说。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "（双手发抖）我……我只是收了几两银子……",
+                "emotion": "panic"
+              },
+              {
+                "speaker": "周氏",
+                "text": "你胡说！",
+                "emotion": "screaming"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "周家娘子说……说那外乡人害死了周老板，只要我照实“补几句”，就算帮她伸冤……",
+                "emotion": "panic"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "（沉默片刻）周娘子悲痛过甚，或许只是求证心切。此事仍不能证明陆公子完全无嫌。",
+                "emotion": "deflecting"
+              },
+              {
+                "speaker": "你",
+                "text": "至少证明了一件事——把我钉成凶手的证词，是伪证。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "钱里正",
+                "text": "（震惊）这……这么说，陆大人不是凶手？",
+                "emotion": "nervous"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "不是“这么说”。是证据已经说清楚了。",
+                "emotion": "determined"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

@@ -9,7 +9,12 @@
         {
           "text": "问问当晚发生了什么",
           "goto": "intro",
-          "type": "ask"
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "agui_confessed_mastermind"
+            }
+          ]
         },
         {
           "text": "你和周德茂关系怎样？",
@@ -17,7 +22,14 @@
           "type": "press",
           "requires": [
             {
-              "flag": "agui_talked_once"
+              "all": [
+                {
+                  "flag": "agui_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -27,7 +39,14 @@
           "type": "press",
           "requires": [
             {
-              "flag": "agui_talked_once"
+              "all": [
+                {
+                  "flag": "agui_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -37,7 +56,14 @@
           "type": "press",
           "requires": [
             {
-              "evidence": "evidence_dismissal_note"
+              "all": [
+                {
+                  "evidence": "evidence_dismissal_note"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -47,7 +73,14 @@
           "type": "press",
           "requires": [
             {
-              "evidence": "evidence_float_bladder"
+              "all": [
+                {
+                  "evidence": "evidence_float_bladder"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },
@@ -57,7 +90,14 @@
           "type": "observe",
           "requires": [
             {
-              "flag": "agui_talked_once"
+              "all": [
+                {
+                  "flag": "agui_talked_once"
+                },
+                {
+                  "not_flag": "agui_confessed_mastermind"
+                }
+              ]
             }
           ]
         },

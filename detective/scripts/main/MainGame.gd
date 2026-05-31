@@ -68,6 +68,8 @@ func _ready() -> void:
 	DialogueManager.lie_exposed.connect(_on_lie_exposed)
 	
 	menu_panel.menu_clicked.connect(_on_menu_clicked)
+	if menu_panel.has_signal("locked_hint_requested"):
+		menu_panel.locked_hint_requested.connect(_on_menu_locked_hint_requested)
 	event_hint_btn.pressed.connect(_on_event_hint_clicked)
 	if ending_screen.has_signal("return_to_case_select_requested"):
 		ending_screen.return_to_case_select_requested.connect(_on_return_to_case_select_after_ending)
@@ -650,7 +652,7 @@ func _sync_pending_events_from_save() -> void:
 # ─── 时间/地点/通知 ───
 func _on_location_changed(loc_id: String) -> void:
 	var data := GameManager.get_location_data(loc_id)
-	location_label.text = data.get("name", loc_id)
+	_update_top_bar()
 	var bg_path: String = AssetResolver.get_scene_background(data)
 	# 场景过场：首次访问该场景时显示地名过场
 	var cur_day := GameManager.current_day
@@ -700,7 +702,23 @@ func _on_location_changed(loc_id: String) -> void:
 func _update_top_bar() -> void:
 	var loc_data := GameManager.current_location_data()
 	var loc_name: String = loc_data.get("name", GameManager.current_location)
-	top_bar_label.text = loc_name
+	
+	# 获取父地点名称（主要场景）
+	var parent_id: String = loc_data.get("parent", "")
+	var parent_name: String = ""
+	if parent_id != "":
+		var parent_data: Dictionary = GameManager.get_location_data(parent_id)
+		parent_name = parent_data.get("name", parent_id)
+	
+	# 如果没有父地点，左上角显示时间+当前地点
+	# 如果有父地点，左上角显示时间+主要场景（父地点）
+	var time_str: String = GameManager.get_current_time_label()
+	if parent_name == "":
+		top_bar_label.text = "    %s · %s" % [time_str, loc_name]
+		location_label.text = "    "
+	else:
+		top_bar_label.text = "    %s · %s" % [time_str, parent_name]
+		location_label.text = loc_name + "    "
 
 
 func _on_evidence_added(eid: String) -> void:
@@ -944,6 +962,10 @@ func _on_event_hint_clicked() -> void:
 
 
 # ─── 菜单 ───
+func _on_menu_locked_hint_requested(hint: String) -> void:
+	_flash_notification(hint)
+
+
 func _on_menu_clicked(menu_id: String) -> void:
 	if menu_id == "talk":
 		var npcs: Array = GameManager.get_active_npcs_at(GameManager.current_location)
@@ -1012,7 +1034,7 @@ func _on_game_reset() -> void:
 	GameManager.collected_clues.clear()
 	GameManager.dialogue_flags.clear()
 	GameManager.triggered_events.clear()
-	GameManager.unlocked_phases = ["phase_1"]
+	GameManager.unlocked_phases = ["phase_0", "phase_1"]
 	GameManager.ACTIVE_CASE = ""
 	_show_title()
 
@@ -1122,9 +1144,18 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 	var confront_key: String = GameManager.active_confrontation_key
 	# 对峙胜利后设置对应 flag
 	if result == "victory":
+		GameManager.set_flag(confront_key + "_completed")
 		var suspect: String = GameManager.case_data.get(confront_key, {}).get("suspect", "")
-		if suspect == "agui":
+		if confront_key == "confrontation_wang":
+			GameManager.set_flag("self_cleared")
+			GameManager.set_flag("wang_testimony_debunked")
+			GameManager.set_flag("zhou_wife_bribe_exposed")
+		elif suspect == "agui":
 			GameManager.set_flag("agui_confessed_mastermind")
+		elif confront_key == "confrontation_final":
+			GameManager.set_flag("prologue_truth_reached")
+			GameManager.set_flag("prologue_defeated")
+			GameManager.set_flag("case_partially_resolved")
 	# 重置对峙路由键（DialogueManager 在下次触发时会重新设置正确的 key）
 	GameManager.active_confrontation_key = "confrontation"
 	# 判断是否为中间对峙（非最终BOSS）：播放过渡剧情后返回调查
@@ -1141,25 +1172,33 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 	_show_ending(ending_id)
 
 
-func _play_mid_confrontation_result(confront_key: String, confront_data: Dictionary, result: String, mistakes: int) -> void:
+func _play_mid_confrontation_result(confront_key: String, confront_data: Dictionary, result: String, _mistakes: int) -> void:
 	# 中间对峙（如阿贵）：播放胜利/失败对话后返回调查模式
 	var dialogue_key := "victory_dialogue" if result == "victory" else "defeat_dialogue"
 	var lines: Array = confront_data.get(dialogue_key, [])
 	if lines.size() > 0:
 		DialogueManager.play_adhoc_narration(lines, func():
-			_after_mid_confrontation(result)
+			_after_mid_confrontation(confront_key, result)
 		)
 	else:
-		_after_mid_confrontation(result)
+		_after_mid_confrontation(confront_key, result)
 
 
-func _after_mid_confrontation(result: String) -> void:
+func _after_mid_confrontation(confront_key: String, result: String) -> void:
 	if result == "victory":
 		# 胜利后增加一段情感缓冲，避免从高潮直接跳到菜单
-		var buffer_lines: Array = [
-			{"speaker": "凌瑶", "text": "……这案子比我想的要深多了。阿贵只是棋子——真正的对手还在后面。", "emotion": "worried"},
-			{"speaker": "凌瑶", "text": "走吧。趁她还没反应过来——我们去查。", "emotion": "determined"}
-		]
+		var buffer_lines: Array = []
+		if confront_key == "confrontation_wang":
+			buffer_lines = [
+				{"speaker": "凌瑶", "text": "看吧！浓雾、风浪、动机，三处全破！你不是凶手。", "emotion": "determined"},
+				{"speaker": "陆昭", "text": "王大爷的证词是伪证。有人想先把我钉死，再让真正的凶手从证据缝里逃走。", "emotion": "cold"},
+				{"speaker": "凌瑶", "text": "那个沈清月也太会接话了……每次都像在帮忙，其实都在往你身上压。", "emotion": "worried"}
+			]
+		else:
+			buffer_lines = [
+				{"speaker": "凌瑶", "text": "……这案子比我想的要深多了。阿贵只是棋子——真正的对手还在后面。", "emotion": "worried"},
+				{"speaker": "凌瑶", "text": "走吧。趁她还没反应过来——我们去查。", "emotion": "determined"}
+			]
 		DialogueManager.play_adhoc_narration(buffer_lines, func():
 			_return_to_investigation(result)
 		)
@@ -1260,6 +1299,8 @@ func _on_narration_ended() -> void:
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:
 		GameManager.set_state(GameManager.STATE_PLAYING)
 		top_bar_label.get_parent().visible = true
+		var initial_time_card_key := "D%d_%s" % [GameManager.current_day, GameManager.case_main_scene]
+		GameManager.shown_time_cards[initial_time_card_key] = true
 		GameManager.change_location(GameManager.case_main_scene, false)
 		_update_top_bar()
 	menu_panel.visible = true

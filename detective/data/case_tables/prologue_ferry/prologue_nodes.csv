@@ -1,12 +1,18 @@
 ﻿node_id,type,background,next,centered,end,portrait,emotion,fx,effect
-opening_monologue_1,,res://assets/cn/scenes/pure_black.png,opening_monologue_2,true,,,,,
-opening_monologue_2,,res://assets/cn/scenes/pure_black.png,opening_monologue_3,true,,,,,
-opening_monologue_3,,res://assets/cn/scenes/pure_black.png,opening_monologue_4,true,,,,,
-opening_monologue_4,,res://assets/cn/scenes/pure_black.png,time_card_opening,true,,,,,
-time_card_opening,time_card,,cabin_1,,,,,,
-cabin_1,,res://assets/cn/scenes/pure_black.png,cabin_2,,,,,"{""shake"": true, ""shake_intensity"": 8.0, ""shake_duration"": 0.6, ""bgm"": ""ferry_prologue_escape"", ""tint"": ""dark_blue"", ""sfx"": ""water_rush""}",
-cabin_2,,res://assets/cn/scenes/prologue_ship_cabin.png,cabin_3,,,,,,
-cabin_3,,,cabin_flood,,,res://assets/cn/portraits/lu_zhao.png,cold,,
+# === 开场：哲学独白 → 时间卡 → 船舱 ===
+opening_monologue_1,,res://assets/cn/scenes/pure_black.png,opening_monologue_2,,,,
+opening_monologue_2,,res://assets/cn/scenes/pure_black.png,opening_monologue_3,,,,
+opening_monologue_3,,res://assets/cn/scenes/pure_black.png,opening_monologue_4,,,,
+opening_monologue_4,,res://assets/cn/scenes/pure_black.png,time_card_opening,,,,
+time_card_opening,time_card,res://assets/cn/scenes/pure_black.png,cabin_prologue_1,,,,
+# === 船舱场景 ===
+cabin_prologue_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_2,,,res://assets/cn/portraits/lu_zhao.png,serious,,"{""gain_clue"": ""clue_travel_notes""}"
+cabin_prologue_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_3,,,res://assets/cn/portraits/lu_zhao.png,serious,,
+cabin_prologue_3,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_free_explore,,,,,,
+cabin_1,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cabin_2,,,,,"{""shake"": true, ""shake_intensity"": 8.0, ""shake_duration"": 0.6, ""bgm"": ""ferry_prologue_escape"", ""tint"": ""dark_blue""}"
+cabin_2,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cabin_3,,,,,,
+cabin_3,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cabin_flood,,,res://assets/cn/portraits/prologue_lu_zhao.png,cold,,
+cabin_free_explore,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,,,,true,,,
 shore_1,,res://assets/cn/scenes/prologue_shore_rescue.png,shore_2,,,,,"{""tint"": ""clear"", ""bgm"": ""ferry_prologue_shore"", ""sfx"": ""rain_ambient""}",
 shore_2,,res://assets/cn/scenes/prologue_shore_rescue.png,shore_3,,,res://assets/cn/portraits/companion_lingyao_anxious.png,,,
 shore_3,,res://assets/cn/scenes/prologue_shore_rescue.png,shore_4,,,,,,
@@ -57,7 +63,7 @@ day2_lingyao_join_framed,,,day2_lingyao_join_b,,,,excited,,
 day2_start_game,,,,,true,,,,
 day2_crowd_murmur,,,day2_crowd_murmur_b,,,,,,
 day2_lizheng_3b,,,day2_lizheng_4,,,,,,
-cabin_flood,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cabin_discover_hole,,,,,"{""shake"": true, ""shake_intensity"": 4.0, ""shake_duration"": 0.3, ""sfx"": ""water_rush""}",
+cabin_flood,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cabin_discover_hole,,,,,"{""shake"": true, ""shake_intensity"": 4.0, ""shake_duration"": 0.3, ""sfx"": ""water_rush""}","{""set_flag"": ""cabin_phase_done""}""{""set_flag"": ""cabin_phase_done""}"
 cabin_discover_hole,,,cabin_discover_hole_b,,,,,,
 cabin_act,,,cabin_act_b,,,,,"{""shake"": true, ""shake_intensity"": 3.0, ""shake_duration"": 0.2}",
 cabin_break_out,,res://assets/cn/scenes/prologue_ship_skylight_break.png,cabin_deck,,,,,"{""flash"": ""white"", ""flash_duration"": 0.3, ""sfx"": ""glass_break""}",
