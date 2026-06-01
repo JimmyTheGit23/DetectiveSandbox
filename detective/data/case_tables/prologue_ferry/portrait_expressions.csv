@@ -7,13 +7,15 @@ agui,res://assets/cn/portraits/prologue_agui.png,confrontation_shaken,res://asse
 agui,res://assets/cn/portraits/prologue_agui.png,crying,res://assets/cn/portraits/prologue_agui_crying.png,
 agui,res://assets/cn/portraits/prologue_agui.png,angry,res://assets/cn/portraits/prologue_agui_shaken.png,
 agui,res://assets/cn/portraits/prologue_agui.png,broken,res://assets/cn/portraits/prologue_agui_collapsed.png,
-agui,res://assets/cn/portraits/prologue_agui.png,nervous,res://assets/cn/portraits/prologue_agui_nervous_fixed.png,
+agui,res://assets/cn/portraits/prologue_agui.png,nervous,res://assets/cn/portraits/prologue_agui_nervous.png,
 agui,res://assets/cn/portraits/prologue_agui.png,panic,res://assets/cn/portraits/prologue_agui_shaken.png,
 agui,res://assets/cn/portraits/prologue_agui.png,shaken,res://assets/cn/portraits/prologue_agui_shaken.png,
 agui,res://assets/cn/portraits/prologue_agui.png,shocked,res://assets/cn/portraits/prologue_agui_shocked.png,
 ,res://assets/cn/portraits/companion_lingyao.png,embarrassed,res://assets/cn/portraits/companion_lingyao_cheerful.png,
+,res://assets/cn/portraits/companion_lingyao.png,angry,res://assets/cn/portraits/companion_lingyao_angry.png,终局败局时的愤怒
 fisherman_wang,res://assets/cn/portraits/prologue_fisherman_wang.png,base,res://assets/cn/portraits/prologue_fisherman_wang.png,
 fisherman_wang,res://assets/cn/portraits/prologue_fisherman_wang.png,evasive,res://assets/cn/portraits/prologue_fisherman_wang_evasive.png,
+fisherman_wang,res://assets/cn/portraits/prologue_fisherman_wang.png,guilty,res://assets/cn/portraits/prologue_fisherman_wang_guilty.png,伪证被拆穿后的愧疚
 lao_fan,res://assets/cn/portraits/prologue_lao_fan.png,base,res://assets/cn/portraits/prologue_lao_fan.png,
 lao_fan,res://assets/cn/portraits/prologue_lao_fan.png,collapsed,res://assets/cn/portraits/prologue_lao_fan_collapsed.png,
 lao_fan,res://assets/cn/portraits/prologue_lao_fan.png,frozen,res://assets/cn/portraits/prologue_lao_fan_frozen.png,
@@ -31,6 +33,7 @@ lu_zhao,res://assets/cn/portraits/prologue_lu_zhao.png,cold,res://assets/cn/port
 lu_zhao,res://assets/cn/portraits/prologue_lu_zhao.png,nervous,res://assets/cn/portraits/prologue_lu_zhao_nervous.png,
 lu_zhao,res://assets/cn/portraits/prologue_lu_zhao.png,serious,res://assets/cn/portraits/prologue_lu_zhao_serious.png,
 lu_zhao,res://assets/cn/portraits/prologue_lu_zhao.png,surprised,res://assets/cn/portraits/prologue_lu_zhao_surprised.png,
+lu_zhao,res://assets/cn/portraits/prologue_lu_zhao.png,defeated,res://assets/cn/portraits/prologue_lu_zhao_defeated.png,序章败局后的不甘
 shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,base,res://assets/cn/portraits/prologue_shen_qingyue.png,
 shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,broken,res://assets/cn/portraits/prologue_shen_qingyue_broken.png,
 shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,cold_smile,res://assets/cn/portraits/prologue_shen_qingyue_cold_smile.png,
@@ -41,6 +44,7 @@ shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,sharp,res://ass
 shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,deflecting,res://assets/cn/portraits/prologue_shen_qingyue_deflecting.png,侧目回避手扣肘
 shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,cold_fury,res://assets/cn/portraits/prologue_shen_qingyue_cold_fury.png,伪装撕裂极冷赞赏笑
 shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,confrontation,res://assets/cn/portraits/prologue_shen_qingyue_confrontation.png,法庭对峙基础立绘
+shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,victory,res://assets/cn/portraits/prologue_shen_qingyue_victory.png,终局翻盘得意离去
 zhou_wife,res://assets/cn/portraits/prologue_zhou_wife.png,base,res://assets/cn/portraits/prologue_zhou_wife.png,
 zhou_wife,res://assets/cn/portraits/prologue_zhou_wife.png,grief,res://assets/cn/portraits/prologue_zhou_wife_silent.png,
 zhou_wife,res://assets/cn/portraits/prologue_zhou_wife.png,screaming,res://assets/cn/portraits/prologue_zhou_wife_screaming.png,

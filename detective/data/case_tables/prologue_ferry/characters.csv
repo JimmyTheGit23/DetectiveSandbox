@@ -3,7 +3,7 @@ agui,阿贵,死者仆从,跟随周德茂十二年的老仆。,agui,,res://assets
 fisherman_wang,王大爷,江边伪证者,下游渔村的老渔翁，贪小便宜，曾收周氏银两捏造夜间目击证词。,fisherman_wang,,res://assets/cn/portraits/prologue_fisherman_wang.png,,,,
 lao_fan,老范,石矶渡船家,在这段江面跑了二十年船的老船家。,lao_fan,,res://assets/cn/portraits/prologue_lao_fan.png,,,,
 li_zheng,钱里正,石矶渡里正,地方小吏，圆滑世故。,li_zheng,,res://assets/cn/portraits/prologue_li_zheng.png,,,,
-lu_zhao,陆昭,巡按御史,玩家本人。途经石矶渡时被卷入命案。,,actor_imperial_inspector,res://assets/cn/portraits/lu_zhao.png,,,True,
+lu_zhao,陆昭,巡按御史,玩家本人。途经石矶渡时被卷入命案。,,actor_imperial_inspector,res://assets/cn/portraits/prologue_lu_zhao.png,,,True,
 shen_qingyue,沈清月,药材商之女兼讼师,浔阳沈氏药材行独女，兼通律法，受周氏之托出面协助审理此案。,shen_qingyue,,res://assets/cn/portraits/prologue_shen_qingyue.png,,,,True
 victim_zhou_demao,周德茂,死者 · 布商,荆江布商，携五十两货银乘夜船过江，清晨被发现溺亡在石矶渡江边。,,,,True,True,,
 zhou_wife,周氏,死者妻子,周德茂之妻。,zhou_wife,,res://assets/cn/portraits/prologue_zhou_wife.png,,,,

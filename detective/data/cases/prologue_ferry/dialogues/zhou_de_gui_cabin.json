@@ -136,6 +136,10 @@
           "emotion": "serious"
         },
         {
+          "text": "（他顿了顿，像是在斟酌用词）",
+          "speaker_id": "narrator"
+        },
+        {
           "text": "是个做药材的朋友。说这条船靠谱，船家跑了二十年。",
           "speaker_id": "zhou_de_gui_cabin",
           "emotion": "serious"
@@ -204,6 +208,22 @@
         "cabin_observed"
       ],
       "lines": [
+        {
+          "text": "船舱不大，但收拾得还算干净。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "舱壁上挂着一根铁撬棍，旁边是蓑衣和斗笠。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "角落有几只木箱，用麻绳捆着。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "（铁撬棍的位置有点奇怪——挂在舱壁正中间，像是特意放在那里的。）",
+          "speaker_id": "narrator"
+        },
         {
           "text": "这铁撬棍放得倒显眼……",
           "speaker_id": "lu_zhao",

@@ -263,7 +263,7 @@
     "name": "遗失官印",
     "description": "陆昭的官印随沉船落入江底。没有官印，陆昭在石矶渡只能先以嫌疑人身份自证清白。",
     "meta_clue": true,
-    "icon": "res://assets/cn/ui/evidence_icons/evidence_seal_lost.png",
+    "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_seal_lost.png",
     "tags": [
       "seal"
     ],

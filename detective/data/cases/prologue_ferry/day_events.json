@@ -116,6 +116,7 @@
       ],
       "effects": {
         "set_flag": [
+          "evt_cabin_sleep_done",
           "accused_of_murder"
         ],
         "gain_evidence": [
@@ -181,30 +182,6 @@
         ]
       },
       "_comment": "王大爷对峙完成后"
-    },
-    {
-      "id": "evt_chapter_end",
-      "title": "章节结束",
-      "hint": "找到官印，准备下一章",
-      "trigger": {
-        "all": [
-          {
-            "flag": "case_partially_resolved"
-          },
-          {
-            "not": {
-              "flag": "chapter_ended"
-            }
-          }
-        ]
-      },
-      "narration": [],
-      "effects": {
-        "set_flag": [
-          "chapter_ended"
-        ]
-      },
-      "_comment": "触发phase_4和结尾场景"
     },
     {
       "id": "evt_hull_discovered",
@@ -576,12 +553,25 @@
           "speaker": "凌瑶",
           "text": "因为她觉得阿贵的口供不够。那我们就找她不能抵赖的东西。"
         },
+        {
+          "speaker": "凌瑶",
+          "text": "还有一件事我刚才一直没说准：船开出去之后至少一刻钟，码头边还有个穿男装的高挑身影没走，方向朝着下游。现在想来，那个人很可能就是沈清月。",
+          "emotion": "determined"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "她说自己看着周德茂上船就回客栈。若你看到的无误，她的不在场证明就裂了。",
+          "emotion": "serious"
+        },
         "雨声压着屋檐。大堂的人不再看你像嫌犯，而是等着你下一个命令。"
       ],
       "effects": {
         "set_flag": [
           "evt_phase3_transition_done",
           "phase3_scene_rearranged"
+        ],
+        "gain_evidence": [
+          "evidence_dock_timing"
         ]
       }
     },
@@ -685,56 +675,6 @@
       "effects": {
         "set_flag": [
           "evt_shen_evidence_ready_done"
-        ]
-      }
-    },
-    {
-      "id": "evt_case_partially_resolved",
-      "title": "案件未结",
-      "hint": "伪证被揭露，真凶仍在暗处",
-      "trigger": {
-        "all": [
-          {
-            "flag": "confrontation_final_completed"
-          },
-          {
-            "not": {
-              "flag": "evt_case_partially_resolved_done"
-            }
-          }
-        ]
-      },
-      "narration": [
-        "阿贵和老范被押往县衙。沈清月撑伞离开客栈。雨还在下，像是在替那只赝品香囊洗去最后一点药味。",
-        {
-          "speaker": "凌瑶",
-          "text": "大人……这个案子，算输了吗？"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "推理没有输。证据输了。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "可我们明明知道是她。"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "知道，不等于能定罪。她提前调包香囊，就是算准了这一点。"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "（低声）那我们从哪里查？"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "官印。沉船后它不该只是一件丢失的东西。有人若碰过它，就会留下痕迹。这个案子还没完。"
-        }
-      ],
-      "effects": {
-        "set_flag": [
-          "evt_case_partially_resolved_done",
-          "case_partially_resolved"
         ]
       }
     },

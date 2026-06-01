@@ -1077,7 +1077,10 @@ static func _compile_epilogue_meta(src: String, fallback: Dictionary = {}) -> Di
 		scenes.append(scene)
 	var out := {}
 	_set_if(out, "_comment", fallback.get("_comment", ""))
-	out["trigger_endings"] = fallback.get("trigger_endings", [])
+	var trigger_endings: Array = fallback.get("trigger_endings", [])
+	if trigger_endings.is_empty():
+		trigger_endings = ["perfect", "good", "partial"]
+	out["trigger_endings"] = trigger_endings
 	out["scenes"] = scenes
 	return out
 

@@ -63,7 +63,7 @@ day2_lingyao_join_framed,,,day2_lingyao_join_b,,,,excited,,
 day2_start_game,,,,,true,,,,
 day2_crowd_murmur,,,day2_crowd_murmur_b,,,,,,
 day2_lizheng_3b,,,day2_lizheng_4,,,,,,
-cabin_flood,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cabin_discover_hole,,,,,"{""shake"": true, ""shake_intensity"": 4.0, ""shake_duration"": 0.3, ""sfx"": ""water_rush""}","{""set_flag"": ""cabin_phase_done""}""{""set_flag"": ""cabin_phase_done""}"
+cabin_flood,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cabin_discover_hole,,,,,"{""shake"": true, ""shake_intensity"": 4.0, ""shake_duration"": 0.3, ""sfx"": ""water_rush""}","{""set_flag"": ""cabin_phase_done""}"
 cabin_discover_hole,,,cabin_discover_hole_b,,,,,,
 cabin_act,,,cabin_act_b,,,,,"{""shake"": true, ""shake_intensity"": 3.0, ""shake_duration"": 0.2}",
 cabin_break_out,,res://assets/cn/scenes/prologue_ship_skylight_break.png,cabin_deck,,,,,"{""flash"": ""white"", ""flash_duration"": 0.3, ""sfx"": ""glass_break""}",

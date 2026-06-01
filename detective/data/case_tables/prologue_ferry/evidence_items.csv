@@ -42,7 +42,7 @@ evidence_blue_herb_residue,evidence,,蓝色草药碎屑,"周德茂指甲缝里�
 evidence_neck_marks,evidence,,脖颈淡压痕,"死者脖颈侧面有极淡压痕，不像绳勒，更像昏迷前被人短暂压制过。说明他落水前可能已失去反抗能力。",,False,res://assets/ai_processed/objects/evidence_icons/evidence_neck_marks.png,autopsy,phase_1,,
 evidence_herb_sachet,evidence,,草药香囊,"江岸草丛里发现的刺绣香囊，带有与蓝色草药相近的辛冷气味。绣线精细，像富户女子随身之物。",,False,res://assets/ai_processed/objects/evidence_icons/evidence_herb_sachet.png,herb;sachet,phase_3,,
 evidence_fake_herb_sachet,evidence,,草药香囊赝品,"终局核验后确认：陆昭手里的香囊绣线配色和药材配比都被调换过。它足以说明有人布局，却不能作为定罪铁证。",True,False,res://assets/ai_processed/objects/evidence_icons/evidence_fake_herb_sachet.png,herb;sachet;fake,phase_4,,
-evidence_seal_lost,evidence,,遗失官印,"陆昭的官印随沉船落入江底。没有官印，陆昭在石矶渡只能先以嫌疑人身份自证清白。",,True,res://assets/cn/ui/evidence_icons/evidence_seal_lost.png,seal,phase_1,,
+evidence_seal_lost,evidence,,遗失官印,"陆昭的官印随沉船落入江底。没有官印，陆昭在石矶渡只能先以嫌疑人身份自证清白。",,True,res://assets/ai_processed/objects/evidence_icons/evidence_seal_lost.png,seal,phase_1,,
 evidence_seal_cloth_wrap,evidence,,锦袋残线索,"一小片油布锦袋残角，边缘有官印匣上的朱砂痕。有人在沉船后打捞过陆昭的随身物。",True,False,res://assets/ai_processed/objects/evidence_icons/evidence_seal_cloth_wrap.png,seal;cloth,phase_4,,
 clue_travel_notes,clue,,旅途札记,"奉旨巡查南直隶，途经石矶渡。平水驿驿丞建议改走夜船，说半日可到。船上另有布商周德茂、仆从阿贵、船家老范。",True,True,,,,,
 clue_cabin_seal_box,clue,,随身官印木匣,"自己的舱室里放着装官印的木匣。匣锁完好，油布内衬也在。只要它还在，身份就能证明。",True,True,,,,,

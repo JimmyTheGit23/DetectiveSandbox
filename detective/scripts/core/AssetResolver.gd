@@ -365,9 +365,12 @@ func get_role_info(npc_id: String, npcs_data: Dictionary = {}) -> Dictionary:
 
 # ─── 地点 → 场景 → 背景 ───
 ## 取地点背景图。
-##   1) location.scene_type → scenes/registry.json → background
-##   2) 回退：location.background 字段（兼容旧数据）
+##   1) location.background 作为地点级覆盖（同一 scene_type 下可有不同房间/角度）
+##   2) 回退：location.scene_type → scenes/registry.json → background
 func get_scene_background(location_def: Dictionary) -> String:
+	var location_bg: String = location_def.get("background", "")
+	if location_bg != "" and ResourceLoader.exists(location_bg):
+		return location_bg
 	var scene_type: String = location_def.get("scene_type", "")
 	if scene_type != "":
 		var scene = _scenes.get(scene_type, null)
@@ -375,8 +378,7 @@ func get_scene_background(location_def: Dictionary) -> String:
 			var bg: String = scene.get("background", "")
 			if bg != "" and ResourceLoader.exists(bg):
 				return bg
-	# 回退
-	return location_def.get("background", "")
+	return location_bg
 
 
 ## 直接根据 scene_id 取背景（用于序章、标题画面等非 location 场景）。

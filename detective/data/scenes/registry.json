@@ -156,6 +156,14 @@
       "mood": "neutral",
       "description": "用于场景切换的小镇全景地图。"
     },
+    "scene_prologue_ship_cabin": {
+      "name": "序章渡船船舱（雨夜）",
+      "background": "res://assets/cn/scenes/prologue_ship_cabin_night.png",
+      "tags": ["indoor", "ship", "cabin", "rain", "night", "prologue"],
+      "mood": "tense",
+      "description": "雨夜中的渡船船舱。用于船舱自由调查阶段，具体房间可由 location.background 覆盖。",
+      "effects": ["rain_ambient", "candle_flicker"]
+    },
     "scene_prologue_ferry_inn": {
       "name": "石矶渡·客栈（冬雨）",
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
