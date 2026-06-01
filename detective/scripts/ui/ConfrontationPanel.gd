@@ -1468,10 +1468,15 @@ func _play_break_anim() -> void:
 	_shake_portrait()
 
 	# ── 击破瞬间：立绘特写放大 → 定格 → 回弹 ──
+	# 确定目标缩放：沈清月80%，其他角色100%
+	var witness_id := _current_center_portrait_id()
+	var base_scale := Vector2(1.0, 1.0)
+	if witness_id == "shen_qingyue":
+		base_scale = Vector2(0.8, 0.8)
 	var zoom_tw := create_tween()
-	zoom_tw.tween_property(_portrait_rect, "scale", Vector2(1.15, 1.15), 0.12).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	zoom_tw.tween_property(_portrait_rect, "scale", base_scale * 1.15, 0.12).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	zoom_tw.tween_interval(0.25)
-	zoom_tw.tween_property(_portrait_rect, "scale", Vector2(1.0, 1.0), 0.15).set_ease(Tween.EASE_IN_OUT)
+	zoom_tw.tween_property(_portrait_rect, "scale", base_scale, 0.15).set_ease(Tween.EASE_IN_OUT)
 
 	# 播放击破对话
 	var stmt: Dictionary = _statements[_current_stmt_idx]
@@ -1797,6 +1802,11 @@ func _show_next_dialogue_line(on_done: Callable) -> void:
 	# 更新对话头像
 	_update_dialogue_portrait(speaker, emotion, line_data)
 
+	# 辩护式打断：先播放集中线/“我反对”特效，再进入台词
+	if emotion == "objection":
+		_play_focus_lines(0.8)
+		await _play_objection_fx()
+
 	# 打字机效果
 	_typewriter_playing = true
 	_typewriter.play(_dialogue_text, text)
@@ -1959,8 +1969,14 @@ func _camera_switch_to_opponent(speaker_id: String, emotion: String = "normal", 
 	if not CAMERA_SWITCH_ENABLED:
 		return
 	if _current_camera_view == "opponent":
-		# 已经在对手镜头，只更新纹理
+		# 已经在对手镜头，只更新纹理，并确保其他角色不可见
 		_update_opponent_portrait(speaker_id, emotion)
+		if _portrait_rect:
+			_portrait_rect.visible = false
+		if _protagonist_rect:
+			_protagonist_rect.visible = false
+		if _companion_rect:
+			_companion_rect.visible = false
 		return
 	_current_camera_view = "opponent"
 
@@ -1968,17 +1984,16 @@ func _camera_switch_to_opponent(speaker_id: String, emotion: String = "normal", 
 		_camera_tween.kill()
 	_camera_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 
-	# 受审证人滑出左侧 + 淡出
-	_camera_tween.tween_property(_portrait_rect, "offset_left", -560.0, duration)
-	_camera_tween.tween_property(_portrait_rect, "offset_right", -100.0, duration)
-	_camera_tween.tween_property(_portrait_rect, "modulate:a", 0.0, duration * 0.6)
-
-	# 主角淡出
-	if _protagonist_rect and _protagonist_rect.visible:
-		_camera_tween.tween_property(_protagonist_rect, "modulate:a", 0.0, duration * 0.4)
-	# 搭档淡出
-	if _companion_rect and _companion_rect.visible:
-		_camera_tween.tween_property(_companion_rect, "modulate:a", 0.0, duration * 0.4)
+	# 独占镜头：对手说话时，立刻隐藏受审证人与主角/搭档，避免同屏
+	if _portrait_rect:
+		_portrait_rect.visible = false
+		_portrait_rect.modulate.a = 0.0
+	if _protagonist_rect:
+		_protagonist_rect.visible = false
+		_protagonist_rect.modulate.a = 0.0
+	if _companion_rect:
+		_companion_rect.visible = false
+		_companion_rect.modulate.a = 0.0
 
 	# 对手从右侧滑入
 	if _opponent_rect:
@@ -2084,11 +2099,18 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3, sh
 		return
 	if _current_camera_view == "protagonist":
 		_update_protagonist_portraits(speaker_id)
-		# 如果需要显示两人，确保搭档可见
-		if show_both and _companion_rect:
-			_companion_rect.visible = true
-			_update_companion_portrait()
-			_companion_rect.modulate = Color(1, 1, 1, 0.9)
+		# 独占镜头：主角连续台词也要确保其他角色不可见
+		if _portrait_rect:
+			_portrait_rect.visible = false
+		if _opponent_rect:
+			_opponent_rect.visible = false
+		if _companion_rect:
+			if show_both:
+				_companion_rect.visible = true
+				_update_companion_portrait()
+				_companion_rect.modulate = Color(1, 1, 1, 0.9)
+			else:
+				_companion_rect.visible = false
 		return
 	_current_camera_view = "protagonist"
 
@@ -2096,16 +2118,13 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3, sh
 		_camera_tween.kill()
 	_camera_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 
-	# NPC 滑出右侧 + 淡出
-	_camera_tween.tween_property(_portrait_rect, "offset_left", 560.0, duration)
-	_camera_tween.tween_property(_portrait_rect, "offset_right", 1080.0, duration)
-	_camera_tween.tween_property(_portrait_rect, "modulate:a", 0.0, duration * 0.6)
-
-	# 对手淡出右侧复位
-	if _opponent_rect and _opponent_rect.visible:
-		_camera_tween.tween_property(_opponent_rect, "offset_left", 60.0, duration)
-		_camera_tween.tween_property(_opponent_rect, "offset_right", 520.0, duration)
-		_camera_tween.tween_property(_opponent_rect, "modulate:a", 0.0, duration * 0.6)
+	# 独占镜头：主角说话时，立刻隐藏受审证人与对手
+	if _portrait_rect:
+		_portrait_rect.visible = false
+		_portrait_rect.modulate.a = 0.0
+	if _opponent_rect:
+		_opponent_rect.visible = false
+		_opponent_rect.modulate.a = 0.0
 
 	# 主角从左侧滑入
 	if _protagonist_rect:
@@ -2150,20 +2169,16 @@ func _camera_switch_to_companion_only(duration: float = 0.3) -> void:
 		_camera_tween.kill()
 	_camera_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 
-	# NPC 滑出右侧 + 淡出
-	_camera_tween.tween_property(_portrait_rect, "offset_left", 560.0, duration)
-	_camera_tween.tween_property(_portrait_rect, "offset_right", 1080.0, duration)
-	_camera_tween.tween_property(_portrait_rect, "modulate:a", 0.0, duration * 0.6)
-
-	# 主角淡出
+	# 独占镜头：搭档说话时，立刻隐藏受审证人/主角/对手
+	if _portrait_rect:
+		_portrait_rect.visible = false
+		_portrait_rect.modulate.a = 0.0
 	if _protagonist_rect:
-		_camera_tween.tween_property(_protagonist_rect, "modulate:a", 0.0, duration * 0.4)
-
-	# 对手淡出右侧复位
-	if _opponent_rect and _opponent_rect.visible:
-		_camera_tween.tween_property(_opponent_rect, "offset_left", 60.0, duration)
-		_camera_tween.tween_property(_opponent_rect, "offset_right", 520.0, duration)
-		_camera_tween.tween_property(_opponent_rect, "modulate:a", 0.0, duration * 0.6)
+		_protagonist_rect.visible = false
+		_protagonist_rect.modulate.a = 0.0
+	if _opponent_rect:
+		_opponent_rect.visible = false
+		_opponent_rect.modulate.a = 0.0
 
 	# 搭档从左侧滑入（缩小：窄+矮，约主角的 70%）
 	if _companion_rect:
@@ -2221,7 +2236,7 @@ func _camera_reset_to_npc() -> void:
 	_camera_switch_to_npc(0.3)
 
 ## 在对话行播放前自动切换镜头
-## 默认只显示说话角色，除非 line_data 中有 "show_both": true
+## 对峙中采用独占镜头：谁说话就只显示谁，避免辩护方/证人/同伴同屏
 func _auto_camera_switch(speaker: String, emotion: String, line_data: Dictionary = {}) -> void:
 	if not CAMERA_SWITCH_ENABLED:
 		return
@@ -2238,8 +2253,8 @@ func _auto_camera_switch(speaker: String, emotion: String, line_data: Dictionary
 			_opponent_rect.visible = false
 		# 对话小头像已在 _update_dialogue_portrait 中处理
 		return
-	# 检查是否需要显示两人同框
-	var show_both: bool = bool(line_data.get("show_both", false))
+	# 对峙镜头不允许同框，即使数据里配置了 show_both 也忽略
+	var show_both := false
 	# 主角说话 → 切到主角镜头
 	if _is_protagonist_speaker(speaker, line_data):
 		var speaker_id: String = "lu_zhao"
@@ -2299,7 +2314,11 @@ func _apply_center_portrait_layout(npc_id: String) -> void:
 	_portrait_rect.offset_top = float(layout.get("top", 30.0))
 	_portrait_rect.offset_right = float(layout.get("right", 260.0))
 	_portrait_rect.offset_bottom = float(layout.get("bottom", 80.0))
-	_portrait_rect.scale = Vector2.ONE
+	# 沈清月立绘使用80%缩放，其他角色使用100%缩放
+	if npc_id == "shen_qingyue":
+		_portrait_rect.scale = Vector2(0.8, 0.8)
+	else:
+		_portrait_rect.scale = Vector2.ONE
 
 
 func _update_portrait() -> void:
@@ -2344,7 +2363,7 @@ func _play_objection_fx() -> void:
 	_objection_layer.add_child(flash)
 
 	var label := Label.new()
-	label.text = "异  议！"
+	label.text = "我 反 对！"
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.add_theme_font_size_override("font_size", 72)

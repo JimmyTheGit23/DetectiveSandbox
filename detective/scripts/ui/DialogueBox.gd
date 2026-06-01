@@ -229,7 +229,11 @@ func _apply_narration_speaker(speaker: String, portrait: String) -> void:
 		portrait_rect.texture = load(resolved)
 		portrait_rect.visible = true
 		portrait_rect.modulate.a = 1.0
-		portrait_rect.scale = Vector2(1.0, 1.0)
+		# 沈清月立绘使用80%缩放，其他角色使用100%缩放
+		if resolved.contains("shen_qingyue"):
+			portrait_rect.scale = Vector2(0.8, 0.8)
+		else:
+			portrait_rect.scale = Vector2(1.0, 1.0)
 		_hide_avatar()
 	else:
 		portrait_rect.visible = false
@@ -422,11 +426,15 @@ func _apply_speaker(speaker: String, portrait_path: String, emotion: String = ""
 	if _resolved_portrait != "" and ResourceLoader.exists(_resolved_portrait):
 		portrait_rect.texture = load(_resolved_portrait)
 		portrait_rect.visible = true
+		# 沈清月立绘使用80%缩放，其他角色使用100%缩放
+		var target_scale := Vector2(1.0, 1.0)
+		if _resolved_portrait.contains("shen_qingyue"):
+			target_scale = Vector2(0.8, 0.8)
 		if _skip_next_portrait_animation:
 			# NPC 已在场景层可见，直接显示不做动画（避免拖动/跳动感）
 			_skip_next_portrait_animation = false
 			portrait_rect.modulate.a = 1.0
-			portrait_rect.scale = Vector2(1.0, 1.0)
+			portrait_rect.scale = target_scale
 			if _portrait_tween != null and _portrait_tween.is_valid():
 				_portrait_tween.kill()
 		elif _changed:
@@ -437,7 +445,7 @@ func _apply_speaker(speaker: String, portrait_path: String, emotion: String = ""
 			_portrait_tween = create_tween()
 			_portrait_tween.set_parallel(true)
 			_portrait_tween.tween_property(portrait_rect, "modulate:a", 1.0, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			_portrait_tween.tween_property(portrait_rect, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			_portrait_tween.tween_property(portrait_rect, "scale", target_scale, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		else:
 			if portrait_rect.modulate.a < 1.0:
 				if _portrait_tween != null and _portrait_tween.is_valid():

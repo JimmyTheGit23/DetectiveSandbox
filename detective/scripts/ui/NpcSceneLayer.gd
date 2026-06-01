@@ -171,11 +171,15 @@ func _show_portrait() -> void:
 		_portrait_tween.kill()
 	_portrait.pivot_offset = _portrait.size / 2.0
 	_portrait.modulate = Color(1, 1, 1, 0)
+	# 沈清月立绘使用80%缩放，其他角色使用100%缩放
+	var target_scale := Vector2(1.0, 1.0)
+	if _current_npc_id == "shen_qingyue":
+		target_scale = Vector2(0.8, 0.8)
 	_portrait.scale = Vector2(0.95, 0.95)
 	_portrait_tween = create_tween()
 	_portrait_tween.set_parallel(true)
 	_portrait_tween.tween_property(_portrait, "modulate:a", 1.0, 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	_portrait_tween.tween_property(_portrait, "scale", Vector2(1.0, 1.0), 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	_portrait_tween.tween_property(_portrait, "scale", target_scale, 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 
 func _show_multi_portraits() -> void:
@@ -190,6 +194,9 @@ func _show_multi_portraits() -> void:
 		tr.visible = true
 		tr.modulate = Color(1, 1, 1, 0)
 		_portrait_tween.tween_property(tr, "modulate:a", 1.0, 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		# 沈清月立绘在多NPC模式下也使用80%缩放
+		if tr.name.contains("shen_qingyue"):
+			tr.scale = Vector2(0.8, 0.8)
 
 
 func _hide_portrait() -> void:
