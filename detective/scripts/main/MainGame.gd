@@ -1163,8 +1163,15 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 	if not confront_data.get("is_final", false):
 		_play_mid_confrontation_result(confront_key, confront_data, result, mistakes)
 		return
-	# 最终对峙 → 走原有结局流程
+	# 最终对峙 → 结局流程。序章终局无论机制胜败，都是"逼近真相但沈清月翻盘"的败局。
 	var ending_id := GameManager.judge_confrontation(result, mistakes)
+	if confront_key == "confrontation_final":
+		GameManager.set_flag("prologue_defeated")
+		GameManager.set_flag("case_partially_resolved")
+		if result == "victory":
+			GameManager.set_flag("prologue_truth_reached")
+		elif ending_id == "bad":
+			ending_id = "partial"
 	if ending_id == "bad" or ending_id == "partial":
 		_try_companion_banter("accuse_fail")
 	if _try_play_case_epilogue(ending_id):

@@ -15,3 +15,5 @@ dest_files=["res://docs/case_template/locations.name.translation", "res://docs/c
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true

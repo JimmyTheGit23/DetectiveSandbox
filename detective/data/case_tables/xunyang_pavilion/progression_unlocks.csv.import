@@ -6,12 +6,14 @@ uid="uid://daoe0lysedyku"
 
 [deps]
 
-files=["res://data/case_tables/xunyang_pavilion/progression_unlocks.target.translation", "res://data/case_tables/xunyang_pavilion/progression_unlocks.condition.translation", "res://data/case_tables/xunyang_pavilion/progression_unlocks.locked.translation", "res://data/case_tables/xunyang_pavilion/progression_unlocks.writer.translation"]
+files=["res://data/case_tables/xunyang_pavilion/progression_unlocks.target.translation", "res://data/case_tables/xunyang_pavilion/progression_unlocks.condition.translation", "res://data/case_tables/xunyang_pavilion/progression_unlocks.locked.translation", "res://data/case_tables/xunyang_pavilion/progression_unlocks.en.translation"]
 
 source_file="res://data/case_tables/xunyang_pavilion/progression_unlocks.csv"
-dest_files=["res://data/case_tables/xunyang_pavilion/progression_unlocks.target.translation", "res://data/case_tables/xunyang_pavilion/progression_unlocks.condition.translation", "res://data/case_tables/xunyang_pavilion/progression_unlocks.locked.translation", "res://data/case_tables/xunyang_pavilion/progression_unlocks.writer.translation"]
+dest_files=["res://data/case_tables/xunyang_pavilion/progression_unlocks.target.translation", "res://data/case_tables/xunyang_pavilion/progression_unlocks.condition.translation", "res://data/case_tables/xunyang_pavilion/progression_unlocks.locked.translation", "res://data/case_tables/xunyang_pavilion/progression_unlocks.en.translation"]
 
 [params]
 
 compress=1
 delimiter=0
+unescape_keys=false
+unescape_translations=true

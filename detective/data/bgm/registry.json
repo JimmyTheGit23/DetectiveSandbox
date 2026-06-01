@@ -239,6 +239,34 @@
       "loop_friendly": true,
       "description": "渡口对峙：激烈弦乐太鼓、二胡急奏、逼供逆转高潮。"
     },
+    "ferry_cabin_night": {
+      "file": "res://assets/cn/bgm/ferry_cabin_night.wav",
+      "tags": [
+        "prologue",
+        "investigation",
+        "cabin",
+        "rain",
+        "night",
+        "ferry"
+      ],
+      "mood": "ferry_cabin",
+      "tempo": "slow",
+      "loop_friendly": true,
+      "description": "序章船舱夜航探索：冬雨木船、古琴洞箫、低频疑云，适合沉船前Phase 0自由调查。"
+    },
+    "prologue_defeat": {
+      "file": "res://assets/cn/bgm/prologue_defeat.wav",
+      "tags": [
+        "ending",
+        "defeat",
+        "sorrowful",
+        "ferry"
+      ],
+      "mood": "prologue_defeat",
+      "tempo": "slow",
+      "loop_friendly": false,
+      "description": "序章败局主题：沈清月翻盘后陆昭首败，二胡哀鸣+冷雨余韵+不甘萌生执念。"
+    },
     "confrontation_final": {
       "file": "res://assets/cn/bgm/confrontation_final.mp3",
       "tags": [
@@ -267,7 +295,7 @@
       "description": "沈清月主题：古琴琵琶、冷冽不和谐音程、金属泛音。算计与危险的优雅。"
     },
     "ferry_court_opening": {
-      "file": "res://assets/cn/bgm/Prelogue_Confrontation_Intro.mp3",
+      "file": "res://assets/cn/bgm/ferry_court_opening.wav",
       "tags": [
         "confrontation",
         "court",
@@ -343,6 +371,12 @@
     ],
     "ferry_climax_final": [
       "confrontation_final"
+    ],
+    "ferry_cabin": [
+      "ferry_cabin_night"
+    ],
+    "prologue_defeat": [
+      "prologue_defeat"
     ]
   }
 }

@@ -1,4 +1,4 @@
 ﻿confrontation_id,suspect,is_final,background,bgm,bgm_break,bgm_final_round,confidence,writer_note
 confrontation_wang,fisherman_wang,,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_court_opening,ferry_confrontation,10,自证清白对峙：王大爷。被指控后立即触发，用证据反驳钱里正的推理。
 confrontation,agui,,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_court_opening,ferry_confrontation,10,
-confrontation_final,shen_qingyue,true,res://assets/cn/scenes/prologue_confrontation_hall.png,cornered,pursuit,cornered,10,终局对峙：沈清月从讼师变为被告。玩家完成击破后进入香囊赝品翻盘，机制胜利但剧情败局。
+confrontation_final,shen_qingyue,true,res://assets/cn/scenes/prologue_confrontation_hall.png,confrontation_final,ferry_court_opening,confrontation_final,10,终局对峙：沈清月从讼师变为被告。玩家完成击破后进入香囊赝品翻盘，机制胜利但剧情败局。

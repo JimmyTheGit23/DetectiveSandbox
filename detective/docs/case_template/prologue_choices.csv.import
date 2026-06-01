@@ -6,12 +6,14 @@ uid="uid://byiuoytb0poue"
 
 [deps]
 
-files=["res://docs/case_template/prologue_choices.order.translation", "res://docs/case_template/prologue_choices.text.translation", "res://docs/case_template/prologue_choices.goto.translation", "res://docs/case_template/prologue_choices.requires.translation"]
+files=["res://docs/case_template/prologue_choices.order.translation", "res://docs/case_template/prologue_choices.text.translation", "res://docs/case_template/prologue_choices.goto.translation", "res://docs/case_template/prologue_choices.en.translation"]
 
 source_file="res://docs/case_template/prologue_choices.csv"
-dest_files=["res://docs/case_template/prologue_choices.order.translation", "res://docs/case_template/prologue_choices.text.translation", "res://docs/case_template/prologue_choices.goto.translation", "res://docs/case_template/prologue_choices.requires.translation"]
+dest_files=["res://docs/case_template/prologue_choices.order.translation", "res://docs/case_template/prologue_choices.text.translation", "res://docs/case_template/prologue_choices.goto.translation", "res://docs/case_template/prologue_choices.en.translation"]
 
 [params]
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true

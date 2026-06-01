@@ -95,14 +95,19 @@ confrontation,victory_dialogue,40,陆昭,,（……不。她可能已经知道�
 confrontation,victory_dialogue,41,凌瑶,,那怎么办？直接去抓她？,anxious
 confrontation,victory_dialogue,42,陆昭,,不。光凭阿贵一个人的口供不够。她会说阿贵在诬陷她。,cold
 confrontation,victory_dialogue,43,陆昭,,我们需要更多证据——能把她钉死的证据。然后——当面拆穿她。,cold
-confrontation,victory_dialogue,44,凌瑶,,好。那我们现在去——查她！赌坊那条线、码头的时间、还有那五十两货银到底去了哪——,determined
-confrontation,victory_dialogue,45,,,"阿贵被带走了。他的供述揭开了案件下面的第二层。
+confrontation,victory_dialogue,44,凌瑶,,等等——还有一件事。阿贵凿船、老范选航道，这些解释了船为什么沉。但——,determined
+confrontation,victory_dialogue,45,凌瑶,,死者指甲缝里那些蓝色草药碎屑呢？脖颈侧面的压痕呢？一个旱鸭子落水——指甲里不该有药。,determined
+confrontation,victory_dialogue,46,陆昭,,有人在船沉之前就对周德茂动了手。让他失去反抗能力——然后随沉船坠江。,serious
+confrontation,victory_dialogue,47,凌瑶,,阿贵不懂药。老范更不可能……那只有——,anxious
+confrontation,victory_dialogue,48,陆昭,,药材商之女。,cold
+confrontation,victory_dialogue,49,凌瑶,,好。那我们现在去——查她！赌坊那条线、码头的时间、蓝色草药的来源、还有那五十两货银到底去了哪——,determined
+confrontation,victory_dialogue,50,,,"阿贵被带走了。他的供述揭开了案件下面的第二层——凿船沉舟只是表象，蓝色草药才是真正的杀人手段。
 
 真正的对手——还在客栈里等着你。",narration
-confrontation,victory_dialogue,46,钱里正,,（站直身子，清了清嗓子）石矶渡渡口命案——经陆大人查明：,stern
-confrontation,victory_dialogue,47,钱里正,,船底系人为凿沉，仆从阿贵亲手实施。证据确凿。,stern
-confrontation,victory_dialogue,48,钱里正,,阿贵——,stern
-confrontation,victory_dialogue,49,钱里正,,有罪。,stern
+confrontation,victory_dialogue,51,钱里正,,（站直身子，清了清嗓子）石矶渡渡口命案——经陆大人查明：,stern
+confrontation,victory_dialogue,52,钱里正,,船底系人为凿沉，仆从阿贵亲手实施。证据确凿。,stern
+confrontation,victory_dialogue,53,钱里正,,阿贵——,stern
+confrontation,victory_dialogue,54,钱里正,,有罪。,stern
 confrontation,defeat_dialogue,0,阿贵,,大人，您说了这么多……都只是猜测吧。,defensive
 confrontation,defeat_dialogue,1,阿贵,,没有实证，您不能定小的罪。,nervous
 confrontation,defeat_dialogue,2,陆昭,,……,serious
@@ -148,5 +153,6 @@ confrontation_final,victory_dialogue,21,陆昭,,嗯。我们输的不是案情�
 confrontation_final,victory_dialogue,22,,,你第一次如此清楚地意识到：知道真相，与赢下案件，并不是同一件事。,inner_thought
 confrontation_final,defeat_dialogue,0,沈清月,,大人。你手里所有的证据加在一起——也只够定阿贵的罪。跟我有什么关系？,cold_fury
 confrontation_final,defeat_dialogue,1,沈清月,,一个赌鬼的口供、一个杀人犯的攀咬、一个老渔翁在黑夜里看到的'模糊身影'——大人拿这些去县衙告我试试？,cold_smile
-confrontation_final,defeat_dialogue,2,沈清月,,回去再读读大明律吧。'指向'和'证明'之间——隔着一条人命。,sharp
-confrontation_final,defeat_dialogue,3,凌瑶,,（低声，咬牙）她……她在嘲笑我们……！但她说得也没错——直接证据确实不够。得把她时间线上的矛盾砸在她脸上！,worried
+confrontation_final,defeat_dialogue,2,沈清月,,至于蓝色草药？指甲缝的碎屑连死者自己什么时候沾上的都说不清。脖颈压痕？冬夜江水里什么撞不出来？大人，这叫证据还是叫联想？,sharp
+confrontation_final,defeat_dialogue,3,沈清月,,回去再读读大明律吧。'指向'和'证明'之间——隔着一条人命。,sharp
+confrontation_final,defeat_dialogue,4,凌瑶,,（低声，咬牙）她……她在嘲笑我们……！但她说得也没错——草药线还没闭合，直接证据确实不够。下次一定把那只香囊的真品找回来！,worried

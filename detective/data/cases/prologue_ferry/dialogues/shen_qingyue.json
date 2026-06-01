@@ -142,6 +142,12 @@
           "requires": {
             "all": [
               {
+                "flag": "agui_confessed_mastermind"
+              },
+              {
+                "evidence": "evidence_cargo_silver"
+              },
+              {
                 "evidence": "evidence_salvage_mark"
               },
               {
@@ -149,6 +155,9 @@
               },
               {
                 "evidence": "evidence_dock_timing"
+              },
+              {
+                "evidence": "evidence_herb_sachet"
               }
             ]
           }

@@ -14,6 +14,8 @@ var _show_labels := true  # 默认显示热点名字标签
 var _generic_label: Label
 var _generic_tween: Tween
 var _exit_btn: Button
+var _typewriter: Node = null
+var _TypewriterScript = preload("res://scripts/ui/TypewriterEffect.gd")
 
 
 func is_searching() -> bool:
@@ -24,6 +26,9 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	gui_input.connect(_on_background_clicked)
+	_typewriter = _TypewriterScript.new()
+	_typewriter.typing_sound_enabled = true
+	add_child(_typewriter)
 	_build_ui()
 
 
@@ -415,18 +420,143 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 		text = str(result.get("intro_text", ""))
 	if text == "":
 		text = "你仔细查看了这里。"
-	if result.get("gained_evidence", "") != "":
-		var ev: Dictionary = GameManager.evidence_data.get(result.gained_evidence, {})
-		text += "\n【获得证据：%s】" % ev.get("name", "")
-	if result.get("gained_clue", "") != "":
-		var cl: Dictionary = GameManager.evidence_data.get(result.gained_clue, {})
-		text += "\n【获得线索：%s】" % cl.get("name", "")
 
-	# 显示底部浮现文字并等待玩家点击关闭
+	# 收集获得的证据/线索 ID（用于图片展示）
+	var gained_item_ids: Array[String] = []
+	if result.get("gained_evidence", "") != "":
+		var ev_id: String = result.gained_evidence
+		var ev: Dictionary = GameManager.evidence_data.get(ev_id, {})
+		text += "\n【获得证据：%s】" % ev.get("name", "")
+		gained_item_ids.append(ev_id)
+	if result.get("gained_clue", "") != "":
+		var cl_id: String = result.gained_clue
+		var cl: Dictionary = GameManager.evidence_data.get(cl_id, {})
+		text += "\n【获得线索：%s】" % cl.get("name", "")
+		gained_item_ids.append(cl_id)
+
+	# 显示底部浮现文字（打字机效果）并等待玩家点击关闭
 	await _show_bottom_result(text)
 
+	# 如果获得了证据/线索且有图片，在文字关闭后居中展示图片
+	for item_id in gained_item_ids:
+		var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % item_id
+		if ResourceLoader.exists(icon_path):
+			await _show_evidence_image(icon_path, item_id)
 
-## 底部浮现结果文字，点击任意处关闭
+
+## 居中展示证据/线索图片，至少停留 1 秒后可点击关闭
+func _show_evidence_image(icon_path: String, item_id: String) -> void:
+	var tex := load(icon_path) as Texture2D
+	if tex == null:
+		return
+
+	# 全屏遮罩
+	var overlay := Control.new()
+	overlay.name = "EvidenceImageOverlay"
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(overlay)
+
+	var dim := ColorRect.new()
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dim.color = Color(0.0, 0.0, 0.0, 0.65)
+	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(dim)
+
+	# 居中容器
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(center)
+
+	# 带边框的面板
+	var panel := PanelContainer.new()
+	var pstyle := StyleBoxFlat.new()
+	pstyle.bg_color = Color(0.06, 0.05, 0.04, 0.95)
+	pstyle.border_color = Color(0.72, 0.56, 0.28, 0.9)
+	pstyle.set_border_width_all(2)
+	pstyle.set_corner_radius_all(8)
+	pstyle.shadow_color = Color(0, 0, 0, 0.6)
+	pstyle.shadow_size = 20
+	pstyle.content_margin_left = 16
+	pstyle.content_margin_right = 16
+	pstyle.content_margin_top = 16
+	pstyle.content_margin_bottom = 16
+	panel.add_theme_stylebox_override("panel", pstyle)
+	center.add_child(panel)
+
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 10)
+	panel.add_child(vbox)
+
+	# 图片（限制最大尺寸）
+	var img := TextureRect.new()
+	img.texture = tex
+	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	var viewport_size := get_viewport_rect().size
+	var max_w := viewport_size.x * 0.55
+	var max_h := viewport_size.y * 0.55
+	var tex_size := tex.get_size()
+	var scale_factor := minf(max_w / tex_size.x, max_h / tex_size.y)
+	if scale_factor < 1.0:
+		img.custom_minimum_size = tex_size * scale_factor
+	else:
+		img.custom_minimum_size = tex_size
+	vbox.add_child(img)
+
+	# 物品名称标签
+	var ev_data: Dictionary = GameManager.evidence_data.get(item_id, {})
+	var item_name: String = ev_data.get("name", item_id)
+	var name_label := Label.new()
+	name_label.text = item_name
+	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_label.add_theme_font_size_override("font_size", 20)
+	name_label.add_theme_color_override("font_color", Color(1.0, 0.88, 0.50, 1))
+	name_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+	name_label.add_theme_constant_override("outline_size", 3)
+	vbox.add_child(name_label)
+
+	# 淡入
+	overlay.modulate.a = 0.0
+	var tween := create_tween()
+	tween.tween_property(overlay, "modulate:a", 1.0, 0.35)
+	await tween.finished
+
+	# 至少停留 1 秒
+	var min_wait := get_tree().create_timer(1.0)
+	await min_wait.timeout
+
+	# 显示提示文字
+	var hint_label := Label.new()
+	hint_label.text = "— 点击任意处继续 —"
+	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint_label.add_theme_font_size_override("font_size", 15)
+	hint_label.add_theme_color_override("font_color", Color(0.68, 0.55, 0.30, 0.8))
+	vbox.add_child(hint_label)
+
+	# 等待点击
+	var clicked: Array[bool] = [false]
+	var click_handler := func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			clicked[0] = true
+	overlay.gui_input.connect(click_handler)
+
+	while not clicked[0]:
+		await get_tree().process_frame
+		if not is_inside_tree():
+			return
+
+	overlay.gui_input.disconnect(click_handler)
+
+	# 淡出
+	var fade := create_tween()
+	fade.tween_property(overlay, "modulate:a", 0.0, 0.3)
+	await fade.finished
+	if is_instance_valid(overlay):
+		overlay.queue_free()
+
+
+## 底部浮现结果文字（打字机逐字显示），点击跳过打字→再点击关闭
 func _show_bottom_result(text: String) -> void:
 	# 创建底部结果面板
 	var result_panel := PanelContainer.new()
@@ -457,23 +587,35 @@ func _show_bottom_result(text: String) -> void:
 	label.scroll_active = false
 	label.add_theme_font_size_override("normal_font_size", 18)
 	label.add_theme_color_override("default_color", Color(0.92, 0.88, 0.76, 1))
-	label.text = text + "\n\n[center][color=#aa8844][i]— 点击任意处继续 —[/i][/color][/center]"
+
+	# 打字机效果需要完整文本（含提示），但逐字播放
+	var full_text := text + "\n\n[center][color=#aa8844][i]— 点击任意处继续 —[/i][/color][/center]"
+	label.text = ""
 	result_panel.add_child(label)
 
-	# 淡入
+	# 淡入面板
 	result_panel.modulate.a = 0.0
 	var tween := create_tween()
 	tween.tween_property(result_panel, "modulate:a", 1.0, 0.3)
 	await tween.finished
 
-	# 等待任意点击
-	var clicked: Array[bool] = [false]
+	if not is_inside_tree():
+		return
+
+	# 打字机逐字播放
+	_typewriter.play(label, full_text)
+
+	# 等待：打字机播放期间点击 → 跳过打字；打字完成后点击 → 关闭面板
+	var dismissed: Array[bool] = [false]
 	var click_handler := func(event: InputEvent):
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			clicked[0] = true
+			if _typewriter.is_playing():
+				_typewriter.skip()
+			else:
+				dismissed[0] = true
 	gui_input.connect(click_handler)
 
-	while not clicked[0]:
+	while not dismissed[0]:
 		await get_tree().process_frame
 		if not is_inside_tree():
 			return

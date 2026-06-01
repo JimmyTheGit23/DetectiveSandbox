@@ -1,6 +1,11 @@
 {
   "_comment": "序章「渡口沉舟」BGM 配置。使用专属生成的冬雨江畔氛围音乐。",
   "locations": {
+    "ferry_cabin": "track:ferry_cabin_night",
+    "cabin_lu_room": "track:ferry_cabin_night",
+    "cabin_agui_room": "track:ferry_cabin_night",
+    "cabin_lao_fan_deck": "track:ferry_cabin_night",
+    "cabin_zhou_room": "track:ferry_cabin_night",
     "ferry_inn": "mood:ferry_inn",
     "zhou_room": "mood:ferry_inn",
     "agui_room": "mood:ferry_inn",
@@ -18,7 +23,7 @@
     "ending_perfect": "mood:ending_good",
     "ending_good": "mood:ending_good",
     "ending_bad": "mood:ending_bad",
-    "epilogue_meta": "mood:mysterious",
+    "epilogue_meta": "mood:prologue_defeat",
     "confrontation_final": "mood:ferry_climax_final"
   }
 }
