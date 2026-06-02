@@ -187,10 +187,10 @@
   },
   "shen_room.shen_bedside": {
     "default": {
-      "narration": "床边缝隙里卡着几根干草和一缕辛冷药香。再往里拨，摸出一只绣工极细的香囊。香囊内残留蓝色草药碎末，气味与尸体指甲缝里的碎屑相近。",
-      "evidence": "evidence_herb_sachet",
+      "narration": "沉船残骸被打捞上岸后，你仔细检查了船底破洞。进水口边缘卡着一小片半透明的薄膜——不像木头碎片，更像是某种人工材料。用指甲轻轻一揭，它在指尖碎裂，散发出极淡的辛冷药味。这是某种遇水即溶的外壳残片。",
+      "evidence": "evidence_drug_capsule_shell",
       "set_flags": [
-        "found_herb_sachet"
+        "found_drug_capsule_shell"
       ]
     }
   },

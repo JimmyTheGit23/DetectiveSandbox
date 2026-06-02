@@ -164,7 +164,7 @@
 | `opening_monologue_3` | `assets/cn/voices/_prologue/prologue_ferry/opening_monologue_3.wav` | 那时候，我以为真相会让人好过一些。 |
 | `opening_monologue_4` | `assets/cn/voices/_prologue/prologue_ferry/opening_monologue_4.wav` | 后来才明白——  有些真相，比谎言更冷。 |
 | `time_card_opening` | `assets/cn/voices/_prologue/prologue_ferry/time_card_opening.wav` | 万历廿二年 · 腊月 · 亥时 |
-| `cabin_prologue_1` | `assets/cn/voices/_prologue/prologue_ferry/cabin_prologue_1.wav` | 我叫陆昭，御史台巡按。奉旨巡查南直隶，途经此地。 |
+| `cabin_prologue_1` | `assets/cn/voices/_prologue/prologue_ferry/cabin_prologue_1.wav` | 我叫陆昭，御史台巡按。奉旨巡查南直隶，途经此地。 ⚠️【待重录】CANON：陆昭是隐秘御史，不应在船上公开身份。此处应改为书生自我介绍。 |
 | `cabin_prologue_2` | `assets/cn/voices/_prologue/prologue_ferry/cabin_prologue_2.wav` | 这条渡船，是平水驿驿丞推荐的。说是'夜船半日便到'。 |
 | `cabin_prologue_3` | `assets/cn/voices/_prologue/prologue_ferry/cabin_prologue_3.wav` | 船舱里还有三个人：一个布商和他的仆从，还有一个船家。外面下着雨，江面漆黑。 |
 | `cabin_free_explore` | `assets/cn/voices/_prologue/prologue_ferry/cabin_free_explore.wav` | 【操作说明】可以在船舱内自由走动，与三位乘客交谈。 |
@@ -176,8 +176,8 @@
 | `shore_3` | `assets/cn/voices/_prologue/prologue_ferry/shore_3.wav` | 你剧烈咳嗽，吐出一口江水。  睁开眼——冬雨中一张年轻女子的脸，湿漉漉的碎发贴在额头上，神情焦急。  她穿着一身利落的暗蓝劲装，背上斜挎着信筒。 |
 | `shore_4` | `assets/cn/voices/_prologue/prologue_ferry/shore_4.wav` | 活了活了！你可吓死本姑娘了——大半夜的看见江里漂过来个人，还以为是……  能说话吗？你叫什么？怎么掉水里的？ |
 | `shore_5a` | `assets/cn/voices/_prologue/prologue_ferry/shore_5a.wav` | 船沉了？！我说呢——刚才江上轰隆一声巨响！我以为是打雷……  你等着，别动。客栈就在那边，本姑娘扶你过去。 |
-| `shore_5a_name` | `assets/cn/voices/_prologue/prologue_ferry/shore_5a_name.wav` | 对了——我叫凌瑶。金鳞镖局跑信的。  别的等进了屋再说——你再淋下去非冻成冰棍不可。走！ |
-| `shore_5b` | `assets/cn/voices/_prologue/prologue_ferry/shore_5b.wav` | 我叫凌瑶！金鳞镖局的信使！送信路过石矶渡，等天亮过江的。  别问了别问了，你现在浑身冰的跟死鱼似的——走，客栈就在那边！ |
+| `shore_5a_name` | `assets/cn/voices/_prologue/prologue_ferry/shore_5a_name.wav` | 对了——我叫凌瑶。金鳞镖局首席镖师。  别的等进了屋再说——你再淋下去非冻成冰棍不可。走！ ⚠️【待重录】 |
+| `shore_5b` | `assets/cn/voices/_prologue/prologue_ferry/shore_5b.wav` | 我叫凌瑶！金鳞镖局首席镖师！押送急件路过石矶渡，等天亮过江的。  别问了别问了，你现在浑身冰的跟死鱼似的——走，客栈就在那边！ ⚠️【待重录】 |
 | `inn_arrival` | `assets/cn/voices/_prologue/prologue_ferry/inn_arrival.wav` | 石矶渡。客栈。  凌瑶半扶半拖着你进了门。掌柜给了热水和干衣服。  你坐在火堆旁，寒意还没完全退去。外面的雨越下越大。 |
 | `inn_warm_1` | `assets/cn/voices/_prologue/prologue_ferry/inn_warm_1.wav` | （端来一碗姜汤）喝。别跟我客气。  你刚才说船沉了——那船上还有别人吗？ |
 | `inn_warm_2` | `assets/cn/voices/_prologue/prologue_ferry/inn_warm_2.wav` | 有。一个布商，和他的仆从。还有船家。  我搭的他们的渡船。夜里出发，说是半个时辰就到对岸。  ……半个时辰。 |
@@ -212,7 +212,7 @@
 | `day2_lizheng_1` | `assets/cn/voices/_prologue/prologue_ferry/day2_lizheng_1.wav` | 都别吵！——出了人命我这个里正管不了，得等县里来人。  （转向你）你说你是御史？有官印文书吗？ |
 | `day2_lizheng_2` | `assets/cn/voices/_prologue/prologue_ferry/day2_lizheng_2.wav` | 官印落在了船舱里。连同行李、文书——全沉在江底了。  （自嘲地扯了扯身上借来的干衣服）你看我现在这样，确实不像个御史。 |
 | `day2_lizheng_3` | `assets/cn/voices/_prologue/prologue_ferry/day2_lizheng_3.wav` | （摇头）没有凭证，你说什么都是空口白话。  我且问你一件事——翻船的地方在江心，离这岸至少三四里水路。你一个当官的文人——怎么游过来的？ |
-| `day2_lizheng_4` | `assets/cn/voices/_prologue/prologue_ferry/day2_lizheng_4.wav` | 你——！放屁！我是镖局送信的！住在码头客栈！听见江上炸响才跑出去的！  他被我拖上来的时候都快断气了！昏迷了大半个时辰才醒！你管这叫'活蹦乱跳'？！ |
+| `day2_lizheng_4` | `assets/cn/voices/_prologue/prologue_ferry/day2_lizheng_4.wav` | 你——！放屁！本姑娘是金鳞镖局的首席镖师！住在码头客栈！听见江上炸响才跑出去的！  他被我拖上来的时候都快断气了！昏迷了大半个时辰才醒！你管这叫'活蹦乱跳'？！ ⚠️【待重录】 |
 | `day2_lizheng_5` | `assets/cn/voices/_prologue/prologue_ferry/day2_lizheng_5.wav` | 姑娘，你说得再凶——你认识他吗？昨天之前见过他吗？  （转向你）没有官印、搭船没付钱、铁器在手、知道天窗逃生路线——你脱不了嫌疑。 |
 | `day2_framed_resolve` | `assets/cn/voices/_prologue/prologue_ferry/day2_framed_resolve.wav` | 人群缓缓散开。有人回头看你，像看一个已经定了罪的人。  周氏被人扶走了，但她的哭喊声还在码头上空回荡。 |
 | `day2_lingyao_resolve` | `assets/cn/voices/_prologue/prologue_ferry/day2_lingyao_resolve.wav` | 陆昭——你信我，我没有跟任何人串通。我就是听到响动跑出来的……  ……这帮人都疯了。你打算怎么办？ |
@@ -317,17 +317,17 @@
 | `evt_bladder_meaning_changed_1` | `assets/cn/voices/_events/prologue_ferry/evt_bladder_meaning_changed_1.wav` | 等等——浮囊。咱们之前以为那是阿贵自己藏的退路。可他刚才说，连浮囊都是沈清月帮他买的。 |
 | `evt_bladder_meaning_changed_2` | `assets/cn/voices/_events/prologue_ferry/evt_bladder_meaning_changed_2.wav` | 那件证物，从一开始就是她的指纹。我们之前看它的角度——错了。 |
 | `evt_bladder_meaning_changed_3` | `assets/cn/voices/_events/prologue_ferry/evt_bladder_meaning_changed_3.wav` | 重新看。 |
-| `evt_shen_evidence_ready_0` | `assets/cn/voices/_events/prologue_ferry/evt_shen_evidence_ready_0.wav` | 陆大人。五条证据——货银未沉、打捞目击、中间人、时间矛盾，还有草药香囊。全指向沈清月。 |
+| `evt_shen_evidence_ready_0` | `assets/cn/voices/_events/prologue_ferry/evt_shen_evidence_ready_0.wav` | 陆大人。五条证据——货银未沉、打捞目击、中间人、时间矛盾，还有毒囊残壳。全指向沈清月。 ⚠️【待重录】香囊→毒囊残壳 |
 | `evt_shen_evidence_ready_1` | `assets/cn/voices/_events/prologue_ferry/evt_shen_evidence_ready_1.wav` | 够了吧？这次是真正的对手。你准备好了吗？ |
 | `evt_shen_evidence_ready_2` | `assets/cn/voices/_events/prologue_ferry/evt_shen_evidence_ready_2.wav` | ……去吧。 |
 | `evt_shen_evidence_ready_3` | `assets/cn/voices/_events/prologue_ferry/evt_shen_evidence_ready_3.wav` | （深吸一口气）好。这次跟阿贵不一样——她不会哭。不会慌。她会用逻辑咬你。 |
 | `evt_shen_evidence_ready_4` | `assets/cn/voices/_events/prologue_ferry/evt_shen_evidence_ready_4.wav` | 但我在你旁边。有什么想法我会提醒你的。——走！ |
-| `evt_case_partially_resolved_0` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_0.wav` | 阿贵和老范被押往县衙。沈清月撑伞离开客栈。雨还在下，像是在替那只赝品香囊洗去最后一点药味。 |
+| `evt_case_partially_resolved_0` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_0.wav` | 阿贵和老范被押往县衙。沈清月撑伞离开客栈。雨还在下，像是什么都没发生过。 ⚠️【待重录】删除香囊引用 |
 | `evt_case_partially_resolved_1` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_1.wav` | 大人……这个案子，算输了吗？ |
 | `evt_case_partially_resolved_2` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_2.wav` | 推理没有输。证据输了。 |
 | `evt_case_partially_resolved_3` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_3.wav` | 可我们明明知道是她。 |
-| `evt_case_partially_resolved_4` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_4.wav` | 知道，不等于能定罪。她提前调包香囊，就是算准了这一点。 |
-| `evt_case_partially_resolved_5` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_5.wav` | （低声）那我们从哪里查？ |
+| `evt_case_partially_resolved_4` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_4.wav` | 知道，不等于能定罪。她靠法律漏洞脱罪——草药遇淡水失活，过期残迹不算证据。 ⚠️【待重录】删除调包香囊，改为法理脱罪 |
+| `evt_case_partially_resolved_5` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_5.wav` | （低声）那我们从哪里查？|
 | `evt_case_partially_resolved_6` | `assets/cn/voices/_events/prologue_ferry/evt_case_partially_resolved_6.wav` | 官印。沉船后它不该只是一件丢失的东西。有人若碰过它，就会留下痕迹。这个案子还没完。 |
 
 ## 浔阳楼·夜雨红绸案 (`xunyang_pavilion`)

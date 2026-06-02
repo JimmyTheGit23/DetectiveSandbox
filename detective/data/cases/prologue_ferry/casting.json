@@ -8,12 +8,12 @@
       "role_intro": "跟随周德茂十二年的老仆。",
       "portrait": "res://assets/cn/portraits/prologue_agui.png"
     },
-    "fisherman_wang": {
-      "role_name": "王大爷",
-      "role_title": "江边伪证者",
-      "role_intro": "下游渔村的老渔翁，贪小便宜，曾收周氏银两捏造夜间目击证词。",
-      "portrait": "res://assets/cn/portraits/prologue_fisherman_wang.png"
-    },
+"fisherman_wang": {
+  "role_name": "王大爷",
+  "role_title": "江边伪证者",
+  "role_intro": "下游渔村的老渔翁，被沈清月以银钱收买的棋子，捏造虚假目击证词。",
+  "portrait": "res://assets/cn/portraits/prologue_fisherman_wang.png"
+},
     "lao_fan": {
       "role_name": "老范",
       "role_title": "石矶渡船家",
@@ -26,18 +26,25 @@
       "role_intro": "地方小吏，圆滑世故。",
       "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
     },
-    "lu_zhao": {
-      "actor_id": "actor_imperial_inspector",
-      "role_name": "陆昭",
-      "role_title": "巡按御史",
-      "role_intro": "玩家本人。途经石矶渡时被卷入命案。",
-      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
-      "is_player": true
-    },
+"lu_zhao": {
+  "actor_id": "actor_imperial_inspector",
+  "role_name": "陆昭",
+  "role_title": "巡按御史",
+  "role_intro": "玩家本人。途经石矶渡时被卷入命案。",
+  "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
+  "is_player": true
+},
+"xia_lingyao": {
+  "role_name": "凌瑶",
+  "role_title": "金鳞镖局首席镖师",
+  "role_intro": "金鳞镖局首席镖师，押送急件路过石矶渡。这是她头一回参与查案。",
+  "portrait": "res://assets/cn/portraits/companion_lingyao.png",
+  "is_companion": true
+},
     "shen_qingyue": {
       "role_name": "沈清月",
       "role_title": "药材商之女兼讼师",
-      "role_intro": "浔阳沈氏药材行独女，兼通律法，受周氏之托出面协助审理此案。",
+      "role_intro": "金陵沈家药材行之女，兼通律法，受周氏之托出面协助审理此案。",
       "portrait": "res://assets/cn/portraits/prologue_shen_qingyue.png",
       "is_culprit": true
     },

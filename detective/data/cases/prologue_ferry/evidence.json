@@ -234,27 +234,41 @@
     ],
     "phase": "phase_1"
   },
-  "evidence_herb_sachet": {
+  "evidence_drug_capsule_shell": {
     "type": "evidence",
-    "name": "草药香囊",
-    "description": "江岸草丛里发现的刺绣香囊，带有与蓝色草药相近的辛冷气味。绣线精细，像富户女子随身之物。",
-    "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_herb_sachet.png",
+    "name": "毒囊残壳",
+    "description": "沉船残骸进水口破洞边缘卡着的糯米鱼鳔胶薄膜碎片——是双层延时毒囊的外壳残片。位置恰好在凿船破洞处，证明有人提前登船、在进水口固定了遇水即溶的人造毒包。",
+    "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_drug_capsule_shell.png",
     "tags": [
-      "herb",
-      "sachet"
+      "poison",
+      "capsule",
+      "hull"
     ],
     "phase": "phase_3"
   },
-  "evidence_fake_herb_sachet": {
+  "evidence_capsule_position_match": {
     "type": "evidence",
-    "name": "草药香囊赝品",
-    "description": "终局核验后确认：陆昭手里的香囊绣线配色和药材配比都被调换过。它足以说明有人布局，却不能作为定罪铁证。",
+    "name": "毒囊定位吻合",
+    "description": "毒囊残壳固定位置与船底人工破洞完全重合。只有精确知道凿船计划位置的人才能把毒囊放对地方——指向策划凿船的幕后人。",
     "hidden": true,
-    "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_fake_herb_sachet.png",
+    "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_capsule_position_match.png",
     "tags": [
-      "herb",
-      "sachet",
-      "fake"
+      "poison",
+      "capsule",
+      "logic"
+    ],
+    "phase": "phase_3"
+  },
+  "evidence_oil_lock_residue": {
+    "type": "evidence",
+    "name": "油脂锁毒推定",
+    "description": "死者登船前多食油腻酒菜，舌根油脂阻滞毒素分解消散，形成锁药。沈清月的毒本应无迹可循——但油脂把证据留住了。",
+    "hidden": true,
+    "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_oil_lock_residue.png",
+    "tags": [
+      "poison",
+      "autopsy",
+      "logic"
     ],
     "phase": "phase_4"
   },

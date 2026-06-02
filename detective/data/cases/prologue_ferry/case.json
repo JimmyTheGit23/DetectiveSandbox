@@ -1,12 +1,14 @@
 {
   "_comment": "指证答案。真凶沈清月（幕后主谋），阿贵为被操纵的执行者，老范为工具人。双重对峙结构：阿贵(中BOSS)→沈清月(FINAL BOSS)。",
   "culprit": "shen_qingyue",
-  "motive": "shen_medicine_money",
-  "method": "drugged_scuttle_drown",
+  "motive": "shen_dual_motive",
+  "method": "poison_capsule_scuttle_drown",
   "key_evidence": [
     "evidence_blue_herb_residue",
     "evidence_neck_marks",
-    "evidence_herb_sachet",
+    "evidence_drug_capsule_shell",
+    "evidence_capsule_position_match",
+    "evidence_oil_lock_residue",
     "evidence_salvage_mark",
     "evidence_shen_connection",
     "evidence_dock_timing"
@@ -42,7 +44,7 @@
       },
       {
         "speaker": "沈清月",
-        "text": "浮囊也好、航道也好，都可能只是船上常备用具与行船失误。若只凭“可能”，那人人都能成凶手。",
+        "text": "浮囊也好、航道也好，都可能只是船上常备用具与行船失误。若只凭"可能"，那人人都能成凶手。",
         "emotion": "sharp"
       },
       {
@@ -512,7 +514,7 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她把“约定路线”降成了“几句话”。这就是偷换概念。别让老范躲在水雾里。",
+            "text": "（低声）她把"约定路线"降成了"几句话"。这就是偷换概念。别让老范躲在水雾里。",
             "emotion": "determined"
           }
         ],
@@ -691,7 +693,7 @@
         "readthrough_end_hint": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）她把老范先摆成“老船家也会遇天灾”。可船底到底是什么样，咱们亲眼看过。",
+            "text": "（低声）她把老范先摆成"老船家也会遇天灾"。可船底到底是什么样，咱们亲眼看过。",
             "emotion": "determined"
           }
         ],
@@ -889,7 +891,7 @@
         "readthrough_end_hint": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）她提前把“时间矛盾”说成“记忆偏差”。别让她把半个时辰糊成一句记不清。",
+            "text": "（低声）她提前把"时间矛盾"说成"记忆偏差"。别让她把半个时辰糊成一句记不清。",
             "emotion": "determined"
           }
         ],
@@ -2892,7 +2894,7 @@
     ]
   },
   "confrontation_final": {
-    "_comment": "终局对峙：沈清月从讼师变为被告。玩家完成击破后进入香囊赝品翻盘，机制胜利但剧情败局。",
+    "_comment": "终局对峙：沈清月从讼师变为被告。玩家完成击破后进入法理脱罪——沈清月以'草药遇淡水失活→过期残迹无效'的法律规则驳回关键证据，机制胜利但剧情败局。",
     "suspect": "shen_qingyue",
     "is_final": true,
     "background": "res://assets/cn/scenes/prologue_confrontation_hall.png",
@@ -2938,7 +2940,7 @@
       },
       {
         "speaker": "沈清月",
-        "text": "（沉默三息，然后笑了）好。那就来吧。——不过大人，“指向”和“证明”之间，隔着一条人命。",
+        "text": "（沉默三息，然后笑了）好。那就来吧。——不过大人，"指向"和"证明"之间，隔着一条人命。",
         "emotion": "cold_smile"
       },
       {
@@ -2965,12 +2967,12 @@
     "victory_dialogue": [
       {
         "speaker": "",
-        "text": "客栈大堂临时设下的公堂里，雨声压在屋檐上。所有人的目光都落在那只草药香囊上。",
+        "text": "客栈大堂临时设下的公堂里，雨声压在屋檐上。所有人的目光都落在那片从船底破洞取下的薄膜碎片上。",
         "emotion": "narration"
       },
       {
         "speaker": "陆昭",
-        "text": "蓝色草药、脖颈压痕、阿贵口供、老范赌债、货银去向——证据链已经闭合。",
+        "text": "毒囊残壳、船底破洞位置吻合、阿贵口供、老范赌债、油脂锁毒——证据链已经闭合。",
         "emotion": "cold"
       },
       {
@@ -2980,47 +2982,17 @@
       },
       {
         "speaker": "沈清月",
-        "text": "（看着香囊，忽然笑了）是吗？陆公子，你确定你手里的，是“那一只”香囊？",
+        "text": "（看着那片薄膜，忽然笑了）是吗？陆公子，你说这是'毒囊残壳'——可它只是一片植物纤维。",
         "emotion": "cold_smile"
       },
       {
         "speaker": "陆昭",
-        "text": "……什么意思？",
-        "emotion": "serious"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "凌姑娘懂药，也懂针线。劳烦你看看：这只香囊的绣线配色、药材配比，和你方才说的“专属香囊”是否一致。",
-        "emotion": "sharp"
-      },
-      {
-        "speaker": "凌瑶",
-        "text": "（接过香囊，脸色一点点变了）……不对。蓝草药味很淡，里面少了一味定香的辅料。绣线也不对，外圈该是银灰线，这只是灰白棉线。",
-        "emotion": "shocked"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "所以，这不是我的香囊。或者说——它已经不是原来那只了。",
-        "emotion": "deflecting"
-      },
-      {
-        "speaker": "钱里正",
-        "text": "这、这是什么意思？",
-        "emotion": "shocked"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "意思是：陆公子拿来定我罪的核心物证，是赝品。孤证不立，赝物更不能立。",
-        "emotion": "cold_fury"
-      },
-      {
-        "speaker": "陆昭",
-        "text": "你提前调包了。",
+        "text": "它固定在船底进水口，位置与凿船破洞完全重合。只有知道凿船计划的人才能放对地方。",
         "emotion": "cold"
       },
       {
         "speaker": "沈清月",
-        "text": "大人说话要讲证据。你能证明是我调包，而不是有人嫁祸，甚至不是你自己急于定罪而拿错了东西吗？",
+        "text": "码头泊船人人可登，糯米胶薄膜随处可得。你能证明它是我放的，而不是有人嫁祸？",
         "emotion": "sharp"
       },
       {
@@ -3029,34 +3001,44 @@
         "emotion": "angry"
       },
       {
+        "speaker": "陆昭",
+        "text": "还有死者舌根的残留。周德茂登船前多食油腻酒菜——油脂锁住了药渣，阻滞毒素分解。你的药本该无迹可循——但油脂把证据留住了。",
+        "emotion": "cold"
+      },
+      {
         "speaker": "沈清月",
-        "text": "阿贵是杀人犯，老范是赌鬼，王大爷刚被拆成伪证者。现在，唯一能直接指向我的香囊也是赝品。陆公子，你还剩什么？",
-        "emotion": "cold_smile"
+        "text": "（面容掠过一丝凝滞——但迅速敛去破绽）",
+        "emotion": "cracking"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "……你比我想象的聪明。好。那我换个方式跟你说话。",
+        "emotion": "cold_fury"
+      },
+      {
+        "speaker": "沈清月",
+        "text": "此草遇淡水数分钟彻底失活，案发至尸检已过数十刻。残留仅有无害植物纤维——依大明律，过期残迹视为无效伪证，应当庭驳回。",
+        "emotion": "cold_fury"
       },
       {
         "speaker": "陆昭",
-        "text": "还剩真相。",
+        "text": "……",
         "emotion": "serious"
       },
       {
         "speaker": "沈清月",
-        "text": "真相不能替你签押，证据才能。",
-        "emotion": "cold_fury"
+        "text": "臆测无据，不足为证。油脂可来自江中鱼虾、可来自船板漆料，无法唯一指向人为投毒。陆公子，你还剩什么？",
+        "emotion": "cold_smile"
       },
       {
         "speaker": "钱里正",
-        "text": "陆大人……若物证存疑，县衙那边恐怕不会准押沈姑娘。",
+        "text": "陆大人……若物证依律无效，县衙那边恐怕不会准押沈姑娘。",
         "emotion": "nervous"
       },
       {
         "speaker": "沈清月",
-        "text": "（转身向门外走去）你推理得很好。可惜，公堂上赢的不是推理，是证据。",
+        "text": "（转身向门外走去）你推理得很好。可惜，公堂上赢的不是推理，是证据规则。",
         "emotion": "cold_smile"
-      },
-      {
-        "speaker": "沈清月",
-        "text": "陆昭，下次再拿证据来找我时，记得先确认它还在不在你手里。",
-        "emotion": "sharp"
       },
       {
         "speaker": "",
@@ -3065,17 +3047,27 @@
       },
       {
         "speaker": "凌瑶",
-        "text": "陆大人……我从一开始就觉得她不对劲。下次，不会再让她得逞。",
+        "text": "陆大人……我们明明知道是她。",
         "emotion": "worried"
       },
       {
         "speaker": "陆昭",
-        "text": "嗯。我们输的不是案情，是证据规则。那就从证据重新查。",
+        "text": "知道，不等于能定罪。她靠法律漏洞脱罪——草药遇淡水失活，过期残迹不算证据。",
         "emotion": "serious"
       },
       {
+        "speaker": "凌瑶",
+        "text": "（低声）那我们从哪里查？",
+        "emotion": "determined"
+      },
+      {
+        "speaker": "陆昭",
+        "text": "官印。沉船后它不该只是一件丢失的东西。有人若碰过它，就会留下痕迹。这个案子还没完。",
+        "emotion": "cold"
+      },
+      {
         "speaker": "",
-        "text": "你第一次如此清楚地意识到：知道真相，与赢下案件，并不是同一件事。",
+        "text": "你第一次如此清楚地意识到：知道真相，与赢下案件，并不是同一件事。\n\n油脂锁药的终极破绽——便是日后击穿沈家伪装、掀翻漕运黑网的燎原火种。",
         "emotion": "inner_thought"
       }
     ],
@@ -4181,7 +4173,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）她现在要的是“物证”。不是动机，不是时间，是能和草药线扣上的东西。",
+                  "text": "（低声）她现在要的是"物证"。不是动机，不是时间，是能和草药线扣上的东西。",
                   "emotion": "worried"
                 }
               ]
@@ -4227,14 +4219,18 @@
   ],
   "motives": [
     {
-      "id": "shen_medicine_money",
-      "name": "药钱缺口（三十八两旧债 + 五十两货银）",
+      "id": "shen_dual_motive",
+      "name": "双重动机：药钱缺口 + 灭口任务",
+      "description": "表层：周德茂欠沈家三十八两药材款，沈父病重需药钱八十两。深层：沈清月受漕运权贵集团指使，灭口持账中间人周德茂和隐秘御史陆昭。",
       "unlock": [
         {
           "evidence": "evidence_father_ledger"
+        },
+        {
+          "evidence": "evidence_account_fragment"
         }
       ],
-      "unlock_hint": "继续调查沈清月的账册"
+      "unlock_hint": "继续调查沈清月的账册和漕运线索"
     },
     {
       "id": "servant_revenge",
@@ -4265,14 +4261,18 @@
   ],
   "methods": [
     {
-      "id": "drugged_scuttle_drown",
-      "name": "蓝草药迷晕后随沉船溺亡",
+      "id": "poison_capsule_scuttle_drown",
+      "name": "预埋毒囊+凿船触发→毒水呛溺",
+      "description": "沈清月案发前一天傍晚登船，在进水口固定遇水即溶的双层毒囊（水销脂留散）。阿贵凿船时进水冲刷毒囊，毒液在封闭船舱释放。周德茂因油脂锁毒加重，溺亡。",
       "unlock": [
+        {
+          "evidence": "evidence_drug_capsule_shell"
+        },
         {
           "evidence": "evidence_blue_herb_residue"
         }
       ],
-      "unlock_hint": "继续验尸并追查草药来源"
+      "unlock_hint": "检查沉船残骸进水口和死者舌根残留"
     },
     {
       "id": "scuttle_decoy",
@@ -4409,7 +4409,7 @@
               },
               {
                 "speaker": "你",
-                "text": "我说的不是细节。是身份。你所谓“清清楚楚”，从第一句开始就不成立。",
+                "text": "我说的不是细节。是身份。你所谓"清清楚楚"，从第一句开始就不成立。",
                 "emotion": "cold"
               },
               {
@@ -4428,7 +4428,7 @@
             "break_dialogue": [
               {
                 "speaker": "你",
-                "text": "你还说听见了“银子”“别走”。可案发夜的风浪声，足够盖过整条江。",
+                "text": "你还说听见了"银子""别走"。可案发夜的风浪声，足够盖过整条江。",
                 "emotion": "cold"
               },
               {
@@ -4443,7 +4443,7 @@
               },
               {
                 "speaker": "你",
-                "text": "刚才你说的是“亲耳听见”。现在变成“后来提起”？",
+                "text": "刚才你说的是"亲耳听见"。现在变成"后来提起"？",
                 "emotion": "cold"
               },
               {
@@ -4502,7 +4502,7 @@
               },
               {
                 "speaker": "你",
-                "text": "三句话，三处破绽。你所谓“亲眼所见”，其实是有人要你这么说。",
+                "text": "三句话，三处破绽。你所谓"亲眼所见"，其实是有人要你这么说。",
                 "emotion": "cold"
               },
               {
@@ -4517,7 +4517,7 @@
               },
               {
                 "speaker": "王大爷",
-                "text": "周家娘子说……说那外乡人害死了周老板，只要我照实“补几句”，就算帮她伸冤……",
+                "text": "周家娘子说……说那外乡人害死了周老板，只要我照实"补几句"，就算帮她伸冤……",
                 "emotion": "panic"
               },
               {
@@ -4537,7 +4537,7 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "不是“这么说”。是证据已经说清楚了。",
+                "text": "不是"这么说"。是证据已经说清楚了。",
                 "emotion": "determined"
               }
             ]

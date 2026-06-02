@@ -52,7 +52,7 @@ character_identities:
     companion: lingyao
     
   lingyao:
-    title: "金鳞镖局信使"
+    title: "金鳞镖局首席镖师"
     social_status: commoner
     initial_state: waiting_for_ferry
     role: companion

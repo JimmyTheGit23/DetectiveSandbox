@@ -40,7 +40,7 @@
     },
     "cabin_prologue_1": {
       "speaker": "陆昭",
-      "text": "我叫陆昭，御史台巡按。奉旨巡查南直隶，途经此地。",
+      "text": "我叫陆昭，京城人氏，途经此地。",
       "next": "cabin_prologue_2",
       "portrait": "res://assets/cn/portraits/lu_zhao.png",
       "emotion": "serious",
@@ -152,14 +152,14 @@
     "shore_5a_name": {
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
       "speaker": "凌瑶",
-      "text": "对了——我叫凌瑶。金鳞镖局跑信的。\n\n别的等进了屋再说——你再淋下去非冻成冰棍不可。走！",
+      "text": "对了——我叫凌瑶。金鳞镖局首席镖师。\n\n别的等进了屋再说——你再淋下去非冻成冰棍不可。走！",
       "next": "inn_arrival",
       "portrait": "res://assets/cn/portraits/companion_lingyao_cheerful.png"
     },
     "shore_5b": {
       "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
       "speaker": "凌瑶",
-      "text": "我叫凌瑶！金鳞镖局的信使！送信路过石矶渡，等天亮过江的。\n\n别问了别问了，你现在浑身冰的跟死鱼似的——走，客栈就在那边！",
+      "text": "我叫凌瑶！金鳞镖局首席镖师！押送急件路过石矶渡，等天亮过江的。\n\n别问了别问了，你现在浑身冰的跟死鱼似的——走，客栈就在那边！",
       "next": "inn_arrival",
       "portrait": "res://assets/cn/portraits/companion_lingyao_cheerful.png"
     },
@@ -288,7 +288,7 @@
     "inn_warm_7": {
       "background": "res://assets/cn/scenes/prologue_ferry_inn.png",
       "speaker": "凌瑶",
-      "text": "（摆摆手）行侠仗义嘛！本姑娘虽然是送信的，但见死不救可不是金鳞镖局的作风！\n\n你先歇着。我也累得不行了……明天再说。",
+      "text": "（摆摆手）行侠仗义嘛！本姑娘虽然是跑镖的，但见死不救可不是金鳞镖局的作风！\n\n你先歇着。我也累得不行了……明天再说。",
       "next": "inn_night",
       "portrait": "res://assets/cn/portraits/companion_lingyao_cheerful.png",
       "emotion": "cheerful"
@@ -433,7 +433,7 @@
     },
     "day2_lizheng_4": {
       "speaker": "凌瑶",
-      "text": "你——！放屁！我是镖局送信的！住在码头客栈！听见江上炸响才跑出去的！\n\n他被我拖上来的时候都快断气了！昏迷了大半个时辰才醒！你管这叫'活蹦乱跳'？！",
+      "text": "你——！放屁！本姑娘是金鳞镖局的首席镖师！住在码头客栈！听见江上炸响才跑出去的！\n\n他被我拖上来的时候都快断气了！昏迷了大半个时辰才醒！你管这叫'活蹦乱跳'？！",
       "next": "day2_lizheng_5"
     },
     "day2_lizheng_5": {

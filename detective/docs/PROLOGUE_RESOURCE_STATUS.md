@@ -75,7 +75,7 @@
 |------|---------|------|
 | 沈清月房间 | `prologue_shen_room.png` | ✅ |
 | 沈清月接近CG | `prologue_cg_shen_approach.png` | ✅ |
-| 沈清月认罪CG | `prologue_cg_shen_confrontation_win.png` | ✅ |
+| 沈清月认罪CG | `prologue_cg_shen_confrontation_win.png` | ✅ ⚠️ **CANON：沈清月不认罪，此CG需审查重做** |
 
 ---
 
@@ -89,7 +89,7 @@
 | 老范沉默 | `prologue_cg_lao_fan_silence.png` | ✅ | 老范证词 |
 | 夜晚目击 | `prologue_cg_fan_night_sighting.png` | ✅ | 王大爷证词 |
 | 沈清月接近 | `prologue_cg_shen_approach.png` | ✅ | 沈清月对峙 |
-| 沈清月认罪 | `prologue_cg_shen_confrontation_win.png` | ✅ | 沈清月对峙胜利 |
+| 沈清月认罪 | `prologue_cg_shen_confrontation_win.png` | ✅ ⚠️ | 沈清月对峙胜利。**⚠️ CANON：沈清月不认罪，此CG命名/内容需审查重做。** |
 | 信件 | `prologue_cg_letter.png` | ✅ | 结局 |
 | 凌瑶遇陆昭 | `prologue_cg_lingyao_meets_luzhao.png` | ✅ | 岸边救援 |
 | 凌瑶冲 | `prologue_cg_lingyao_rush.png` | ✅ | 凌瑶动作 |
