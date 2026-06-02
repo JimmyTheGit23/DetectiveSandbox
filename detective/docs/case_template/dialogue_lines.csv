@@ -1,7 +1,0 @@
-npc_id,node_id,order,speaker_id,speaker,type,text,emotion,requires,highlight,record_type,record_title,record_text,record_id
-npc_1,hub,1,npc_1,,,NPC1的开场台词。,,,,,,
-npc_1,intro,1,npc_1,,,NPC1的介绍台词。,,,,,,
-npc_1,ask_topic1,1,npc_1,,,NPC1关于话题1的回答。,,,,,,
-npc_1,ask_topic1,2,player_char,,,玩家的追问。,,,,,,
-npc_1,show_evidence1,1,npc_1,,,NPC1看到证据后的反应。,shocked,,证据关键词,testimony,证词记录：NPC1的证词,NPC1的证词内容。,
-npc_2,hub,1,npc_2,,,NPC2的开场台词。,,,,,,

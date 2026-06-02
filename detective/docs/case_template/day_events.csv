@@ -1,3 +1,0 @@
-event_id,title,hint,trigger,effects,auto_play,writer_note
-evt_evidence_discovered,发现证据,（你发现了重要证据）,"{""all"": [{""evidence"": ""evidence_1""}, {""not"": {""flag"": ""evt_evidence_discovered_done""}}]}","{""set_flag"": [""evt_evidence_discovered_done""]}",,
-evt_confrontation_ready,可以对峙了,✦ 关键证据已齐，点击发起对峙,"{""all"": [{""evidence"": ""evidence_1""}, {""evidence"": ""evidence_2""}, {""flag"": ""clue_1""}, {""not"": {""flag"": ""confrontation_auto_triggered""}}]}","{""set_flag"": [""confrontation_auto_triggered""], ""auto_start_confrontation"": ""confrontation""}",,

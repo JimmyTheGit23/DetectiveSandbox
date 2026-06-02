@@ -1,4 +1,0 @@
-location_id,point_id,name,time_cost,hint_rect,unlock_condition,locked_hint
-main_location,point_1,搜索点1,0,0.1;0.1;0.3;0.3,,
-main_location,point_2,搜索点2,0,0.5;0.5;0.3;0.3,,
-sub_location_1,point_3,搜索点3,0,0.2;0.2;0.4;0.4,,

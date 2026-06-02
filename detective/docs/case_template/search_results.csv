@@ -1,4 +1,0 @@
-location_id,point_id,variant_id,intro_text,narration,gain_evidence,gain_clue,set_flags,when,trigger_dialogue,time_cost
-main_location,point_1,default,,你仔细查看了搜索点1。,evidence_1,,found_evidence_1,,
-main_location,point_2,default,,你仔细查看了搜索点2。,,clue_1,found_clue_1,,
-sub_location_1,point_3,default,,你仔细查看了搜索点3。,evidence_2,,found_evidence_2,,
