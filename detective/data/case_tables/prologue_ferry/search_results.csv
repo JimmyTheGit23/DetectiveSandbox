@@ -22,7 +22,7 @@ wreck_site,wreck_cargo_area,default,,,货舱区域空空如也。按周氏所说
 wreck_site,wreck_debris,default,,,散落的残骸中有断裂的船桨、泡水的草席，还有几截断钉。断钉上的痕迹新旧不一——有人在出事前不久动过这条船的结构。,evidence_nail_marks,,,,,
 wreck_site,wreck_shore_bag,default,,,在沉船下游的芦苇丛中，你发现一只被江水冲到岸上的包袱——和阿贵在客栈用的是同一种粗布。打开一看，底层藏着一只鼓鼓囊囊的皮囊。是水牛皮缝制的浮囊，充了气，还是满的。落水的人不会带着这种东西随波逐流——这是提前准备好的逃生工具。,evidence_float_bladder,,,,,
 river_bend,village_wang_home,default,,,王大爷的小屋里挂满了渔网。老人坐在门口补网，看到你来并不意外：「我就知道会有人来问。那天夜里的事……我全看到了。」他从墙角翻出一卷泡烂的纸：「那天在江边捡到的，一直不知道该给谁。」,evidence_wet_letter,,,,,
-shen_room,shen_bedside,default,,,床边缝隙里卡着几根干草和一缕辛冷药香。再往里拨，摸出一只绣工极细的香囊。香囊内残留蓝色草药碎末，气味与尸体指甲缝里的碎屑相近。,evidence_herb_sachet,,found_herb_sachet,,,
+shen_room,shen_bedside,default,,,床边缝隙里卡着几根干草和一缕辛冷药香。再往里拨，找到了沈父药铺账本。最后一页写着父亲急需八十两药钱——这就是她铤而走险的表层动机。,evidence_father_ledger,,found_father_ledger,,,
 ferry_dock,dock_reed_seal,default,,,雨后的芦苇伏在江边。你在泥水里捡到一小片油布锦袋残角，边缘有朱砂印泥的痕迹——像是官印匣上的封布。官印没有回来，但有人碰过它。,evidence_seal_cloth_wrap,,found_seal_cloth_wrap,,,
 cabin_lu_room,cabin_seal_box,default,,,木匣压在床边，铜锁还扣着。里面是官印、敕牒和巡按令牌。你伸手按了按锁舌——完好。至少此刻，你的身份还稳稳放在这里。,,clue_cabin_seal_box,cabin_seal_box_checked,,,
 cabin_lu_room,cabin_route_note,default,,,桌上压着一页行程简记：平水驿、石矶渡、夜船、东汊、武昌。东汊二字被一点水痕洇开。你想起驿丞说过“这条水路快”——但他没提过夜里的风浪。,,clue_cabin_route_note,cabin_route_note_checked,,,

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://b0s7p6ixgt410"
-path="res://.godot/imported/xunyang_convent_vigil.wav-742d0d099ecc03f598d39c6fc6b5ea95.sample"
+path="res://.godot/imported/xunyang_convent_vigil.wav-02637f9d06379eeae1052fd00305f272.sample"
 
 [deps]
 
-source_file="res://assets/cn/bgm/_old_backup/xunyang_convent_vigil.wav"
-dest_files=["res://.godot/imported/xunyang_convent_vigil.wav-742d0d099ecc03f598d39c6fc6b5ea95.sample"]
+source_file="res://assets/cn/bgm/xunyang_convent_vigil.wav"
+dest_files=["res://.godot/imported/xunyang_convent_vigil.wav-02637f9d06379eeae1052fd00305f272.sample"]
 
 [params]
 

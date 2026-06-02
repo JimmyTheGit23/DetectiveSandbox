@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://41li14puthmx"
-path="res://.godot/imported/ferry_prologue_escape.mp3-b476a66f4cd734c23d4b33262ed95cb6.mp3str"
+path="res://.godot/imported/ferry_prologue_escape.mp3-ae2e1cc8517348e35f2676e7589aa8c6.mp3str"
 
 [deps]
 
-source_file="res://assets/cn/bgm/_old_backup/ferry_prologue_escape.mp3"
-dest_files=["res://.godot/imported/ferry_prologue_escape.mp3-b476a66f4cd734c23d4b33262ed95cb6.mp3str"]
+source_file="res://assets/cn/bgm/ferry_prologue_escape.mp3"
+dest_files=["res://.godot/imported/ferry_prologue_escape.mp3-ae2e1cc8517348e35f2676e7589aa8c6.mp3str"]
 
 [params]
 

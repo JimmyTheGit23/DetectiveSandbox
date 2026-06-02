@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dd12mh3ndlevt"
-path="res://.godot/imported/prologue_defeat.wav-3f4c4a8ca3ee1646e9f8e793d4add6f6.sample"
+uid="uid://b58msqkj8rdrc"
+path="res://.godot/imported/prologue_defeat.wav-3feff808ac8cc32d4dba624465c6981f.sample"
 
 [deps]
 
-source_file="res://assets/cn/bgm/_old_backup/prologue_defeat.wav"
-dest_files=["res://.godot/imported/prologue_defeat.wav-3f4c4a8ca3ee1646e9f8e793d4add6f6.sample"]
+source_file="res://assets/cn/bgm/prologue_defeat.wav"
+dest_files=["res://.godot/imported/prologue_defeat.wav-3feff808ac8cc32d4dba624465c6981f.sample"]
 
 [params]
 

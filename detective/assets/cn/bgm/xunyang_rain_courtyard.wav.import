@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bfbor225sfpkg"
-path="res://.godot/imported/xunyang_rain_courtyard.wav-e685a034d9418473d339e7de60f5fcae.sample"
+path="res://.godot/imported/xunyang_rain_courtyard.wav-14b69854b692acfd4793a43924ddebfc.sample"
 
 [deps]
 
-source_file="res://assets/cn/bgm/_old_backup/xunyang_rain_courtyard.wav"
-dest_files=["res://.godot/imported/xunyang_rain_courtyard.wav-e685a034d9418473d339e7de60f5fcae.sample"]
+source_file="res://assets/cn/bgm/xunyang_rain_courtyard.wav"
+dest_files=["res://.godot/imported/xunyang_rain_courtyard.wav-14b69854b692acfd4793a43924ddebfc.sample"]
 
 [params]
 

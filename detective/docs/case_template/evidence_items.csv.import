@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://l07x2vctv05p"
+
+[deps]
+
+files=["res://docs/case_template/evidence_items.type.translation", "res://docs/case_template/evidence_items.category.translation", "res://docs/case_template/evidence_items.name.translation", "res://docs/case_template/evidence_items.description.translation", "res://docs/case_template/evidence_items.hidden.translation", "res://docs/case_template/evidence_items.meta.translation", "res://docs/case_template/evidence_items.icon.translation", "res://docs/case_template/evidence_items.tags.translation", "res://docs/case_template/evidence_items.phase.translation", "res://docs/case_template/evidence_items.source.translation", "res://docs/case_template/evidence_items.writer.translation"]
+
+source_file="res://docs/case_template/evidence_items.csv"
+dest_files=["res://docs/case_template/evidence_items.type.translation", "res://docs/case_template/evidence_items.category.translation", "res://docs/case_template/evidence_items.name.translation", "res://docs/case_template/evidence_items.description.translation", "res://docs/case_template/evidence_items.hidden.translation", "res://docs/case_template/evidence_items.meta.translation", "res://docs/case_template/evidence_items.icon.translation", "res://docs/case_template/evidence_items.tags.translation", "res://docs/case_template/evidence_items.phase.translation", "res://docs/case_template/evidence_items.source.translation", "res://docs/case_template/evidence_items.writer.translation"]
+
+[params]
+
+compress=true
+delimiter=0

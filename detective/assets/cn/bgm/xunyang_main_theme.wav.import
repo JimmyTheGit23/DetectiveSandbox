@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bmr5dvldse3x6"
-path="res://.godot/imported/xunyang_main_theme.wav-12cf5b23ed5f0a4efac842c129b6f4a2.sample"
+path="res://.godot/imported/xunyang_main_theme.wav-d99f11f497e380b68c72c52004f7cd96.sample"
 
 [deps]
 
-source_file="res://assets/cn/bgm/_old_backup/xunyang_main_theme.wav"
-dest_files=["res://.godot/imported/xunyang_main_theme.wav-12cf5b23ed5f0a4efac842c129b6f4a2.sample"]
+source_file="res://assets/cn/bgm/xunyang_main_theme.wav"
+dest_files=["res://.godot/imported/xunyang_main_theme.wav-d99f11f497e380b68c72c52004f7cd96.sample"]
 
 [params]
 

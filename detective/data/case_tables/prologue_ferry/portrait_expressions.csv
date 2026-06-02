@@ -44,6 +44,7 @@ shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,sharp,res://ass
 shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,deflecting,res://assets/cn/portraits/prologue_shen_qingyue_deflecting.png,侧目回避手扣肘
 shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,cold_fury,res://assets/cn/portraits/prologue_shen_qingyue_cold_fury.png,伪装撕裂极冷赞赏笑
 shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,confrontation,res://assets/cn/portraits/prologue_shen_qingyue_confrontation.png,法庭对峙基础立绘
+shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,objection,res://assets/cn/portraits/prologue_shen_qingyue_sharp.png,临时回退到原角色一致立绘；待 image-to-image 重生成 objection
 shen_qingyue,res://assets/cn/portraits/prologue_shen_qingyue.png,victory,res://assets/cn/portraits/prologue_shen_qingyue_victory.png,终局翻盘得意离去
 zhou_wife,res://assets/cn/portraits/prologue_zhou_wife.png,base,res://assets/cn/portraits/prologue_zhou_wife.png,
 zhou_wife,res://assets/cn/portraits/prologue_zhou_wife.png,grief,res://assets/cn/portraits/prologue_zhou_wife_silent.png,

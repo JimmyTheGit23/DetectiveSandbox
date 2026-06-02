@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://byiuoytb0poue"
+
+[deps]
+
+files=["res://docs/case_template/prologue_choices.order.translation", "res://docs/case_template/prologue_choices.text.translation", "res://docs/case_template/prologue_choices.goto.translation", "res://docs/case_template/prologue_choices.requires.translation"]
+
+source_file="res://docs/case_template/prologue_choices.csv"
+dest_files=["res://docs/case_template/prologue_choices.order.translation", "res://docs/case_template/prologue_choices.text.translation", "res://docs/case_template/prologue_choices.goto.translation", "res://docs/case_template/prologue_choices.requires.translation"]
+
+[params]
+
+compress=true
+delimiter=0

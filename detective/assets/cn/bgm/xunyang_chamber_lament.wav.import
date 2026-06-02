@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://o1epg8nmqhrk"
-path="res://.godot/imported/xunyang_chamber_lament.wav-22704bdf33a56c2f160114d1d574e6d9.sample"
+path="res://.godot/imported/xunyang_chamber_lament.wav-6eb28b8e1d0b4bac5fdf6be4277d4d77.sample"
 
 [deps]
 
-source_file="res://assets/cn/bgm/_old_backup/xunyang_chamber_lament.wav"
-dest_files=["res://.godot/imported/xunyang_chamber_lament.wav-22704bdf33a56c2f160114d1d574e6d9.sample"]
+source_file="res://assets/cn/bgm/xunyang_chamber_lament.wav"
+dest_files=["res://.godot/imported/xunyang_chamber_lament.wav-6eb28b8e1d0b4bac5fdf6be4277d4d77.sample"]
 
 [params]
 

@@ -6,14 +6,12 @@ uid="uid://byg3j26plee4o"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/companion_discussions.rule.translation", "res://data/case_tables/prologue_ferry/companion_discussions.when.translation", "res://data/case_tables/prologue_ferry/companion_discussions.lines.translation", "res://data/case_tables/prologue_ferry/companion_discussions.en.translation", "res://data/case_tables/prologue_ferry/companion_discussions.en.translation"]
+files=["res://data/case_tables/prologue_ferry/companion_discussions.rule.translation", "res://data/case_tables/prologue_ferry/companion_discussions.when.translation", "res://data/case_tables/prologue_ferry/companion_discussions.lines.translation", "res://data/case_tables/prologue_ferry/companion_discussions.once.translation", "res://data/case_tables/prologue_ferry/companion_discussions.priority.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/companion_discussions.csv"
-dest_files=["res://data/case_tables/prologue_ferry/companion_discussions.rule.translation", "res://data/case_tables/prologue_ferry/companion_discussions.when.translation", "res://data/case_tables/prologue_ferry/companion_discussions.lines.translation", "res://data/case_tables/prologue_ferry/companion_discussions.en.translation", "res://data/case_tables/prologue_ferry/companion_discussions.en.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/companion_discussions.rule.translation", "res://data/case_tables/prologue_ferry/companion_discussions.when.translation", "res://data/case_tables/prologue_ferry/companion_discussions.lines.translation", "res://data/case_tables/prologue_ferry/companion_discussions.once.translation", "res://data/case_tables/prologue_ferry/companion_discussions.priority.translation"]
 
 [params]
 
 compress=true
 delimiter=0
-unescape_keys=false
-unescape_translations=true

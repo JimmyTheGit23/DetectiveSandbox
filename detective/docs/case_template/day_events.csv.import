@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://by3wdg386jkeq"
+
+[deps]
+
+files=["res://docs/case_template/day_events.title.translation", "res://docs/case_template/day_events.hint.translation", "res://docs/case_template/day_events.trigger.translation", "res://docs/case_template/day_events.effects.translation", "res://docs/case_template/day_events.auto.translation", "res://docs/case_template/day_events.writer.translation"]
+
+source_file="res://docs/case_template/day_events.csv"
+dest_files=["res://docs/case_template/day_events.title.translation", "res://docs/case_template/day_events.hint.translation", "res://docs/case_template/day_events.trigger.translation", "res://docs/case_template/day_events.effects.translation", "res://docs/case_template/day_events.auto.translation", "res://docs/case_template/day_events.writer.translation"]
+
+[params]
+
+compress=true
+delimiter=0

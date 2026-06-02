@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://oe65e5a7y34n"
-path="res://.godot/imported/market_calm.wav-9ae0a4954966480548c722dd62f6abf0.sample"
+path="res://.godot/imported/market_calm.wav-57b57d55e05e8e98e67ab6eb347fc415.sample"
 
 [deps]
 
-source_file="res://assets/cn/bgm/_old_backup/market_calm.wav"
-dest_files=["res://.godot/imported/market_calm.wav-9ae0a4954966480548c722dd62f6abf0.sample"]
+source_file="res://assets/cn/bgm/market_calm.wav"
+dest_files=["res://.godot/imported/market_calm.wav-57b57d55e05e8e98e67ab6eb347fc415.sample"]
 
 [params]
 

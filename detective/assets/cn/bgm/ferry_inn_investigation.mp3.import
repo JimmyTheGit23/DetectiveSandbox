@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://brgj6q5twb8tl"
-path="res://.godot/imported/ferry_inn_investigation.mp3-f24c287ec76d8f230d349682b1720f01.mp3str"
+path="res://.godot/imported/ferry_inn_investigation.mp3-5e792f6d4bfd54f267adbe751fc44e3e.mp3str"
 
 [deps]
 
-source_file="res://assets/cn/bgm/_old_backup/ferry_inn_investigation.mp3"
-dest_files=["res://.godot/imported/ferry_inn_investigation.mp3-f24c287ec76d8f230d349682b1720f01.mp3str"]
+source_file="res://assets/cn/bgm/ferry_inn_investigation.mp3"
+dest_files=["res://.godot/imported/ferry_inn_investigation.mp3-5e792f6d4bfd54f267adbe751fc44e3e.mp3str"]
 
 [params]
 

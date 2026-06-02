@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c4gfeu1balh5s"
+
+[deps]
+
+files=["res://docs/case_template/search_points.point.translation", "res://docs/case_template/search_points.name.translation", "res://docs/case_template/search_points.time.translation", "res://docs/case_template/search_points.hint.translation", "res://docs/case_template/search_points.unlock.translation", "res://docs/case_template/search_points.locked.translation"]
+
+source_file="res://docs/case_template/search_points.csv"
+dest_files=["res://docs/case_template/search_points.point.translation", "res://docs/case_template/search_points.name.translation", "res://docs/case_template/search_points.time.translation", "res://docs/case_template/search_points.hint.translation", "res://docs/case_template/search_points.unlock.translation", "res://docs/case_template/search_points.locked.translation"]
+
+[params]
+
+compress=true
+delimiter=0

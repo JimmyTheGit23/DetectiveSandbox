@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://d2c6dm01amuke"
-path="res://.godot/imported/ferry_cabin_night.wav-f5052261b4fcb08b31021fe086d86207.sample"
+uid="uid://cc0ry0huugd48"
+path="res://.godot/imported/ferry_cabin_night.wav-4eebe405ada5dbdded2b1ba5169f6bed.sample"
 
 [deps]
 
-source_file="res://assets/cn/bgm/_old_backup/ferry_cabin_night.wav"
-dest_files=["res://.godot/imported/ferry_cabin_night.wav-f5052261b4fcb08b31021fe086d86207.sample"]
+source_file="res://assets/cn/bgm/ferry_cabin_night.wav"
+dest_files=["res://.godot/imported/ferry_cabin_night.wav-4eebe405ada5dbdded2b1ba5169f6bed.sample"]
 
 [params]
 

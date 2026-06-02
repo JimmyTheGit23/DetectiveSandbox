@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bfyeip2pwp2so"
-path="res://.godot/imported/accuse_tension.wav-20a42bb939b80cf29edd51597b8f00bc.sample"
+path="res://.godot/imported/accuse_tension.wav-f4e6768dade008020447799b175210b7.sample"
 
 [deps]
 
-source_file="res://assets/cn/bgm/_old_backup/accuse_tension.wav"
-dest_files=["res://.godot/imported/accuse_tension.wav-20a42bb939b80cf29edd51597b8f00bc.sample"]
+source_file="res://assets/cn/bgm/accuse_tension.wav"
+dest_files=["res://.godot/imported/accuse_tension.wav-f4e6768dade008020447799b175210b7.sample"]
 
 [params]
 

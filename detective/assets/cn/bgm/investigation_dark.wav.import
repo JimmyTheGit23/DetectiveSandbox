@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://ckm446ge0ulib"
-path="res://.godot/imported/investigation_dark.wav-e47719ec86d5214b21a9cec74db6ef37.sample"
+path="res://.godot/imported/investigation_dark.wav-428b64f114f1ea4fef07af3c684f0faf.sample"
 
 [deps]
 
-source_file="res://assets/cn/bgm/_old_backup/investigation_dark.wav"
-dest_files=["res://.godot/imported/investigation_dark.wav-e47719ec86d5214b21a9cec74db6ef37.sample"]
+source_file="res://assets/cn/bgm/investigation_dark.wav"
+dest_files=["res://.godot/imported/investigation_dark.wav-428b64f114f1ea4fef07af3c684f0faf.sample"]
 
 [params]
 
