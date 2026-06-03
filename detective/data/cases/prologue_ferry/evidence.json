@@ -209,6 +209,7 @@
   },
   "evidence_cabin_escape_time": {
     "type": "evidence",
+    "category": "证言",
     "name": "逃生时间记录",
     "description": "凌瑶证词：陆昭昏迷了大半个时辰才醒。船沉后不可能在一刻钟内清醒并爬上岸。"
   },
@@ -224,16 +225,19 @@
   },
   "evidence_weather_fog": {
     "type": "evidence",
+    "category": "环境",
     "name": "浓雾与江岸距离",
     "description": "案发夜江面浓雾极重，岸边到翻船处相隔百丈以上。寻常人不可能隔着雾雨看清船上人物身形。"
   },
   "evidence_storm_noise": {
     "type": "evidence",
+    "category": "环境",
     "name": "狂风浪声",
     "description": "案发夜狂风夹雨，江浪拍岸。即便有人在船上争执，岸边也难以听清具体话语。"
   },
   "evidence_no_motive": {
     "type": "evidence",
+    "category": "论点",
     "name": "陆昭无杀人动机",
     "description": "陆昭初到石矶渡，与周德茂仅一面之缘，无财仇私怨。若为谋财，沉船后反而几乎丧命，逻辑不通。"
   },

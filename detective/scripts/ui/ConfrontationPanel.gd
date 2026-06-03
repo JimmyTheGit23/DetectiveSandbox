@@ -1266,7 +1266,11 @@ func _update_evidence_detail() -> void:
 
 	_evidence_detail_name.text = ename
 	_evidence_detail_desc.text = edesc
-	_evidence_detail_category.text = "物证" if ecat == "evidence" else "线索"
+	var ecategory: String = data.get("category", "")
+	if ecategory != "":
+		_evidence_detail_category.text = ecategory
+	else:
+		_evidence_detail_category.text = "物证" if ecat == "evidence" else "线索"
 
 	# 更新大图
 	var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % display_id
