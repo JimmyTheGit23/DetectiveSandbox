@@ -1,0 +1,7 @@
+node_id,order,speaker,text,emotion,type
+opening_1,0,,开场旁白第一句。,
+opening_2,0,,开场旁白第二句。,
+opening_3,0,,开场旁白第三句。,
+scene_1,0,,场景描述文本。,
+scene_2,0,NPC名,NPC的台词。,
+scene_3,0,玩家名,玩家的台词。,serious,

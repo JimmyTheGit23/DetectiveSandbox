@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://l07x2vctv05p"
+
+[deps]
+
+files=["res://docs/templates/evidence_items.type.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.name.translation", "res://docs/templates/evidence_items.description.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.en.translation"]
+
+source_file="res://docs/templates/evidence_items.csv"
+dest_files=["res://docs/templates/evidence_items.type.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.name.translation", "res://docs/templates/evidence_items.description.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.en.translation", "res://docs/templates/evidence_items.en.translation"]
+
+[params]
+
+compress=true
+delimiter=0
+unescape_keys=false
+unescape_translations=true

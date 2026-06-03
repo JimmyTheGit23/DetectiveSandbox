@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cvpso7qdl72ld"
+
+[deps]
+
+files=["res://docs/templates/locations.name.translation", "res://docs/templates/locations.parent.translation", "res://docs/templates/locations.description.translation", "res://docs/templates/locations.unlock.translation", "res://docs/templates/locations.background.translation", "res://docs/templates/locations.scene.translation", "res://docs/templates/locations.npcs.translation"]
+
+source_file="res://docs/templates/locations.csv"
+dest_files=["res://docs/templates/locations.name.translation", "res://docs/templates/locations.parent.translation", "res://docs/templates/locations.description.translation", "res://docs/templates/locations.unlock.translation", "res://docs/templates/locations.background.translation", "res://docs/templates/locations.scene.translation", "res://docs/templates/locations.npcs.translation"]
+
+[params]
+
+compress=true
+delimiter=0
+unescape_keys=false
+unescape_translations=true

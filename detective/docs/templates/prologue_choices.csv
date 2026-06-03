@@ -1,0 +1,3 @@
+node_id,order,text,goto,requires
+scene_3,0,选择1,scene_4a,
+scene_3,1,选择2,scene_4b,

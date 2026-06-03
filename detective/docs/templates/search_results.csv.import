@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://upwc5dj4vu3a"
+
+[deps]
+
+files=["res://docs/templates/search_results.point.translation", "res://docs/templates/search_results.variant.translation", "res://docs/templates/search_results.en.translation", "res://docs/templates/search_results.narration.translation", "res://docs/templates/search_results.gain.translation", "res://docs/templates/search_results.gain.translation", "res://docs/templates/search_results.set.translation", "res://docs/templates/search_results.en.translation", "res://docs/templates/search_results.en.translation", "res://docs/templates/search_results.en.translation"]
+
+source_file="res://docs/templates/search_results.csv"
+dest_files=["res://docs/templates/search_results.point.translation", "res://docs/templates/search_results.variant.translation", "res://docs/templates/search_results.en.translation", "res://docs/templates/search_results.narration.translation", "res://docs/templates/search_results.gain.translation", "res://docs/templates/search_results.gain.translation", "res://docs/templates/search_results.set.translation", "res://docs/templates/search_results.en.translation", "res://docs/templates/search_results.en.translation", "res://docs/templates/search_results.en.translation"]
+
+[params]
+
+compress=true
+delimiter=0
+unescape_keys=false
+unescape_translations=true

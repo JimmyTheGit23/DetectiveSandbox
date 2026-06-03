@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://hbhwstarx00u"
+
+[deps]
+
+files=["res://docs/templates/prologue_nodes.en.translation", "res://docs/templates/prologue_nodes.background.translation", "res://docs/templates/prologue_nodes.next.translation", "res://docs/templates/prologue_nodes.centered.translation", "res://docs/templates/prologue_nodes.en.translation", "res://docs/templates/prologue_nodes.portrait.translation", "res://docs/templates/prologue_nodes.emotion.translation", "res://docs/templates/prologue_nodes.en.translation", "res://docs/templates/prologue_nodes.en.translation"]
+
+source_file="res://docs/templates/prologue_nodes.csv"
+dest_files=["res://docs/templates/prologue_nodes.en.translation", "res://docs/templates/prologue_nodes.background.translation", "res://docs/templates/prologue_nodes.next.translation", "res://docs/templates/prologue_nodes.centered.translation", "res://docs/templates/prologue_nodes.en.translation", "res://docs/templates/prologue_nodes.portrait.translation", "res://docs/templates/prologue_nodes.emotion.translation", "res://docs/templates/prologue_nodes.en.translation", "res://docs/templates/prologue_nodes.en.translation"]
+
+[params]
+
+compress=true
+delimiter=0
+unescape_keys=false
+unescape_translations=true

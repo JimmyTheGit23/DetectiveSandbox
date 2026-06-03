@@ -6,12 +6,14 @@ uid="uid://od1het5odqtp"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/companion_banter.when.translation", "res://data/case_tables/prologue_ferry/companion_banter.requires.translation", "res://data/case_tables/prologue_ferry/companion_banter.lines.translation", "res://data/case_tables/prologue_ferry/companion_banter.effect.translation", "res://data/case_tables/prologue_ferry/companion_banter.once.translation", "res://data/case_tables/prologue_ferry/companion_banter.priority.translation"]
+files=["res://data/case_tables/prologue_ferry/companion_banter.when.translation", "res://data/case_tables/prologue_ferry/companion_banter.en.translation", "res://data/case_tables/prologue_ferry/companion_banter.lines.translation", "res://data/case_tables/prologue_ferry/companion_banter.effect.translation", "res://data/case_tables/prologue_ferry/companion_banter.once.translation", "res://data/case_tables/prologue_ferry/companion_banter.priority.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/companion_banter.csv"
-dest_files=["res://data/case_tables/prologue_ferry/companion_banter.when.translation", "res://data/case_tables/prologue_ferry/companion_banter.requires.translation", "res://data/case_tables/prologue_ferry/companion_banter.lines.translation", "res://data/case_tables/prologue_ferry/companion_banter.effect.translation", "res://data/case_tables/prologue_ferry/companion_banter.once.translation", "res://data/case_tables/prologue_ferry/companion_banter.priority.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/companion_banter.when.translation", "res://data/case_tables/prologue_ferry/companion_banter.en.translation", "res://data/case_tables/prologue_ferry/companion_banter.lines.translation", "res://data/case_tables/prologue_ferry/companion_banter.effect.translation", "res://data/case_tables/prologue_ferry/companion_banter.once.translation", "res://data/case_tables/prologue_ferry/companion_banter.priority.translation"]
 
 [params]
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true

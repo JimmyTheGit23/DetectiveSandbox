@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://rclh0onktjgq"
+
+[deps]
+
+files=["res://docs/templates/prologue_lines.order.translation", "res://docs/templates/prologue_lines.speaker.translation", "res://docs/templates/prologue_lines.text.translation", "res://docs/templates/prologue_lines.emotion.translation", "res://docs/templates/prologue_lines.en.translation"]
+
+source_file="res://docs/templates/prologue_lines.csv"
+dest_files=["res://docs/templates/prologue_lines.order.translation", "res://docs/templates/prologue_lines.speaker.translation", "res://docs/templates/prologue_lines.text.translation", "res://docs/templates/prologue_lines.emotion.translation", "res://docs/templates/prologue_lines.en.translation"]
+
+[params]
+
+compress=true
+delimiter=0
+unescape_keys=false
+unescape_translations=true

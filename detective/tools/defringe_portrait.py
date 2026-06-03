@@ -19,22 +19,24 @@ def _border_rgb(data: np.ndarray) -> np.ndarray:
     return np.median(border, axis=0)
 
 
-def _connected_background_mask(rgb: np.ndarray, bg: np.ndarray, tolerance: float = 78.0) -> np.ndarray:
+def _connected_background_mask(rgb: np.ndarray, bg: np.ndarray, tolerance: float = 70.0) -> np.ndarray:
     h, w, _ = rgb.shape
     dist = np.linalg.norm(rgb.astype(np.float32) - bg.astype(np.float32), axis=2)
 
     # 只把紫/绿纯色底作为候选，避免误删衣服/肤色。
     r, g, b = rgb[:, :, 0], rgb[:, :, 1], rgb[:, :, 2]
-    bg_is_green = bg[1] > bg[0] + 35 and bg[1] > bg[2] + 35
-    bg_is_purple = bg[0] > bg[1] + 25 and bg[2] > bg[1] + 25
+    bg_is_green = bg[1] > bg[0] + 15 and bg[1] > bg[2] + 15
+    bg_is_purple = bg[0] > bg[1] + 15 and bg[2] > bg[1] + 15
     if bg_is_green:
-        chroma_candidate = (g > r + 28) & (g > b + 28)
+        chroma_candidate = (g > r + 30) & (g > b + 30)
     elif bg_is_purple:
-        chroma_candidate = (r > g + 20) & (b > g + 20)
+        chroma_candidate = (r > g + 22) & (b > g + 22)
     else:
         chroma_candidate = np.ones((h, w), dtype=bool)
 
-    candidate = (dist < tolerance) & chroma_candidate
+    # flood fill 从画布边缘向内扩展，仅依赖距离阈值。
+    # chroma_candidate 对暗绿色背景误判率高，改为只用距离。
+    candidate = dist < tolerance
     visited = np.zeros((h, w), dtype=bool)
     q: deque[tuple[int, int]] = deque()
 
@@ -61,16 +63,16 @@ def _connected_background_mask(rgb: np.ndarray, bg: np.ndarray, tolerance: float
 
 
 def _defringe_visible_chroma(data: np.ndarray) -> np.ndarray:
-    """清掉已经透明化后仍可见的紫/绿描边。"""
+    """清掉已经透明化后仍可见的紫/绿描边 — 仅限极窄边缘，不伤角色。"""
     r, g, b, a = data[:, :, 0], data[:, :, 1], data[:, :, 2], data[:, :, 3]
     transparent = a < 8
     transparent_img = Image.fromarray((transparent.astype(np.uint8) * 255), mode="L")
-    # 放宽边缘带：Gemini img2img 常把纯紫底压成一圈暗紫/灰紫半透明边。
-    edge_band = np.array(transparent_img.filter(ImageFilter.MaxFilter(size=27)), dtype=np.uint8) > 0
+    # 只取 5px 边缘带（原来 27px 太宽，会吃掉角色）
+    edge_band = np.array(transparent_img.filter(ImageFilter.MaxFilter(size=5)), dtype=np.uint8) > 0
 
-    purple = (a > 8) & edge_band & (r > g + 8) & (b > g + 8) & (((r + b) * 0.5) > g + 12)
-    blue_purple = (a > 8) & edge_band & (b > g + 10) & (r > g + 2)
-    green = (a > 8) & edge_band & (g > r + 12) & (g > b + 12)
+    purple = (a > 8) & edge_band & (r > g + 12) & (b > g + 12) & (((r + b) * 0.5) > g + 18)
+    blue_purple = (a > 8) & edge_band & (b > g + 15) & (r > g + 5)
+    green = (a > 8) & edge_band & (g > r + 15) & (g > b + 15)
     fringe = purple | blue_purple | green
     if not np.any(fringe):
         return data
@@ -78,12 +80,12 @@ def _defringe_visible_chroma(data: np.ndarray) -> np.ndarray:
     # 最外层色键污染不做灰化，直接透明，避免在深色背景上出现灰边。
     data[:, :, 3][fringe] = 0
 
-    # 对紧邻透明区域的低 alpha 雾边再收一次。
+    # 对紧邻透明区域的低 alpha 雾边再收一次 — 只收 3px（原来 9px 太宽）。
     r, g, b, a = data[:, :, 0], data[:, :, 1], data[:, :, 2], data[:, :, 3]
     transparent = a < 8
     transparent_img = Image.fromarray((transparent.astype(np.uint8) * 255), mode="L")
-    tight_edge = np.array(transparent_img.filter(ImageFilter.MaxFilter(size=9)), dtype=np.uint8) > 0
-    edge_haze = tight_edge & (a > 0) & (a < 96)
+    tight_edge = np.array(transparent_img.filter(ImageFilter.MaxFilter(size=3)), dtype=np.uint8) > 0
+    edge_haze = tight_edge & (a > 0) & (a < 64)
     data[:, :, 3][edge_haze] = 0
 
     return data
@@ -101,10 +103,10 @@ def remove_chroma_background(path: str, out_path: str | None = None) -> None:
 
     bg_mask = _connected_background_mask(rgb, bg)
 
-    # 扩大一点背景区域，吃掉紧贴人物的色边。
+    # 扩大一点背景区域，吃掉紧贴人物的色边 — 只扩 1 像素（用 3x3 MaxFilter），避免吃掉角色。
     bg_img = Image.fromarray((bg_mask.astype(np.uint8) * 255), mode="L")
     bg_expanded = bg_img.filter(ImageFilter.MaxFilter(size=3))
-    bg_soft = bg_expanded.filter(ImageFilter.GaussianBlur(radius=1.2))
+    bg_soft = bg_expanded.filter(ImageFilter.GaussianBlur(radius=0.8))
     bg_alpha = np.array(bg_soft, dtype=np.float32) / 255.0
 
     alpha = data[:, :, 3]
@@ -112,16 +114,20 @@ def remove_chroma_background(path: str, out_path: str | None = None) -> None:
     data[:, :, 3] = np.clip(alpha, 0, 255)
 
     # 全局色键：处理人物手臂/烟杆/发丝围出的内部孔洞；这些区域不连到画布边缘，不能只靠 flood fill。
+    # 仅在已确认是背景色的区域应用，避免误删角色像素。
     r, g, b, a = data[:, :, 0], data[:, :, 1], data[:, :, 2], data[:, :, 3]
-    global_purple = (a > 0) & (r > g + 18) & (b > g + 18) & (((r + b) * 0.5) > g + 32)
-    global_green = (a > 0) & (g > r + 28) & (g > b + 28)
+    global_purple = (a > 0) & (r > g + 30) & (b > g + 30) & (((r + b) * 0.5) > g + 45)
+    global_green = (a > 0) & (g > r + 45) & (g > b + 45)
     data[:, :, 3][global_purple | global_green] = 0
 
-    # 第一遍：处理半透明色边。
+    # 第一遍：处理半透明色边 — 仅限紧邻透明区域的极窄边缘（3px）。
     r, g, b, a = data[:, :, 0], data[:, :, 1], data[:, :, 2], data[:, :, 3]
-    edge = (a > 3) & (a < 245)
-    purple = edge & (r > g + 8) & (b > g + 8)
-    green = edge & (g > r + 8) & (g > b + 8)
+    transparent_for_edge = a < 8
+    transparent_img_edge = Image.fromarray((transparent_for_edge.astype(np.uint8) * 255), mode="L")
+    narrow_edge = np.array(transparent_img_edge.filter(ImageFilter.MaxFilter(size=3)), dtype=np.uint8) > 0
+    edge = narrow_edge & (a > 3) & (a < 245)
+    purple = edge & (r > g + 12) & (b > g + 12)
+    green = edge & (g > r + 15) & (g > b + 15)
     fringe = purple | green
     if np.any(fringe):
         neutral = np.median(data[~bg_mask & (a > 200), :3], axis=0) if np.any(~bg_mask & (a > 200)) else np.array([120, 100, 85])

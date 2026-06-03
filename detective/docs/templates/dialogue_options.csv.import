@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://0web4uchi88c"
+
+[deps]
+
+files=["res://docs/templates/dialogue_options.node.translation", "res://docs/templates/dialogue_options.order.translation", "res://docs/templates/dialogue_options.text.translation", "res://docs/templates/dialogue_options.goto.translation", "res://docs/templates/dialogue_options.type.translation", "res://docs/templates/dialogue_options.requires.translation", "res://docs/templates/dialogue_options.en.translation", "res://docs/templates/dialogue_options.en.translation", "res://docs/templates/dialogue_options.en.translation", "res://docs/templates/dialogue_options.en.translation"]
+
+source_file="res://docs/templates/dialogue_options.csv"
+dest_files=["res://docs/templates/dialogue_options.node.translation", "res://docs/templates/dialogue_options.order.translation", "res://docs/templates/dialogue_options.text.translation", "res://docs/templates/dialogue_options.goto.translation", "res://docs/templates/dialogue_options.type.translation", "res://docs/templates/dialogue_options.requires.translation", "res://docs/templates/dialogue_options.en.translation", "res://docs/templates/dialogue_options.en.translation", "res://docs/templates/dialogue_options.en.translation", "res://docs/templates/dialogue_options.en.translation"]
+
+[params]
+
+compress=true
+delimiter=0
+unescape_keys=false
+unescape_translations=true

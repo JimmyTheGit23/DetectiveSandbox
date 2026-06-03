@@ -6,12 +6,14 @@ uid="uid://dgam0pr3bxjve"
 
 [deps]
 
-files=["res://data/case_tables/linchuan_inn/day_events.order.translation", "res://data/case_tables/linchuan_inn/day_events.title.translation", "res://data/case_tables/linchuan_inn/day_events.hint.translation", "res://data/case_tables/linchuan_inn/day_events.trigger.translation", "res://data/case_tables/linchuan_inn/day_events.effects.translation", "res://data/case_tables/linchuan_inn/day_events.auto.translation", "res://data/case_tables/linchuan_inn/day_events.writer.translation"]
+files=["res://data/case_tables/linchuan_inn/day_events.order.translation", "res://data/case_tables/linchuan_inn/day_events.title.translation", "res://data/case_tables/linchuan_inn/day_events.hint.translation", "res://data/case_tables/linchuan_inn/day_events.trigger.translation", "res://data/case_tables/linchuan_inn/day_events.effects.translation", "res://data/case_tables/linchuan_inn/day_events.en.translation", "res://data/case_tables/linchuan_inn/day_events.en.translation"]
 
 source_file="res://data/case_tables/linchuan_inn/day_events.csv"
-dest_files=["res://data/case_tables/linchuan_inn/day_events.order.translation", "res://data/case_tables/linchuan_inn/day_events.title.translation", "res://data/case_tables/linchuan_inn/day_events.hint.translation", "res://data/case_tables/linchuan_inn/day_events.trigger.translation", "res://data/case_tables/linchuan_inn/day_events.effects.translation", "res://data/case_tables/linchuan_inn/day_events.auto.translation", "res://data/case_tables/linchuan_inn/day_events.writer.translation"]
+dest_files=["res://data/case_tables/linchuan_inn/day_events.order.translation", "res://data/case_tables/linchuan_inn/day_events.title.translation", "res://data/case_tables/linchuan_inn/day_events.hint.translation", "res://data/case_tables/linchuan_inn/day_events.trigger.translation", "res://data/case_tables/linchuan_inn/day_events.effects.translation", "res://data/case_tables/linchuan_inn/day_events.en.translation", "res://data/case_tables/linchuan_inn/day_events.en.translation"]
 
 [params]
 
 compress=1
 delimiter=0
+unescape_keys=false
+unescape_translations=true

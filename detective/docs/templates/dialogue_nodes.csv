@@ -1,0 +1,8 @@
+npc_id,node_id,is_start,text,emotion,set_flags,gain_evidence,gain_clue,trigger_confrontation,confrontation_key,end,writer_note
+npc_1,hub,true,NPC1的开场白。,,,,,,,,
+npc_1,intro,,,,npc1_talked_once,,,,,,
+npc_1,ask_topic1,,,,,,,,,,
+npc_1,show_evidence1,,,,,,,,,,
+npc_1,confession,,,,confrontation_triggered,,,True,,,
+npc_2,hub,true,NPC2的开场白。,,,,,,,,
+npc_2,intro,,,,npc2_talked_once,,,,,,

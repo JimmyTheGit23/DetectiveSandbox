@@ -1,0 +1,7 @@
+node_id,type,background,next,centered,end,portrait,emotion,fx,effect
+opening_1,,res://assets/cn/scenes/opening.png,opening_2,true,,,,
+opening_2,,res://assets/cn/scenes/opening.png,opening_3,true,,,,
+opening_3,,res://assets/cn/scenes/opening.png,scene_1,true,,,,
+scene_1,,res://assets/cn/scenes/scene_1.png,scene_2,,,,,
+scene_2,,res://assets/cn/scenes/scene_1.png,scene_3,,,res://assets/cn/portraits/npc_1.png,,
+scene_3,,res://assets/cn/scenes/scene_1.png,,,,res://assets/cn/portraits/player.png,serious,,

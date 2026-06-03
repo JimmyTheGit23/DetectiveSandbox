@@ -15,3 +15,5 @@ dest_files=["res://data/case_tables/prologue_ferry/confrontations.suspect.transl
 
 compress=1
 delimiter=0
+unescape_keys=false
+unescape_translations=true
