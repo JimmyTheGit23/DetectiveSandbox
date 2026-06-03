@@ -89,12 +89,16 @@ CHARACTERS = {
     },
     "zhou_wife": {
         "name": "周氏",
-        "description": "A 35-year-old Chinese woman (merchant's wife) from the Ming Dynasty era. Disheveled long black hair falling over face, white mourning robe. Pretty face contorted with grief. Tear stains on cheeks. Semi-realistic anime illustration style (半写实古风插画).",
+        "description": "A 35-year-old Chinese woman (merchant's wife) from the Ming Dynasty era. Oval face with slightly prominent cheekbones suggesting strong will. Almond-shaped eyes with downturned outer corners giving a perpetual look of sorrow, but sharp and shrewd pupils revealing her merchant's acumen. Willow-leaf eyebrows with a deep furrow between them from constant worry. Straight nose with slightly wide nostrils suggesting good fortune. Thin lips with corners turned down, hinting at both bitterness and grief. Fair skin with a small mole below her left eye (tear mole) and faint freckles across the bridge of her nose. Hair parted in the middle, pulled back in a simple bun with a few loose strands framing her face, held by a plain wooden hairpin. White mourning robe with round collar. Semi-realistic anime illustration style (半写实古风插画).",
         "emotions": {
-            "base": "grief-stricken expression, tears on face, clutching at own robe",
-            "screaming": "mouth wide open screaming, hair wild, hands reaching out aggressively, rage and grief",
-            "trembling": "arms wrapped around self, lips trembling, eyes unfocused, shaking",
-            "silent": "head bowed, long hair covering face, still and quiet, hollow exhausted look",
+            "base": "grief-stricken expression, tears on face, clutching at own robe, eyes red from crying but sharp with suspicion",
+            "screaming": "mouth wide open screaming, hair wild, hands reaching out aggressively, rage and grief, tear mole visible on left cheek",
+            "trembling": "arms wrapped around self, lips trembling, eyes unfocused, shaking, tear mole accentuating her sorrow",
+            "silent": "head bowed, long hair covering face, still and quiet, hollow exhausted look, tear mole visible through hair strands",
+            "accusing": "finger pointing accusingly, eyes blazing with anger and grief, mouth set in a firm line of accusation, tear mole prominent on left cheek, posture rigid with righteous fury",
+            "suspicious": "eyes narrowed with suspicion, head tilted slightly, one eyebrow raised, lips pressed together in a thin line of doubt, tear mole visible as she studies someone intently",
+            "interrogating": "leaning forward aggressively, eyes sharp and piercing, mouth open mid-question, hands gesturing emphatically, tear mole accentuating her intense focused expression",
+            "relieved": "softened expression, eyes still red but with a glimmer of peace, lips slightly parted in a sigh of relief, tear mole visible as tension leaves her face, shoulders relaxing"
         }
     },
     "fisherman_wang": {
