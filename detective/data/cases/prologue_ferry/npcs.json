@@ -3,61 +3,55 @@
   "agui": {
     "name": "阿贵",
     "title": "死者仆从",
-    "intro": "跟随周德茂十二年的老仆。",
+    "intro": "跟随周德茂十二年的老仆，受怨恨与银钱诱导卷入沉船局。",
     "dialogue": "agui",
     "portrait": "res://assets/cn/portraits/prologue_agui.png"
   },
-"fisherman_wang": {
-  "name": "王大爷",
-  "title": "江边伪证者",
-  "intro": "下游渔村的老渔翁，被沈清月以银钱收买的棋子，捏造虚假目击证词。",
-  "dialogue": "fisherman_wang",
-  "portrait": "res://assets/cn/portraits/prologue_fisherman_wang.png"
-},
+  "fisherman_wang": {
+    "name": "王大爷",
+    "title": "江边渔翁",
+    "intro": "下游渔村的老渔翁，被周氏给了几两银子请来\"补几句\"，当堂替主家伸冤。",
+    "dialogue": "fisherman_wang",
+    "portrait": "res://assets/cn/portraits/prologue_fisherman_wang.png"
+  },
   "lao_fan": {
     "name": "老范",
     "title": "石矶渡船家",
-    "intro": "在这段江面跑了二十年船的老船家。",
+    "intro": "在这段江面跑了二十年船的老船家，熟悉沉船骗保的河道门道。",
     "dialogue": "lao_fan",
     "portrait": "res://assets/cn/portraits/prologue_lao_fan.png"
   },
   "li_zheng": {
     "name": "钱里正",
     "title": "石矶渡里正",
-    "intro": "地方小吏，圆滑世故。",
+    "intro": "地方小吏，圆滑世故，熟知河上骗保陋习却畏惧担责。",
     "dialogue": "li_zheng",
     "portrait": "res://assets/cn/portraits/prologue_li_zheng.png"
   },
-"lu_zhao": {
-  "name": "陆昭",
-  "title": "巡按御史",
-  "intro": "玩家本人。途经石矶渡时被卷入命案。",
-  "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
-},
-"xia_lingyao": {
-  "name": "凌瑶",
-  "title": "金鳞镖局首席镖师",
-  "intro": "金鳞镖局首席镖师，押送急件路过石矶渡。这是她头一回参与查案。",
-  "portrait": "res://assets/cn/portraits/companion_lingyao.png"
-},
+  "lu_zhao": {
+    "name": "陆昭",
+    "title": "巡按御史",
+    "intro": "玩家本人。奉旨南下暗查漕运账弊，途经石矶渡时被卷入命案。",
+    "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png"
+  },
   "shen_qingyue": {
     "name": "沈清月",
     "title": "药材商之女兼讼师",
-    "intro": "金陵沈家药材行之女，兼通律法，受周氏之托出面协助审理此案。",
+    "intro": "浔阳沈氏药材行独女，兼通讼理与草药毒理。以讼师身份介入此案，最终从辩方走到被告席。",
     "dialogue": "shen_qingyue",
     "portrait": "res://assets/cn/portraits/prologue_shen_qingyue.png"
   },
   "victim_zhou_demao": {
     "name": "周德茂",
     "title": "死者 · 布商",
-    "intro": "荆江布商，携五十两货银乘夜船过江，清晨被发现溺亡在石矶渡江边。",
+    "intro": "荆江布商，携五十两货银乘夜船过江；其货物中疑似藏有与漕运账目有关的残页。",
     "always_in_notebook": true,
     "is_victim": true
   },
   "zhou_wife": {
     "name": "周氏",
     "title": "死者妻子",
-    "intro": "周德茂之妻。",
+    "intro": "周德茂之妻，悲痛之下被人暗中引导，将矛头指向同船幸存的陆昭。",
     "dialogue": "zhou_wife",
     "portrait": "res://assets/cn/portraits/prologue_zhou_wife.png"
   },

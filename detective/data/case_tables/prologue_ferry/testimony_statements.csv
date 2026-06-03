@@ -52,24 +52,14 @@ shen_testimony_2,sf2_4,沈清月,那天晚上亥时之前我就回了客栈。�
 shen_testimony_3,sf3_1,沈清月,就算我在码头待到深夜。盯着自己的债务人——合情合理。这不叫犯罪。,,,,,,,
 shen_testimony_3,sf3_2,沈清月,你有的只是：一个赌鬼的指认、一个杀人犯的攀咬、和一个老渔翁在黑夜里看到的模糊身影。这些——够判死刑吗？,,true,evidence_dock_timing,evidence_father_ledger,,,
 shen_testimony_3,sf3_3,沈清月,就算……就算那笔账说得通。'有动机'和'做了'是两回事。你没有亲眼看到我教阿贵凿船——你永远证明不了。,,,,,,,
-<<<<<<< Updated upstream
-shen_testimony_3,sf3_4,沈清月,你没有任何能直接连到我身上的物证。没有物证，就算你的故事再漂亮，也只是故事。,,true,evidence_blue_herb_residue,,,,
-shen_testimony_3,sf3_5,沈清月,大明律——'疑罪从无'。你的推理再精妙，没有一条证据是铁板钉钉的。陆公子，公堂上赢的不是故事，是证据。,,,,,,,
-=======
 shen_testimony_3,sf3_4,沈清月,你没有任何能直接连到我身上的物证。没有物证，就算你的故事再漂亮，也只是故事。,,true,evidence_drug_capsule_shell,,,,
+shen_testimony_3,sf3_5,沈清月,大明律——'疑罪从无'。你的推理再精妙，没有一条证据是铁板钉钉的。陆公子，公堂上赢的不是故事，是证据。,,,,,,,
 shen_testimony_4,sf4_1,沈清月,周德茂落水前是否失力，你们没有亲眼看见。江水能让人抽筋，也能让人缠上水草。,,,,,,,
 shen_testimony_4,sf4_2,沈清月,糯米胶薄膜？码头上封鱼篓、糊船缝都用这东西。人人可得——无法唯一指向任何人。,,true,evidence_capsule_position_match,evidence_drug_capsule_shell,,,
 shen_testimony_4,sf4_3,沈清月,蓝色草药入淡水数刻便散，指甲缝和舌根残留也可能是江中水草。药理上无法定成毒杀。,,,,,,,
 shen_testimony_4,sf4_4,沈清月,油脂可来自江中鱼虾、可来自船板漆料。无法唯一指向人为投毒——更不能证明是我。,,true,evidence_oil_lock_residue,evidence_tongue_herb_residue,,,
->>>>>>> Stashed changes
 
 # === 王大爷自证对峙证词（指向主角） ===
 testimony_wang_self,wang_s1,王大爷,"那天夜里我在岸边收网。船翻之前，我看见陆公子和周老板在船头争执，影子清清楚楚。",,true,evidence_weather_fog,,,,
 testimony_wang_self,wang_s2,王大爷,"我还听见有人喊'银子'、'别走'。随后船身一晃，周老板就没了声。",,true,evidence_storm_noise,,,,
-<<<<<<< Updated upstream
-testimony_wang_self,wang_s3,王大爷,"周老板带着五十两货银，陆公子又是唯一活下来的外乡人。老头子不敢乱说，可这事……太巧。",,true,evidence_no_motive,,,,
-testimony_wang_self,wang_s4,王大爷,"船离岸不过几十丈，老头子在江上打了三十年鱼——这点距离看得一清二楚。船上人的动作、影子，全能看清。",,true,evidence_weather_fog,,,,
-testimony_wang_self,wang_s5,王大爷,"我还听见陆公子跟周老爷吵——说什么'这笔账不算完'。声音很大，在岸上都听得真真切切。",,true,evidence_storm_noise,,,,
-=======
 testimony_wang_self,wang_s3,王大爷,"周老板带着五十两货银，船翻之后银子没找着。里正问我这些话是不是能说明陆公子嫌疑最大，我……我没敢反驳。",,true,evidence_no_motive,,,,
->>>>>>> Stashed changes

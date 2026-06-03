@@ -28,7 +28,7 @@
   "evidence_salvage_mark": {
     "type": "evidence",
     "name": "下游打捞痕迹",
-    "description": "王大爷证词：天亮前他在下游浅滩看到有人用长竿探水打捞东西。那人穿深色衣裳，身量高挑——像个女子。天亮后那人就不见了。"
+    "description": "王大爷目击：天亮前他在下游浅滩看到有人用长竿探水打捞东西。那人穿深色衣裳，身量高挑——像个女子。天亮后那人就不见了。（注：此条目击与王大爷被沈清月银钱收买后'补说'的陆昭杀人证词无关——他在下游打渔时的所见是独立观察。）"
   },
   "evidence_shen_connection": {
     "type": "evidence",
@@ -227,7 +227,7 @@
   "evidence_neck_marks": {
     "type": "evidence",
     "name": "脖颈淡压痕",
-    "description": "死者脖颈侧面有极淡压痕，不像绳勒，更像昏迷前被人短暂压制过。说明他落水前可能已失去反抗能力。",
+    "description": "死者脖颈侧面有极淡压痕，不像绳勒或人为按压——更像呛水挣扎时磕碰船舱内壁所致。结合四肢麻痹的推定，死者落水后可能很快丧失了自救能力。",
     "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_neck_marks.png",
     "tags": [
       "autopsy"
@@ -237,40 +237,27 @@
   "evidence_drug_capsule_shell": {
     "type": "evidence",
     "name": "毒囊残壳",
-    "description": "沉船残骸进水口破洞边缘卡着的糯米鱼鳔胶薄膜碎片——是双层延时毒囊的外壳残片。位置恰好在凿船破洞处，证明有人提前登船、在进水口固定了遇水即溶的人造毒包。",
+    "description": "沉船残骸进水口破洞边缘卡着的糯米鱼鳔胶薄膜碎片。半透明、质地柔韧，遇水已大部分溶解——但这一片恰好被破洞木刺勾住，未能随水冲散。它是双层延时毒囊的外壳残片，证明有人提前登船、在进水口固定了遇水即溶的人造毒包。",
     "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_drug_capsule_shell.png",
     "tags": [
-      "poison",
       "capsule",
-      "hull"
+      "poison",
+      "wreck"
     ],
-    "phase": "phase_3"
+    "phase": "phase_2"
   },
   "evidence_capsule_position_match": {
     "type": "evidence",
     "name": "毒囊定位吻合",
-    "description": "毒囊残壳固定位置与船底人工破洞完全重合。只有精确知道凿船计划位置的人才能把毒囊放对地方——指向策划凿船的幕后人。",
+    "description": "毒囊残壳的固定位置与船底人工破洞完全重合。糯米胶的附着痕迹表明它是在船板被凿穿之前就固定好的——只有精确知道凿船位置的人，才能把毒囊放对地方。这条证据指向策划凿船的幕后人。",
     "hidden": true,
     "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_capsule_position_match.png",
     "tags": [
-      "poison",
       "capsule",
+      "position",
       "logic"
     ],
     "phase": "phase_3"
-  },
-  "evidence_oil_lock_residue": {
-    "type": "evidence",
-    "name": "油脂锁毒推定",
-    "description": "死者登船前多食油腻酒菜，舌根油脂阻滞毒素分解消散，形成锁药。沈清月的毒本应无迹可循——但油脂把证据留住了。",
-    "hidden": true,
-    "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_oil_lock_residue.png",
-    "tags": [
-      "poison",
-      "autopsy",
-      "logic"
-    ],
-    "phase": "phase_4"
   },
   "evidence_seal_lost": {
     "type": "evidence",
@@ -285,8 +272,8 @@
   },
   "evidence_seal_cloth_wrap": {
     "type": "evidence",
-    "name": "锦袋残线索",
-    "description": "一小片油布锦袋残角，边缘有官印匣上的朱砂痕。有人在沉船后打捞过陆昭的随身物。",
+    "name": "官印封角残片",
+    "description": "沉船打捞后发现：官印匣外封角有被人撕动痕迹——说明陆昭的御史身份从一开始就被人洞悉。有人在船难之前就动过这只匣子。",
     "hidden": true,
     "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_seal_cloth_wrap.png",
     "tags": [
@@ -329,5 +316,50 @@
     "description": "挂在墙边的斗篷下方滴着水，湿痕比刚上船时更重。像是有人在你入舱后又从外面进来过。",
     "hidden": true,
     "meta_clue": true
+  },
+  "evidence_tongue_herb_residue": {
+    "type": "evidence",
+    "name": "舌根草药残留",
+    "description": "死者舌根深处残留少量植物纤维，本应在淡水中数分钟内彻底失活分解——但被登船前多食油腻酒菜留下的油脂层包裹锁住，未能消散。这是麻痹毒经口腔进入的直接证据，却因'过期残迹'法律规则而在法理上被视为无效。",
+    "tags": [
+      "herb",
+      "autopsy",
+      "oil"
+    ],
+    "phase": "phase_2"
+  },
+  "evidence_oil_lock_residue": {
+    "type": "evidence",
+    "name": "油脂锁毒推定",
+    "description": "周德茂登船前在码头食摊吃了大量肥肉、油炸河鲜和烈酒——食盒和油纸上残着厚重油脂。口腔内的油脂层恰好将呛入的麻痹毒锁在舌根，阻滞其在淡水中分解。凶手本意是'毒素遇水即消、死无对证'——但油脂锁药，留下了本不该存在的残留。",
+    "tags": [
+      "meal",
+      "oil",
+      "poison"
+    ],
+    "phase": "phase_3"
+  },
+  "evidence_account_fragment": {
+    "type": "evidence",
+    "name": "漕账残页",
+    "description": "沉船打捞时发现夹在船板缝里的湿纸残页，字迹大多被泡烂，只剩'南京''漕''账'和一个洇开的'沈'字。它揭示周德茂并非普通布商——他手握漕运分赃残账，是黑网必须拔除的人。",
+    "hidden": true,
+    "meta_clue": true,
+    "tags": [
+      "ledger",
+      "mainplot"
+    ],
+    "phase": "phase_4"
+  },
+  "clue_agui_confession": {
+    "type": "evidence",
+    "name": "阿贵口供笔录",
+    "description": "阿贵在当堂对质中画押的书面供词。供词写道：'船底是小的凿的。浮囊是小的带的。凿船的位置、浮囊的来历——全是沈姑娘教的。'钱里正当堂记录、阿贵按了手印。这份口供是阿贵中BOSS对峙胜利的直接产物。",
+    "tags": [
+      "confession",
+      "agui",
+      "shen"
+    ],
+    "phase": "phase_3"
   }
 }

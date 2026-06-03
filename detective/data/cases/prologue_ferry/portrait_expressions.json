@@ -54,11 +54,12 @@
       "cold_smile": "res://assets/cn/portraits/prologue_shen_qingyue_cold_smile.png",
       "cracking": "res://assets/cn/portraits/prologue_shen_qingyue_cracking.png",
       "bold": "res://assets/cn/portraits/prologue_shen_qingyue_bold.png",
-      "cooperative": "res://assets/cn/portraits/prologue_shen_qingyue.png",
+      "cooperative": "res://assets/cn/portraits/prologue_shen_qingyue_cooperative.png",
       "sharp": "res://assets/cn/portraits/prologue_shen_qingyue_sharp.png",
-      "deflecting": "res://assets/cn/portraits/prologue_shen_qingyue.png",
+      "deflecting": "res://assets/cn/portraits/prologue_shen_qingyue_deflecting.png",
       "cold_fury": "res://assets/cn/portraits/prologue_shen_qingyue_cold_fury.png",
       "confrontation": "res://assets/cn/portraits/prologue_shen_qingyue_confrontation.png",
+      "objection": "res://assets/cn/portraits/prologue_shen_qingyue_sharp.png",
       "victory": "res://assets/cn/portraits/prologue_shen_qingyue_victory.png"
     },
     "res://assets/cn/portraits/prologue_zhou_wife.png": {

@@ -52,3 +52,4 @@ clue_cabin_wet_cloak,clue,,异常湿斗篷,"挂在墙边的斗篷下方滴着水
 evidence_tongue_herb_residue,evidence,,舌根草药残留,"死者舌根深处残留少量植物纤维，本应在淡水中数分钟内彻底失活分解——但被登船前多食油腻酒菜留下的油脂层包裹锁住，未能消散。这是麻痹毒经口腔进入的直接证据，却因'过期残迹'法律规则而在法理上被视为无效。",,False,,herb;autopsy;oil,phase_2,,
 evidence_oil_lock_residue,evidence,,油脂锁毒推定,"周德茂登船前在码头食摊吃了大量肥肉、油炸河鲜和烈酒——食盒和油纸上残着厚重油脂。口腔内的油脂层恰好将呛入的麻痹毒锁在舌根，阻滞其在淡水中分解。凶手本意是'毒素遇水即消、死无对证'——但油脂锁药，留下了本不该存在的残留。",,False,,meal;oil;poison,phase_3,,
 evidence_account_fragment,evidence,,漕账残页,"沉船打捞时发现夹在船板缝里的湿纸残页，字迹大多被泡烂，只剩'南京''漕''账'和一个洇开的'沈'字。它揭示周德茂并非普通布商——他手握漕运分赃残账，是黑网必须拔除的人。",True,True,,ledger;mainplot,phase_4,,
+clue_agui_confession,evidence,,阿贵口供笔录,"阿贵在当堂对质中画押的书面供词。供词写道：'船底是小的凿的。浮囊是小的带的。凿船的位置、浮囊的来历——全是沈姑娘教的。'钱里正当堂记录、阿贵按了手印。这份口供是阿贵中BOSS对峙胜利的直接产物。",False,False,,confession;agui;shen,phase_3,阿贵中BOSS对峙胜利后自动生成,

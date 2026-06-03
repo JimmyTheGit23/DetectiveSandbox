@@ -3,7 +3,7 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "……你就是那个同船的先生？我叫周德茂，做布匹生意。这次是去武昌府进一批棉布。",
+      "text": "……你就是那个同船的御史？我叫周德茂，做布匹生意。这次是去武昌府进一批棉布。",
       "emotion": "serious",
       "options": [
         {
@@ -136,21 +136,21 @@
           "emotion": "serious"
         },
         {
-          "text": "（他顿了顿，像是在斟酌用词）",
+          "text": "他顿了顿，像是在斟酌用词",
           "speaker_id": "narrator"
         },
         {
-          "text": "是个做药材的朋友。说这条船靠谱，船家跑了二十年。",
+          "text": "一个朋友介绍的。说这条船靠谱，船家跑了二十年。",
           "speaker_id": "zhou_de_gui_cabin",
           "emotion": "serious"
         },
         {
-          "text": "做药材的朋友？",
+          "text": "什么朋友？",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "text": "嗯。姓沈。以前在武昌做过药材生意。",
+          "text": "……名字记不太清了。做生意的。以前在石矶渡碰过面。",
           "speaker_id": "zhou_de_gui_cabin",
           "emotion": "serious"
         }
@@ -221,7 +221,7 @@
           "speaker_id": "narrator"
         },
         {
-          "text": "（铁撬棍的位置有点奇怪——挂在舱壁正中间，像是特意放在那里的。）",
+          "text": "铁撬棍的位置有点奇怪——挂在舱壁正中间，像是特意放在那里的。",
           "speaker_id": "narrator"
         },
         {

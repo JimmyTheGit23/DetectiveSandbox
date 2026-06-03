@@ -1487,8 +1487,15 @@ func _play_break_anim() -> void:
 
 
 func _after_break_dialogue() -> void:
-	# 检查当前证词是否有过渡对话（transition_dialogue）
 	var testimony: Dictionary = _testimonies[_current_testimony_idx]
+
+	# ── 中途授予证物：击破证词后自动获得新证物 ──
+	var grant_id: String = testimony.get("grant_evidence", "")
+	if grant_id != "" and not GameManager.collected_evidence.has(grant_id):
+		GameManager.collected_evidence.append(grant_id)
+		await _show_evidence_acquired_fx(grant_id)
+
+	# 检查当前证词是否有过渡对话（transition_dialogue）
 	var transition_dlg: Array = testimony.get("transition_dialogue", [])
 	if not transition_dlg.is_empty():
 		# 证人退场效果：立绘淡出
@@ -1505,6 +1512,79 @@ func _after_break_dialogue() -> void:
 		)
 	else:
 		_advance_to_next_testimony()
+
+
+## 中途获得新证物的演出：金色闪光 + 证物名 + "新证物入手！"
+func _show_evidence_acquired_fx(evidence_id: String) -> void:
+	var data: Dictionary = GameManager.evidence_data.get(evidence_id, {})
+	var ename: String = data.get("name", evidence_id)
+
+	var fx_layer := Control.new()
+	fx_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	fx_layer.mouse_filter = Control.MOUSE_FILTER_STOP
+	fx_layer.z_index = 105
+	_panel.add_child(fx_layer)
+
+	# 金色闪光背景
+	var flash := ColorRect.new()
+	flash.set_anchors_preset(Control.PRESET_FULL_RECT)
+	flash.color = Color(1.0, 0.88, 0.4, 0.0)
+	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fx_layer.add_child(flash)
+
+	# 居中容器
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fx_layer.add_child(center)
+
+	var vbox := VBoxContainer.new()
+	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	vbox.add_theme_constant_override("separation", 8)
+	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	center.add_child(vbox)
+
+	# "新证物入手！" 标题
+	var title_lbl := Label.new()
+	title_lbl.text = "新证物入手！"
+	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title_lbl.add_theme_font_size_override("font_size", 28)
+	title_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.55, 1.0))
+	title_lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+	title_lbl.add_theme_constant_override("outline_size", 4)
+	title_lbl.modulate.a = 0.0
+	vbox.add_child(title_lbl)
+
+	# 证物名称
+	var name_lbl := Label.new()
+	name_lbl.text = ename
+	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_lbl.add_theme_font_size_override("font_size", 36)
+	name_lbl.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3, 1.0))
+	name_lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+	name_lbl.add_theme_constant_override("outline_size", 5)
+	name_lbl.scale = Vector2(0.5, 0.5)
+	name_lbl.modulate.a = 0.0
+	vbox.add_child(name_lbl)
+
+	# 动画：闪光 → 文字缩放进入 → 停留 → 淡出
+	var tw := create_tween()
+	tw.tween_property(flash, "color:a", 0.6, 0.1)
+	tw.tween_property(flash, "color:a", 0.15, 0.3)
+	tw.parallel().tween_property(title_lbl, "modulate:a", 1.0, 0.15)
+	tw.parallel().tween_property(name_lbl, "modulate:a", 1.0, 0.15)
+	tw.parallel().tween_property(name_lbl, "scale", Vector2(1.05, 1.05), 0.2).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	tw.tween_property(name_lbl, "scale", Vector2(1.0, 1.0), 0.1)
+	# 震屏
+	tw.parallel().tween_callback(func(): _shake_screen(6.0, 4, 0.02))
+	# 停留
+	tw.tween_interval(1.5)
+	# 淡出
+	tw.tween_property(flash, "color:a", 0.0, 0.4)
+	tw.parallel().tween_property(title_lbl, "modulate:a", 0.0, 0.3)
+	tw.parallel().tween_property(name_lbl, "modulate:a", 0.0, 0.3)
+	tw.tween_callback(fx_layer.queue_free)
+	await tw.finished
 
 
 func _advance_to_next_testimony() -> void:

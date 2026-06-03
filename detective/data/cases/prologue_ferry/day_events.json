@@ -207,7 +207,7 @@
         },
         {
           "speaker": "凌瑶",
-          "text": "那是老范的船！只有他能在自己船上动这种手脚！那个赌鬼——他要弄死人捞钱！"
+          "text": "那是老范的船！只有他能在自己船上动这种手脚！那个船家——他有条件弄沉它！"
         },
         {
           "speaker": "陆昭",
@@ -646,7 +646,13 @@
             "evidence": "evidence_dock_timing"
           },
           {
-            "evidence": "evidence_herb_sachet"
+            "evidence": "evidence_drug_capsule_shell"
+          },
+          {
+            "evidence": "evidence_tongue_herb_residue"
+          },
+          {
+            "evidence": "evidence_oil_lock_residue"
           },
           {
             "not": {
@@ -658,11 +664,11 @@
       "narration": [
         {
           "speaker": "凌瑶",
-          "text": "陆大人。五条证据——货银未沉、打捞目击、中间人、时间矛盾，还有草药香囊。全指向沈清月。"
+          "text": "陆大人。核心证据齐了：货银未沉、打捞目击、中间人、时间矛盾、草药香囊，还有脚踝细痕、舌根药渣和油脂食盒。它们连成一条链，全指向沈清月。"
         },
         {
           "speaker": "凌瑶",
-          "text": "够了吧？这次是真正的对手。你准备好了吗？"
+          "text": "够了吧？这次不是靠直觉抓人，是用完整证据链去逼她开口。你准备好了吗？"
         },
         {
           "speaker": "陆昭",

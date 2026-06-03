@@ -703,6 +703,7 @@ static func _compile_case_data(src: String, base: Dictionary = {}) -> Dictionary
 		_set_if(testimony, "id", testimony_id)
 		_set_if(testimony, "witness", _cell(row, "witness"))
 		_set_if(testimony, "title", _cell(row, "title"))
+		_set_if(testimony, "grant_evidence", _cell(row, "grant_evidence"))
 		for section in ["preamble", "readthrough_end_hint", "transition_dialogue", "fail_dialogue"]:
 			var lines: Array = []
 			for x in testimony_lines_by_key.get("%s|%s" % [testimony_id, section], []):

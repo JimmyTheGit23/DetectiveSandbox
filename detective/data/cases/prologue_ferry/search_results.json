@@ -31,7 +31,20 @@
   "zhou_room.zhou_luggage": {
     "default": {
       "narration": "周氏的行李包袱。里面是几件换洗衣裳和一些碎银。没什么异常——但包袱底层有一张货单，列着五十两的布匹预付银。这笔钱现在不知所踪。",
-      "clue": "clue_cargo_money_record"
+      "clue": "clue_cargo_money_record",
+      "sub_choices": [
+        {
+          "text": "检查油纸食盒",
+          "narration": "包袱夹层里有一只压扁的油纸食盒，油脂厚得发亮。这是周德茂登船前在码头食摊吃的肥肉和油炸河鲜留下的——正是这层油脂锁住了舌根的毒素残留。",
+          "evidence": "evidence_oil_lock_residue",
+          "set_flags": [
+            "found_oil_lock_residue"
+          ],
+          "requires": {
+            "evidence": "evidence_tongue_herb_residue"
+          }
+        }
+      ]
     }
   },
   "agui_room.agui_clothes": {
@@ -118,6 +131,22 @@
           "set_flags": [
             "found_neck_marks"
           ]
+        },
+        {
+          "text": "检查口腔油脂层",
+          "narration": "你翻开死者下颌。舌根药渣周围覆着一层油脂薄膜——登船前吃的肥腻酒菜在口腔内形成了保护层，阻滞了毒素在淡水中分解。",
+          "evidence": "evidence_oil_lock_residue",
+          "set_flags": [
+            "found_oil_lock_residue"
+          ]
+        },
+        {
+          "text": "检查口舌残留",
+          "narration": "凌瑶用木片轻轻压开死者口舌。舌根深处竟还黏着一点蓝色草药渣，混着油腥气，不像江水水草。",
+          "evidence": "evidence_tongue_herb_residue",
+          "set_flags": [
+            "found_tongue_herb_residue"
+          ]
         }
       ]
     }
@@ -170,7 +199,20 @@
   "wreck_site.wreck_debris": {
     "default": {
       "narration": "散落的残骸中有断裂的船桨、泡水的草席，还有几截断钉。断钉上的痕迹新旧不一——有人在出事前不久动过这条船的结构。",
-      "evidence": "evidence_nail_marks"
+      "evidence": "evidence_nail_marks",
+      "sub_choices": [
+        {
+          "text": "检查进水口边缘",
+          "narration": "进水口破洞边缘勾着一片半透明薄膜——糯米鱼鳔胶的残片，形状规整，有人工裁切痕迹。它是遇水即溶的双层毒囊外壳，恰好被木刺卡住未能冲散。",
+          "evidence": "evidence_drug_capsule_shell",
+          "set_flags": [
+            "found_drug_capsule_shell"
+          ],
+          "requires": {
+            "evidence": "evidence_hull_hole"
+          }
+        }
+      ]
     }
   },
   "wreck_site.wreck_shore_bag": {
@@ -187,10 +229,10 @@
   },
   "shen_room.shen_bedside": {
     "default": {
-      "narration": "沉船残骸被打捞上岸后，你仔细检查了船底破洞。进水口边缘卡着一小片半透明的薄膜——不像木头碎片，更像是某种人工材料。用指甲轻轻一揭，它在指尖碎裂，散发出极淡的辛冷药味。这是某种遇水即溶的外壳残片。",
-      "evidence": "evidence_drug_capsule_shell",
+      "narration": "床边缝隙里卡着几根干草和一缕辛冷药香。再往里拨，找到了沈父药铺账本。最后一页写着父亲急需八十两药钱——这就是她铤而走险的表层动机。",
+      "evidence": "evidence_father_ledger",
       "set_flags": [
-        "found_drug_capsule_shell"
+        "found_father_ledger"
       ]
     }
   },
@@ -200,6 +242,19 @@
       "evidence": "evidence_seal_cloth_wrap",
       "set_flags": [
         "found_seal_cloth_wrap"
+      ],
+      "sub_choices": [
+        {
+          "text": "翻看夹在船板间的湿纸",
+          "narration": "凌瑶又从两块船板夹缝里挑出一片湿纸。纸面几乎烂透，只剩“南京”“漕”“账”和一个被水洇开的“沈”字。",
+          "evidence": "evidence_account_fragment",
+          "set_flags": [
+            "found_account_fragment"
+          ],
+          "requires": {
+            "flag": "prologue_defeated"
+          }
+        }
       ]
     }
   },
