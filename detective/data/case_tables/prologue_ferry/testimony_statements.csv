@@ -2,7 +2,7 @@
 testimony_wang,wang_1,王大爷,那天夜里我在江上收网。亥时过后——听见东汊那边一声闷响。然后就看见船翻了。,,,,,,,
 testimony_wang,wang_2,王大爷,船翻之后，不到一刻钟——就有个人爬上了南岸。动作利索得很，不像是快淹死的人。,,,,,,,
 testimony_wang,wang_3,王大爷,还有一件事。翻船前一天傍晚，码头上有两个人碰面。一高一矮，说了'明天亥时''走东汊'。——不过跑船的人出发前合计路线，也正常。,,true,evidence_wrong_channel,,evidence_wrong_channel,,
-testimony_wang,wang_4,王大爷,那晚江面上雾是重了点……但风小了之后就散了些。收网的人眼力好，看东西比一般人准。,,true,evidence_weather_fog,,evidence_weather_fog,,
+testimony_wang,wang_4,王大爷,那晚江面上雾是重了点……但风小了之后就散了些。收网的人眼力好，看东西比一般人准。,,true,evidence_cabin_escape_time,,evidence_cabin_escape_time,,
 testimony_wang,wang_5,王大爷,翻船之后我还瞧见——沈姑娘在码头棚子底下，一直没走。她好像在等人。,,,,,,,
 testimony_lao_fan_route,fan_route_1,老范,那晚雨急，江面全是雾。船出码头时还稳，到了东汊才突然被浪顶了一下。,,,,,,,
 testimony_lao_fan_route,fan_route_2,老范,船底破开，是撞上暗礁和浪头后裂的。老船再结实，也经不住江水折腾。,,true,evidence_hull_hole,evidence_nail_marks,,,
@@ -60,6 +60,6 @@ shen_testimony_4,sf4_3,沈清月,蓝色草药入淡水数刻便散，指甲缝�
 shen_testimony_4,sf4_4,沈清月,油脂可来自江中鱼虾、可来自船板漆料。无法唯一指向人为投毒——更不能证明是我。,,true,evidence_oil_lock_residue,evidence_tongue_herb_residue,,,
 
 # === 王大爷自证对峙证词（指向主角） ===
-testimony_wang_self,wang_s1,王大爷,"那天夜里我在岸边收网。船翻之前，我看见陆公子和周老板在船头争执，影子清清楚楚。",,true,evidence_weather_fog,,,,
-testimony_wang_self,wang_s2,王大爷,"我还听见有人喊'银子'、'别走'。随后船身一晃，周老板就没了声。",,true,evidence_storm_noise,,,,
-testimony_wang_self,wang_s3,王大爷,"周老板带着五十两货银，船翻之后银子没找着。里正问我这些话是不是能说明陆公子嫌疑最大，我……我没敢反驳。",,true,evidence_no_motive,,,,
+testimony_wang_self,wang_s1,王大爷,"那天夜里我在岸边收网。船翻之前，我看见陆公子和周老板在船头争执，影子清清楚楚。",,true,evidence_cabin_escape_time,,,,
+testimony_wang_self,wang_s2,王大爷,"我还听见有人喊'银子'、'别走'。随后船身一晃，周老板就没了声。",,true,evidence_no_blunt_trauma,,,,
+testimony_wang_self,wang_s3,王大爷,"周老板带着五十两货银，船翻之后银子没找着。里正问我这些话是不是能说明陆公子嫌疑最大，我……我没敢反驳。",,true,evidence_float_bladder,,,,

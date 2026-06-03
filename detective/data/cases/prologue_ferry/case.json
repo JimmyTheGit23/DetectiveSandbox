@@ -206,16 +206,21 @@
             "speaker": "王大爷",
             "text": "那天夜里我在岸边收网。船翻之前，我看见陆公子和周老板在船头争执，影子清清楚楚。",
             "is_contradiction": true,
-            "counter_evidence": "evidence_weather_fog",
+            "counter_evidence": "evidence_cabin_escape_time",
             "break_dialogue": [
               {
                 "speaker": "你",
-                "text": "你说你在岸边看清了船头争执？先看案发夜的天气。",
+                "text": "你说你在岸边看清了船头争执？那我问你——船沉之后，我在哪里？",
                 "emotion": "cold"
               },
               {
                 "speaker": "你",
-                "text": "那夜江面浓雾极重，岸边到翻船处相隔百丈以上。隔着雨雾，你不可能看清船上人物身形。",
+                "text": "凌瑶的证词：船沉后我昏迷了大半个时辰才醒。船沉后不可能在一刻钟内清醒并爬上岸。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "你说看到\"陆公子和周老板在船头争执\"——可我当时已经昏迷不醒。一个昏迷的人，怎么跟人争执？",
                 "emotion": "cold"
               },
               {
@@ -225,12 +230,12 @@
               },
               {
                 "speaker": "沈清月",
-                "text": "陆公子，雾中看不清细节，不代表看不见轮廓。你不能只凭天气就说证人撒谎。",
+                "text": "陆公子，昏迷时间的长短因人而异。你不能只凭一个女子的证词就说证人撒谎。",
                 "emotion": "sharp"
               },
               {
                 "speaker": "你",
-                "text": "我说的不是细节。是身份。你所谓\"清清楚楚\"，从第一句开始就不成立。",
+                "text": "不是\"一个女子的证词\"。是救命恩人亲眼所见。你所谓\"清清楚楚\"，从第一句开始就不成立。",
                 "emotion": "cold"
               },
               {
@@ -245,16 +250,21 @@
             "speaker": "王大爷",
             "text": "我还听见有人喊'银子'、'别走'。随后船身一晃，周老板就没了声。",
             "is_contradiction": true,
-            "counter_evidence": "evidence_storm_noise",
+            "counter_evidence": "evidence_no_blunt_trauma",
             "break_dialogue": [
               {
                 "speaker": "你",
-                "text": "你还说听见了\"银子\"\"别走\"。可案发夜的风浪声，足够盖过整条江。",
+                "text": "你还说听见了\"银子\"\"别走\"。那我问你——你说我用铁器打了人。",
                 "emotion": "cold"
               },
               {
                 "speaker": "你",
-                "text": "狂风夹雨，浪拍船舷。站在岸边，连船上普通争执都听不清，更别说分辨具体词句。",
+                "text": "我验过尸体了。周德茂面色青紫、口鼻有泡沫——典型的溺亡特征。头部和身体没有钝器击打的痕迹。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "如果有人用铁器打了一个人——不可能不留伤痕。你说的\"铁器打人\"，从头到尾就是编的。",
                 "emotion": "cold"
               },
               {
@@ -263,18 +273,13 @@
                 "emotion": "evasive"
               },
               {
-                "speaker": "你",
-                "text": "刚才你说的是\"亲耳听见\"。现在变成\"后来提起\"？",
-                "emotion": "cold"
-              },
-              {
                 "speaker": "沈清月",
-                "text": "证人年纪大了，记忆先后混乱也不奇怪。陆公子，别把老人逼得太急。",
-                "emotion": "cooperative"
+                "text": "溺水者的尸体在江里泡了多日，什么痕迹都可能消失。大人不能因为\"现在看不到\"就断定\"当时不存在\"。",
+                "emotion": "sharp"
               },
               {
                 "speaker": "你",
-                "text": "证词可以模糊，但不能凭空补上最关键的动机词。",
+                "text": "没有钝器伤。周德茂是被淹死的，不是被打死的。你所谓\"亲耳听见铁器打人\"——不成立。",
                 "emotion": "cold"
               }
             ]
@@ -284,31 +289,31 @@
             "speaker": "王大爷",
             "text": "周老板带着五十两货银，船翻之后银子没找着。里正问我这些话是不是能说明陆公子嫌疑最大，我……我没敢反驳。",
             "is_contradiction": true,
-            "counter_evidence": "evidence_no_motive",
+            "counter_evidence": "evidence_float_bladder",
             "break_dialogue": [
               {
                 "speaker": "你",
-                "text": "最后，你说我为了五十两货银杀人。那我与周德茂有什么仇？有什么债？",
+                "text": "最后，你说我嫌疑最大。那我问你——阿贵的包袱里有什么？",
                 "emotion": "cold"
               },
               {
                 "speaker": "你",
-                "text": "我初到石矶渡，与他仅一面之缘。若为谋财，我为何还要把自己困在沉船里，几乎溺死？",
+                "text": "一只充好气的牛皮浮囊。表面有江水浸泡痕迹，泥沙卡在缝线里，河草挂在系绳上。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "一个\"不会水\"的仆从，提前充好气、带着浮囊上船——他不是\"以防万一\"，他是\"准备好要跳水\"。",
                 "emotion": "cold"
               },
               {
                 "speaker": "王大爷",
-                "text": "（额头冒汗）这……外乡人嘛，谁知道你心里想什么……",
+                "text": "（额头冒汗）这……那浮囊……也许是巧合……",
                 "emotion": "evasive"
               },
               {
-                "speaker": "你",
-                "text": "不知道，就不能作证。猜测不是证词。",
-                "emotion": "cold"
-              },
-              {
                 "speaker": "凌瑶",
-                "text": "他不是看错。他是把别人教他的话背出来了。",
+                "text": "巧合？充好气的浮囊、故意走暗礁航道、船底的人工凿痕——这叫巧合？",
                 "emotion": "determined"
               },
               {
@@ -1035,8 +1040,8 @@
             "speaker": "王大爷",
             "text": "那晚江面上雾是重了点……但风小了之后就散了些。收网的人眼力好，看东西比一般人准。",
             "is_contradiction": true,
-            "counter_evidence": "evidence_weather_fog",
-            "break_evidence": "evidence_weather_fog",
+            "counter_evidence": "evidence_cabin_escape_time",
+            "break_evidence": "evidence_cabin_escape_time",
             "press": [
               {
                 "speaker": "你",
