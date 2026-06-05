@@ -33,17 +33,17 @@ confrontation,intro_dialogue,6,凌瑶,,先让王大爷说那天夜里看见了�
 confrontation,intro_dialogue,7,,,"外面的雨越下越大。雨水顺着屋檐滴落，在地上汇成小溪。
 
 大堂里弥漫着潮湿的霉味和香烛的烟气。",narration
-confrontation,intro_dialogue,8,阿贵,,缩在角落，双手绞在一起，指节发白。嘴里喃喃着什么——听不清。,nervous
-confrontation,intro_dialogue,9,老范,,坐在门口，旱烟杆在手里转了一圈又一圈。烟锅早灭了，他没注意。,evasive
-confrontation,intro_dialogue,10,周氏,,红着眼，手里攥着帕子。帕子已经被攥得皱巴巴的——像她这些天的脸。,grief
-confrontation,intro_dialogue,11,王大爷,,靠在柱子上，双手抱胸。眼睛半睁半闭——像是在打盹，又像是在等什么。,evasive
+confrontation,intro_dialogue,8,,,阿贵缩在角落，双手绞在一起，指节发白。嘴里喃喃着什么——听不清。,narration
+confrontation,intro_dialogue,9,,,老范坐在门口，旱烟杆在手里转了一圈又一圈。烟锅早灭了，他没注意。,narration
+confrontation,intro_dialogue,10,,,周氏红着眼，手里攥着帕子。帕子已经被攥得皱巴巴的——像她这些天的脸。,narration
+confrontation,intro_dialogue,11,,,王大爷靠在柱子上，双手抱胸。眼睛半睁半闭——像是在打盹，又像是在等什么。,narration
 confrontation,intro_dialogue,12,凌瑶,,都到齐了。陆大人——开堂吧。我负责盯手，你负责盯嘴。,determined
 confrontation,intro_dialogue,13,,,"你扫视了一圈。六个人，六种心思。有人在装可怜，有人在装傻，有人在替别人算退路。
 
 而你——要把这层窗户纸捅破。",inner_thought
 confrontation,intro_dialogue,14,陆昭,,好。——那就从头说起。谁先说谎，谁先露底。,cold
 confrontation,victory_dialogue,0,阿贵,,…………,broken
-confrontation,victory_dialogue,1,阿贵,,瘫坐在地，双手抱头,broken
+confrontation,victory_dialogue,1,,,阿贵瘫坐在地，双手抱头。,narration
 confrontation,victory_dialogue,2,凌瑶,,……他不说话了。刚才那股喊冤的劲儿，像被人一盆冷水泼没了。,worried
 confrontation,victory_dialogue,3,陆昭,,阿贵。不成立的钝器指控、提前准备好的浮囊、船底的钉痕、十二年二两银子的遣散字据——四段证词，四重铁证。你还有什么话说？这次别替别人背词。,cold
 confrontation,victory_dialogue,4,阿贵,,……,broken
