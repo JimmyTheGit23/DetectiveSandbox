@@ -9,6 +9,12 @@ import subprocess
 import sys
 from pathlib import Path
 
+from portrait_generation_spec import (
+    NPC_KNEE_UP_SPEC,
+    chroma_background_phrase,
+    chroma_for_character,
+)
+
 ROOT = Path(__file__).resolve().parent.parent
 STYLE_REF = "assets/cn/portraits/companion_lingyao.png"
 API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
@@ -80,6 +86,7 @@ EMOTIONS = {
 
 def gen_one(char_key: str, emotion_key: str, emotion_desc: str, dry_run: bool = False) -> None:
     char = CHARACTERS[char_key]
+    chroma = chroma_for_character(char_key, char["desc"])
     filename = f"prologue_{char_key}_{emotion_key}.png"
     raw_path = f"assets/ai_raw/portraits/{char_key}_{emotion_key}_newstyle.png"
     transparent_path = f"assets/ai_raw/portraits/{char_key}_{emotion_key}_newstyle_transparent.png"
@@ -90,7 +97,8 @@ def gen_one(char_key: str, emotion_key: str, emotion_desc: str, dry_run: bool = 
         f"Keep the same clean anime line art, large expressive eyes, smooth cel-shading, vibrant colors. "
         f"But this is a DIFFERENT character: {char['desc']} "
         f"{emotion_desc} "
-        f"Half-body waist-up, three-quarter angle. Solid pure MAGENTA background #FF00FF, flat, no gradient. No text, no watermark."
+        f"{NPC_KNEE_UP_SPEC.framing_prompt} "
+        f"{chroma_background_phrase(chroma)} No text, no watermark."
     )
 
     cmd = [
@@ -98,7 +106,7 @@ def gen_one(char_key: str, emotion_key: str, emotion_desc: str, dry_run: bool = 
         "--output", raw_path,
         "--aspect-ratio", "2:3",
         "--reference", STYLE_REF,
-        "--chroma", "magenta",
+        "--chroma", chroma,
         "--remove-chroma",
         "--api-key", API_KEY,
         "--prompt", prompt,
@@ -118,6 +126,9 @@ def gen_one(char_key: str, emotion_key: str, emotion_desc: str, dry_run: bool = 
     pp_cmd = [
         sys.executable, "tools/postprocess_portrait.py",
         transparent_path, output_path,
+        "--target-width", str(NPC_KNEE_UP_SPEC.canvas_width),
+        "--target-height", str(NPC_KNEE_UP_SPEC.canvas_height),
+        "--padding", str(NPC_KNEE_UP_SPEC.crop_padding),
     ]
     result2 = subprocess.run(pp_cmd, cwd=str(ROOT), capture_output=True, text=True)
     if result2.returncode == 0:

@@ -27,7 +27,6 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	gui_input.connect(_on_background_clicked)
 	_typewriter = _TypewriterScript.new()
-	_typewriter.typing_sound_enabled = true
 	add_child(_typewriter)
 	_build_ui()
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-演员立绘批量生成器（Nano Banana Pro / Gemini 3 Pro Image）+ 紫底色键去背 + 标准化到 603×900 RGBA。
+演员立绘批量生成器（Nano Banana Pro / Gemini 3 Pro Image）+ 紫底色键去背 + 标准化到统一 NPC 立绘规格。
 
 依赖：
   - `~/.codebuddy/skills/AI绘图/scripts/generate_image.py`（nano-banana-pro skill）
@@ -31,23 +31,22 @@ import sys
 import time
 from pathlib import Path
 
+from portrait_generation_spec import NPC_KNEE_UP_SPEC, fit_subject_to_spec
+
 ROOT = Path(__file__).resolve().parent.parent
 SKILL_SCRIPT = Path.home() / ".codebuddy" / "skills" / "AI绘图" / "scripts" / "generate_image.py"
 
 DRAFT_DIR = ROOT / "assets" / "ai_raw" / "portraits"
 FINAL_DIR = ROOT / "assets" / "cn" / "portraits"
 
-# 立绘标准规格（与现有 8 张一致）
-PORTRAIT_W = 603
-PORTRAIT_H = 900
-
 # ---------------------------------------------------------------------------
-# 风格基底：明代江南古风、半身立绘、3/4 视角、纯 #FF00FF 紫底（用于色键去背）
+# 风格基底：明代江南古风、统一 NPC 膝上半身规格、纯 #FF00FF 紫底（用于色键去背）
 # ---------------------------------------------------------------------------
 STYLE_BASE = (
     "Ancient Chinese Ming Dynasty Jiangnan character portrait, painterly digital illustration "
-    "fused with traditional ink-wash brushwork. Half-body waist-up shot, three-quarter angle, "
+    "fused with traditional ink-wash brushwork. Three-quarter portrait, "
     "subject facing slightly toward camera-left, eye-level framing. "
+    f"{NPC_KNEE_UP_SPEC.framing_prompt}"
     "IMPORTANT: solid pure magenta background #FF00FF, completely flat, no gradient, no shadow on the background, "
     "background fills entire frame except the character silhouette — this background will be removed via chroma key. "
     "Sharp clean silhouette edges (no purple tint bleeding into hair / clothing). "
@@ -320,27 +319,19 @@ def find_actor(key: str) -> dict | None:
 # 后处理：色键 + 标准化
 # ---------------------------------------------------------------------------
 def postprocess_to_portrait(src: Path, out: Path) -> None:
-    """紫底色键去背 + autocrop + 缩放到 603x900 RGBA（保持比例 + 居底对齐）。"""
+    """紫底色键去背 + autocrop + 缩放到统一 NPC RGBA 规格。"""
     sys.path.insert(0, str(ROOT / "tools"))
-    from process_ai_assets import remove_magenta, autocrop  # type: ignore
+    from process_ai_assets import remove_magenta  # type: ignore
     from PIL import Image
     img = Image.open(src)
     img = remove_magenta(img)
-    img = autocrop(img, padding=4)
-    src_w, src_h = img.size
-    scale = min(PORTRAIT_W / src_w, PORTRAIT_H / src_h)
-    new_w = max(1, int(src_w * scale))
-    new_h = max(1, int(src_h * scale))
-    # 立绘是写实风（非像素），用 LANCZOS 而不是 NEAREST
-    resized = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
-    canvas = Image.new("RGBA", (PORTRAIT_W, PORTRAIT_H), (0, 0, 0, 0))
-    # 居底对齐：人物贴底，便于 UI 中显示
-    paste_x = (PORTRAIT_W - new_w) // 2
-    paste_y = PORTRAIT_H - new_h
-    canvas.paste(resized, (paste_x, paste_y), resized)
+    canvas = fit_subject_to_spec(img, NPC_KNEE_UP_SPEC)
     out.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(out, "PNG")
-    print(f"    [postprocess] → {out.relative_to(ROOT)}  ({PORTRAIT_W}x{PORTRAIT_H} RGBA)")
+    print(
+        f"    [postprocess] → {out.relative_to(ROOT)}  "
+        f"({NPC_KNEE_UP_SPEC.canvas_width}x{NPC_KNEE_UP_SPEC.canvas_height} RGBA)"
+    )
 
 
 # ---------------------------------------------------------------------------

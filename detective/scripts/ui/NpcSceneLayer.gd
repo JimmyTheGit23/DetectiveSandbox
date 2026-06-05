@@ -49,7 +49,7 @@ func _build_portrait() -> void:
 		var mat := ShaderMaterial.new()
 		mat.shader = shader
 		mat.set_shader_parameter("fade_bottom", 0.0)
-		mat.set_shader_parameter("fade_top", 0.05)
+		mat.set_shader_parameter("fade_top", 0.0)
 		mat.set_shader_parameter("fade_left", 0.10)
 		mat.set_shader_parameter("fade_right", 0.10)
 		_portrait.material = mat
@@ -75,7 +75,7 @@ func _build_multi_portrait(npc_id: String, slot_offset: Vector2) -> TextureRect:
 		var mat := ShaderMaterial.new()
 		mat.shader = shader
 		mat.set_shader_parameter("fade_bottom", 0.0)
-		mat.set_shader_parameter("fade_top", 0.06)
+		mat.set_shader_parameter("fade_top", 0.0)
 		mat.set_shader_parameter("fade_left", 0.12)
 		mat.set_shader_parameter("fade_right", 0.12)
 		tr.material = mat
@@ -116,7 +116,7 @@ func refresh_npcs(location_id: String) -> void:
 			_hide_portrait()
 			return
 		_current_npc_id = filtered[0]
-		_portrait.texture = load(portrait_path)
+		_portrait.texture = _load_portrait_texture(portrait_path)
 		_show_portrait()
 		return
 
@@ -147,7 +147,7 @@ func _switch_to_multi_mode(npc_ids: Array) -> void:
 			continue
 		var slot_offset: Vector2 = slots[i] if i < slots.size() else Vector2.ZERO
 		var tr: TextureRect = _build_multi_portrait(nid, slot_offset)
-		tr.texture = load(portrait_path)
+		tr.texture = _load_portrait_texture(portrait_path)
 		_portraits.append(tr)
 	_show_multi_portraits()
 
@@ -171,10 +171,7 @@ func _show_portrait() -> void:
 		_portrait_tween.kill()
 	_portrait.pivot_offset = _portrait.size / 2.0
 	_portrait.modulate = Color(1, 1, 1, 0)
-	# 沈清月立绘使用80%缩放，其他角色使用100%缩放
 	var target_scale := Vector2(1.0, 1.0)
-	if _current_npc_id == "shen_qingyue":
-		target_scale = Vector2(0.8, 0.8)
 	_portrait.scale = Vector2(0.95, 0.95)
 	_portrait_tween = create_tween()
 	_portrait_tween.set_parallel(true)
@@ -194,9 +191,6 @@ func _show_multi_portraits() -> void:
 		tr.visible = true
 		tr.modulate = Color(1, 1, 1, 0)
 		_portrait_tween.tween_property(tr, "modulate:a", 1.0, 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		# 沈清月立绘在多NPC模式下也使用80%缩放
-		if tr.name.contains("shen_qingyue"):
-			tr.scale = Vector2(0.8, 0.8)
 
 
 func _hide_portrait() -> void:
@@ -267,9 +261,13 @@ func show_companion() -> void:
 	var portrait_path: String = CompanionService.get_companion_portrait()
 	if portrait_path == "" or not ResourceLoader.exists(portrait_path):
 		return
-	_portrait.texture = load(portrait_path)
+	_portrait.texture = _load_portrait_texture(portrait_path)
 	_current_npc_id = "__companion__"
 	_show_portrait()
+
+
+func _load_portrait_texture(path: String) -> Texture2D:
+	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as Texture2D
 
 
 func restore_npc() -> void:

@@ -3,7 +3,7 @@ shader_type canvas_item;
 // 立绘边缘渐隐：让 sprite 底部、左侧（贴墙的一边）、右侧渐变到透明，
 // 使其自然融入对话框背景。
 uniform float fade_bottom : hint_range(0.0, 0.5) = 0.18;
-uniform float fade_top    : hint_range(0.0, 0.5) = 0.05;
+uniform float fade_top    : hint_range(0.0, 0.5) = 0.0;
 uniform float fade_left   : hint_range(0.0, 0.5) = 0.10;
 uniform float fade_right  : hint_range(0.0, 0.5) = 0.10;
 

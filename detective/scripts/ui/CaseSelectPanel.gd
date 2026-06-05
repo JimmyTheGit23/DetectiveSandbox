@@ -458,6 +458,7 @@ static func _ending_label(eid: String) -> String:
 	match eid:
 		"perfect": return "明镜高悬"
 		"good": return "真凶伏法"
+		"prologue_fixed": return "渡口余波"
 		"partial": return "擒贼一半"
 		"bad": return "冤狱再起"
 		"timeout": return "日暮途穷"
@@ -468,6 +469,7 @@ static func _ending_color(eid: String) -> Color:
 	match eid:
 		"perfect": return Color(0.60, 0.95, 0.55, 1)
 		"good": return Color(0.78, 0.85, 0.48, 1)
+		"prologue_fixed": return Color(0.78, 0.85, 0.48, 1)
 		"partial": return Color(0.90, 0.78, 0.35, 1)
 		"bad": return Color(0.92, 0.55, 0.45, 1)
 		"timeout": return Color(0.70, 0.62, 0.55, 1)
@@ -602,4 +604,3 @@ func _remove_action_bubble() -> void:
 	if _action_bubble and is_instance_valid(_action_bubble):
 		_action_bubble.queue_free()
 		_action_bubble = null
-

@@ -67,8 +67,11 @@
       "grief": "res://assets/cn/portraits/prologue_zhou_wife_silent.png",
       "screaming": "res://assets/cn/portraits/prologue_zhou_wife_screaming.png",
       "shocked": "res://assets/cn/portraits/prologue_zhou_wife_screaming.png",
+      "accusing": "res://assets/cn/portraits/prologue_zhou_wife_accusing.png",
+      "interrogating": "res://assets/cn/portraits/prologue_zhou_wife_interrogating.png",
+      "relieved": "res://assets/cn/portraits/prologue_zhou_wife_relieved.png",
       "silent": "res://assets/cn/portraits/prologue_zhou_wife_silent.png",
-      "suspicious": "res://assets/cn/portraits/prologue_zhou_wife_trembling.png",
+      "suspicious": "res://assets/cn/portraits/prologue_zhou_wife_suspicious.png",
       "trembling": "res://assets/cn/portraits/prologue_zhou_wife_trembling.png"
     }
   }

@@ -18,6 +18,8 @@ import numpy as np
 from rembg import remove
 from scipy.ndimage import binary_erosion
 
+from portrait_generation_spec import fit_subject_to_spec, spec_for_character
+
 # ─── Config ───
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
@@ -111,7 +113,7 @@ CHARACTERS = {
     },
     "shen_qingyue": {
         "name": "沈清月",
-        "description": "A 22-year-old Chinese young woman from the Ming Dynasty era, daughter of a herbal-medicine merchant in Xunyang. She wears MALE attire — a dark indigo or blue-green scholar's straight robe (青色直裰) with a cloth belt at the waist; her long jet-black hair is tied back high in a tight topknot or single high tail (NOT a court hairpin, NOT female updo). Tall and lean build, sharp intelligent almond eyes, well-defined eyebrows, striking handsome bearing (英气逼人). Despite the male clothes she is clearly a young woman — slender neck, softer jawline. She is the secret culprit who hides ruthless calculation behind a brisk merchant facade. Same semi-realistic Chinese historical anime illustration style as the reference (半写实古风插画), clean linework, soft shading.",
+        "description": "A 22-year-old Chinese young woman from the Ming Dynasty era, daughter of a herbal-medicine merchant in Xunyang. She wears MALE attire — a dark indigo or blue-green scholar's straight robe (青色直裰) with a cloth belt at the waist. Give her a strongly distinctive sharp merchant-antagonist identity: sleek black hair with a shorter, cleaner outer silhouette around the jaw and shoulders, only a compact tied-back section rather than long flowing heroine hair; NOT a fluffy ponytail, NOT a soft feminine updo, NOT widow-like loose hair. No beauty mark, no mole, no tear mole, no facial dot, no freckle. Face design must be notably different from Zhou's wife and Lingyao: a longer and narrower face, higher cheekbones, a straighter nose bridge, thinner controlled lips, narrower phoenix-almond eyes, slightly smaller irises, and straighter sharper brows. Her expression should read efficient, dry, incisive, and self-possessed rather than warm, tragic, gentle, or romantic. Tall and lean build, striking handsome bearing (英气逼人), more androgynous and severe than heroine-like. Despite the male clothes she is clearly a young woman — slender neck, softer jawline. She is the secret culprit who hides ruthless calculation behind a brisk merchant facade. Keep her clearly distinct from Zhou's wife and Lingyao: more composed, more severe, less warm, less tragic, less nurturing, less heroine-like. Her robe should stay a clean wine-burgundy and black scholar silhouette with no pale side inserts, no light underarm panels, and no stray light-colored cloth shapes that read like cutout residue. Same semi-realistic Chinese historical anime illustration style as the reference (半写实古风插画), clean linework, soft shading.",
         "emotions": {
             "base": "composed half-smile, arms loosely crossed, calm sharp gaze with a hint of mockery",
             "bold": "confident swaggering merchant pose, arms crossed firmly in front of chest, chin slightly lifted, one eyebrow arched, a brisk fearless half-smile, weight on one leg — the very picture of a sharp-tongued young debt collector who is unafraid of officials",
@@ -148,6 +150,7 @@ def generate_portrait(char_id, char_data, emotion_key, emotion_desc, ref_images,
     if client is None:
         raise RuntimeError("请先设置环境变量 GEMINI_API_KEY 或 GOOGLE_API_KEY")
 
+    spec = spec_for_character(char_id)
     prompt_parts = []
 
     # Existing-character variants must prioritize the character reference image.
@@ -158,13 +161,18 @@ def generate_portrait(char_id, char_data, emotion_key, emotion_desc, ref_images,
 
     # Build text prompt
     if emotion_key == "base":
+        composition = (
+            spec.framing_prompt
+            if spec is not None else
+            "COMPOSITION: 3/4 body portrait from head to knees. Character fills 85% of canvas height. Head near top, knees near bottom."
+        )
         text_prompt = f"""Generate a character portrait illustration with these exact specifications:
 
 CHARACTER: {char_data['description']}
 
 POSE AND EXPRESSION: {emotion_desc}
 
-COMPOSITION: 3/4 body portrait from head to knees. Character fills 85% of canvas height. Head near top, knees near bottom.
+{composition}
 
 BACKGROUND: Solid pure green (#00FF00) background. NO other elements in background.
 
@@ -172,6 +180,11 @@ STYLE: Match the semi-realistic Chinese historical anime illustration style of t
 
 IMPORTANT: NO TEXT. NO CHARACTERS/WRITING anywhere in the image. Pure green background only."""
     else:
+        composition = (
+            spec.framing_prompt
+            if spec is not None else
+            "COMPOSITION: Same 3/4 body portrait composition as the reference. Head to knees visible."
+        )
         text_prompt = f"""Generate an emotion variant of this character portrait.
 
 The character is the SAME person as the reference portrait provided. Keep the EXACT same face shape, hairstyle, clothing (every garment, color, collar style, belt, hat/headwear), body proportions, social class, gender presentation, and overall identity. Do NOT change them into a different character, do NOT alter the clothing color, do NOT swap male attire for female attire or vice versa.
@@ -180,7 +193,7 @@ ONLY change the expression and gesture to: {emotion_desc}
 
 CHARACTER: {char_data['description']}
 
-COMPOSITION: Same 3/4 body portrait composition as the reference. Head to knees visible.
+{composition}
 
 BACKGROUND: Solid pure green (#00FF00) background.
 
@@ -281,8 +294,11 @@ def despill_green(img):
     return Image.fromarray(arr.astype(np.uint8), 'RGBA')
 
 
-def fit_to_canvas(img, target_size):
-    """Autocrop transparent pixels, scale into target canvas, bottom-center aligned."""
+def fit_to_canvas(img, target_size, char_id):
+    """Autocrop transparent pixels, then fit to the character's portrait spec."""
+    spec = spec_for_character(char_id)
+    if spec is not None:
+        return fit_subject_to_spec(img, spec)
     if target_size is None:
         return img
     img = img.convert("RGBA")
@@ -369,7 +385,7 @@ def process_character(char_id, char_data, ref_images, only_emotions=None, force=
 
         print(f"    Running green despill...")
         final = despill_green(nobg)
-        final = fit_to_canvas(final, target_size)
+        final = fit_to_canvas(final, target_size, char_id)
 
         passed, sg, gd = verify_despill(final)
         status_str = "PASS" if passed else "WARN"
@@ -380,7 +396,10 @@ def process_character(char_id, char_data, ref_images, only_emotions=None, force=
 
         if emotion_key == "base":
             base_image = raw_img
-            target_size = output_path.size if hasattr(output_path, "size") else target_size
+            try:
+                target_size = final.size
+            except Exception:
+                pass
 
         time.sleep(3)
 

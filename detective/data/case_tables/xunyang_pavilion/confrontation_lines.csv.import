@@ -6,14 +6,12 @@ uid="uid://cib75deb141sf"
 
 [deps]
 
-files=["res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation"]
+files=["res://data/case_tables/xunyang_pavilion/confrontation_lines.section.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.order.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.speaker.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.speaker.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.text.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.emotion.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.portrait.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.portrait.translation"]
 
 source_file="res://data/case_tables/xunyang_pavilion/confrontation_lines.csv"
-dest_files=["res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.en.translation"]
+dest_files=["res://data/case_tables/xunyang_pavilion/confrontation_lines.section.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.order.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.speaker.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.speaker.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.text.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.emotion.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.portrait.translation", "res://data/case_tables/xunyang_pavilion/confrontation_lines.portrait.translation"]
 
 [params]
 
 compress=1
 delimiter=0
-unescape_keys=false
-unescape_translations=true

@@ -40,8 +40,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PORTRAIT_DIR = ROOT / "assets" / "cn" / "portraits"
 DRAFT_DIR = ROOT / "assets" / "ai_raw" / "portraits"
 
-PORTRAIT_W = 603
-PORTRAIT_H = 900
+from portrait_generation_spec import NPC_KNEE_UP_SPEC, autocrop_rgba, fit_subject_to_spec
 
 # ─── Gemini API 配置 ───
 GEMINI_MODEL = "gemini-2.5-flash-image"
@@ -53,7 +52,7 @@ RETRY_DELAY = 15  # seconds
 
 # ─── 老范角色基础描述 ───
 LAO_FAN_BASE = (
-    "Half-body portrait of a 50-55 year old Ming Dynasty river boatman (船家) "
+    "Three-quarter portrait of a 50-55 year old Ming Dynasty river boatman (船家) "
     "who has been running a ferry on the Jingjiang River for twenty years. "
     "Weathered dark tanned skin from years of sun and wind, lean muscular build visible "
     "through an open rough-spun earth-brown cotton tunic revealing his chest. "
@@ -75,8 +74,8 @@ STYLE_ANIME = (
     "but NOT chibi, NOT cartoon, NOT flat vector. "
     "The character should look like a high-quality anime character in a Chinese historical setting. "
     "Vibrant yet muted ink-tinted color palette. "
-    "Half-body waist-up shot, three-quarter angle, "
-    "subject facing slightly toward camera-left, eye-level framing. "
+    "Three-quarter portrait, subject facing slightly toward camera-left, eye-level framing. "
+    f"{NPC_KNEE_UP_SPEC.framing_prompt}"
     "IMPORTANT: solid pure magenta background #FF00FF, completely flat, no gradient, no shadow on the background, "
     "background fills entire frame except the character silhouette — this background will be removed via chroma key. "
     "Sharp clean silhouette edges — absolutely NO magenta tint bleeding into hair, clothing or skin. "
@@ -271,32 +270,6 @@ def remove_chroma(img: Image.Image, threshold: float = 40.0) -> Image.Image:
     return img
 
 
-def autocrop(img: Image.Image, padding: int = 4) -> Image.Image:
-    bbox = img.getbbox()
-    if bbox is None:
-        return img
-    left, top, right, bottom = bbox
-    left = max(0, left - padding)
-    top = max(0, top - padding)
-    right = min(img.width, right + padding)
-    bottom = min(img.height, bottom + padding)
-    return img.crop((left, top, right, bottom))
-
-
-def fit_to_portrait(img: Image.Image) -> Image.Image:
-    """缩放到 603×900，居底对齐。"""
-    src_w, src_h = img.size
-    scale = min(PORTRAIT_W / src_w, PORTRAIT_H / src_h)
-    new_w = max(1, int(src_w * scale))
-    new_h = max(1, int(src_h * scale))
-    resized = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
-    canvas = Image.new("RGBA", (PORTRAIT_W, PORTRAIT_H), (0, 0, 0, 0))
-    paste_x = (PORTRAIT_W - new_w) // 2
-    paste_y = PORTRAIT_H - new_h
-    canvas.paste(resized, (paste_x, paste_y), resized)
-    return canvas
-
-
 # ─── 主流程 ───
 
 def generate_one(variant: dict, api_key: str, dry_run: bool = False) -> bool:
@@ -328,8 +301,8 @@ def generate_one(variant: dict, api_key: str, dry_run: bool = False) -> bool:
 
     # 色键去背 + 标准化
     img = remove_chroma(img)
-    img = autocrop(img, padding=4)
-    img = fit_to_portrait(img)
+    img = autocrop_rgba(img, padding=NPC_KNEE_UP_SPEC.crop_padding)
+    img = fit_subject_to_spec(img, NPC_KNEE_UP_SPEC)
 
     # 保存终稿
     out_path = PORTRAIT_DIR / variant["filename"]

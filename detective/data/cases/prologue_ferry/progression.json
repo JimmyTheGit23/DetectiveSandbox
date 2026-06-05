@@ -4,8 +4,8 @@
     {
       "id": "phase_0",
       "title": "船舱夜话",
-      "description": "渡船启航。在船舱里与乘客们交谈，了解他们的身份。",
-      "hint": "和船舱里的三个人都聊聊。",
+      "description": "渡船启航。在船舱里检查随身物件，与乘客们交谈，确认这趟夜船哪里不对。",
+      "hint": "先检查自己的舱室，再问船上的三个人。线索齐了以后，整理疑点再休息。",
       "locations": [
         "cabin_lu_room",
         "cabin_agui_room",
@@ -63,8 +63,8 @@
     {
       "id": "phase_4",
       "title": "序章败局",
-      "description": "你已推到真相，却因香囊赝品翻盘无法当庭定罪。案件未结。",
-      "hint": "证据有问题——沈清月暂时无法定罪。回到码头寻找官印暗线，准备下一章。",
+      "description": "你已推到真相，却被毒物时效性和唯一指向性的法理反击挡住，无法当庭定罪。案件未结。",
+      "hint": "证据链能说明真相，但法理上还差最后一环。回到码头寻找官印暗线，准备下一章。",
       "locations": [
         "ferry_inn",
         "ferry_dock"
@@ -189,7 +189,7 @@
         ]
       },
       "locked_hint": "还没有足够理由搜到沈清月的床边细处。先确认尸体上的草药痕迹。",
-      "_comment": "沈父药账线索需先发现蓝色草药碎屑。"
+      "_comment": "沈父药账线索需先发现尸体草药残迹。"
     },
     "ferry_dock.dock_reed_seal": {
       "condition": {
@@ -235,16 +235,19 @@
             "evidence": "evidence_hull_hole"
           },
           {
+            "evidence": "evidence_nail_marks"
+          },
+          {
             "evidence": "evidence_float_bladder"
           },
           {
             "evidence": "evidence_no_blunt_trauma"
           },
           {
-            "evidence": "evidence_wrong_channel"
+            "clue": "evidence_wrong_channel"
           },
           {
-            "evidence": "clue_fan_alibi_hole"
+            "clue": "clue_fan_alibi_hole"
           },
           {
             "evidence": "evidence_dismissal_note"
@@ -254,7 +257,7 @@
           }
         ]
       },
-      "_comment": "阿贵中BOSS对质——需要船底破洞、浮囊、尸检、错误航道、老范时间矛盾、阿贵遣散动机、老范赌债。"
+      "_comment": "阿贵中BOSS对质——需要船底破洞、船底钉痕、浮囊、尸检、错误航道、老范时间矛盾、阿贵遣散动机、老范赌债。"
     },
     "confrontation_final": {
       "condition": {
@@ -266,13 +269,13 @@
             "evidence": "evidence_cargo_silver"
           },
           {
-            "evidence": "evidence_salvage_mark"
+            "clue": "evidence_salvage_mark"
           },
           {
-            "evidence": "evidence_shen_connection"
+            "clue": "evidence_shen_connection"
           },
           {
-            "evidence": "evidence_dock_timing"
+            "clue": "evidence_dock_timing"
           },
           {
             "evidence": "evidence_drug_capsule_shell"

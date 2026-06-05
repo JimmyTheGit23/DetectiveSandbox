@@ -17,12 +17,46 @@
           ]
         },
         {
+          "text": "行程简记写着东汊，谁定的？",
+          "goto": "ask_route_note",
+          "type": "press",
+          "requires": [
+            {
+              "all": [
+                {
+                  "flag": "cabin_route_note_checked"
+                },
+                {
+                  "not_flag": "cabin_explore_done"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "text": "这天气行船安全吗？",
           "goto": "ask_weather",
           "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "窗外风浪这么急，你还敢走？",
+          "goto": "ask_storm",
+          "type": "press",
+          "requires": [
+            {
+              "all": [
+                {
+                  "flag": "cabin_storm_window_checked"
+                },
+                {
+                  "not_flag": "cabin_explore_done"
+                }
+              ]
             }
           ]
         },
@@ -99,6 +133,48 @@
         }
       ]
     },
+    "ask_route_note": {
+      "set_flags": [
+        "cabin_lao_fan_talked",
+        "cabin_route_note_pressed"
+      ],
+      "lines": [
+        {
+          "text": "我的行程简记上写着东汊。这个渡口，是谁先提的？",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "客人上船前就问东汊。我只说能走，没说非走不可。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        },
+        {
+          "text": "你说能走。平水驿也说快。周老板也说有人介绍。几个人的话，倒像同一条线穿起来。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "大人说笑了。跑船就是看水，看客人急不急。哪来什么线不线的？",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive",
+          "record_type": "testimony",
+          "record_title": "老范证言：东汊路线",
+          "record_text": "老范称自己只是说东汊能走，并非主动要求所有人改走这条水路。",
+          "record_id": "record_cabin_lao_fan_route_note"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
     "ask_weather": {
       "set_flags": [
         "cabin_lao_fan_talked"
@@ -117,6 +193,48 @@
         {
           "text": "他转了转手里的旱烟杆，没点着",
           "speaker_id": "narrator"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_storm": {
+      "set_flags": [
+        "cabin_lao_fan_talked",
+        "cabin_storm_pressed"
+      ],
+      "lines": [
+        {
+          "text": "窗外浪头已经压到舷边。这样的夜里还走东汊？",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "再大的浪也有缝。老船家吃的就是这碗饭。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        },
+        {
+          "text": "你这碗饭，吃得太急了。",
+          "speaker_id": "lu_zhao",
+          "emotion": "cold"
+        },
+        {
+          "text": "急的是客人，不是我。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive",
+          "record_type": "testimony",
+          "record_title": "老范证言：风浪",
+          "record_text": "老范承认风浪不小，但坚持自己只是按客人催促继续夜渡。",
+          "record_id": "record_cabin_lao_fan_storm"
         }
       ],
       "options": [

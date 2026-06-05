@@ -326,9 +326,9 @@ func record_case_cleared(case_id: String, ending_id: String) -> Dictionary:
 	}
 
 
-## 比较两个 ending，返回"更好"的那个（perfect > good > partial > bad > timeout > ""）
+## 比较两个 ending，返回"更好"的那个（perfect > prologue_fixed/good > partial > bad > timeout > ""）
 func _best_ending(a: String, b: String) -> String:
-	const ORDER := ["timeout", "bad", "partial", "good", "perfect"]
+	const ORDER := ["timeout", "bad", "partial", "good", "prologue_fixed", "perfect"]
 	var ia := ORDER.find(a)
 	var ib := ORDER.find(b)
 	return a if ia >= ib else b

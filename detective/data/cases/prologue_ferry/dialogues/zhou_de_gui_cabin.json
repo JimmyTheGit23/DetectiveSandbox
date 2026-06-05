@@ -3,7 +3,7 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "……你就是那个同船的御史？我叫周德茂，做布匹生意。这次是去武昌府进一批棉布。",
+      "text": "……你就是那个同船的公子？我叫周德茂，做布匹生意。这次是去武昌府进一批棉布。",
       "emotion": "serious",
       "options": [
         {
@@ -23,6 +23,26 @@
           "requires": [
             {
               "not_flag": "cabin_explore_done"
+            }
+          ]
+        },
+        {
+          "text": "介绍夜船的那个朋友是谁？",
+          "goto": "ask_friend",
+          "type": "press",
+          "requires": [
+            {
+              "all": [
+                {
+                  "flag": "cabin_route_note_checked"
+                },
+                {
+                  "flag": "cabin_zhou_talked"
+                },
+                {
+                  "not_flag": "cabin_explore_done"
+                }
+              ]
             }
           ]
         },
@@ -47,8 +67,8 @@
           ]
         },
         {
-          "text": "夜深了，先休息",
-          "goto": "__exit__",
+          "text": "夜深了，整理疑点",
+          "goto": "sleep_review",
           "type": "observe",
           "requires": [
             {
@@ -63,13 +83,25 @@
                   "flag": "cabin_zhou_talked"
                 },
                 {
+                  "flag": "cabin_seal_box_checked"
+                },
+                {
+                  "flag": "cabin_route_note_checked"
+                },
+                {
+                  "flag": "cabin_storm_window_checked"
+                },
+                {
+                  "flag": "cabin_wet_cloak_checked"
+                },
+                {
+                  "not_flag": "cabin_review_done"
+                },
+                {
                   "not_flag": "cabin_explore_done"
                 }
               ]
             }
-          ],
-          "set_flags": [
-            "cabin_explore_done"
           ]
         },
         {
@@ -166,6 +198,48 @@
         }
       ]
     },
+    "ask_friend": {
+      "set_flags": [
+        "cabin_zhou_talked",
+        "cabin_friend_pressed"
+      ],
+      "lines": [
+        {
+          "text": "你说有个朋友介绍这条夜船。做生意的人，连介绍人名字都记不清？",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "萍水相逢罢了。石矶渡来往客多，我哪能个个记住。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "但你记住了他推荐的船。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "因为他讲得准。船家老范，东汊快，半日能到。做买卖的人听见快字，总会多信几分。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious",
+          "record_type": "testimony",
+          "record_title": "周德茂证言：介绍人",
+          "record_text": "周德茂称介绍夜船的人只是石矶渡偶遇的生意朋友，名字记不清，但对方准确说出了老范和东汊路线。",
+          "record_id": "record_cabin_zhou_friend"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
     "ask_servant": {
       "set_flags": [
         "cabin_zhou_talked"
@@ -237,6 +311,153 @@
         },
         {
           "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "sleep_review": {
+      "lines": [
+        {
+          "text": "雨声压着舱板，灯火在木壁上晃。你把今夜见过的东西一件件放回脑中。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "官印木匣、行程简记、湿斗篷、窗外风浪，还有周老板那个说不清的朋友。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "最不该忽略的是哪一点？",
+          "speaker_id": "narrator"
+        }
+      ],
+      "options": [
+        {
+          "text": "路线和天气都不对",
+          "goto": "review_route",
+          "type": "reason"
+        },
+        {
+          "text": "湿斗篷和门缝不对",
+          "goto": "review_cloak",
+          "type": "reason"
+        },
+        {
+          "text": "周老板说的朋友不对",
+          "goto": "review_friend",
+          "type": "reason"
+        },
+        {
+          "text": "官印木匣必须记牢",
+          "goto": "review_seal",
+          "type": "reason"
+        }
+      ]
+    },
+    "review_route": {
+      "set_flags": [
+        "cabin_review_done",
+        "cabin_review_route"
+      ],
+      "lines": [
+        {
+          "text": "平水驿、夜船、东汊、风雨。几件事合在一起，像有人把我和周德茂都推上了同一条路。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious",
+          "record_type": "key",
+          "record_title": "推理札记：夜船路线",
+          "record_text": "行程简记与风雨相互印证。这趟船不是单纯赶路，路线和时机都可能被人提前安排过。",
+          "record_id": "record_cabin_review_route"
+        },
+        {
+          "text": "你把行程简记夹进内袋。船身在雨夜里轻轻一顿，像是擦过了什么硬物。",
+          "speaker_id": "narrator"
+        }
+      ],
+      "options": [
+        {
+          "text": "睡下",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "review_cloak": {
+      "set_flags": [
+        "cabin_review_done",
+        "cabin_review_cloak"
+      ],
+      "lines": [
+        {
+          "text": "斗篷湿得不对。若只是门缝进风，不该在斗篷下积出那样一摊水。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious",
+          "record_type": "key",
+          "record_title": "推理札记：舱门湿痕",
+          "record_text": "异常湿斗篷说明陆昭入舱之后，自己的舱门附近可能又发生过进出或翻动。",
+          "record_id": "record_cabin_review_cloak"
+        },
+        {
+          "text": "你下意识看向舱门。雨声太重，门外若有人压低脚步，确实很难听见。",
+          "speaker_id": "narrator"
+        }
+      ],
+      "options": [
+        {
+          "text": "睡下",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "review_friend": {
+      "set_flags": [
+        "cabin_review_done",
+        "cabin_review_friend"
+      ],
+      "lines": [
+        {
+          "text": "周德茂急着赶路可以理解。但一个连名字都记不清的人，却能让他改信夜船和东汊。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious",
+          "record_type": "key",
+          "record_title": "推理札记：介绍人",
+          "record_text": "周德茂所谓的生意朋友可能不是随口推荐，而是把他引上这条夜船的关键人物。",
+          "record_id": "record_cabin_review_friend"
+        },
+        {
+          "text": "你记下“介绍人”三个字。墨色未干，窗外忽然闪过一道白光。",
+          "speaker_id": "narrator"
+        }
+      ],
+      "options": [
+        {
+          "text": "睡下",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "review_seal": {
+      "set_flags": [
+        "cabin_review_done",
+        "cabin_review_seal"
+      ],
+      "lines": [
+        {
+          "text": "官印木匣还在，锁也完好。只要它在，我就还是奉旨南下的巡按。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious",
+          "record_type": "key",
+          "record_title": "推理札记：官印木匣",
+          "record_text": "官印木匣此刻仍在陆昭舱中。它是身份凭据，一旦遗失，陆昭会立刻失去自证身份的依凭。",
+          "record_id": "record_cabin_review_seal"
+        },
+        {
+          "text": "你又按了一次锁舌。铜锁冰冷，雨夜也冰冷。",
+          "speaker_id": "narrator"
+        }
+      ],
+      "options": [
+        {
+          "text": "睡下",
           "goto": "__exit__"
         }
       ]

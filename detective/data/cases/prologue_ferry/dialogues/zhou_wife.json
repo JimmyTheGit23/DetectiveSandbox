@@ -227,11 +227,6 @@
           "emotion": "cold"
         },
         {
-          "text": "打发走？给多少遣散银？",
-          "speaker_id": "lu_zhao",
-          "emotion": "serious"
-        },
-        {
           "text": "老爷写了字据……二两。",
           "speaker_id": "zhou_wife",
           "emotion": "silent",
@@ -360,7 +355,7 @@
     },
     "comfort": {
       "text": "……你不像凶手。凶手不会还留在这里问话。\n\n里正让你查——你要是真能查出来……老爷的文书都在房间桌上。你看吧。",
-      "emotion": "grief",
+      "emotion": "relieved",
       "lines": [
         {
           "text": "节哀。我一定查清楚。",
@@ -370,12 +365,12 @@
         {
           "text": "……你不像凶手。凶手不会还留在这里问话。",
           "speaker_id": "zhou_wife",
-          "emotion": "grief"
+          "emotion": "relieved"
         },
         {
           "text": "里正让你查——你要是真能查出来……老爷的文书都在房间桌上。你看吧。",
           "speaker_id": "zhou_wife",
-          "emotion": "grief"
+          "emotion": "relieved"
         }
       ],
       "options": [
@@ -391,12 +386,12 @@
     },
     "ask_documents": {
       "text": "都在房间里。大人自己去看吧——遣散字据、货单都在桌上。\n\n（她指了指房间的方向。）",
-      "emotion": "suspicious",
+      "emotion": "relieved",
       "lines": [
         {
           "text": "都在房间里。大人自己去看吧——遣散字据、货单都在桌上。",
           "speaker_id": "zhou_wife",
-          "emotion": "suspicious"
+          "emotion": "relieved"
         },
         {
           "text": "都在房间里……多谢。",
@@ -593,7 +588,7 @@
         {
           "text": "还有人？！谁？！",
           "speaker_id": "zhou_wife",
-          "emotion": "grief"
+          "emotion": "interrogating"
         },
         {
           "text": "还在查。时间不多了——但会有结果。",

@@ -55,7 +55,7 @@
         }
       },
       {
-        "on": "evidence_obtained:clue_fan_alibi_hole",
+        "on": "clue_obtained:clue_fan_alibi_hole",
         "delta": {
           "composure": -1
         }

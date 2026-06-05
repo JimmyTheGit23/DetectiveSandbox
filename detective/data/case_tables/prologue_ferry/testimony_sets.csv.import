@@ -15,5 +15,3 @@ dest_files=["res://data/case_tables/prologue_ferry/testimony_sets.testimony.tran
 
 compress=1
 delimiter=0
-unescape_keys=false
-unescape_translations=true

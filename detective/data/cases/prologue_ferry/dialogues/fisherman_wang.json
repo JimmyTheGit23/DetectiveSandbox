@@ -170,7 +170,7 @@
     "ask_channel": {
       "text": "走的东汊那条。\n\n在这一带跑船的人都知道——东汊有暗礁。涨水没涨水都不能走。\n\n老范在这儿跑了二十年。他不知道？放屁！他比谁都知道！\n\n除非——他就是故意走那条路。",
       "emotion": "evasive",
-      "gain_evidence": "evidence_wrong_channel",
+      "gain_clue": "evidence_wrong_channel",
       "lines": [
         {
           "text": "走的东汊那条。",
@@ -206,7 +206,7 @@
           "emotion": "evasive"
         },
         {
-          "text": "故意走危险航道……除非他有把握自己能活下来。",
+          "text": "他不是赌命。他知道这趟船会沉。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
@@ -332,7 +332,7 @@
     "ask_dawn_sighting": {
       "text": "天还没亮的时候，老头子在下游浅滩看见一个人拿长竿探水。\n\n那人穿深色衣裳，身量高挑，不像老范，也不像阿贵。\n\n我当时离得远，不敢说死。但天一亮，那人就不见了。要不是后来听说货银也没找着，老头子还真以为是自己眼花。",
       "emotion": "evasive",
-      "gain_evidence": "evidence_salvage_mark",
+      "gain_clue": "evidence_salvage_mark",
       "lines": [
         {
           "text": "天还没亮的时候，老头子在下游浅滩看见一个人拿长竿探水。",

@@ -26,5 +26,5 @@ shen_room,shen_bedside,default,,,床边缝隙里卡着几根干草和一缕辛�
 ferry_dock,dock_reed_seal,default,,,雨后的芦苇伏在江边。你在泥水里捡到一小片油布锦袋残角，边缘有朱砂印泥的痕迹——像是官印匣上的封布。官印没有回来，但有人碰过它。,evidence_seal_cloth_wrap,,found_seal_cloth_wrap,,,
 cabin_lu_room,cabin_seal_box,default,,,木匣压在床边，铜锁还扣着。里面是官印、敕牒和巡按令牌。你伸手按了按锁舌——完好。至少此刻，你的身份还稳稳放在这里。,,clue_cabin_seal_box,cabin_seal_box_checked,,,
 cabin_lu_room,cabin_route_note,default,,,桌上压着一页行程简记：平水驿、石矶渡、夜船、东汊、武昌。东汊二字被一点水痕洇开。你想起驿丞说过“这条水路快”——但他没提过夜里的风浪。,,clue_cabin_route_note,cabin_route_note_checked,,,
-cabin_lu_room,cabin_storm_window,default,,,窗外一道闪电照亮江面。船身随浪轻轻一偏，油灯火苗被风压得发蓝。这样的天气还要夜渡，急的不是路，是人。,,clue_cabin_storm_window,cabin_storm_window_checked,,,
+cabin_lu_room,cabin_storm_window,default,,,窗外一道闪电照亮江面。船身随浪轻轻一偏，油灯火苗被风压得发蓝。这样的天气还要夜渡，也太急了些。,,clue_cabin_storm_window,cabin_storm_window_checked,,,
 cabin_lu_room,cabin_wet_cloak,default,,,墙边斗篷下已经积了一小摊水。你上船时明明拧过水，如今却像又淋过一场雨。门缝里灌来冷风，带着淡淡的江腥味。,,clue_cabin_wet_cloak,cabin_wet_cloak_checked,,,

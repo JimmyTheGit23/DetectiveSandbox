@@ -3,8 +3,8 @@
   "events": [
     {
       "id": "evt_cabin_return_to_room",
-      "title": "夜深了",
-      "hint": "（你回到了自己的舱室。雨声不停，风越来越大。该睡了。）",
+      "title": "整理疑点",
+      "hint": "（你回到了自己的舱室。雨声不停，风越来越大。该把船舱里的异常先记下来。）",
       "trigger": {
         "all": [
           {
@@ -21,19 +21,36 @@
           },
           {
             "not": {
+              "flag": "cabin_review_prompted"
+            }
+          },
+          {
+            "not": {
+              "flag": "cabin_review_done"
+            }
+          },
+          {
+            "not": {
               "flag": "cabin_explore_done"
             }
           }
         ]
       },
-      "narration": [],
+      "narration": [
+        "你回到自己的舱室。官印木匣、行程简记、湿斗篷和窗外风雨挤在脑子里，没有一件像巧合。",
+        {
+          "speaker": "陆昭",
+          "text": "还不能睡。先把这趟夜船哪里不对想清楚。",
+          "emotion": "serious"
+        }
+      ],
       "effects": {
         "set_flag": [
-          "cabin_explore_done"
+          "cabin_review_prompted"
         ]
       },
       "auto_play": true,
-      "_comment": "与三个 NPC 都谈过后回到自己舱室 → 自动入睡"
+      "_comment": "与三个 NPC 都谈过后回到自己舱室 -> 提示整理疑点"
     },
     {
       "id": "evt_cabin_sleep",
@@ -42,7 +59,7 @@
       "trigger": {
         "all": [
           {
-            "flag": "cabin_explore_done"
+            "flag": "cabin_review_done"
           },
           {
             "not": {
@@ -76,7 +93,7 @@
         {
           "speaker": "周氏",
           "text": "就是他！一个来路不明的外乡人，图财害命！",
-          "emotion": "grief"
+          "emotion": "accusing"
         },
         {
           "speaker": "阿贵",
@@ -117,23 +134,25 @@
       "effects": {
         "set_flag": [
           "evt_cabin_sleep_done",
+          "cabin_explore_done",
           "accused_of_murder"
         ],
         "gain_evidence": [
           "evidence_hull_hole",
-          "evidence_cabin_escape_time",
           "evidence_lingyao_identity",
           "evidence_iron_crowbar_location",
+          "evidence_seal_lost"
+        ],
+        "gain_clue": [
+          "evidence_cabin_escape_time",
           "evidence_weather_fog",
           "evidence_storm_noise",
-          "evidence_no_motive",
-          "evidence_seal_lost"
+          "evidence_no_motive"
         ],
         "change_location": "ferry_inn",
         "auto_start_confrontation": "confrontation_wang"
       },
-      "auto_play": true,
-      "_comment": "船舱自由调查结束后，自动播放沉船、救援、被指控，并直接进入王大爷伪证对峙。"
+      "_comment": "船舱疑点整理结束后，等待对话关闭再自动播放沉船、救援、被指控，并直接进入王大爷伪证对峙。"
     },
     {
       "id": "evt_accused_of_murder",
@@ -433,15 +452,15 @@
         },
         {
           "speaker": "钱里正",
-          "text": "那个……县衙那边来信了。张县令说明日一早派人来接这案子。"
+          "text": "县衙那边来信了。张县令说明日一早派人来接这案子，也要看我这里的初呈。"
         },
         {
           "speaker": "钱里正",
-          "text": "如果到时候大人还没有结论——那这个嫌疑……（犹豫地看着你）"
+          "text": "我不能只写“陆大人说自己冤”。要么有证据开堂，要么我只能把嫌疑和证词一并报上去。"
         },
         {
           "speaker": "凌瑶",
-          "text": "（低声）嘶——他在施压。再不抓住真凶，明天县衙来人就把你当嫌疑人带走了。"
+          "text": "（低声）嘶——他在施压。不是催你讲故事，是催你把物证凑到能开堂的程度。"
         },
         {
           "speaker": "陆昭",
@@ -449,11 +468,11 @@
         },
         {
           "speaker": "钱里正",
-          "text": "……那、那小人先走了。大人加油啊。（溜了）"
+          "text": "那小人先去稳住周氏和渡口的人。大人若有实证，我就替您把堂开起来。"
         },
         {
           "speaker": "凌瑶",
-          "text": "陆大人——时间不多了。证据够了就赶紧动手吧。"
+          "text": "陆大人——时间不多了。先找能让里正开堂的东西。"
         }
       ],
       "effects": {
@@ -472,16 +491,19 @@
             "evidence": "evidence_hull_hole"
           },
           {
+            "evidence": "evidence_nail_marks"
+          },
+          {
             "evidence": "evidence_float_bladder"
           },
           {
             "evidence": "evidence_no_blunt_trauma"
           },
           {
-            "evidence": "evidence_wrong_channel"
+            "clue": "evidence_wrong_channel"
           },
           {
-            "evidence": "clue_fan_alibi_hole"
+            "clue": "clue_fan_alibi_hole"
           },
           {
             "evidence": "evidence_dismissal_note"
@@ -502,7 +524,11 @@
       "narration": [
         {
           "speaker": "凌瑶",
-          "text": "陆大人！航道、验尸、船底破洞、浮囊、老范获救时间、阿贵遣散字据和赌债——对峙要用的证据链都齐了！"
+          "text": "陆大人！航道、验尸、船底破洞、船底钉痕、浮囊、老范获救时间、阿贵遣散字据和赌债——对峙要用的证据链都齐了！"
+        },
+        {
+          "speaker": "钱里正",
+          "text": "好。我把人都叫来。先说在前头：空口攀咬不算，谁说什么，都得拿证据对。"
         },
         {
           "speaker": "凌瑶",
@@ -542,6 +568,10 @@
           "text": "陆大人。先前是小人眼拙。从现在起，客栈上下听您调遣。"
         },
         {
+          "speaker": "钱里正",
+          "text": "不过阿贵画押归画押。口供只能开线索，不能单独押沈姑娘。要动她，得找她自己留下的物证和时间破绽。"
+        },
+        {
           "speaker": "凌瑶",
           "text": "你看——位置都变了。阿贵不在屋里了，老范那边也有人盯着，沈清月退回二楼房间。"
         },
@@ -555,7 +585,7 @@
         },
         {
           "speaker": "凌瑶",
-          "text": "而且——凿船解释了船为什么沉。但死者指甲里的蓝色草药碎屑、脖颈的压痕——那些不是阿贵能做的事。只有懂药的人才有门路。",
+          "text": "而且——凿船解释了船为什么沉，却解释不了死者舌根的药残。阿贵不懂药，老范只会跑船；如果破洞还有别的用途，就得从进水口和沈清月身上查。",
           "emotion": "determined"
         },
         {
@@ -575,7 +605,8 @@
           "evt_phase3_transition_done",
           "phase3_scene_rearranged"
         ],
-        "gain_evidence": [
+        "gain_clue": [
+          "clue_agui_confession",
           "evidence_dock_timing"
         ]
       }
@@ -637,13 +668,13 @@
             "evidence": "evidence_cargo_silver"
           },
           {
-            "evidence": "evidence_salvage_mark"
+            "clue": "evidence_salvage_mark"
           },
           {
-            "evidence": "evidence_shen_connection"
+            "clue": "evidence_shen_connection"
           },
           {
-            "evidence": "evidence_dock_timing"
+            "clue": "evidence_dock_timing"
           },
           {
             "evidence": "evidence_drug_capsule_shell"
@@ -664,7 +695,11 @@
       "narration": [
         {
           "speaker": "凌瑶",
-          "text": "陆大人。核心证据齐了：货银未沉、打捞目击、中间人、时间矛盾、草药香囊，还有脚踝细痕、舌根药渣和油脂食盒。它们连成一条链，全指向沈清月。"
+          "text": "陆大人。核心证据齐了：货银未沉、打捞目击、中间人、时间矛盾、毒囊残壳、舌根药渣和油脂食盒。它们连成一条链，全指向沈清月。"
+        },
+        {
+          "speaker": "钱里正",
+          "text": "这堂我可以开。但沈姑娘不是阿贵。要让县衙认账，每一环都得说清楚：谁得利、谁串人、毒囊怎么布、药残为什么还在。"
         },
         {
           "speaker": "凌瑶",

@@ -15,7 +15,7 @@
 |---|---|---|
 | cabin_seal_box | 木匣压在床边，铜锁还扣着。里面是官印、敕牒和巡按令牌。你伸手按了按锁舌——完好。至少此刻，你的身份还稳稳放在这里。… | clue_cabin_seal_box |
 | cabin_route_note | 桌上压着一页行程简记：平水驿、石矶渡、夜船、东汊、武昌。东汊二字被一点水痕洇开。你想起驿丞说过“这条水路快”——但他没提… | clue_cabin_route_note |
-| cabin_storm_window | 窗外一道闪电照亮江面。船身随浪轻轻一偏，油灯火苗被风压得发蓝。这样的天气还要夜渡，急的不是路，是人。… | clue_cabin_storm_window |
+| cabin_storm_window | 窗外一道闪电照亮江面。船身随浪轻轻一偏，油灯火苗被风压得发蓝。这样的天气还要夜渡，也太急了些。… | clue_cabin_storm_window |
 | cabin_wet_cloak | 墙边斗篷下已经积了一小摊水。你上船时明明拧过水，如今却像又淋过一场雨。门缝里灌来冷风，带着淡淡的江腥味。… | clue_cabin_wet_cloak |
 
 ## 阿贵船舱

@@ -35,7 +35,7 @@ agui_room,agui_bundle,default,choice_03,3,闻闻包袱的气味,"凑近一闻—
 ferry_dock,dock_body_examine,default,choice_herb_residue,4,检查指甲缝隙,"凌瑶蹲下身，指尖轻轻拨开死者僵硬的手指。指甲缝里有一点极细的蓝色碎屑，混在泥沙里几乎看不出来。她凑近闻了闻，眉头立刻皱紧：不是水草，是药。",evidence_blue_herb_residue,,found_blue_herb_residue,
 ferry_dock,dock_body_examine,default,choice_neck_marks,5,检查脖颈皮肤,"你扶起死者下颌。脖颈侧面有一道极浅的压痕，被江水泡过后几乎消失。凌瑶低声道：如果他落水前清醒，不该这么安静地沉下去。",evidence_neck_marks,,found_neck_marks,
 ferry_dock,dock_body_examine,default,choice_tongue_oil,6,检查口腔油脂层,"你翻开死者下颌。舌根药渣周围覆着一层油脂薄膜——登船前吃的肥腻酒菜在口腔内形成了保护层，阻滞了毒素在淡水中分解。",evidence_oil_lock_residue,,found_oil_lock_residue,
-ferry_dock,dock_body_examine,default,choice_tongue_residue,7,检查口舌残留,"凌瑶用木片轻轻压开死者口舌。舌根深处竟还黏着一点蓝色草药渣，混着油腥气，不像江水水草。",evidence_tongue_herb_residue,,found_tongue_herb_residue,
+ferry_dock,dock_body_examine,default,choice_tongue_residue,7,检查口舌残留,"凌瑶用木片轻轻压开死者口舌。舌根深处还黏着一点细碎植物纤维，混着油腥气，不像普通江水水草。",evidence_tongue_herb_residue,,found_tongue_herb_residue,
 wreck_site,wreck_debris,default,choice_capsule_shell,1,检查进水口边缘,"进水口破洞边缘勾着一片半透明薄膜——糯米鱼鳔胶的残片，形状规整，有人工裁切痕迹。它是遇水即溶的双层毒囊外壳，恰好被木刺卡住未能冲散。",evidence_drug_capsule_shell,,found_drug_capsule_shell,"{""evidence"": ""evidence_hull_hole""}"
 zhou_room,zhou_luggage,default,choice_food_wrapping,2,检查油纸食盒,"包袱夹层里有一只压扁的油纸食盒，油脂厚得发亮。这是周德茂登船前在码头食摊吃的肥肉和油炸河鲜留下的——正是这层油脂锁住了舌根的毒素残留。",evidence_oil_lock_residue,,found_oil_lock_residue,"{""evidence"": ""evidence_tongue_herb_residue""}"
 ferry_dock,dock_reed_seal,default,choice_account_fragment,1,翻看夹在船板间的湿纸,"凌瑶又从两块船板夹缝里挑出一片湿纸。纸面几乎烂透，只剩“南京”“漕”“账”和一个被水洇开的“沈”字。",evidence_account_fragment,,found_account_fragment,"{""flag"": ""prologue_defeated""}"

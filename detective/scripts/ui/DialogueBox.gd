@@ -86,6 +86,11 @@ const AVATAR_OFFSET_LEFT := 10.0
 const AVATAR_OFFSET_TOP := -520.0
 const AVATAR_OFFSET_RIGHT := 296.0
 const AVATAR_OFFSET_BOTTOM := 0.0
+const PORTRAIT_CROP_PADDING_RATIO := 0.02
+const PORTRAIT_CROP_MIN_PADDING := 8
+const PORTRAIT_CROP_MIN_HEIGHT_RATIO := 0.78
+
+var _portrait_texture_cache: Dictionary = {}
 
 
 func _ready() -> void:
@@ -188,9 +193,9 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 	if lines.size() > 3:
 		display_text = "\n".join(lines.slice(0, 3))
 	# 显示说话者和立绘
-	_apply_narration_speaker(speaker, portrait)
+	_apply_narration_speaker(_normalize_visible_speaker(speaker), portrait)
 	# 根据说话人角色切换打字音效 profile
-	_typewriter.set_blip_profile(_resolve_blip_profile(speaker))
+	_typewriter.set_blip_profile(_resolve_blip_profile(_normalize_visible_speaker(speaker)))
 	# 叙述模式不播放打字电子音（物品描述等场景不需要）
 	_typewriter.typing_sound_enabled = false
 	# 打字机播放文字（不调用说话动画，避免立绘偏移）
@@ -226,14 +231,9 @@ func _apply_narration_speaker(speaker: String, portrait: String) -> void:
 		portrait_rect.visible = false
 	elif resolved != "" and ResourceLoader.exists(resolved):
 		# 指定了立绘 → 居中显示
-		portrait_rect.texture = load(resolved)
-		portrait_rect.visible = true
+		portrait_rect.visible = _set_portrait_texture(portrait_rect, resolved)
 		portrait_rect.modulate.a = 1.0
-		# 沈清月立绘使用80%缩放，其他角色使用100%缩放
-		if resolved.contains("shen_qingyue"):
-			portrait_rect.scale = Vector2(0.8, 0.8)
-		else:
-			portrait_rect.scale = Vector2(1.0, 1.0)
+		portrait_rect.scale = Vector2(1.0, 1.0)
 		_hide_avatar()
 	else:
 		portrait_rect.visible = false
@@ -241,8 +241,9 @@ func _apply_narration_speaker(speaker: String, portrait: String) -> void:
 
 
 func _set_speaker_name(speaker: String) -> void:
-	var has_speaker := speaker != ""
-	speaker_label.text = speaker
+	var visible_speaker := _normalize_visible_speaker(speaker)
+	var has_speaker := visible_speaker != ""
+	speaker_label.text = visible_speaker
 	speaker_label.visible = has_speaker
 	if _speaker_plate != null:
 		_speaker_plate.visible = has_speaker
@@ -252,9 +253,10 @@ func _set_speaker_name(speaker: String) -> void:
 
 ## 根据说话者名字解析打字音效 profile
 func _resolve_blip_profile(speaker: String) -> String:
-	if speaker == "":
+	var visible_speaker := _normalize_visible_speaker(speaker)
+	if visible_speaker == "":
 		return "default"
-	if speaker == "陆昭" or speaker == "lu_zhao":
+	if visible_speaker == "陆昭" or visible_speaker == "lu_zhao":
 		return "default"
 	var reg_path := "res://data/actors/registry.json"
 	var actors: Dictionary = {}
@@ -267,11 +269,11 @@ func _resolve_blip_profile(speaker: String) -> String:
 	for npc_id in casting.keys():
 		var entry = casting[npc_id]
 		if typeof(entry) == TYPE_DICTIONARY:
-			if entry.get("role_name", "") == speaker:
+			if entry.get("role_name", "") == visible_speaker:
 				actor_id = entry.get("actor_id", "")
 				break
-	if actor_id == "" and actors.has(speaker):
-		actor_id = speaker
+	if actor_id == "" and actors.has(visible_speaker):
+		actor_id = visible_speaker
 	if actor_id == "" or not actors.has(actor_id):
 		return "default"
 	var actor: Dictionary = actors[actor_id]
@@ -295,6 +297,9 @@ func _resolve_blip_profile(speaker: String) -> String:
 
 func _resolve_portrait_for_speaker(speaker_name: String) -> String:
 	"""根据说话者名字解析立绘路径"""
+	speaker_name = _normalize_visible_speaker(speaker_name)
+	if speaker_name == "":
+		return ""
 	# 助手
 	var cs = get_node_or_null("/root/CompanionService")
 	if cs and cs.has_method("get_companion_role_name"):
@@ -335,6 +340,22 @@ func show_narration_choices(choices: Array) -> void:
 	_top_options_panel.visible = true
 
 
+func clear_for_transition() -> void:
+	"""打断当前打字与显示，避免时间卡或强制切场时闪出旧文本。"""
+	_dialogue_run_id += 1
+	_waiting_for_advance = false
+	_hide_options()
+	_set_choice_hint("", false)
+	if _typewriter != null and _typewriter.is_playing():
+		_typewriter.skip()
+	_stop_talk_animation()
+	text_label.text = ""
+	text_label.visible_characters = -1
+	_set_speaker_name("")
+	portrait_rect.visible = false
+	_hide_avatar()
+
+
 func end_narration_mode() -> void:
 	"""退出叙述模式"""
 	_narration_mode = false
@@ -362,13 +383,25 @@ func show_dialogue(speaker: String, portrait_path: String, text: String, options
 	_dialogue_options = options
 	_dialogue_pages = _build_dialogue_pages(speaker, portrait_path, text, pages)
 	if _dialogue_pages.is_empty():
-		_dialogue_pages.append({"speaker": speaker, "portrait": portrait_path, "text": ""})
+		_show_dialogue_options_only(speaker, portrait_path)
+		return
 	_dialogue_page_index = 0
 	_play_current_page(_dialogue_run_id)
 
 
+func _show_dialogue_options_only(speaker: String, portrait_path: String) -> void:
+	_apply_speaker(speaker, portrait_path, "")
+	_stop_talk_animation()
+	text_label.text = ""
+	text_label.visible_characters = -1
+	_set_choice_hint("▼ 请选择回应", true)
+	_show_options(_dialogue_options)
+
+
 func _play_current_page(run_id: int) -> void:
 	if run_id != _dialogue_run_id:
+		return
+	if _dialogue_pages.is_empty() or _dialogue_page_index >= _dialogue_pages.size():
 		return
 	_hide_options()
 	_set_choice_hint("", false)
@@ -378,8 +411,6 @@ func _play_current_page(run_id: int) -> void:
 	var page_text: String = page.get("text", "")
 	_append_dialogue_log(page.get("speaker", ""), page_text)
 	_typewriter.set_blip_profile(_resolve_blip_profile(page.get("speaker", "")))
-	# 对话模式启用打字电子音
-	_typewriter.typing_sound_enabled = true
 	_start_talk_animation()
 	_typewriter.play(text_label, _decorate_text(page_text, page.get("highlight", [])))
 	await _typewriter.finished
@@ -405,6 +436,18 @@ func _play_current_page(run_id: int) -> void:
 
 func _apply_speaker(speaker: String, portrait_path: String, emotion: String = "") -> void:
 	_set_speaker_name(speaker)
+	if speaker == "":
+		if _avatar_rect != null and _avatar_rect.modulate.a > 0.01 and _current_center_portrait_path != "":
+			var keep_portrait := _resolve_emotion_portrait(_current_center_portrait_path, _current_center_emotion)
+			if keep_portrait == "" or not ResourceLoader.exists(keep_portrait):
+				keep_portrait = _current_center_portrait_path
+				_hide_avatar()
+				if keep_portrait != "" and ResourceLoader.exists(keep_portrait):
+					portrait_rect.visible = _set_portrait_texture(portrait_rect, keep_portrait)
+					portrait_rect.modulate.a = 1.0
+					portrait_rect.scale = Vector2(1.0, 1.0)
+					_load_animation_frames(_current_center_portrait_path, _current_center_emotion)
+			return
 	# 主角/同伴：左下角头像 + 文字右移
 	if _is_protagonist_or_companion(speaker):
 		_last_speaker = speaker
@@ -423,37 +466,31 @@ func _apply_speaker(speaker: String, portrait_path: String, emotion: String = ""
 	_load_animation_frames(portrait_path, emotion)
 	_hide_avatar()  # 切换回 NPC 时隐藏头像
 	# 显示 NPC 居中立绘
+	var target_scale := Vector2(1.0, 1.0)
 	if _resolved_portrait != "" and ResourceLoader.exists(_resolved_portrait):
-		portrait_rect.texture = load(_resolved_portrait)
-		portrait_rect.visible = true
-		# 沈清月立绘使用80%缩放，其他角色使用100%缩放
-		var target_scale := Vector2(1.0, 1.0)
-		if _resolved_portrait.contains("shen_qingyue"):
-			target_scale = Vector2(0.8, 0.8)
+		portrait_rect.visible = _set_portrait_texture(portrait_rect, _resolved_portrait)
 		if _skip_next_portrait_animation:
 			# NPC 已在场景层可见，直接显示不做动画（避免拖动/跳动感）
 			_skip_next_portrait_animation = false
-			portrait_rect.modulate.a = 1.0
-			portrait_rect.scale = target_scale
-			if _portrait_tween != null and _portrait_tween.is_valid():
-				_portrait_tween.kill()
-		elif _changed:
-			portrait_rect.modulate.a = 0.0
-			portrait_rect.scale = Vector2(0.96, 0.96)
+		portrait_rect.modulate.a = 1.0
+		portrait_rect.scale = target_scale
+		if _portrait_tween != null and _portrait_tween.is_valid():
+			_portrait_tween.kill()
+	elif _changed:
+		portrait_rect.modulate.a = 0.0
+		portrait_rect.scale = Vector2(0.96, 0.96)
+		if _portrait_tween != null and _portrait_tween.is_valid():
+			_portrait_tween.kill()
+		_portrait_tween = create_tween()
+		_portrait_tween.set_parallel(true)
+		_portrait_tween.tween_property(portrait_rect, "modulate:a", 1.0, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		_portrait_tween.tween_property(portrait_rect, "scale", target_scale, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	else:
+		if portrait_rect.modulate.a < 1.0:
 			if _portrait_tween != null and _portrait_tween.is_valid():
 				_portrait_tween.kill()
 			_portrait_tween = create_tween()
-			_portrait_tween.set_parallel(true)
-			_portrait_tween.tween_property(portrait_rect, "modulate:a", 1.0, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			_portrait_tween.tween_property(portrait_rect, "scale", target_scale, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		else:
-			if portrait_rect.modulate.a < 1.0:
-				if _portrait_tween != null and _portrait_tween.is_valid():
-					_portrait_tween.kill()
-				_portrait_tween = create_tween()
-				_portrait_tween.tween_property(portrait_rect, "modulate:a", 1.0, 0.15).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	else:
-		portrait_rect.visible = false
+			_portrait_tween.tween_property(portrait_rect, "modulate:a", 1.0, 0.15).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -487,7 +524,7 @@ func _setup_avatar_portrait() -> void:
 		var mat := ShaderMaterial.new()
 		mat.shader = shader
 		mat.set_shader_parameter("fade_bottom", 0.25)
-		mat.set_shader_parameter("fade_top", 0.03)
+		mat.set_shader_parameter("fade_top", 0.0)
 		mat.set_shader_parameter("fade_left", 0.0)
 		mat.set_shader_parameter("fade_right", 0.18)
 		_avatar_rect.material = mat
@@ -517,7 +554,8 @@ func _show_avatar(_speaker: String, portrait_path: String, emotion: String = "")
 		return
 	var resolved_portrait := _resolve_emotion_portrait(portrait_path, emotion)
 	if resolved_portrait != "" and ResourceLoader.exists(resolved_portrait):
-		_avatar_rect.texture = load(resolved_portrait)
+		if not _set_portrait_texture(_avatar_rect, resolved_portrait):
+			return
 		# NPC中央立绘略微变暗
 		if portrait_rect.visible:
 			portrait_rect.modulate.a = 0.5
@@ -563,7 +601,9 @@ func _load_animation_frames(base_path: String, _emotion: String) -> void:
 	for i in range(10):
 		var path := talk_base % i
 		if ResourceLoader.exists(path):
-			_talk_frames.append(load(path))
+			var frame := _load_normalized_portrait_texture(path)
+			if frame != null:
+				_talk_frames.append(frame)
 		else:
 			break
 	# 尝试加载待机帧：actor_xxx_idle_0.png, _idle_1.png ...
@@ -571,7 +611,9 @@ func _load_animation_frames(base_path: String, _emotion: String) -> void:
 	for i in range(10):
 		var path := idle_base % i
 		if ResourceLoader.exists(path):
-			_idle_frames.append(load(path))
+			var frame := _load_normalized_portrait_texture(path)
+			if frame != null:
+				_idle_frames.append(frame)
 		else:
 			break
 
@@ -1357,8 +1399,11 @@ func _build_dialogue_pages(default_speaker: String, default_portrait: String, te
 		if typeof(raw_page) != TYPE_DICTIONARY:
 			continue
 		var speaker: String = raw_page.get("speaker", default_speaker)
-		var portrait: String = raw_page.get("portrait", default_portrait)
+		var portrait: String = raw_page.get("portrait_override", raw_page.get("portrait", default_portrait))
+		if _normalize_visible_speaker(speaker) == "" and portrait == "":
+			portrait = default_portrait
 		var line_text: String = raw_page.get("text", "")
+		var page_emotion: String = raw_page.get("portrait_emotion", raw_page.get("emotion", raw_page.get("mood", "")))
 		var sentences := _split_dialogue_text(line_text)
 		for idx in range(sentences.size()):
 			var page := {
@@ -1366,13 +1411,21 @@ func _build_dialogue_pages(default_speaker: String, default_portrait: String, te
 				"portrait": portrait,
 				"text": sentences[idx],
 				"type": raw_page.get("type", ""),
-				"emotion": raw_page.get("emotion", raw_page.get("mood", "")),
+				"emotion": page_emotion,
 				"highlight": raw_page.get("highlight", [])
 			}
 			if idx == sentences.size() - 1:
 				_copy_record_meta(raw_page, page)
 			pages.append(page)
 	return pages
+
+
+func _normalize_visible_speaker(speaker: String) -> String:
+	var cleaned := speaker.strip_edges()
+	var lowered := cleaned.to_lower()
+	if cleaned == "旁白" or lowered == "narrator" or lowered == "_narrator" or lowered == "narrtator":
+		return ""
+	return cleaned
 
 
 func _copy_record_meta(src: Dictionary, dst: Dictionary) -> void:
@@ -1497,6 +1550,74 @@ func _resolve_emotion_portrait(base_path: String, emotion: String) -> String:
 		if ResourceLoader.exists(path):
 			return path
 	return base_path
+
+
+func _set_portrait_texture(rect: TextureRect, path: String) -> bool:
+	if rect == null:
+		return false
+	var texture := _load_normalized_portrait_texture(path)
+	if texture == null:
+		return false
+	rect.texture = texture
+	return true
+
+
+func _load_normalized_portrait_texture(path: String) -> Texture2D:
+	if path == "" or not ResourceLoader.exists(path):
+		return null
+	var cache_key := _portrait_cache_key(path)
+	var cached = _portrait_texture_cache.get(cache_key, null)
+	if cached is Texture2D:
+		return cached
+	var texture := _load_source_portrait_texture(path)
+	if texture == null:
+		texture = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as Texture2D
+	if texture == null:
+		return null
+	var normalized := _crop_texture_to_visible_alpha(texture)
+	_portrait_texture_cache[cache_key] = normalized
+	return normalized
+
+
+func _load_source_portrait_texture(path: String) -> Texture2D:
+	var source_path := ProjectSettings.globalize_path(path)
+	if source_path == "" or not FileAccess.file_exists(source_path):
+		return null
+	var image := Image.load_from_file(source_path)
+	if image == null or image.is_empty():
+		return null
+	return ImageTexture.create_from_image(image)
+
+
+func _portrait_cache_key(path: String) -> String:
+	var modified_time := FileAccess.get_modified_time(path)
+	if modified_time == 0:
+		modified_time = FileAccess.get_modified_time(ProjectSettings.globalize_path(path))
+	return "%s:%d" % [path, modified_time]
+
+
+func _crop_texture_to_visible_alpha(texture: Texture2D) -> Texture2D:
+	var image := texture.get_image()
+	if image == null:
+		return texture
+	var used := image.get_used_rect()
+	if used.size.x <= 0 or used.size.y <= 0:
+		return texture
+	var image_size := image.get_size()
+	if float(used.size.y) / float(image_size.y) < PORTRAIT_CROP_MIN_HEIGHT_RATIO:
+		return texture
+	var pad_x: int = max(PORTRAIT_CROP_MIN_PADDING, int(ceil(float(used.size.x) * PORTRAIT_CROP_PADDING_RATIO)))
+	var pad_y: int = max(PORTRAIT_CROP_MIN_PADDING, int(ceil(float(used.size.y) * PORTRAIT_CROP_PADDING_RATIO)))
+	var x1: int = max(0, used.position.x - pad_x)
+	var y1: int = max(0, used.position.y - pad_y)
+	var x2: int = min(image_size.x, used.position.x + used.size.x + pad_x)
+	var y2: int = min(image_size.y, used.position.y + used.size.y + pad_y)
+	if x1 == 0 and y1 == 0 and x2 == image_size.x and y2 == image_size.y:
+		return texture
+	var atlas := AtlasTexture.new()
+	atlas.atlas = texture
+	atlas.region = Rect2(float(x1), float(y1), float(x2 - x1), float(y2 - y1))
+	return atlas
 
 
 # ═══════════════════════════════════════════════════════════════

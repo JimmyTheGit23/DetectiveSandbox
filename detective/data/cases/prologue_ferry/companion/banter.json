@@ -7,6 +7,7 @@
         "trigger": "dialogue_end",
         "npc_id": "agui"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -34,7 +35,8 @@
             "emotion": "serious"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "after_talk_lao_fan",
@@ -42,6 +44,7 @@
         "trigger": "dialogue_end",
         "npc_id": "lao_fan"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -73,7 +76,8 @@
             "text": "我赌是后者。"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "after_talk_zhou_wife",
@@ -81,6 +85,7 @@
         "trigger": "dialogue_end",
         "npc_id": "zhou_wife"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -93,7 +98,8 @@
             "emotion": "serious"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "after_talk_zhou_wife_duck",
@@ -104,6 +110,7 @@
           "clue": "clue_victim_cant_swim"
         }
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -120,7 +127,8 @@
             "text": "这也太巧了吧！"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "after_talk_zhou_wife_money",
@@ -131,6 +139,7 @@
           "evidence": "evidence_dismissal_note"
         }
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -143,7 +152,8 @@
             "emotion": "serious"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "after_talk_li_zheng",
@@ -151,6 +161,7 @@
         "trigger": "dialogue_end",
         "npc_id": "li_zheng"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -182,7 +193,8 @@
             "text": "太不正常了！而且他马上要被遣散，哪来的钱？"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "after_talk_fisherman_wang",
@@ -190,6 +202,7 @@
         "trigger": "dialogue_end",
         "npc_id": "fisherman_wang"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -221,13 +234,15 @@
             "text": "这下对上了！"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "lie_exposed_generic",
       "when": {
         "trigger": "lie_exposed"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -244,13 +259,15 @@
             "text": "可是——为什么要撒这个谎？撒谎的人心里肯定有鬼！"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "gain_evidence_generic",
       "when": {
         "trigger": "gain_evidence"
       },
+      "requires": {},
       "lines": [
         "又找到一样东西！本姑娘帮您收着！",
         "这是证据吧？感觉很关键。",
@@ -269,13 +286,15 @@
             "text": "……您这人，就不会说句'进展不错'？"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "gain_clue_generic",
       "when": {
         "trigger": "gain_clue"
       },
+      "requires": {},
       "lines": [
         "有意思……这条线牵着谁？",
         "又多了一条线索。陆大人您脑子里是不是已经有数了？",
@@ -290,7 +309,8 @@
             "emotion": "serious"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "arrive_ferry_inn",
@@ -300,9 +320,7 @@
           "not_flag": "visited_ferry_inn_banter"
         }
       },
-      "effect": {
-        "set_flag": "visited_ferry_inn_banter"
-      },
+      "requires": {},
       "lines": [
         [
           {
@@ -319,7 +337,10 @@
             "text": "哎，说什么连累——您倒是先把案子查清楚，我这封信等得起。"
           }
         ]
-      ]
+      ],
+      "effect": {
+        "set_flag": "visited_ferry_inn_banter"
+      }
     },
     {
       "id": "arrive_zhou_room",
@@ -329,6 +350,7 @@
           "location": "zhou_room"
         }
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -341,7 +363,8 @@
             "emotion": "serious"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "arrive_agui_room",
@@ -351,6 +374,7 @@
           "location": "agui_room"
         }
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -362,13 +386,15 @@
             "text": "你注意他的眼睛——说话时老往门口那边瞟。是在怕谁进来？"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "arrive_ferry_dock",
       "when": {
         "trigger": "arrive_location:ferry_dock"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -381,13 +407,15 @@
             "emotion": "cold"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "arrive_wreck_site",
       "when": {
         "trigger": "arrive_location:wreck_site"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -399,13 +427,15 @@
             "text": "……算了不想了。查案查案。"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "arrive_river_bend",
       "when": {
         "trigger": "arrive_location:river_bend"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -417,13 +447,15 @@
             "text": "不过空气比码头好闻多了。"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "phase_unlocked_2",
       "when": {
         "trigger": "phase_unlocked:phase_2"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -431,7 +463,33 @@
             "text": "陆大人，听说下游渔村有个老渔民，那晚也在江上——说不定他看见了什么！去那边看看？"
           }
         ]
-      ]
+      ],
+      "effect": {}
+    },
+    {
+      "id": "phase_unlocked_3",
+      "when": {
+        "trigger": "phase_unlocked:phase_3"
+      },
+      "requires": {},
+      "lines": [
+        [
+          {
+            "speaker": "凌瑶",
+            "text": "阿贵招了，但钱里正说得对：口供不能单独押沈清月。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "补实证。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "嗯。货银、下游打捞、老范那条线，还有沉船进水口。我们分方向查。"
+          }
+        ]
+      ],
+      "effect": {}
     },
     {
       "id": "after_talk_shen_phase1",
@@ -442,6 +500,7 @@
           "not_flag": "agui_confessed_mastermind"
         }
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -468,7 +527,8 @@
             "text": "但如果好处不只是那三十八两呢？嗯……先查别的。"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "after_talk_shen_phase3",
@@ -479,6 +539,7 @@
           "flag": "agui_confessed_mastermind"
         }
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -510,13 +571,15 @@
             "text": "（噗）好。本姑娘信你。"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "pre_confrontation_agui",
       "when": {
         "trigger": "confrontation_start:agui"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -533,7 +596,8 @@
             "text": "我不紧张！就是……有点激动。头一次看审案呢。加油！"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "lingyao_moral_crisis_shen",
@@ -543,8 +607,7 @@
           "evidence": "evidence_father_ledger"
         }
       },
-      "once": true,
-      "priority": 10,
+      "requires": {},
       "lines": [
         [
           {
@@ -621,13 +684,17 @@
             "text": "（笑了——不是平时那种嘻嘻哈哈的笑。是那种……放下了什么东西的笑。）走吧。本姑娘准备好了。"
           }
         ]
-      ]
+      ],
+      "effect": {},
+      "once": true,
+      "priority": 10
     },
     {
       "id": "pre_confrontation_shen",
       "when": {
         "trigger": "confrontation_start:shen_qingyue"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -657,13 +724,15 @@
             "text": "（愣了一下。然后用力点了点头。）"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "confrontation_break_success",
       "when": {
         "trigger": "confrontation_break"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -683,13 +752,15 @@
             "text": "嘶——你看他那表情。裂了。继续！"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "confrontation_wrong_evidence",
       "when": {
         "trigger": "confrontation_fail_evidence"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -709,13 +780,15 @@
             "text": "没事没事……出一次错不算什么。深呼吸——本姑娘信你。"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "arrive_shen_room",
       "when": {
         "trigger": "arrive_location:shen_room"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -727,13 +800,15 @@
             "text": "不过你看她手——指甲修得很干净，但虎口那里有茧。练过功夫？"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "arrive_gambling_alley",
       "when": {
         "trigger": "arrive_location:gambling_alley"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -758,7 +833,8 @@
             "text": "老范就是在这里欠了四十二两。嗯——进去问问，看有没有人认识那个'药材行的姑娘'。"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "gain_evidence_hull_hole",
@@ -766,6 +842,7 @@
         "trigger": "gain_evidence",
         "evidence": "evidence_hull_hole"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -791,7 +868,8 @@
             "text": "……你的意思是——还有幕后？"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "gain_evidence_float_bladder",
@@ -799,6 +877,7 @@
         "trigger": "gain_evidence",
         "evidence": "evidence_float_bladder"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -823,14 +902,16 @@
             "text": "……这就是谋杀。蓄意的。"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
-      "id": "gain_evidence_salvage_mark",
+      "id": "gain_clue_salvage_mark",
       "when": {
-        "trigger": "gain_evidence",
-        "evidence": "evidence_salvage_mark"
+        "trigger": "gain_clue",
+        "clue": "evidence_salvage_mark"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -851,7 +932,102 @@
             "text": "第三个人……一个算好了一切、在下游等着收货的人。她。"
           }
         ]
-      ]
+      ],
+      "effect": {}
+    },
+    {
+      "id": "gain_evidence_blue_herb",
+      "when": {
+        "trigger": "gain_evidence",
+        "evidence": "evidence_blue_herb_residue"
+      },
+      "requires": {},
+      "lines": [
+        [
+          {
+            "speaker": "凌瑶",
+            "text": "蓝色……碎屑？指甲缝里的？（凑近闻了闻）嘶——这味道辛冷刺鼻，不像寻常香料。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "能让人昏沉失力的草药。他落水之前可能已经被迷晕了。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "被迷晕了再掉进水里——旱鸭子根本没机会挣扎。这不是单纯溺亡——是被人安排好的死局。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "这种罕见药……寻常人弄不到。药材商才有门路。"
+          }
+        ]
+      ],
+      "effect": {}
+    },
+    {
+      "id": "gain_evidence_neck_marks",
+      "when": {
+        "trigger": "gain_evidence",
+        "evidence": "evidence_neck_marks"
+      },
+      "requires": {},
+      "lines": [
+        [
+          {
+            "speaker": "凌瑶",
+            "text": "脖颈这里……（用手比划）有极淡的压痕。不像绳勒或人为按压——更像是呛水挣扎时磕碰船舱内壁。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "结合四肢麻痹的推定——他呛入毒水后很快丧失了自救能力。挣扎中磕碰留下了这道痕。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "所以他不是被人按住的——是毒让他动不了，自己磕在船壁上的。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（皱眉）毒从哪来？凿船进水的那一刻——进水口的毒囊被冲开了。封闭船舱里释毒……太狠了。"
+          }
+        ]
+      ],
+      "effect": {}
+    },
+    {
+      "id": "gain_evidence_drug_capsule_shell",
+      "when": {
+        "trigger": "gain_evidence",
+        "evidence": "evidence_drug_capsule_shell"
+      },
+      "requires": {},
+      "lines": [
+        [
+          {
+            "speaker": "凌瑶",
+            "text": "这是什么……（举起那片半透明薄膜）糯米鱼鳔胶？边缘有人工裁切的痕迹，不是随便糊船缝的废料。"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "它卡在进水口破洞边缘——被木刺勾住没冲走。"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "双层延时毒囊的外壳残片。有人提前登船，在进水口固定了遇水即溶的毒包。",
+            "emotion": "serious"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "而且位置——恰好在凿船破洞处！只有精确知道凿船位置的人才能放对地方！"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）阿贵说凿船位置是她指定的……沈清月。"
+          }
+        ]
+      ],
+      "effect": {}
     },
     {
       "id": "gain_evidence_father_ledger",
@@ -859,6 +1035,7 @@
         "trigger": "gain_evidence",
         "evidence": "evidence_father_ledger"
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -883,7 +1060,8 @@
             "text": "陆大人——这是动机！她不是为了讨债——她是为了把人和钱一锅端！"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "idle_hint_phase1",
@@ -894,6 +1072,7 @@
           "not_flag": "agui_confessed_mastermind"
         }
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -918,7 +1097,8 @@
             "text": "哪个还没查到？去翻翻看？"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "idle_hint_phase3",
@@ -930,6 +1110,7 @@
           "not_flag": "shen_confrontation_triggered"
         }
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -950,7 +1131,8 @@
             "text": "赌坊那条线能不能查到什么……要不去试试？"
           }
         ]
-      ]
+      ],
+      "effect": {}
     },
     {
       "id": "lingyao_shen_connection",
@@ -961,7 +1143,7 @@
           "flag": "shen_connection_pressed"
         }
       },
-      "once": true,
+      "requires": {},
       "lines": [
         [
           {
@@ -995,7 +1177,9 @@
             "text": "……好。但我心里毛毛的。我那个急件——不会跟这案子有关系吧？"
           }
         ]
-      ]
+      ],
+      "effect": {},
+      "once": true
     },
     {
       "id": "moral_reflection_agui",
@@ -1005,6 +1189,7 @@
           "flag": "agui_confessed_mastermind"
         }
       },
+      "requires": {},
       "lines": [
         [
           {
@@ -1034,7 +1219,8 @@
             "text": "嗯。……所以才需要大人这样的人吧。在'理解'和'不能原谅'之间——做出判断。"
           }
         ]
-      ]
+      ],
+      "effect": {}
     }
   ]
 }

@@ -92,7 +92,7 @@
             {
               "all": [
                 {
-                  "evidence": "evidence_dock_timing"
+                  "clue": "evidence_dock_timing"
                 },
                 {
                   "not_flag": "agui_confessed_mastermind"
@@ -109,7 +109,7 @@
             {
               "all": [
                 {
-                  "evidence": "evidence_salvage_mark"
+                  "clue": "evidence_salvage_mark"
                 },
                 {
                   "not_flag": "agui_confessed_mastermind"
@@ -126,7 +126,7 @@
             {
               "all": [
                 {
-                  "evidence": "evidence_shen_connection"
+                  "clue": "evidence_shen_connection"
                 },
                 {
                   "not_flag": "agui_confessed_mastermind"
@@ -148,13 +148,13 @@
                 "evidence": "evidence_cargo_silver"
               },
               {
-                "evidence": "evidence_salvage_mark"
+                "clue": "evidence_salvage_mark"
               },
               {
-                "evidence": "evidence_shen_connection"
+                "clue": "evidence_shen_connection"
               },
               {
-                "evidence": "evidence_dock_timing"
+                "clue": "evidence_dock_timing"
               },
               {
                 "evidence": "evidence_drug_capsule_shell"

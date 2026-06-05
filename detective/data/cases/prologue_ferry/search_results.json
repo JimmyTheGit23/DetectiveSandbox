@@ -142,7 +142,7 @@
         },
         {
           "text": "检查口舌残留",
-          "narration": "凌瑶用木片轻轻压开死者口舌。舌根深处竟还黏着一点蓝色草药渣，混着油腥气，不像江水水草。",
+          "narration": "凌瑶用木片轻轻压开死者口舌。舌根深处还黏着一点细碎植物纤维，混着油腥气，不像普通江水水草。",
           "evidence": "evidence_tongue_herb_residue",
           "set_flags": [
             "found_tongue_herb_residue"
@@ -278,7 +278,7 @@
   },
   "cabin_lu_room.cabin_storm_window": {
     "default": {
-      "narration": "窗外一道闪电照亮江面。船身随浪轻轻一偏，油灯火苗被风压得发蓝。这样的天气还要夜渡，急的不是路，是人。",
+      "narration": "窗外一道闪电照亮江面。船身随浪轻轻一偏，油灯火苗被风压得发蓝。这样的天气还要夜渡，也太急了些。",
       "clue": "clue_cabin_storm_window",
       "set_flags": [
         "cabin_storm_window_checked"

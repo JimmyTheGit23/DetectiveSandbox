@@ -81,34 +81,12 @@ func choose_option(index: int) -> void:
 		end_dialogue()
 		return
 	_current_node_id = goto
-	_apply_node_entry(_current_node_id)
 	var next_node: Dictionary = _current_tree.get("nodes", {}).get(_current_node_id, {})
 	if next_node.get("end", false):
 		_emit_current()
 		# 等用户按继续
 		return
 	_emit_current()
-
-
-func _apply_node_entry(node_id: String) -> void:
-	var node: Dictionary = _current_tree.get("nodes", {}).get(node_id, {})
-	# 标记节点访问
-	GameManager.mark_node_visited(_current_npc_id, node_id)
-	# 设置 flag
-	for f in node.get("set_flags", []):
-		GameManager.set_flag(f)
-	# 谎言被揭穿
-	var lie: Dictionary = node.get("lie", {})
-	if lie.get("is_lie", false):
-		# 这里只是 lie 元数据声明，揭穿走 reveal_lie 字段。无需处理。
-		pass
-	# 节点 reveal_lie: { "lie_node": "...", "set_flag": "..." }
-	var reveal: Dictionary = node.get("reveal_lie", {})
-	if reveal.size() > 0:
-		var lie_node: String = reveal.get("lie_node", "")
-		var lie_flag: String = "lie_exposed:%s.%s" % [_current_npc_id, lie_node]
-		GameManager.set_flag(lie_flag)
-		lie_exposed.emit(_current_npc_id, lie_node)
 
 
 func end_dialogue(suppress_companion_banter := false) -> void:
@@ -141,8 +119,9 @@ func _emit_current() -> void:
 		return
 	if _current_node_id != "hub":
 		_dialogue_had_content_node = true
-	# 第一次进入此节点（choose_option 进来时已 mark；start 进来时这里 mark）
-	if not GameManager.has_visited(_current_npc_id, _current_node_id):
+	var was_current_node_visited := GameManager.has_visited(_current_npc_id, _current_node_id)
+	# 第一次进入此节点时应用节点效果。
+	if not was_current_node_visited:
 		GameManager.mark_node_visited(_current_npc_id, _current_node_id)
 		for f in node.get("set_flags", []):
 			GameManager.set_flag(f)
@@ -204,6 +183,19 @@ func _emit_current() -> void:
 		npc_name = role_info.get("name", npc.get("name", _current_npc_id))
 	var pages: Array = _resolve_dialogue_pages(node, npc_name, portrait)
 	var text: String = _pages_to_text(pages)
+	# hub 节点二次进入时跳过问候文本，直接显示选项
+	# 但如果 hub 节点有阶段化 lines 且当前有匹配的条件行，则不跳过（阶段变化时重新显示）
+	if _current_node_id == "hub" and was_current_node_visited:
+		var _skip_hub := true
+		var _hub_lines: Array = node.get("lines", [])
+		if not _hub_lines.is_empty():
+			for _hl in _hub_lines:
+				if _hl.has("requires") and GameManager.evaluate_condition(_hl["requires"]):
+					_skip_hub = false
+					break
+		if _skip_hub:
+			pages = []
+			text = ""
 	var options := _filter_options(node.get("options", []))
 	# 优化：如果当前节点的选项只是"回 hub"+"退出"这种中转，直接跳到 hub
 	# 这样 choose_option 读的选项和玩家看到的一致（解决索引不匹配导致的卡死）
@@ -229,6 +221,7 @@ func _resolve_text(node: Dictionary) -> String:
 
 func _resolve_dialogue_pages(node: Dictionary, default_speaker: String, default_portrait: String) -> Array:
 	var lines: Array = node.get("lines", [])
+	var node_emotion: String = str(node.get("emotion", "")).strip_edges()
 	if not lines.is_empty():
 		var out: Array = []
 		for line in lines:
@@ -244,6 +237,10 @@ func _resolve_dialogue_pages(node: Dictionary, default_speaker: String, default_
 			var line_type: String = str(line.get("type", "")).strip_edges()
 			var speaker: String = str(line.get("speaker", "")).strip_edges()
 			var speaker_id: String = str(line.get("speaker_id", line.get("npc_id", ""))).strip_edges()
+			if _is_narrator_marker(speaker) or _is_narrator_marker(speaker_id):
+				speaker = ""
+				speaker_id = ""
+				line_type = "narration"
 			if speaker == "" and speaker_id != "":
 				speaker = _display_name_for_speaker_id(speaker_id)
 			if speaker == "" and line_type != "narration":
@@ -252,9 +249,11 @@ func _resolve_dialogue_pages(node: Dictionary, default_speaker: String, default_
 			if portrait == "" and line_type != "narration":
 				portrait = _portrait_for_speaker(speaker, speaker_id, default_speaker, default_portrait)
 			var page := {"speaker": speaker, "portrait": portrait, "text": line_text, "type": line_type}
-			for meta_key in ["emotion", "mood", "highlight", "record", "record_type", "record_title", "record_text", "record_id"]:
+			for meta_key in ["emotion", "mood", "highlight", "record", "record_type", "record_title", "record_text", "record_id", "portrait_emotion", "portrait_override"]:
 				if line.has(meta_key):
 					page[meta_key] = line[meta_key]
+			if not page.has("emotion") and node_emotion != "":
+				page["emotion"] = node_emotion
 			out.append(page)
 		if not out.is_empty():
 			return out
@@ -264,19 +263,22 @@ func _resolve_dialogue_pages(node: Dictionary, default_speaker: String, default_
 			if v.get("default", false):
 				continue
 			if GameManager.evaluate_condition(v.get("when", {})):
-				return _single_page(default_speaker, default_portrait, v.get("text", ""))
+				return _single_page(default_speaker, default_portrait, v.get("text", ""), node_emotion)
 		# 没有匹配的，找 default
 		for v in node["text_variants"]:
 			if v.get("default", false):
-				return _single_page(default_speaker, default_portrait, v.get("text", ""))
+				return _single_page(default_speaker, default_portrait, v.get("text", ""), node_emotion)
 	var text: String = node.get("text", "")
 	if text != "":
-		return _single_page(default_speaker, default_portrait, text)
+		return _single_page(default_speaker, default_portrait, text, node_emotion)
 	return _single_page(default_speaker, default_portrait, "（此处暂无可显示的对话内容。）")
 
 
-func _single_page(speaker: String, portrait: String, text: String) -> Array:
-	return [{"speaker": speaker, "portrait": portrait, "text": text}]
+func _single_page(speaker: String, portrait: String, text: String, emotion: String = "") -> Array:
+	var page := {"speaker": speaker, "portrait": portrait, "text": text}
+	if emotion != "":
+		page["emotion"] = emotion
+	return [page]
 
 
 func _pages_to_text(pages: Array) -> String:
@@ -291,6 +293,8 @@ func _pages_to_text(pages: Array) -> String:
 
 
 func _display_name_for_speaker_id(speaker_id: String) -> String:
+	if _is_narrator_marker(speaker_id):
+		return ""
 	if speaker_id == "xia_lingyao" or speaker_id == "lingyao":
 		return "凌瑶"
 	var display_name := GameManager.get_npc_display_name(speaker_id)
@@ -301,6 +305,8 @@ func _display_name_for_speaker_id(speaker_id: String) -> String:
 
 
 func _portrait_for_speaker(speaker: String, speaker_id: String, default_speaker: String, default_portrait: String) -> String:
+	if _is_narrator_marker(speaker) or _is_narrator_marker(speaker_id):
+		return ""
 	if speaker_id == "xia_lingyao" or speaker_id == "lingyao" or speaker == "凌瑶":
 		var cs = get_node_or_null("/root/CompanionService")
 		if cs != null and cs.has_method("get_companion_portrait"):
@@ -316,6 +322,12 @@ func _portrait_for_speaker(speaker: String, speaker_id: String, default_speaker:
 		if GameManager.get_npc_display_name(str(npc_id)) == speaker:
 			return AssetResolver.get_portrait(str(npc_id), GameManager.npcs_data)
 	return ""
+
+
+func _is_narrator_marker(value: String) -> bool:
+	var cleaned := value.strip_edges()
+	var lowered := cleaned.to_lower()
+	return cleaned == "旁白" or lowered == "narrator" or lowered == "_narrator" or lowered == "narrtator"
 
 
 func _filter_options(options: Array) -> Array:
@@ -371,6 +383,22 @@ func start_narration(doc_id: String = "prologue") -> void:
 	_current_tree = parsed
 	_narration_mode = true
 	_narration_node = _current_tree.get("start", "scene1")
+	VoicePlayer.begin_session()
+	_emit_narration()
+
+
+func start_narration_at(doc_id: String, node_id: String) -> void:
+	var parsed := CaseTableLoader.load_narration(GameManager.ACTIVE_CASE, doc_id)
+	if parsed.is_empty():
+		push_warning("No narration in CSV tables: %s/%s" % [GameManager.ACTIVE_CASE, doc_id])
+		return
+	_current_tree = parsed
+	_narration_mode = true
+	if _current_tree.get("nodes", {}).has(node_id):
+		_narration_node = node_id
+	else:
+		push_warning("Narration node not found: %s/%s" % [doc_id, node_id])
+		_narration_node = _current_tree.get("start", "scene1")
 	VoicePlayer.begin_session()
 	_emit_narration()
 

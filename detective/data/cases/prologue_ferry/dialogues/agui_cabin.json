@@ -37,6 +37,23 @@
           ]
         },
         {
+          "text": "墙边那件湿斗篷是谁碰过？",
+          "goto": "ask_wet_cloak",
+          "type": "press",
+          "requires": [
+            {
+              "all": [
+                {
+                  "flag": "cabin_wet_cloak_checked"
+                },
+                {
+                  "not_flag": "cabin_explore_done"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "text": "看看船舱里有什么",
           "goto": "observe_cabin",
           "type": "observe",
@@ -137,6 +154,52 @@
         },
         {
           "text": "严厉……但也是为你好。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续询问",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_wet_cloak": {
+      "set_flags": [
+        "cabin_agui_talked",
+        "cabin_agui_cloak_pressed"
+      ],
+      "lines": [
+        {
+          "text": "我舱里那件斗篷又湿了一层。船上有人进过我的舱？",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "小的不知道。小的一直在老爷那边伺候。外头雨这么大，许是风从门缝灌进去的。",
+          "speaker_id": "agui_cabin",
+          "emotion": "nervous"
+        },
+        {
+          "text": "他答得太快，手指却把衣角搓得更紧。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "若真有人进去过，小的也没瞧见。船舱这么窄，雨声又重，谁能听得清？",
+          "speaker_id": "agui_cabin",
+          "emotion": "nervous",
+          "record_type": "testimony",
+          "record_title": "阿贵证言：湿斗篷",
+          "record_text": "阿贵称自己没有碰过陆昭舱内湿斗篷，也不知道谁进过陆昭舱室。",
+          "record_id": "record_cabin_agui_wet_cloak"
+        },
+        {
+          "text": "听不清，不等于没人进去过。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         }

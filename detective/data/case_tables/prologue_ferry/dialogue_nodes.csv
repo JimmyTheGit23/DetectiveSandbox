@@ -15,7 +15,7 @@ fisherman_wang,ask_channel,,"走的东汊那条。
 
 老范在这儿跑了二十年。他不知道？放屁！他比谁都知道！
 
-除非——他就是故意走那条路。",evasive,,evidence_wrong_channel,,,,,
+除非——他就是故意走那条路。",evasive,,,evidence_wrong_channel,,,,
 fisherman_wang,ask_meeting,,"前一晚……对，老头子那天也收了夜网。
 
 路过码头的时候，看到两个人蹲在角落里说话。黑灯瞎火的，鬼鬼祟祟。
@@ -34,7 +34,7 @@ fisherman_wang,ask_dawn_sighting,,"天还没亮的时候，老头子在下游浅
 
 那人穿深色衣裳，身量高挑，不像老范，也不像阿贵。
 
-我当时离得远，不敢说死。但天一亮，那人就不见了。要不是后来听说货银也没找着，老头子还真以为是自己眼花。",evasive,,evidence_salvage_mark,,,,,
+我当时离得远，不敢说死。但天一亮，那人就不见了。要不是后来听说货银也没找着，老头子还真以为是自己眼花。",evasive,,,evidence_salvage_mark,,,,
 fisherman_wang,ask_river_life,,"老头子在这江上打了一辈子鱼。
 
 哪条汊水有暗礁，哪片浅滩能藏东西，心里都有数。
@@ -50,7 +50,7 @@ lao_fan,ask_rescue,,,,fan_alibi_contradiction,,,,,,
 lao_fan,show_hull,,,,,,,,,,
 lao_fan,show_iou,,,,,,,,,,
 lao_fan,ask_gambling_story,,,,,,,,,,
-lao_fan,press_shen_connection,,,,fan_confessed_shen,evidence_shen_connection,,,,,
+lao_fan,press_shen_connection,,,,fan_confessed_shen,,evidence_shen_connection,,,,
 li_zheng,hub,true,哦……你来了。我话撂在前头——周氏那边我得给交代。你要问话就问，但最后拿不出真凭实据……我只能按程序报上去。,nervous,,,,,,,
 li_zheng,intro,,,,lizheng_talked_once,,,,,,
 li_zheng,ask_reef,,,,,,clue_reef_common_knowledge,,,,
@@ -72,10 +72,11 @@ li_zheng,ask_victim,,"知道知道。做布匹生意的，来往走水路常歇�
 li_zheng,ask_recent_strangers,,,,stranger_from_nanjing_known,,clue_third_handwriting,,,,
 li_zheng,ask_next_step,,"阿贵招了——但供出的人是沈清月。大人，这事……不好办啊。
 沈家在这一带做了几十年药材生意，人脉广。光凭阿贵一张嘴，县衙那边不会批捕的。
-您得找到实证。码头时间线、货银去向、她跟老范的联系——哪条都行，但得有实锤。",determined,,,,,,,
+您得找到实证。码头时间线、货银去向、她跟老范的联系，还有沉船残骸上的毒囊痕迹——哪条都行，但得能互相印上。
+小人可以开堂，但不能替您把口供当铁证。",determined,,,,,,,
 li_zheng,ask_shen_opinion,,"沈清月……说实话，以前觉得她就是个精明的生意人。讨债凶是凶了点，但也没出过格。
 不过现在想想——她那天在码头骂周德茂'别想走'，我还以为是气话。
-大人，您要是去查她……小心点。这姑娘脑子好使，嘴也利索。",nervous,,,,,,,
+大人，您要是去查她……小心点。这姑娘脑子好使，嘴也利索。她会把每一件物证都拆成'不够定罪'。",nervous,,,,,,,
 shen_qingyue,hub,true,你就是那个……同船活下来的？听说周氏告了你杀人。嘁——冤不冤的我不知道，但你问话倒挺利索。问吧。,cold_smile,,,,,,,
 shen_qingyue,intro,,,,shen_talked_once,,,,,,
 shen_qingyue,ask_quarrel,,,,shen_quarrel_told,,,,,,
@@ -107,10 +108,10 @@ zhou_wife,ask_suspicion,,"阿贵不对劲。案发后他哭得比我都凶——
 zhou_wife,ask_swimming,,,,,,clue_victim_cant_swim,,,,
 zhou_wife,comfort,,"……你不像凶手。凶手不会还留在这里问话。
 
-里正让你查——你要是真能查出来……老爷的文书都在房间桌上。你看吧。",grief,,,,,,,
+里正让你查——你要是真能查出来……老爷的文书都在房间桌上。你看吧。",relieved,,,,,,,
 zhou_wife,ask_documents,,"都在房间里。大人自己去看吧——遣散字据、货单都在桌上。
 
-（她指了指房间的方向。）",suspicious,,,,,,,
+（她指了指房间的方向。）",relieved,,,,,,,
 zhou_wife,ask_why_night_ferry,,,,zhou_letter_revealed,,clue_route_change,,,,
 zhou_wife,react_murder_confirmed,,,,zhou_knows_murder,,,,,,
 zhou_wife,react_agui_confessed,,,,zhou_knows_agui_guilty,,,,,,
@@ -120,17 +121,21 @@ agui_cabin,hub,true,你……你是同船的？我叫阿贵，跟了老爷十二
 agui_cabin,ask_master,,,,cabin_agui_talked,,,,,,
 agui_cabin,ask_voyage,,,,cabin_agui_talked,,,,,,
 agui_cabin,ask_feelings,,,,cabin_agui_talked,,,,,,
+agui_cabin,observe_agui,,,,cabin_agui_observed,,clue_agui_suspicious_bag,,,,
 agui_cabin,observe_cabin,,,,cabin_observed,,,,,,
 
 lao_fan_cabin,hub,true,哟……又来一个问话的？我叫老范，跑了二十年船。这次是去武昌府的夜船。,evasive,,,,,,,
 lao_fan_cabin,ask_route,,,,cabin_lao_fan_talked,,,,,,
 lao_fan_cabin,ask_weather,,,,cabin_lao_fan_talked,,,,,,
-lao_fan_cabin,ask_cabin,,,,cabin_lao_fan_talked;cabin_saw_crowbar,,,,,,
 lao_fan_cabin,ask_money,,,,cabin_lao_fan_talked,,,,,,
-lao_fan_cabin,observe_cabin,,,,cabin_observed,,,,,,
+lao_fan_cabin,observe_cabin,,,,cabin_observed;cabin_saw_crowbar,,,,,,
 
-zhou_de_gui_cabin,hub,true,……你就是那个同船的御史？我叫周德茂，做布匹生意。这次是去武昌府进一批棉布。,serious,,,,,,,
-zhou_de_gui_cabin,ask_business,,,,cabin_zhou_talked,,,,,,
-zhou_de_gui_cabin,ask_night_ferry,,,,cabin_zhou_talked,,,,,,
-zhou_de_gui_cabin,ask_servant,,,,cabin_zhou_talked,,,,,,
+zhou_de_gui_cabin,hub,true,……你就是那个同船的公子？我叫周德茂，做布匹生意。这次是去武昌府进一批棉布。,serious,,,,,,,
+zhou_de_gui_cabin,ask_background,,,,cabin_zhou_talked,,,,,,
+zhou_de_gui_cabin,ask_night_ferry,,,,cabin_zhou_talked;cabin_friend_pressed,,,,,,
 zhou_de_gui_cabin,observe_cabin,,,,cabin_observed,,,,,,
+zhou_de_gui_cabin,sleep_review,,,,,,,,,,
+zhou_de_gui_cabin,review_route,,,,cabin_review_done;cabin_review_route,,,,,,
+zhou_de_gui_cabin,review_cloak,,,,cabin_review_done;cabin_review_cloak,,,,,,
+zhou_de_gui_cabin,review_friend,,,,cabin_review_done;cabin_review_friend,,,,,,
+zhou_de_gui_cabin,review_seal,,,,cabin_review_done;cabin_review_seal,,,,,,

@@ -25,6 +25,66 @@ const SubPanels = {
 	"settings": "res://scenes/ui/SettingsPanel.tscn",
 }
 
+const GM_PRESET_ORDER := [
+	"cabin_start",
+	"wang_confront",
+	"phase2_investigate",
+	"main_confront_ready",
+	"phase3_after_agui",
+	"final_ready",
+	"fixed_epilogue",
+]
+
+const GM_PRESETS := {
+	"cabin_start": {
+		"label": "船舱调查开始",
+		"location": "cabin_lu_room",
+	},
+	"wang_confront": {
+		"label": "王大爷自证对峙前",
+		"location": "ferry_inn",
+		"flags": ["cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "cabin_phase_done"],
+		"evidence": ["evidence_hull_hole", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
+		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive"],
+		"confrontation": "confrontation_wang",
+	},
+	"phase2_investigate": {
+		"label": "自证清白后调查",
+		"location": "ferry_dock",
+		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed"],
+		"evidence": ["evidence_hull_hole", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
+		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive"],
+	},
+	"main_confront_ready": {
+		"label": "老范/阿贵对峙前",
+		"location": "ferry_inn",
+		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known", "evt_gambling_debt_done", "fan_motive_known"],
+		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_gambling_iou", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
+		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole"],
+		"confrontation": "confrontation",
+	},
+	"phase3_after_agui": {
+		"label": "阿贵招供后",
+		"location": "ferry_inn",
+		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known", "evt_gambling_debt_done", "fan_motive_known", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done", "phase3_scene_rearranged"],
+		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_gambling_iou", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
+		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing"],
+	},
+	"final_ready": {
+		"label": "沈清月终局前",
+		"location": "shen_room",
+		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known", "evt_gambling_debt_done", "fan_motive_known", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done", "phase3_scene_rearranged", "bladder_meaning_revised", "evt_shen_evidence_ready_done"],
+		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_gambling_iou", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost", "evidence_cargo_silver", "evidence_drug_capsule_shell", "evidence_tongue_herb_residue", "evidence_oil_lock_residue", "evidence_father_ledger"],
+		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing", "evidence_salvage_mark", "evidence_shen_connection"],
+		"confrontation": "confrontation_final",
+	},
+	"fixed_epilogue": {
+		"label": "固定结尾过渡",
+		"location": "ferry_inn",
+		"flags": ["cabin_phase_done", "prologue_truth_reached", "prologue_defeated", "case_partially_resolved"],
+	},
+}
+
 const SettingsSealIcon = preload("res://scripts/ui/SettingsSealIcon.gd")
 const SETTINGS_BUTTON_ICON_PATH := "res://assets/cn/ui/icon_settings_seal.png"
 
@@ -1039,6 +1099,134 @@ func _on_game_reset() -> void:
 	_show_title()
 
 
+func gm_preset_options() -> Array:
+	var out: Array = []
+	for preset_id in GM_PRESET_ORDER:
+		var preset: Dictionary = GM_PRESETS.get(preset_id, {})
+		out.append({"id": preset_id, "label": preset.get("label", preset_id)})
+	return out
+
+
+func gm_apply_preset(preset_id: String, reset_first := true) -> void:
+	if not GM_PRESETS.has(preset_id):
+		_flash_notification("未知 GM 预设：" + preset_id)
+		return
+	var preset: Dictionary = GM_PRESETS[preset_id]
+	if reset_first:
+		GameManager.reset_progress()
+	_gm_grant_state(preset)
+	_gm_prepare_surface(true)
+	_gm_force_location(str(preset.get("location", GameManager.case_main_scene)))
+	_flash_notification("GM 预设：" + str(preset.get("label", preset_id)))
+
+
+func gm_apply_preset_and_confront(preset_id: String) -> void:
+	gm_apply_preset(preset_id, true)
+	var preset: Dictionary = GM_PRESETS.get(preset_id, {})
+	var confront_key := str(preset.get("confrontation", ""))
+	if confront_key == "":
+		_flash_notification("此预设没有绑定对峙")
+		return
+	gm_start_confrontation(confront_key)
+
+
+func gm_jump_to_dialogue(npc_id: String, node_id: String) -> void:
+	if npc_id == "" or node_id == "":
+		_flash_notification("格式：npc_id.node_id")
+		return
+	_gm_prepare_surface(false)
+	DialogueManager.start_dialogue_at(npc_id, node_id)
+
+
+func gm_jump_to_narration(doc_id: String, node_id: String) -> void:
+	if doc_id == "" or node_id == "":
+		_flash_notification("格式：doc_id.node_id")
+		return
+	_gm_prepare_surface(false)
+	DialogueManager.start_narration_at(doc_id, node_id)
+
+
+func gm_play_event(evt_id: String) -> void:
+	if evt_id == "":
+		_flash_notification("请输入事件 ID")
+		return
+	if GameManager.get_day_event(evt_id).is_empty():
+		_flash_notification("未知事件：" + evt_id)
+		return
+	_gm_prepare_surface(false)
+	_play_event_now(evt_id)
+
+
+func gm_start_confrontation(confront_key: String) -> void:
+	if confront_key == "":
+		_flash_notification("请输入对峙 ID")
+		return
+	if not GameManager.case_data.has(confront_key):
+		_flash_notification("未知对峙：" + confront_key)
+		return
+	_gm_prepare_surface(false)
+	GameManager.active_confrontation_key = confront_key
+	_open_confrontation_panel()
+
+
+func gm_play_fixed_epilogue() -> void:
+	_gm_prepare_surface(false)
+	var preset: Dictionary = GM_PRESETS.get("fixed_epilogue", {})
+	_gm_grant_state(preset)
+	GameManager.save_game()
+	if not _try_play_case_epilogue("prologue_fixed"):
+		_show_ending("prologue_fixed")
+
+
+func _gm_prepare_surface(show_menu := true) -> void:
+	_close_subpanel()
+	_pending_events.clear()
+	_pending_adhoc_lines.clear()
+	_event_hint_auto_pending = false
+	event_hint_btn.visible = false
+	ending_screen.visible = false
+	dialogue_box.visible = false
+	subpanel_container.visible = false
+	_hide_title()
+	menu_panel.visible = show_menu
+	GameManager.set_state(GameManager.STATE_PLAYING)
+	# 状态切到 PLAYING 后重新触发阶段解锁判定
+	# （_gm_grant_state 里 set_flag 调的 _check_progression 会因 STATE_PROLOGUE 跳过条件阶段）
+	GameManager._check_progression()
+	if _scene_fx and _scene_fx.has_method("clear_layers"):
+		_scene_fx.clear_layers()
+	if _npc_layer and _npc_layer.has_method("show_npcs"):
+		_npc_layer.show_npcs()
+
+
+func _gm_grant_state(preset: Dictionary) -> void:
+	for flag_id in preset.get("flags", []):
+		GameManager.set_flag(str(flag_id))
+	for evidence_id in preset.get("evidence", []):
+		if GameManager.evidence_data.has(str(evidence_id)):
+			GameManager.add_evidence(str(evidence_id))
+	for clue_id in preset.get("clues", []):
+		if GameManager.evidence_data.has(str(clue_id)):
+			GameManager.add_clue(str(clue_id))
+	_gm_clear_event_noise()
+
+
+func _gm_clear_event_noise() -> void:
+	_pending_events.clear()
+	_event_hint_auto_pending = false
+	event_hint_btn.visible = false
+
+
+func _gm_force_location(loc_id: String) -> void:
+	if loc_id == "" or not GameManager.locations_data.has(loc_id):
+		return
+	GameManager.current_location = loc_id
+	if not GameManager.visited_locations.has(loc_id):
+		GameManager.visited_locations.append(loc_id)
+	GameManager.location_changed.emit(loc_id)
+	GameManager.save_game()
+
+
 func is_subpanel_active() -> bool:
 	return _active_subpanel != null and is_instance_valid(_active_subpanel)
 
@@ -1152,7 +1340,7 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 			GameManager.set_flag("zhou_wife_bribe_exposed")
 		elif suspect == "agui":
 			GameManager.set_flag("agui_confessed_mastermind")
-		elif confront_key == "confrontation_final":
+		elif confront_key == "confrontation_final" and GameManager.ACTIVE_CASE == "prologue_ferry":
 			GameManager.set_flag("prologue_truth_reached")
 			GameManager.set_flag("prologue_defeated")
 			GameManager.set_flag("case_partially_resolved")
@@ -1165,13 +1353,12 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 		return
 	# 最终对峙 → 结局流程。序章终局无论机制胜败，都是"逼近真相但沈清月翻盘"的败局。
 	var ending_id := GameManager.judge_confrontation(result, mistakes)
-	if confront_key == "confrontation_final":
+	if confront_key == "confrontation_final" and GameManager.ACTIVE_CASE == "prologue_ferry":
 		GameManager.set_flag("prologue_defeated")
 		GameManager.set_flag("case_partially_resolved")
 		if result == "victory":
 			GameManager.set_flag("prologue_truth_reached")
-		elif ending_id == "bad":
-			ending_id = "partial"
+		ending_id = "prologue_fixed"
 	if ending_id == "bad" or ending_id == "partial":
 		_try_companion_banter("accuse_fail")
 	if _try_play_case_epilogue(ending_id):
@@ -1318,6 +1505,9 @@ func _on_narration_ended() -> void:
 
 ## 叙述中遇到 time_card 节点：显示时间过场，结束后自动推进叙述
 func _on_narration_time_card(text: String, sub_text: String) -> void:
+	if dialogue_box and dialogue_box.has_method("clear_for_transition"):
+		dialogue_box.clear_for_transition()
+	dialogue_box.visible = false
 	# 先立即黑屏遮住一切（避免闪帧）
 	day_transition.bg.modulate.a = 1.0
 	day_transition.visible = true
@@ -1466,7 +1656,7 @@ func _on_return_to_case_select_after_ending() -> void:
 # ─── 结局 ───
 func _show_ending(ending_id: String) -> void:
 	GameManager.set_state(GameManager.STATE_ENDING)
-	if ending_id == "perfect" or ending_id == "good":
+	if ending_id == "perfect" or ending_id == "good" or ending_id == "prologue_fixed":
 		BgmPlayer.play("ending_perfect")
 	else:
 		BgmPlayer.play("ending_bad")

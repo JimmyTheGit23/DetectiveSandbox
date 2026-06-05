@@ -58,7 +58,7 @@ func _create_portrait_rect() -> void:
 		var mat := ShaderMaterial.new()
 		mat.shader = shader
 		mat.set_shader_parameter("fade_bottom", 0.25)
-		mat.set_shader_parameter("fade_top", 0.03)
+		mat.set_shader_parameter("fade_top", 0.0)
 		mat.set_shader_parameter("fade_left", 0.0)
 		mat.set_shader_parameter("fade_right", 0.18)
 		_portrait_rect.material = mat

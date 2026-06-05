@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -99,6 +100,15 @@ def _result_payload(row: JsonDict) -> JsonDict:
     if time_cost is not None:
         d["time_cost"] = time_cost
     return d
+
+
+def _parse_json_any_cell(value: Any, default: Any) -> Any:
+    if is_blank(value):
+        return default
+    try:
+        return json.loads(str(value))
+    except json.JSONDecodeError:
+        return default
 
 
 def compile_evidence(src: Path) -> JsonDict:
@@ -330,6 +340,135 @@ def compile_dialogues(src: Path) -> Dict[str, JsonDict]:
     return dialogues
 
 
+def compile_epilogue_meta(src: Path, case_id: str) -> JsonDict:
+    base = _load_json(DATA / "cases" / case_id / "epilogue_meta.json")
+    scene_rows = _rows(src / "epilogue_scenes.csv")
+    if not scene_rows:
+        return base
+
+    line_rows = sorted(_rows(src / "epilogue_lines.csv"), key=_sort_key)
+    lines_by_scene: Dict[str, List[JsonDict]] = defaultdict(list)
+    for row in line_rows:
+        scene_id = _cell(row, "scene_id")
+        if scene_id:
+            lines_by_scene[scene_id].append(row)
+
+    scenes: List[JsonDict] = []
+    for row in sorted(scene_rows, key=_sort_key):
+        scene_id = _cell(row, "scene_id")
+        if not scene_id:
+            continue
+        scene: JsonDict = {"id": scene_id}
+        for key in ["type", "background", "bgm"]:
+            _set_if(scene, key, _cell(row, key))
+        lines: List[JsonDict] = []
+        for line_row in lines_by_scene.get(scene_id, []):
+            line = {"speaker": _cell(line_row, "speaker"), "text": _cell(line_row, "text")}
+            _set_if(line, "emotion", _cell(line_row, "emotion"))
+            lines.append(line)
+        if lines:
+            scene["lines"] = lines
+        scenes.append(scene)
+
+    if case_id == "prologue_ferry":
+        triggers = ["prologue_fixed"]
+    else:
+        triggers = base.get("trigger_endings", [])
+    if not triggers:
+        triggers = ["prologue_fixed", "perfect", "good", "partial"]
+
+    return {
+        "_comment": base.get("_comment", "Generated from epilogue_scenes.csv and epilogue_lines.csv."),
+        "trigger_endings": triggers,
+        "scenes": scenes,
+    }
+
+
+def compile_companion_config(src: Path) -> JsonDict:
+    rows = _rows(src / "companion_config.csv")
+    if not rows:
+        return {}
+    row = rows[0]
+    out: JsonDict = {}
+    for key in ["companion_id", "role_name", "actor_id", "intro_hint"]:
+        _set_if(out, key, _cell(row, key))
+    topics = _parse_json_any_cell(row.get("available_topics", ""), [])
+    _set_if(out, "available_topics", topics)
+    limits = _parse_json_any_cell(row.get("limits", ""), {})
+    _set_if(out, "limits", limits)
+    if parse_bool(row.get("lock_on_final_day", "")):
+        out["lock_on_final_day"] = True
+    banter_max = parse_int(row.get("banter_max_per_day", ""))
+    if banter_max is not None:
+        out["banter_max_per_day"] = banter_max
+    if parse_bool(row.get("tutorial_mode", "")):
+        out["tutorial_mode"] = True
+
+    hints: JsonDict = {}
+    for hint_row in _rows(src / "companion_tutorial_hints.csv"):
+        hint_key = _cell(hint_row, "hint_key")
+        text = _cell(hint_row, "text")
+        if hint_key and text:
+            hints[hint_key] = text
+    if hints:
+        out["tutorial_hints"] = hints
+    return out
+
+
+def compile_companion_discussions(src: Path, case_id: str) -> JsonDict:
+    base = _load_json(DATA / "cases" / case_id / "companion" / "discussions.json")
+    out: JsonDict = {}
+    for row in _rows(src / "companion_discussions.csv"):
+        topic_id = _cell(row, "topic_id")
+        if not topic_id:
+            continue
+        topic = out.setdefault(topic_id, {"rules": []})
+        rule: JsonDict = {}
+        when = _parse_json_any_cell(row.get("when", ""), {})
+        _set_if(rule, "when", when)
+        lines = _parse_json_any_cell(row.get("lines", ""), [])
+        _set_if(rule, "lines", lines)
+        if parse_bool(row.get("once", "")):
+            rule["once"] = True
+        priority = parse_int(row.get("priority", ""))
+        if priority is not None:
+            rule["priority"] = priority
+
+        if isinstance(when, dict) and when.get("default", False) and topic.get("rules", []) == [] and lines:
+            topic["pool"] = lines
+            continue
+        topic.setdefault("rules", []).append(rule)
+
+    for key, value in base.items():
+        if key.startswith("_") and key not in out:
+            out[key] = value
+    return out
+
+
+def compile_companion_banter(src: Path, case_id: str) -> JsonDict:
+    base = _load_json(DATA / "cases" / case_id / "companion" / "banter.json")
+    rules: List[JsonDict] = []
+    for row in _rows(src / "companion_banter.csv"):
+        rule: JsonDict = {}
+        _set_if(rule, "id", _cell(row, "banter_id"))
+        when = _parse_json_any_cell(row.get("when", ""), {})
+        _set_if(rule, "when", when)
+        requires = _parse_json_any_cell(row.get("requires", ""), {})
+        _set_if(rule, "requires", requires)
+        lines = _parse_json_any_cell(row.get("lines", ""), [])
+        _set_if(rule, "lines", lines)
+        effect = _parse_json_any_cell(row.get("effect", ""), {})
+        _set_if(rule, "effect", effect)
+        if parse_bool(row.get("once", "")):
+            rule["once"] = True
+        priority = parse_int(row.get("priority", ""))
+        if priority is not None:
+            rule["priority"] = priority
+        if rule:
+            rules.append(rule)
+    return {"_comment": base.get("_comment", "Generated from companion_banter.csv."), "rules": rules}
+
+
 def _load_json(path: Path) -> JsonDict:
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -342,6 +481,15 @@ def _sort_key(row: JsonDict) -> float:
     try:
         return float(value)
     except ValueError:
+        m = re.match(r"^\s*([+-]?\d+(?:\.\d+)?)([A-Za-z]+)\s*$", value)
+        if m:
+            suffix_offset = 0.0
+            divisor = 100.0
+            for ch in m.group(2).lower():
+                if "a" <= ch <= "z":
+                    suffix_offset += (ord(ch) - ord("a") + 1) / divisor
+                    divisor *= 100.0
+            return float(m.group(1)) + suffix_offset
         return 0.0
 
 
@@ -433,6 +581,7 @@ def compile_case_json(src: Path, case_id: str) -> JsonDict:
         _set_if(testimony, "id", testimony_id)
         _set_if(testimony, "witness", _cell(row, "witness"))
         _set_if(testimony, "title", _cell(row, "title"))
+        _set_if(testimony, "grant_evidence", _cell(row, "grant_evidence"))
         for section in ["preamble", "readthrough_end_hint", "transition_dialogue", "fail_dialogue"]:
             lines = [_line(x) for x in testimony_lines_by_key.get((testimony_id, section), [])]
             _set_if(testimony, section, lines)
@@ -798,6 +947,22 @@ def compile_case(case_id: str, tables_root: Path, out_dir: Path, dry_run: bool =
     if (src / "day_events.csv").exists():
         path = out_dir / "day_events.json"
         write_json(path, compile_day_events(src, case_id), dry_run)
+        written.append(path)
+    if (src / "epilogue_scenes.csv").exists():
+        path = out_dir / "epilogue_meta.json"
+        write_json(path, compile_epilogue_meta(src, case_id), dry_run)
+        written.append(path)
+    if (src / "companion_config.csv").exists():
+        path = out_dir / "companion" / "companion.json"
+        write_json(path, compile_companion_config(src), dry_run)
+        written.append(path)
+    if (src / "companion_discussions.csv").exists():
+        path = out_dir / "companion" / "discussions.json"
+        write_json(path, compile_companion_discussions(src, case_id), dry_run)
+        written.append(path)
+    if (src / "companion_banter.csv").exists():
+        path = out_dir / "companion" / "banter.json"
+        write_json(path, compile_companion_banter(src, case_id), dry_run)
         written.append(path)
     if (src / "schedule_defaults.csv").exists():
         path = out_dir / "schedules.json"

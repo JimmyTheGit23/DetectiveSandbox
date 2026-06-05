@@ -1,20 +1,49 @@
 {
-  "_comment": "序章助手配置。凌瑶作为教学案助手，引导更积极。",
   "companion_id": "xia_lingyao",
   "role_name": "凌瑶",
   "actor_id": "actor_tomboy_courier",
-  "available_topics": ["next_direction", "suspect_now", "evidence_ready", "about_shen", "why_here", "chitchat"],
+  "intro_hint": "凌瑶是金鳞镖局首席镖师，因押送急件被暴雨困在石矶渡。她武艺高强、略通验尸，第一次协助陆昭查案时嘴快心热，但眼睛很尖。",
+  "available_topics": [
+    "next_direction",
+    "suspect_now",
+    "evidence_ready",
+    "about_shen",
+    "why_here",
+    "chitchat"
+  ],
   "limits": {
-    "next_direction": { "per_day": 2, "cost_period": 0, "cost_cognitive": 3 },
-    "suspect_now":    { "per_day": 2, "cost_period": 0, "cost_cognitive": 3 },
-    "evidence_ready": { "per_day": 2, "cost_period": 0, "cost_cognitive": 0 },
-    "about_shen":     { "per_day": 2, "cost_period": 0, "cost_cognitive": 3 },
-    "why_here":       { "per_day": 1, "cost_period": 0, "cost_cognitive": 0 },
-    "chitchat":       { "per_day": 99, "cost_period": 0, "cost_cognitive": 0 }
+    "next_direction": {
+      "per_day": 2,
+      "cost_period": 0,
+      "cost_cognitive": 3
+    },
+    "suspect_now": {
+      "per_day": 2,
+      "cost_period": 0,
+      "cost_cognitive": 3
+    },
+    "evidence_ready": {
+      "per_day": 2,
+      "cost_period": 0,
+      "cost_cognitive": 0
+    },
+    "about_shen": {
+      "per_day": 2,
+      "cost_period": 0,
+      "cost_cognitive": 3
+    },
+    "why_here": {
+      "per_day": 1,
+      "cost_period": 0,
+      "cost_cognitive": 0
+    },
+    "chitchat": {
+      "per_day": 99,
+      "cost_period": 0,
+      "cost_cognitive": 0
+    }
   },
-  "lock_on_final_day": false,
   "banter_max_per_day": 30,
-  "intro_hint": "凌瑶是金鳞镖局的首席镖师，押送急件路过石矶渡，被暴雨困住。这是她头一回参与查案——好奇心旺盛，嘴巴停不下来，但眼睛很尖。",
   "tutorial_mode": true,
   "tutorial_hints": {
     "map": "陆大人，右边那个就是地图。想去哪儿点哪儿。",

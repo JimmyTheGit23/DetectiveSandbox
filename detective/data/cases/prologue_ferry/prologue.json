@@ -40,9 +40,9 @@
     },
     "cabin_prologue_1": {
       "speaker": "陆昭",
-      "text": "我叫陆昭，京城人氏，途经此地。",
+      "text": "我叫陆昭，京城来的书生。借这条夜船过江。",
       "next": "cabin_prologue_2",
-      "portrait": "res://assets/cn/portraits/lu_zhao.png",
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
       "emotion": "serious",
       "background": "res://assets/cn/scenes/prologue_ship_cabin_lu_room.png",
       "effect": {
@@ -53,7 +53,7 @@
       "speaker": "陆昭",
       "text": "这条渡船，是平水驿驿丞推荐的。说是'夜船半日便到'。",
       "next": "cabin_prologue_3",
-      "portrait": "res://assets/cn/portraits/lu_zhao.png",
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
       "emotion": "serious",
       "background": "res://assets/cn/scenes/prologue_ship_cabin_lu_room.png"
     },
@@ -93,7 +93,7 @@
       "speaker": "陆昭",
       "text": "船在沉。",
       "next": "cabin_flood",
-      "portrait": "res://assets/cn/portraits/lu_zhao.png",
+      "portrait": "res://assets/cn/portraits/prologue_lu_zhao.png",
       "emotion": "cold"
     },
     "_sep_round1": "═══ 第一回合：水到膝盖 ═══",
@@ -375,7 +375,7 @@
       "speaker": "周氏",
       "text": "同船的人——他死了，你活着！\n\n（扑过来抓住你衣领）上船的时候你连船钱都付不起，还是我家老爷替你垫的！五十两货银——钱呢？！你就是图财害命！！",
       "next": "day2_agui_appears",
-      "emotion": "grief",
+      "emotion": "accusing",
       "fx": {
         "bgm": "accuse_tension"
       }
@@ -407,7 +407,7 @@
       "speaker": "周氏",
       "text": "你还想狡辩？！同船的人只有你活着！只有你从天窗跑了！不是你是谁？！\n\n御史？！谁信！有凭证你拿出来啊！！",
       "next": "day2_lizheng_appear",
-      "emotion": "grief"
+      "emotion": "accusing"
     },
     "day2_lizheng_appear": {
       "text": "围观人群骚动。一个圆脸中年人从人群中挤出来——是渡口的里正。\n\n他扫了一眼尸体，又打量了你几眼。表情不像同情，更像在盘算。",

@@ -385,8 +385,49 @@ static func _parse_call(name: String, text: String):
 	return null
 
 
+static func _order_sort_value(row: Dictionary) -> float:
+	var text := _cell(row, "order", "0").strip_edges()
+	if text == "":
+		return 0.0
+	if text.is_valid_float():
+		return float(text)
+	var number_text := ""
+	var suffix := ""
+	var suffix_started := false
+	var sign_allowed := true
+	for i in range(text.length()):
+		var ch := text.substr(i, 1)
+		if not suffix_started:
+			if (ch == "-" or ch == "+") and sign_allowed:
+				number_text += ch
+				sign_allowed = false
+			elif ch >= "0" and ch <= "9":
+				number_text += ch
+				sign_allowed = false
+			elif ch == ".":
+				number_text += ch
+				sign_allowed = false
+			else:
+				suffix_started = true
+				suffix += ch
+		else:
+			suffix += ch
+	if number_text == "" or number_text == "-" or number_text == "+" or number_text == ".":
+		return 0.0
+	var value := float(number_text)
+	var offset := 0.0
+	var divisor := 100.0
+	var lower_suffix := suffix.to_lower()
+	for i in range(lower_suffix.length()):
+		var code := lower_suffix.unicode_at(i)
+		if code >= 97 and code <= 122:
+			offset += float(code - 96) / divisor
+			divisor *= 100.0
+	return value + offset
+
+
 static func _sort_by_order(a: Dictionary, b: Dictionary) -> bool:
-	return float(_cell(a, "order", "0")) < float(_cell(b, "order", "0"))
+	return _order_sort_value(a) < _order_sort_value(b)
 
 
 static func _sort_rows(rows: Array) -> void:
@@ -576,7 +617,7 @@ static func _compile_dialogues(src: String, base: Dictionary = {}) -> Dictionary
 		if npc_id == "" or node_id == "" or text == "":
 			continue
 		var line := {"text": text}
-		for key in ["speaker_id", "speaker", "type", "emotion", "mood", "record_type", "record_title", "record_text", "record_id"]:
+		for key in ["speaker_id", "speaker", "type", "emotion", "mood", "portrait_emotion", "portrait_override", "record_type", "record_title", "record_text", "record_id"]:
 			_set_if(line, key, _cell(row, key))
 		_set_if(line, "highlight", _parse_list(row.get("highlight", "")))
 		_set_condition(line, "requires", row.get("requires", ""))
@@ -1213,5 +1254,3 @@ static func _compile_companion_config(src: String) -> Dictionary:
 				hints[hkey] = _cell(hrow, "text")
 		out["tutorial_hints"] = hints
 	return out
-
-

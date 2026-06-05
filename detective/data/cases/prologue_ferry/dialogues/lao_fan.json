@@ -466,7 +466,7 @@
       "set_flags": [
         "fan_confessed_shen"
       ],
-      "gain_evidence": "evidence_shen_connection",
+      "gain_clue": "evidence_shen_connection",
       "lines": [
         {
           "text": "老范。阿贵已经招了。你也可以说实话了。",
@@ -494,7 +494,7 @@
           "emotion": "cold"
         },
         {
-          "text": "她怎么找的你。",
+          "text": "别绕。她开了什么价？",
           "speaker_id": "lu_zhao",
           "emotion": "cold"
         },

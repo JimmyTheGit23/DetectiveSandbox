@@ -32,7 +32,7 @@ signal sfx_requested(sfx_name: String)
 ## 括号内（旁白/动作描写）加速倍率
 @export var parenthesis_speed: float = 1.5
 ## 打字音效开关
-@export var typing_sound_enabled: bool = true
+@export var typing_sound_enabled: bool = false
 ## 打字音效音量（dB）
 @export var typing_sound_volume_db: float = -14.0
 
@@ -107,7 +107,8 @@ func play(target: RichTextLabel, text: String) -> void:
 	_parse_commands()
 	_target.text = _display_text
 	_target.visible_characters = 0
-	_run_typewriter(current_run)
+	# Defer so callers can safely `await finished`, including empty text.
+	call_deferred("_run_typewriter", current_run)
 
 
 func skip() -> void:

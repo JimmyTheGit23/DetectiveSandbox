@@ -24,6 +24,8 @@ import glob
 from pathlib import Path
 from scipy import ndimage
 
+from portrait_generation_spec import NPC_KNEE_UP_SPEC, fit_subject_to_spec
+
 PURPLE_R, PURPLE_G, PURPLE_B = 255, 0, 255  # #FF00FF
 
 # 标准画布尺寸
@@ -291,50 +293,73 @@ def remove_purple_bg(path: str, out_path: str = None, no_despill: bool = False,
     if portrait:
         if canvas_size is None:
             canvas_size = CANVAS_COMPANION
-        target_w, target_h = canvas_size
+        if tuple(canvas_size) == NPC_KNEE_UP_SPEC.canvas:
+            result = fit_subject_to_spec(result, NPC_KNEE_UP_SPEC)
+        else:
+            target_w, target_h = canvas_size
 
-        # autocrop
-        alpha_arr = np.array(result)[:, :, 3]
-        nz = np.argwhere(alpha_arr > 10)
-        if nz.size > 0:
-            y0, x0 = nz.min(axis=0)
-            y1, x1 = nz.max(axis=0)
-            result = result.crop((x0, y0, x1 + 1, y1 + 1))
+            alpha_arr = np.array(result)[:, :, 3]
+            nz = np.argwhere(alpha_arr > 10)
+            if nz.size > 0:
+                y0, x0 = nz.min(axis=0)
+                y1, x1 = nz.max(axis=0)
+                result = result.crop((x0, y0, x1 + 1, y1 + 1))
 
-        # 等比缩放 + 居底对齐
-        src_w, src_h = result.size
-        scale = min(target_w / src_w, target_h / src_h)
-        new_w = max(1, int(src_w * scale))
-        new_h = max(1, int(src_h * scale))
-        resized = result.resize((new_w, new_h), Image.Resampling.LANCZOS)
-        canvas = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
-        paste_x = (target_w - new_w) // 2
-        paste_y = target_h - new_h
-        canvas.paste(resized, (paste_x, paste_y), resized)
-        result = canvas
+            src_w, src_h = result.size
+            scale = min(target_w / src_w, target_h / src_h)
+            new_w = max(1, int(src_w * scale))
+            new_h = max(1, int(src_h * scale))
+            resized = result.resize((new_w, new_h), Image.Resampling.LANCZOS)
+            canvas = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
+            paste_x = (target_w - new_w) // 2
+            paste_y = target_h - new_h
+            canvas.paste(resized, (paste_x, paste_y), resized)
+            result = canvas
 
     result.save(out_path)
     print(f"Saved: {out_path}")
 
 
 def verify_portrait(path: str) -> bool:
-    """验证抠图质量：检查紫色溢色和背景残留。"""
+    """验证抠图质量：仅检查边缘色键残留，避免误伤角色本身的红紫服装。"""
     data = np.array(Image.open(path).convert("RGBA"))
     r, g, b, a = data[:, :, 0].astype(int), data[:, :, 1].astype(int), data[:, :, 2].astype(int), data[:, :, 3]
     visible = a > 10
 
-    brightness = (r + g + b) / 3.0
-    # 暗色区域（brightness<100）的 R≈B>G 更可能是棕色/暗红而非紫溢，加亮度阈值
-    is_magenta_spill = visible & (np.minimum(r, b) > g + 8) & (np.abs(r - b) < 50) & (brightness > 80)
-    magenta_spill = is_magenta_spill.sum()
+    # 只检查紧邻透明区域的窄边带，避免把角色衣服本身的酒红/紫红纹理误判成溢色。
+    alpha_img = Image.fromarray((visible.astype(np.uint8) * 255), mode="L")
+    edge_band = np.array(alpha_img.filter(ImageFilter.MaxFilter(size=5)), dtype=np.uint8) > 0
+    edge_band &= visible
 
-    pure_magenta = visible & (r > 230) & (g < 30) & (b > 230)
-    bg_residue = pure_magenta.sum()
+    magenta_edge = edge_band & (r > 220) & (g < 60) & (b > 220)
+    green_edge = edge_band & (g > r + 45) & (g > b + 45)
 
-    if magenta_spill > 0 or bg_residue > 0:
-        print(f"FAIL [{path}]: magenta_spill={magenta_spill}, bg_residue={bg_residue}")
+    # 角落/边框处不应残留任何可见纯色键背景。
+    h, w = a.shape
+    border = np.zeros_like(visible, dtype=bool)
+    border[:3, :] = True
+    border[-3:, :] = True
+    border[:, :3] = True
+    border[:, -3:] = True
+    border_residue = border & visible & (
+        ((r > 220) & (g < 60) & (b > 220)) |
+        ((g > 220) & (r < 60) & (b < 60))
+    )
+
+    magenta_spill = int(magenta_edge.sum())
+    green_spill = int(green_edge.sum())
+    bg_residue = int(border_residue.sum())
+
+    if magenta_spill > 24 or green_spill > 24 or bg_residue > 0:
+        print(
+            f"FAIL [{path}]: magenta_spill={magenta_spill}, "
+            f"green_spill={green_spill}, bg_residue={bg_residue}"
+        )
         return False
-    print(f"PASS [{path}]: magenta_spill={magenta_spill}, bg_residue={bg_residue}")
+    print(
+        f"PASS [{path}]: magenta_spill={magenta_spill}, "
+        f"green_spill={green_spill}, bg_residue={bg_residue}"
+    )
     return True
 
 

@@ -17,7 +17,7 @@ testimony_lao_fan_rescue,fan_rescue_5,老范,上了岸之后手脚都僵了，�
 testimony_lao_fan_motive,fan_motive_1,老范,我跟周老爷第一次见。收了船钱，送他过江，仅此而已。,,,,,,,
 testimony_lao_fan_motive,fan_motive_2,老范,我不缺这点船钱，也不缺银子。杀人？为了什么？,,true,evidence_gambling_iou,,,,
 testimony_lao_fan_motive,fan_motive_3,老范,再说了，周老爷死了，货银也沉江。我能落着什么好？,,,,,,,
-testimony_lao_fan_motive,fan_motive_4,老范,药材行的人找过我？我不记得有这回事。码头上每天人来人往——谁能记住每个搭话的？,,true,evidence_shen_connection,,evidence_shen_connection,,
+testimony_lao_fan_motive,fan_motive_4,老范,药材行的人找过我？我不记得有这回事。码头上每天人来人往——谁能记住每个搭话的？,,,,,,,
 testimony_lao_fan_motive,fan_motive_5,老范,船沉了——我的饭碗也没了。二十年的船、吃饭的家伙、全沉了江底。大人你说，我图什么？,,,,,,,
 testimony_0,s0_1,阿贵,那晚三更刚过，我起来解手——看见他蹲在船底舱口，手里攥着个铁家伙！,,,,,,,
 testimony_0,s0_2,阿贵,他用铁器打了老爷！老爷被打晕了才落水的！,,true,evidence_no_blunt_trauma,,,,
@@ -56,10 +56,10 @@ shen_testimony_3,sf3_4,沈清月,你没有任何能直接连到我身上的物�
 shen_testimony_3,sf3_5,沈清月,大明律——'疑罪从无'。你的推理再精妙，没有一条证据是铁板钉钉的。陆公子，公堂上赢的不是故事，是证据。,,,,,,,
 shen_testimony_4,sf4_1,沈清月,周德茂落水前是否失力，你们没有亲眼看见。江水能让人抽筋，也能让人缠上水草。,,,,,,,
 shen_testimony_4,sf4_2,沈清月,糯米胶薄膜？码头上封鱼篓、糊船缝都用这东西。人人可得——无法唯一指向任何人。,,true,evidence_capsule_position_match,evidence_drug_capsule_shell,,,
-shen_testimony_4,sf4_3,沈清月,蓝色草药入淡水数刻便散，指甲缝和舌根残留也可能是江中水草。药理上无法定成毒杀。,,,,,,,
+shen_testimony_4,sf4_3,沈清月,麻痹草药入淡水数刻便散，舌根残留也可能只是江中水草或过期植物纤维。药理上无法定成毒杀。,,,,,,,
 shen_testimony_4,sf4_4,沈清月,油脂可来自江中鱼虾、可来自船板漆料。无法唯一指向人为投毒——更不能证明是我。,,true,evidence_oil_lock_residue,evidence_tongue_herb_residue,,,
 
 # === 王大爷自证对峙证词（指向主角） ===
-testimony_wang_self,wang_s1,王大爷,"那天夜里我在岸边收网。船翻之前，我看见陆公子和周老板在船头争执，影子清清楚楚。",,true,evidence_cabin_escape_time,,,,
-testimony_wang_self,wang_s2,王大爷,"我还听见有人喊'银子'、'别走'。随后船身一晃，周老板就没了声。",,true,evidence_no_blunt_trauma,,,,
-testimony_wang_self,wang_s3,王大爷,"周老板带着五十两货银，船翻之后银子没找着。里正问我这些话是不是能说明陆公子嫌疑最大，我……我没敢反驳。",,true,evidence_float_bladder,,,,
+testimony_wang_self,wang_s1,王大爷,"那天夜里我在岸边收网。船翻之前，我看见陆公子和周老板在船头争执，影子清清楚楚。",,true,evidence_weather_fog,,,,
+testimony_wang_self,wang_s2,王大爷,"我还听见有人喊'银子'、'别走'。随后船身一晃，周老板就没了声。",,true,evidence_storm_noise,,,,
+testimony_wang_self,wang_s3,王大爷,"周老板带着五十两货银，船翻之后银子没找着。里正问我这些话是不是能说明陆公子嫌疑最大，我……我没敢反驳。",,true,evidence_no_motive,,,,

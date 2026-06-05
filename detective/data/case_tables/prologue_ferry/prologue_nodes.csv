@@ -6,13 +6,15 @@ opening_monologue_3,,res://assets/cn/scenes/pure_black.png,opening_monologue_4,,
 opening_monologue_4,,res://assets/cn/scenes/pure_black.png,time_card_opening,,,,
 time_card_opening,time_card,res://assets/cn/scenes/pure_black.png,cabin_prologue_1,,,,
 # === 船舱场景 ===
-cabin_prologue_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_2,,,res://assets/cn/portraits/lu_zhao.png,serious,,"{""gain_clue"": ""clue_travel_notes""}"
-cabin_prologue_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_3,,,res://assets/cn/portraits/lu_zhao.png,serious,,
+cabin_prologue_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_2,,,res://assets/cn/portraits/prologue_lu_zhao.png,serious,,"{""gain_clue"": ""clue_travel_notes""}"
+cabin_prologue_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_3,,,res://assets/cn/portraits/prologue_lu_zhao.png,serious,,
 cabin_prologue_3,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_free_explore,,,,,,
 cabin_1,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cabin_2,,,,,"{""shake"": true, ""shake_intensity"": 8.0, ""shake_duration"": 0.6, ""bgm"": ""ferry_prologue_escape"", ""tint"": ""dark_blue""}"
 cabin_2,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cabin_3,,,,,,
 cabin_3,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cabin_flood,,,res://assets/cn/portraits/prologue_lu_zhao.png,cold,,
-cabin_free_explore,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,,,,true,,,
+cabin_free_explore,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,,,,,,,
+cabin_warning_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_warning_2,,,,,"{""shake"": true, ""shake_intensity"": 3.0, ""shake_duration"": 0.4, ""sfx"": ""ship_creak""}"
+cabin_warning_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_1,,,,,"{""shake"": true, ""shake_intensity"": 5.0, ""shake_duration"": 0.5, ""sfx"": ""water_rush""}"
 shore_1,,res://assets/cn/scenes/prologue_shore_rescue.png,shore_2,,,,,"{""tint"": ""clear"", ""bgm"": ""ferry_prologue_shore"", ""sfx"": ""rain_ambient""}",
 shore_2,,res://assets/cn/scenes/prologue_shore_rescue.png,shore_3,,,res://assets/cn/portraits/companion_lingyao_anxious.png,,,
 shore_3,,res://assets/cn/scenes/prologue_shore_rescue.png,shore_4,,,,,,
@@ -44,12 +46,12 @@ day2_body_3,,res://assets/cn/scenes/prologue_cold_open.png,day2_body_4,,,res://a
 day2_body_4,,,day2_body_4b,,,res://assets/cn/portraits/prologue_lu_zhao.png,serious,,
 day2_body_5,,res://assets/cn/scenes/prologue_cg_zhou_kneel.png,day2_zhou_1,,,,,"{""sfx"": ""crowd_murmur"", ""bg_offset_y"": -100}",
 day2_zhou_1,,res://assets/cn/scenes/prologue_cg_zhou_kneel.png,day2_zhou_accuse_1,,,,grief,,
-day2_zhou_accuse_1,,,day2_agui_appears,,,,grief,"{""bgm"": ""accuse_tension""}",
+day2_zhou_accuse_1,,,day2_agui_appears,,,,accusing,"{""bgm"": ""accuse_tension""}",
 day2_agui_appears,,res://assets/cn/scenes/prologue_ferry_dock.png,day2_agui_1,,,,,,
 day2_agui_1,,,day2_agui_1b,,,,nervous,,
 day2_agui_2,,,day2_agui_2b,,,,angry,,
 day2_accused_silence,,res://assets/cn/scenes/prologue_cold_open.png,day2_zhou_accuse_3,,,,,,
-day2_zhou_accuse_3,,,day2_lizheng_appear,,,,grief,,
+day2_zhou_accuse_3,,,day2_lizheng_appear,,,,accusing,,
 day2_lizheng_appear,,res://assets/cn/scenes/prologue_ferry_dock.png,day2_lizheng_1,,,,,,
 day2_lizheng_1,,,day2_lizheng_2,,,,,,
 day2_lizheng_2,,,day2_lizheng_3,,,res://assets/cn/portraits/prologue_lu_zhao.png,serious,,

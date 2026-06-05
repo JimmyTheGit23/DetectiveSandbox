@@ -85,10 +85,16 @@ const CAMERA_SWITCH_ENABLED := true
 
 # ─── 立绘 ───
 enum PortraitState { NORMAL, SHAKEN, COLLAPSED }
-var _default_center_layout := {"left": -260.0, "top": 30.0, "right": 260.0, "bottom": 80.0}
-var _center_portrait_layouts := {
-	"shen_qingyue": {"left": -215.0, "top": 70.0, "right": 215.0, "bottom": 120.0}
-}
+const PORTRAIT_SLOT_WIDTH := 560.0
+const PORTRAIT_SLOT_TOP := 20.0
+const PORTRAIT_SLOT_BOTTOM := 80.0
+const PORTRAIT_SLOT_SIDE_INSET := 24.0
+const PORTRAIT_SLOT_OFFSCREEN_GAP := 90.0
+const PORTRAIT_CROP_PADDING_RATIO := 0.0
+const PORTRAIT_CROP_MIN_PADDING := 6
+var _default_center_layout := {"left": -280.0, "top": 20.0, "right": 280.0, "bottom": 80.0}
+var _center_portrait_layouts := {}
+var _portrait_texture_cache: Dictionary = {}
 var _portrait_state: int = PortraitState.NORMAL
 var _shake_tween: Tween = null
 
@@ -97,7 +103,7 @@ var _protagonist_rect: TextureRect = null   # 陆昭立绘
 var _companion_rect: TextureRect = null     # 凌瑶立绘
 var _opponent_rect: TextureRect = null      # 右侧对手立绘（辩护方/沈清月等）
 var _camera_tween: Tween = null             # 镜头滑动动画
-var _current_camera_view: String = "npc"    # "npc" | "protagonist" | "opponent" | "clash"
+var _current_camera_view: String = "npc"    # "npc" | "protagonist" | "companion" | "opponent" | "clash"
 
 # ─── 对手立绘位（数据驱动，可扩展辩护方角色） ───
 var _opponent_speaker_ids := {"shen_qingyue": true}
@@ -218,10 +224,7 @@ func _build_ui() -> void:
 	_portrait_rect.anchor_right = 0.5
 	_portrait_rect.anchor_top = 0.0
 	_portrait_rect.anchor_bottom = 1.0
-	_portrait_rect.offset_left = -260
-	_portrait_rect.offset_top = 30
-	_portrait_rect.offset_right = 260
-	_portrait_rect.offset_bottom = 80
+	_apply_portrait_layout(_portrait_rect, _get_center_portrait_layout(""))
 	_portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -232,26 +235,19 @@ func _build_ui() -> void:
 	# ── 主角/搭档立绘（镜头切换用，初始在屏幕外） ──
 	# 注意：搭档先添加，主角后添加 → 主角始终在搭档前面（z-order）
 	if CAMERA_SWITCH_ENABLED:
-		# 搭档立绘（主角身后偏右，稍矮，初始在屏幕外）
+		# 搭档立绘（初始在屏幕外）
 		_companion_rect = TextureRect.new()
 		_companion_rect.anchor_left = 0.0
 		_companion_rect.anchor_right = 0.0
 		_companion_rect.anchor_top = 0.0
 		_companion_rect.anchor_bottom = 1.0
-		_companion_rect.offset_left = -280
-		_companion_rect.offset_top = -80
-		_companion_rect.offset_right = 20
-		_companion_rect.offset_bottom = 80
+		_apply_portrait_layout(_companion_rect, _offscreen_left_portrait_layout())
 		_companion_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		_companion_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		_companion_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_companion_rect.visible = false
 		_companion_rect.modulate = Color(1, 1, 1, 0)
 		_companion_rect.flip_h = true  # 搭档脸朝右（朝向对话文字）
-		# 搭档立绘翻转后 pivot 必须设为中心，否则 flip 会偏移到屏幕外
-		var companion_w := _companion_rect.offset_right - _companion_rect.offset_left
-		var companion_h := _companion_rect.offset_bottom - _companion_rect.offset_top
-		_companion_rect.pivot_offset = Vector2(companion_w * 0.5, companion_h * 0.5)
 		_panel.add_child(_companion_rect)
 
 		# 主角立绘（前方，左侧，初始在屏幕外）
@@ -260,10 +256,7 @@ func _build_ui() -> void:
 		_protagonist_rect.anchor_right = 0.0
 		_protagonist_rect.anchor_top = 0.0
 		_protagonist_rect.anchor_bottom = 1.0
-		_protagonist_rect.offset_left = -520
-		_protagonist_rect.offset_top = 40
-		_protagonist_rect.offset_right = -60
-		_protagonist_rect.offset_bottom = 80
+		_apply_portrait_layout(_protagonist_rect, _offscreen_left_portrait_layout())
 		_protagonist_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		_protagonist_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		_protagonist_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -277,19 +270,13 @@ func _build_ui() -> void:
 		_opponent_rect.anchor_right = 1.0
 		_opponent_rect.anchor_top = 0.0
 		_opponent_rect.anchor_bottom = 1.0
-		_opponent_rect.offset_left = 60    # 初始在屏幕右侧外
-		_opponent_rect.offset_top = 40
-		_opponent_rect.offset_right = 520
-		_opponent_rect.offset_bottom = 80
+		_apply_portrait_layout(_opponent_rect, _offscreen_right_portrait_layout())
 		_opponent_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		_opponent_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		_opponent_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_opponent_rect.visible = false
 		_opponent_rect.modulate = Color(1, 1, 1, 0)
 		_opponent_rect.flip_h = true  # 对手脸朝左（面向中央/对话文字）
-		var opponent_w := _opponent_rect.offset_right - _opponent_rect.offset_left
-		var opponent_h := _opponent_rect.offset_bottom - _opponent_rect.offset_top
-		_opponent_rect.pivot_offset = Vector2(opponent_w * 0.5, opponent_h * 0.5)
 		_panel.add_child(_opponent_rect)
 
 	# ── 证词显示区（中下，带导航箭头） ──
@@ -1128,11 +1115,17 @@ func _open_evidence() -> void:
 	_set_browsing_visible(false)
 	_evidence_panel.visible = true
 
-	# 缓存证物列表
+	# 缓存可出示条目：物证优先，随后是证言/线索记录。
 	_evidence_items_cache.clear()
-	for eid in GameManager.collected_evidence:
+	var presentable_ids: Array = []
+	presentable_ids.append_array(GameManager.collected_evidence)
+	presentable_ids.append_array(GameManager.collected_clues)
+	for eid in presentable_ids:
+		if _evidence_items_cache.has(eid):
+			continue
 		var data: Dictionary = GameManager.evidence_data.get(eid, {})
-		if not data.is_empty() and data.get("type", "") == "evidence" and not data.get("hidden", false):
+		var item_type: String = data.get("type", "")
+		if not data.is_empty() and item_type in ["evidence", "clue"] and not data.get("hidden", false):
 			_evidence_items_cache.append(eid)
 
 	_selected_evidence_index = 0
@@ -1472,11 +1465,7 @@ func _play_break_anim() -> void:
 	_shake_portrait()
 
 	# ── 击破瞬间：立绘特写放大 → 定格 → 回弹 ──
-	# 确定目标缩放：沈清月80%，其他角色100%
-	var witness_id := _current_center_portrait_id()
 	var base_scale := Vector2(1.0, 1.0)
-	if witness_id == "shen_qingyue":
-		base_scale = Vector2(0.8, 0.8)
 	var zoom_tw := create_tween()
 	zoom_tw.tween_property(_portrait_rect, "scale", base_scale * 1.15, 0.12).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	zoom_tw.tween_interval(0.25)
@@ -1493,11 +1482,18 @@ func _play_break_anim() -> void:
 func _after_break_dialogue() -> void:
 	var testimony: Dictionary = _testimonies[_current_testimony_idx]
 
-	# ── 中途授予证物：击破证词后自动获得新证物 ──
+	# ── 中途授予条目：击破证词后按类型加入物证或线索 ──
 	var grant_id: String = testimony.get("grant_evidence", "")
-	if grant_id != "" and not GameManager.collected_evidence.has(grant_id):
-		GameManager.collected_evidence.append(grant_id)
-		await _show_evidence_acquired_fx(grant_id)
+	if grant_id != "":
+		var grant_data: Dictionary = GameManager.evidence_data.get(grant_id, {})
+		var grant_type: String = grant_data.get("type", "evidence")
+		var added := false
+		if grant_type == "clue":
+			added = GameManager.add_clue(grant_id)
+		else:
+			added = GameManager.add_evidence(grant_id)
+		if added:
+			await _show_evidence_acquired_fx(grant_id)
 
 	# 检查当前证词是否有过渡对话（transition_dialogue）
 	var transition_dlg: Array = testimony.get("transition_dialogue", [])
@@ -1518,7 +1514,7 @@ func _after_break_dialogue() -> void:
 		_advance_to_next_testimony()
 
 
-## 中途获得新证物的演出：金色闪光 + 证物名 + "新证物入手！"
+## 中途获得新条目的演出：金色闪光 + 条目名 + 类型化标题
 func _show_evidence_acquired_fx(evidence_id: String) -> void:
 	var data: Dictionary = GameManager.evidence_data.get(evidence_id, {})
 	var ename: String = data.get("name", evidence_id)
@@ -1550,7 +1546,8 @@ func _show_evidence_acquired_fx(evidence_id: String) -> void:
 
 	# "新证物入手！" 标题
 	var title_lbl := Label.new()
-	title_lbl.text = "新证物入手！"
+	var item_type: String = data.get("type", "evidence")
+	title_lbl.text = "新证物入手！" if item_type == "evidence" else "新线索记录！"
 	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_lbl.add_theme_font_size_override("font_size", 28)
 	title_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.55, 1.0))
@@ -2083,9 +2080,7 @@ func _camera_switch_to_opponent(speaker_id: String, emotion: String = "normal", 
 	if _opponent_rect:
 		_opponent_rect.visible = true
 		_update_opponent_portrait(speaker_id, emotion)
-		# 目标位置：右侧偏内（锚点为 anchor_left=1.0）
-		_camera_tween.tween_property(_opponent_rect, "offset_left", -490.0, duration)
-		_camera_tween.tween_property(_opponent_rect, "offset_right", -30.0, duration)
+		_tween_portrait_layout(_camera_tween, _opponent_rect, _right_portrait_layout(PORTRAIT_SLOT_SIDE_INSET), duration)
 		_camera_tween.tween_property(_opponent_rect, "modulate:a", 1.0, duration * 0.5)
 
 	_dlg_portrait_rect.visible = false
@@ -2109,7 +2104,7 @@ func _update_opponent_portrait(speaker_id: String, emotion: String = "normal") -
 	if path == "" or not ResourceLoader.exists(path):
 		path = AssetResolver.resolve_case_portrait(speaker_id, "normal", GameManager.npcs_data, "dialogue")
 	if path != "" and ResourceLoader.exists(path):
-		_opponent_rect.texture = load(path)
+		_set_portrait_texture(_opponent_rect, path)
 
 
 ## 切换到NPC镜头：NPC居中，主角/搭档退出
@@ -2138,28 +2133,22 @@ func _camera_switch_to_npc(duration: float = 0.3) -> void:
 	# NPC 滑回居中
 	_portrait_rect.visible = true
 	var layout := _get_center_portrait_layout(_current_center_portrait_id())
-	_camera_tween.tween_property(_portrait_rect, "offset_left", float(layout.get("left", -260.0)), duration)
-	_camera_tween.tween_property(_portrait_rect, "offset_top", float(layout.get("top", 30.0)), duration)
-	_camera_tween.tween_property(_portrait_rect, "offset_right", float(layout.get("right", 260.0)), duration)
-	_camera_tween.tween_property(_portrait_rect, "offset_bottom", float(layout.get("bottom", 80.0)), duration)
+	_tween_portrait_layout(_camera_tween, _portrait_rect, layout, duration)
 	_camera_tween.tween_property(_portrait_rect, "modulate:a", 1.0, duration * 0.5)
 
 	# 主角滑出左侧
 	if _protagonist_rect:
-		_camera_tween.tween_property(_protagonist_rect, "offset_left", -520.0, duration)
-		_camera_tween.tween_property(_protagonist_rect, "offset_right", -60.0, duration)
+		_tween_portrait_layout(_camera_tween, _protagonist_rect, _offscreen_left_portrait_layout(), duration)
 		_camera_tween.tween_property(_protagonist_rect, "modulate:a", 0.0, duration * 0.6)
 
 	# 搭档滑出左侧
 	if _companion_rect:
-		_camera_tween.tween_property(_companion_rect, "offset_left", -350.0, duration)
-		_camera_tween.tween_property(_companion_rect, "offset_right", -80.0, duration)
+		_tween_portrait_layout(_camera_tween, _companion_rect, _offscreen_left_portrait_layout(), duration)
 		_camera_tween.tween_property(_companion_rect, "modulate:a", 0.0, duration * 0.6)
 
 	# 对手滑出右侧复位
 	if _opponent_rect:
-		_camera_tween.tween_property(_opponent_rect, "offset_left", 60.0, duration)
-		_camera_tween.tween_property(_opponent_rect, "offset_right", 520.0, duration)
+		_tween_portrait_layout(_camera_tween, _opponent_rect, _offscreen_right_portrait_layout(), duration)
 		_camera_tween.tween_property(_opponent_rect, "modulate:a", 0.0, duration * 0.6)
 
 	# 隐藏小头像（NPC镜头下不需要）
@@ -2214,8 +2203,7 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3, sh
 	if _protagonist_rect:
 		_protagonist_rect.visible = true
 		_update_protagonist_portraits(speaker_id)
-		_camera_tween.tween_property(_protagonist_rect, "offset_left", 30.0, duration)
-		_camera_tween.tween_property(_protagonist_rect, "offset_right", 490.0, duration)
+		_tween_portrait_layout(_camera_tween, _protagonist_rect, _left_portrait_layout(PORTRAIT_SLOT_SIDE_INSET), duration)
 		_camera_tween.tween_property(_protagonist_rect, "modulate:a", 1.0, duration * 0.5)
 
 		if _companion_rect:
@@ -2224,9 +2212,8 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3, sh
 				_update_companion_portrait()
 				_camera_tween.tween_property(_companion_rect, "offset_left", 350.0, duration)
 				_camera_tween.tween_property(_companion_rect, "offset_right", 650.0, duration)
-				# 两人同框时，搭档立绘也调整高度，确保显示全身
-				_camera_tween.tween_property(_companion_rect, "offset_top", 0.0, duration)
-				_camera_tween.tween_property(_companion_rect, "offset_bottom", 0.0, duration)
+				_camera_tween.tween_property(_companion_rect, "offset_top", PORTRAIT_SLOT_TOP, duration)
+				_camera_tween.tween_property(_companion_rect, "offset_bottom", PORTRAIT_SLOT_BOTTOM, duration)
 				_camera_tween.tween_property(_companion_rect, "modulate:a", 0.9, duration * 0.5)
 			else:
 				# 只显示主角，搭档淡出
@@ -2243,11 +2230,11 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3, sh
 	_dlg_portrait_rect.visible = false
 
 
-## 切换到搭档单独镜头：只显示搭档从左侧滑入（较小尺寸）
+## 切换到搭档单独镜头：只显示搭档从左侧滑入
 func _camera_switch_to_companion_only(duration: float = 0.3) -> void:
 	if not CAMERA_SWITCH_ENABLED:
 		return
-	_current_camera_view = "protagonist"  # 使用 "protagonist" 状态，因为搭档镜头与主角镜头类似
+	_current_camera_view = "companion"
 
 	if _camera_tween and _camera_tween.is_valid():
 		_camera_tween.kill()
@@ -2264,15 +2251,11 @@ func _camera_switch_to_companion_only(duration: float = 0.3) -> void:
 		_opponent_rect.visible = false
 		_opponent_rect.modulate.a = 0.0
 
-	# 搭档从左侧滑入（缩小：窄+矮，约主角的 70%）
+	# 搭档从左侧滑入，使用与主角一致的单人镜头尺寸。
 	if _companion_rect:
 		_companion_rect.visible = true
 		_update_companion_portrait()
-		_camera_tween.tween_property(_companion_rect, "offset_left", 50.0, duration)
-		_camera_tween.tween_property(_companion_rect, "offset_right", 400.0, duration)
-		# 调整搭档立绘高度，确保显示全身（包括下半身）
-		_camera_tween.tween_property(_companion_rect, "offset_top", 0.0, duration)
-		_camera_tween.tween_property(_companion_rect, "offset_bottom", 0.0, duration)
+		_tween_portrait_layout(_camera_tween, _companion_rect, _left_portrait_layout(PORTRAIT_SLOT_SIDE_INSET), duration)
 		_camera_tween.tween_property(_companion_rect, "modulate:a", 1.0, duration * 0.5)
 
 	_camera_tween.chain().tween_callback(func():
@@ -2295,7 +2278,7 @@ func _update_protagonist_portraits(speaker_id: String) -> void:
 	if path == "" or not ResourceLoader.exists(path):
 		path = AssetResolver.resolve_case_portrait(speaker_id, "normal", GameManager.npcs_data, "dialogue")
 	if path != "" and ResourceLoader.exists(path):
-		_protagonist_rect.texture = load(path)
+		_set_portrait_texture(_protagonist_rect, path)
 
 ## 更新搭档立绘纹理（对峙模式使用 confrontation_pose 立绘）
 func _update_companion_portrait() -> void:
@@ -2304,14 +2287,14 @@ func _update_companion_portrait() -> void:
 	# 优先使用对峙专用立绘
 	var confrontation_path := "res://assets/cn/portraits/companion_lingyao_confrontation_normal.png"
 	if ResourceLoader.exists(confrontation_path):
-		_companion_rect.texture = load(confrontation_path)
+		_set_portrait_texture(_companion_rect, confrontation_path)
 		return
 	# 回退
 	var path := AssetResolver.resolve_case_portrait("xia_lingyao", "anxious", GameManager.npcs_data, "dialogue")
 	if path == "" or not ResourceLoader.exists(path):
 		path = AssetResolver.resolve_case_portrait("xia_lingyao", "normal", GameManager.npcs_data, "dialogue")
 	if path != "" and ResourceLoader.exists(path):
-		_companion_rect.texture = load(path)
+		_set_portrait_texture(_companion_rect, path)
 
 ## 镜头恢复到NPC：用于浏览模式和对话结束后
 func _camera_reset_to_npc() -> void:
@@ -2376,6 +2359,107 @@ func _camera_ensure_browsing() -> void:
 #  立绘
 # ═══════════════════════════════════════════════════
 
+func _left_portrait_layout(inset: float) -> Dictionary:
+	return {
+		"left": inset,
+		"top": PORTRAIT_SLOT_TOP,
+		"right": inset + PORTRAIT_SLOT_WIDTH,
+		"bottom": PORTRAIT_SLOT_BOTTOM
+	}
+
+
+func _right_portrait_layout(inset: float) -> Dictionary:
+	return {
+		"left": -inset - PORTRAIT_SLOT_WIDTH,
+		"top": PORTRAIT_SLOT_TOP,
+		"right": -inset,
+		"bottom": PORTRAIT_SLOT_BOTTOM
+	}
+
+
+func _offscreen_left_portrait_layout() -> Dictionary:
+	return _left_portrait_layout(-PORTRAIT_SLOT_WIDTH - PORTRAIT_SLOT_OFFSCREEN_GAP)
+
+
+func _offscreen_right_portrait_layout() -> Dictionary:
+	return {
+		"left": PORTRAIT_SLOT_OFFSCREEN_GAP,
+		"top": PORTRAIT_SLOT_TOP,
+		"right": PORTRAIT_SLOT_OFFSCREEN_GAP + PORTRAIT_SLOT_WIDTH,
+		"bottom": PORTRAIT_SLOT_BOTTOM
+	}
+
+
+func _apply_portrait_layout(rect: TextureRect, layout: Dictionary) -> void:
+	if rect == null:
+		return
+	rect.offset_left = float(layout.get("left", 0.0))
+	rect.offset_top = float(layout.get("top", PORTRAIT_SLOT_TOP))
+	rect.offset_right = float(layout.get("right", PORTRAIT_SLOT_WIDTH))
+	rect.offset_bottom = float(layout.get("bottom", PORTRAIT_SLOT_BOTTOM))
+	rect.scale = Vector2.ONE
+	rect.pivot_offset = Vector2(
+		(rect.offset_right - rect.offset_left) * 0.5,
+		(rect.offset_bottom - rect.offset_top) * 0.5
+	)
+
+
+func _tween_portrait_layout(tween: Tween, rect: TextureRect, layout: Dictionary, duration: float) -> void:
+	if tween == null or rect == null:
+		return
+	tween.tween_property(rect, "offset_left", float(layout.get("left", rect.offset_left)), duration)
+	tween.tween_property(rect, "offset_top", float(layout.get("top", rect.offset_top)), duration)
+	tween.tween_property(rect, "offset_right", float(layout.get("right", rect.offset_right)), duration)
+	tween.tween_property(rect, "offset_bottom", float(layout.get("bottom", rect.offset_bottom)), duration)
+	tween.tween_property(rect, "scale", Vector2.ONE, duration)
+
+
+func _set_portrait_texture(rect: TextureRect, path: String) -> bool:
+	if rect == null:
+		return false
+	var texture := _load_normalized_portrait_texture(path)
+	if texture == null:
+		return false
+	rect.texture = texture
+	return true
+
+
+func _load_normalized_portrait_texture(path: String) -> Texture2D:
+	if path == "" or not ResourceLoader.exists(path):
+		return null
+	var cached = _portrait_texture_cache.get(path, null)
+	if cached is Texture2D:
+		return cached
+	var texture := load(path) as Texture2D
+	if texture == null:
+		return null
+	var normalized := _crop_texture_to_visible_alpha(texture)
+	_portrait_texture_cache[path] = normalized
+	return normalized
+
+
+func _crop_texture_to_visible_alpha(texture: Texture2D) -> Texture2D:
+	var image := texture.get_image()
+	if image == null:
+		return texture
+	var used := image.get_used_rect()
+	if used.size.x <= 0 or used.size.y <= 0:
+		return texture
+	var image_size := image.get_size()
+	var pad_x: int = max(PORTRAIT_CROP_MIN_PADDING, int(ceil(float(used.size.x) * PORTRAIT_CROP_PADDING_RATIO)))
+	var pad_y: int = max(PORTRAIT_CROP_MIN_PADDING, int(ceil(float(used.size.y) * PORTRAIT_CROP_PADDING_RATIO)))
+	var x1: int = max(0, used.position.x - pad_x)
+	var y1: int = max(0, used.position.y - pad_y)
+	var x2: int = min(image_size.x, used.position.x + used.size.x + pad_x)
+	var y2: int = min(image_size.y, used.position.y + used.size.y + pad_y)
+	if x1 == 0 and y1 == 0 and x2 == image_size.x and y2 == image_size.y:
+		return texture
+	var atlas := AtlasTexture.new()
+	atlas.atlas = texture
+	atlas.region = Rect2(float(x1), float(y1), float(x2 - x1), float(y2 - y1))
+	return atlas
+
+
 func _current_center_portrait_id() -> String:
 	# 优先使用当前证词轮次指定的 witness，回退到全局 suspect
 	var witness_id: String = ""
@@ -2394,15 +2478,7 @@ func _apply_center_portrait_layout(npc_id: String) -> void:
 	if _portrait_rect == null:
 		return
 	var layout := _get_center_portrait_layout(npc_id)
-	_portrait_rect.offset_left = float(layout.get("left", -260.0))
-	_portrait_rect.offset_top = float(layout.get("top", 30.0))
-	_portrait_rect.offset_right = float(layout.get("right", 260.0))
-	_portrait_rect.offset_bottom = float(layout.get("bottom", 80.0))
-	# 沈清月立绘使用80%缩放，其他角色使用100%缩放
-	if npc_id == "shen_qingyue":
-		_portrait_rect.scale = Vector2(0.8, 0.8)
-	else:
-		_portrait_rect.scale = Vector2.ONE
+	_apply_portrait_layout(_portrait_rect, layout)
 
 
 func _update_portrait() -> void:
@@ -2418,7 +2494,7 @@ func _update_portrait() -> void:
 	var path := AssetResolver.resolve_case_portrait(witness_id, emotion_key, GameManager.npcs_data, "confrontation")
 	if path == "" or not ResourceLoader.exists(path):
 		return
-	_portrait_rect.texture = load(path)
+	_set_portrait_texture(_portrait_rect, path)
 	_apply_center_portrait_layout(witness_id)
 	_portrait_rect.visible = true
 	# 视觉效果
@@ -2558,12 +2634,11 @@ func _update_dialogue_portrait(speaker: String, emotion: String, line_data: Dict
 	else:
 		# 非镜头切换模式，或NPC说话时的传统逻辑
 		if speaker_id == "lu_zhao" or speaker_id == "xia_lingyao" or speaker_id == "lingyao":
-			_dlg_portrait_rect.texture = load(portrait_path)
-			_dlg_portrait_rect.visible = true
+			_dlg_portrait_rect.visible = _set_portrait_texture(_dlg_portrait_rect, portrait_path)
 		else:
 			# NPC 台词仍显示在中央立绘位，但立绘路径同样走统一 resolver。
 			_dlg_portrait_rect.visible = false
-			_portrait_rect.texture = load(portrait_path)
+			_set_portrait_texture(_portrait_rect, portrait_path)
 			_apply_center_portrait_layout(speaker_id)
 			_portrait_rect.visible = true
 

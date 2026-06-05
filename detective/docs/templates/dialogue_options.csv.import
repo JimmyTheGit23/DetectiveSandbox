@@ -6,14 +6,12 @@ uid="uid://0web4uchi88c"
 
 [deps]
 
-files=["res://docs/templates/dialogue_options.node.translation", "res://docs/templates/dialogue_options.order.translation", "res://docs/templates/dialogue_options.text.translation", "res://docs/templates/dialogue_options.goto.translation", "res://docs/templates/dialogue_options.type.translation", "res://docs/templates/dialogue_options.requires.translation", "res://docs/templates/dialogue_options.en.translation", "res://docs/templates/dialogue_options.en.translation", "res://docs/templates/dialogue_options.en.translation", "res://docs/templates/dialogue_options.en.translation"]
+files=["res://docs/case_template/dialogue_options.node.translation", "res://docs/case_template/dialogue_options.order.translation", "res://docs/case_template/dialogue_options.text.translation", "res://docs/case_template/dialogue_options.goto.translation", "res://docs/case_template/dialogue_options.type.translation", "res://docs/case_template/dialogue_options.requires.translation", "res://docs/case_template/dialogue_options.set.translation", "res://docs/case_template/dialogue_options.hide.translation", "res://docs/case_template/dialogue_options.min.translation", "res://docs/case_template/dialogue_options.cost.translation"]
 
 source_file="res://docs/templates/dialogue_options.csv"
-dest_files=["res://docs/templates/dialogue_options.node.translation", "res://docs/templates/dialogue_options.order.translation", "res://docs/templates/dialogue_options.text.translation", "res://docs/templates/dialogue_options.goto.translation", "res://docs/templates/dialogue_options.type.translation", "res://docs/templates/dialogue_options.requires.translation", "res://docs/templates/dialogue_options.en.translation", "res://docs/templates/dialogue_options.en.translation", "res://docs/templates/dialogue_options.en.translation", "res://docs/templates/dialogue_options.en.translation"]
+dest_files=["res://docs/case_template/dialogue_options.node.translation", "res://docs/case_template/dialogue_options.order.translation", "res://docs/case_template/dialogue_options.text.translation", "res://docs/case_template/dialogue_options.goto.translation", "res://docs/case_template/dialogue_options.type.translation", "res://docs/case_template/dialogue_options.requires.translation", "res://docs/case_template/dialogue_options.set.translation", "res://docs/case_template/dialogue_options.hide.translation", "res://docs/case_template/dialogue_options.min.translation", "res://docs/case_template/dialogue_options.cost.translation"]
 
 [params]
 
 compress=true
 delimiter=0
-unescape_keys=false
-unescape_translations=true
