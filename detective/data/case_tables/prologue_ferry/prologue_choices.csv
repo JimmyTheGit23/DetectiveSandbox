@@ -1,9 +1,1 @@
-﻿node_id,order,text,goto,requires
-shore_4,0,……陆昭。船沉了。,shore_5a,
-shore_4,1,（先不回答）……你是谁？,shore_5b,
-inn_warm_4,0,（继续回忆沉船的细节）,inn_warm_4_observed_a,"{""flag"": ""observed_hole""}"
-inn_warm_4,1,（继续回忆沉船的细节）,inn_warm_4_not_observed_a,"{""not_flag"": ""observed_hole""}"
-inn_warm_4_observed,0,「是人为凿开的。我确定。」,inn_warm_5a_certain,
-inn_warm_4_observed,1,「也许是我记错了。当时太慌。」,inn_warm_5b,
-inn_warm_4_not_observed,0,「像是有人凿的。」,inn_warm_5a,
-inn_warm_4_not_observed,1,「也许是我记错了。当时太慌。」,inn_warm_5b,
+node_id,order,text,goto,requires

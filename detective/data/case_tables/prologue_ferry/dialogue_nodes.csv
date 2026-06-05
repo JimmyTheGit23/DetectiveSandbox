@@ -1,5 +1,5 @@
-npc_id,node_id,is_start,text,emotion,set_flags,gain_evidence,gain_clue,trigger_confrontation,confrontation_key,end,writer_note
-agui,hub,true,你……你是昨晚同船的那位？听说里正给了你两天。你要问什么……问吧。,crying,,,,,,,
+﻿npc_id,node_id,is_start,text,emotion,set_flags,gain_evidence,gain_clue,trigger_confrontation,confrontation_key,end,writer_note
+agui,hub,true,大人又来了？小的这心口还在灌冷水。您问吧，只求别把话拧成绳子套我。,crying,,,,,,,
 agui,intro,,,,agui_talked_once,,,,,,
 agui,ask_relationship,,,,,,,,,,
 agui,press_alibi,,,,,,,,,,
@@ -7,7 +7,7 @@ agui,show_dismissal,,,,agui_dismissal_confronted,,,,,,
 agui,show_bladder,,,,agui_bladder_confronted,,,,,,
 agui,confession,,,,confrontation_triggered,,,True,,,
 agui,ask_twelve_years,,,,,,,,,,
-fisherman_wang,hub,true,渡口那边传过来了——说有人在查那夜翻船的事。是你吧？来得好。老头子看见了些东西，憋在肚子里不舒坦。,,,,,,,,
+fisherman_wang,hub,true,是你吧？来得好。老头子这辈子捞鱼，也捞过尸，最怕把活人的黑心也捞上来。问。,,,,,,,,
 fisherman_wang,intro,,,,wang_talked_once,,clue_fan_alibi_hole,,,,
 fisherman_wang,ask_channel,,"走的东汊那条。
 
@@ -40,7 +40,7 @@ fisherman_wang,ask_river_life,,"老头子在这江上打了一辈子鱼。
 哪条汊水有暗礁，哪片浅滩能藏东西，心里都有数。
 
 所以我才说——老范那样的老船家，绝不可能糊里糊涂把船往东汊暗礁上带。",evasive,,,clue_reef_common_knowledge,,,,
-lao_fan,hub,true,哟……你就是那个同船的？听说周氏告了你杀人啊。胆子不小——被告了还到处问话。,,,,,,,,
+lao_fan,hub,true,哟，被告的还敢到处敲门。胆子够硬。问吧，老范我嘴不贵，但也不白送。,,,,,,,,
 lao_fan,intro,,,,fan_talked_once,,,,,,
 lao_fan,ask_route,,"那客人催得急啊！说要赶武昌的早市。走大路绕远，走那条——
 
@@ -51,7 +51,7 @@ lao_fan,show_hull,,,,,,,,,,
 lao_fan,show_iou,,,,,,,,,,
 lao_fan,ask_gambling_story,,,,,,,,,,
 lao_fan,press_shen_connection,,,,fan_confessed_shen,,evidence_shen_connection,,,,
-li_zheng,hub,true,哦……你来了。我话撂在前头——周氏那边我得给交代。你要问话就问，但最后拿不出真凭实据……我只能按程序报上去。,nervous,,,,,,,
+li_zheng,hub,true,陆公子，周氏在哭，县里在催，我这顶小帽子快被雨泡软了。你要问就快，最好带着证据问。,nervous,,,,,,,
 li_zheng,intro,,,,lizheng_talked_once,,,,,,
 li_zheng,ask_reef,,,,,,clue_reef_common_knowledge,,,,
 li_zheng,ask_fan,,"老范嘛……人还行。就是爱赌。以前小赌怡情，这两年越赌越大。
@@ -77,7 +77,7 @@ li_zheng,ask_next_step,,"阿贵招了——但供出的人是沈清月。大人�
 li_zheng,ask_shen_opinion,,"沈清月……说实话，以前觉得她就是个精明的生意人。讨债凶是凶了点，但也没出过格。
 不过现在想想——她那天在码头骂周德茂'别想走'，我还以为是气话。
 大人，您要是去查她……小心点。这姑娘脑子好使，嘴也利索。她会把每一件物证都拆成'不够定罪'。",nervous,,,,,,,
-shen_qingyue,hub,true,你就是那个……同船活下来的？听说周氏告了你杀人。嘁——冤不冤的我不知道，但你问话倒挺利索。问吧。,cold_smile,,,,,,,
+shen_qingyue,hub,true,同船活下来的那位？官印没了，胆子还在。好，问吧。我看看你这把刀到底快不快。,cold_smile,,,,,,,
 shen_qingyue,intro,,,,shen_talked_once,,,,,,
 shen_qingyue,ask_quarrel,,,,shen_quarrel_told,,,,,,
 shen_qingyue,ask_alibi,,,,shen_alibi_told,,,,,,
@@ -86,12 +86,10 @@ shen_qingyue,ask_father,,,,shen_father_asked,,clue_shen_motive_calculation,,,,
 shen_qingyue,press_dock_timing,,,,shen_timing_cracked,,,,,,
 shen_qingyue,press_salvage,,,,shen_salvage_pressed,,,,,,
 shen_qingyue,press_connection,,,,shen_connection_pressed,,,,,,
-shen_qingyue,react_agui_caught,,"阿贵招了？……意料之中。他那种人，扛不住的。",cold_fury,,,,,,,
-shen_qingyue,ask_father_after,,"……还在躺着。八十两的药，一天不能断。",broken,,,,,,,
+shen_qingyue,react_agui_caught,,阿贵招了？……意料之中。他那种人，扛不住的。,cold_fury,,,,,,,
+shen_qingyue,ask_father_after,,……还在躺着。八十两的药，一天不能断。,broken,,,,,,,
 shen_qingyue,confession_trigger,,,,shen_confrontation_triggered,,,True,confrontation_final,,
-zhou_wife,hub,true,"……里正说让你查。我拦不住。
-
-问吧。但你最好是来找真凶的——不是来替自己脱罪的。",trembling,,,,,,,
+zhou_wife,hub,true,里正说给你两天，我给你半盏茶的耐心。问吧，但若你只是替自己洗清，我会把这盏茶泼回去。,trembling,,,,,,,
 zhou_wife,intro,,"（她冷冷地看着你，好一会儿才开口）……里正说你要自证清白。随你。
 
 老爷做布匹生意。这次是去武昌府进一批棉布，过了年好卖。
@@ -115,27 +113,19 @@ zhou_wife,ask_documents,,"都在房间里。大人自己去看吧——遣散字
 zhou_wife,ask_why_night_ferry,,,,zhou_letter_revealed,,clue_route_change,,,,
 zhou_wife,react_murder_confirmed,,,,zhou_knows_murder,,,,,,
 zhou_wife,react_agui_confessed,,,,zhou_knows_agui_guilty,,,,,,
-
-# === 船舱阶段对话节点 ===
-agui_cabin,hub,true,你……你是同船的？我叫阿贵，跟了老爷十二年。这次是去武昌府进棉布。,nervous,,,,,,,
+# === 船舱阶段对话节点 ===,,,,,,,,,,,
+agui_cabin,hub,true,公子找小的？阿贵，周家的旧仆。十二年了，账本换了好几本，小的还在原地。,nervous,,,,,,,
 agui_cabin,ask_master,,,,cabin_agui_talked,,,,,,
 agui_cabin,ask_voyage,,,,cabin_agui_talked,,,,,,
 agui_cabin,ask_feelings,,,,cabin_agui_talked,,,,,,
-agui_cabin,observe_agui,,,,cabin_agui_observed,,clue_agui_suspicious_bag,,,,
-agui_cabin,observe_cabin,,,,cabin_observed,,,,,,
-
-lao_fan_cabin,hub,true,哟……又来一个问话的？我叫老范，跑了二十年船。这次是去武昌府的夜船。,evasive,,,,,,,
+agui_cabin,press_bag,,,,cabin_agui_observed,,clue_agui_suspicious_bag,,,,
+agui_cabin,press_crowbar,,,,cabin_observed,,,,,,
+lao_fan_cabin,hub,true,又来问船？老范，二十年水上饭。风浪我认，废话我不认。,evasive,,,,,,,
 lao_fan_cabin,ask_route,,,,cabin_lao_fan_talked,,,,,,
 lao_fan_cabin,ask_weather,,,,cabin_lao_fan_talked,,,,,,
 lao_fan_cabin,ask_money,,,,cabin_lao_fan_talked,,,,,,
-lao_fan_cabin,observe_cabin,,,,cabin_observed;cabin_saw_crowbar,,,,,,
-
-zhou_de_gui_cabin,hub,true,……你就是那个同船的公子？我叫周德茂，做布匹生意。这次是去武昌府进一批棉布。,serious,,,,,,,
+lao_fan_cabin,press_crowbar,,,,cabin_observed;cabin_saw_crowbar,,,,,,
+zhou_de_gui_cabin,hub,true,同船的公子？周德茂，做布匹。今夜赶武昌，赶的是早市，也是银子的时辰。,serious,,,,,,,
 zhou_de_gui_cabin,ask_background,,,,cabin_zhou_talked,,,,,,
 zhou_de_gui_cabin,ask_night_ferry,,,,cabin_zhou_talked;cabin_friend_pressed,,,,,,
-zhou_de_gui_cabin,observe_cabin,,,,cabin_observed,,,,,,
-zhou_de_gui_cabin,sleep_review,,,,,,,,,,
-zhou_de_gui_cabin,review_route,,,,cabin_review_done;cabin_review_route,,,,,,
-zhou_de_gui_cabin,review_cloak,,,,cabin_review_done;cabin_review_cloak,,,,,,
-zhou_de_gui_cabin,review_friend,,,,cabin_review_done;cabin_review_friend,,,,,,
-zhou_de_gui_cabin,review_seal,,,,cabin_review_done;cabin_review_seal,,,,,,
+zhou_de_gui_cabin,press_cargo_marks,,,,cabin_observed,,,,,,

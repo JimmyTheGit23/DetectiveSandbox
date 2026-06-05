@@ -58,23 +58,23 @@ const GM_PRESETS := {
 	"main_confront_ready": {
 		"label": "老范/阿贵对峙前",
 		"location": "ferry_inn",
-		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known", "evt_gambling_debt_done", "fan_motive_known"],
-		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_gambling_iou", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
+		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known"],
+		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
 		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole"],
 		"confrontation": "confrontation",
 	},
 	"phase3_after_agui": {
 		"label": "阿贵招供后",
 		"location": "ferry_inn",
-		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known", "evt_gambling_debt_done", "fan_motive_known", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done", "phase3_scene_rearranged"],
-		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_gambling_iou", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
+		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done", "phase3_scene_rearranged"],
+		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
 		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing"],
 	},
 	"final_ready": {
 		"label": "沈清月终局前",
 		"location": "shen_room",
-		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known", "evt_gambling_debt_done", "fan_motive_known", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done", "phase3_scene_rearranged", "bladder_meaning_revised", "evt_shen_evidence_ready_done"],
-		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_gambling_iou", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost", "evidence_cargo_silver", "evidence_drug_capsule_shell", "evidence_tongue_herb_residue", "evidence_oil_lock_residue", "evidence_father_ledger"],
+		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done", "phase3_scene_rearranged", "bladder_meaning_revised", "evt_shen_evidence_ready_done"],
+		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost", "evidence_cargo_silver", "evidence_drug_capsule_shell", "evidence_tongue_herb_residue", "evidence_oil_lock_residue", "evidence_father_ledger"],
 		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing", "evidence_salvage_mark", "evidence_shen_connection"],
 		"confrontation": "confrontation_final",
 	},
@@ -91,6 +91,7 @@ const SETTINGS_BUTTON_ICON_PATH := "res://assets/cn/ui/icon_settings_seal.png"
 var _active_subpanel: Control = null
 var _pending_events: Array[String] = []
 var _event_hint_auto_pending := false
+var _silent_auto_event_pending := false
 var _pending_adhoc_lines: Array = []
 var _last_location_day: int = -1         # 上次进入场景时的 day
 var _time_card_playing: bool = false     # 场景过场是否正在播放
@@ -690,6 +691,13 @@ func _continue_game() -> void:
 	_visited_locations.clear()
 	_sync_pending_events_from_save()
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:
+		if not _should_resume_cabin_from_prologue_save():
+			_set_background("res://assets/cn/scenes/pure_black.png", false)
+			BgmPlayer.play("prologue")
+			DialogueManager.start_narration("prologue")
+			return
+		GameManager.set_state(GameManager.STATE_PLAYING)
+	elif GameManager.current_state == GameManager.STATE_TRANSITION and GameManager.ACTIVE_CASE == "prologue_ferry" and not _should_resume_cabin_from_prologue_save():
 		_set_background("res://assets/cn/scenes/pure_black.png", false)
 		BgmPlayer.play("prologue")
 		DialogueManager.start_narration("prologue")
@@ -701,6 +709,23 @@ func _continue_game() -> void:
 	if menu_panel.has_method("refresh_visibility"):
 		menu_panel.refresh_visibility()
 	_refresh_event_hint()
+
+
+func _should_resume_cabin_from_prologue_save() -> bool:
+	if GameManager.ACTIVE_CASE != "prologue_ferry":
+		return false
+	return (
+		GameManager.has_clue("clue_travel_notes")
+		or GameManager.has_flag("cabin_seal_box_checked")
+		or GameManager.has_flag("cabin_route_note_checked")
+		or GameManager.has_flag("cabin_storm_window_checked")
+		or GameManager.has_flag("cabin_wet_cloak_checked")
+		or GameManager.has_flag("cabin_agui_talked")
+		or GameManager.has_flag("cabin_lao_fan_talked")
+		or GameManager.has_flag("cabin_zhou_talked")
+		or GameManager.has_flag("cabin_explore_done")
+		or GameManager.has_flag("cabin_phase_done")
+	)
 
 
 func _sync_pending_events_from_save() -> void:
@@ -893,20 +918,56 @@ func _show_evidence_popup(eid: String, ev: Dictionary) -> void:
 
 # ─── 日程事件 ───
 func _on_day_event_available(evt_id: String) -> void:
-	# auto_play 事件（如撞见凶手）直接播放，不进按钮队列
 	var evt: Dictionary = GameManager.get_day_event(evt_id)
 	if bool(evt.get("auto_play", false)):
-		_play_event_now(evt_id)
+		if not _pending_events.has(evt_id):
+			_pending_events.append(evt_id)
+		_schedule_silent_auto_event()
 		return
 	if not _pending_events.has(evt_id):
 		_pending_events.append(evt_id)
 	_refresh_event_hint()
 
 
+func _schedule_silent_auto_event() -> void:
+	if _silent_auto_event_pending:
+		return
+	_silent_auto_event_pending = true
+	_play_silent_auto_event_when_idle()
+
+
+func _play_silent_auto_event_when_idle() -> void:
+	await get_tree().process_frame
+	while true:
+		var auto_idx := -1
+		for i in range(_pending_events.size()):
+			var evt_id := _pending_events[i]
+			var evt: Dictionary = GameManager.get_day_event(evt_id)
+			if bool(evt.get("auto_play", false)):
+				auto_idx = i
+				break
+		if auto_idx < 0:
+			break
+		while dialogue_box.visible or GameManager.current_state == GameManager.STATE_DIALOGUE:
+			await get_tree().process_frame
+		var next_evt_id: String = _pending_events.pop_at(auto_idx)
+		_play_event_now(next_evt_id)
+		await get_tree().process_frame
+	_silent_auto_event_pending = false
+
+
 func _play_event_now(evt_id: String) -> void:
 	print("[EVENT] _play_event_now: ", evt_id)
 	var evt: Dictionary = GameManager.get_day_event(evt_id)
-	GameManager.apply_event_effects(evt)
+	var evt_for_effects: Dictionary = evt.duplicate(true)
+	var effects_for_apply: Dictionary = evt_for_effects.get("effects", {})
+	var deferred_location := ""
+	if bool(effects_for_apply.get("defer_change_location", false)) and effects_for_apply.has("change_location"):
+		deferred_location = str(effects_for_apply.get("change_location", ""))
+		effects_for_apply.erase("change_location")
+		effects_for_apply.erase("defer_change_location")
+		evt_for_effects["effects"] = effects_for_apply
+	GameManager.apply_event_effects(evt_for_effects)
 	var lines: Array = []
 	var idx := 0
 	for line in evt.get("narration", []):
@@ -921,6 +982,8 @@ func _play_event_now(evt_id: String) -> void:
 	print("[EVENT] auto_confront='", auto_confront, "' lines=", lines.size())
 	DialogueManager.play_adhoc_narration(lines, func():
 		print("[EVENT] narration callback fired, auto_confront='", auto_confront, "'")
+		if deferred_location != "":
+			GameManager.change_location(deferred_location, false)
 		_refresh_event_hint()
 		_try_companion_banter("after_event:" + evt_id)
 		if auto_confront != "":

@@ -48,13 +48,15 @@ ART STYLE:
 
 ZHOU_IDENTITY = """
 ZHOU'S WIFE IDENTITY:
-- Zhou's wife, a 35-year-old Chinese merchant's wife in Ming Dynasty mourning.
-- Mature adult woman, not a young heroine and not a teenage face.
-- Oval face with slightly prominent cheekbones, sorrowful but sharp almond eyes, downturned outer corners, thin lips, and a worried brow.
-- Fair skin with a small tear mole below her left eye. Keep the tear mole subtle but visible in every expression.
+- Zhou's wife, a young-looking 28-year-old Chinese merchant's wife in Ming Dynasty mourning.
+- Young adult woman with a youthful, smooth face — NOT middle-aged, NOT elderly.
+- CRITICAL SKIN REQUIREMENT: Smooth, flawless skin with ZERO wrinkles, ZERO nasolabial folds (法令纹), ZERO laugh lines, ZERO forehead lines, ZERO crow's feet, ZERO under-eye bags. The skin around the mouth and cheeks must be completely smooth and youthful.
+- Oval face with soft features, large sorrowful almond eyes, downturned outer corners, delicate lips, and a gentle worried brow.
+- Fair porcelain skin with a small tear mole below her left eye. Keep the tear mole subtle but visible in every expression.
 - Hair parted near the center and pulled into a simple bun with a plain wooden hairpin; a few loose strands may frame her face.
 - Plain white mourning robe with round collar or simple cross-over mourning closure, modest cloth folds, no ornate jewelry, no colorful robe.
-- She should read as grief-stricken, suspicious, and strong-willed, not soft, cute, glamorous, or villainous.
+- She should read as grief-stricken, suspicious, and strong-willed, NOT soft, cute, glamorous, or villainous.
+- AGE APPEARANCE: She must look like a young woman in her late twenties, NOT a middle-aged or elderly woman. Smooth skin, youthful proportions, no aging signs whatsoever.
 """
 
 SCALE_LOCK = """
@@ -156,8 +158,9 @@ Keep a controlled mourning posture and the same figure scale. Tear mole visible.
         emotion="trembling",
         old_reference="prologue_zhou_wife_trembling.png",
         prompt="""
-Trembling with suppressed emotion. Lips quivering, eyes glistening, shoulders tense, hands clasped tightly or shaking near the waist.
+Trembling with suppressed emotion. Lips slightly parted and quivering, eyes glistening with tears, shoulders tense, hands clasped tightly or shaking near the waist.
 Barely holding herself together. Tear mole visible.
+CRITICAL: Smooth youthful skin around the mouth — absolutely NO nasolabial folds, NO wrinkles, NO lines around the lips or cheeks. She is a young woman, not middle-aged. The expression shows emotional pain through the eyes and lip trembling, NOT through skin creasing or aging lines.
 """,
     ),
     Target(

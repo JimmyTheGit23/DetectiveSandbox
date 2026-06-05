@@ -19,6 +19,8 @@ var _will_trigger_confrontation: bool = false
 var _narration_mode: bool = false
 var _narration_node: String = ""
 
+const MAX_HUB_DIALOGUE_OPTIONS := 4
+
 # ─── 助手讨论模式 ───
 var _discuss_mode: bool = false
 var _discuss_topics: Array = []
@@ -349,11 +351,49 @@ func _filter_options(options: Array) -> Array:
 			var needed: int = int(o["min_hub_visits"])
 			if GameManager.hub_visited_count(_current_npc_id) < needed:
 				continue
+		if bool(o.get("hide_after_visit", false)):
+			var hide_goto: String = o.get("goto", "")
+			if hide_goto != "" and hide_goto != "__exit__" and hide_goto != "__confront__" and GameManager.has_visited(_current_npc_id, hide_goto):
+				continue
 		var option_copy: Dictionary = o.duplicate(true)
 		var goto: String = option_copy.get("goto", "")
 		option_copy["_visited"] = goto != "" and goto != "__exit__" and GameManager.has_visited(_current_npc_id, goto)
 		out.append(option_copy)
+	if _current_node_id == "hub":
+		out = _limit_hub_options(out)
 	return out
+
+
+func _limit_hub_options(options: Array) -> Array:
+	var normal_indices: Array[int] = []
+	var confrontation_indices: Array[int] = []
+	var exit_indices: Array[int] = []
+	for i in range(options.size()):
+		var opt: Dictionary = options[i]
+		var goto: String = opt.get("goto", "")
+		var option_type := str(opt.get("type", ""))
+		if goto == "__exit__" or goto == "":
+			exit_indices.append(i)
+		elif goto == "__confront__" or option_type == "confrontation":
+			confrontation_indices.append(i)
+		else:
+			normal_indices.append(i)
+	var selected: Array[int] = []
+	# DialogueBox 会额外生成一个固定离开按钮，所以 hub 数据里最多放 3 个可问分支。
+	var branch_budget: int = max(0, MAX_HUB_DIALOGUE_OPTIONS - 1)
+	var confrontation_count: int = min(confrontation_indices.size(), branch_budget)
+	var normal_budget: int = max(0, branch_budget - confrontation_count)
+	for i in range(min(normal_indices.size(), normal_budget)):
+		selected.append(normal_indices[i])
+	for i in range(confrontation_count):
+		selected.append(confrontation_indices[i])
+	selected.sort()
+	var limited: Array = []
+	for idx in selected:
+		limited.append(options[idx])
+	for idx in exit_indices:
+		limited.append(options[idx])
+	return limited
 
 
 ## 检测：当前节点选项是否只有"回 hub + 退出"的无意义中转

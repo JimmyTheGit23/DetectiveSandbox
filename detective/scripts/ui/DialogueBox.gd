@@ -437,17 +437,10 @@ func _play_current_page(run_id: int) -> void:
 func _apply_speaker(speaker: String, portrait_path: String, emotion: String = "") -> void:
 	_set_speaker_name(speaker)
 	if speaker == "":
-		if _avatar_rect != null and _avatar_rect.modulate.a > 0.01 and _current_center_portrait_path != "":
-			var keep_portrait := _resolve_emotion_portrait(_current_center_portrait_path, _current_center_emotion)
-			if keep_portrait == "" or not ResourceLoader.exists(keep_portrait):
-				keep_portrait = _current_center_portrait_path
-				_hide_avatar()
-				if keep_portrait != "" and ResourceLoader.exists(keep_portrait):
-					portrait_rect.visible = _set_portrait_texture(portrait_rect, keep_portrait)
-					portrait_rect.modulate.a = 1.0
-					portrait_rect.scale = Vector2(1.0, 1.0)
-					_load_animation_frames(_current_center_portrait_path, _current_center_emotion)
-			return
+		# narrator 行：隐藏所有头像/立绘，只留纯文字
+		_hide_avatar()
+		portrait_rect.visible = false
+		return
 	# 主角/同伴：左下角头像 + 文字右移
 	if _is_protagonist_or_companion(speaker):
 		_last_speaker = speaker
@@ -1114,7 +1107,7 @@ func _show_grouped_options(items: Array) -> int:
 		row.add_child(_make_option_group("问话", ask_items))
 		group_count += 1
 	if not action_items.is_empty():
-		row.add_child(_make_option_group("追问 / 观察", action_items))
+		row.add_child(_make_option_group("追问", action_items))
 		group_count += 1
 	if group_count == 0:
 		_top_options_vbox.remove_child(row)
@@ -1201,7 +1194,7 @@ func _option_type_info(text: String, opt: Dictionary) -> Dictionary:
 		if clean.begins_with("追问"):
 			option_type = "press"
 		elif clean.begins_with("观察"):
-			option_type = "observe"
+			option_type = "press"
 		elif clean.begins_with("试探"):
 			option_type = "probe"
 		elif clean.begins_with("记录"):
@@ -1214,12 +1207,12 @@ func _option_type_info(text: String, opt: Dictionary) -> Dictionary:
 			option_type = "evidence"
 		else:
 			option_type = "ask"
+	if option_type == "observe":
+		option_type = "press"
 	var prefix := "〔问〕"
 	match option_type:
 		"press":
 			prefix = "〔追问〕"
-		"observe":
-			prefix = "〔观察〕"
 		"probe":
 			prefix = "〔试探〕"
 		"record":

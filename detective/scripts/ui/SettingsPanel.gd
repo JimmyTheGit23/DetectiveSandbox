@@ -191,7 +191,7 @@ func _build_gm_jump_tools(parent: VBoxContainer) -> void:
 	var narration_row := HBoxContainer.new()
 	narration_row.add_theme_constant_override("separation", 8)
 	box.add_child(narration_row)
-	_gm_narration_input = _make_gm_input("prologue.day2_lizheng_1")
+	_gm_narration_input = _make_gm_input("prologue.cabin_prologue_1")
 	narration_row.add_child(_gm_narration_input)
 	var btn_narration := _make_gm_button("跳叙事")
 	btn_narration.pressed.connect(_on_gm_jump_narration)

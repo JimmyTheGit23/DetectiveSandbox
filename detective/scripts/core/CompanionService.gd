@@ -141,6 +141,8 @@ func get_companion_portrait() -> String:
 func try_emit_banter(context: Dictionary) -> void:
 	if not _active:
 		return
+	if GameManager.ACTIVE_CASE == "prologue_ferry" and not GameManager.has_flag("cabin_phase_done"):
+		return
 
 	# 每日上限检查
 	var max_per_day: int = int(_case_config.get("banter_max_per_day", 8))

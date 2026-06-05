@@ -1,4 +1,4 @@
-npc_id,node_id,order,text,goto,type,requires,set_flags,hide_after_visit,min_hub_visits,cost_time
+﻿npc_id,node_id,order,text,goto,type,requires,set_flags,hide_after_visit,min_hub_visits,cost_time
 daoming,intro,1,沈砚秋平时常来庙里吗？,shen_visits,,,,True,,
 daoming,intro,2,庙里这两个月有谁出入？,temple_visitors,,,,True,,
 daoming,intro,3,您怎么看这桩案子？,your_view,,,,True,,
@@ -57,7 +57,7 @@ liu_wenqing,shared_dinner,1,（记下这句话）,intro,,,,,,
 liu_wenqing,show_ledger,1,什么公事？,what_business,,,,,,
 liu_wenqing,show_ledger,2,（先记下他的辩解）,intro,,,,,,
 liu_wenqing,what_business,1,（这话越听越不对劲）,intro,,,,,,
-liu_wenqing,show_account,1,（继续观察他的神情）,intro,,,,,,
+liu_wenqing,show_account,1,（继续追问他的反应）,intro,,,,,,
 liu_wenqing,show_letter,1,（再追问他就要崩了）,intro,,,,,,
 liu_wenqing,final_press,1,（等他回答）,confess,,,,,,
 liu_wenqing,confess,1,他真要算的「大账」是什么？,confess_clue,,,,True,,

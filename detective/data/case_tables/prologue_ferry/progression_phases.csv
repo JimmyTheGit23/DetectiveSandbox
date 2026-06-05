@@ -1,6 +1,6 @@
 ﻿phase_id,title,description,hint,locations,unlock_condition,writer_note
-phase_0,船舱夜话,渡船启航。在船舱里检查随身物件，与乘客们交谈，确认这趟夜船哪里不对。,先检查自己的舱室，再问船上的三个人。线索齐了以后，整理疑点再休息。,"cabin_lu_room,cabin_agui_room,cabin_lao_fan_deck,cabin_zhou_room",,船沉前的自由调查阶段
-phase_1,被指控,船沉了。你活下来了，但被指认为凶手。需要自证清白。,去码头搜索沉船残骸，找到证据反驳王大爷的证词。,"ferry_inn,ferry_dock,wreck_site","{""flag"": ""accused_of_murder""}",被指控后
-phase_2,深入追查,自证清白后，开始追查真凶。船底的破洞说明这不是意外。,先去码头和打捞处看看那条船，再问问死者妻子和那个仆从。,"ferry_inn,ferry_dock,wreck_site,river_bend","{""flag"": ""self_cleared""}",王大爷对峙完成后
-phase_3,追查幕后,阿贵不是主谋——他背后还有人。那个'教他的人'，就在这客栈里。,沈清月还在客栈二楼。现在需要找到能把她钉死的证据——阿贵的口供不够。查赌坊线索、码头时间线、还有那笔消失的货银。,"shen_room,gambling_alley","{""flag"": ""agui_confessed_mastermind""}",阿贵认罪后
+phase_0,船舱夜话,渡船启航。在船舱里检查随身物件，与乘客们交谈，确认这趟夜船哪里不对。,先检查官印木匣和行程简记，再问至少一名船上人。回到自己的舱室后，整理疑点并进入沉船事件。,"cabin_lu_room,cabin_agui_room,cabin_lao_fan_deck,cabin_zhou_room",,船沉前的自由调查阶段
+phase_1,被指控,船沉了。你活下来了，但被指认为凶手。需要自证清白。,王大爷的伪证会直接压上来。先用船舱里已确认的风雨、视线、动机和身份线索拆掉指控。,"ferry_inn,ferry_dock,wreck_site","{""flag"": ""accused_of_murder""}",被指控后
+phase_2,深入追查,自证清白后，开始追查真凶。船底的破洞说明这不是意外。,第一堂只需要核心证据：船底破洞、浮囊、尸检无钝器伤、老范上岸时间矛盾、阿贵遣散字据。,"ferry_inn,ferry_dock,wreck_site,river_bend","{""flag"": ""self_cleared""}",王大爷对峙完成后
+phase_3,追查幕后,阿贵不是主谋——他背后还有人。那个'教他的人'，就在这客栈里。,阿贵口供只能开线。要定沈清月，补齐三条链：货银去向、共犯连接、毒囊与尸检物证。,"shen_room,gambling_alley","{""flag"": ""agui_confessed_mastermind""}",阿贵认罪后
 phase_4,序章败局,你已推到真相，却被毒物时效性和唯一指向性的法理反击挡住，无法当庭定罪。案件未结。,证据链能说明真相，但法理上还差最后一环。回到码头寻找官印暗线，准备下一章。,ferry_inn;ferry_dock,"{""flag"": ""prologue_defeated""}",沈清月终局翻盘后
