@@ -1,0 +1,2 @@
+fatal: path 'detective/assets/cn/portraits/prologue_lao_fan_shaken.png' exists, but not 'assets/cn/portraits/prologue_lao_fan_shaken.png'
+hint: Did you mean 'HEAD:detective/assets/cn/portraits/prologue_lao_fan_shaken.png' aka 'HEAD:./assets/cn/portraits/prologue_lao_fan_shaken.png'?
