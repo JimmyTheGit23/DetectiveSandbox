@@ -18,6 +18,7 @@ var _dialogue_had_content_node: bool = false
 var _will_trigger_confrontation: bool = false
 var _narration_mode: bool = false
 var _narration_node: String = ""
+var _suppress_evidence_obtain_hold := false
 
 const MAX_HUB_DIALOGUE_OPTIONS := 4
 
@@ -29,6 +30,7 @@ var _discuss_callback: Callable = Callable()
 
 # ─── NPC 对话 ───
 func start_dialogue(npc_id: String) -> void:
+	_suppress_evidence_obtain_hold = false
 	var parsed := CaseTableLoader.load_dialogue(GameManager.ACTIVE_CASE, npc_id)
 	if parsed.is_empty():
 		push_warning("No dialogue tree in CSV tables: %s/%s" % [GameManager.ACTIVE_CASE, npc_id])
@@ -42,13 +44,14 @@ func start_dialogue(npc_id: String) -> void:
 
 
 ## 从指定节点开始对话（用于剧情事件触发某个特定场景对话）
-func start_dialogue_at(npc_id: String, node_id: String) -> void:
+func start_dialogue_at(npc_id: String, node_id: String, suppress_evidence_hold := false) -> void:
 	var parsed := CaseTableLoader.load_dialogue(GameManager.ACTIVE_CASE, npc_id)
 	if parsed.is_empty():
 		push_warning("No dialogue tree in CSV tables: %s/%s" % [GameManager.ACTIVE_CASE, npc_id])
 		return
 	_current_tree = parsed
 	_current_npc_id = npc_id
+	_suppress_evidence_obtain_hold = suppress_evidence_hold
 	_dialogue_had_content_node = false
 	_current_node_id = node_id
 	VoicePlayer.begin_session()
@@ -100,6 +103,7 @@ func end_dialogue(suppress_companion_banter := false) -> void:
 	_current_npc_id = ""
 	_dialogue_had_content_node = false
 	_will_trigger_confrontation = false
+	_suppress_evidence_obtain_hold = false
 	_discuss_mode = false
 	_discuss_topics = []
 	VoicePlayer.end_session()
@@ -141,7 +145,7 @@ func _emit_current() -> void:
 				GameManager.add_clue(old_gc)
 			var old_ge: String = effects.get("add_evidence", "")
 			if old_ge != "":
-				GameManager.add_evidence(old_ge)
+				GameManager.add_evidence(old_ge, not _suppress_evidence_obtain_hold)
 		# 通过对话直接获得线索/证据
 		var gc: String = node.get("gain_clue", "")
 		if gc != "":
@@ -155,7 +159,7 @@ func _emit_current() -> void:
 			})
 		var ge: String = node.get("gain_evidence", "")
 		if ge != "":
-			GameManager.add_evidence(ge)
+			GameManager.add_evidence(ge, not _suppress_evidence_obtain_hold)
 			_try_companion_banter({
 				"trigger": "gain_evidence",
 				"npc_id": _current_npc_id,
@@ -415,25 +419,27 @@ func _should_skip_to_hub(options: Array) -> bool:
 
 
 # ─── 序章 / 叙述模式 ───
-func start_narration(doc_id: String = "prologue") -> void:
+func start_narration(doc_id: String = "prologue", suppress_evidence_hold := false) -> void:
 	var parsed := CaseTableLoader.load_narration(GameManager.ACTIVE_CASE, doc_id)
 	if parsed.is_empty():
 		push_warning("No narration in CSV tables: %s/%s" % [GameManager.ACTIVE_CASE, doc_id])
 		return
 	_current_tree = parsed
 	_narration_mode = true
+	_suppress_evidence_obtain_hold = suppress_evidence_hold
 	_narration_node = _current_tree.get("start", "scene1")
 	VoicePlayer.begin_session()
 	_emit_narration()
 
 
-func start_narration_at(doc_id: String, node_id: String) -> void:
+func start_narration_at(doc_id: String, node_id: String, suppress_evidence_hold := false) -> void:
 	var parsed := CaseTableLoader.load_narration(GameManager.ACTIVE_CASE, doc_id)
 	if parsed.is_empty():
 		push_warning("No narration in CSV tables: %s/%s" % [GameManager.ACTIVE_CASE, doc_id])
 		return
 	_current_tree = parsed
 	_narration_mode = true
+	_suppress_evidence_obtain_hold = suppress_evidence_hold
 	if _current_tree.get("nodes", {}).has(node_id):
 		_narration_node = node_id
 	else:
@@ -550,9 +556,9 @@ func _apply_narration_effects(effects) -> void:
 		var evidence_value = d["gain_evidence"]
 		if evidence_value is Array:
 			for evidence_id in evidence_value:
-				GameManager.add_evidence(str(evidence_id))
+				GameManager.add_evidence(str(evidence_id), not _suppress_evidence_obtain_hold)
 		else:
-			GameManager.add_evidence(str(evidence_value))
+			GameManager.add_evidence(str(evidence_value), not _suppress_evidence_obtain_hold)
 
 
 func _end_narration() -> void:
@@ -560,6 +566,7 @@ func _end_narration() -> void:
 	print(get_stack())
 	_narration_mode = false
 	_current_tree = {}
+	_suppress_evidence_obtain_hold = false
 	VoicePlayer.end_session()
 	narration_ended.emit()
 
@@ -569,11 +576,12 @@ var _adhoc_lines: Array = []
 var _adhoc_idx: int = 0
 var _adhoc_callback: Callable
 
-func play_adhoc_narration(lines: Array, callback: Callable = Callable()) -> void:
+func play_adhoc_narration(lines: Array, callback: Callable = Callable(), suppress_evidence_hold := false) -> void:
 	## lines: Array of String 或 Array of { "speaker": "", "text": "", "background": "" }
 	_adhoc_lines = lines
 	_adhoc_idx = 0
 	_adhoc_callback = callback
+	_suppress_evidence_obtain_hold = suppress_evidence_hold
 	_narration_mode = true
 	_emit_adhoc()
 
@@ -616,6 +624,7 @@ func adhoc_next() -> void:
 
 func _end_adhoc() -> void:
 	_narration_mode = false
+	_suppress_evidence_obtain_hold = false
 	_adhoc_lines = []
 	narration_ended.emit()
 	if _adhoc_callback.is_valid():

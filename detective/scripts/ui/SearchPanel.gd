@@ -200,7 +200,7 @@ func _result_dialog_text(result: Dictionary) -> String:
 	txt += narration
 	if result.get("gained_evidence", "") != "":
 		var ev = GameManager.evidence_data.get(result.gained_evidence, {})
-		txt += "\n\n【获得证据：%s】" % ev.get("name", "")
+		txt += "\n\n【获得证物：%s】" % ev.get("name", "")
 	if result.get("gained_clue", "") != "":
 		var cl = GameManager.evidence_data.get(result.gained_clue, {})
 		txt += "\n\n【获得线索：%s】" % cl.get("name", "")

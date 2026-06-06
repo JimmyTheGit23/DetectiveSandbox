@@ -425,7 +425,7 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 	if result.get("gained_evidence", "") != "":
 		var ev_id: String = result.gained_evidence
 		var ev: Dictionary = GameManager.evidence_data.get(ev_id, {})
-		text += "\n【获得证据：%s】" % ev.get("name", "")
+		text += "\n【获得证物：%s】" % ev.get("name", "")
 		gained_item_ids.append(ev_id)
 	if result.get("gained_clue", "") != "":
 		var cl_id: String = result.gained_clue
@@ -769,7 +769,7 @@ func _show_sub_choices_dialog(point_name: String, intro_text: String, sub_choice
 	var ev_id: String = chosen_choice.get("evidence", "")
 	if ev_id != "":
 		var ev = GameManager.evidence_data.get(ev_id, {})
-		result_text += "\n\n【获得证据：%s】" % ev.get("name", ev_id)
+		result_text += "\n\n【获得证物：%s】" % ev.get("name", ev_id)
 	var cl_id: String = chosen_choice.get("clue", "")
 	if cl_id != "":
 		var cl = GameManager.evidence_data.get(cl_id, {})

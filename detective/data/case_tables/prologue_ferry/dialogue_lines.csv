@@ -405,5 +405,5 @@ shen_qingyue,hub,1,shen_qingyue,,,自证清白了？不错。看来你不是草�
 shen_qingyue,hub,2,shen_qingyue,,,阿贵招了？……有意思。他说什么了？,cold_fury,"[{""flag"":""agui_confessed_mastermind""}]",,,,,
 zhou_wife,hub,1,zhou_wife,,,……你查清楚了？王大爷是假证？那……那老爷到底是怎么死的？,interrogating,"[{""flag"":""self_cleared""},{""not_flag"":""agui_confessed_mastermind""}]",,,,,
 zhou_wife,hub,2,zhou_wife,,,阿贵认了？他……他承认是他害了老爷？,interrogating,"[{""flag"":""agui_confessed_mastermind""}]",,,,,
-li_zheng,hub,1,li_zheng,,,你查清楚了？王大爷的证词是伪证——好，好。那周氏那边我先稳住。你继续查。,determined,"[{""flag"":""self_cleared""},{""not_flag"":""agui_confessed_mastermind""}]",,,,,
+li_zheng,hub,1,li_zheng,,,你查清楚了？王大爷的证词站不住——好，好。那周氏那边我先稳住。你继续查。,determined,"[{""flag"":""self_cleared""},{""not_flag"":""agui_confessed_mastermind""}]",,,,,
 li_zheng,hub,2,li_zheng,,,阿贵招了？陆公子，这事……沈家不好惹。您要是有实证，小人可以开堂。,nervous,"[{""flag"":""agui_confessed_mastermind""}]",,,,,

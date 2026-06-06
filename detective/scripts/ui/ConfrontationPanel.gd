@@ -1523,7 +1523,7 @@ func _after_break_dialogue() -> void:
 			added = GameManager.add_clue(grant_id)
 		else:
 			added = GameManager.add_evidence(grant_id)
-		if added:
+		if added and not GameManager.suppress_evidence_obtain_hold:
 			await _show_evidence_acquired_fx(grant_id)
 
 	# 检查当前证词是否有过渡对话（transition_dialogue）
@@ -1575,10 +1575,10 @@ func _show_evidence_acquired_fx(evidence_id: String) -> void:
 	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	center.add_child(vbox)
 
-	# "新证物入手！" 标题
+	# "获得证物" 标题
 	var title_lbl := Label.new()
 	var item_type: String = data.get("type", "evidence")
-	title_lbl.text = "新证物入手！" if item_type == "evidence" else "新线索记录！"
+	title_lbl.text = "获得证物" if item_type == "evidence" else "获得线索"
 	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_lbl.add_theme_font_size_override("font_size", 28)
 	title_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.55, 1.0))
@@ -1609,8 +1609,8 @@ func _show_evidence_acquired_fx(evidence_id: String) -> void:
 	tw.tween_property(name_lbl, "scale", Vector2(1.0, 1.0), 0.1)
 	# 震屏
 	tw.parallel().tween_callback(func(): _shake_screen(6.0, 4, 0.02))
-	# 停留
-	tw.tween_interval(1.5)
+	# 固定停留 2 秒
+	tw.tween_interval(2.0)
 	# 淡出
 	tw.tween_property(flash, "color:a", 0.0, 0.4)
 	tw.parallel().tween_property(title_lbl, "modulate:a", 0.0, 0.3)
@@ -1685,13 +1685,13 @@ func _play_victory() -> void:
 	_set_browsing_visible(false)
 
 	# ── 判决/击破大字特效。按对峙类型选择不同的大字：
-	#   confrontation_wang: 自证清白，不涉及定罪，显示"伪证揭穿"
+	#   confrontation_wang: 自证清白，不涉及定罪，显示"指认推翻"
 	#   confrontation_final: 序章终局是机制胜利、剧情败局，显示"真相抵岸"
 	#   其他（如阿贵对峙）: 定罪，显示"有罪"
 	var verdict_text := "有  罪"
 	match GameManager.active_confrontation_key:
 		"confrontation_wang":
-			verdict_text = "伪证揭穿"
+			verdict_text = "指认推翻"
 		"confrontation_final":
 			verdict_text = "真相抵岸"
 	await _play_guilty_verdict(verdict_text)

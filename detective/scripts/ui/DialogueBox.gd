@@ -33,6 +33,7 @@ var _last_speaker: String = ""
 var _last_emotion: String = ""
 var _portrait_tween: Tween = null
 var _avatar_tween: Tween = null
+var _advance_locked_until_msec := 0
 
 # ─── 叙述模式 ───
 var _narration_mode: bool = false
@@ -151,6 +152,9 @@ func _input(event: InputEvent) -> void:
 		advance_pressed = true
 	if not advance_pressed:
 		return
+	if _is_advance_locked():
+		get_viewport().set_input_as_handled()
+		return
 	# 文字出字中点击 → 立即显示当前句全文。
 	if _typewriter.is_playing():
 		_typewriter.skip()
@@ -165,6 +169,15 @@ func _input(event: InputEvent) -> void:
 			_dialogue_page_index += 1
 			_play_current_page(_dialogue_run_id)
 		get_viewport().set_input_as_handled()
+
+
+func lock_advance_for(seconds: float) -> void:
+	var unlock_at := Time.get_ticks_msec() + int(maxf(seconds, 0.0) * 1000.0)
+	_advance_locked_until_msec = maxi(_advance_locked_until_msec, unlock_at)
+
+
+func _is_advance_locked() -> bool:
+	return Time.get_ticks_msec() < _advance_locked_until_msec
 
 
 

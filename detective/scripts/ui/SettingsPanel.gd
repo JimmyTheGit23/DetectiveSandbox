@@ -763,7 +763,7 @@ func _unlock_all_evidence() -> void:
 		var entry: Dictionary = GameManager.evidence_data[eid]
 		var etype: String = entry.get("type", "")
 		if etype == "evidence":
-			GameManager.add_evidence(eid)
+			GameManager.add_evidence(eid, false)
 		elif etype == "clue":
 			GameManager.add_clue(eid)
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:

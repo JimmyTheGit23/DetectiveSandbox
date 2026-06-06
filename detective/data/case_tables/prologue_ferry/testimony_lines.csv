@@ -196,14 +196,14 @@ shen_testimony_3,transition_dialogue,1h,凌瑶,,（低声）她手指收紧了�
 shen_testimony_3,transition_dialogue,2,你,,间接证据也是证据。只要彼此对得上，就能定案。,serious
 shen_testimony_3,transition_dialogue,2a,钱里正,,陆公子，小人明白您的意思。可这堂上要分清：链能说明案情，不一定能押住一个会辩的人。,nervous
 shen_testimony_3,transition_dialogue,3,沈清月,,（冷笑）对得上？陆公子，你这些东西，哪一样不是别人嘴里说出来的？,cold_smile
-shen_testimony_3,transition_dialogue,4,沈清月,,阿贵的口供——杀人犯减罪攀咬。老范的证词——赌鬼为自保翻供。王大爷——你自己方才还拆成了伪证。,cold_fury
+shen_testimony_3,transition_dialogue,4,沈清月,,阿贵的口供——杀人犯减罪攀咬。老范的证词——赌鬼为自保翻供。王大爷那套指认——你自己方才也拆穿了。,cold_fury
 shen_testimony_3,transition_dialogue,5,沈清月,,陆公子，你全部的指控，都靠三个不可信的人开口。这叫证据？这叫互相推脱。,sharp
 shen_testimony_3,transition_dialogue,6,你,,那就不用他们的话。我用物证。,cold
 shen_testimony_3,transition_dialogue,7,沈清月,,（眉头微微一动）……哪个物证？,deflecting
 shen_testimony_3,transition_dialogue,8,凌瑶,,（低声）她刚才停了一下。她在想我们手里还剩什么。陆公子，先出毒囊残壳，再说油脂锁毒。,determined
 shen_testimony_3,transition_dialogue,9,你,,你问我还有什么。那就看——你那句'你没有任何直接物证'能不能扛住接下来的东西。,cold
 shen_testimony_3,transition_dialogue,10,沈清月,,（极轻地笑了）……好。那就请陆公子拿出来。,cold_smile
-shen_testimony_4,preamble,0,凌瑶,,（低声）毒囊残壳能证明有人布毒。但她会搬出法理——'过期残迹视为无效伪证'。这一轮要把毒囊位置、舌根药渣和油脂锁毒三件事说清楚。,determined
+shen_testimony_4,preamble,0,凌瑶,,（低声）毒囊残壳能证明有人布毒。但她会搬出法理——'过期残迹不得采为定罪实证'。这一轮要把毒囊位置、舌根药渣和油脂锁毒三件事说清楚。,determined
 shen_testimony_4,preamble,1,沈清月,,（看着糯米胶薄膜碎片，笑意更冷）糯米胶薄膜？码头上封鱼篓、糊船缝都用这东西。你拿一片烂胶就想定我的罪？,cold_fury
 shen_testimony_4,readthrough_end_hint,0,凌瑶,,（低声）她在把证据分开说：糯米胶说成常见物、药渣说成已失活、油脂说成普通饭菜。先追问她最坚持的那句，让她把话说完整。,determined
 shen_testimony_4,transition_dialogue,0,沈清月,,……油脂锁毒、毒囊定位。陆公子，你倒真能把沉船残骸的细节翻出来。,cracking

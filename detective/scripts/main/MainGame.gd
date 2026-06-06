@@ -87,11 +87,13 @@ const GM_PRESETS := {
 
 const SettingsSealIcon = preload("res://scripts/ui/SettingsSealIcon.gd")
 const SETTINGS_BUTTON_ICON_PATH := "res://assets/cn/ui/icon_settings_seal.png"
+const EVIDENCE_OBTAIN_HOLD_SECONDS := 2.0
 
 var _active_subpanel: Control = null
 var _pending_events: Array[String] = []
 var _event_hint_auto_pending := false
 var _silent_auto_event_pending := false
+var _silent_auto_event_suppress_evidence_hold := false
 var _pending_adhoc_lines: Array = []
 var _last_location_day: int = -1         # 上次进入场景时的 day
 var _time_card_playing: bool = false     # 场景过场是否正在播放
@@ -696,13 +698,13 @@ func _continue_game() -> void:
 		if not _should_resume_cabin_from_prologue_save():
 			_set_background("res://assets/cn/scenes/pure_black.png", false)
 			BgmPlayer.play("ferry_cabin_night")
-			DialogueManager.start_narration("prologue")
+			DialogueManager.start_narration("prologue", true)
 			return
 		GameManager.set_state(GameManager.STATE_PLAYING)
 	elif GameManager.current_state == GameManager.STATE_TRANSITION and GameManager.ACTIVE_CASE == "prologue_ferry" and not _should_resume_cabin_from_prologue_save():
 		_set_background("res://assets/cn/scenes/pure_black.png", false)
 		BgmPlayer.play("ferry_cabin_night")
-		DialogueManager.start_narration("prologue")
+		DialogueManager.start_narration("prologue", true)
 		return
 	GameManager.set_state(GameManager.STATE_PLAYING)
 	_on_location_changed(GameManager.current_location, true)
@@ -711,7 +713,7 @@ func _continue_game() -> void:
 	if menu_panel.has_method("refresh_visibility"):
 		menu_panel.refresh_visibility()
 	if _has_pending_auto_event():
-		_schedule_silent_auto_event()
+		_schedule_silent_auto_event(true)
 	else:
 		_refresh_event_hint()
 	if _should_resume_wang_confrontation_after_continue():
@@ -845,8 +847,9 @@ func _update_top_bar() -> void:
 
 func _on_evidence_added(eid: String) -> void:
 	var ev = GameManager.evidence_data.get(eid, {})
-	_flash_notification("【获得证据】" + ev.get("name", eid))
-	_show_evidence_popup(eid, ev)
+	var should_hold := GameManager.should_hold_last_evidence_obtain_display()
+	_flash_notification("【获得证物】" + ev.get("name", eid))
+	_show_evidence_popup(eid, ev, should_hold)
 
 
 func _on_clue_added(cid: String) -> void:
@@ -896,10 +899,12 @@ func _flash_notification(text: String) -> void:
 	tw.tween_callback(lbl.queue_free)
 
 
-func _show_evidence_popup(eid: String, ev: Dictionary) -> void:
+func _show_evidence_popup(eid: String, ev: Dictionary, hold_advance := true) -> void:
 	var tex: Texture2D = _load_evidence_popup_texture(eid, ev)
 	if tex == null:
 		return
+	if hold_advance and dialogue_box and dialogue_box.has_method("lock_advance_for"):
+		dialogue_box.lock_advance_for(EVIDENCE_OBTAIN_HOLD_SECONDS)
 
 	var toast := PanelContainer.new()
 	toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -932,23 +937,37 @@ func _show_evidence_popup(eid: String, ev: Dictionary) -> void:
 	img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(img)
 
+	var label_box := VBoxContainer.new()
+	label_box.custom_minimum_size = Vector2(190, 80)
+	label_box.alignment = BoxContainer.ALIGNMENT_CENTER
+	label_box.add_theme_constant_override("separation", 2)
+	label_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(label_box)
+
+	var title_lbl := Label.new()
+	title_lbl.text = "获得证物"
+	title_lbl.add_theme_font_size_override("font_size", 15)
+	title_lbl.add_theme_color_override("font_color", Color(0.96, 0.78, 0.34, 1))
+	title_lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+	title_lbl.add_theme_constant_override("outline_size", 2)
+	title_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label_box.add_child(title_lbl)
+
 	var name_lbl := Label.new()
 	name_lbl.text = str(ev.get("name", eid))
-	name_lbl.custom_minimum_size = Vector2(190, 80)
-	name_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	name_lbl.add_theme_font_size_override("font_size", 18)
 	name_lbl.add_theme_color_override("font_color", Color(1, 0.95, 0.7, 1))
 	name_lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
 	name_lbl.add_theme_constant_override("outline_size", 2)
 	name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	row.add_child(name_lbl)
+	label_box.add_child(name_lbl)
 
 	var tw := create_tween()
 	tw.set_parallel(true)
 	tw.tween_property(toast, "modulate:a", 1.0, 0.18)
 	tw.tween_property(toast, "position:x", 42.0, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tw.tween_property(toast, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tw.chain().tween_interval(2.2)
+	tw.chain().tween_interval(EVIDENCE_OBTAIN_HOLD_SECONDS)
 	tw.set_parallel(true)
 	tw.tween_property(toast, "modulate:a", 0.0, 0.35)
 	tw.tween_property(toast, "position:x", 26.0, 0.35)
@@ -983,7 +1002,8 @@ func _on_day_event_available(evt_id: String) -> void:
 	_refresh_event_hint()
 
 
-func _schedule_silent_auto_event() -> void:
+func _schedule_silent_auto_event(suppress_evidence_hold := false) -> void:
+	_silent_auto_event_suppress_evidence_hold = _silent_auto_event_suppress_evidence_hold or suppress_evidence_hold
 	if _silent_auto_event_pending:
 		return
 	_silent_auto_event_pending = true
@@ -1010,12 +1030,16 @@ func _play_silent_auto_event_when_idle() -> void:
 		if popped_evt == null:
 			continue
 		var next_evt_id := str(popped_evt)
-		_play_event_now(next_evt_id)
+		_play_event_now(next_evt_id, _silent_auto_event_suppress_evidence_hold)
 		await get_tree().process_frame
 	_silent_auto_event_pending = false
+	_silent_auto_event_suppress_evidence_hold = false
 
 
-func _play_event_now(evt_id: String) -> void:
+func _play_event_now(evt_id: String, suppress_evidence_hold := false) -> void:
+	var previous_suppress_evidence_hold := GameManager.suppress_evidence_obtain_hold
+	if suppress_evidence_hold:
+		GameManager.suppress_evidence_obtain_hold = true
 	var evt: Dictionary = GameManager.get_day_event(evt_id)
 	var evt_for_effects: Dictionary = evt.duplicate(true)
 	var effects_for_apply: Dictionary = evt_for_effects.get("effects", {})
@@ -1049,7 +1073,8 @@ func _play_event_now(evt_id: String) -> void:
 	var finish_event := func():
 		# 事件级效果必须在整段叙事播放完后再落库。
 		# 否则玩家在沉船/指控等长事件中途退出，继续游戏会把未播完的剧情当作已完成。
-		GameManager.apply_event_effects(evt_for_effects)
+		GameManager.apply_event_effects(evt_for_effects, not suppress_evidence_hold)
+		GameManager.suppress_evidence_obtain_hold = previous_suppress_evidence_hold
 		if deferred_location != "":
 			if suppress_arrival_banter_after_event:
 				_suppress_next_arrival_banter = true
@@ -1068,15 +1093,15 @@ func _play_event_now(evt_id: String) -> void:
 			if after_escape.is_empty():
 				finish_event.call()
 			else:
-				DialogueManager.play_adhoc_narration(after_escape, finish_event)
+				DialogueManager.play_adhoc_narration(after_escape, finish_event, suppress_evidence_hold)
 		var show_escape := func():
 			_show_cabin_escape_panel(play_after_escape)
 		if before_escape.is_empty():
 			show_escape.call()
 		else:
-			DialogueManager.play_adhoc_narration(before_escape, show_escape)
+			DialogueManager.play_adhoc_narration(before_escape, show_escape, suppress_evidence_hold)
 	else:
-		DialogueManager.play_adhoc_narration(lines, finish_event)
+		DialogueManager.play_adhoc_narration(lines, finish_event, suppress_evidence_hold)
 
 
 func _show_cabin_escape_panel(done: Callable) -> void:
@@ -1325,7 +1350,7 @@ func gm_jump_to_dialogue(npc_id: String, node_id: String) -> void:
 		return
 	GameManager.reload_current_case_tables()
 	_gm_prepare_surface(false)
-	DialogueManager.start_dialogue_at(npc_id, node_id)
+	DialogueManager.start_dialogue_at(npc_id, node_id, true)
 
 
 func gm_jump_to_narration(doc_id: String, node_id: String) -> void:
@@ -1334,7 +1359,7 @@ func gm_jump_to_narration(doc_id: String, node_id: String) -> void:
 		return
 	GameManager.reload_current_case_tables()
 	_gm_prepare_surface(false)
-	DialogueManager.start_narration_at(doc_id, node_id)
+	DialogueManager.start_narration_at(doc_id, node_id, true)
 
 
 func gm_play_event(evt_id: String) -> void:
@@ -1346,7 +1371,7 @@ func gm_play_event(evt_id: String) -> void:
 		_flash_notification("未知事件：" + evt_id)
 		return
 	_gm_prepare_surface(false)
-	_play_event_now(evt_id)
+	_play_event_now(evt_id, true)
 
 
 func gm_start_confrontation(confront_key: String, reload_tables := true) -> void:
@@ -1359,6 +1384,7 @@ func gm_start_confrontation(confront_key: String, reload_tables := true) -> void
 		_flash_notification("未知对峙：" + confront_key)
 		return
 	_gm_prepare_surface(false)
+	GameManager.suppress_evidence_obtain_hold = true
 	GameManager.active_confrontation_key = confront_key
 	_open_confrontation_panel()
 
@@ -1382,6 +1408,7 @@ func _gm_prepare_surface(show_menu := true) -> void:
 	ending_screen.visible = false
 	dialogue_box.visible = false
 	subpanel_container.visible = false
+	GameManager.suppress_evidence_obtain_hold = false
 	_hide_title()
 	menu_panel.visible = show_menu
 	GameManager.set_state(GameManager.STATE_PLAYING)
@@ -1399,7 +1426,7 @@ func _gm_grant_state(preset: Dictionary) -> void:
 		GameManager.set_flag(str(flag_id))
 	for evidence_id in preset.get("evidence", []):
 		if GameManager.evidence_data.has(str(evidence_id)):
-			GameManager.add_evidence(str(evidence_id))
+			GameManager.add_evidence(str(evidence_id), false)
 	for clue_id in preset.get("clues", []):
 		if GameManager.evidence_data.has(str(clue_id)):
 			GameManager.add_clue(str(clue_id))
@@ -1527,6 +1554,7 @@ func _open_confrontation_panel() -> void:
 
 func _on_confrontation_finished(result: String, mistakes: int) -> void:
 	_close_subpanel()
+	GameManager.suppress_evidence_obtain_hold = false
 	var confront_key: String = GameManager.active_confrontation_key
 	# 对峙胜利后设置对应 flag
 	if result == "victory":
@@ -1583,7 +1611,7 @@ func _after_mid_confrontation(confront_key: String, result: String) -> void:
 		if confront_key == "confrontation_wang":
 			buffer_lines = [
 				{"speaker": "凌瑶", "text": "看吧！浓雾、风浪、动机，三处全破！你不是凶手。", "emotion": "determined"},
-				{"speaker": "陆昭", "text": "王大爷的证词是伪证。有人想先把我钉死，再让真正的凶手从证据缝里逃走。", "emotion": "cold"},
+				{"speaker": "陆昭", "text": "王大爷的证词站不住了。有人想先把我钉死，再让真正的凶手从证据缝里逃走。", "emotion": "cold"},
 				{"speaker": "凌瑶", "text": "那个沈清月也太会接话了……每次都像在帮忙，其实都在往你身上压。", "emotion": "worried"}
 			]
 		else:

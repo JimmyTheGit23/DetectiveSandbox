@@ -127,7 +127,7 @@ confrontation_final,intro_dialogue,12,陆昭,,好，开始。她要谈法律，�
 confrontation_final,victory_dialogue,0,,,客栈大堂临时设下的公堂里，雨声压在屋檐上。沈清月从讼师席走上证人席。所有人的目光都落在那块半透明的糯米胶薄膜碎片上。,narration
 confrontation_final,victory_dialogue,1,沈清月,,江岸采药，偶遇船难，全程未见行凶。陆公子想问什么？,cooperative
 confrontation_final,victory_dialogue,2,陆昭,,死者舌根有毒草残留。不是正常溺亡，有人动了手脚。,serious
-confrontation_final,victory_dialogue,3,沈清月,,此草遇淡水数分钟彻底失活。案发至尸检已过数十刻——残留仅有无害植物纤维。依大明律，过期残迹视为无效伪证，应当庭驳回。,sharp
+confrontation_final,victory_dialogue,3,沈清月,,此草遇淡水数分钟彻底失活。案发至尸检已过数十刻——残留仅有无害植物纤维。依大明律，过期残迹不得采为定罪实证，应当庭驳回。,sharp
 confrontation_final,victory_dialogue,4,钱里正,,这……若真如沈姑娘所说，律法上确有此条……,nervous
 confrontation_final,victory_dialogue,4a,钱里正,,陆公子，草药残留能证明死者口中曾有异物，可若要拿它定罪，县衙会先问时效。她卡的正是这一点。,stern
 confrontation_final,victory_dialogue,5,凌瑶,,她拿法律当门闩，把物证关在外头了……！,shocked
@@ -157,6 +157,6 @@ confrontation_final,victory_dialogue,24,陆昭,,不。油脂锁毒，她漏算�
 confrontation_final,victory_dialogue,25,,,你第一次这么清楚地意识到：知道真相，和赢下案子，不是一回事。但油脂锁毒还在，这案子还没完。,inner_thought
 confrontation_final,defeat_dialogue,0,沈清月,,陆公子。你手里所有的证据加在一起——也只够定阿贵的罪。跟我有什么关系？,cold_fury
 confrontation_final,defeat_dialogue,1,沈清月,,一个赌鬼的口供、一个杀人犯的攀咬、一个老渔翁在黑夜里看到的模糊身影——陆公子拿这些去县衙告我试试？,cold_smile
-confrontation_final,defeat_dialogue,2,沈清月,,至于所谓毒理？草药遇淡水数分钟失活——案发到尸检过了数十刻。依大明律，过期残迹视为无效伪证。糯米胶薄膜人人可得，不能唯一指向任何人。,sharp
+confrontation_final,defeat_dialogue,2,沈清月,,至于所谓毒理？草药遇淡水数分钟失活——案发到尸检过了数十刻。依大明律，过期残迹不得采为定罪实证。糯米胶薄膜人人可得，不能唯一指向任何人。,sharp
 confrontation_final,defeat_dialogue,3,沈清月,,回去再读读大明律吧。'指向'和'证明'之间——隔着一条人命。跨不过去，就别急着喊我凶手。,sharp
 confrontation_final,defeat_dialogue,4,凌瑶,,她在嘲笑我们……但她说得也没错。下次——一定把那颗最滑的珠子按住。,worried

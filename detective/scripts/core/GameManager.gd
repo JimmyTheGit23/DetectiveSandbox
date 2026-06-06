@@ -81,6 +81,8 @@ var npc_states: Dictionary = {}         # npc_id -> { stat_name: value }
 var case_records: Array[Dictionary] = []       # 证词 / 疑点 / 关键信息记录
 var dialogue_records: Array[Dictionary] = []   # 对话卷宗回看
 var shown_time_cards: Dictionary = {}          # 已显示的时间字幕 key → true（持久化，避免重复）
+var suppress_evidence_obtain_hold := false
+var _last_evidence_obtain_hold_enabled := true
 
 
 func _ready() -> void:
@@ -159,6 +161,8 @@ func switch_case(case_id: String) -> bool:
 	dialogue_records.clear()
 	shown_time_cards.clear()
 	culprit_actions_witnessed.clear()
+	suppress_evidence_obtain_hold = false
+	_last_evidence_obtain_hold_enabled = true
 	unlocked_phases = ["phase_0", "phase_1"]
 	reroll_case_seed()
 	# 切换案件时刷新助手系统数据
@@ -252,6 +256,8 @@ func reset_progress() -> void:
 	dialogue_records.clear()
 	shown_time_cards.clear()
 	culprit_actions_witnessed.clear()
+	suppress_evidence_obtain_hold = false
+	_last_evidence_obtain_hold_enabled = true
 	unlocked_phases = ["phase_0", "phase_1"]
 	reroll_case_seed()
 	_init_npc_states()
@@ -420,6 +426,8 @@ func _apply_save_data(data: Dictionary) -> void:
 	shown_time_cards = data.get("shown_time_cards", {})
 	case_seed = int(data.get("case_seed", 0))
 	culprit_actions_witnessed = data.get("culprit_actions_witnessed", {})
+	suppress_evidence_obtain_hold = false
+	_last_evidence_obtain_hold_enabled = true
 	var saved_phases = data.get("unlocked_phases", ["phase_0", "phase_1"])
 	unlocked_phases.clear()
 	for p in saved_phases:
@@ -548,16 +556,21 @@ func current_location_data() -> Dictionary:
 
 
 # ─── 证据/线索 ───
-func add_evidence(eid: String) -> bool:
+func add_evidence(eid: String, hold_obtain_display := true) -> bool:
 	if collected_evidence.has(eid):
 		return false
 	collected_evidence.append(eid)
 	_apply_transitions("evidence_obtained:" + eid)
+	_last_evidence_obtain_hold_enabled = hold_obtain_display and not suppress_evidence_obtain_hold
 	evidence_added.emit(eid)
 	_check_day_events()
 	_check_progression()
 	# 自动存档已移除，改为关键节点前存档
 	return true
+
+
+func should_hold_last_evidence_obtain_display() -> bool:
+	return _last_evidence_obtain_hold_enabled
 
 
 func add_clue(cid: String) -> bool:
@@ -1099,7 +1112,7 @@ func get_day_event(evt_id: String) -> Dictionary:
 	return {}
 
 
-func apply_event_effects(evt: Dictionary) -> void:
+func apply_event_effects(evt: Dictionary, hold_obtain_display := true) -> void:
 	var effects: Dictionary = evt.get("effects", {})
 	if effects.has("set_flag"):
 		var f = effects["set_flag"]
@@ -1123,9 +1136,9 @@ func apply_event_effects(evt: Dictionary) -> void:
 		var evidence_value = effects["gain_evidence"]
 		if evidence_value is Array:
 			for evidence_id in evidence_value:
-				add_evidence(str(evidence_id))
+				add_evidence(str(evidence_id), hold_obtain_display)
 		else:
-			add_evidence(str(evidence_value))
+			add_evidence(str(evidence_value), hold_obtain_display)
 	if effects.has("unlock_phase"):
 		var phase_id: String = effects["unlock_phase"]
 		if not unlocked_phases.has(phase_id):
