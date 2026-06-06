@@ -23,7 +23,7 @@ clue_reef_common_knowledge,clue,,暗礁是常识,那片礁石连小孩都知道�
 clue_agui_suspicious_bag,clue,,阿贵可疑的包袱,阿贵的包袱里有不少散碎银两，底层还裹着一件系了死结的东西。,True,,,,,,
 clue_cabin_hole_memory,clue,,沉船记忆：方形的洞,逃生时你在黑暗中摸到了船底的洞——边缘整齐得不像是撞击。,True,True,,,,,
 clue_route_change,clue,,改道的建议,平水驿的驿丞好心建议你改走水路夜船。,True,True,,,,,
-clue_lingyao_dock_witness,clue,,码头的三个人影,凌瑶说：翻船前一晚，她看见两三个人蹲在码头角落说话。,True,True,,,,,
+clue_lingyao_dock_witness,clue,,码头的高挑身影,凌瑶说：翻船当夜，她在码头附近看见一个穿男装的高挑身影迟迟未走。,True,True,,,,,
 clue_cargo_money_record,clue,,五十两货银记录,周氏行李中的货单，列着五十两布匹预付银。,True,,,,,,
 clue_zhou_unfinished_letter,clue,,周氏未完成的家信,写给娘家的求助信，只写到一半。,True,,,,,,
 clue_third_handwriting,clue,,第三种笔迹,遣散字据旁有一张小纸条，笔迹工整有力，像读书人。,True,,,,,,

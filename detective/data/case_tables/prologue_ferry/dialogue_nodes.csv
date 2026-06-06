@@ -1,5 +1,5 @@
 ﻿npc_id,node_id,is_start,text,emotion,set_flags,gain_evidence,gain_clue,trigger_confrontation,confrontation_key,end,writer_note
-agui,hub,true,大人又来了？小的这心口还在灌冷水。您问吧，只求别把话拧成绳子套我。,crying,,,,,,,
+agui,hub,true,陆公子又来了？小的这心口还在灌冷水。您问吧，只求别把话拧成绳子套我。,crying,,,,,,,
 agui,intro,,,,agui_talked_once,,,,,,
 agui,ask_relationship,,,,,,,,,,
 agui,press_alibi,,,,,,,,,,
@@ -70,14 +70,14 @@ li_zheng,ask_victim,,"知道知道。做布匹生意的，来往走水路常歇�
 
 不过嘛——人死了，大事化小，就别说那么多坏话了。",,,,,,,,
 li_zheng,ask_recent_strangers,,,,stranger_from_nanjing_known,,clue_third_handwriting,,,,
-li_zheng,ask_next_step,,"阿贵招了——但供出的人是沈清月。大人，这事……不好办啊。
+li_zheng,ask_next_step,,"阿贵招了——但供出的人是沈清月。陆公子，这事……不好办啊。
 沈家在这一带做了几十年药材生意，人脉广。光凭阿贵一张嘴，县衙那边不会批捕的。
 您得找到实证。码头时间线、货银去向、她跟老范的联系，还有沉船残骸上的毒囊痕迹——哪条都行，但得能跟别的证据对上。
 小人可以开堂，但不能替您把口供当铁证。",determined,,,,,,,
 li_zheng,ask_shen_opinion,,"沈清月……说实话，以前觉得她就是个精明的生意人。讨债凶是凶了点，但也没出过格。
 不过现在想想——她那天在码头骂周德茂'别想走'，我还以为是气话。
-大人，您要是去查她……小心点。这姑娘脑子好使，嘴也利索。她会把每一件物证都说成'不够定罪'。",nervous,,,,,,,
-shen_qingyue,hub,true,同船活下来的那位？官印没了，胆子还在。好，问吧。我看看你这把刀到底快不快。,cold_smile,,,,,,,
+陆公子，您要是去查她……小心点。这姑娘脑子好使，嘴也利索。她会把每一件物证都说成'不够定罪'。",nervous,,,,,,,
+shen_qingyue,hub,true,同船活下来的那位？凭证没了，胆子还在。好，问吧。我看看你这把刀到底快不快。,cold_smile,,,,,,,
 shen_qingyue,intro,,,,shen_talked_once,,,,,,
 shen_qingyue,ask_quarrel,,,,shen_quarrel_told,,,,,,
 shen_qingyue,ask_alibi,,,,shen_alibi_told,,,,,,
@@ -107,7 +107,7 @@ zhou_wife,ask_swimming,,,,,,clue_victim_cant_swim,,,,
 zhou_wife,comfort,,"……你不像凶手。凶手不会还留在这里问话。
 
 里正让你查——你要是真能查出来……老爷的文书都在房间桌上。你看吧。",relieved,,,,,,,
-zhou_wife,ask_documents,,"都在房间里。大人自己去看吧——遣散字据、货单都在桌上。
+zhou_wife,ask_documents,,"都在房间里。陆公子自己去看吧——遣散字据、货单都在桌上。
 
 （她指了指房间的方向。）",relieved,,,,,,,
 zhou_wife,ask_why_night_ferry,,,,zhou_letter_revealed,,clue_route_change,,,,

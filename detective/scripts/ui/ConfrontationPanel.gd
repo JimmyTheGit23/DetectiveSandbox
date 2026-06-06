@@ -1684,10 +1684,16 @@ func _play_fail_anim() -> void:
 func _play_victory() -> void:
 	_set_browsing_visible(false)
 
-	# ── 判决/击破大字特效。序章终局是机制胜利、剧情败局，不能直接宣告沈清月"有罪"。
+	# ── 判决/击破大字特效。按对峙类型选择不同的大字：
+	#   confrontation_wang: 自证清白，不涉及定罪，显示"伪证揭穿"
+	#   confrontation_final: 序章终局是机制胜利、剧情败局，显示"真相抵岸"
+	#   其他（如阿贵对峙）: 定罪，显示"有罪"
 	var verdict_text := "有  罪"
-	if GameManager.active_confrontation_key == "confrontation_final":
-		verdict_text = "真相抵岸"
+	match GameManager.active_confrontation_key:
+		"confrontation_wang":
+			verdict_text = "伪证揭穿"
+		"confrontation_final":
+			verdict_text = "真相抵岸"
 	await _play_guilty_verdict(verdict_text)
 
 	# 击破闪屏 + 震屏

@@ -1,5 +1,5 @@
 extends Control
-## 设置面板：BGM 音量 / 语音音量 / 返回标题 / 关闭。
+## 设置面板：三栏切换 —— 存档 / 读档 / 设置（音量+GM工具）
 
 signal close_requested()
 signal return_to_title_requested()
@@ -18,8 +18,16 @@ var _gm_dialogue_input: LineEdit
 var _gm_narration_input: LineEdit
 var _gm_event_input: LineEdit
 var _reset_button: Button
-# 用 get_node 取 autoload，避免 LSP 在某些环境下不识别 autoload symbol
 var _settings: Node
+
+# 标签页系统
+var _tab_bar: HBoxContainer
+var _tab_buttons: Array[Button] = []
+var _tab_pages: Array[Control] = []
+var _current_tab: int = 0
+# 存档/读档槽位 UI
+var _save_slot_panels: Array[PanelContainer] = []
+var _load_slot_panels: Array[PanelContainer] = []
 
 
 func _ready() -> void:
@@ -37,41 +45,383 @@ func _voice_init_value() -> float:
 
 func _build_ui() -> void:
 	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 10)
+	root.add_theme_constant_override("separation", 0)
 	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	root.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.add_child(root)
-	
-	# 标题
-	var title := Label.new()
-	title.text = "设  置"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 24)
-	title.add_theme_color_override("font_color", Color(0.96, 0.88, 0.65))
-	root.add_child(title)
-	
+
+	# ── 标签栏 ──
+	_tab_bar = HBoxContainer.new()
+	_tab_bar.add_theme_constant_override("separation", 0)
+	_tab_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	root.add_child(_tab_bar)
+
+	var tab_names := ["存  档", "读  档", "设  置"]
+	for i in range(tab_names.size()):
+		var btn := Button.new()
+		btn.text = tab_names[i]
+		btn.custom_minimum_size = Vector2(0, 44)
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		btn.flat = true
+		btn.add_theme_font_size_override("font_size", 20)
+		btn.pressed.connect(_on_tab_clicked.bind(i))
+		_tab_bar.add_child(btn)
+		_tab_buttons.append(btn)
+
 	# 分割线
 	var sep := HSeparator.new()
 	sep.add_theme_color_override("separator", Color(0.6, 0.45, 0.25, 0.6))
 	root.add_child(sep)
 
+	# ── 标签页容器 ──
+	var page_container := Control.new()
+	page_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	page_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	root.add_child(page_container)
+
+	# 页0: 存档
+	var save_page := _build_save_page()
+	save_page.set_anchors_preset(Control.PRESET_FULL_RECT)
+	save_page.visible = true
+	page_container.add_child(save_page)
+	_tab_pages.append(save_page)
+
+	# 页1: 读档
+	var load_page := _build_load_page()
+	load_page.set_anchors_preset(Control.PRESET_FULL_RECT)
+	load_page.visible = false
+	page_container.add_child(load_page)
+	_tab_pages.append(load_page)
+
+	# 页2: 设置
+	var settings_page := _build_settings_page()
+	settings_page.set_anchors_preset(Control.PRESET_FULL_RECT)
+	settings_page.visible = false
+	page_container.add_child(settings_page)
+	_tab_pages.append(settings_page)
+
+	_update_tab_visuals()
+
+
+# ─── 标签切换 ───
+func _on_tab_clicked(index: int) -> void:
+	_current_tab = index
+	for i in range(_tab_pages.size()):
+		_tab_pages[i].visible = (i == index)
+	_update_tab_visuals()
+	# 切到存档/读档页时刷新槽位信息
+	if index == 0:
+		_refresh_save_slots()
+	elif index == 1:
+		_refresh_load_slots()
+
+
+func _update_tab_visuals() -> void:
+	for i in range(_tab_buttons.size()):
+		if i == _current_tab:
+			_tab_buttons[i].add_theme_color_override("font_color", Color(1.0, 0.92, 0.65))
+			_tab_buttons[i].add_theme_color_override("font_hover_color", Color(1.0, 0.92, 0.65))
+		else:
+			_tab_buttons[i].add_theme_color_override("font_color", Color(0.6, 0.55, 0.45))
+			_tab_buttons[i].add_theme_color_override("font_hover_color", Color(0.85, 0.78, 0.62))
+
+
+# ═══════════════════════════════════════════
+# 存档页
+# ═══════════════════════════════════════════
+func _build_save_page() -> Control:
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.follow_focus = true
-	root.add_child(scroll)
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 12)
+	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	vbox.name = "SaveVBox"
+	scroll.add_child(vbox)
+
+	for slot in range(1, GameManager.MANUAL_SLOT_COUNT + 1):
+		var panel_node := _make_slot_panel(slot, true)
+		vbox.add_child(panel_node)
+		_save_slot_panels.append(panel_node)
+
+	return scroll
+
+
+# ═══════════════════════════════════════════
+# 读档页
+# ═══════════════════════════════════════════
+func _build_load_page() -> Control:
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 12)
+	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	vbox.name = "LoadVBox"
+	scroll.add_child(vbox)
+
+	for slot in range(1, GameManager.MANUAL_SLOT_COUNT + 1):
+		var panel_node := _make_slot_panel(slot, false)
+		vbox.add_child(panel_node)
+		_load_slot_panels.append(panel_node)
+
+	return scroll
+
+
+func _make_slot_panel(slot: int, is_save: bool) -> PanelContainer:
+	var p := PanelContainer.new()
+	p.custom_minimum_size = Vector2(0, 100)
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.08, 0.06, 0.04, 0.85)
+	sb.border_color = Color(0.5, 0.38, 0.2, 0.7)
+	sb.set_border_width_all(1)
+	sb.set_corner_radius_all(6)
+	sb.content_margin_left = 16
+	sb.content_margin_right = 16
+	sb.content_margin_top = 12
+	sb.content_margin_bottom = 12
+	p.add_theme_stylebox_override("panel", sb)
+
+	var hbox := HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 16)
+	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	p.add_child(hbox)
+
+	# 左侧：槽位信息
+	var info_vbox := VBoxContainer.new()
+	info_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	info_vbox.add_theme_constant_override("separation", 4)
+	hbox.add_child(info_vbox)
+
+	var slot_label := Label.new()
+	slot_label.name = "SlotLabel"
+	slot_label.text = "槽位 %d" % slot
+	slot_label.add_theme_font_size_override("font_size", 20)
+	slot_label.add_theme_color_override("font_color", Color(0.96, 0.88, 0.65))
+	info_vbox.add_child(slot_label)
+
+	var detail_label := Label.new()
+	detail_label.name = "DetailLabel"
+	detail_label.text = "空"
+	detail_label.add_theme_font_size_override("font_size", 14)
+	detail_label.add_theme_color_override("font_color", Color(0.7, 0.65, 0.55))
+	info_vbox.add_child(detail_label)
+
+	var time_label := Label.new()
+	time_label.name = "TimeLabel"
+	time_label.text = ""
+	time_label.add_theme_font_size_override("font_size", 12)
+	time_label.add_theme_color_override("font_color", Color(0.55, 0.50, 0.42, 0.8))
+	info_vbox.add_child(time_label)
+
+	# 右侧：操作按钮
+	var btn := Button.new()
+	btn.name = "ActionButton"
+	btn.custom_minimum_size = Vector2(100, 40)
+	btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	btn.add_theme_font_size_override("font_size", 16)
+	if is_save:
+		btn.text = "保  存"
+		btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.55))
+		btn.add_theme_color_override("font_hover_color", Color(1.0, 1.0, 0.78))
+		btn.pressed.connect(_on_save_slot.bind(slot))
+	else:
+		btn.text = "读  取"
+		btn.add_theme_color_override("font_color", Color(0.55, 0.88, 1.0))
+		btn.add_theme_color_override("font_hover_color", Color(0.78, 1.0, 1.0))
+		btn.pressed.connect(_on_load_slot.bind(slot))
+	hbox.add_child(btn)
+
+	# 存储元数据引用
+	p.set_meta("slot", slot)
+	p.set_meta("slot_label", slot_label)
+	p.set_meta("detail_label", detail_label)
+	p.set_meta("time_label", time_label)
+	p.set_meta("action_btn", btn)
+
+	return p
+
+
+func _refresh_save_slots() -> void:
+	for p in _save_slot_panels:
+		_update_slot_panel(p, true)
+
+
+func _refresh_load_slots() -> void:
+	for p in _load_slot_panels:
+		_update_slot_panel(p, false)
+
+
+func _update_slot_panel(p: PanelContainer, is_save: bool) -> void:
+	var slot: int = p.get_meta("slot", 1)
+	var info := GameManager.get_slot_info(slot)
+	var detail_label: Label = p.get_meta("detail_label")
+	var time_label: Label = p.get_meta("time_label")
+	var action_btn: Button = p.get_meta("action_btn")
+
+	if info.get("empty", true):
+		detail_label.text = "空存档位" if is_save else "无存档"
+		time_label.text = ""
+		if is_save:
+			action_btn.disabled = false
+			action_btn.text = "保  存"
+		else:
+			action_btn.disabled = true
+			action_btn.text = "无存档"
+	else:
+		var loc: String = info.get("location", "")
+		var day: int = info.get("day", 1)
+		var ev_count: int = info.get("evidence_count", 0)
+		detail_label.text = "%s · 第%d天 · 证据×%d" % [loc, day, ev_count]
+		time_label.text = str(info.get("timestamp", ""))
+		action_btn.disabled = false
+		if is_save:
+			action_btn.text = "覆  盖"
+		else:
+			action_btn.text = "读  取"
+
+
+func _on_save_slot(slot: int) -> void:
+	# 二次确认（覆盖已有存档时）
+	var info := GameManager.get_slot_info(slot)
+	if not info.get("empty", true):
+		_show_save_confirm(slot)
+		return
+	_do_save_slot(slot)
+
+
+func _show_save_confirm(slot: int) -> void:
+	var overlay := ColorRect.new()
+	overlay.name = "SaveConfirm"
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.color = Color(0.02, 0.02, 0.03, 0.70)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(overlay)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(center)
+
+	var confirm_panel := PanelContainer.new()
+	confirm_panel.custom_minimum_size = Vector2(400, 0)
+	center.add_child(confirm_panel)
+
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.10, 0.09, 0.07, 0.95)
+	sb.border_color = Color(0.55, 0.42, 0.22, 0.85)
+	sb.set_border_width_all(2)
+	sb.set_corner_radius_all(8)
+	sb.content_margin_left = 24
+	sb.content_margin_right = 24
+	sb.content_margin_top = 20
+	sb.content_margin_bottom = 20
+	confirm_panel.add_theme_stylebox_override("panel", sb)
+
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 14)
+	confirm_panel.add_child(vbox)
+
+	var lbl := Label.new()
+	lbl.text = "槽位 %d 已有存档，确定覆盖？" % slot
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 18)
+	lbl.add_theme_color_override("font_color", Color(0.96, 0.88, 0.65))
+	vbox.add_child(lbl)
+
+	var btn_row := HBoxContainer.new()
+	btn_row.add_theme_constant_override("separation", 16)
+	btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	vbox.add_child(btn_row)
+
+	var cancel_btn := Button.new()
+	cancel_btn.text = "取  消"
+	cancel_btn.custom_minimum_size = Vector2(100, 36)
+	cancel_btn.flat = true
+	cancel_btn.add_theme_font_size_override("font_size", 16)
+	cancel_btn.add_theme_color_override("font_color", Color(0.65, 0.62, 0.55))
+	cancel_btn.pressed.connect(func(): overlay.queue_free())
+	btn_row.add_child(cancel_btn)
+
+	var confirm_btn := Button.new()
+	confirm_btn.text = "确定覆盖"
+	confirm_btn.custom_minimum_size = Vector2(100, 36)
+	confirm_btn.flat = true
+	confirm_btn.add_theme_font_size_override("font_size", 16)
+	confirm_btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.55))
+	confirm_btn.pressed.connect(func():
+		overlay.queue_free()
+		_do_save_slot(slot)
+	)
+	btn_row.add_child(confirm_btn)
+
+
+func _do_save_slot(slot: int) -> void:
+	if GameManager.save_to_slot(slot):
+		_flash_msg("已保存到槽位 %d" % slot)
+		_refresh_save_slots()
+	else:
+		_flash_msg("保存失败")
+
+
+func _on_load_slot(slot: int) -> void:
+	if GameManager.load_from_slot(slot):
+		_flash_msg("已读取槽位 %d" % slot)
+		close_requested.emit()
+		# 通知 MainGame 刷新场景
+		var main = get_tree().current_scene
+		if main and main.has_method("_on_location_changed"):
+			main._on_location_changed(GameManager.current_location, true)
+			if main.has_method("_update_top_bar"):
+				main._update_top_bar()
+			if main.has_method("_hide_title"):
+				main._hide_title()
+			menu_panel_visible(main, true)
+	else:
+		_flash_msg("读取失败")
+
+
+func menu_panel_visible(main: Node, visible: bool) -> void:
+	var menu = main.get_node_or_null("RightMenu")
+	if menu:
+		menu.visible = visible
+
+
+func _flash_msg(text: String) -> void:
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 20)
+	lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.65))
+	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(lbl)
+	var tw := create_tween()
+	tw.tween_interval(1.0)
+	tw.parallel().tween_property(lbl, "modulate:a", 0.0, 0.8)
+	tw.tween_callback(lbl.queue_free)
+
+
+# ═══════════════════════════════════════════
+# 设置页（原内容）
+# ═══════════════════════════════════════════
+func _build_settings_page() -> Control:
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 
 	var vbox := VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 8)
 	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.add_child(vbox)
-	
+
 	# 音乐音量
 	vbox.add_child(_make_volume_row("音  乐", _bgm_init_value(), true))
 	# 语音音量
 	vbox.add_child(_make_volume_row("语  音", _voice_init_value(), false))
-	
+
 	# 间距
 	var spacer := Control.new()
 	spacer.custom_minimum_size = Vector2(0, 4)
@@ -115,16 +465,16 @@ func _build_ui() -> void:
 	var spacer2 := Control.new()
 	spacer2.custom_minimum_size = Vector2(0, 4)
 	vbox.add_child(spacer2)
-	
+
 	# 按钮区
 	var btn_box := VBoxContainer.new()
 	btn_box.add_theme_constant_override("separation", 6)
-	root.add_child(btn_box)
+	vbox.add_child(btn_box)
 
 	var btn_row := HBoxContainer.new()
 	btn_row.add_theme_constant_override("separation", 8)
 	btn_box.add_child(btn_row)
-		
+
 	var btn_title := Button.new()
 	btn_title.text = "返回标题画面"
 	btn_title.custom_minimum_size = Vector2(0, 40)
@@ -132,7 +482,7 @@ func _build_ui() -> void:
 	btn_title.add_theme_font_size_override("font_size", 17)
 	btn_title.pressed.connect(_on_return_title)
 	btn_row.add_child(btn_title)
-		
+
 	var btn_reset := Button.new()
 	btn_reset.text = "重置游戏进度"
 	btn_reset.custom_minimum_size = Vector2(0, 40)
@@ -150,14 +500,17 @@ func _build_ui() -> void:
 	btn_close.add_theme_font_size_override("font_size", 17)
 	btn_close.pressed.connect(_on_close)
 	btn_row.add_child(btn_close)
-		
+
 	var reset_hint := Label.new()
 	reset_hint.text = "（清除所有案件进度、经验和存档，不可恢复）"
 	reset_hint.add_theme_font_size_override("font_size", 12)
 	reset_hint.add_theme_color_override("font_color", Color(0.55, 0.50, 0.42, 0.8))
 	btn_box.add_child(reset_hint)
 
+	return scroll
 
+
+# ─── GM 工具（从原代码保留） ───
 func _build_gm_jump_tools(parent: VBoxContainer) -> void:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 6)
@@ -266,14 +619,14 @@ func _make_volume_row(label_text: String, init_value: float, is_bgm: bool) -> HB
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 14)
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	
+
 	var lbl := Label.new()
 	lbl.text = label_text
 	lbl.custom_minimum_size = Vector2(80, 0)
 	lbl.add_theme_font_size_override("font_size", 20)
 	lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(lbl)
-	
+
 	var slider := HSlider.new()
 	slider.min_value = 0.0
 	slider.max_value = 1.0
@@ -283,7 +636,7 @@ func _make_volume_row(label_text: String, init_value: float, is_bgm: bool) -> HB
 	slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	slider.custom_minimum_size = Vector2(280, 32)
 	row.add_child(slider)
-	
+
 	var value_lbl := Label.new()
 	value_lbl.text = "%d%%" % int(round(init_value * 100))
 	value_lbl.custom_minimum_size = Vector2(56, 0)
@@ -291,7 +644,7 @@ func _make_volume_row(label_text: String, init_value: float, is_bgm: bool) -> HB
 	value_lbl.add_theme_font_size_override("font_size", 18)
 	value_lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(value_lbl)
-	
+
 	if is_bgm:
 		_bgm_slider = slider
 		_bgm_value_lbl = value_lbl
@@ -300,7 +653,7 @@ func _make_volume_row(label_text: String, init_value: float, is_bgm: bool) -> HB
 		_voice_slider = slider
 		_voice_value_lbl = value_lbl
 		slider.value_changed.connect(_on_voice_changed)
-	
+
 	return row
 
 
@@ -322,10 +675,6 @@ func _on_close() -> void:
 
 func _on_return_title() -> void:
 	return_to_title_requested.emit()
-
-
-func _on_debug_confrontation() -> void:
-	_gm_call_main("gm_apply_preset_and_confront", ["main_confront_ready"])
 
 
 func _selected_metadata(opt: OptionButton) -> String:
@@ -407,9 +756,7 @@ func _gm_call_main(method_name: String, args: Array = []) -> void:
 			push_warning("Too many GM call args: " + method_name)
 
 
-
 func _unlock_all_evidence() -> void:
-	# 给玩家解锁本案所有证据和线索
 	for eid in GameManager.evidence_data.keys():
 		if eid.begins_with("_"):
 			continue
@@ -419,7 +766,6 @@ func _unlock_all_evidence() -> void:
 			GameManager.add_evidence(eid)
 		elif etype == "clue":
 			GameManager.add_clue(eid)
-	# 确保游戏状态为 playing
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:
 		GameManager.set_state(GameManager.STATE_PLAYING)
 
@@ -437,7 +783,6 @@ func _on_reset_game() -> void:
 		if _reset_button:
 			_reset_button.text = "确认重置？（再次点击执行）"
 			_reset_button.add_theme_color_override("font_color", Color(1.0, 0.2, 0.15))
-		# 3秒后自动恢复
 		get_tree().create_timer(3.0).timeout.connect(_reset_confirm_timeout)
 	elif _reset_confirm_step == 1:
 		_reset_confirm_step = 0
@@ -452,11 +797,9 @@ func _reset_confirm_timeout() -> void:
 
 
 func _do_reset() -> void:
-	# 1. 重置调查员档案（等级、XP、通关记录等）
 	var inv := get_node_or_null("/root/InvestigatorService")
 	if inv and inv.has_method("reset_profile"):
 		inv.reset_profile()
-	# 2. 删除所有单案存档 + current_case.json
 	var saves_dir := ProjectSettings.globalize_path("user://saves")
 	if DirAccess.dir_exists_absolute(saves_dir):
 		var da := DirAccess.open(saves_dir)
@@ -470,5 +813,4 @@ func _do_reset() -> void:
 	var cc_path := ProjectSettings.globalize_path("user://current_case.json")
 	if FileAccess.file_exists("user://current_case.json"):
 		DirAccess.remove_absolute(cc_path)
-	# 3. 发出信号，由 MainGame 处理返回标题
 	game_reset_requested.emit()

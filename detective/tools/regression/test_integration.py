@@ -170,7 +170,7 @@ TEST_COMPLETE
 """
 
         # 解析输出
-        results = parse_test_output(sample_output)
+        results = parse_test_output(sample_output.strip().splitlines())
 
         # 验证解析结果
         assert results["case_id"] == "prologue_ferry", "应正确解析 case_id"

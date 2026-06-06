@@ -285,29 +285,7 @@ func _migrate_legacy_save(legacy_path: String) -> void:
 
 
 func save_game() -> void:
-	var data := {
-		"current_state": current_state,
-		"current_day": current_day,
-		"current_location": current_location,
-		"collected_evidence": collected_evidence,
-		"collected_clues": collected_clues,
-		"visited_locations": visited_locations,
-		"search_history": search_history,
-		"dialogue_flags": dialogue_flags,
-		"visited_nodes": visited_nodes,
-		"triggered_events": triggered_events,
-		"npc_states": npc_states,
-		"case_records": case_records,
-		"dialogue_records": dialogue_records,
-		"shown_time_cards": shown_time_cards,
-		"case_seed": case_seed,
-		"culprit_actions_witnessed": culprit_actions_witnessed,
-		"unlocked_phases": unlocked_phases,
-	}
-	# 助手系统状态
-	var cs = get_node_or_null("/root/CompanionService")
-	if cs and cs.has_method("get_save_data"):
-		data["companion_state"] = cs.get_save_data()
+	var data := _build_save_data()
 	var f := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if f:
 		f.store_string(JSON.stringify(data))
@@ -327,7 +305,105 @@ func load_game() -> bool:
 	var parsed = JSON.parse_string(f.get_as_text())
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return false
+	_apply_save_data(parsed)
+	return true
+
+
+# ─── 手动存档槽位（3个） ───
+const MANUAL_SLOT_COUNT := 3
+
+## 保存当前状态到指定手动存档槽位（1-3）
+func save_to_slot(slot: int) -> bool:
+	if slot < 1 or slot > MANUAL_SLOT_COUNT:
+		return false
+	var path := _manual_slot_path(slot)
+	var data := _build_save_data()
+	data["save_timestamp"] = Time.get_datetime_string_from_system(false, true)
+	data["save_slot"] = slot
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	if f:
+		f.store_string(JSON.stringify(data))
+		return true
+	return false
+
+
+## 从指定手动存档槽位加载（1-3）
+func load_from_slot(slot: int) -> bool:
+	if slot < 1 or slot > MANUAL_SLOT_COUNT:
+		return false
+	var path := _manual_slot_path(slot)
+	if not FileAccess.file_exists(path):
+		return false
+	var f := FileAccess.open(path, FileAccess.READ)
+	if f == null:
+		return false
+	var parsed = JSON.parse_string(f.get_as_text())
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return false
+	_apply_save_data(parsed)
+	return true
+
+
+## 获取指定槽位的存档信息（用于 UI 显示）
+func get_slot_info(slot: int) -> Dictionary:
+	if slot < 1 or slot > MANUAL_SLOT_COUNT:
+		return {}
+	var path := _manual_slot_path(slot)
+	if not FileAccess.file_exists(path):
+		return {"empty": true, "slot": slot}
+	var f := FileAccess.open(path, FileAccess.READ)
+	if f == null:
+		return {"empty": true, "slot": slot}
+	var parsed = JSON.parse_string(f.get_as_text())
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return {"empty": true, "slot": slot}
 	var data: Dictionary = parsed
+	var loc_id: String = data.get("current_location", "")
+	var loc_name: String = locations_data.get(loc_id, {}).get("name", loc_id) if locations_data.has(loc_id) else loc_id
+	return {
+		"empty": false,
+		"slot": slot,
+		"timestamp": data.get("save_timestamp", ""),
+		"location": loc_name,
+		"day": int(data.get("current_day", 1)),
+		"state": data.get("current_state", ""),
+		"evidence_count": data.get("collected_evidence", []).size(),
+	}
+
+
+func _manual_slot_path(slot: int) -> String:
+	return "user://saves/%s_slot%d.json" % [ACTIVE_CASE, slot]
+
+
+## 构建存档数据（供 auto-save 和 manual-save 共用）
+func _build_save_data() -> Dictionary:
+	var data := {
+		"current_state": current_state,
+		"current_day": current_day,
+		"current_location": current_location,
+		"collected_evidence": collected_evidence,
+		"collected_clues": collected_clues,
+		"visited_locations": visited_locations,
+		"search_history": search_history,
+		"dialogue_flags": dialogue_flags,
+		"visited_nodes": visited_nodes,
+		"triggered_events": triggered_events,
+		"npc_states": npc_states,
+		"case_records": case_records,
+		"dialogue_records": dialogue_records,
+		"shown_time_cards": shown_time_cards,
+		"case_seed": case_seed,
+		"culprit_actions_witnessed": culprit_actions_witnessed,
+		"unlocked_phases": unlocked_phases,
+	}
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs and cs.has_method("get_save_data"):
+		data["companion_state"] = cs.get_save_data()
+	return data
+
+
+## 从存档数据恢复游戏状态（供 auto-load 和 manual-load 共用）
+func _apply_save_data(data: Dictionary) -> void:
 	current_state = data.get("current_state", STATE_PLAYING)
 	current_day = int(data.get("current_day", 1))
 	current_location = data.get("current_location", case_main_scene)
@@ -348,19 +424,15 @@ func load_game() -> bool:
 	unlocked_phases.clear()
 	for p in saved_phases:
 		unlocked_phases.append(str(p))
-	# 用恢复出来的 case_seed 重算凶手动作的实际时刻，确保读档与原游玩一致
 	_resolve_culprit_action_schedule()
-	# 恢复助手系统状态
 	var cs = get_node_or_null("/root/CompanionService")
 	if cs and cs.has_method("load_save_data"):
 		var comp_data: Dictionary = data.get("companion_state", {})
 		if not comp_data.is_empty():
 			cs.load_save_data(comp_data)
 	_repair_loaded_save_state()
-	# 加载完成后检查事件（条件可能在存档中已满足）
 	_check_day_events()
 	_check_progression()
-	return true
 
 
 func _repair_loaded_save_state() -> void:
@@ -484,7 +556,7 @@ func add_evidence(eid: String) -> bool:
 	evidence_added.emit(eid)
 	_check_day_events()
 	_check_progression()
-	save_game()
+	# 自动存档已移除，改为关键节点前存档
 	return true
 
 
@@ -496,7 +568,7 @@ func add_clue(cid: String) -> bool:
 	clue_added.emit(cid)
 	_check_day_events()
 	_check_progression()
-	save_game()
+	# 自动存档已移除，改为关键节点前存档
 	return true
 
 
@@ -530,7 +602,7 @@ func add_case_record(record: Dictionary) -> bool:
 		"period": 0,
 	}
 	case_records.append(entry)
-	save_game()
+	# 自动存档已移除，改为关键节点前存档
 	return true
 
 
@@ -550,7 +622,7 @@ func add_dialogue_record(speaker: String, text: String) -> void:
 	})
 	while dialogue_records.size() > 240:
 		dialogue_records.pop_front()
-	save_game()
+	# 自动存档已移除，改为关键节点前存档
 
 
 # ─── Flags / 访问记录 ───
@@ -562,7 +634,7 @@ func set_flag(flag_id: String) -> void:
 	flag_set.emit(flag_id)
 	_check_day_events()
 	_check_progression()
-	save_game()
+	# 自动存档已移除，改为关键节点前存档
 
 
 func has_flag(flag_id: String) -> bool:
@@ -589,7 +661,7 @@ func mark_node_visited(npc_id: String, node_id: String) -> void:
 	_apply_transitions_for_npc(npc_id, "node_visited:" + node_id)
 	node_visited.emit(npc_id, node_id)
 	_check_day_events()
-	save_game()
+	# 自动存档已移除，改为关键节点前存档
 
 
 func node_visit_count(npc_id: String, node_id: String) -> int:
@@ -813,8 +885,8 @@ func resolve_search(location_id: String, point_id: String) -> Dictionary:
 			result.gained_evidence = ev_ref
 		if cl_ref != "":
 			result.gained_clue = cl_ref
-		# 触发对话不论是否第一次都执行（适用于"再次约见"场景）
-	save_game()
+	# 触发对话不论是否第一次都执行（适用于"再次约见"场景）
+	# 自动存档已移除，改为关键节点前存档
 	return result
 
 
@@ -870,8 +942,7 @@ func _check_progression() -> void:
 				if notifs.has(pid):
 					var n: Dictionary = notifs[pid]
 					progression_hint.emit(n.get("speaker", ""), n.get("text", ""))
-				save_game()
-		return
+			return
 	for phase in progression_data.get("phases", []):
 		var pid: String = phase.get("id", "")
 		if pid == "" or unlocked_phases.has(pid):
@@ -886,7 +957,6 @@ func _check_progression() -> void:
 			if notifs.has(pid):
 				var n: Dictionary = notifs[pid]
 				progression_hint.emit(n.get("speaker", ""), n.get("text", ""))
-			save_game()
 			continue
 		if evaluate_condition(cond):
 			unlocked_phases.append(pid)
@@ -896,7 +966,6 @@ func _check_progression() -> void:
 			if notifs.has(pid):
 				var n: Dictionary = notifs[pid]
 				progression_hint.emit(n.get("speaker", ""), n.get("text", ""))
-			save_game()
 
 
 ## 判断地点是否已解锁

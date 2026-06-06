@@ -1016,7 +1016,6 @@ func _play_silent_auto_event_when_idle() -> void:
 
 
 func _play_event_now(evt_id: String) -> void:
-	print("[EVENT] _play_event_now: ", evt_id)
 	var evt: Dictionary = GameManager.get_day_event(evt_id)
 	var evt_for_effects: Dictionary = evt.duplicate(true)
 	var effects_for_apply: Dictionary = evt_for_effects.get("effects", {})
@@ -1046,10 +1045,8 @@ func _play_event_now(evt_id: String) -> void:
 	var suppress_arrival_banter_after_event := bool(evt.get("effects", {}).get("suppress_arrival_banter", false))
 	var suppress_location_intro_after_event := bool(evt.get("effects", {}).get("suppress_location_intro", false))
 	var auto_confront: String = str(evt.get("effects", {}).get("auto_start_confrontation", ""))
-	print("[EVENT] auto_confront='", auto_confront, "' lines=", lines.size())
 
 	var finish_event := func():
-		print("[EVENT] narration callback fired, auto_confront='", auto_confront, "'")
 		# 事件级效果必须在整段叙事播放完后再落库。
 		# 否则玩家在沉船/指控等长事件中途退出，继续游戏会把未播完的剧情当作已完成。
 		GameManager.apply_event_effects(evt_for_effects)
@@ -1062,7 +1059,6 @@ func _play_event_now(evt_id: String) -> void:
 		_refresh_event_hint()
 		_try_companion_banter("after_event:" + evt_id)
 		if auto_confront != "":
-			print("[EVENT] calling _deferred_start_confrontation")
 			_deferred_start_confrontation.call_deferred(auto_confront)
 
 	if cabin_escape_insert_index >= 0:
@@ -1116,10 +1112,8 @@ func _show_cabin_escape_panel(done: Callable) -> void:
 
 
 func _deferred_start_confrontation(confront_key: String) -> void:
-	print("[EVENT] _deferred_start_confrontation: ", confront_key)
 	await get_tree().create_timer(0.5).timeout
 	GameManager.active_confrontation_key = confront_key
-	print("[EVENT] opening confrontation panel...")
 	_open_confrontation_panel()
 
 
@@ -1601,7 +1595,14 @@ func _after_mid_confrontation(confront_key: String, result: String) -> void:
 			_return_to_investigation(result)
 		)
 	else:
-		_return_to_investigation(result)
+		# 对峙失败：播放失败旁白后退回标题界面
+		var defeat_lines: Array = [
+			{"speaker": "", "text": "证据不足。你没能拆穿对方的证词。"},
+			{"speaker": "", "text": "真相还在迷雾里。你只能暂且退下，重新审视手头的线索。"},
+		]
+		DialogueManager.play_adhoc_narration(defeat_lines, func():
+			_return_to_title_after_defeat()
+		)
 
 
 func _return_to_investigation(result: String) -> void:
@@ -1614,6 +1615,17 @@ func _return_to_investigation(result: String) -> void:
 	# phase_unlocked 信号已经发射，_on_phase_unlocked 会处理通知和菜单刷新。
 	if result != "victory":
 		_try_companion_banter("accuse_fail")
+
+
+func _return_to_title_after_defeat() -> void:
+	# 对峙失败后退回标题界面
+	dialogue_box.visible = false
+	menu_panel.visible = false
+	subpanel_container.visible = false
+	event_hint_btn.visible = false
+	top_bar_label.get_parent().visible = false
+	BgmPlayer.stop()
+	_show_title()
 
 
 func _try_play_case_epilogue(ending_id: String) -> bool:

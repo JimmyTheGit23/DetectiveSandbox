@@ -175,7 +175,7 @@ func try_emit_banter(context: Dictionary) -> void:
 
 	_seen_banters[ctx_key] = true
 	_banter_count_today += 1
-	GameManager.save_game()
+	# 自动存档已移除，改为关键节点前存档
 	banter_ready.emit(lines)
 
 

@@ -1,15 +1,15 @@
 {
   "case_id": "prologue_ferry",
-  "timestamp": "2026-05-30T10:28:58.554119",
+  "timestamp": "2026-06-06T21:43:57.611068",
   "stats": {
     "case_id": "prologue_ferry",
-    "total_nodes": 51,
-    "total_npcs": 6,
-    "start_nodes": 6,
-    "total_options": 138,
-    "total_flags": 26,
-    "total_evidence": 9,
-    "total_clues": 10
+    "total_nodes": 70,
+    "total_npcs": 9,
+    "start_nodes": 9,
+    "total_options": 189,
+    "total_flags": 33,
+    "total_evidence": 0,
+    "total_clues": 14
   },
   "npc_stats": {
     "agui": {
@@ -28,18 +28,33 @@
       "has_start": true
     },
     "li_zheng": {
-      "nodes": 7,
-      "options": 19,
+      "nodes": 9,
+      "options": 25,
       "has_start": true
     },
     "shen_qingyue": {
-      "nodes": 10,
-      "options": 27,
+      "nodes": 12,
+      "options": 33,
       "has_start": true
     },
     "zhou_wife": {
       "nodes": 10,
       "options": 28,
+      "has_start": true
+    },
+    "agui_cabin": {
+      "nodes": 6,
+      "options": 16,
+      "has_start": true
+    },
+    "lao_fan_cabin": {
+      "nodes": 5,
+      "options": 13,
+      "has_start": true
+    },
+    "zhou_de_gui_cabin": {
+      "nodes": 4,
+      "options": 10,
       "has_start": true
     }
   },
@@ -66,7 +81,7 @@
         "is_start": true,
         "end": false,
         "options_count": 7,
-        "lines_count": 0
+        "lines_count": 2
       },
       "agui.intro": {
         "npc_id": "agui",
@@ -90,7 +105,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 4
+        "lines_count": 5
       },
       "agui.show_dismissal": {
         "npc_id": "agui",
@@ -114,7 +129,7 @@
         "is_start": false,
         "end": false,
         "options_count": 1,
-        "lines_count": 4
+        "lines_count": 5
       },
       "agui.ask_twelve_years": {
         "npc_id": "agui",
@@ -130,7 +145,7 @@
         "is_start": true,
         "end": false,
         "options_count": 7,
-        "lines_count": 0
+        "lines_count": 2
       },
       "fisherman_wang.intro": {
         "npc_id": "fisherman_wang",
@@ -170,7 +185,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 5
+        "lines_count": 6
       },
       "fisherman_wang.ask_river_life": {
         "npc_id": "fisherman_wang",
@@ -186,7 +201,7 @@
         "is_start": true,
         "end": false,
         "options_count": 9,
-        "lines_count": 0
+        "lines_count": 2
       },
       "lao_fan.intro": {
         "npc_id": "lao_fan",
@@ -234,7 +249,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 4
+        "lines_count": 5
       },
       "lao_fan.ask_gambling_story": {
         "npc_id": "lao_fan",
@@ -257,8 +272,8 @@
         "node_id": "hub",
         "is_start": true,
         "end": false,
-        "options_count": 7,
-        "lines_count": 0
+        "options_count": 9,
+        "lines_count": 2
       },
       "li_zheng.intro": {
         "npc_id": "li_zheng",
@@ -308,13 +323,29 @@
         "options_count": 2,
         "lines_count": 11
       },
+      "li_zheng.ask_next_step": {
+        "npc_id": "li_zheng",
+        "node_id": "ask_next_step",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "li_zheng.ask_shen_opinion": {
+        "npc_id": "li_zheng",
+        "node_id": "ask_shen_opinion",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
       "shen_qingyue.hub": {
         "npc_id": "shen_qingyue",
         "node_id": "hub",
         "is_start": true,
         "end": false,
-        "options_count": 10,
-        "lines_count": 0
+        "options_count": 12,
+        "lines_count": 2
       },
       "shen_qingyue.intro": {
         "npc_id": "shen_qingyue",
@@ -380,6 +411,22 @@
         "options_count": 2,
         "lines_count": 10
       },
+      "shen_qingyue.react_agui_caught": {
+        "npc_id": "shen_qingyue",
+        "node_id": "react_agui_caught",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
+      "shen_qingyue.ask_father_after": {
+        "npc_id": "shen_qingyue",
+        "node_id": "ask_father_after",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 0
+      },
       "shen_qingyue.confession_trigger": {
         "npc_id": "shen_qingyue",
         "node_id": "confession_trigger",
@@ -394,7 +441,7 @@
         "is_start": true,
         "end": false,
         "options_count": 10,
-        "lines_count": 0
+        "lines_count": 2
       },
       "zhou_wife.intro": {
         "npc_id": "zhou_wife",
@@ -410,7 +457,7 @@
         "is_start": false,
         "end": false,
         "options_count": 2,
-        "lines_count": 9
+        "lines_count": 8
       },
       "zhou_wife.ask_suspicion": {
         "npc_id": "zhou_wife",
@@ -467,6 +514,126 @@
         "end": false,
         "options_count": 2,
         "lines_count": 9
+      },
+      "agui_cabin.hub": {
+        "npc_id": "agui_cabin",
+        "node_id": "hub",
+        "is_start": true,
+        "end": false,
+        "options_count": 6,
+        "lines_count": 0
+      },
+      "agui_cabin.ask_master": {
+        "npc_id": "agui_cabin",
+        "node_id": "ask_master",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 4
+      },
+      "agui_cabin.ask_voyage": {
+        "npc_id": "agui_cabin",
+        "node_id": "ask_voyage",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 5
+      },
+      "agui_cabin.ask_feelings": {
+        "npc_id": "agui_cabin",
+        "node_id": "ask_feelings",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 5
+      },
+      "agui_cabin.press_bag": {
+        "npc_id": "agui_cabin",
+        "node_id": "press_bag",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 6
+      },
+      "agui_cabin.press_crowbar": {
+        "npc_id": "agui_cabin",
+        "node_id": "press_crowbar",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 7
+      },
+      "lao_fan_cabin.hub": {
+        "npc_id": "lao_fan_cabin",
+        "node_id": "hub",
+        "is_start": true,
+        "end": false,
+        "options_count": 5,
+        "lines_count": 0
+      },
+      "lao_fan_cabin.ask_route": {
+        "npc_id": "lao_fan_cabin",
+        "node_id": "ask_route",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 6
+      },
+      "lao_fan_cabin.ask_weather": {
+        "npc_id": "lao_fan_cabin",
+        "node_id": "ask_weather",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 7
+      },
+      "lao_fan_cabin.ask_money": {
+        "npc_id": "lao_fan_cabin",
+        "node_id": "ask_money",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 8
+      },
+      "lao_fan_cabin.press_crowbar": {
+        "npc_id": "lao_fan_cabin",
+        "node_id": "press_crowbar",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 9
+      },
+      "zhou_de_gui_cabin.hub": {
+        "npc_id": "zhou_de_gui_cabin",
+        "node_id": "hub",
+        "is_start": true,
+        "end": false,
+        "options_count": 4,
+        "lines_count": 0
+      },
+      "zhou_de_gui_cabin.ask_background": {
+        "npc_id": "zhou_de_gui_cabin",
+        "node_id": "ask_background",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 6
+      },
+      "zhou_de_gui_cabin.ask_night_ferry": {
+        "npc_id": "zhou_de_gui_cabin",
+        "node_id": "ask_night_ferry",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 9
+      },
+      "zhou_de_gui_cabin.press_cargo_marks": {
+        "npc_id": "zhou_de_gui_cabin",
+        "node_id": "press_cargo_marks",
+        "is_start": false,
+        "end": false,
+        "options_count": 2,
+        "lines_count": 5
       }
     },
     "npc_start_nodes": {
@@ -475,7 +642,10 @@
       "lao_fan": "hub",
       "li_zheng": "hub",
       "shen_qingyue": "hub",
-      "zhou_wife": "hub"
+      "zhou_wife": "hub",
+      "agui_cabin": "hub",
+      "lao_fan_cabin": "hub",
+      "zhou_de_gui_cabin": "hub"
     }
   }
 }
