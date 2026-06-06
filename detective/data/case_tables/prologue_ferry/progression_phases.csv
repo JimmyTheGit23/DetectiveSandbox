@@ -1,5 +1,5 @@
 ﻿phase_id,title,description,hint,locations,unlock_condition,writer_note
-phase_0,船舱夜话,渡船启航。在船舱里检查随身物件，与乘客们交谈，确认这趟夜船哪里不对。,先检查官印木匣和行程简记，再问至少一名船上人。回到自己的舱室后，整理疑点并进入沉船事件。,"cabin_lu_room,cabin_agui_room,cabin_lao_fan_deck,cabin_zhou_room",,船沉前的自由调查阶段
+phase_0,船舱夜话,渡船启航。在船舱里检查随身物品，与同船人闲谈，记下这趟夜船让人不安的地方。,先检查官印木匣和行程简记，再与至少一名船上人聊几句。回到自己的舱室后，整理疑点并进入沉船事件。,"cabin_lu_room,cabin_agui_room,cabin_lao_fan_deck,cabin_zhou_room",,船沉前的自由调查阶段
 phase_1,被指控,船沉了。你活下来了，但被指认为凶手。需要自证清白。,王大爷的伪证会直接压上来。先用船舱里已确认的风雨、视线、动机和身份线索拆掉指控。,"ferry_inn,ferry_dock,wreck_site","{""flag"": ""accused_of_murder""}",被指控后
 phase_2,深入追查,自证清白后，开始追查真凶。船底的破洞说明这不是意外。,第一堂只需要核心证据：船底破洞、浮囊、尸检无钝器伤、老范上岸时间矛盾、阿贵遣散字据。,"ferry_inn,ferry_dock,wreck_site,river_bend","{""flag"": ""self_cleared""}",王大爷对峙完成后
 phase_3,追查幕后,阿贵不是主谋——他背后还有人。那个'教他的人'，就在这客栈里。,阿贵口供只能开线。要定沈清月，补齐三条链：货银去向、共犯连接、毒囊与尸检物证。,"shen_room,gambling_alley","{""flag"": ""agui_confessed_mastermind""}",阿贵认罪后

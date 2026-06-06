@@ -25,7 +25,7 @@ fisherman_wang,ask_meeting,,"前一晚……对，老头子那天也收了夜网
 老头子当时没在意。第二天出了事才想起来。",evasive,,,clue_secret_meeting,,,,
 fisherman_wang,trust,,"老头子活了一辈子，在这江上。
 
-见过太多死在水里的人。有些是命，有些不是。
+见过太多死在水里的人。有些是真出事，有些一看就不对。
 
 那天夜里那人在水里扑腾的声音……老头子一辈子忘不了。
 
@@ -72,11 +72,11 @@ li_zheng,ask_victim,,"知道知道。做布匹生意的，来往走水路常歇�
 li_zheng,ask_recent_strangers,,,,stranger_from_nanjing_known,,clue_third_handwriting,,,,
 li_zheng,ask_next_step,,"阿贵招了——但供出的人是沈清月。大人，这事……不好办啊。
 沈家在这一带做了几十年药材生意，人脉广。光凭阿贵一张嘴，县衙那边不会批捕的。
-您得找到实证。码头时间线、货银去向、她跟老范的联系，还有沉船残骸上的毒囊痕迹——哪条都行，但得能互相印上。
+您得找到实证。码头时间线、货银去向、她跟老范的联系，还有沉船残骸上的毒囊痕迹——哪条都行，但得能跟别的证据对上。
 小人可以开堂，但不能替您把口供当铁证。",determined,,,,,,,
 li_zheng,ask_shen_opinion,,"沈清月……说实话，以前觉得她就是个精明的生意人。讨债凶是凶了点，但也没出过格。
 不过现在想想——她那天在码头骂周德茂'别想走'，我还以为是气话。
-大人，您要是去查她……小心点。这姑娘脑子好使，嘴也利索。她会把每一件物证都拆成'不够定罪'。",nervous,,,,,,,
+大人，您要是去查她……小心点。这姑娘脑子好使，嘴也利索。她会把每一件物证都说成'不够定罪'。",nervous,,,,,,,
 shen_qingyue,hub,true,同船活下来的那位？官印没了，胆子还在。好，问吧。我看看你这把刀到底快不快。,cold_smile,,,,,,,
 shen_qingyue,intro,,,,shen_talked_once,,,,,,
 shen_qingyue,ask_quarrel,,,,shen_quarrel_told,,,,,,
@@ -114,18 +114,18 @@ zhou_wife,ask_why_night_ferry,,,,zhou_letter_revealed,,clue_route_change,,,,
 zhou_wife,react_murder_confirmed,,,,zhou_knows_murder,,,,,,
 zhou_wife,react_agui_confessed,,,,zhou_knows_agui_guilty,,,,,,
 # === 船舱阶段对话节点 ===,,,,,,,,,,,
-agui_cabin,hub,true,公子找小的？阿贵，周家的旧仆。十二年了，账本换了好几本，小的还在原地。,nervous,,,,,,,
+agui_cabin,hub,true,公子找小的？小的叫阿贵，跟着周老爷跑腿。您要问路，问老爷更准。,nervous,,,,,,,
 agui_cabin,ask_master,,,,cabin_agui_talked,,,,,,
 agui_cabin,ask_voyage,,,,cabin_agui_talked,,,,,,
 agui_cabin,ask_feelings,,,,cabin_agui_talked,,,,,,
 agui_cabin,press_bag,,,,cabin_agui_observed,,clue_agui_suspicious_bag,,,,
 agui_cabin,press_crowbar,,,,cabin_observed,,,,,,
-lao_fan_cabin,hub,true,又来问船？老范，二十年水上饭。风浪我认，废话我不认。,evasive,,,,,,,
+lao_fan_cabin,hub,true,公子问路还是问船？老范跑这条水路多年，知道多少说多少。,evasive,,,,,,,
 lao_fan_cabin,ask_route,,,,cabin_lao_fan_talked,,,,,,
 lao_fan_cabin,ask_weather,,,,cabin_lao_fan_talked,,,,,,
 lao_fan_cabin,ask_money,,,,cabin_lao_fan_talked,,,,,,
 lao_fan_cabin,press_crowbar,,,,cabin_observed;cabin_saw_crowbar,,,,,,
-zhou_de_gui_cabin,hub,true,同船的公子？周德茂，做布匹。今夜赶武昌，赶的是早市，也是银子的时辰。,serious,,,,,,,
+zhou_de_gui_cabin,hub,true,同船的公子？周德茂，做布匹。今夜赶武昌，明早有批货要看。,serious,,,,,,,
 zhou_de_gui_cabin,ask_background,,,,cabin_zhou_talked,,,,,,
 zhou_de_gui_cabin,ask_night_ferry,,,,cabin_zhou_talked;cabin_friend_pressed,,,,,,
 zhou_de_gui_cabin,press_cargo_marks,,,,cabin_observed,,,,,,

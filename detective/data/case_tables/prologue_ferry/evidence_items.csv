@@ -44,7 +44,7 @@ evidence_drug_capsule_shell,evidence,,毒囊残壳,"沉船残骸进水口破洞�
 evidence_capsule_position_match,evidence,,毒囊定位吻合,"毒囊残壳的固定位置与船底人工破洞完全重合。糯米胶的附着痕迹表明它是在船板被凿穿之前就固定好的——只有精确知道凿船位置的人，才能把毒囊放对地方。这条证据指向策划凿船的幕后人。",True,False,res://assets/ai_processed/objects/evidence_icons/evidence_capsule_position_match.png,capsule;position;logic,phase_3,,
 evidence_seal_lost,evidence,,遗失官印,"陆昭的官印随沉船落入江底。没有官印，陆昭在石矶渡只能先以嫌疑人身份自证清白。",,True,res://assets/ai_processed/objects/evidence_icons/evidence_seal_lost.png,seal,phase_1,,
 evidence_seal_cloth_wrap,evidence,,官印封角残片,"沉船打捞后发现：官印匣外封角有被人撕动痕迹——说明陆昭的御史身份从一开始就被人洞悉。有人在船难之前就动过这只匣子。",True,False,res://assets/ai_processed/objects/evidence_icons/evidence_seal_cloth_wrap.png,seal;cloth,phase_4,,
-clue_travel_notes,clue,,旅途札记,"奉旨巡查南直隶，途经石矶渡。平水驿驿丞建议改走夜船，说半日可到。船上另有布商周德茂、仆从阿贵、船家老范。",True,True,,,,,
+clue_travel_notes,clue,,旅途札记,"奉旨南下暗查南直隶漕运账弊，途经石矶渡。平水驿驿丞建议改走夜船，说半日可到武昌。船上另有布商周德茂、仆从阿贵、船家老范。",True,True,,,,,
 clue_cabin_seal_box,clue,,随身官印木匣,"自己的舱室里放着装官印的木匣。匣锁完好，油布内衬也在。只要它还在，身份就能证明。",True,True,,,,,
 clue_cabin_route_note,clue,,夜船路线疑点,"桌上行程简记写着：平水驿建议夜渡东汊，半日可到武昌。东汊二字被墨迹洇开，像是写下时手上带着水。",True,True,,,,,
 clue_cabin_storm_window,clue,,窗外风雨,"窗外风急雨斜，江面偶有闪电。这样的夜里行船，本就不是稳妥选择。",True,True,,,,,
