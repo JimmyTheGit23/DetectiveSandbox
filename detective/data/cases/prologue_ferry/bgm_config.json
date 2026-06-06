@@ -17,8 +17,8 @@
     "river_bend": "mood:ferry_dock"
   },
   "states": {
-    "prologue": "mood:cabin_panic",
-    "main_theme": "mood:cold_relief",
+    "prologue": "track:ferry_cabin_night",
+    "main_theme": "track:main_theme",
     "accuse": "mood:ferry_climax",
     "ending_perfect": "mood:ending_good",
     "ending_good": "mood:ending_good",

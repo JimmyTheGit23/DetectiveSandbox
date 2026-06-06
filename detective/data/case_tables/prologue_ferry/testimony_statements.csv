@@ -50,6 +50,8 @@ shen_testimony_4,sf4_3,沈清月,麻痹草药入淡水数刻便散，舌根残�
 shen_testimony_4,sf4_4,沈清月,油脂可来自江中鱼虾、可来自船板漆料。无法唯一指向人为投毒——更不能证明是我。,,true,evidence_oil_lock_residue,evidence_tongue_herb_residue,,,
 
 # === 王大爷自证对峙证词（指向主角） ===
-testimony_wang_self,wang_s1,王大爷,"那天夜里我在岸边收网。船翻之前，我看见陆公子和周老板在船头争执，影子清清楚楚。",,true,evidence_weather_fog,,,,
-testimony_wang_self,wang_s2,王大爷,"我还听见有人喊'银子'、'别走'。随后船身一晃，周老板就没了声。",,true,evidence_storm_noise,,,,
-testimony_wang_self,wang_s3,王大爷,"周老板带着五十两货银，船翻之后银子没找着。里正问我这些话是不是能说明陆公子嫌疑最大，我……我没敢反驳。",,true,evidence_no_motive,,,,
+testimony_wang_self,wang_s1,王大爷,那天夜里我在岸边收网。船翻之前，我看见船头那边晃着两个人影。,,,,,,,
+testimony_wang_self,wang_s2,王大爷,雾是大，可船离岸不算太远。我认得出那高个就是陆公子。,,true,evidence_weather_fog,,,,
+testimony_wang_self,wang_s3,王大爷,我还听见有人喊“银子”“别走”。紧跟着船身一歪，周老板就没了声。,,true,evidence_storm_noise,,,,
+testimony_wang_self,wang_s4,王大爷,没过多久，陆公子就自己上了岸，脚下还站得住，可不像快淹死的人。,,true,evidence_cabin_escape_time,,,,
+testimony_wang_self,wang_s5,王大爷,后来周老板死了，货银也没找着。里正问我是不是陆公子嫌疑最大，我……我当时没敢反驳。,,,,,,,

@@ -435,6 +435,17 @@ def validate_case(case_id: str, tables_root: Path) -> bool:
             rep.error("day_event_lines.csv line_kind 非法: %s" % _cell(row, "line_kind"))
         if not _cell(row, "text"):
             rep.error("day_event_lines.csv event_id=%s 缺 text" % event_id)
+        bg = _cell(row, "background")
+        if bg and not _res_path_exists(bg):
+            rep.error("day_event_lines.csv background 不存在 %s order=%s: %s" % (event_id, _cell(row, "order"), bg))
+        effect = _cell(row, "effect")
+        if effect:
+            try:
+                parsed_effect = json.loads(effect)
+                if not isinstance(parsed_effect, dict):
+                    rep.error("day_event_lines.csv effect 不是 JSON 对象 %s order=%s" % (event_id, _cell(row, "order")))
+            except Exception as e:
+                rep.error("day_event_lines.csv effect 解析失败 %s order=%s: %s" % (event_id, _cell(row, "order"), e))
 
     for row in schedule_defaults:
         npc_id = _cell(row, "npc_id")

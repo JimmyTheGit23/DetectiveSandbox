@@ -175,6 +175,8 @@ func get_case_index_entries() -> Array:
 # ─── 数据加载 ───
 func _load_data() -> void:
 	var table_data := CaseTableLoader.load_case(ACTIVE_CASE)
+	case_manifest = table_data.get("manifest", {})
+	case_main_scene = case_manifest.get("main_scene", DEFAULT_MAIN_SCENE)
 	locations_data = table_data.get("locations", {})
 	npcs_data = table_data.get("npcs", {})
 	evidence_data = table_data.get("evidence", {})
@@ -194,6 +196,17 @@ func _load_data() -> void:
 		var resolver := get_node_or_null("/root/AssetResolver")
 		if resolver and resolver.has_method("load_case"):
 			resolver.load_case(ACTIVE_CASE)
+
+
+func reload_current_case_tables(reset_npc_state := false) -> void:
+	CaseTableLoader.clear_cache()
+	_load_case_index()
+	_load_data()
+	if reset_npc_state:
+		_init_npc_states()
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs and cs.has_method("reload_for_case"):
+		cs.reload_for_case()
 
 
 func _read_json(path: String) -> Dictionary:
@@ -343,10 +356,54 @@ func load_game() -> bool:
 		var comp_data: Dictionary = data.get("companion_state", {})
 		if not comp_data.is_empty():
 			cs.load_save_data(comp_data)
+	_repair_loaded_save_state()
 	# 加载完成后检查事件（条件可能在存档中已满足）
 	_check_day_events()
 	_check_progression()
 	return true
+
+
+func _repair_loaded_save_state() -> void:
+	if ACTIVE_CASE != "prologue_ferry":
+		return
+	var changed := false
+	if has_flag("cabin_phase_done") and has_flag("accused_of_murder") and current_location.begins_with("cabin_"):
+		# 旧版会在沉船长事件开头就写入完成标记；若玩家中途退出，
+		# 存档会显示已被指控但地点仍在船舱。回滚事件完成态，让继续游戏重播沉船段。
+		for flag_id in [
+			"evt_cabin_sinking_done",
+			"evt_cabin_sleep_done",
+			"cabin_explore_done",
+			"cabin_phase_done",
+			"accused_of_murder",
+		]:
+			if dialogue_flags.has(flag_id):
+				dialogue_flags.erase(flag_id)
+		for evidence_id in [
+			"evidence_lingyao_identity",
+			"evidence_cabin_escape_time",
+			"evidence_weather_fog",
+			"evidence_storm_noise",
+		]:
+			if collected_evidence.has(evidence_id):
+				collected_evidence.erase(evidence_id)
+		triggered_events["evt_cabin_sinking"] = true
+		changed = true
+	# 旧版沉船事件会在剧情第一句前发放 evidence_hull_hole，导致
+	# evt_hull_discovered 在船舱阶段被排队。继续游戏时这会插入调查阶段台词并卡住流程。
+	var allowed_hull_event := has_flag("self_cleared") and (current_location == "ferry_dock" or current_location == "wreck_site")
+	if not allowed_hull_event:
+		if triggered_events.has("evt_hull_discovered"):
+			triggered_events.erase("evt_hull_discovered")
+			changed = true
+		if has_flag("evt_hull_discovered_done"):
+			dialogue_flags.erase("evt_hull_discovered_done")
+			changed = true
+		if has_flag("hull_sabotage_known"):
+			dialogue_flags.erase("hull_sabotage_known")
+			changed = true
+	if changed:
+		save_game()
 
 
 func pending_event_ids() -> Array[String]:
@@ -380,6 +437,7 @@ func change_location(loc_id: String, advance: bool = true) -> void:
 	if not visited_locations.has(loc_id):
 		visited_locations.append(loc_id)
 	location_changed.emit(loc_id)
+	_check_day_events()
 	save_game()
 
 
@@ -942,7 +1000,7 @@ func get_current_time_label() -> String:
 		if evaluate_condition(entry.get("trigger_condition", null)):
 			var d: int = int(entry.get("day", 1))
 			var day_str: String = day_names[clampi(d, 1, day_names.size() - 1)]
-			var period: String = entry.get("period_label", "辰时")
+			var period: String = str(entry.get("period_label", "辰时"))
 			# 使用万历格式：万历廿二年 · 腊月 · 亥时
 			return "%s · %s" % [era_prefix, period]
 	# 默认
@@ -956,7 +1014,7 @@ func _check_day_events() -> void:
 	if current_state == STATE_PROLOGUE:
 		return
 	for evt in day_events_data.get("events", []):
-		var evt_id: String = evt.get("id", "")
+		var evt_id: String = str(evt.get("id", ""))
 		if triggered_events.get(evt_id, false):
 			continue
 		if evaluate_condition(evt.get("trigger", {})):
@@ -989,7 +1047,7 @@ func apply_event_effects(evt: Dictionary) -> void:
 		else:
 			add_clue(str(clue_value))
 	# 自动设置一个 evt_id_done 的 flag（与事件 trigger 中的 not flag 配对）
-	var evt_id: String = evt.get("id", "")
+	var evt_id: String = str(evt.get("id", ""))
 	if evt_id != "":
 		set_flag(evt_id + "_done")
 	if effects.has("gain_evidence"):
@@ -1170,5 +1228,3 @@ func get_active_npcs_at(location_id: String, _day: int = -1, _period: int = -1) 
 func reroll_case_seed() -> void:
 	case_seed = int(Time.get_unix_time_from_system()) & 0x7FFFFFFF
 	_resolve_culprit_action_schedule()
-
-

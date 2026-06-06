@@ -1,9 +1,8 @@
 node_id,type,background,next,centered,end,portrait,emotion,fx,effect
-# === Canon 开场：河弊独白 → 时间卡 → 船舱自由调查 ===
-opening_monologue_1,,res://assets/cn/scenes/pure_black.png,opening_monologue_2,,,,,,
-opening_monologue_2,,res://assets/cn/scenes/pure_black.png,opening_monologue_3,,,,,,
-opening_monologue_3,,res://assets/cn/scenes/pure_black.png,opening_monologue_4,,,,,,
-opening_monologue_4,,res://assets/cn/scenes/pure_black.png,time_card_opening,,,,,,
+# === 冷闪回 → 半个时辰前 → 船舱倒叙调查 ===
+cold_open_1,,res://assets/cn/scenes/pure_black.png,cold_open_2,true,,,,,"{""bgm"": ""ferry_cabin_night""}",
+cold_open_2,,res://assets/cn/scenes/pure_black.png,cold_open_3,true,,,,,
+cold_open_3,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,time_card_opening,true,,,,,"{""shake"": true, ""shake_intensity"": 8.0, ""shake_duration"": 0.55, ""sfx"": ""water_rush"", ""tint"": ""dark_blue""}",
 time_card_opening,time_card,res://assets/cn/scenes/pure_black.png,cabin_prologue_1,,,,,,
 cabin_prologue_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_2,,,res://assets/cn/portraits/prologue_lu_zhao.png,serious,,"{""gain_clue"": ""clue_travel_notes""}"
 cabin_prologue_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_3,,,res://assets/cn/portraits/prologue_lu_zhao.png,serious,,

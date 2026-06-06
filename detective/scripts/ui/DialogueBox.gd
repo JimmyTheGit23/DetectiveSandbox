@@ -76,10 +76,10 @@ const TALK_BOUNCE_AMOUNT := 2.0
 
 const DIALOGUE_FRAME_SIDE_MARGIN := 28.0
 const DIALOGUE_FRAME_BOTTOM_MARGIN := 18.0
-const DIALOGUE_FRAME_HEIGHT := 222.0
+const DIALOGUE_FRAME_HEIGHT := 246.0
 const DIALOGUE_TEXT_LEFT_DEFAULT := 48.0
 const DIALOGUE_TEXT_LEFT_WITH_AVATAR := 264.0
-const DIALOGUE_TEXT_TOP_OFFSET := -202.0
+const DIALOGUE_TEXT_TOP_OFFSET := -224.0
 const DIALOGUE_TEXT_BOTTOM_OFFSET := -34.0
 const AVATAR_SIZE := Vector2(286, 520)
 const AVATAR_OFFSET_LEFT := 10.0
@@ -121,7 +121,7 @@ func _ready() -> void:
 	# 字体由 theme.tres 的 default_font 统一管理
 	text_label.add_theme_font_size_override("normal_font_size", 22)
 	text_label.add_theme_color_override("default_color", CLR_INK)
-	text_label.add_theme_constant_override("line_separation", 6)
+	text_label.add_theme_constant_override("line_separation", 8)
 	_build_dialogue_frame()
 	_apply_dialogue_chrome()
 	_build_choice_hint()
@@ -810,14 +810,14 @@ func _apply_dialogue_chrome() -> void:
 	speaker_label.add_theme_constant_override("outline_size", 2)
 
 	# 正文默认顶部留白；显示说话人时由 _set_speaker_name() 下移。
-	text_label.offset_left = 18.0
-	text_label.offset_top = 18.0
-	text_label.offset_right = -20.0
-	text_label.offset_bottom = -24.0
+	text_label.offset_left = 24.0
+	text_label.offset_top = 22.0
+	text_label.offset_right = -28.0
+	text_label.offset_bottom = -32.0
 	# 字体由 theme.tres 的 default_font 统一管理
 	text_label.add_theme_font_size_override("normal_font_size", 21)
 	text_label.add_theme_color_override("default_color", Color(0.95, 0.90, 0.78, 1.0))
-	text_label.add_theme_constant_override("line_separation", 6)
+	text_label.add_theme_constant_override("line_separation", 8)
 
 
 
@@ -995,31 +995,33 @@ func _build_top_options_panel() -> void:
 	_top_options_panel.add_child(margin)
 
 	_top_options_vbox = VBoxContainer.new()
-	_top_options_vbox.add_theme_constant_override("separation", 10)
+	_top_options_vbox.add_theme_constant_override("separation", 12)
 	margin.add_child(_top_options_vbox)
 	_top_options_panel.visible = false
 
 
 func _position_top_options(option_count: int) -> void:
 	var vp := get_viewport_rect().size
-	var panel_w: float = minf(720.0, vp.x * 0.58)
-	var btn_height: float = 44.0
-	var separation: int = 8
+	var panel_w: float = minf(vp.x - 48.0, minf(920.0, maxf(720.0, vp.x * 0.70)))
+	var btn_height: float = 60.0
+	var separation: int = 12
 	if option_count > 6:
-		btn_height = 40.0
-		separation = 6
+		btn_height = 54.0
+		separation = 9
 	_top_options_vbox.add_theme_constant_override("separation", separation)
 	for child in _top_options_vbox.get_children():
 		if child is Button:
 			child.custom_minimum_size = Vector2(0, btn_height)
 	var visible_count: int = option_count if option_count > 0 else 1
-	var panel_h: float = minf(320.0, 24.0 + float(visible_count) * (btn_height + float(separation)))
+	var panel_h: float = minf(380.0, float(visible_count) * btn_height + float(maxi(0, visible_count - 1) * separation))
 	_top_options_panel.size = Vector2(panel_w, panel_h)
 	var dialogue_box_top: float = dim_bg.get_rect().position.y
-	var target_y: float = dialogue_box_top - panel_h - 12.0
+	var target_y: float = dialogue_box_top - panel_h - 22.0
 	if target_y < 24.0:
 		target_y = 24.0
-	var target_x: float = (vp.x - panel_w) * 0.5
+	var target_x: float = vp.x - panel_w - 42.0
+	if target_x < 24.0:
+		target_x = 24.0
 	_top_options_panel.position = Vector2(target_x, target_y)
 
 
@@ -1173,14 +1175,25 @@ func _should_group_options(items: Array) -> bool:
 func _make_option_button(text: String, opt: Dictionary = {}) -> Button:
 	var info := _option_type_info(text, opt)
 	var btn := Button.new()
-	btn.text = info.get("label", text)
+	var label: String = info.get("label", text)
+	btn.text = label
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	btn.custom_minimum_size = Vector2(0, 52)
+	btn.custom_minimum_size = Vector2(0, 60)
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	btn.add_theme_font_size_override("font_size", 19)
+	btn.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	btn.tooltip_text = label
+	btn.add_theme_font_size_override("font_size", _option_font_size_for(label))
 	_apply_option_button_style(btn, info.get("type", "ask"))
 	return btn
+
+
+func _option_font_size_for(label: String) -> int:
+	if label.length() >= 32:
+		return 16
+	if label.length() >= 24:
+		return 17
+	return 18
 
 
 func _option_type_info(text: String, opt: Dictionary) -> Dictionary:
@@ -1293,10 +1306,10 @@ func _make_button_style(bg: Color, border: Color, shadow_size: int) -> StyleBoxF
 	style.corner_radius_bottom_right = 12
 	style.shadow_color = Color(0, 0, 0, 0.42)
 	style.shadow_size = shadow_size
-	style.content_margin_left = 18
-	style.content_margin_right = 18
-	style.content_margin_top = 10
-	style.content_margin_bottom = 10
+	style.content_margin_left = 24
+	style.content_margin_right = 24
+	style.content_margin_top = 12
+	style.content_margin_bottom = 12
 	return style
 
 
@@ -1338,7 +1351,7 @@ func _evidence_title(opt: Dictionary) -> String:
 func _apply_evidence_option_style(btn: Button) -> void:
 	var had_visited := btn.text.begins_with("✓")
 	btn.text = ("✓ " if had_visited else "") + "〔呈证〕  " + _strip_evidence_label(btn.text)
-	btn.add_theme_font_size_override("font_size", 20)
+	btn.add_theme_font_size_override("font_size", _option_font_size_for(btn.text))
 	btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.50, 1.0))
 	btn.add_theme_color_override("font_hover_color", Color(1.0, 0.97, 0.70, 1.0))
 	btn.add_theme_constant_override("outline_size", 3)
@@ -1373,10 +1386,10 @@ func _make_evidence_button_style(bg: Color, border: Color, shadow_size: int) -> 
 	style.corner_radius_bottom_right = 12
 	style.shadow_color = Color(1.0, 0.54, 0.18, 0.30)
 	style.shadow_size = shadow_size
-	style.content_margin_left = 18
-	style.content_margin_right = 18
-	style.content_margin_top = 10
-	style.content_margin_bottom = 10
+	style.content_margin_left = 24
+	style.content_margin_right = 24
+	style.content_margin_top = 12
+	style.content_margin_bottom = 12
 	return style
 
 

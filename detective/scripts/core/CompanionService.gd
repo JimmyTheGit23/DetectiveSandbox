@@ -175,6 +175,7 @@ func try_emit_banter(context: Dictionary) -> void:
 
 	_seen_banters[ctx_key] = true
 	_banter_count_today += 1
+	GameManager.save_game()
 	banter_ready.emit(lines)
 
 
@@ -187,6 +188,8 @@ func _match_banter_rules(context: Dictionary) -> Array:
 		var when: Dictionary = rule.get("when", {})
 		var rule_trigger: String = when.get("trigger", "")
 		if rule_trigger != "" and not _trigger_matches(rule_trigger, trigger):
+			continue
+		if not _rule_requires_met(rule, when):
 			continue
 		# npc_id 条件匹配
 		var npc_id: String = when.get("npc_id", "")
@@ -203,12 +206,13 @@ func _match_banter_rules(context: Dictionary) -> Array:
 		var rule_id: String = rule.get("id", "")
 		if rule_id != "" and _seen_banters.has("rule:" + rule_id):
 			continue
-		# 匹配成功
-		if rule_id != "":
-			_seen_banters["rule:" + rule_id] = true
 		var lines_pool: Array = rule.get("lines", [])
 		if lines_pool.is_empty():
 			continue
+		# 匹配成功
+		if rule_id != "":
+			_seen_banters["rule:" + rule_id] = true
+		_apply_banter_effects(rule.get("effect", {}))
 		# 随机取一条
 		var line_idx := randi() % lines_pool.size()
 		var pick = lines_pool[line_idx]
@@ -236,6 +240,52 @@ func _match_banter_rules(context: Dictionary) -> Array:
 			return result
 		return [{"text": str(pick), "speaker": _role_name}]
 	return []
+
+
+func _rule_requires_met(rule: Dictionary, when: Dictionary) -> bool:
+	var requirements: Array = []
+	_append_banter_requirement(requirements, rule.get("requires", null))
+	_append_banter_requirement(requirements, when.get("requires", null))
+	if requirements.is_empty():
+		return true
+	if requirements.size() == 1:
+		return GameManager.evaluate_condition(requirements[0])
+	return GameManager.evaluate_condition({"all": requirements})
+
+
+func _append_banter_requirement(requirements: Array, requirement) -> void:
+	if requirement == null:
+		return
+	if requirement is Dictionary and requirement.is_empty():
+		return
+	requirements.append(requirement)
+
+
+func _apply_banter_effects(effects) -> void:
+	if effects == null or typeof(effects) != TYPE_DICTIONARY:
+		return
+	var d: Dictionary = effects
+	if d.has("set_flag"):
+		var flag_value = d["set_flag"]
+		if flag_value is String:
+			GameManager.set_flag(flag_value)
+		elif flag_value is Array:
+			for flag_id in flag_value:
+				GameManager.set_flag(str(flag_id))
+	if d.has("gain_clue"):
+		var clue_value = d["gain_clue"]
+		if clue_value is Array:
+			for clue_id in clue_value:
+				GameManager.add_clue(str(clue_id))
+		else:
+			GameManager.add_clue(str(clue_value))
+	if d.has("gain_evidence"):
+		var evidence_value = d["gain_evidence"]
+		if evidence_value is Array:
+			for evidence_id in evidence_value:
+				GameManager.add_evidence(str(evidence_id))
+		else:
+			GameManager.add_evidence(str(evidence_value))
 
 
 # ─── 主动讨论（Discussion）─────────────────────────────────────────────────

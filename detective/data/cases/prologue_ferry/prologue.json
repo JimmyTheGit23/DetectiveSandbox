@@ -8,6 +8,9 @@
       "text": "每逢阴雨，我便想起那条江。",
       "background": "res://assets/cn/scenes/pure_black.png",
       "centered": true,
+      "fx": {
+        "bgm": "ferry_cabin_night"
+      },
       "next": "opening_monologue_2"
     },
     "opening_monologue_2": {

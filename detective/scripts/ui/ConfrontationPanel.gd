@@ -92,6 +92,14 @@ const PORTRAIT_SLOT_SIDE_INSET := 24.0
 const PORTRAIT_SLOT_OFFSCREEN_GAP := 90.0
 const PORTRAIT_CROP_PADDING_RATIO := 0.0
 const PORTRAIT_CROP_MIN_PADDING := 6
+const PORTRAIT_LAYOUT_PROFILES := {
+	"zhou_wife": {"scale": 1.16, "offset_y": 36.0},
+	"li_zheng": {"scale": 0.86, "offset_y": 18.0},
+	"shen_qingyue": {"scale": 0.88, "offset_y": 14.0},
+	"lu_zhao": {"scale": 0.90, "offset_y": 14.0},
+	"xia_lingyao": {"scale": 0.90, "offset_y": 14.0},
+	"lingyao": {"scale": 0.90, "offset_y": 14.0},
+}
 var _default_center_layout := {"left": -280.0, "top": 20.0, "right": 280.0, "bottom": 80.0}
 var _center_portrait_layouts := {}
 var _portrait_texture_cache: Dictionary = {}
@@ -154,12 +162,41 @@ func _ready() -> void:
 	_portrait_state = PortraitState.NORMAL
 	_typewriter = TypewriterEffectScript.new()
 	add_child(_typewriter)
-	# intro 阶段用客栈音乐，证言开始时才切对峙BGM
-	var bgm_player := get_node_or_null("/root/BgmPlayer")
-	if bgm_player and bgm_player.has_method("play"):
-		bgm_player.play("ferry_inn")
+	# intro 阶段用开庭音乐，证言开始时切正式对峙 BGM。
+	_play_confrontation_bgm(_confrontation_intro_bgm())
 	_build_ui()
 	_enter_state(State.TITLE_ANIM)
+
+
+func _play_confrontation_bgm(bgm_id: String) -> void:
+	if bgm_id == "":
+		return
+	var bgm_player := get_node_or_null("/root/BgmPlayer")
+	if bgm_player and bgm_player.has_method("play"):
+		bgm_player.play(bgm_id)
+
+
+func _confrontation_intro_bgm() -> String:
+	var configured := str(_confrontation_data.get("bgm_intro", ""))
+	if configured != "":
+		return configured
+	configured = str(_confrontation_data.get("bgm_break", ""))
+	return configured if configured != "" else "ferry_court_opening"
+
+
+func _confrontation_testimony_bgm() -> String:
+	var configured := str(_confrontation_data.get("bgm", ""))
+	return configured if configured != "" else "ferry_confrontation"
+
+
+func _confrontation_break_bgm() -> String:
+	var configured := str(_confrontation_data.get("bgm_break_actual", ""))
+	if configured != "":
+		return configured
+	var legacy_break := str(_confrontation_data.get("bgm_break", ""))
+	if legacy_break != "" and legacy_break != _confrontation_intro_bgm():
+		return legacy_break
+	return _confrontation_testimony_bgm()
 
 
 # ═══════════════════════════════════════════════════
@@ -884,16 +921,14 @@ func _play_testimony_intro() -> void:
 func _show_testimony_title_card(testimony: Dictionary) -> void:
 	_hide_dialogue()
 	# 证言开始时切换BGM
-	var bgm_player := get_node_or_null("/root/BgmPlayer")
-	if bgm_player and bgm_player.has_method("play"):
-		bgm_player.play("ferry_confrontation")
+	_play_confrontation_bgm(_confrontation_testimony_bgm())
 	# 显示证人立绘
 	_portrait_state = PortraitState.NORMAL
 	_update_portrait()
 
 	# ── 独立标题特效：淡入 → 停留 → 淡出 ──
 	var title_label := Label.new()
-	title_label.text = "─ " + testimony.get("title", "") + " ─"
+	title_label.text = "─ " + str(testimony.get("title", "")) + " ─"
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title_label.set_anchors_preset(Control.PRESET_CENTER)
@@ -938,7 +973,7 @@ func _readthrough_next() -> void:
 		_show_dialogue_queue(func(): _enter_state(State.BROWSING))
 		return
 	var stmt: Dictionary = _statements[_dialogue_idx]
-	var speaker: String = stmt.get("speaker", "")
+	var speaker: String = str(stmt.get("speaker", ""))
 	if speaker == "你":
 		speaker = "陆昭"
 	_dialogue_speaker.text = speaker
@@ -948,7 +983,7 @@ func _readthrough_next() -> void:
 	_update_dialogue_portrait(speaker, str(stmt.get("emotion", "")), stmt)
 
 	# 打字机效果
-	var text: String = "「" + stmt.get("text", "") + "」"
+	var text: String = "「" + str(stmt.get("text", "")) + "」"
 	_typewriter_playing = true
 	_typewriter.play(_dialogue_text, text)
 	if _typewriter.is_playing():
@@ -996,10 +1031,10 @@ func _refresh_stmt_display() -> void:
 	if _statements.is_empty():
 		return
 	var stmt: Dictionary = _statements[_current_stmt_idx]
-	var stmt_text: String = stmt.get("text", "")
+	var stmt_text: String = str(stmt.get("text", ""))
 	_stmt_text_label.text = "[center]「" + stmt_text + "」[/center]"
 	_stmt_counter_label.text = "%d / %d" % [_current_stmt_idx + 1, _statements.size()]
-	_testimony_title_label.text = _testimonies[_current_testimony_idx].get("title", "")
+	_testimony_title_label.text = str(_testimonies[_current_testimony_idx].get("title", ""))
 
 	# 更新导航按钮
 	_prev_btn.disabled = (_current_stmt_idx <= 0)
@@ -1448,12 +1483,8 @@ func _play_break_anim() -> void:
 	# Hit Stop 定格
 	await _play_hit_stop(0.12)
 
-	# 击破时切换BGM（数据驱动，默认 "pursuit"）
-	var break_bgm: String = _confrontation_data.get("bgm_break", "pursuit")
-	if break_bgm != "":
-		var bgm_player := get_node_or_null("/root/BgmPlayer")
-		if bgm_player and bgm_player.has_method("play"):
-			bgm_player.play(break_bgm)
+	# 击破时维持或切换到击破 BGM。旧数据把 bgm_break 用作开庭曲时，不在这里重播。
+	_play_confrontation_bgm(_confrontation_break_bgm())
 
 	# 击破闪屏效果 + 全屏震动
 	_flash_screen_white()
@@ -1596,16 +1627,10 @@ func _advance_to_next_testimony() -> void:
 		_portrait_state = PortraitState.NORMAL
 		_update_portrait()
 		# 进入新证词轮时切换BGM
-		var bgm_player := get_node_or_null("/root/BgmPlayer")
-		if bgm_player and bgm_player.has_method("play"):
-			if _current_testimony_idx == _testimonies.size() - 1:
-				# 最后一轮：切换到紧张BGM
-				var final_bgm: String = _confrontation_data.get("bgm_final_round", "confrontation_final")
-				bgm_player.play(final_bgm)
-			else:
-				# 非最后轮：从 pursuit 恢复到对峙基础BGM
-				var base_bgm: String = _confrontation_data.get("bgm", "accuse")
-				bgm_player.play(base_bgm)
+		if _current_testimony_idx == _testimonies.size() - 1:
+			_play_confrontation_bgm(str(_confrontation_data.get("bgm_final_round", _confrontation_testimony_bgm())))
+		else:
+			_play_confrontation_bgm(_confrontation_testimony_bgm())
 		_enter_state(State.TESTIMONY_INTRO)
 
 
@@ -1673,10 +1698,8 @@ func _play_victory() -> void:
 	_portrait_state = PortraitState.COLLAPSED
 	_update_portrait()
 
-	# BGM 切换到胜利主题
-	var bgm_player := get_node_or_null("/root/BgmPlayer")
-	if bgm_player and bgm_player.has_method("play"):
-		bgm_player.play("ferry_court_opening")
+	# BGM 切回开庭/收束氛围
+	_play_confrontation_bgm(str(_confrontation_data.get("bgm_victory", _confrontation_intro_bgm())))
 
 	var victory_dlg: Array = _confrontation_data.get("victory_dialogue", [])
 	_dialogue_queue = victory_dlg
@@ -1851,6 +1874,18 @@ func _hide_dialogue() -> void:
 	_dialogue_box.visible = false
 	if _dlg_portrait_rect:
 		_dlg_portrait_rect.visible = false
+	_hide_speaking_portraits(true)
+
+
+func _hide_speaking_portraits(kill_tween := false) -> void:
+	if kill_tween and _camera_tween and _camera_tween.is_valid():
+		_camera_tween.kill()
+	for rect in [_protagonist_rect, _companion_rect, _opponent_rect]:
+		if rect == null:
+			continue
+		rect.visible = false
+		rect.modulate.a = 0.0
+	_current_camera_view = "npc"
 
 
 func _show_next_dialogue_line(on_done: Callable) -> void:
@@ -2080,7 +2115,7 @@ func _camera_switch_to_opponent(speaker_id: String, emotion: String = "normal", 
 	if _opponent_rect:
 		_opponent_rect.visible = true
 		_update_opponent_portrait(speaker_id, emotion)
-		_tween_portrait_layout(_camera_tween, _opponent_rect, _right_portrait_layout(PORTRAIT_SLOT_SIDE_INSET), duration)
+		_tween_portrait_layout(_camera_tween, _opponent_rect, _right_portrait_layout(PORTRAIT_SLOT_SIDE_INSET, speaker_id), duration)
 		_camera_tween.tween_property(_opponent_rect, "modulate:a", 1.0, duration * 0.5)
 
 	_dlg_portrait_rect.visible = false
@@ -2203,7 +2238,7 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3, sh
 	if _protagonist_rect:
 		_protagonist_rect.visible = true
 		_update_protagonist_portraits(speaker_id)
-		_tween_portrait_layout(_camera_tween, _protagonist_rect, _left_portrait_layout(PORTRAIT_SLOT_SIDE_INSET), duration)
+		_tween_portrait_layout(_camera_tween, _protagonist_rect, _left_portrait_layout(PORTRAIT_SLOT_SIDE_INSET, speaker_id), duration)
 		_camera_tween.tween_property(_protagonist_rect, "modulate:a", 1.0, duration * 0.5)
 
 		if _companion_rect:
@@ -2255,7 +2290,7 @@ func _camera_switch_to_companion_only(duration: float = 0.3) -> void:
 	if _companion_rect:
 		_companion_rect.visible = true
 		_update_companion_portrait()
-		_tween_portrait_layout(_camera_tween, _companion_rect, _left_portrait_layout(PORTRAIT_SLOT_SIDE_INSET), duration)
+		_tween_portrait_layout(_camera_tween, _companion_rect, _left_portrait_layout(PORTRAIT_SLOT_SIDE_INSET, "xia_lingyao"), duration)
 		_camera_tween.tween_property(_companion_rect, "modulate:a", 1.0, duration * 0.5)
 
 	_camera_tween.chain().tween_callback(func():
@@ -2359,22 +2394,24 @@ func _camera_ensure_browsing() -> void:
 #  立绘
 # ═══════════════════════════════════════════════════
 
-func _left_portrait_layout(inset: float) -> Dictionary:
-	return {
+func _left_portrait_layout(inset: float, npc_id: String = "") -> Dictionary:
+	var layout := {
 		"left": inset,
 		"top": PORTRAIT_SLOT_TOP,
 		"right": inset + PORTRAIT_SLOT_WIDTH,
 		"bottom": PORTRAIT_SLOT_BOTTOM
 	}
+	return _apply_portrait_profile_to_layout(layout, npc_id)
 
 
-func _right_portrait_layout(inset: float) -> Dictionary:
-	return {
+func _right_portrait_layout(inset: float, npc_id: String = "") -> Dictionary:
+	var layout := {
 		"left": -inset - PORTRAIT_SLOT_WIDTH,
 		"top": PORTRAIT_SLOT_TOP,
 		"right": -inset,
 		"bottom": PORTRAIT_SLOT_BOTTOM
 	}
+	return _apply_portrait_profile_to_layout(layout, npc_id)
 
 
 func _offscreen_left_portrait_layout() -> Dictionary:
@@ -2397,7 +2434,7 @@ func _apply_portrait_layout(rect: TextureRect, layout: Dictionary) -> void:
 	rect.offset_top = float(layout.get("top", PORTRAIT_SLOT_TOP))
 	rect.offset_right = float(layout.get("right", PORTRAIT_SLOT_WIDTH))
 	rect.offset_bottom = float(layout.get("bottom", PORTRAIT_SLOT_BOTTOM))
-	rect.scale = Vector2.ONE
+	rect.scale = Vector2.ONE * float(layout.get("scale", 1.0))
 	rect.pivot_offset = Vector2(
 		(rect.offset_right - rect.offset_left) * 0.5,
 		(rect.offset_bottom - rect.offset_top) * 0.5
@@ -2411,7 +2448,7 @@ func _tween_portrait_layout(tween: Tween, rect: TextureRect, layout: Dictionary,
 	tween.tween_property(rect, "offset_top", float(layout.get("top", rect.offset_top)), duration)
 	tween.tween_property(rect, "offset_right", float(layout.get("right", rect.offset_right)), duration)
 	tween.tween_property(rect, "offset_bottom", float(layout.get("bottom", rect.offset_bottom)), duration)
-	tween.tween_property(rect, "scale", Vector2.ONE, duration)
+	tween.tween_property(rect, "scale", Vector2.ONE * float(layout.get("scale", 1.0)), duration)
 
 
 func _set_portrait_texture(rect: TextureRect, path: String) -> bool:
@@ -2471,7 +2508,23 @@ func _current_center_portrait_id() -> String:
 
 
 func _get_center_portrait_layout(npc_id: String) -> Dictionary:
-	return _center_portrait_layouts.get(npc_id, _default_center_layout)
+	var layout: Dictionary = _center_portrait_layouts.get(npc_id, _default_center_layout).duplicate()
+	return _apply_portrait_profile_to_layout(layout, npc_id)
+
+
+func _apply_portrait_profile_to_layout(layout: Dictionary, npc_id: String) -> Dictionary:
+	var profile: Dictionary = PORTRAIT_LAYOUT_PROFILES.get(npc_id, {})
+	if profile.is_empty():
+		layout["scale"] = float(layout.get("scale", 1.0))
+		return layout
+	var offset_x := float(profile.get("offset_x", 0.0))
+	var offset_y := float(profile.get("offset_y", 0.0))
+	layout["left"] = float(layout.get("left", 0.0)) + offset_x
+	layout["right"] = float(layout.get("right", 0.0)) + offset_x
+	layout["top"] = float(layout.get("top", PORTRAIT_SLOT_TOP)) + offset_y
+	layout["bottom"] = float(layout.get("bottom", PORTRAIT_SLOT_BOTTOM)) + offset_y
+	layout["scale"] = float(profile.get("scale", layout.get("scale", 1.0)))
+	return layout
 
 
 func _apply_center_portrait_layout(npc_id: String) -> void:

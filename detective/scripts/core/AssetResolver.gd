@@ -37,8 +37,17 @@ var _voice_status: String = "full"    # 当前案件的语音状态：full / par
 
 func _ready() -> void:
 	_load_registries()
-	# 注意：案件级数据（casting / bgm_config）由 GameManager 在 _load_data() 时主动调用 load_case() 灌入
-	# 这里不主动读，避免和 GameManager 的案件切换逻辑耦合
+	_load_current_case_from_game_manager()
+	call_deferred("_load_current_case_from_game_manager")
+
+
+func _load_current_case_from_game_manager() -> void:
+	var gm := get_node_or_null("/root/GameManager")
+	if gm == null:
+		return
+	var case_id := str(gm.get("ACTIVE_CASE"))
+	if case_id != "" and case_id != _current_case_id:
+		load_case(case_id)
 
 
 # ─── 注册表加载 ───
@@ -392,8 +401,9 @@ func get_scene_background_by_id(scene_id: String) -> String:
 # ─── 氛围 → BGM ───
 ## 解析 BGM 标识符到具体 track_id。支持三种输入：
 ##   1) location_id（先查 bgm_config.locations）
-##   2) mood_tag（查 bgm/registry.json 的 mood_index）
-##   3) track_id（直接命中 tracks 字典）
+##   2) track_id（直接命中 tracks 字典）
+##   3) state_id（查 bgm_config.states）
+##   4) mood_tag（查 bgm/registry.json 的 mood_index）
 ##
 ## 返回真实的 track_id；找不到时返回 ""。
 func resolve_bgm_track(key: String) -> String:
@@ -403,17 +413,16 @@ func resolve_bgm_track(key: String) -> String:
 	var locations: Dictionary = _bgm_config.get("locations", {})
 	if locations.has(key):
 		return _resolve_track_id(locations[key])
+	if _bgm_tracks.has(key):
+		return key
 	var states: Dictionary = _bgm_config.get("states", {})
 	if states.has(key):
 		return _resolve_track_id(states[key])
-	# 2) mood_index
+	# 4) mood_index
 	if _bgm_mood_index.has(key):
 		var arr = _bgm_mood_index[key]
 		if typeof(arr) == TYPE_ARRAY and arr.size() > 0:
 			return str(arr[0])
-	# 3) 直接是 track_id
-	if _bgm_tracks.has(key):
-		return key
 	return ""
 
 

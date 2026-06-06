@@ -540,9 +540,19 @@ func _apply_narration_effects(effects) -> void:
 			for x in f:
 				GameManager.set_flag(str(x))
 	if d.has("gain_clue"):
-		GameManager.add_clue(str(d["gain_clue"]))
+		var clue_value = d["gain_clue"]
+		if clue_value is Array:
+			for clue_id in clue_value:
+				GameManager.add_clue(str(clue_id))
+		else:
+			GameManager.add_clue(str(clue_value))
 	if d.has("gain_evidence"):
-		GameManager.add_evidence(str(d["gain_evidence"]))
+		var evidence_value = d["gain_evidence"]
+		if evidence_value is Array:
+			for evidence_id in evidence_value:
+				GameManager.add_evidence(str(evidence_id))
+		else:
+			GameManager.add_evidence(str(evidence_value))
 
 
 func _end_narration() -> void:
@@ -582,6 +592,7 @@ func _emit_adhoc() -> void:
 		background = item.get("background", "")
 		speaker = item.get("speaker", "")
 		text = item.get("text", "")
+		_apply_narration_effects(item.get("effect", {}))
 	var has_next := _adhoc_idx < _adhoc_lines.size() - 1
 	# 为叙述中有 speaker 的行触发 TTS
 	if speaker != "" and speaker != "旁白" and text != "":

@@ -14,6 +14,9 @@ const SLOT_OFFSETS := {
 	3: [Vector2(-360, 0), Vector2(0, 0), Vector2(360, 0)],
 }
 const MULTI_HALF_WIDTH := 220.0  # 多 NPC 时单个立绘的半宽
+const PORTRAIT_CROP_PADDING_RATIO := 0.02
+const PORTRAIT_CROP_MIN_PADDING := 8
+const PORTRAIT_CROP_MIN_HEIGHT_RATIO := 0.78
 
 var _portrait: TextureRect            # 单 NPC 模式的立绘（保持原行为）
 var _portraits: Array = []            # 多 NPC 模式的立绘列表
@@ -21,6 +24,7 @@ var _current_npc_id: String = ""      # 单 NPC 模式当前 NPC
 var _current_npc_ids: Array = []      # 多 NPC 模式所有 NPC
 var _portrait_tween: Tween = null
 var _multi_mode: bool = false
+var _portrait_texture_cache: Dictionary = {}
 
 
 func _ready() -> void:
@@ -267,7 +271,61 @@ func show_companion() -> void:
 
 
 func _load_portrait_texture(path: String) -> Texture2D:
-	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as Texture2D
+	if path == "" or not ResourceLoader.exists(path):
+		return null
+	var cache_key := _portrait_cache_key(path)
+	var cached = _portrait_texture_cache.get(cache_key, null)
+	if cached is Texture2D:
+		return cached
+	var texture := _load_source_portrait_texture(path)
+	if texture == null:
+		texture = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as Texture2D
+	if texture == null:
+		return null
+	var normalized := _crop_texture_to_visible_alpha(texture)
+	_portrait_texture_cache[cache_key] = normalized
+	return normalized
+
+
+func _load_source_portrait_texture(path: String) -> Texture2D:
+	var source_path := ProjectSettings.globalize_path(path)
+	if source_path == "" or not FileAccess.file_exists(source_path):
+		return null
+	var image := Image.load_from_file(source_path)
+	if image == null or image.is_empty():
+		return null
+	return ImageTexture.create_from_image(image)
+
+
+func _portrait_cache_key(path: String) -> String:
+	var modified_time := FileAccess.get_modified_time(path)
+	if modified_time == 0:
+		modified_time = FileAccess.get_modified_time(ProjectSettings.globalize_path(path))
+	return "%s:%d" % [path, modified_time]
+
+
+func _crop_texture_to_visible_alpha(texture: Texture2D) -> Texture2D:
+	var image := texture.get_image()
+	if image == null:
+		return texture
+	var used := image.get_used_rect()
+	if used.size.x <= 0 or used.size.y <= 0:
+		return texture
+	var image_size := image.get_size()
+	if float(used.size.y) / float(image_size.y) < PORTRAIT_CROP_MIN_HEIGHT_RATIO:
+		return texture
+	var pad_x: int = max(PORTRAIT_CROP_MIN_PADDING, int(ceil(float(used.size.x) * PORTRAIT_CROP_PADDING_RATIO)))
+	var pad_y: int = max(PORTRAIT_CROP_MIN_PADDING, int(ceil(float(used.size.y) * PORTRAIT_CROP_PADDING_RATIO)))
+	var x1: int = max(0, used.position.x - pad_x)
+	var y1: int = max(0, used.position.y - pad_y)
+	var x2: int = min(image_size.x, used.position.x + used.size.x + pad_x)
+	var y2: int = min(image_size.y, used.position.y + used.size.y + pad_y)
+	if x1 == 0 and y1 == 0 and x2 == image_size.x and y2 == image_size.y:
+		return texture
+	var atlas := AtlasTexture.new()
+	atlas.atlas = texture
+	atlas.region = Rect2(float(x1), float(y1), float(x2 - x1), float(y2 - y1))
+	return atlas
 
 
 func restore_npc() -> void:

@@ -21,8 +21,22 @@ var _stream_cache: Dictionary = {}
 
 ## 旧的硬编码映射，作为 AssetResolver 不可用时的兜底（迁移期保留，迁移完成后可删除）。
 const BGM_MAP := {
-	"prologue": "main_theme",
+	"prologue": "ferry_cabin_night",
 	"main_theme": "main_theme",
+	"ferry_cabin": "ferry_cabin_night",
+	"cabin_lu_room": "ferry_cabin_night",
+	"cabin_agui_room": "ferry_cabin_night",
+	"cabin_lao_fan_deck": "ferry_cabin_night",
+	"cabin_zhou_room": "ferry_cabin_night",
+	"ferry_inn": "ferry_inn_investigation",
+	"zhou_room": "ferry_inn_investigation",
+	"agui_room": "ferry_inn_investigation",
+	"inn_corridor": "shen_corridor_theme",
+	"shen_room": "shen_corridor_theme",
+	"gambling_alley": "ferry_dock_investigation",
+	"ferry_dock": "ferry_dock_investigation",
+	"wreck_site": "ferry_dock_investigation",
+	"river_bend": "ferry_dock_investigation",
 	"post_station": "investigation_dark",
 	"shen_residence": "investigation_dark",
 	"yamen": "investigation_dark",

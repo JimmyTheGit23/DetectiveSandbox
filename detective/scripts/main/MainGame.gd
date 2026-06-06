@@ -96,6 +96,8 @@ var _pending_adhoc_lines: Array = []
 var _last_location_day: int = -1         # 上次进入场景时的 day
 var _time_card_playing: bool = false     # 场景过场是否正在播放
 var _visited_locations: Dictionary = {}  # 已访问过的场景 ID → true（首次访问时显示地名卡）
+var _suppress_next_arrival_banter := false
+var _suppress_next_location_intro := false
 var _title_layer: Control = null
 var _title_props_layer: Control = null
 var _scene_fx: Node = null
@@ -679,7 +681,7 @@ func _start_new_game() -> void:
 	_pending_events.clear()
 	GameManager.reset_progress()
 	GameManager.set_state(GameManager.STATE_PROLOGUE)
-	BgmPlayer.play("prologue")
+	BgmPlayer.play("ferry_cabin_night")
 	DialogueManager.start_narration("prologue")
 
 
@@ -688,27 +690,32 @@ func _continue_game() -> void:
 		return
 	_hide_title()
 	top_bar_label.get_parent().visible = true
-	_visited_locations.clear()
+	_restore_session_visited_locations_from_save()
 	_sync_pending_events_from_save()
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:
 		if not _should_resume_cabin_from_prologue_save():
 			_set_background("res://assets/cn/scenes/pure_black.png", false)
-			BgmPlayer.play("prologue")
+			BgmPlayer.play("ferry_cabin_night")
 			DialogueManager.start_narration("prologue")
 			return
 		GameManager.set_state(GameManager.STATE_PLAYING)
 	elif GameManager.current_state == GameManager.STATE_TRANSITION and GameManager.ACTIVE_CASE == "prologue_ferry" and not _should_resume_cabin_from_prologue_save():
 		_set_background("res://assets/cn/scenes/pure_black.png", false)
-		BgmPlayer.play("prologue")
+		BgmPlayer.play("ferry_cabin_night")
 		DialogueManager.start_narration("prologue")
 		return
 	GameManager.set_state(GameManager.STATE_PLAYING)
-	_on_location_changed(GameManager.current_location)
+	_on_location_changed(GameManager.current_location, true)
 	_update_top_bar()
 	menu_panel.visible = true
 	if menu_panel.has_method("refresh_visibility"):
 		menu_panel.refresh_visibility()
-	_refresh_event_hint()
+	if _has_pending_auto_event():
+		_schedule_silent_auto_event()
+	else:
+		_refresh_event_hint()
+	if _should_resume_wang_confrontation_after_continue():
+		_deferred_start_confrontation.call_deferred("confrontation_wang")
 
 
 func _should_resume_cabin_from_prologue_save() -> bool:
@@ -728,14 +735,43 @@ func _should_resume_cabin_from_prologue_save() -> bool:
 	)
 
 
+func _restore_session_visited_locations_from_save() -> void:
+	_visited_locations.clear()
+	for loc_id in GameManager.visited_locations:
+		_visited_locations[str(loc_id)] = true
+	if GameManager.current_location != "":
+		_visited_locations[GameManager.current_location] = true
+
+
 func _sync_pending_events_from_save() -> void:
 	_pending_events.clear()
 	for evt_id in GameManager.pending_event_ids():
 		_pending_events.append(evt_id)
 
 
+func _has_pending_auto_event() -> bool:
+	for evt_id in _pending_events:
+		var evt: Dictionary = GameManager.get_day_event(str(evt_id))
+		if bool(evt.get("auto_play", false)):
+			return true
+	return false
+
+
+func _should_resume_wang_confrontation_after_continue() -> bool:
+	return (
+		GameManager.ACTIVE_CASE == "prologue_ferry"
+		and GameManager.current_location == "ferry_inn"
+		and GameManager.has_flag("accused_of_murder")
+		and not GameManager.has_flag("confrontation_wang_completed")
+	)
+
+
 # ─── 时间/地点/通知 ───
-func _on_location_changed(loc_id: String) -> void:
+func _on_location_changed(loc_id: String, suppress_arrival_banter := false) -> void:
+	var block_arrival_banter := suppress_arrival_banter or _suppress_next_arrival_banter
+	var skip_location_intro := _suppress_next_location_intro
+	_suppress_next_arrival_banter = false
+	_suppress_next_location_intro = false
 	var data := GameManager.get_location_data(loc_id)
 	_update_top_bar()
 	var bg_path: String = AssetResolver.get_scene_background(data)
@@ -743,7 +779,7 @@ func _on_location_changed(loc_id: String) -> void:
 	var cur_day := GameManager.current_day
 	var time_card_key := "D%d_%s" % [cur_day, loc_id]
 	var already_shown: bool = GameManager.shown_time_cards.has(time_card_key)
-	var is_first_visit: bool = not _visited_locations.has(loc_id)
+	var is_first_visit: bool = not skip_location_intro and not _visited_locations.has(loc_id)
 	var significant_change: bool = not already_shown and is_first_visit
 	# 无论是否显示时间卡，都更新记录
 	_visited_locations[loc_id] = true
@@ -762,7 +798,8 @@ func _on_location_changed(loc_id: String) -> void:
 				_time_card_playing = false
 				if _npc_layer and _npc_layer.has_method("refresh_npcs"):
 					_npc_layer.refresh_npcs(loc_id)
-				_try_companion_banter("arrive_location:" + loc_id)
+				if not block_arrival_banter:
+					_try_companion_banter("arrive_location:" + loc_id)
 			, CONNECT_ONE_SHOT)
 	else:
 		_set_background(bg_path, true)
@@ -780,7 +817,7 @@ func _on_location_changed(loc_id: String) -> void:
 	if menu_panel.has_method("refresh_visibility"):
 		menu_panel.refresh_visibility()
 	_close_subpanel()
-	if not should_show_time:
+	if not should_show_time and not block_arrival_banter:
 		_try_companion_banter("arrive_location:" + loc_id)
 
 
@@ -860,60 +897,77 @@ func _flash_notification(text: String) -> void:
 
 
 func _show_evidence_popup(eid: String, ev: Dictionary) -> void:
-	# 尝试加载证据图片
-	var icon_path := "res://assets/ai_processed/objects/evidence_icons/%s.png" % eid
-	if not ResourceLoader.exists(icon_path):
-		return
-	var tex: Texture2D = load(icon_path)
+	var tex: Texture2D = _load_evidence_popup_texture(eid, ev)
 	if tex == null:
 		return
 
-	# --- 半透明遮罩 ---
-	var overlay := ColorRect.new()
-	overlay.color = Color(0, 0, 0, 0.55)
-	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_PASS
-	notification_layer.add_child(overlay)
+	var toast := PanelContainer.new()
+	toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	toast.position = Vector2(28, 82 + notification_layer.get_child_count() * 12)
+	toast.modulate.a = 0.0
+	toast.scale = Vector2(0.96, 0.96)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.045, 0.035, 0.02, 0.92)
+	style.border_color = Color(0.85, 0.64, 0.24, 0.86)
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(6)
+	style.content_margin_left = 10
+	style.content_margin_right = 14
+	style.content_margin_top = 8
+	style.content_margin_bottom = 8
+	toast.add_theme_stylebox_override("panel", style)
+	notification_layer.add_child(toast)
 
-	# --- 居中容器 ---
-	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	overlay.add_child(center)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	toast.add_child(row)
 
-	var container := VBoxContainer.new()
-	container.alignment = BoxContainer.ALIGNMENT_CENTER
-	container.add_theme_constant_override("separation", 16)
-	center.add_child(container)
-
-	# --- 证据图片 ---
 	var img := TextureRect.new()
 	img.texture = tex
 	img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	img.custom_minimum_size = Vector2(320, 320)
-	img.size = Vector2(320, 320)
+	img.custom_minimum_size = Vector2(80, 80)
+	img.size = Vector2(80, 80)
 	img.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	container.add_child(img)
+	img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(img)
 
-	# --- 证据名称 ---
 	var name_lbl := Label.new()
-	name_lbl.text = ev.get("name", eid)
-	name_lbl.add_theme_font_size_override("font_size", 28)
+	name_lbl.text = str(ev.get("name", eid))
+	name_lbl.custom_minimum_size = Vector2(190, 80)
+	name_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	name_lbl.add_theme_font_size_override("font_size", 18)
 	name_lbl.add_theme_color_override("font_color", Color(1, 0.95, 0.7, 1))
 	name_lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
-	name_lbl.add_theme_constant_override("outline_size", 4)
-	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	name_lbl.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	container.add_child(name_lbl)
+	name_lbl.add_theme_constant_override("outline_size", 2)
+	name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(name_lbl)
 
-	# --- 入场动画 ---
-	overlay.modulate.a = 0.0
 	var tw := create_tween()
-	tw.tween_property(overlay, "modulate:a", 1.0, 0.3)
-	tw.tween_interval(2.5)
-	tw.tween_property(overlay, "modulate:a", 0.0, 0.5)
-	tw.tween_callback(overlay.queue_free)
+	tw.set_parallel(true)
+	tw.tween_property(toast, "modulate:a", 1.0, 0.18)
+	tw.tween_property(toast, "position:x", 42.0, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_property(toast, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.chain().tween_interval(2.2)
+	tw.set_parallel(true)
+	tw.tween_property(toast, "modulate:a", 0.0, 0.35)
+	tw.tween_property(toast, "position:x", 26.0, 0.35)
+	tw.chain().tween_callback(toast.queue_free)
+
+
+func _load_evidence_popup_texture(eid: String, ev: Dictionary) -> Texture2D:
+	var candidates := [
+		"res://assets/ai_processed/objects/evidence_icons/%s.png" % eid,
+		str(ev.get("icon", "")),
+		"res://assets/cn/title_props/scroll.png",
+	]
+	for path in candidates:
+		if path == "" or not ResourceLoader.exists(path):
+			continue
+		var tex := load(path) as Texture2D
+		if tex != null:
+			return tex
+	return null
 
 
 # ─── 日程事件 ───
@@ -948,9 +1002,14 @@ func _play_silent_auto_event_when_idle() -> void:
 				break
 		if auto_idx < 0:
 			break
-		while dialogue_box.visible or GameManager.current_state == GameManager.STATE_DIALOGUE:
+		while dialogue_box.visible or GameManager.current_state == GameManager.STATE_DIALOGUE or subpanel_container.visible:
 			await get_tree().process_frame
-		var next_evt_id: String = _pending_events.pop_at(auto_idx)
+		if auto_idx < 0 or auto_idx >= _pending_events.size():
+			continue
+		var popped_evt = _pending_events.pop_at(auto_idx)
+		if popped_evt == null:
+			continue
+		var next_evt_id := str(popped_evt)
 		_play_event_now(next_evt_id)
 		await get_tree().process_frame
 	_silent_auto_event_pending = false
@@ -967,29 +1026,93 @@ func _play_event_now(evt_id: String) -> void:
 		effects_for_apply.erase("change_location")
 		effects_for_apply.erase("defer_change_location")
 		evt_for_effects["effects"] = effects_for_apply
-	GameManager.apply_event_effects(evt_for_effects)
 	var lines: Array = []
+	var cabin_escape_insert_index := -1
 	var idx := 0
 	for line in evt.get("narration", []):
 		if line is Dictionary:
-			lines.append(line)
+			var line_dict: Dictionary = line
+			var line_effect: Dictionary = line_dict.get("effect", {})
+			if bool(line_effect.get("cabin_escape_panel", false)):
+				cabin_escape_insert_index = lines.size()
+				idx += 1
+				continue
+			lines.append(line_dict)
 		else:
 			var voice_path: String = AssetResolver.resolve_event_voice_path(evt_id, idx)
 			lines.append({ "speaker": "", "text": str(line), "voice_path": voice_path })
 		idx += 1
 	# 检查是否需要在 narration 结束后自动进入对峙
-	var auto_confront: String = evt.get("effects", {}).get("auto_start_confrontation", "")
+	var suppress_arrival_banter_after_event := bool(evt.get("effects", {}).get("suppress_arrival_banter", false))
+	var suppress_location_intro_after_event := bool(evt.get("effects", {}).get("suppress_location_intro", false))
+	var auto_confront: String = str(evt.get("effects", {}).get("auto_start_confrontation", ""))
 	print("[EVENT] auto_confront='", auto_confront, "' lines=", lines.size())
-	DialogueManager.play_adhoc_narration(lines, func():
+
+	var finish_event := func():
 		print("[EVENT] narration callback fired, auto_confront='", auto_confront, "'")
+		# 事件级效果必须在整段叙事播放完后再落库。
+		# 否则玩家在沉船/指控等长事件中途退出，继续游戏会把未播完的剧情当作已完成。
+		GameManager.apply_event_effects(evt_for_effects)
 		if deferred_location != "":
+			if suppress_arrival_banter_after_event:
+				_suppress_next_arrival_banter = true
+			if suppress_location_intro_after_event:
+				_suppress_next_location_intro = true
 			GameManager.change_location(deferred_location, false)
 		_refresh_event_hint()
 		_try_companion_banter("after_event:" + evt_id)
 		if auto_confront != "":
 			print("[EVENT] calling _deferred_start_confrontation")
 			_deferred_start_confrontation.call_deferred(auto_confront)
-	)
+
+	if cabin_escape_insert_index >= 0:
+		var before_escape: Array = lines.slice(0, cabin_escape_insert_index)
+		var after_escape: Array = lines.slice(cabin_escape_insert_index)
+		var play_after_escape := func():
+			if after_escape.is_empty():
+				finish_event.call()
+			else:
+				DialogueManager.play_adhoc_narration(after_escape, finish_event)
+		var show_escape := func():
+			_show_cabin_escape_panel(play_after_escape)
+		if before_escape.is_empty():
+			show_escape.call()
+		else:
+			DialogueManager.play_adhoc_narration(before_escape, show_escape)
+	else:
+		DialogueManager.play_adhoc_narration(lines, finish_event)
+
+
+func _show_cabin_escape_panel(done: Callable) -> void:
+	dialogue_box.visible = false
+	menu_panel.visible = false
+	event_hint_btn.visible = false
+	if _npc_layer and _npc_layer.has_method("hide_npcs"):
+		_npc_layer.hide_npcs()
+	if _scene_fx:
+		_scene_fx.clear_layers()
+
+	var top_bar: CanvasItem = top_bar_label.get_parent() as CanvasItem
+	var top_bar_was_visible: bool = top_bar.visible
+	top_bar.visible = false
+
+	var PanelScript: Script = load("res://scripts/ui/CabinEscapePanel.gd") as Script
+	if PanelScript == null:
+		top_bar.visible = top_bar_was_visible
+		if done.is_valid():
+			done.call()
+		return
+	var panel: Control = PanelScript.new()
+	panel.name = "CabinEscapePanel"
+	add_child(panel)
+	panel.move_to_front()
+	var on_completed := func():
+		if is_instance_valid(panel):
+			panel.queue_free()
+		top_bar.visible = top_bar_was_visible
+		if done.is_valid():
+			done.call()
+	panel.completed.connect(on_completed, CONNECT_ONE_SHOT)
 
 
 func _deferred_start_confrontation(confront_key: String) -> void:
@@ -1027,12 +1150,16 @@ func _auto_play_event_after_hint() -> void:
 	if _pending_events.is_empty():
 		event_hint_btn.visible = false
 		return
-	var evt_id: String = _pending_events.pop_front()
+	var popped_evt = _pending_events.pop_front()
+	if popped_evt == null:
+		event_hint_btn.visible = false
+		return
+	var evt_id := str(popped_evt)
 	# 先关闭关键发现弹窗，再进入助手/旁白对话，避免 UI 重叠。
 	event_hint_btn.visible = false
 	await get_tree().process_frame
 	# 若触发点发生在普通对话/叙述中，等当前说话完全结束后再插入关键发现对话。
-	while dialogue_box.visible or GameManager.current_state == GameManager.STATE_DIALOGUE:
+	while dialogue_box.visible or GameManager.current_state == GameManager.STATE_DIALOGUE or subpanel_container.visible:
 		await get_tree().process_frame
 	_play_event_now(evt_id)
 
@@ -1079,7 +1206,11 @@ func _on_event_hint_clicked() -> void:
 	# 保留手动入口兼容调试；正常流程已自动关闭提示并播放事件对话。
 	if _pending_events.is_empty():
 		return
-	var evt_id: String = _pending_events.pop_front()
+	var popped_evt = _pending_events.pop_front()
+	if popped_evt == null:
+		event_hint_btn.visible = false
+		return
+	var evt_id := str(popped_evt)
 	event_hint_btn.visible = false
 	_play_event_now(evt_id)
 
@@ -1174,6 +1305,7 @@ func gm_apply_preset(preset_id: String, reset_first := true) -> void:
 	if not GM_PRESETS.has(preset_id):
 		_flash_notification("未知 GM 预设：" + preset_id)
 		return
+	GameManager.reload_current_case_tables()
 	var preset: Dictionary = GM_PRESETS[preset_id]
 	if reset_first:
 		GameManager.reset_progress()
@@ -1190,13 +1322,14 @@ func gm_apply_preset_and_confront(preset_id: String) -> void:
 	if confront_key == "":
 		_flash_notification("此预设没有绑定对峙")
 		return
-	gm_start_confrontation(confront_key)
+	gm_start_confrontation(confront_key, false)
 
 
 func gm_jump_to_dialogue(npc_id: String, node_id: String) -> void:
 	if npc_id == "" or node_id == "":
 		_flash_notification("格式：npc_id.node_id")
 		return
+	GameManager.reload_current_case_tables()
 	_gm_prepare_surface(false)
 	DialogueManager.start_dialogue_at(npc_id, node_id)
 
@@ -1205,6 +1338,7 @@ func gm_jump_to_narration(doc_id: String, node_id: String) -> void:
 	if doc_id == "" or node_id == "":
 		_flash_notification("格式：doc_id.node_id")
 		return
+	GameManager.reload_current_case_tables()
 	_gm_prepare_surface(false)
 	DialogueManager.start_narration_at(doc_id, node_id)
 
@@ -1213,6 +1347,7 @@ func gm_play_event(evt_id: String) -> void:
 	if evt_id == "":
 		_flash_notification("请输入事件 ID")
 		return
+	GameManager.reload_current_case_tables()
 	if GameManager.get_day_event(evt_id).is_empty():
 		_flash_notification("未知事件：" + evt_id)
 		return
@@ -1220,7 +1355,9 @@ func gm_play_event(evt_id: String) -> void:
 	_play_event_now(evt_id)
 
 
-func gm_start_confrontation(confront_key: String) -> void:
+func gm_start_confrontation(confront_key: String, reload_tables := true) -> void:
+	if reload_tables:
+		GameManager.reload_current_case_tables()
 	if confront_key == "":
 		_flash_notification("请输入对峙 ID")
 		return
@@ -1233,6 +1370,7 @@ func gm_start_confrontation(confront_key: String) -> void:
 
 
 func gm_play_fixed_epilogue() -> void:
+	GameManager.reload_current_case_tables()
 	_gm_prepare_surface(false)
 	var preset: Dictionary = GM_PRESETS.get("fixed_epilogue", {})
 	_gm_grant_state(preset)
@@ -1280,9 +1418,12 @@ func _gm_clear_event_noise() -> void:
 	event_hint_btn.visible = false
 
 
-func _gm_force_location(loc_id: String) -> void:
+func _gm_force_location(loc_id: String, suppress_entry := true) -> void:
 	if loc_id == "" or not GameManager.locations_data.has(loc_id):
 		return
+	if suppress_entry:
+		_suppress_next_arrival_banter = true
+		_suppress_next_location_intro = true
 	GameManager.current_location = loc_id
 	if not GameManager.visited_locations.has(loc_id):
 		GameManager.visited_locations.append(loc_id)
@@ -1375,7 +1516,7 @@ func _on_confrontation_from_dialogue() -> void:
 
 func _open_confrontation_panel() -> void:
 	_close_subpanel()
-	BgmPlayer.play("accuse")
+	BgmPlayer.play("ferry_court_opening")
 	menu_panel.visible = false
 	var scene_path: String = SubPanels["confrontation"]
 	if not ResourceLoader.exists(scene_path):
@@ -1637,6 +1778,10 @@ func _on_narration_time_card(text: String, sub_text: String) -> void:
 
 ## 叙述演出效果处理（震动/闪屏/色调）
 func _on_narration_effects(fx: Dictionary) -> void:
+	if fx.has("bgm"):
+		var bgm_id := str(fx.get("bgm", ""))
+		if bgm_id != "":
+			BgmPlayer.play(bgm_id)
 	if fx.get("shake", false):
 		var intensity: float = float(fx.get("shake_intensity", 6.0))
 		var duration: float = float(fx.get("shake_duration", 0.4))

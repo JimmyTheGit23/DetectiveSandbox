@@ -804,11 +804,24 @@ def compile_day_events(src: Path, case_id: str) -> JsonDict:
         narration: List[Any] = []
         for line in lines_by_event.get(event_id, []):
             if _cell(line, "line_kind") == "text":
-                narration.append(_cell(line, "text"))
+                text_item: JsonDict = {"speaker": "", "text": _cell(line, "text")}
+                _set_if(text_item, "background", _cell(line, "background"))
+                _set_if(text_item, "voice_path", _cell(line, "voice_path"))
+                effect = _parse_json_any(line.get("effect", ""), {})
+                if isinstance(effect, dict) and effect:
+                    text_item["effect"] = effect
+                if "background" in text_item or "voice_path" in text_item or "effect" in text_item:
+                    narration.append(text_item)
+                else:
+                    narration.append(_cell(line, "text"))
             else:
                 item: JsonDict = {"speaker": _cell(line, "speaker"), "text": _cell(line, "text")}
                 _set_if(item, "emotion", _cell(line, "emotion"))
                 _set_if(item, "voice_path", _cell(line, "voice_path"))
+                _set_if(item, "background", _cell(line, "background"))
+                effect = _parse_json_any(line.get("effect", ""), {})
+                if isinstance(effect, dict) and effect:
+                    item["effect"] = effect
                 narration.append(item)
         evt["narration"] = narration
         evt["effects"] = _parse_json_any(row.get("effects", ""), {})

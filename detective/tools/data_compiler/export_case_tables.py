@@ -644,6 +644,8 @@ def export_day_events(case_dir: Path, out_dir: Path) -> None:
                     "text": line.get("text", ""),
                     "emotion": line.get("emotion", ""),
                     "voice_path": line.get("voice_path", ""),
+                    "background": line.get("background", ""),
+                    "effect": json.dumps(line.get("effect", {}), ensure_ascii=False) if line.get("effect") else "",
                 })
             else:
                 line_rows.append({
@@ -654,12 +656,14 @@ def export_day_events(case_dir: Path, out_dir: Path) -> None:
                     "text": str(line),
                     "emotion": "",
                     "voice_path": "",
+                    "background": "",
+                    "effect": "",
                 })
     write_csv(out_dir / "day_events.csv", [
         "event_id", "order", "title", "hint", "trigger", "effects", "auto_play", "writer_note",
     ], event_rows)
     write_csv(out_dir / "day_event_lines.csv", [
-        "event_id", "order", "line_kind", "speaker", "text", "emotion", "voice_path",
+        "event_id", "order", "line_kind", "speaker", "text", "emotion", "voice_path", "background", "effect",
     ], line_rows)
 
 

@@ -37,7 +37,7 @@ func _voice_init_value() -> float:
 
 func _build_ui() -> void:
 	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 14)
+	root.add_theme_constant_override("separation", 10)
 	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	root.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.add_child(root)
@@ -46,7 +46,7 @@ func _build_ui() -> void:
 	var title := Label.new()
 	title.text = "设  置"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 28)
+	title.add_theme_font_size_override("font_size", 24)
 	title.add_theme_color_override("font_color", Color(0.96, 0.88, 0.65))
 	root.add_child(title)
 	
@@ -62,7 +62,7 @@ func _build_ui() -> void:
 	root.add_child(scroll)
 
 	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 16)
+	vbox.add_theme_constant_override("separation", 8)
 	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.add_child(vbox)
@@ -74,7 +74,7 @@ func _build_ui() -> void:
 	
 	# 间距
 	var spacer := Control.new()
-	spacer.custom_minimum_size = Vector2(0, 12)
+	spacer.custom_minimum_size = Vector2(0, 4)
 	vbox.add_child(spacer)
 
 	# GM 指令区
@@ -89,22 +89,22 @@ func _build_ui() -> void:
 
 	var gm_label := Label.new()
 	gm_label.text = "GM 指令"
-	gm_label.add_theme_font_size_override("font_size", 18)
+	gm_label.add_theme_font_size_override("font_size", 16)
 	gm_label.add_theme_color_override("font_color", Color(0.9, 0.6, 0.3, 1))
 	gm_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	gm_box.add_child(gm_label)
 
 	_gm_check = CheckBox.new()
-	_gm_check.text = "解锁全部案件"
+	_gm_check.text = "解锁全部"
 	_gm_check.button_pressed = bool(_settings.get("gm_unlock_all")) if _settings else false
-	_gm_check.add_theme_font_size_override("font_size", 16)
+	_gm_check.add_theme_font_size_override("font_size", 14)
 	_gm_check.add_theme_color_override("font_color", Color(0.85, 0.75, 0.55, 1))
 	_gm_check.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_gm_check.toggled.connect(_on_gm_unlock_toggled)
 	gm_box.add_child(_gm_check)
 
 	var gm_hint := Label.new()
-	gm_hint.text = "（测试用，无视等级限制）"
+	gm_hint.text = "无视等级限制"
 	gm_hint.add_theme_font_size_override("font_size", 12)
 	gm_hint.add_theme_color_override("font_color", Color(0.55, 0.50, 0.42, 0.8))
 	gm_hint.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -118,126 +118,132 @@ func _build_ui() -> void:
 	
 	# 按钮区
 	var btn_box := VBoxContainer.new()
-	btn_box.add_theme_constant_override("separation", 8)
+	btn_box.add_theme_constant_override("separation", 6)
 	root.add_child(btn_box)
-	
+
+	var btn_row := HBoxContainer.new()
+	btn_row.add_theme_constant_override("separation", 8)
+	btn_box.add_child(btn_row)
+		
 	var btn_title := Button.new()
 	btn_title.text = "返回标题画面"
-	btn_title.custom_minimum_size = Vector2(0, 48)
-	btn_title.add_theme_font_size_override("font_size", 20)
+	btn_title.custom_minimum_size = Vector2(0, 40)
+	btn_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn_title.add_theme_font_size_override("font_size", 17)
 	btn_title.pressed.connect(_on_return_title)
-	btn_box.add_child(btn_title)
-	
+	btn_row.add_child(btn_title)
+		
 	var btn_reset := Button.new()
 	btn_reset.text = "重置游戏进度"
-	btn_reset.custom_minimum_size = Vector2(0, 48)
-	btn_reset.add_theme_font_size_override("font_size", 20)
+	btn_reset.custom_minimum_size = Vector2(0, 40)
+	btn_reset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn_reset.add_theme_font_size_override("font_size", 17)
 	btn_reset.add_theme_color_override("font_color", Color(0.9, 0.35, 0.3))
 	btn_reset.pressed.connect(_on_reset_game)
-	btn_box.add_child(btn_reset)
+	btn_row.add_child(btn_reset)
 	_reset_button = btn_reset
-	
+
+	var btn_close := Button.new()
+	btn_close.text = "关闭设置"
+	btn_close.custom_minimum_size = Vector2(0, 40)
+	btn_close.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn_close.add_theme_font_size_override("font_size", 17)
+	btn_close.pressed.connect(_on_close)
+	btn_row.add_child(btn_close)
+		
 	var reset_hint := Label.new()
 	reset_hint.text = "（清除所有案件进度、经验和存档，不可恢复）"
 	reset_hint.add_theme_font_size_override("font_size", 12)
 	reset_hint.add_theme_color_override("font_color", Color(0.55, 0.50, 0.42, 0.8))
 	btn_box.add_child(reset_hint)
-	
-	var btn_close := Button.new()
-	btn_close.text = "关闭设置"
-	btn_close.custom_minimum_size = Vector2(0, 44)
-	btn_close.add_theme_font_size_override("font_size", 18)
-	btn_close.pressed.connect(_on_close)
-	btn_box.add_child(btn_close)
 
 
 func _build_gm_jump_tools(parent: VBoxContainer) -> void:
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 8)
+	box.add_theme_constant_override("separation", 6)
 	parent.add_child(box)
 
 	var title := Label.new()
 	title.text = "GM 跳转"
-	title.add_theme_font_size_override("font_size", 16)
+	title.add_theme_font_size_override("font_size", 14)
 	title.add_theme_color_override("font_color", Color(0.96, 0.72, 0.36, 1))
 	box.add_child(title)
 
 	var preset_row := HBoxContainer.new()
-	preset_row.add_theme_constant_override("separation", 8)
+	preset_row.add_theme_constant_override("separation", 6)
 	box.add_child(preset_row)
 
 	_gm_preset_select = OptionButton.new()
-	_gm_preset_select.custom_minimum_size = Vector2(240, 36)
+	_gm_preset_select.custom_minimum_size = Vector2(250, 32)
+	_gm_preset_select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_populate_gm_presets()
 	preset_row.add_child(_gm_preset_select)
 
-	var btn_apply := _make_gm_button("套用预设")
+	var btn_apply := _make_gm_button("套预设", 82)
 	btn_apply.pressed.connect(_on_gm_apply_preset)
 	preset_row.add_child(btn_apply)
 
-	var btn_preset_confront := _make_gm_button("进预设对峙")
+	var btn_preset_confront := _make_gm_button("预设对峙", 96)
 	btn_preset_confront.pressed.connect(_on_gm_preset_confront)
 	preset_row.add_child(btn_preset_confront)
 
-	var dialogue_row := HBoxContainer.new()
-	dialogue_row.add_theme_constant_override("separation", 8)
-	box.add_child(dialogue_row)
-	_gm_dialogue_input = _make_gm_input("li_zheng.ask_next_step")
-	dialogue_row.add_child(_gm_dialogue_input)
-	var btn_dialogue := _make_gm_button("跳对话")
-	btn_dialogue.pressed.connect(_on_gm_jump_dialogue)
-	dialogue_row.add_child(btn_dialogue)
-
-	var narration_row := HBoxContainer.new()
-	narration_row.add_theme_constant_override("separation", 8)
-	box.add_child(narration_row)
-	_gm_narration_input = _make_gm_input("prologue.cabin_prologue_1")
-	narration_row.add_child(_gm_narration_input)
-	var btn_narration := _make_gm_button("跳叙事")
-	btn_narration.pressed.connect(_on_gm_jump_narration)
-	narration_row.add_child(btn_narration)
-
-	var event_row := HBoxContainer.new()
-	event_row.add_theme_constant_override("separation", 8)
-	box.add_child(event_row)
-	_gm_event_input = _make_gm_input("evt_shen_evidence_ready")
-	event_row.add_child(_gm_event_input)
-	var btn_event := _make_gm_button("播事件")
-	btn_event.pressed.connect(_on_gm_play_event)
-	event_row.add_child(btn_event)
-
-	var confront_row := HBoxContainer.new()
-	confront_row.add_theme_constant_override("separation", 8)
-	box.add_child(confront_row)
 	_gm_confront_select = OptionButton.new()
-	_gm_confront_select.custom_minimum_size = Vector2(240, 36)
+	_gm_confront_select.custom_minimum_size = Vector2(210, 32)
 	for key in ["confrontation_wang", "confrontation", "confrontation_final"]:
 		_gm_confront_select.add_item(key)
 		_gm_confront_select.set_item_metadata(_gm_confront_select.get_item_count() - 1, key)
-	confront_row.add_child(_gm_confront_select)
-	var btn_confront := _make_gm_button("进对峙")
+	preset_row.add_child(_gm_confront_select)
+	var btn_confront := _make_gm_button("进对峙", 76)
 	btn_confront.pressed.connect(_on_gm_start_confrontation)
-	confront_row.add_child(btn_confront)
+	preset_row.add_child(btn_confront)
 
-	var btn_epilogue := _make_gm_button("播固定结尾")
+	var dialogue_row := HBoxContainer.new()
+	dialogue_row.add_theme_constant_override("separation", 6)
+	box.add_child(dialogue_row)
+	_gm_dialogue_input = _make_gm_input("li_zheng.ask_next_step", 260)
+	dialogue_row.add_child(_gm_dialogue_input)
+	var btn_dialogue := _make_gm_button("跳对话", 76)
+	btn_dialogue.pressed.connect(_on_gm_jump_dialogue)
+	dialogue_row.add_child(btn_dialogue)
+
+	_gm_narration_input = _make_gm_input("prologue.cabin_prologue_1", 260)
+	dialogue_row.add_child(_gm_narration_input)
+	var btn_narration := _make_gm_button("跳叙事", 76)
+	btn_narration.pressed.connect(_on_gm_jump_narration)
+	dialogue_row.add_child(btn_narration)
+
+	var event_row := HBoxContainer.new()
+	event_row.add_theme_constant_override("separation", 6)
+	box.add_child(event_row)
+	_gm_event_input = _make_gm_input("evt_shen_evidence_ready", 260)
+	event_row.add_child(_gm_event_input)
+	var btn_event := _make_gm_button("播事件", 76)
+	btn_event.pressed.connect(_on_gm_play_event)
+	event_row.add_child(btn_event)
+
+	var btn_epilogue := _make_gm_button("固定结尾", 96)
 	btn_epilogue.pressed.connect(_on_gm_fixed_epilogue)
-	box.add_child(btn_epilogue)
+	event_row.add_child(btn_epilogue)
+
+	var fill := Control.new()
+	fill.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	event_row.add_child(fill)
 
 
-func _make_gm_button(text: String) -> Button:
+func _make_gm_button(text: String, width := 92.0) -> Button:
 	var btn := Button.new()
 	btn.text = text
-	btn.custom_minimum_size = Vector2(120, 36)
-	btn.add_theme_font_size_override("font_size", 14)
+	btn.custom_minimum_size = Vector2(width, 32)
+	btn.add_theme_font_size_override("font_size", 13)
 	btn.add_theme_color_override("font_color", Color(1.0, 0.74, 0.32, 1))
 	btn.add_theme_color_override("font_hover_color", Color(1.0, 0.92, 0.55, 1))
 	return btn
 
 
-func _make_gm_input(placeholder: String) -> LineEdit:
+func _make_gm_input(placeholder: String, width := 240.0) -> LineEdit:
 	var input := LineEdit.new()
 	input.placeholder_text = placeholder
-	input.custom_minimum_size = Vector2(240, 36)
+	input.custom_minimum_size = Vector2(width, 32)
 	input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	return input
 

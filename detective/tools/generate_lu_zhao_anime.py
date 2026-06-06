@@ -1,30 +1,42 @@
 #!/usr/bin/env python3
 """
-主角陆昭二次元风格立绘生成器。
+Generate Lu Zhao (陆昭) protagonist portraits in anime style matching companion_lingyao.
 
-生成两个版本：
-  1. 便装版（prologue_lu_zhao）— 白色圆领便服，用于序章日常对话
-  2. 官服版（lu_zhao）— 深蓝官服+乌纱帽，用于正式场景
+Generates 6 emotion variants:
+  - base:       默认表情，沉稳内敛的年轻书生/御史
+  - cold:       冷静质问，最常用的表情
+  - nervous:    紧张不安，失印失身份后的狼狈
+  - serious:    严肃专注，推理时的专注
+  - surprised:  惊讶，重大发现时
+  - defeated:   败局后的不甘与落寞
 
-画风：与凌瑶一致的半写实二次元古风（clean line art + soft cel-shading）
-
-用法：
+Usage:
+  GEMINI_API_KEY=<key> python3 tools/generate_lu_zhao_anime.py
   python tools/generate_lu_zhao_anime.py --api-key <KEY>
-  python tools/generate_lu_zhao_anime.py --api-key <KEY> --version casual
-  python tools/generate_lu_zhao_anime.py --api-key <KEY> --version official --only base
+  python tools/generate_lu_zhao_anime.py --only base
   python tools/generate_lu_zhao_anime.py --dry-run
+
+Output:
+  assets/cn/portraits/prologue_lu_zhao.png          (base)
+  assets/cn/portraits/prologue_lu_zhao_cold.png      (cold)
+  assets/cn/portraits/prologue_lu_zhao_nervous.png   (nervous)
+  assets/cn/portraits/prologue_lu_zhao_serious.png   (serious)
+  assets/cn/portraits/prologue_lu_zhao_surprised.png (surprised)
+  assets/cn/portraits/prologue_lu_zhao_defeated.png  (defeated)
 """
 
 from __future__ import annotations
+
 import argparse
 import base64
 import io
 import json
 import os
+import shutil
 import sys
 import time
-import urllib.request
 import urllib.error
+import urllib.request
 from pathlib import Path
 
 try:
@@ -34,361 +46,440 @@ except ImportError:
     sys.exit(1)
 
 ROOT = Path(__file__).resolve().parent.parent
-PORTRAIT_DIR = ROOT / "assets" / "cn" / "portraits"
-DRAFT_DIR = ROOT / "assets" / "ai_raw" / "portraits"
+sys.path.insert(0, str(ROOT / "tools"))
 
-PORTRAIT_W = 603
-PORTRAIT_H = 900
+from portrait_generation_spec import NPC_KNEE_UP_SPEC, fit_subject_to_spec
 
-# ─── Gemini API 配置 ───
-GEMINI_MODEL = "gemini-2.5-flash-image"
-IMAGEN_MODEL = "imagen-4.0-generate-001"
-GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
-IMAGEN_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:predict?key={key}"
-MAX_RETRIES = 3
+PORTRAITS_DIR = ROOT / "assets" / "cn" / "portraits"
+RAW_DIR = ROOT / "assets" / "ai_raw" / "portraits" / "lu_zhao_anime"
+MODEL = "gemini-2.5-flash-image"
+MAX_RETRIES = 4
 RETRY_DELAY = 15
 
-# ─── 陆昭角色基础描述 ───
-# 便装版：落水后穿的白色便服（序章场景：凭证遗失，无法自证身份）
-CASUAL_BASE = (
-    "Half-body portrait of a young 25 year old Ming Dynasty scholar-official (巡按御史) "
-    "traveling incognito after losing his credentials in a river accident. "
-    "Youthful handsome face with refined elegant features, smooth skin, NO facial hair — clean-shaven. "
-    "Sharp intelligent eyes that miss nothing, well-defined jawline, straight nose. "
-    "Hair pulled back in a simple topknot secured with a white cloth ribbon, "
-    "a few loose strands framing his temples from the river ordeal. "
-    "The face reads as a precocious young talent — someone who earned his imperial appointment unusually early. "
-    "Wearing a plain white/light grey round-collar (圆领) scholar's hanfu robe, "
-    "slightly wrinkled from sleeping rough, with a simple cloth sash at the waist. "
-    "The robe is clean but clearly not his finest — a young man stripped of his rank but not his dignity. "
-    "Build: lean and upright, the posture of someone trained in official protocol. "
-    "Overall impression: calm, composed, observant — a young detective hiding in plain sight."
-)
+# ─── Background & Style ───
 
-# 官服版：正式巡按御史官服
-OFFICIAL_BASE = (
-    "Half-body portrait of a young 25 year old Ming Dynasty Imperial Inspector (巡按御史) "
-    "in full court attire. "
-    "Youthful handsome face with refined elegant features, smooth skin, NO facial hair — clean-shaven. "
-    "Sharp intelligent authoritative dark eyes, well-defined jawline, straight nose. "
-    "The face reads as a brilliant young official who earned his position through exceptional talent. "
-    "Hair hidden under a traditional black Ming Dynasty official hat (乌纱帽). "
-    "CRITICAL HAT DETAIL: The hat MUST have two short horizontal wing-like extensions (帽翅/展脚) "
-    "protruding from each side of the hat, like flat black sticks extending sideways. "
-    "These wings should be SHORT — about the width of the head — NOT extending beyond the character's shoulders. "
-    "The wings are the defining feature of a Ming Dynasty official hat. "
-    "Wearing a dark indigo official court robe (官服) with a white crane rank embroidery square (补子) on the chest, "
-    "intricate cloud-pattern borders, a jade belt-plaque at the waist. "
-    "Holding a folding fan (折扇) in one hand, the other hand resting at his side. "
-    "Build: lean and upright, commanding presence despite his youth. "
-    "Overall impression: young but authoritative, composed, eyes like a hawk — the unmistakable bearing of imperial authority."
-)
+GREEN_BG = """
+CRITICAL BACKGROUND REQUIREMENT:
+- Use a completely flat, uniform, solid pure high-saturation chroma green
+  background (#00FF00, RGB 0,255,0).
+- ZERO texture, ZERO noise, ZERO variation, ZERO shadow, ZERO gradient.
+- No text, no characters, no writing, no watermark, no UI elements.
+- No green color anywhere in the character, clothing, hair, skin, accessories, or props.
+"""
 
-# ─── 风格基底 ───
-STYLE_ANIME_MANGENTA = (
-    "\n\n"
-    "CRITICAL STYLE: Semi-realistic anime illustration fused with Chinese ink-wash aesthetics. "
-    "Clean confident line art with soft cel-shading and watercolor-textured fills. "
-    "Slightly stylized proportions — larger expressive eyes than pure realism, "
-    "but NOT chibi, NOT cartoon, NOT flat vector. "
-    "Vibrant yet muted ink-tinted color palette. "
-    "Half-body waist-up shot, three-quarter angle, "
-    "subject facing slightly toward camera-left, eye-level framing. "
-    "IMPORTANT: solid pure magenta background #FF00FF, completely flat, no gradient, no shadow on the background, "
-    "background fills entire frame except the character silhouette — this background will be removed via chroma key. "
-    "Sharp clean silhouette edges — absolutely NO magenta tint bleeding into hair, clothing or skin. "
-    "No text, no watermark, no UI, no extra characters in frame, no decorative borders, no environment elements behind subject. "
-    "Lighting: soft warm key light from upper-right, gentle ambient fill. "
-    "Style consistent with anime-influenced Chinese detective game character portraits."
-)
+STYLE = """
+ART STYLE:
+- Anime / manga illustration style, matching the companion_lingyao portrait exactly.
+- Clean cel-shaded linework with soft shadows.
+- Bright, warm color palette. NOT dark, NOT moody, NOT painterly.
+- Semi-realistic proportions in anime style (slightly enlarged eyes, refined features).
+- Ming Dynasty Jiangnan setting, but rendered in modern anime game art style.
+- Polished game portrait quality, consistent with the game's companion art style.
+- Three-quarter view, subject facing slightly toward camera-left, eye-level framing.
+"""
 
-# 绿底版本：用于深色服饰角色（如官服），绿色与黑色反差更大，去背更干净
-STYLE_ANIME_GREEN = (
-    "\n\n"
-    "CRITICAL STYLE: Semi-realistic anime illustration fused with Chinese ink-wash aesthetics. "
-    "Clean confident line art with soft cel-shading and watercolor-textured fills. "
-    "Slightly stylized proportions — larger expressive eyes than pure realism, "
-    "but NOT chibi, NOT cartoon, NOT flat vector. "
-    "Vibrant yet muted ink-tinted color palette. "
-    "Half-body waist-up shot, three-quarter angle, "
-    "subject facing slightly toward camera-left, eye-level framing. "
-    "IMPORTANT: solid pure bright green background #00FF00, completely flat, no gradient, no shadow on the background, "
-    "background fills entire frame except the character silhouette — this background will be removed via chroma key. "
-    "Sharp clean silhouette edges — absolutely NO green tint bleeding into hair, clothing or skin. "
-    "No text, no watermark, no UI, no extra characters in frame, no decorative borders, no environment elements behind subject. "
-    "Lighting: soft warm key light from upper-right, gentle ambient fill. "
-    "Style consistent with anime-influenced Chinese detective game character portraits."
-)
+UNIFIED_SPEC = """
+UNIFIED PORTRAIT SPEC (MANDATORY):
+- Canvas: exactly 848x1264 pixels, 2:3 aspect ratio.
+- Character occupies approximately 80% of canvas height (~1011px).
+- Knee-up framing: character from top of hair to around the knees.
+- Top margin: ~52px above hair. Bottom margin: ~64px below knees.
+- Side padding: at least 64px on each side.
+- Standing pose, 3/4 view or front-facing.
+- No sitting, no kneeling, no crouching.
+- No full body (no feet/shoes visible).
+- No waist-up or bust crop; must show down to knees.
+"""
 
-# 默认使用洋红底（向后兼容）
-STYLE_ANIME = STYLE_ANIME_MANGENTA
+# ─── Character Identity ───
 
-# ─── 便装版变体 ───
-CASUAL_VARIANTS = [
+LU_ZHAO_FACE = """
+EXACT FACE AND HAIR DESIGN:
+
+FACE SHAPE:
+- Young man, age around 22-25, with refined and handsome features.
+- Oval face with a defined but not overly angular jawline.
+- Fair skin with a slight pallor — he nearly drowned and has been through trauma.
+- Clean-shaven, no facial hair.
+
+EYES:
+- Sharp, intelligent dark brown eyes with a keen observational gaze.
+- Slightly narrowed by default — the eyes of someone who is always analyzing.
+- Well-defined eyebrows, straight and dark.
+- When serious, his gaze becomes piercing and unwavering.
+
+NOSE:
+- Straight, refined nose — neither too large nor too small.
+- Classical scholar's profile.
+
+LIPS:
+- Thin but well-shaped lips.
+- Often set in a neutral, controlled line.
+- Rarely smiles — when he does, it's subtle and brief.
+
+HAIR:
+- Black hair, pulled up into a neat topknot (束发) secured with a simple white ribbon/cord.
+- A few loose strands framing the face near the temples.
+- Hair is slightly disheveled from the river ordeal — not perfectly groomed.
+- Some strands may fall across the forehead.
+"""
+
+LU_ZHAO_BODY = """
+LU ZHAO BODY AND CLOTHING:
+- Young scholar, lean and wiry build — not muscular, but not frail.
+- Height: above average for Ming Dynasty.
+- Clothing: plain white/cream cotton scholar's robe (旧棉袍) — the borrowed clothes
+  from the innkeeper after losing his official garments in the river.
+- Simple cross-over collar (交领), loose-fitting, slightly wrinkled.
+- A cloth belt (布腰带) at the waist.
+- The robe is slightly too large for him — it's not his own clothes.
+- NO official robe, NO hat, NO insignia — he is disguised as an ordinary scholar.
+- Hands visible — one may hold a scroll or be clenched in thought.
+- Standing upright with good posture despite the humble clothes —
+  the bearing of someone educated and authoritative beneath the disguise.
+"""
+
+BASE_PROMPT = """
+Create the canonical standard portrait for Lu Zhao (陆昭), the protagonist.
+- He is a young imperial inspector disguised as an ordinary scholar.
+- The face, hair, and clothing MUST match the detailed descriptions above exactly.
+- He wears a plain white/cream borrowed scholar's robe — NOT an official robe.
+- The body pose, clothing, and framing MUST match the specifications.
+- Pull the camera back to show from top of hair to around the knees.
+- The image is INVALID if it ends at the belt, hip, or thigh.
+- He is standing upright, NOT sitting.
+- Generate exactly one clean character portrait.
+- The style MUST match the anime art style of companion_lingyao — clean cel-shaded linework, bright colors, NOT dark or painterly.
+"""
+
+# ─── Emotion Variants ───
+
+VARIANTS = [
     {
         "key": "prologue_lu_zhao",
         "filename": "prologue_lu_zhao.png",
         "variant_name": "base",
-        "emotion_prompt": (
-            "Expression: calm and composed, a neutral unreadable face with the faintest hint of curiosity, "
-            "eyes steady and observant — the look of a man quietly analyzing everyone around him. "
-            "Posture: standing upright with hands clasped behind his back, weight evenly distributed, "
-            "head held high with quiet confidence."
-        ),
+        "temperature": 0.15,
+        "emotion_prompt": """
+Expression: Calm, composed, and quietly contemplative.
+Eyes looking slightly to the side as if observing and analyzing.
+Mouth in a neutral line — controlled and reserved.
+The look of a young man who is constantly thinking, weighing every detail.
+Posture: standing upright with hands behind his back or one hand resting on his belt.
+Scholarly bearing despite the humble borrowed clothes.
+""",
     },
     {
         "key": "prologue_lu_zhao_cold",
         "filename": "prologue_lu_zhao_cold.png",
         "variant_name": "cold",
-        "emotion_prompt": (
-            "Expression: cold and authoritative, eyes narrowed to icy slits, jaw clenched, "
-            "lips pressed into a thin hard line. The look of someone about to deliver a devastating accusation. "
-            "Posture: standing rigidly straight, one hand extended forward with an accusatory finger, "
-            "the other hand gripping a scroll at his side. Shoulders squared with imperial authority."
-        ),
-    },
-    {
-        "key": "prologue_lu_zhao_serious",
-        "filename": "prologue_lu_zhao_serious.png",
-        "variant_name": "serious",
-        "emotion_prompt": (
-            "Expression: serious and focused, brow slightly furrowed in concentration, "
-            "eyes sharp and calculating, mouth set in a determined line. "
-            "The look of a detective deep in thought, connecting clues. "
-            "Posture: standing with one hand on his chin in a thinking pose, "
-            "weight shifted slightly forward, eyes looking into the distance."
-        ),
-    },
-    {
-        "key": "prologue_lu_zhao_surprised",
-        "filename": "prologue_lu_zhao_surprised.png",
-        "variant_name": "surprised",
-        "emotion_prompt": (
-            "Expression: subtle surprise — not dramatic, but the slight widening of the eyes "
-            "and a barely-parted mouth that shows this composed man has been caught off guard. "
-            "Eyebrows raised slightly. Posture: leaning back just a fraction, "
-            "one hand raised instinctively near his chest, the other hand frozen mid-gesture."
-        ),
+        "temperature": 0.18,
+        "emotion_prompt": """
+Expression: Cold, stern, and penetrating — the look of an interrogator.
+Eyes narrowed and fixed directly on the viewer, sharp as a blade.
+Brows slightly furrowed with controlled intensity.
+Mouth set in a firm, unyielding line.
+One hand pointing forward accusingly or holding a scroll of evidence.
+Posture: leaning slightly forward, shoulders squared, projecting authority.
+The aura of someone who sees through lies and will not be deceived.
+""",
     },
     {
         "key": "prologue_lu_zhao_nervous",
         "filename": "prologue_lu_zhao_nervous.png",
         "variant_name": "nervous",
-        "emotion_prompt": (
-            "Expression: tense and guarded, brow furrowed with worry, eyes darting sideways, "
-            "jaw tight, a muscle visible in his cheek. Sweat bead on temple. "
-            "The look of a man whose identity is being questioned and has no proof. "
-            "Posture: arms crossed defensively over his chest, shoulders slightly hunched, "
-            "standing with weight shifted back as if bracing for an attack."
-        ),
+        "temperature": 0.20,
+        "emotion_prompt": """
+Expression: Nervous and unsettled, brow furrowed with worry.
+Eyes darting slightly, not quite meeting the viewer's gaze.
+Lips pressed together tightly, jaw tense.
+A subtle sheen of sweat on the forehead.
+Posture: shoulders slightly hunched, one hand gripping his sleeve or clenching at his side.
+The look of a man who has lost everything — official seal, documents, identity —
+and is trying to maintain composure while feeling the weight of vulnerability.
+""",
+    },
+    {
+        "key": "prologue_lu_zhao_serious",
+        "filename": "prologue_lu_zhao_serious.png",
+        "variant_name": "serious",
+        "temperature": 0.18,
+        "emotion_prompt": """
+Expression: Deeply focused and determined, eyes sharp with analytical intensity.
+Brows drawn together in concentration, not anger.
+Mouth slightly open as if about to deliver a crucial observation.
+One hand raised with a finger extended — the gesture of someone connecting the dots.
+Posture: standing tall, weight forward on his feet, engaged and alert.
+The look of an inspector who has found the thread and is about to pull it loose.
+""",
+    },
+    {
+        "key": "prologue_lu_zhao_surprised",
+        "filename": "prologue_lu_zhao_surprised.png",
+        "variant_name": "surprised",
+        "temperature": 0.22,
+        "emotion_prompt": """
+Expression: Genuine surprise and revelation, eyes widened in sudden understanding.
+Eyebrows raised, forehead creased with shock.
+Mouth slightly open, catching a breath.
+One hand raised near his chest in an involuntary reaction.
+Posture: body tensed, leaning back slightly as if hit by a revelation.
+The look of someone who just connected pieces that were hiding in plain sight —
+a rare crack in his composed exterior.
+""",
     },
     {
         "key": "prologue_lu_zhao_defeated",
         "filename": "prologue_lu_zhao_defeated.png",
         "variant_name": "defeated",
-        "emotion_prompt": (
-            "Expression: exhausted and defeated, eyes downcast with dark circles beneath, "
-            "face pale and drawn, mouth slightly open as if too tired to speak. "
-            "Hair slightly disheveled, loose strands falling over his face. "
-            "Posture: slumping slightly, shoulders dropping, one hand hanging limply at his side, "
-            "the other hand loosely holding his robe. The weight of false accusation showing."
-        ),
-    },
-]
-
-# ─── 官服版变体 ───
-OFFICIAL_VARIANTS = [
-    {
-        "key": "lu_zhao",
-        "filename": "lu_zhao.png",
-        "variant_name": "base",
-        "emotion_prompt": (
-            "Expression: composed and authoritative, a neutral face with the quiet intensity of a seasoned investigator, "
-            "eyes sharp and penetrating, the faintest hint of a knowing smile. "
-            "Posture: standing tall and straight, one hand holding a closed folding fan at his side, "
-            "the other hand resting naturally. Imperial bearing."
-        ),
-    },
-    {
-        "key": "lu_zhao_cold",
-        "filename": "lu_zhao_cold.png",
-        "variant_name": "cold",
-        "emotion_prompt": (
-            "Expression: ice-cold authority, eyes like frozen daggers, jaw set like stone, "
-            "no trace of mercy on his face. The look of an imperial inspector about to pass judgment. "
-            "Posture: standing ramrod straight, one hand pointing accusingly forward, "
-            "fan tucked under the other arm. Every line of his body radiates authority."
-        ),
-    },
-    {
-        "key": "lu_zhao_serious",
-        "filename": "lu_zhao_serious.png",
-        "variant_name": "serious",
-        "emotion_prompt": (
-            "Expression: deeply serious and contemplative, brow furrowed, eyes narrowed in analysis, "
-            "lips pressed together thoughtfully. "
-            "Posture: standing with one hand on the fan held against his chin, "
-            "the other arm crossed beneath it, head slightly tilted — the classic detective thinking pose."
-        ),
-    },
-    {
-        "key": "lu_zhao_surprised",
-        "filename": "lu_zhao_surprised.png",
-        "variant_name": "surprised",
-        "emotion_prompt": (
-            "Expression: rare moment of surprise — eyes widened, eyebrows raised, "
-            "mouth slightly parted. For a man who always seems in control, this is a crack in the armor. "
-            "Posture: leaning back slightly, one hand raised with the fan half-open, "
-            "the other hand gripping his sleeve. A fraction of a second of vulnerability."
-        ),
-    },
-    {
-        "key": "lu_zhao_confrontation_pose",
-        "filename": "lu_zhao_confrontation_pose.png",
-        "variant_name": "confrontation",
-        "emotion_prompt": (
-            "Expression: fierce determination mixed with righteous anger, eyes blazing with conviction, "
-            "brow sharply furrowed, mouth open mid-accusation. "
-            "Posture: dramatic confrontational pose — one arm extended forward pointing accusingly, "
-            "the other hand slamming a folding fan against his open palm. "
-            "Body leaning forward aggressively. The pose of a man delivering the final blow in a courtroom showdown."
-        ),
+        "temperature": 0.22,
+        "emotion_prompt": """
+Expression: Quiet defeat and bitter acceptance, eyes downcast with restrained pain.
+Brows drawn together in anguish, not anger.
+Mouth turned down slightly, jaw tight with suppressed emotion.
+Hands at his sides, fingers slightly curled — the gesture of someone who knows
+he has the truth but cannot prove it.
+Posture: shoulders dropped slightly, head tilted down, the weight of injustice visible.
+The look of a man who won the logic but lost the law —
+who knows the killer walks free tonight.
+""",
     },
 ]
 
 
-# ─── API 调用 ───
+# ─── API Calls ───
 
-def generate_image_gemini(prompt: str, api_key: str) -> bytes | None:
+def generate_image_gemini(prompt: str, api_key: str, temperature: float = 0.15) -> bytes | None:
     for attempt in range(MAX_RETRIES):
-        result = _try_gemini_generate(prompt, api_key)
+        result = _try_gemini_generate(prompt, api_key, temperature)
         if result is not None:
             return result
         if attempt < MAX_RETRIES - 1:
-            print(f"  [RETRY] 等待 {RETRY_DELAY}s 后重试 ({attempt+2}/{MAX_RETRIES})...")
-            time.sleep(RETRY_DELAY)
-    print("  [FALLBACK] 尝试 Imagen 模型...")
-    return _try_imagen_generate(prompt, api_key)
+            wait = RETRY_DELAY * (attempt + 1)
+            print(f"  [RETRY] 等待 {wait}s 后重试 ({attempt + 2}/{MAX_RETRIES})...")
+            time.sleep(wait)
+    return None
 
 
-def _try_gemini_generate(prompt: str, api_key: str) -> bytes | None:
-    url = GEMINI_URL.format(model=GEMINI_MODEL, key=api_key)
+def _try_gemini_generate(prompt: str, api_key: str, temperature: float) -> bytes | None:
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent?key={api_key}"
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"responseModalities": ["TEXT", "IMAGE"]}
+        "generationConfig": {
+            "responseModalities": ["IMAGE", "TEXT"],
+            "temperature": temperature,
+            "imageConfig": {"aspectRatio": "2:3"},
+        },
     }
     data = json.dumps(payload).encode("utf-8")
-    req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"}, method="POST")
+    req = urllib.request.Request(
+        url, data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
     try:
         with urllib.request.urlopen(req, timeout=180) as resp:
             result = json.loads(resp.read().decode("utf-8"))
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8", errors="replace")
-        print(f"  [API ERROR] {e.code}: {body[:300]}", file=sys.stderr)
+        print(f"  [API ERROR] {e.code}: {body[:500]}", file=sys.stderr)
         return None
     except Exception as e:
-        print(f"  [ERROR] {e}", file=sys.stderr)
+        print(f"  [ERROR] {type(e).__name__}: {e}", file=sys.stderr)
         return None
 
     candidates = result.get("candidates", [])
     if not candidates:
-        print("  [ERROR] No candidates", file=sys.stderr)
+        print("  [ERROR] No candidates in response", file=sys.stderr)
         return None
+
     parts = candidates[0].get("content", {}).get("parts", [])
     for part in parts:
-        if "inlineData" in part:
-            mime = part["inlineData"].get("mimeType", "")
-            if "image" in mime:
-                return base64.b64decode(part["inlineData"]["data"])
+        inline = part.get("inlineData") or part.get("inline_data", {})
+        data_str = inline.get("data")
+        if data_str:
+            return base64.b64decode(data_str)
+
     print("  [ERROR] No image in response", file=sys.stderr)
     return None
 
 
-def _try_imagen_generate(prompt: str, api_key: str) -> bytes | None:
-    url = IMAGEN_URL.format(model=IMAGEN_MODEL, key=api_key)
-    payload = {"instances": [{"prompt": prompt}], "parameters": {"sampleCount": 1}}
-    data = json.dumps(payload).encode("utf-8")
-    req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"}, method="POST")
-    try:
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            result = json.loads(resp.read().decode("utf-8"))
-    except Exception as e:
-        print(f"  [IMAGEN ERROR] {e}", file=sys.stderr)
-        return None
-    predictions = result.get("predictions", [])
-    if predictions and "bytesBase64Encoded" in predictions[0]:
-        return base64.b64decode(predictions[0]["bytesBase64Encoded"])
-    return None
+# ─── Green Screen Processing ───
 
+def normalize_green_screen(path: Path) -> bool:
+    from collections import deque
+    import numpy as np
 
-# ─── 后处理 ───
+    img = Image.open(path).convert("RGBA")
+    data = np.array(img)
+    rgb = data[:, :, :3].astype(np.int16)
+    h, w, _ = rgb.shape
 
-def _color_distance(r1: int, g1: int, b1: int, r2: int, g2: int, b2: int) -> float:
-    return ((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2) ** 0.5
+    border = np.concatenate([
+        rgb[:8, :, :].reshape(-1, 3),
+        rgb[h - 8:, :, :].reshape(-1, 3),
+        rgb[:, :8, :].reshape(-1, 3),
+        rgb[:, w - 8:, :].reshape(-1, 3),
+    ], axis=0)
+    bg = np.median(border, axis=0)
+    if not (bg[1] > bg[0] + 18 and bg[1] > bg[2] + 18):
+        print(f"  background not green-screen: median={tuple(int(x) for x in bg)}")
+        return False
 
+    dist = np.linalg.norm(rgb.astype(np.float32) - bg.astype(np.float32), axis=2)
+    greenish = (rgb[:, :, 1] > rgb[:, :, 0] + 10) & (rgb[:, :, 1] > rgb[:, :, 2] + 10)
+    candidate = (dist < 86.0) & greenish
 
-def remove_chroma(img: Image.Image, threshold: float = 40.0) -> Image.Image:
-    """色键去除背景：自动检测并去除洋红色或绿色背景。"""
-    img = img.convert("RGBA")
-    pixels = img.load()
-    w, h = img.size
-    
-    # 检测背景主色调：采样左上角判断是绿底还是洋红底
-    sample_colors = []
-    for sx, sy in [(5, 5), (10, 5), (5, 10), (w - 5, 5), (w // 2, 5)]:
-        r, g, b, a = pixels[sx, sy]
-        if a > 0:
-            sample_colors.append((r, g, b))
-    
-    # 判断是否为绿底
-    avg_g = sum(c[1] for c in sample_colors) / max(len(sample_colors), 1)
-    avg_r = sum(c[0] for c in sample_colors) / max(len(sample_colors), 1)
-    is_green_dominant = avg_g > avg_r + 50
-    
-    if is_green_dominant:
-        targets = [(0, 255, 0), (0, 200, 0), (50, 255, 50)]
-    else:
-        targets = [(217, 54, 127), (217, 54, 128), (218, 54, 127), (255, 0, 255)]
-    
+    visited = np.zeros((h, w), dtype=bool)
+    q: deque[tuple[int, int]] = deque()
+
+    def push(y: int, x: int) -> None:
+        if 0 <= y < h and 0 <= x < w and candidate[y, x] and not visited[y, x]:
+            visited[y, x] = True
+            q.append((y, x))
+
+    for x in range(w):
+        push(0, x)
+        push(h - 1, x)
     for y in range(h):
-        for x in range(w):
-            r, g, b, a = pixels[x, y]
-            if a == 0:
-                continue
-            min_dist = min(_color_distance(r, g, b, tr, tg, tb) for tr, tg, tb in targets)
-            if min_dist < threshold:
-                pixels[x, y] = (0, 0, 0, 0)
-    return img
+        push(y, 0)
+        push(y, w - 1)
+
+    while q:
+        y, x = q.popleft()
+        push(y - 1, x)
+        push(y + 1, x)
+        push(y, x - 1)
+        push(y, x + 1)
+
+    coverage = float(visited.sum()) / float(h * w)
+    if coverage < 0.10:
+        print(f"  green-screen coverage too low: {coverage:.1%}")
+        return False
+
+    data[visited, 0] = 0
+    data[visited, 1] = 255
+    data[visited, 2] = 0
+    data[visited, 3] = 255
+    Image.fromarray(data, "RGBA").save(path)
+    print(f"  normalized green-screen ({coverage:.1%})")
+    return True
 
 
-def autocrop(img: Image.Image, padding: int = 4) -> Image.Image:
-    bbox = img.getbbox()
-    if bbox is None:
+def validate_pure_green_border(path: Path) -> bool:
+    import numpy as np
+    data = np.array(Image.open(path).convert("RGBA"))
+    rgb = data[:, :, :3].astype(np.int16)
+    h, w, _ = rgb.shape
+    border = np.concatenate([
+        rgb[:4, :, :].reshape(-1, 3),
+        rgb[h - 4:, :, :].reshape(-1, 3),
+        rgb[:, :4, :].reshape(-1, 3),
+        rgb[:, w - 4:, :].reshape(-1, 3),
+    ], axis=0)
+    med = np.median(border, axis=0)
+    ok = med[1] >= 245 and med[0] <= 12 and med[2] <= 12
+    if not ok:
+        print(f"  pure green border check failed: median={tuple(int(x) for x in med)}")
+    return bool(ok)
+
+
+# ─── Post-processing ───
+
+def postprocess(raw_path: Path, tmp_final_path: Path) -> bool:
+    from defringe_portrait import despill_green_from_hair, remove_chroma_background
+    from remove_purple_bg import verify_portrait
+
+    remove_chroma_background(str(raw_path), str(tmp_final_path))
+    despill_green_from_hair(str(tmp_final_path), str(tmp_final_path))
+    fitted = fit_subject_to_spec(Image.open(tmp_final_path).convert("RGBA"), NPC_KNEE_UP_SPEC)
+    fitted.save(tmp_final_path)
+    return verify_portrait(str(tmp_final_path))
+
+
+def postprocess_rembg(src_path: Path, tmp_final_path: Path) -> bool:
+    """Fallback: use rembg for non-green backgrounds."""
+    from rembg import remove
+    from defringe_portrait import despill_green_from_hair
+    from remove_purple_bg import verify_portrait
+
+    img = Image.open(src_path)
+    result = remove(img)
+    result.save(tmp_final_path)
+    despill_green_from_hair(str(tmp_final_path), str(tmp_final_path))
+    fitted = fit_subject_to_spec(Image.open(tmp_final_path).convert("RGBA"), NPC_KNEE_UP_SPEC)
+    fitted.save(tmp_final_path)
+    return verify_portrait(str(tmp_final_path))
+
+
+def remove_tiny_alpha_clusters(img: Image.Image) -> Image.Image:
+    import numpy as np
+    from scipy import ndimage
+
+    img = img.convert("RGBA")
+    data = np.array(img)
+    visible = data[:, :, 3] > 8
+    labels, count = ndimage.label(visible)
+    if count == 0:
         return img
-    l, t, r, b = bbox
-    return img.crop((max(0, l - padding), max(0, t - padding), min(img.width, r + padding), min(img.height, b + padding)))
+    sizes = ndimage.sum(visible, labels, range(1, count + 1))
+    for label, size in enumerate(sizes, start=1):
+        if size < 180:
+            data[:, :, 3][labels == label] = 0
+            data[:, :, :3][labels == label] = 0
+    return Image.fromarray(data)
 
 
-def fit_to_portrait(img: Image.Image) -> Image.Image:
-    src_w, src_h = img.size
-    scale = min(PORTRAIT_W / src_w, PORTRAIT_H / src_h)
-    new_w, new_h = max(1, int(src_w * scale)), max(1, int(src_h * scale))
-    resized = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
-    canvas = Image.new("RGBA", (PORTRAIT_W, PORTRAIT_H), (0, 0, 0, 0))
-    canvas.paste(resized, ((PORTRAIT_W - new_w) // 2, PORTRAIT_H - new_h), resized)
-    return canvas
+def crop_avatar(base_path: Path, avatar_path: Path) -> None:
+    img = Image.open(base_path).convert("RGBA")
+    w, h = img.size
+    crop_h = int(h * 0.35)
+    crop_size = min(w, crop_h)
+    left = (w - crop_size) // 2
+    cropped = img.crop((left, 0, left + crop_size, crop_size))
+    avatar_path.parent.mkdir(parents=True, exist_ok=True)
+    cropped.resize((128, 128), Image.Resampling.LANCZOS).save(avatar_path)
+    print(f"  avatar: {avatar_path.relative_to(ROOT)}")
 
 
-# ─── 主流程 ───
+# ─── Generate One Variant ───
 
-def generate_one(variant: dict, base_desc: str, api_key: str, dry_run: bool = False, style: str = STYLE_ANIME) -> bool:
-    prompt = base_desc + "\n\n" + variant["emotion_prompt"] + style
-    print(f"\n── [{variant['variant_name']}] {variant['key']}  (prompt: {len(prompt)} chars)")
+def generate_one(variant: dict, api_key: str, dry_run: bool = False) -> bool:
+    full_prompt = "\n".join([
+        "STYLE REFERENCE: Use the exact same anime art style as companion_lingyao. "
+        "Clean cel-shaded linework, bright warm colors, semi-realistic anime proportions. "
+        "NOT dark, NOT painterly, NOT realistic illustration style. "
+        "This must look like it belongs in the same game as the companion portraits.",
+        GREEN_BG,
+        STYLE,
+        UNIFIED_SPEC,
+        NPC_KNEE_UP_SPEC.framing_prompt,
+        LU_ZHAO_FACE,
+        LU_ZHAO_BODY,
+        BASE_PROMPT,
+        variant["emotion_prompt"],
+        "GENERATION RULES:",
+        "- The face, hair, and clothing MUST match the detailed text description exactly.",
+        "- The style MUST match companion_lingyao anime art style — clean, bright, cel-shaded.",
+        "- Do NOT use dark/moody/painterly style.",
+        "- Generate exactly one clean character portrait.",
+        "- He wears a PLAIN WHITE scholar's robe — NOT an official robe with crane embroidery.",
+        "- No hat, no official insignia — he is disguised as an ordinary scholar.",
+    ])
+
+    name = variant["variant_name"]
+    key = variant["key"]
+    temp = variant.get("temperature", 0.15)
+
+    print(f"\n── [{name}] {variant['filename']}")
+    print(f"    prompt 长度: {len(full_prompt)} 字符, temperature: {temp}")
 
     if dry_run:
+        print(f"    [dry-run] 跳过 API 调用")
         return True
 
-    raw_bytes = generate_image_gemini(prompt, api_key)
+    raw_path = RAW_DIR / f"{key}_green_raw.png"
+    raw_bytes = generate_image_gemini(full_prompt, api_key, temperature=temp)
     if not raw_bytes:
         print(f"    [FAIL] 图像生成失败")
         return False
@@ -396,68 +487,124 @@ def generate_one(variant: dict, base_desc: str, api_key: str, dry_run: bool = Fa
     img = Image.open(io.BytesIO(raw_bytes)).convert("RGBA")
     print(f"    原始尺寸: {img.size}")
 
-    DRAFT_DIR.mkdir(parents=True, exist_ok=True)
-    ts = int(time.time())
-    draft_path = DRAFT_DIR / f"{variant['key']}_anime_{ts}.png"
-    img.save(draft_path, "PNG")
-    print(f"    [DRAFT] → {draft_path.relative_to(ROOT)}")
+    RAW_DIR.mkdir(parents=True, exist_ok=True)
+    img.save(raw_path, "PNG")
+    print(f"    raw saved: {raw_path.relative_to(ROOT)}")
 
-    img = remove_chroma(img)
-    img = autocrop(img, padding=4)
-    img = fit_to_portrait(img)
+    # Try green screen removal first
+    green_ok = normalize_green_screen(raw_path) and validate_pure_green_border(raw_path)
 
-    out_path = PORTRAIT_DIR / variant["filename"]
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    img.save(out_path, "PNG")
-    print(f"    [OK] → {out_path.relative_to(ROOT)}  ({img.size[0]}x{img.size[1]})")
+    tmp_final = RAW_DIR / f"{key}_final_tmp.png"
+
+    if green_ok:
+        print(f"\n    [postprocess]")
+        if not postprocess(raw_path, tmp_final):
+            print(f"    [FAIL] postprocess failed")
+            return False
+    else:
+        # Fallback to rembg
+        print(f"\n    [postprocess via rembg]")
+        if not postprocess_rembg(raw_path, tmp_final):
+            print(f"    [FAIL] rembg postprocess failed")
+            return False
+
+    # Clean up tiny clusters
+    img_final = remove_tiny_alpha_clusters(Image.open(tmp_final))
+    img_final.save(tmp_final)
+
+    # Save final
+    final_path = PORTRAITS_DIR / variant["filename"]
+    final_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.move(str(tmp_final), str(final_path))
+    print(f"    [OK] → {final_path.relative_to(ROOT)}  ({img_final.size[0]}x{img_final.size[1]})")
+
+    # Generate avatar (only for base)
+    if name == "base":
+        avatar_path = PORTRAITS_DIR / "avatars" / "lu_zhao.png"
+        crop_avatar(final_path, avatar_path)
+
     return True
 
 
+# ─── Main ───
+
 def main():
-    ap = argparse.ArgumentParser(description="陆昭二次元风格立绘生成器（便装版 + 官服版）")
-    ap.add_argument("--api-key", default=os.environ.get("GEMINI_API_KEY"))
-    ap.add_argument("--version", choices=["casual", "official", "all"], default="all",
-                    help="生成哪个版本：casual(便装) / official(官服) / all(两者)")
-    ap.add_argument("--only", help="只生成指定变体名（如 base, cold, serious 等）")
-    ap.add_argument("--dry-run", action="store_true")
-    args = ap.parse_args()
+    parser = argparse.ArgumentParser(
+        description="陆昭二次元风格立绘生成器（多表情变体）"
+    )
+    parser.add_argument(
+        "--api-key",
+        default=os.environ.get("GEMINI_API_KEY", "").strip(),
+        help="Gemini API key（或设置 GEMINI_API_KEY 环境变量）",
+    )
+    parser.add_argument(
+        "--only",
+        choices=["base", "cold", "nervous", "serious", "surprised", "defeated"],
+        help="只生成指定表情变体",
+    )
+    parser.add_argument("--dry-run", action="store_true", help="只打印 prompt，不调用 API")
+    parser.add_argument("--sleep", type=float, default=4.0, help="每次生成间的等待秒数")
+    args = parser.parse_args()
 
     if not args.dry_run and not args.api_key:
-        print("需要 --api-key 或 GEMINI_API_KEY 环境变量", file=sys.stderr)
-        sys.exit(1)
+        print("需要 --api-key 或环境变量 GEMINI_API_KEY", file=sys.stderr)
+        return 2
 
-    PORTRAIT_DIR.mkdir(parents=True, exist_ok=True)
-    DRAFT_DIR.mkdir(parents=True, exist_ok=True)
+    RAW_DIR.mkdir(parents=True, exist_ok=True)
 
-    versions = []
-    if args.version in ("casual", "all"):
-        versions.append(("便装版", CASUAL_BASE, CASUAL_VARIANTS, STYLE_ANIME_MANGENTA))
-    if args.version in ("official", "all"):
-        versions.append(("官服版", OFFICIAL_BASE, OFFICIAL_VARIANTS, STYLE_ANIME_GREEN))
+    targets = VARIANTS
+    if args.only:
+        targets = [v for v in VARIANTS if v["variant_name"] == args.only]
+        if not targets:
+            print(f"未知变体: {args.only}", file=sys.stderr)
+            return 1
 
-    for ver_name, base_desc, variants, style in versions:
-        print(f"\n{'='*50}")
-        print(f"  {ver_name} — 陆昭")
-        print(f"{'='*50}")
+    print("=" * 60)
+    print("陆昭（Lu Zhao）二次元风格立绘生成器")
+    print(f"共 {len(targets)} 个变体待生成")
+    print(f"画风：与凌瑶一致的半写实二次元古风")
+    print(f"规范：{NPC_KNEE_UP_SPEC.canvas_width}x{NPC_KNEE_UP_SPEC.canvas_height} 膝上立绘")
+    print(f"模型：{MODEL}")
+    print("=" * 60)
 
-        targets = variants
-        if args.only:
-            targets = [v for v in variants if v["variant_name"] == args.only]
-            if not targets:
-                print(f"  未找到变体: {args.only}")
-                continue
+    # Backup existing portraits
+    stamp = time.strftime("%Y%m%d_%H%M%S")
+    backup_dir = PORTRAITS_DIR / f"backup_lu_zhao_anime_{stamp}"
+    backup_dir.mkdir(parents=True, exist_ok=True)
+    for v in targets:
+        src = PORTRAITS_DIR / v["filename"]
+        if src.exists():
+            shutil.copy2(src, backup_dir / v["filename"])
+    avatar_src = PORTRAITS_DIR / "avatars" / "lu_zhao.png"
+    if avatar_src.exists():
+        shutil.copy2(avatar_src, backup_dir / "avatar_lu_zhao.png")
+    print(f"\n已备份到: {backup_dir.relative_to(ROOT)}")
 
-        ok, fail = 0, 0
+    ok, fail = 0, 0
+    for i, v in enumerate(targets):
+        if generate_one(v, args.api_key or "", args.dry_run):
+            ok += 1
+        else:
+            fail += 1
+        if i < len(targets) - 1 and not args.dry_run:
+            print(f"  等待 {args.sleep}s...")
+            time.sleep(args.sleep)
+
+    print(f"\n{'=' * 60}")
+    print(f"完成：{ok} 成功 / {fail} 失败")
+    print(f"{'=' * 60}")
+
+    if ok > 0 and not args.dry_run:
+        print("\n生成的文件：")
         for v in targets:
-            if generate_one(v, base_desc, args.api_key or "", args.dry_run, style=style):
-                ok += 1
-            else:
-                fail += 1
-        print(f"\n  {ver_name} 完成：{ok} 成功 / {fail} 失败")
+            print(f"  assets/cn/portraits/{v['filename']}")
+        print(f"  assets/cn/portraits/avatars/lu_zhao.png")
+        print("\n后续步骤：")
+        print("  1) 在 Godot 编辑器中预览效果")
+        print("  2) 如需重新生成单个表情: --only <base|cold|nervous|serious|surprised|defeated>")
 
-    print(f"\n{'='*50}")
-    print("全部完成。portrait_expressions.json 无需修改（文件名不变）。")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
