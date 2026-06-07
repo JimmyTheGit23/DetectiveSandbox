@@ -2359,7 +2359,8 @@ func _camera_switch_to_npc(duration: float = 0.3, target_npc_id: String = "", ta
 		_companion_rect.visible = false
 	if _opponent_rect and _opponent_rect.visible:
 		_opponent_rect.visible = false
-	if _current_camera_view == "npc":
+	var already_npc_view := _current_camera_view == "npc"
+	if already_npc_view and target_npc_id == "" and target_portrait_path == "":
 		return
 	_current_camera_view = "npc"
 	# 确保搭档立绘在NPC镜头下不可见
@@ -2369,7 +2370,6 @@ func _camera_switch_to_npc(duration: float = 0.3, target_npc_id: String = "", ta
 	# 杀死之前的镜头动画
 	if _camera_tween and _camera_tween.is_valid():
 		_camera_tween.kill()
-	_camera_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 
 	# NPC 滑回居中
 	_portrait_rect.visible = true
@@ -2388,6 +2388,13 @@ func _camera_switch_to_npc(duration: float = 0.3, target_npc_id: String = "", ta
 		center_emotion,
 		center_path
 	)
+	if already_npc_view:
+		_apply_portrait_layout(_portrait_rect, layout)
+		_portrait_rect.rotation = 0.0
+		_portrait_rect.modulate = Color(1, 1, 1, 1)
+		_dlg_portrait_rect.visible = false
+		return
+	_camera_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	_tween_portrait_layout(_camera_tween, _portrait_rect, layout, duration)
 	_camera_tween.tween_property(_portrait_rect, "modulate:a", 1.0, duration * 0.5)
 
@@ -3095,6 +3102,8 @@ func _update_dialogue_portrait(speaker: String, emotion: String, line_data: Dict
 			_dlg_portrait_rect.visible = false
 			_set_portrait_texture(_portrait_rect, portrait_path)
 			_apply_center_portrait_layout(speaker_id, portrait_layout_emotion, portrait_path)
+			_portrait_rect.rotation = 0.0
+			_portrait_rect.modulate = Color(1, 1, 1, 1)
 			_portrait_rect.visible = true
 
 
