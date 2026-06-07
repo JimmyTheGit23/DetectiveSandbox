@@ -43,12 +43,12 @@ evt_cabin_sinking,dialogue,41,周氏,老爷！老爷——！你——！你是�
 evt_cabin_sinking,dialogue,42,周氏,同船的人——他死了，你活着！上船的时候你连船钱都付不起，还是我家老爷替你垫的！五十两货银——钱呢？！你就是图财害命！！,accusing,
 evt_cabin_sinking,text,43,,人群外围，一个穿素色布衣的年轻男子缩着肩膀挤了进来。是阿贵，周德茂的随行仆从，眼圈通红，嘴唇还在抖。,,,res://assets/cn/scenes/prologue_ferry_dock.png
 evt_cabin_sinking,dialogue,44,阿贵,夫人……老爷他……昨晚三更刚过，我睡不着起来解手，看见这位爷……蹲在船底舱口那边。,nervous,
-evt_cabin_sinking,dialogue,45,阿贵,他手里好像攥着个铁家伙——我当时没多想，以为是他自己的东西……现在想来……,nervous,
+evt_cabin_sinking,dialogue,45,阿贵,他身边好像有个铁家伙——黑灯瞎火的，我没看清是船上的撬棍，还是别的什么……现在想来……,nervous,
 evt_cabin_sinking,dialogue,46,阿贵,那个铁家伙一定是凶器！他肯定是在舱里趁老爷不备，用铁器砸了老爷！老爷被打晕了才落水的！,accusing,
 evt_cabin_sinking,dialogue,47,阿贵,还有一件事——船沉的时候，我和船家都被困在舱里，门被货物堵死了！他从天窗逃走，肯定早就想好了路线！,nervous,
 evt_cabin_sinking,text,48,,你刚要开口，周氏的哭声和阿贵的指认就一起响起来。四周全是盯着你的眼睛。,,
-evt_cabin_sinking,dialogue,48a,陆昭,我没碰过周德茂。船底有洞，这条船不是自己翻的。,serious,
-evt_cabin_sinking,dialogue,49,周氏,你还想狡辩？！同船的人只有你活着！只有你从天窗跑了！不是你是谁？！,accusing,
+evt_cabin_sinking,dialogue,48a,陆昭,我没碰过周德茂。那根铁撬是船上的，我只用它撬窗逃命；它随船沉了。船底有洞，这条船不是自己翻的。,serious,
+evt_cabin_sinking,dialogue,49,周氏,你还想狡辩？！你这个外人活着，我家老爷却死了！只有你从天窗逃出来！不是你是谁？！,accusing,
 evt_cabin_sinking,text,50,,围观人群又乱了。有人顺着阿贵的话小声议论：他说的铁家伙……莫非就是凶器？,,
 evt_cabin_sinking,text,51,,围观人群骚动。一个圆脸中年人从人群中挤出来——是渡口的里正。他扫了一眼尸体，又打量了你几眼。,,,res://assets/cn/scenes/prologue_ferry_dock.png
 evt_cabin_sinking,dialogue,52,钱里正,都别吵！出了人命，谁都别先往人头上扣死帽子。你先报姓名——昨晚船翻的时候，你在船上？,stern,
@@ -56,10 +56,10 @@ evt_cabin_sinking,dialogue,53,陆昭,陆昭。昨晚我在船上，从舱里逃�
 evt_cabin_sinking,dialogue,54,钱里正,那你就把话说清楚。船在江心翻的，你一个外地书生，怎么活着上的岸？,stern,
 evt_cabin_sinking,dialogue,55,凌瑶,我是金鳞镖局的镖师，就住码头客栈！昨晚我在客栈外避雨，听见江上炸响才跑出去的。他上岸的时候人都快没气了！,determined,
 evt_cabin_sinking,text,55a,,钱里正当场让掌柜记下凌瑶的话，又补了一句：陆昭被拖回客栈后昏了大半个时辰才醒。这份临时笔录，先按在桌上。,,,,"{""gain_evidence"": ""evidence_cabin_escape_time""}"
-evt_cabin_sinking,dialogue,56,钱里正,姑娘，你先别急。我只看眼前这些事：他活着，死的是周老板，还有人咬定他在船上拿过铁家伙。难怪大家盯着他。,stern,
+evt_cabin_sinking,dialogue,56,钱里正,姑娘，你先别急。我只看眼前这些事：他活着，死的是周老板，阿贵又咬定他案发时手边有铁器。难怪大家盯着他。,stern,
 evt_cabin_sinking,text,57,,码头王大爷说，船翻之后不到一刻钟，就有人从南岸爬上来了。动作利索得很，不像快淹死的人。,,
 evt_cabin_sinking,dialogue,57.1,沈清月,里正，话先别散。现在有三件事。,cooperative,
-evt_cabin_sinking,dialogue,57.2,沈清月,第一，周老板会水，却死了。第二，阿贵指认陆公子在船上拿过铁器。第三，他一开口就说船底有洞。,sharp,
+evt_cabin_sinking,dialogue,57.2,沈清月,第一，周老板会水，却死了。第二，阿贵指认陆公子案发时手边有铁器。第三，他一开口就说船底有洞。,sharp,
 evt_cabin_sinking,dialogue,57.3,沈清月,陆公子，你说自己只是逃命。那我问一句：船翻成那样，你怎么知道洞在船底？,sharp,
 evt_cabin_sinking,dialogue,57.4,凌瑶,喂！他刚捡回一条命，你现在这么问，是要把人往死里扣吗？,angry,
 evt_cabin_sinking,dialogue,57.5,沈清月,我只问话。真是清白，就把话说圆。,cold_smile,
