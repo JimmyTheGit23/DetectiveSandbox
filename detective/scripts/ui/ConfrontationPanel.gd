@@ -197,7 +197,7 @@ func _confrontation_intro_bgm() -> String:
 	if configured != "":
 		return configured
 	configured = str(_confrontation_data.get("bgm_break", ""))
-	return configured if configured != "" else "ferry_court_opening"
+	return configured if configured != "" else "ferry_inn_investigation"
 
 
 func _confrontation_testimony_bgm() -> String:

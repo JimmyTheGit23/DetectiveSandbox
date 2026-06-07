@@ -321,6 +321,19 @@
       "tempo": "slow",
       "loop_friendly": true,
       "description": "对峙开庭：庄重肃穆，公堂升压感。"
+    },
+    "confront01": {
+      "file": "res://assets/cn/bgm/confront01.mp3",
+      "tags": [
+        "confrontation",
+        "testimony",
+        "court",
+        "tense"
+      ],
+      "mood": "court_testimony",
+      "tempo": "fast",
+      "loop_friendly": true,
+      "description": "正式证词：进入逐句证言后的对峙曲。"
     }
   },
   "mood_index": {

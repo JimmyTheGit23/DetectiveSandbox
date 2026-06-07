@@ -1,9 +1,4 @@
 ﻿testimony_id,statement_id,speaker,text,emotion,is_contradiction,counter_evidence,alt_evidence,break_evidence,press_add_trigger,press_add_after
-testimony_wang,wang_1,王大爷,那晚我在江上收网。亥时过后，东汊那边闷闷一响，我抬头就看见船歪了。,,,,,,,
-testimony_wang,wang_2,王大爷,船翻没多久，就有人爬上南岸。手脚利索，不像刚从鬼门关里滚出来的。,,,,,,,
-testimony_wang,wang_3,王大爷,翻船前一天傍晚，码头上有一高一矮两个人碰面，说了“明天亥时”“走东汊”。不过跑船前合计路线，也不是稀奇事。,,true,evidence_wrong_channel,,evidence_wrong_channel,,
-testimony_wang,wang_4,王大爷,那晚雾是重，可风小的时候散开过。收网的人看水吃饭，眼力总比旁人尖些。,,true,evidence_cabin_escape_time,,evidence_cabin_escape_time,,
-testimony_wang,wang_5,王大爷,船翻之后，我还瞧见沈姑娘在码头棚子底下没走。她站得久，像在等什么。,,,,,,,
 testimony_lao_fan_route,fan_route_1,老范,那晚雨急，江上白茫茫一片。船出码头还稳，进了东汊，浪头一下子顶上来。,,,,,,,
 testimony_lao_fan_route,fan_route_2,老范,船底破开，是暗礁撞裂的。老船泡久了，哪经得住那一下。,,true,evidence_hull_hole,evidence_nail_marks,,,
 testimony_lao_fan_route,fan_route_3,老范,我也是差点死的人。船翻了，我一口气没上来，命就交代在江里了。,,,,,,,

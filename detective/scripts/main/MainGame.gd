@@ -1747,7 +1747,7 @@ func _on_confrontation_from_dialogue() -> void:
 
 func _open_confrontation_panel() -> void:
 	_close_subpanel()
-	BgmPlayer.play("ferry_court_opening")
+	BgmPlayer.play("ferry_inn_investigation")
 	menu_panel.visible = false
 	var scene_path: String = SubPanels["confrontation"]
 	if not ResourceLoader.exists(scene_path):

@@ -124,7 +124,7 @@
     "suspect": "fisherman_wang",
     "background": "res://assets/cn/scenes/prologue_confrontation_hall.png",
     "bgm": "ferry_confrontation",
-    "bgm_break": "ferry_court_opening",
+    "bgm_break": "ferry_inn_investigation",
     "bgm_break_actual": "Prelogue_Confrontation_Intro",
     "bgm_final_round": "ferry_confrontation",
     "confidence": 5,
@@ -1562,7 +1562,7 @@
     "suspect": "agui",
     "background": "res://assets/cn/scenes/prologue_confrontation_hall.png",
     "bgm": "ferry_confrontation",
-    "bgm_break": "ferry_court_opening",
+    "bgm_break": "ferry_inn_investigation",
     "bgm_break_actual": "Prelogue_Confrontation_Intro",
     "bgm_final_round": "ferry_confrontation",
     "confidence": 6,
@@ -1594,7 +1594,7 @@
       },
       {
         "speaker": "阿贵",
-        "text": "里正大人！别听他绕！是他杀了老爷！我亲眼看见他蹲在船底，手里攥着铁家伙！",
+        "text": "里正大人！别听他绕！是他杀了老爷！我亲眼看见他蹲在船底，身边就有铁家伙！",
         "emotion": "angry"
       },
       {
@@ -1614,12 +1614,12 @@
       },
       {
         "speaker": "陆昭",
-        "text": "王大爷，先从你说。别替谁圆，也别替谁加罪。",
+        "text": "老范，先从你说。船是你开的，东汊也是你走的。别替谁圆，也别替自己藏。",
         "emotion": "serious"
       },
       {
         "speaker": "凌瑶",
-        "text": "让他说细。谎话最怕细，一细就会露线头。",
+        "text": "让他说细。老船家最会拿江水挡话，一细就会露线头。",
         "emotion": "determined"
       },
       {
@@ -1984,307 +1984,6 @@
     ],
     "testimonies": [
       {
-        "id": "testimony_wang",
-        "witness": "fisherman_wang",
-        "title": "— 证人证词：王大爷 —",
-        "preamble": [
-          {
-            "speaker": "钱里正",
-            "text": "王大爷，你那晚在江上。看到什么，听到什么，跟陆公子说。",
-            "emotion": "nervous"
-          },
-          {
-            "speaker": "王大爷",
-            "text": "（慢吞吞站起来，清了清嗓子）行。老头子说。",
-            "emotion": "evasive"
-          },
-          {
-            "speaker": "沈清月",
-            "text": "陆公子，老人家只是说见闻。若一开口就扣成合谋，倒像你急着把真正的问题遮过去。",
-            "emotion": "cooperative"
-          }
-        ],
-        "readthrough_end_hint": [
-          {
-            "speaker": "凌瑶",
-            "text": "（低声）她先给王大爷画框了。别钻她框里，挑能和东西对上的那句。",
-            "emotion": "determined"
-          }
-        ],
-        "transition_dialogue": [
-          {
-            "speaker": "陆昭",
-            "text": "王大爷至少说明一件事：那条航道，不是临时走错。",
-            "emotion": "cold"
-          },
-          {
-            "speaker": "沈清月",
-            "text": "几句话就推成合谋，太急了。谈路线不等于凿船，更不等于老范杀人。",
-            "emotion": "sharp"
-          },
-          {
-            "speaker": "陆昭",
-            "text": "所以问老范。船是你的，东汊也是你走的。你解释。",
-            "emotion": "cold"
-          },
-          {
-            "speaker": "老范",
-            "text": "（旱烟杆在手里转了半圈）陆公子……我跑船二十年，最怕的就是这种事。可江上的事，谁说得准？",
-            "emotion": "evasive"
-          },
-          {
-            "speaker": "凌瑶",
-            "text": "（低声）她把\"约定路线\"捏成了\"几句话\"。手挺快，别让老范顺着雾躲了。",
-            "emotion": "determined"
-          }
-        ],
-        "fail_dialogue": [
-          {
-            "speaker": "王大爷",
-            "text": "陆公子……这个跟我说的事搭不上边吧。",
-            "emotion": "evasive"
-          },
-          {
-            "speaker": "沈清月",
-            "text": "陆公子，东西若砸不到这句话上，硬压只会显得你急。",
-            "emotion": "sharp"
-          },
-          {
-            "speaker": "凌瑶",
-            "text": "（低声）方向有点偏。他那句“也正常”像块松板子，找对东西一敲就响。",
-            "emotion": "worried"
-          }
-        ],
-        "statements": [
-          {
-            "id": "wang_1",
-            "speaker": "王大爷",
-            "text": "那晚我在江上收网。亥时过后，东汊那边闷闷一响，我抬头就看见船歪了。",
-            "press": [
-              {
-                "speaker": "你",
-                "text": "东汊——那片有暗礁的水道。本地人都知道危险。为什么船会走那里？",
-                "emotion": "cold"
-              },
-              {
-                "speaker": "王大爷",
-                "text": "那你得问船家了。跑了二十年的人……不该走那条道。",
-                "emotion": "evasive"
-              },
-              {
-                "speaker": "",
-                "text": "（老范的脸色变了。旱烟杆在手里转了一圈。）",
-                "emotion": "narration"
-              },
-              {
-                "speaker": "凌瑶",
-                "text": "（低声）二十年老船家走暗礁航道——至少不像一句“走错了”能说完。",
-                "emotion": "anxious"
-              },
-              {
-                "speaker": "沈清月",
-                "text": "陆公子，走暗礁也可能是涨水误判。二十年老船家——难道不比旁人更清楚水文？偶尔失手也是有的。",
-                "emotion": "objection"
-              }
-            ]
-          },
-          {
-            "id": "wang_2",
-            "speaker": "王大爷",
-            "text": "船翻没多久，就有人爬上南岸。手脚利索，不像刚从鬼门关里滚出来的。",
-            "press": [
-              {
-                "speaker": "你",
-                "text": "不到一刻钟？你确定？",
-                "emotion": "cold"
-              },
-              {
-                "speaker": "王大爷",
-                "text": "我就在江上收网呢。看得清清楚楚。月亮被云挡了，但那个人影——很快就上岸了。",
-                "emotion": "evasive"
-              },
-              {
-                "speaker": "凌瑶",
-                "text": "（低声）老范之前可是说自己'半个时辰才被人救起来'。不到一刻钟和半个时辰——差太远了。",
-                "emotion": "anxious"
-              },
-              {
-                "speaker": "",
-                "text": "（一个说不到一刻钟，一个说半个时辰。两种时间不可能同时成立。）",
-                "emotion": "inner_thought"
-              },
-              {
-                "speaker": "沈清月",
-                "text": "恕我直言——夜里在江上收网，月亮又被云挡了，王大爷真能看清是'一刻钟'还是'半个时辰'？也许两人说的都不准。",
-                "emotion": "objection"
-              }
-            ]
-          },
-          {
-            "id": "wang_3",
-            "speaker": "王大爷",
-            "text": "翻船前一天傍晚，码头上有一高一矮两个人碰面，说了“明天亥时”“走东汊”。不过跑船前合计路线，也不是稀奇事。",
-            "is_contradiction": true,
-            "counter_evidence": "evidence_wrong_channel",
-            "break_evidence": "evidence_wrong_channel",
-            "press": [
-              {
-                "speaker": "你",
-                "text": "你确定只是在'合计路线'？",
-                "emotion": "cold"
-              },
-              {
-                "speaker": "王大爷",
-                "text": "那……我就听到这么几个字。跑船的人嘛，出发前商量走哪条水路，不是很平常？",
-                "emotion": "evasive"
-              },
-              {
-                "speaker": "",
-                "text": "（一高一矮。高个子佝背——阿贵。矮个瘦竹竿——老范。如果只是正常商量路线，为什么要在傍晚偷偷碰面、压低声音？）",
-                "emotion": "inner_thought"
-              },
-              {
-                "speaker": "凌瑶",
-                "text": "（低声）'也正常'？——那得看他们商量的到底是什么。咱手里那件东西能把这句戳出声。",
-                "emotion": "anxious"
-              },
-              {
-                "speaker": "沈清月",
-                "text": "船家和帮工出发前商量路线——这在渡口再寻常不过。陆公子总不能因为两个人聊了几句话，就往杀人上扯吧？",
-                "emotion": "objection"
-              }
-            ],
-            "break_dialogue": [
-              {
-                "speaker": "你",
-                "text": "合计路线？正常？（看向王大爷）你自己都不信吧。",
-                "emotion": "cold"
-              },
-              {
-                "speaker": "你",
-                "text": "你自己说过——东汊那条水道，本地船家都知道有暗礁。涨水时更危险。",
-                "emotion": "cold"
-              },
-              {
-                "speaker": "你",
-                "text": "老范在这跑了二十年船。他不可能不知道。",
-                "emotion": "cold"
-              },
-              {
-                "speaker": "你",
-                "text": "一个二十年经验的老船家，'合计'出一条明知危险的航线？这不是'正常'——这是故意。",
-                "emotion": "cold"
-              },
-              {
-                "speaker": "",
-                "text": "堂上一片寂静。阿贵的脸色白了。",
-                "emotion": "narration"
-              },
-              {
-                "speaker": "王大爷",
-                "text": "（叹气）……合计路线？我那是自己安慰自己。早就觉得不对了。",
-                "emotion": "evasive"
-              }
-            ],
-            "wrong_reactions": {
-              "_default": [
-                {
-                  "speaker": "王大爷",
-                  "text": "陆公子，我说的是出发前有人碰面。你这证据跟那两个人说没说过话不搭边。",
-                  "emotion": "evasive"
-                },
-                {
-                  "speaker": "凌瑶",
-                  "text": "（低声）他把碰面说成寻常商量路线。要拆这句，得看那晚东汊本身有多不寻常。",
-                  "emotion": "worried"
-                }
-              ]
-            }
-          },
-          {
-            "id": "wang_4",
-            "speaker": "王大爷",
-            "text": "那晚雾是重，可风小的时候散开过。收网的人看水吃饭，眼力总比旁人尖些。",
-            "is_contradiction": true,
-            "counter_evidence": "evidence_cabin_escape_time",
-            "break_evidence": "evidence_cabin_escape_time",
-            "press": [
-              {
-                "speaker": "你",
-                "text": "你确定雾散了？能看清船上的人？",
-                "emotion": "cold"
-              },
-              {
-                "speaker": "王大爷",
-                "text": "散了些……至少月亮出来的时候能看清。我们打鱼的眼睛好使。",
-                "emotion": "evasive"
-              },
-              {
-                "speaker": "凌瑶",
-                "text": "（低声）他说雾散了些。那就核对案发夜的天气记录和岸距。",
-                "emotion": "determined"
-              },
-              {
-                "speaker": "你",
-                "text": "案发当晚有冬雨，江面有雾——你说月亮出来了？",
-                "emotion": "cold"
-              },
-              {
-                "speaker": "沈清月",
-                "text": "雾散雾聚本是常事。王大爷是老渔民，夜视能力确实比常人好些。陆公子不能拿天气来否定他亲眼所见。",
-                "emotion": "deflecting"
-              }
-            ],
-            "wrong_reactions": {
-              "_default": [
-                {
-                  "speaker": "王大爷",
-                  "text": "雾散没散，老头子心里有数。你拿这个出来，也不能让我当场认眼花吧。",
-                  "emotion": "evasive"
-                },
-                {
-                  "speaker": "凌瑶",
-                  "text": "（低声）他在替前面的目击补强。别跟他争眼力，想想陆公子落水后多久才被救起。",
-                  "emotion": "worried"
-                }
-              ]
-            }
-          },
-          {
-            "id": "wang_5",
-            "speaker": "王大爷",
-            "text": "船翻之后，我还瞧见沈姑娘在码头棚子底下没走。她站得久，像在等什么。",
-            "press": [
-              {
-                "speaker": "你",
-                "text": "沈姑娘？你确定看到的是她？",
-                "emotion": "cold"
-              },
-              {
-                "speaker": "王大爷",
-                "text": "错不了。高挑个子，穿着男装。在码头棚子底下站着，一直盯着江面。",
-                "emotion": "evasive"
-              },
-              {
-                "speaker": "凌瑶",
-                "text": "（低声）她说亥时之前就回客栈了——王大爷却说她一直在码头。时间对上了吗？",
-                "emotion": "anxious"
-              },
-              {
-                "speaker": "你",
-                "text": "穿男装的女子不止她一个？那你还记得别的特征吗？",
-                "emotion": "cold"
-              },
-              {
-                "speaker": "沈清月",
-                "text": "码头棚子底下避雨的人多了。穿男装的女子也不止我一个。陆公子不能因为一个模糊的身影就怀疑我。",
-                "emotion": "cooperative"
-              }
-            ]
-          }
-        ]
-      },
-      {
         "id": "testimony_lao_fan_route",
         "witness": "lao_fan",
         "title": "— 证人证词：老范其一·翻船原因 —",
@@ -2642,12 +2341,12 @@
           },
           {
             "speaker": "陆昭",
-            "text": "老范，你先坐下。接下来该阿贵说了。",
+            "text": "老范，先别坐下。船底和上岸时间都对不上。最后说动机：你为什么不会动手？",
             "emotion": "serious"
           },
           {
-            "speaker": "阿贵",
-            "text": "陆公子，小的说的都是真的！",
+            "speaker": "老范",
+            "text": "我跟周老爷无冤无仇！就一趟船钱，陆公子别把人往死里推。",
             "emotion": "panic"
           }
         ],
@@ -3206,7 +2905,7 @@
         "preamble": [
           {
             "speaker": "陆昭",
-            "text": "先坐下。别急着喊。你说你看见了，那就一件一件说。",
+            "text": "阿贵，先坐下。别急着喊。你说你看见了，那就一件一件说。",
             "emotion": "serious"
           },
           {
@@ -3313,7 +3012,7 @@
           {
             "id": "s0_1",
             "speaker": "阿贵",
-            "text": "三更刚过，我起来解手，看见他蹲在船底舱口，手里攥着铁家伙！",
+            "text": "三更刚过，我起来解手，看见他蹲在船底舱口，身边有个铁家伙！",
             "press": [
               {
                 "speaker": "你",
@@ -3322,7 +3021,7 @@
               },
               {
                 "speaker": "阿贵",
-                "text": "黑灯瞎火的看不清……但绝对是铁的！硬邦邦的！",
+                "text": "黑灯瞎火的看不清……但碰在木板上的声儿绝对是铁的！硬邦邦的！",
                 "emotion": "nervous"
               },
               {
@@ -3347,7 +3046,7 @@
               },
               {
                 "speaker": "沈清月",
-                "text": "黑灯瞎火看不清形状，但摸到是铁的——这两者并不矛盾。陆公子不要给一个惊恐的仆人太多压力。",
+                "text": "黑灯瞎火看不清形状，但听出铁器磕碰声——这两者并不矛盾。陆公子不要给一个惊恐的仆人太多压力。",
                 "emotion": "cooperative"
               }
             ]
@@ -3603,7 +3302,7 @@
           {
             "id": "s0_4",
             "speaker": "阿贵",
-            "text": "小的看得清！他蹲在船底舱口，一只手举着铁家伙，另一只手按着老爷脖子！",
+            "text": "小的看得清！他蹲在船底舱口，手边搁着铁家伙，另一只手像按着老爷脖子！",
             "is_contradiction": true,
             "counter_evidence": "evidence_no_blunt_trauma",
             "break_evidence": "evidence_no_blunt_trauma",
@@ -5216,8 +4915,8 @@
     "suspect": "shen_qingyue",
     "is_final": true,
     "background": "res://assets/cn/scenes/prologue_confrontation_hall.png",
-    "bgm": "confrontation_final",
-    "bgm_break": "ferry_court_opening",
+    "bgm": "ferry_confrontation",
+    "bgm_break": "ferry_inn_investigation",
     "bgm_break_actual": "Prelogue_Confrontation_Intro",
     "bgm_final_round": "confrontation_final",
     "confidence": 5,

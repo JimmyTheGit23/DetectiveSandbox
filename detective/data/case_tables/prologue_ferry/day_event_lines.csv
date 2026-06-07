@@ -72,7 +72,7 @@ evt_cabin_sinking,dialogue,62,凌瑶,陆昭，我真没跟谁串通。我就是�
 evt_cabin_sinking,dialogue,63,陆昭,我知道。不是他们反应快，是有人提前安排好了怎么指认我。,serious,
 evt_cabin_sinking,dialogue,64,凌瑶,阿贵说自己不会水，老范又偏偏把船开上暗礁。这两个人哪边都不对。,determined,
 evt_cabin_sinking,dialogue,65,陆昭,我差点死在船里。可阿贵和老范，好像都知道落水后该怎么办。,serious,
-evt_cabin_sinking,dialogue,66,钱里正,行。既然你说自己是被人栽的，那就别在雨里乱喊了。进客栈，把证人叫来，当面一条一条对。,stern,,,"{""bgm"": ""ferry_court_opening""}"
+evt_cabin_sinking,dialogue,66,钱里正,行。既然你说自己是被人栽的，那就别在雨里乱喊了。进客栈，把证人叫来，当面一条一条对。,stern,,,"{""bgm"": ""ferry_confrontation""}"
 evt_cabin_sinking,text,66a,,几个人被赶进客栈大堂。雨水顺着门槛往里淌，尸首先安在廊下，周氏哭着不肯走，也被人扶了进来。,,
 evt_cabin_sinking,text,66b,,钱里正先叫更夫和码头脚夫把昨夜的情形补成两张记录：一张记雾势和岸距，一张记风浪和江岸听声。纸不算漂亮，至少比空口强。,,,,"{""gain_evidence"": [""evidence_weather_fog"", ""evidence_storm_noise""]}"
 evt_cabin_sinking,text,66c,,王大爷原本缩在人群后头，被钱里正点了名，才慢吞吞走到中间。脸色不太自然。,,
