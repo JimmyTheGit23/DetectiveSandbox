@@ -116,7 +116,7 @@
   "endings": {
     "prologue_fixed": {
       "title": "「渡口余波」",
-      "narration": "石矶渡命案暂告一段落。阿贵和老范被押往县衙，沈清月因物证唯一指向不足暂时脱身。\n\n陆昭恢复身份，却也看清了第一条裂缝：真相需要证据，证据还必须经得住律法的门槛。\n\n沉船残骸中浮出的官印封角和漕账残页，把案子引向更深的水面。\n\n第一案 · 浔阳楼，即将开启。"
+      "narration": "石矶渡命案暂告一段落。阿贵和老范被押往县衙，沈清月借着律法门槛暂时脱身。\n\n陆昭恢复身份，却也看清了第一条裂缝：真相需要证据，证据还必须经得住律法的门槛。\n\n沉船残骸中浮出的官印封角和漕账残页，把案子引向更深的水面。\n\n第一案 · 浔阳楼，即将开启。"
     }
   },
   "confrontation_wang": {
@@ -125,80 +125,80 @@
     "background": "res://assets/cn/scenes/prologue_confrontation_hall.png",
     "bgm": "ferry_confrontation",
     "bgm_break": "ferry_court_opening",
-    "bgm_break_actual": "ferry_court_opening",
+    "bgm_break_actual": "Prelogue_Confrontation_Intro",
     "bgm_final_round": "ferry_confrontation",
     "confidence": 5,
     "intro_dialogue": [
       {
         "speaker": "钱里正",
-        "text": "都安静。人命案，不许在这儿抢着定人。",
+        "text": "都别吵。人命案，不是谁哭得响谁就有理。",
         "emotion": "stern"
       },
       {
         "speaker": "钱里正",
-        "text": "这位陆公子说自己是被栽的。周娘子说他害了人。今天不靠喊，靠证据。",
+        "text": "陆公子说自己被栽了，周娘子说他害了人。今天把嘴收一收，把证据拿出来。",
         "emotion": "stern"
       },
       {
         "speaker": "周氏",
-        "text": "我只要一个明白！我家老爷不能这么白死！",
+        "text": "我不管谁会说话！我只要知道，我家老爷到底怎么死的！",
         "emotion": "grief"
       },
       {
         "speaker": "沈清月",
-        "text": "里正大人这话对。既然有证人，就把证人请到前面来。是真是假，堂上见。",
+        "text": "那就让证人站出来。是真是假，别在后头嚷，拿到堂前说。",
         "emotion": "cooperative"
       },
       {
         "speaker": "钱里正",
-        "text": "王大爷，别缩在后头了。你到中间来，只说你看见的、听见的。",
+        "text": "王大爷，别躲了。到中间来。看见什么，说什么；没看见的，别添油。",
         "emotion": "stern"
       },
       {
         "speaker": "王大爷",
-        "text": "……行。我把那晚的话，再说一遍。",
+        "text": "……行。老头子不添。那晚的事，我再说一遍。",
         "emotion": "evasive"
       },
       {
         "speaker": "陆昭",
-        "text": "好。你只管说。我会按证据一条一条问清楚。",
+        "text": "说慢些。看见的、听见的、自己猜的，分开说。",
         "emotion": "determined"
       },
       {
         "speaker": "沈清月",
-        "text": "陆公子，货银失踪、来历无凭，又是同船生还者。你若拿不出东西，只说自己冤枉，恐怕服不了众。",
+        "text": "陆公子，货银没了，人也死了。你又偏偏活着。若只说一句冤枉，这堂里没人敢信。",
         "emotion": "sharp"
       },
       {
         "speaker": "陆昭",
-        "text": "我明白。所以我不跟你们争嘴。我把昨晚的事，一条一条说清楚。",
+        "text": "我知道。所以今天不靠一句冤枉翻身。",
         "emotion": "serious"
       },
       {
         "speaker": "凌瑶",
-        "text": "别急。把他说的分三小堆：眼睛看见的、耳朵听见的、脑袋猜出来的。我帮你看哪一堆先散。",
+        "text": "别急着顶回去。老人家一句话里有眼睛、有耳朵，还有脑补。咱们先把它们拆开。",
         "emotion": "determined"
       }
     ],
     "defeat_dialogue": [
       {
         "speaker": "钱里正",
-        "text": "证据不够。你说的话站不住，今天的堂就到这儿。",
+        "text": "不行。话说到这里，还是压不住这份证词。今天先到这儿。",
         "emotion": "stern"
       },
       {
         "speaker": "沈清月",
-        "text": "陆公子，没有实证的清白只是自说自话。回去把证据补齐了再来。",
+        "text": "陆公子，清白不是喊出来的。你要让人信，就带一件能砸在桌上的东西回来。",
         "emotion": "sharp"
       },
       {
         "speaker": "凌瑶",
-        "text": "别低头。咱们手里还有东西没用上。回去重新理一遍，下次别让他混过去。",
+        "text": "别低头。他有破绽，只是我们刚才没咬准。回去重排一遍，下次别让他缩回雾里。",
         "emotion": "determined"
       },
       {
         "speaker": "陆昭",
-        "text": "……我知道了。",
+        "text": "……好。再来。",
         "emotion": "serious"
       }
     ],
@@ -206,62 +206,72 @@
       {
         "id": "testimony_wang_self",
         "witness": "fisherman_wang",
-        "title": "— 王大爷的证词：我亲眼所见 —",
+        "title": "— 王大爷的证词：我看见了船头的人 —",
         "preamble": [
           {
             "speaker": "钱里正",
-            "text": "王大爷，站到中间来。把你昨晚看见的，再说一遍。",
+            "text": "王大爷，站近些。昨晚看见什么，再说一遍。",
             "emotion": "stern"
           },
           {
             "speaker": "王大爷",
-            "text": "……好。我说我看见的。别的我不添。",
+            "text": "……好。老头子说看见的，不添枝。",
             "emotion": "evasive"
           },
           {
             "speaker": "陆昭",
-            "text": "你只管说。哪些是亲眼所见，哪些是推断，说清楚。",
+            "text": "看见的归看见，猜的归猜的。别混。",
             "emotion": "serious"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）先别抢着反驳。把看见、听见、猜的事分开装好，别让他一锅煮了。",
+            "text": "（低声）别急着顶。他要是一锅煮，咱们就一筷子一筷子夹出来。",
             "emotion": "determined"
           }
         ],
         "readthrough_end_hint": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）三小堆：人影、喊声、上岸时间。先挑能跟证据碰一碰的那堆。",
+            "text": "（低声）先咬他怎么认出你的。脸都没看清，别让沈清月把话拖去别处。",
             "emotion": "determined"
           }
         ],
         "transition_dialogue": [
           {
             "speaker": "王大爷",
-            "text": "……我该说的说完了。",
+            "text": "……我认岔了。脸是真没看清。",
             "emotion": "guilty"
           },
           {
+            "speaker": "周氏",
+            "text": "那你刚才咬得那么死——！",
+            "emotion": "grief"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "夜里眼花，不等于耳朵也坏。周娘子，先听老人家把后头那句说完。",
+            "emotion": "sharp"
+          },
+          {
             "speaker": "陆昭",
-            "text": "好。那就从能核对的地方开始。",
+            "text": "好。眼睛这句放下，耳朵那句拿上来。",
             "emotion": "determined"
           },
           {
             "speaker": "凌瑶",
-            "text": "别急着定真假。证词像线团，先找能拉动的那根。",
+            "text": "（低声）她马上把桌子从眼睛挪到耳朵。下一轮别让“听了个大概”装成“听清了字”。",
             "emotion": "determined"
           }
         ],
         "fail_dialogue": [
           {
             "speaker": "王大爷",
-            "text": "老头子说的都是实话。你要是不信，也得拿东西来压我。",
+            "text": "老头子没瞎编。你不信，也得拿东西压我。",
             "emotion": "evasive"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）先问他怎么能看清。雾和岸距是两道门槛，哪一道都不能含糊。",
+            "text": "（低声）先问他怎么看清。雾、距离，哪一道都不能让他含糊过去。",
             "emotion": "worried"
           }
         ],
@@ -269,7 +279,7 @@
           {
             "id": "wang_s1",
             "speaker": "王大爷",
-            "text": "那天夜里我在岸边收网。船翻之前，我看见船头那边晃着两个人影。",
+            "text": "那晚我在岸边收网。船翻之前，船头那边晃着两个人影。",
             "press": [
               {
                 "speaker": "陆昭",
@@ -313,9 +323,105 @@
             }
           },
           {
+            "id": "wang_s1a",
+            "speaker": "王大爷",
+            "text": "一高一矮，隔得不近。高个儿在船头外侧，矮个儿靠着舱口。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "一高一矮。你认的是身形，不是脸？",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "是。夜里先认高矮胖瘦，再认别的。",
+                "emotion": "evasive"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "也就是说，这句还是“影子”，不是“人”。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）对。先把他看见的东西压回“影子”这一级，别让它自己长出名字。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "夜里江上，目击先见轮廓本就是常情。陆公子不必装作这是什么大破绽。",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
+            "id": "wang_s1b",
+            "speaker": "王大爷",
+            "text": "江上有雾，可那两个人影搅在一起，不像好好说话。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "你说不像平静说话。是看见拉扯了，还是只看见影子晃？",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "隔得远……就是瞧着晃得厉害，比寻常说话动静大。",
+                "emotion": "evasive"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "好。你看到的是“晃得厉害”，不是“谁推谁拽”。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）这句也别让它长出手脚。他看到的是乱，不是动作细节。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "争执本就会有动作起伏。陆公子把每个词都削薄，也削不掉当时气氛不对。",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
+            "id": "wang_s1c",
+            "speaker": "王大爷",
+            "text": "我当时心里就咯噔一下：这夜里、这江面，怎么还在船头扯来扯去？",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "你心里咯噔一下，所以才往后越想越重？",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "出了人命，谁能不往坏处想……老头子承认，后头是越想越怕。",
+                "emotion": "guilty"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "我记下了。先有担心，后有判断。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）这句说明他后面的“像谁”“像什么”，都掺了事后的怕。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "事后回想本就是查案常情。总不能因为人会害怕，就说他的感觉全不作数。",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
             "id": "wang_s2",
             "speaker": "王大爷",
-            "text": "雾是大，可船离岸不算太远。我认得出那高个就是陆公子。",
+            "text": "雾是大，可船离岸不算太远。那高个儿，我看着就是陆公子。",
             "is_contradiction": true,
             "counter_evidence": "evidence_weather_fog",
             "press": [
@@ -368,7 +474,7 @@
               },
               {
                 "speaker": "沈清月",
-                "text": "夜里只能认轮廓，也不等于他一定认错。陆公子别把“看不清脸”直接说成“没看见人”。",
+                "text": "夜里只能认轮廓，也不等于他一定认错。陆公子别把“看不清脸”说成“没看见人”。",
                 "emotion": "sharp"
               },
               {
@@ -403,7 +509,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）风浪打的是耳朵。这句卡在眼睛上，先用雾和岸距。",
+                  "text": "（低声）风浪打的是耳朵。这句卡在眼睛上，雾和岸距才碰得到它。",
                   "emotion": "worried"
                 }
               ],
@@ -415,7 +521,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）破洞管船底，不管眼力。先拿雾和岸距问他。",
+                  "text": "（低声）破洞是船底的事，眼睛这关还没过。昨晚那片雾和岸距，才是他绕不开的。",
                   "emotion": "worried"
                 }
               ],
@@ -444,11 +550,219 @@
                 }
               ]
             }
+          }
+        ]
+      },
+      {
+        "id": "testimony_wang_self_hearing",
+        "witness": "fisherman_wang",
+        "title": "— 王大爷的证词：我听见了船上的喊声 —",
+        "preamble": [
+          {
+            "speaker": "钱里正",
+            "text": "王大爷，只说喊声。别把前头后头都揉进去。",
+            "emotion": "stern"
+          },
+          {
+            "speaker": "王大爷",
+            "text": "……行。那就说喊声。",
+            "emotion": "evasive"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "能听出是在争执，就够说明船上出过事。陆公子别拿两个字，把整段话都抹了。",
+            "emotion": "sharp"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）她先把“大意”这个坑挖好了。等会儿她肯定往里退。",
+            "emotion": "determined"
+          }
+        ],
+        "readthrough_end_hint": [
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）他要从“听清了字”退成“大概是那个意思”。堂上要证词，不要脑补。",
+            "emotion": "determined"
+          }
+        ],
+        "transition_dialogue": [
+          {
+            "speaker": "王大爷",
+            "text": "……是。我没听清那两个字，是自己往那个意思上记的。",
+            "emotion": "guilty"
+          },
+          {
+            "speaker": "钱里正",
+            "text": "眼也花，耳也混……那你后头说陆公子很快上岸，总该有个准吧？",
+            "emotion": "stern"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "字句记不住，不等于连人上岸也看不见。里正大人，这两件事别搅在一起。",
+            "emotion": "sharp"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "正好。最后这句，也当堂掰开。",
+            "emotion": "determined"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）她把人按在“上岸快”这句上了。下一轮，她要冲我来了。",
+            "emotion": "worried"
+          }
+        ],
+        "fail_dialogue": [
+          {
+            "speaker": "王大爷",
+            "text": "老头子只是把听见的那个意思说出来。难不成听见人吵架也算错？",
+            "emotion": "evasive"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "争执的大意已经够了。陆公子若只抓两个字不放，未免太像绕着证词打转。",
+            "emotion": "sharp"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）别跟她辩“大意”。他说的是听清了字，还是只听了个意思，这两件事差得远。",
+            "emotion": "worried"
+          }
+        ],
+        "statements": [
+          {
+            "id": "wang_h0",
+            "speaker": "王大爷",
+            "text": "先是一阵喊。隔着风雨，我只知道那边吵起来了。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "你这句只说“争执”。也就是说，你一开始并没听清内容？",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "风雨太吵。先听见的就是一阵乱喊。",
+                "emotion": "evasive"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "好。我记下了。先是乱喊，后头你才往里添字。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）这句先记着。下一句他说“意思错不了”，正好能顺着往下追。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "争执先于船翻，这一点已经够说明船上不太平。陆公子若要问，就接着问。",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
+            "id": "wang_h1",
+            "speaker": "王大爷",
+            "text": "雨点砸船棚，浪头拍木板，耳朵都麻。可人声我分得出来。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "你分得出是“人的喊声”，却分不清具体喊了什么？",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "对。人声和风浪声，耳朵还是分得开的。字句就不敢咬死了。",
+                "emotion": "evasive"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "好。这句我也记下：先分得出是人喊，再谈内容。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）他说得还算老实。越老实，后面那两个字就越站不住。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "能分出是人喊就够说明船上有事。陆公子别故意把这层意义往小了压。",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
+            "id": "wang_h2",
+            "speaker": "王大爷",
+            "text": "像一个急着拦，一个硬要往前冲。中间还夹着木板磕碰的声儿。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "一个拦，一个冲。是你听出来的，还是后来自己拼出来的？",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "七分听，三分想。那阵子乱，老头子也只能这么说。",
+                "emotion": "guilty"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "也就是说，这句已经不全是耳朵听见的了。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）对，这句里开始掺“想”了。再往下一步，就是把意思说成字句。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "证人把听见的动静整理成能说的话，这难道有罪？陆公子未免吹毛求疵。",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
+            "id": "wang_h3",
+            "speaker": "王大爷",
+            "text": "我那会儿先听了个七七八八，等船身一歪，才把前头那些碎声往一块儿拼。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "你自己说了：是船歪之后，才把前头碎声往一处拼。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "是……出了事，人脑子就会自己往一处归拢。",
+                "emotion": "guilty"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "所以后面那句“意思错不了”，不是当场听清，是事后拼成的。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）这句很关键。不是录口供，是在拼画面。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "事后回想不等于事后编造。陆公子别偷换这一步。",
+                "emotion": "sharp"
+              }
+            ]
           },
           {
             "id": "wang_s3",
             "speaker": "王大爷",
-            "text": "我还听见有人喊“银子”“别走”。紧跟着船身一歪，周老板就没了声。",
+            "text": "那意思错不了。有人喊“银子”，有人喊“别走”。紧跟着船身一歪，周老板就没声了。",
             "is_contradiction": true,
             "counter_evidence": "evidence_storm_noise",
             "press": [
@@ -511,7 +825,7 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）听清字句这点也站不稳了。还剩上岸时间，那句能直接对救起记录。",
+                "text": "（低声）听清字句这点也站不稳了。还剩上岸时间，那句正好能和救起记录碰一碰。",
                 "emotion": "determined"
               }
             ],
@@ -536,7 +850,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）逃生时间不对这句。这句要看风浪声。",
+                  "text": "（低声）逃生时间不碰这句。风浪声才碰得到他刚才那两个字。",
                   "emotion": "worried"
                 }
               ],
@@ -555,7 +869,7 @@
               "_default": [
                 {
                   "speaker": "王大爷",
-                  "text": "陆公子，这东西也不能证明老头子听岔了吧？",
+                  "text": "陆公子，这东西跟老头子听没听岔，不搭边吧？",
                   "emotion": "evasive"
                 },
                 {
@@ -565,11 +879,96 @@
                 }
               ]
             }
+          }
+        ]
+      },
+      {
+        "id": "testimony_wang_self_escape",
+        "witness": "fisherman_wang",
+        "title": "— 王大爷的证词：后来上岸的那个人 —",
+        "preamble": [
+          {
+            "speaker": "钱里正",
+            "text": "王大爷，最后一件。那个人上岸，到底是不是陆公子？你再说一遍。",
+            "emotion": "stern"
           },
+          {
+            "speaker": "王大爷",
+            "text": "……老头子只记得，那人上岸很快。",
+            "emotion": "evasive"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "王大爷，想清楚再开口。记错是老眼昏花；收了钱又当堂翻口乱咬人，县衙可不会只当你糊涂。",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）看见没？她不是讲理，是拿县衙吓他。越吓，越说明这句要命。",
+            "emotion": "determined"
+          }
+        ],
+        "readthrough_end_hint": [
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）就盯“很快上岸”这句。她想把时间线揉烂，你别让她得手。",
+            "emotion": "determined"
+          }
+        ],
+        "transition_dialogue": [
+          {
+            "speaker": "钱里正",
+            "text": "……够了。王大爷这份指认，不能作准。",
+            "emotion": "stern"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "我要的就是这句。拿来钉我的那根钉子，松了。",
+            "emotion": "cold"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "慢着。王大爷收钱，顶多说明后头补的话不稳。可陆公子，也别急着把自己洗白。",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "你说自己上岸时快没气了。除了凌姑娘，谁替你看见了？",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）她不替王大爷收尾了。她冲着我来了。",
+            "emotion": "worried"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "好。既然你要问，那就当堂问清楚。",
+            "emotion": "cold"
+          }
+        ],
+        "fail_dialogue": [
+          {
+            "speaker": "王大爷",
+            "text": "老头子记不清刻数……可那人上岸是真快。",
+            "emotion": "evasive"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "老人家已经把话让到这份上了。陆公子若还想拿一团模糊时辰逼成作伪，未免太急。",
+            "emotion": "sharp"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）别让她把“模糊时辰”说成“都不重要”。救起笔录在手里，她绕不过去。",
+            "emotion": "worried"
+          }
+        ],
+        "statements": [
           {
             "id": "wang_s4",
             "speaker": "王大爷",
-            "text": "没过多久，陆公子就自己上了岸，脚下还站得住，可不像快淹死的人。",
+            "text": "没过多久，陆公子就上了岸，脚下还站得住，不像快淹死的人。",
             "is_contradiction": true,
             "counter_evidence": "evidence_cabin_escape_time",
             "press": [
@@ -629,6 +1028,11 @@
                 "speaker": "周氏",
                 "text": "那你刚才到底是在替谁说话？！",
                 "emotion": "interrogating"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "王大爷，想清楚再答。记错是糊涂；可若收钱作伪、又想当堂攀咬别人，伪证、受贿、诬告三桩并罚，县衙查下来，你那条渔船和渡牌都保不住。",
+                "emotion": "cold_fury"
               },
               {
                 "speaker": "王大爷",
@@ -708,9 +1112,73 @@
             }
           },
           {
+            "id": "wang_s4a",
+            "speaker": "王大爷",
+            "text": "那人上岸利索，手撑一下岸边石头，就往上爬，没怎么打晃。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "你说那人先撑石头、再往上爬。你看清的是动作顺序？",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "大概就是这么个样子。反正那人上岸不狼狈。",
+                "emotion": "evasive"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "不狼狈，是你的判断；动作顺序，却还是个大概。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）他说得像看清了，其实还在“差不多”“大概”里打转。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "老人家能记得上岸的大势已是不易。陆公子不必把每一步都逼成木尺量出来的数。",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
+            "id": "wang_s4b",
+            "speaker": "王大爷",
+            "text": "我当时就想：这要真是刚从翻船里挣出来的，未免太快了。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "你觉得“太快”，所以越发认定那个人不是快淹死的人？",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "是。老头子见过落水的人，上岸不是那个样子。",
+                "emotion": "evasive"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "好。那这句其实是你的经验判断，不是单纯目击。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）对，他在拿经验往目击上盖章。盖不盖得住，得靠后面的实证拆。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "老渔民在江上活了几十年，他的经验本就是证词的一部分。陆公子别把它全划掉。",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
             "id": "wang_s5",
             "speaker": "王大爷",
-            "text": "后来周老板死了，货银也没找着。里正问我是不是陆公子嫌疑最大，我……我当时没敢反驳。",
+            "text": "后来周老板死了，货银也没找着。里正问我是不是陆公子嫌疑最大，我……没敢反驳。",
             "press": [
               {
                 "speaker": "陆昭",
@@ -747,11 +1215,344 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）这句更像态度，不是能直接出证的事实。先回到前面那些能敲响的句子。",
+                  "text": "（低声）这句更像态度，不是能当场咬住的事实。回前面，找那些一碰就响的句子。",
                   "emotion": "worried"
                 }
               ]
             }
+          },
+          {
+            "id": "wang_s5a",
+            "speaker": "王大爷",
+            "text": "周娘子哭得厉害，堂里又乱。问到那儿，我脑子一热，就顺着点了头。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "你点头，是因为堂里乱，还是因为你真觉得嫌疑最大？",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "都有……可更多是乱。周娘子一哭，里正一问，我就怯了。",
+                "emotion": "guilty"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "也就是说，这句掺了堂上的气氛，不只是你的见闻。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）对。不是看见的，是被场面推着往前走了半步。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "人命案前众人心乱，证人受气氛影响并不稀奇。陆公子别把常情全说成作伪。",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
+            "id": "wang_s5b",
+            "speaker": "王大爷",
+            "text": "可要说亲眼看见陆公子害人，老头子没有。后头那些，是我越想越怕，越说越满。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "你终于肯说了：你没亲眼看见我害人。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "王大爷",
+                "text": "没有。老头子能认这个。",
+                "emotion": "guilty"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "好。那后面那层“越想越满”，我也一并记下。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）这句差不多把他整份指认的根子掀出来了。前头是看见一点，后头是自己补一片。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "证人承认自己说满了，不等于前头看见听见的部分就全不能信。陆公子别想一笔抹平。",
+                "emotion": "sharp"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "testimony_wang_shen_counter",
+        "witness": "fisherman_wang",
+        "title": "— 沈清月的反压：你拿什么证明自己没做局 —",
+        "mode": "forced_proof",
+        "proof_statement_id": "wang_shen_1",
+        "proof_evidence": "evidence_lingyao_identity",
+        "proof_prompt": "沈清月质疑凌瑶来历不明。必须出示能证明凌瑶身份、并证明她不是串供者的证物。",
+        "skip_title_card": true,
+        "preamble": [
+          {
+            "speaker": "沈清月",
+            "text": "里正大人，既然陆公子说王大爷认错了人，那他的“无辜”也该上桌验一验。",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "他说自己昏迷许久，可这话全靠凌瑶撑着。一个昨夜才冒出来的姑娘，凭什么比王大爷几十年的江上眼睛更可信？",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）好家伙，她这是要把我连人带凳子掀出堂去。",
+            "emotion": "anxious"
+          },
+          {
+            "speaker": "陆昭",
+            "text": "别绕。你怀疑她哪一点，直说。",
+            "emotion": "cold"
+          }
+        ],
+        "readthrough_end_hint": [
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）她压的是“我是谁”。别跟她吵人品，拿能砸桌子的东西。",
+            "emotion": "determined"
+          }
+        ],
+        "transition_dialogue": [
+          {
+            "speaker": "钱里正",
+            "text": "金鳞镖局的铜牌在此，客栈掌柜也认得这位凌姑娘。她不是雨夜里凭空钻出来替谁圆话的。",
+            "emotion": "stern"
+          },
+          {
+            "speaker": "沈清月",
+            "text": "……好。那这句，我收回。",
+            "emotion": "cracking"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（吐了口气）她总算松口了。再慢一步，她就把我和整条救人时间一起按进江里了。",
+            "emotion": "determined"
+          }
+        ],
+        "fail_dialogue": [
+          {
+            "speaker": "沈清月",
+            "text": "陆公子，若连凌姑娘为什么可信都说不清，那王大爷这份证词，顶多有瑕，不是作废。",
+            "emotion": "cold_fury"
+          },
+          {
+            "speaker": "凌瑶",
+            "text": "（低声）别跟她空讲“我不会骗人”。她打的是“我是谁”，就用能让堂上认得我的东西堵她。",
+            "emotion": "worried"
+          }
+        ],
+        "statements": [
+          {
+            "id": "wang_shen_0",
+            "speaker": "沈清月",
+            "text": "里正大人，王大爷翻口，顶多说明后头补的话不稳。可陆公子嘴里的话，也不能因此句句成真。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "所以在你看来，王大爷翻口不算什么。你要连我的说法一起压回去？",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "正是。拆掉一份坏证词，不等于另一份说辞自动成真。",
+                "emotion": "cold_fury"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "好。那你就一条一条来，我一条一条答。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）她在抢“最后裁题”。别急，等她把矛头对准哪一条，我们就打哪一条。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "陆公子既然不怕问，那就别只躲在“王大爷说错了”后头。",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
+            "id": "wang_shen_0a",
+            "speaker": "沈清月",
+            "text": "陆公子说自己昏迷许久，说得像铁板钉钉。可这块铁板，是谁替他托着？",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "你说“谁替我把时间线立起来的”。你怀疑的是人，不是时辰本身。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "人若不可信，时辰再漂亮也是空架子。",
+                "emotion": "cold_fury"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "也就是说，你接下来要拆的，是作证的人。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）对上了。她不碰救起经过，她先碰我。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "证人若站不住，陆公子方才那些推论自然也都跟着塌。",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
+            "id": "wang_shen_0b",
+            "speaker": "沈清月",
+            "text": "不是王大爷，不是周家人，也不是客栈旧识。偏偏是昨夜才到渡口的凌姑娘。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "你反复提“昨夜才露面”。你是想说，她可以跟我临时串供？",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "陌生、来历不清、又恰好救了你。这样的巧合，当然该查。",
+                "emotion": "cold_fury"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "查可以。可你得拿得出她可疑在哪里。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）她就是想把“巧”说成“假”。别跟她讲运气，讲身份。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "若连“她是谁”都说不明白，那你凭什么让堂上信她？",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
+            "id": "wang_shen_0c",
+            "speaker": "沈清月",
+            "text": "若她自己站不稳，那所谓“救起时间”，也不过是另一份经不起查的说辞。",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "所以你最后还是要把话落到“凌瑶不可信”上。",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "不错。证人不可信，时间线就不可信。",
+                "emotion": "cold_fury"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "那就不必再绕。下一句，你把怀疑冲她本人来。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）她快把刀递出来了。等她说“来历不明”，你就出牌。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "陆公子若没有实证，这条线我当堂就能替你拆回去。",
+                "emotion": "sharp"
+              }
+            ]
+          },
+          {
+            "id": "wang_shen_1",
+            "speaker": "沈清月",
+            "text": "陆公子说自己落水后昏迷许久，可这话全靠凌瑶一人撑着。她昨夜才在渡口现身，来历谁验过？这样的证词，凭什么压过王大爷几十年江上的眼睛？",
+            "is_contradiction": true,
+            "counter_evidence": "evidence_lingyao_identity",
+            "press": [
+              {
+                "speaker": "陆昭",
+                "text": "你怀疑凌瑶的证词，那就说具体点。你到底是不信她的人，还是不信她的话？",
+                "emotion": "serious"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "两者都可疑。一个来历不明的人，凭什么叫人信她一句“我救了你”？",
+                "emotion": "cold_fury"
+              },
+              {
+                "speaker": "陆昭",
+                "text": "好。那我们就先验她的人，再验她的话。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "（低声）她咬的就是“我是谁”。别急着替我分辩，把铜牌放到桌上，让堂里自己看。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "若拿不出实证，陆公子方才那套“时间线”，也不过是另一份自说自话。",
+                "emotion": "sharp"
+              }
+            ],
+            "break_dialogue": [
+              {
+                "speaker": "你",
+                "text": "凭这个。凌瑶的镖局铜牌。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "金鳞镖局镖师铜牌。她是押送急件途经石矶渡的镖师，昨夜才路过此地，和我素不相识。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "你",
+                "text": "正因为素不相识，她才不可能提前替我做局。你拿“来历不明”压她，这句站不住。",
+                "emotion": "cold"
+              },
+              {
+                "speaker": "凌瑶",
+                "text": "客栈掌柜昨夜也看过这块牌子。把他从江边拖回去的人是我，不是他先找上的我。",
+                "emotion": "determined"
+              },
+              {
+                "speaker": "钱里正",
+                "text": "若凌姑娘身份可验，那她关于救起时间的说法就不是空口白话。这条时间线，能作数。",
+                "emotion": "stern"
+              },
+              {
+                "speaker": "沈清月",
+                "text": "……",
+                "emotion": "cracking"
+              },
+              {
+                "speaker": "你",
+                "text": "所以王大爷这份指认，不是“还有一半能信”。是从根子上就拿不稳。",
+                "emotion": "cold"
+              }
+            ]
           }
         ]
       }
@@ -762,78 +1563,78 @@
     "background": "res://assets/cn/scenes/prologue_confrontation_hall.png",
     "bgm": "ferry_confrontation",
     "bgm_break": "ferry_court_opening",
-    "bgm_break_actual": "ferry_court_opening",
+    "bgm_break_actual": "Prelogue_Confrontation_Intro",
     "bgm_final_round": "ferry_confrontation",
     "confidence": 6,
     "intro_dialogue": [
       {
         "speaker": "",
-        "text": "客栈大堂临时清出一块地方。外头还在下雨，里头谁也坐不安稳。",
+        "text": "客栈大堂被临时清出一块空地。雨水顺着门槛往里渗，没人顾得上擦。",
         "emotion": "narration"
       },
       {
         "speaker": "",
-        "text": "阿贵缩在角落，老范站在门边，周氏红着眼守着灵位。钱里正站在正中，嗓子都绷紧了。",
+        "text": "阿贵缩在角落，老范靠着门框，周氏红着眼守在灵位旁。钱里正站在中间，手心一直在搓。",
         "emotion": "narration"
       },
       {
         "speaker": "钱里正",
-        "text": "都安静。今天把人叫来，是要把那条船怎么翻的，当着大家的面说清楚。",
+        "text": "都别抢话。今天不是吵架，是把那条船怎么翻的，当众掰清楚。",
         "emotion": "stern"
       },
       {
         "speaker": "",
-        "text": "人群一阵骚动。阿贵低下头去，肩膀缩得更紧了。",
+        "text": "人群低低躁动。阿贵把头埋得更低，像恨不得钻进地缝里。",
         "emotion": "narration"
       },
       {
         "speaker": "钱里正",
-        "text": "陆公子……你说有证据。那——就当着大家的面说清楚吧。",
+        "text": "陆公子……你说有证据。那就放到桌上。别让大家空等。",
         "emotion": "stern"
       },
       {
         "speaker": "阿贵",
-        "text": "里正大人！不要听他的！是他杀了老爷！那天夜里我亲眼看见他蹲在船舱里——手里攥着个铁家伙！他才是凶手！",
+        "text": "里正大人！别听他绕！是他杀了老爷！我亲眼看见他蹲在船底，手里攥着铁家伙！",
         "emotion": "angry"
       },
       {
         "speaker": "陆昭",
-        "text": "我不躲。你说我害人，我会一条一条回应。但先让大家把话说完，别再靠喊声压人。",
+        "text": "我不躲。你指我，我就听着。但喊得越响，不等于越真。",
         "emotion": "serious"
       },
       {
         "speaker": "沈清月",
-        "text": "里正大人，我受周娘子所托在此旁听。陆公子若要把船家和仆从都拖成共犯，证据必须比他的推测更硬。",
+        "text": "里正大人，我受周娘子所托在此旁听。陆公子要把船家和仆从都拖下水，可以，证据得比这雨还密。",
         "emotion": "cooperative"
       },
       {
         "speaker": "沈清月",
-        "text": "浮囊也好、航道也好，都可能只是船上常备用具与行船失误。若只凭\"可能\"，那人人都能成凶手。",
+        "text": "浮囊、航道、旧船板，哪一样不能有旁的解释？若只凭“可疑”，堂里人人都洗不干净。",
         "emotion": "sharp"
       },
       {
         "speaker": "陆昭",
-        "text": "好。王大爷，你先说。你别怕，只说你亲眼看见、亲耳听见的。",
+        "text": "王大爷，先从你说。别替谁圆，也别替谁加罪。",
         "emotion": "serious"
       },
       {
         "speaker": "凌瑶",
-        "text": "让他说完整。话说得越细，前后越容易对不上。",
+        "text": "让他说细。谎话最怕细，一细就会露线头。",
         "emotion": "determined"
       },
       {
         "speaker": "",
-        "text": "外头雨声不停。大堂里谁都不敢先松这口气。",
+        "text": "外头雨声不停。堂里的人连咳嗽都压低了。",
         "emotion": "narration"
       },
       {
         "speaker": "凌瑶",
-        "text": "都到齐了。你负责问，我帮你盯着谁说漏嘴。",
+        "text": "人都齐了。你问你的，我看谁先把眼睛挪开。",
         "emotion": "cheerful"
       },
       {
         "speaker": "陆昭",
-        "text": "好。那就从头开始。谁也别抢，谁也别漏。",
+        "text": "好。从第一句开始。谁也别替谁抢。",
         "emotion": "determined"
       }
     ],
@@ -850,12 +1651,12 @@
       },
       {
         "speaker": "凌瑶",
-        "text": "……他不说话了。刚才那股喊冤的劲儿，像被雨浇灭了。",
+        "text": "……他没声了。刚才喊得那么凶，现在连喘气都怕被人听见。",
         "emotion": "worried"
       },
       {
         "speaker": "陆昭",
-        "text": "阿贵。你说的铁器打人站不住，浮囊和船底也都对不上。还有那张二两银子的遣散字据……你别再替别人扛了。",
+        "text": "阿贵。铁器打人的话垮了，浮囊也解释不清，船底更不是暗礁撞的。还有那张二两银子的字据……别再替别人扛。",
         "emotion": "serious"
       },
       {
@@ -870,7 +1671,7 @@
       },
       {
         "speaker": "凌瑶",
-        "text": "他认了？！我袖子都挽好了，结果他先垮了。",
+        "text": "他认了？！我袖子都挽好了，拳头还没派上用场呢。",
         "emotion": "shocked"
       },
       {
@@ -885,17 +1686,17 @@
       },
       {
         "speaker": "凌瑶",
-        "text": "什么？！你是说——连那张二两银子的破纸，都是别人塞到你眼前的？这人也太会挑伤口了。",
+        "text": "什么？！连那张二两银子的破纸，都是有人挑给他看的？这人下手真会找疼处。",
         "emotion": "shocked"
       },
       {
         "speaker": "",
-        "text": "阿贵的恨——十二年的怨——不是自然积累的。有人在背后推了一把，让周德茂做出了那个决定。让阿贵的仇恨彻底爆发。",
+        "text": "阿贵的恨不是忽然长出来的。有人把十二年的旧伤翻开，又往里撒了一把盐。",
         "emotion": "inner_thought"
       },
       {
         "speaker": "陆昭",
-        "text": "……谁？谁跟周德茂说的？",
+        "text": "谁。谁去找过周德茂？",
         "emotion": "serious"
       },
       {
@@ -905,7 +1706,7 @@
       },
       {
         "speaker": "凌瑶",
-        "text": "如果遣散也是别人挑起来的……阿贵不是自己掉进去的，是有人在背后轻轻推了一把。",
+        "text": "如果遣散也是别人挑起来的……那阿贵不是自己掉下去的，是被人推到边上再松手。",
         "emotion": "worried"
       },
       {
@@ -925,7 +1726,7 @@
       },
       {
         "speaker": "凌瑶",
-        "text": "不是你？那是谁把坏主意塞进你脑袋里的？！别说没人，没人能把船底都讲得这么细。",
+        "text": "不是你？那是谁教你的？！别说没人，没人会平白知道船底该凿哪一块。",
         "emotion": "shocked"
       },
       {
@@ -975,12 +1776,12 @@
       },
       {
         "speaker": "",
-        "text": "浮囊上那种过细的密封缝，不像船工手艺。之前的疑点，现在对上了。",
+        "text": "浮囊上的密封缝太细，不像老船工随手缝的。之前那点别扭，终于有了名字。",
         "emotion": "inner_thought"
       },
       {
         "speaker": "凌瑶",
-        "text": "等等……浮囊如果是她买的，那它就不是普通包袱，是牵到她袖口上的线。",
+        "text": "等等……浮囊要是她买的，那就不是包袱，是拴在她袖口上的线。",
         "emotion": "shocked"
       },
       {
@@ -995,12 +1796,12 @@
       },
       {
         "speaker": "凌瑶",
-        "text": "她才是主谋。阿贵的恨、老范的债，都被她拿来使了。",
+        "text": "她才是躲在后面的人。阿贵的恨、老范的债，都被她当成刀柄握着。",
         "emotion": "worried"
       },
       {
         "speaker": "陆昭",
-        "text": "阿贵。你说出来，至少没再替她挡着。可周德茂死了，该偿的罪也躲不过去。",
+        "text": "阿贵。你肯说出来，至少没再替她挡刀。可周德茂死了，该偿的罪也躲不过去。",
         "emotion": "serious"
       },
       {
@@ -1045,12 +1846,12 @@
       },
       {
         "speaker": "钱里正",
-        "text": "先前周氏那一闹、阿贵那一通指证——铁器打人也好、天窗逃生也好——当时我觉得铁证如山。可你查过尸体——死人身上没伤，那套说法就不成立。是我没细想。",
+        "text": "先前周娘子一哭，阿贵一指，我脑子就热了。铁器打人、天窗逃生，听着像板上钉钉。可死人身上没伤，是我没细想。",
         "emotion": "nervous"
       },
       {
         "speaker": "钱里正",
-        "text": "阿贵先关柴房。您要查谁——我全力配合。两天的事……不提了不提了。",
+        "text": "阿贵先关柴房。您要查谁，我让人带路。前头那两天……是我眼浊，认。",
         "emotion": "nervous"
       },
       {
@@ -1075,42 +1876,42 @@
       },
       {
         "speaker": "陆昭",
-        "text": "……不。她可能已经知道了。",
+        "text": "……不。她大概已经知道了。",
         "emotion": "serious"
       },
       {
         "speaker": "凌瑶",
-        "text": "那怎么办？直接去抓她？我可以先按住她，按得很有礼貌。",
+        "text": "那怎么办？现在去抓？我可以按住她，按得很客气。",
         "emotion": "anxious"
       },
       {
         "speaker": "陆昭",
-        "text": "不。光凭阿贵一个人的口供不够，她会说是诬陷。",
+        "text": "不够。阿贵一张嘴押不住她。",
         "emotion": "serious"
       },
       {
         "speaker": "陆昭",
-        "text": "还得再找证据。找到她没法反驳的那种。",
+        "text": "她会笑着说，是杀人犯攀咬。",
         "emotion": "determined"
       },
       {
         "speaker": "凌瑶",
-        "text": "等等——还有一颗钉子没落下。阿贵凿船、老范选航道，这些解释了船为什么沉。但——",
+        "text": "等等，还有一口气没顺。阿贵凿船，老范走东汊，这只说明船为什么沉。可周德茂为什么那么快没力气？",
         "emotion": "determined"
       },
       {
         "speaker": "凌瑶",
-        "text": "死者舌根的药残呢？周德茂会水，却很快失力，这才不对。而且——凿船位置是谁定的？阿贵说'全是她教的'。",
+        "text": "他会水。舌根那点药残也没解释清。还有凿船位置——阿贵说全是她教的。",
         "emotion": "determined"
       },
       {
         "speaker": "陆昭",
-        "text": "如果进水口有毒囊残留，凿船进水的那一刻毒就会扩散。周德茂不是溺水死的，是被毒到动不了才沉的。",
+        "text": "如果进水口真有毒囊，凿开的那一下，就是下毒的那一下。",
         "emotion": "serious"
       },
       {
         "speaker": "凌瑶",
-        "text": "阿贵不懂药。老范更不可能……能把凿船位置和毒理一起算进去的人，桌上只剩一个名字。",
+        "text": "阿贵不懂药，老范也不懂。能把船底、毒药、水流一起算的人，堂里只剩一个。",
         "emotion": "anxious"
       },
       {
@@ -1120,7 +1921,7 @@
       },
       {
         "speaker": "凌瑶",
-        "text": "好。那我们现在去——查她！赌坊那条线、码头的时间、进水口附近的残留、还有那五十两货银到底滚去哪了——",
+        "text": "好。那就查她。赌坊、码头、进水口，还有那五十两银子到底滚到哪儿去了——一个都别放过。",
         "emotion": "determined"
       },
       {
@@ -1152,12 +1953,12 @@
     "defeat_dialogue": [
       {
         "speaker": "阿贵",
-        "text": "陆公子，您说了这么多……都只是猜测吧。",
+        "text": "陆公子，您说得吓人……可说来说去，不还是猜吗？",
         "emotion": "defensive"
       },
       {
         "speaker": "阿贵",
-        "text": "没有实证，您不能定小的罪。",
+        "text": "没东西压在小的身上，您不能说小的杀人。",
         "emotion": "nervous"
       },
       {
@@ -1167,7 +1968,7 @@
       },
       {
         "speaker": "凌瑶",
-        "text": "哎，这回让他混过去了。不过别急，证据还在。咱们回去重排一遍，下次别给他说圆的机会。",
+        "text": "哎，这回让他滑过去了。别急，证据还在。下次别让他把话揉成一团。",
         "emotion": "worried"
       },
       {
@@ -1177,7 +1978,7 @@
       },
       {
         "speaker": "凌瑶",
-        "text": "走吧。回去把证物重新理一遍。不是没路，是刚才顺序乱了。",
+        "text": "走吧。回去把证物重新摆一遍。不是没路，是刚才没踩准。",
         "emotion": "worried"
       }
     ],
@@ -1189,41 +1990,41 @@
         "preamble": [
           {
             "speaker": "钱里正",
-            "text": "王大爷——你那天夜里在江上。看到了什么，就跟陆公子说说。",
+            "text": "王大爷，你那晚在江上。看到什么，听到什么，跟陆公子说。",
             "emotion": "nervous"
           },
           {
             "speaker": "王大爷",
-            "text": "（慢吞吞站起来，清了清嗓子）行。那就说说。",
+            "text": "（慢吞吞站起来，清了清嗓子）行。老头子说。",
             "emotion": "evasive"
           },
           {
             "speaker": "沈清月",
-            "text": "陆公子，王大爷只是说他听见和看见的事。若一上来就说成合谋，倒像是在替真正的问题开脱。",
+            "text": "陆公子，老人家只是说见闻。若一开口就扣成合谋，倒像你急着把真正的问题遮过去。",
             "emotion": "cooperative"
           }
         ],
         "readthrough_end_hint": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）证言说完了。她先替王大爷画了个框。别急着钻进去，哪句能和证据对上，你来挑。",
+            "text": "（低声）她先给王大爷画框了。别钻她框里，挑能和东西对上的那句。",
             "emotion": "determined"
           }
         ],
         "transition_dialogue": [
           {
             "speaker": "陆昭",
-            "text": "王大爷的证言至少说明——航道不是随口选的。有人提前谈过时间和路线。",
+            "text": "王大爷至少说明一件事：那条航道，不是临时走错。",
             "emotion": "cold"
           },
           {
             "speaker": "沈清月",
-            "text": "从几句话推成合谋，未免太快。合计路线不等于凿船杀人，更不等于老范有罪。",
+            "text": "几句话就推成合谋，太急了。谈路线不等于凿船，更不等于老范杀人。",
             "emotion": "sharp"
           },
           {
             "speaker": "陆昭",
-            "text": "所以现在问老范。那条船是你的，航道也是你选的。你来解释。",
+            "text": "所以问老范。船是你的，东汊也是你走的。你解释。",
             "emotion": "cold"
           },
           {
@@ -1233,7 +2034,7 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她把\"约定路线\"捏成了\"几句话\"。手法挺巧，可别让老范就这么躲进水雾里。",
+            "text": "（低声）她把\"约定路线\"捏成了\"几句话\"。手挺快，别让老范顺着雾躲了。",
             "emotion": "determined"
           }
         ],
@@ -1245,12 +2046,12 @@
           },
           {
             "speaker": "沈清月",
-            "text": "陆公子，若证物不能直接推翻这一句，继续硬压只会显得你急于定案。",
+            "text": "陆公子，东西若砸不到这句话上，硬压只会显得你急。",
             "emotion": "sharp"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）方向不太对。他那句'也正常'像块松木板，找东西一敲就知道结不结实。",
+            "text": "（低声）方向有点偏。他那句“也正常”像块松板子，找对东西一敲就响。",
             "emotion": "worried"
           }
         ],
@@ -1258,7 +2059,7 @@
           {
             "id": "wang_1",
             "speaker": "王大爷",
-            "text": "那天夜里我在江上收网。亥时过后——听见东汊那边一声闷响。然后就看见船翻了。",
+            "text": "那晚我在江上收网。亥时过后，东汊那边闷闷一响，我抬头就看见船歪了。",
             "press": [
               {
                 "speaker": "你",
@@ -1290,7 +2091,7 @@
           {
             "id": "wang_2",
             "speaker": "王大爷",
-            "text": "船翻之后，不到一刻钟——就有个人爬上了南岸。动作利索得很，不像是快淹死的人。",
+            "text": "船翻没多久，就有人爬上南岸。手脚利索，不像刚从鬼门关里滚出来的。",
             "press": [
               {
                 "speaker": "你",
@@ -1322,7 +2123,7 @@
           {
             "id": "wang_3",
             "speaker": "王大爷",
-            "text": "还有一件事。翻船前一天傍晚，码头上有两个人碰面。一高一矮，说了'明天亥时''走东汊'。——不过跑船的人出发前合计路线，也正常。",
+            "text": "翻船前一天傍晚，码头上有一高一矮两个人碰面，说了“明天亥时”“走东汊”。不过跑船前合计路线，也不是稀奇事。",
             "is_contradiction": true,
             "counter_evidence": "evidence_wrong_channel",
             "break_evidence": "evidence_wrong_channel",
@@ -1344,12 +2145,12 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）'也正常'？——那得看他们商量的到底是什么。咱手里的东西能说明问题。",
+                "text": "（低声）'也正常'？——那得看他们商量的到底是什么。咱手里那件东西能把这句戳出声。",
                 "emotion": "anxious"
               },
               {
                 "speaker": "沈清月",
-                "text": "船家和帮工出发前商量路线——这在渡口再寻常不过。陆公子总不能因为两个人聊了几句话就定罪吧？",
+                "text": "船家和帮工出发前商量路线——这在渡口再寻常不过。陆公子总不能因为两个人聊了几句话，就往杀人上扯吧？",
                 "emotion": "objection"
               }
             ],
@@ -1394,7 +2195,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）他把碰面说成寻常商量路线。要拆这句，得证明那晚走东汊本身不寻常。",
+                  "text": "（低声）他把碰面说成寻常商量路线。要拆这句，得看那晚东汊本身有多不寻常。",
                   "emotion": "worried"
                 }
               ]
@@ -1403,7 +2204,7 @@
           {
             "id": "wang_4",
             "speaker": "王大爷",
-            "text": "那晚江面上雾是重了点……但风小了之后就散了些。收网的人眼力好，看东西比一般人准。",
+            "text": "那晚雾是重，可风小的时候散开过。收网的人看水吃饭，眼力总比旁人尖些。",
             "is_contradiction": true,
             "counter_evidence": "evidence_cabin_escape_time",
             "break_evidence": "evidence_cabin_escape_time",
@@ -1438,7 +2239,7 @@
               "_default": [
                 {
                   "speaker": "王大爷",
-                  "text": "雾散没散，老头子心里有数。你拿这个出来，可不能说明我看错了人。",
+                  "text": "雾散没散，老头子心里有数。你拿这个出来，也不能让我当场认眼花吧。",
                   "emotion": "evasive"
                 },
                 {
@@ -1452,7 +2253,7 @@
           {
             "id": "wang_5",
             "speaker": "王大爷",
-            "text": "翻船之后我还瞧见——沈姑娘在码头棚子底下，一直没走。她好像在等人。",
+            "text": "船翻之后，我还瞧见沈姑娘在码头棚子底下没走。她站得久，像在等什么。",
             "press": [
               {
                 "speaker": "你",
@@ -1490,68 +2291,68 @@
         "preamble": [
           {
             "speaker": "钱里正",
-            "text": "老范，你别缩着。船是你的，你得说清楚。",
+            "text": "老范，别贴门边了。船是你的，你得说。",
             "emotion": "nervous"
           },
           {
             "speaker": "老范",
-            "text": "（咳了一声）我说。说错了，陆公子只管问。",
+            "text": "（咳了一声）我说。陆公子问，我不躲。",
             "emotion": "evasive"
           },
           {
             "speaker": "沈清月",
-            "text": "老范跑了二十年船，越是老船家越明白江上无常。陆公子若要把风浪说成谋杀，请先拿出硬证。",
+            "text": "老船家最知道江上翻脸快。陆公子要把风浪说成谋杀，先别靠脸色吓人。",
             "emotion": "cooperative"
           }
         ],
         "readthrough_end_hint": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）她想把这个洞塞进“天灾”的大口袋里。可那洞边太整齐了，先拿船底说话。",
+            "text": "（低声）她想把那个洞塞进“天灾”的大口袋。可洞边太齐，先让船底自己说话。",
             "emotion": "determined"
           }
         ],
         "transition_dialogue": [
           {
             "speaker": "陆昭",
-            "text": "这条船不是被浪打翻的。船底有人动过手脚。",
+            "text": "不是浪。船底被人动过。",
             "emotion": "serious"
           },
           {
             "speaker": "沈清月",
-            "text": "船底有洞也可能是旧船修补不当。陆公子，别把每个钉眼都看成杀意。",
+            "text": "旧船有补痕，不稀奇。陆公子，别见一个钉眼就叫杀意。",
             "emotion": "sharp"
           },
           {
             "speaker": "老范",
-            "text": "（脸色发白）陆公子……船、船底那事，我真的不知道……",
+            "text": "（脸色发白）陆公子……船、船底那事，我真没……",
             "emotion": "shaken"
           },
           {
             "speaker": "陆昭",
-            "text": "你知不知道，下一轮就能见分晓。先说你落水之后的时间。",
+            "text": "知不知道，后头再说。先说你落水以后怎么上岸。",
             "emotion": "serious"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她把伞往老范头上一撑，可老范自己先淋湿了。咱们接着往下问。",
+            "text": "（低声）她把伞往老范头上一撑，可老范自己先湿了。接着问。",
             "emotion": "determined"
           }
         ],
         "fail_dialogue": [
           {
             "speaker": "老范",
-            "text": "陆公子，江上翻船不稀奇。您这证物……跟暗礁浪头对不上啊。",
+            "text": "陆公子，江上翻船不稀奇。您这东西……压不到暗礁这句话上啊。",
             "emotion": "evasive"
           },
           {
             "speaker": "沈清月",
-            "text": "证物要对证词。拿不相干的东西压证人，只会让他的说法更稳。",
+            "text": "证物要对准话。拿偏了，反倒显得证人稳。",
             "emotion": "sharp"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）别跟他争水性。先把船底这块板子摆正——破洞，或者那些钉痕。",
+            "text": "（低声）别跟他争水性。先把船底这块板摆正：破洞，或者钉痕。",
             "emotion": "worried"
           }
         ],
@@ -1559,7 +2360,7 @@
           {
             "id": "fan_route_1",
             "speaker": "老范",
-            "text": "那晚雨急，江面全是雾。船出码头时还稳，到了东汊才突然被浪顶了一下。",
+            "text": "那晚雨急，江上白茫茫一片。船出码头还稳，进了东汊，浪头一下子顶上来。",
             "press": [
               {
                 "speaker": "你",
@@ -1586,7 +2387,7 @@
           {
             "id": "fan_route_2",
             "speaker": "老范",
-            "text": "船底破开，是撞上暗礁撞裂的。老船嘛，泡了这么多年，哪里经得住那一下。",
+            "text": "船底破开，是暗礁撞裂的。老船泡久了，哪经得住那一下。",
             "is_contradiction": true,
             "counter_evidence": "evidence_hull_hole",
             "alt_evidence": [
@@ -1615,7 +2416,7 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）他不敢正面答。船底那件证物能说明：这不是江水咬船，是凿子在木板上留了牙印。",
+                "text": "（低声）他不敢正面答。船底那件东西能让他躲不开：这不是江水咬船，是凿子在木板上留了牙印。",
                 "emotion": "determined"
               },
               {
@@ -1660,7 +2461,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）浮囊能压阿贵的准备，但现在这句在说“暗礁撞船”。先证明船底不是撞出来的。",
+                  "text": "（低声）浮囊咬的是阿贵的准备。老范现在躲在“暗礁撞船”后头，得让船底自己开口。",
                   "emotion": "worried"
                 }
               ],
@@ -1672,7 +2473,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）赌债是动机，不是破洞成因。要拆“撞礁”，得拿船底本身说话。",
+                  "text": "（低声）赌债是动机，不是破洞成因。要拆“撞礁”，让船底本身说话。",
                   "emotion": "worried"
                 }
               ],
@@ -1684,7 +2485,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）遣散字据该压阿贵。老范这句要用能说明破洞方向和凿痕的物证。",
+                  "text": "（低声）遣散字据该压阿贵。老范这句，要拿能把破洞方向和凿痕摆到他眼前的东西。",
                   "emotion": "worried"
                 }
               ]
@@ -1693,7 +2494,7 @@
           {
             "id": "fan_route_3",
             "speaker": "老范",
-            "text": "我也是受害人。船翻了，我差点把命丢在江里。",
+            "text": "我也是差点死的人。船翻了，我一口气没上来，命就交代在江里了。",
             "press": [
               {
                 "speaker": "你",
@@ -1720,7 +2521,7 @@
           {
             "id": "fan_route_4",
             "speaker": "老范",
-            "text": "船是旧船嘛，平时也会修补修补。翻船前一天我还补了两块板子——老船就是这样，不补就漏。",
+            "text": "老船三天两头要补。翻船前一天我补过两块板子，不补就漏，这不奇怪。",
             "is_contradiction": true,
             "counter_evidence": "evidence_nail_marks",
             "break_evidence": "evidence_nail_marks",
@@ -1755,7 +2556,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）他把钉痕说成修补旧船。要看那些钉痕和破口的方向，不是泛泛证明船坏过。",
+                  "text": "（低声）他把钉痕说成修补旧船。要看那些钉痕和破口的方向，不是泛泛说船坏过。",
                   "emotion": "worried"
                 }
               ]
@@ -1764,7 +2565,7 @@
           {
             "id": "fan_route_5",
             "speaker": "老范",
-            "text": "那天夜里风大浪急，走得又急——出码头的时候天已经黑透了。这种天气行船，出什么事都有可能。",
+            "text": "那天夜里天黑、雨急、客人又催。那种水面上，出点岔子谁敢打包票？",
             "press": [
               {
                 "speaker": "你",
@@ -1797,46 +2598,46 @@
         "preamble": [
           {
             "speaker": "陆昭",
-            "text": "继续。船翻之后，你怎么上的岸？",
+            "text": "继续。船翻之后，你怎么活下来的？",
             "emotion": "serious"
           },
           {
             "speaker": "沈清月",
-            "text": "翻船落水，惊惶之下记错时间并不奇怪。陆公子，只拿这点问，恐怕定不了罪。",
+            "text": "翻船落水，人慌了会记错时辰。陆公子，只拿这点问，押不住人。",
             "emotion": "cooperative"
           },
           {
             "speaker": "老范",
-            "text": "我……我命大。扒着块船板，漂了许久。",
+            "text": "我……命大。扒着块船板，漂了好久。",
             "emotion": "evasive"
           }
         ],
         "readthrough_end_hint": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）她又在替他补边。可半个时辰和一刻钟差太多了，这块补不上。",
+            "text": "（低声）她又替他补边。可半个时辰和一刻钟差太远，这块补不上。",
             "emotion": "determined"
           }
         ],
         "transition_dialogue": [
           {
             "speaker": "陆昭",
-            "text": "半个时辰不对。不到一刻钟就上岸，说明你早有准备。",
+            "text": "半个时辰不对。你上岸太快，快得像早知道该往哪儿游。",
             "emotion": "serious"
           },
           {
             "speaker": "沈清月",
-            "text": "水性好的人上岸快些并不离奇。速度不是罪证。",
+            "text": "水性好，上岸快，不奇怪。快不是罪。",
             "emotion": "sharp"
           },
           {
             "speaker": "老范",
-            "text": "陆公子……我水性好，上岸快些也不能说我杀人啊。",
+            "text": "陆公子……我跑船的，水性好些，也不能说我杀人啊。",
             "emotion": "shaken"
           },
           {
             "speaker": "陆昭",
-            "text": "单看这句还不够。可跟船底破洞放在一起，你就不是单纯受害者了。",
+            "text": "单看这句不够。可跟船底破洞放一起，你就不像单纯落水的人了。",
             "emotion": "serious"
           },
           {
@@ -1853,17 +2654,17 @@
         "fail_dialogue": [
           {
             "speaker": "老范",
-            "text": "陆公子，落水之后的事乱得很。您拿这个压我，我也说不出别的。",
+            "text": "陆公子，落水以后乱成一锅粥。您拿这个压我，我也只能这么说。",
             "emotion": "evasive"
           },
           {
             "speaker": "沈清月",
-            "text": "冬江逃生，差一刻半刻并不少见。要推翻这句，得拿出能卡死时间的证据。",
+            "text": "冬江逃生，差一刻半刻不稀奇。要翻这句，时辰就得咬得住。",
             "emotion": "sharp"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）他说'半个时辰后被救'。我们手里那条时间线，正好能把这结打松。",
+            "text": "（低声）他说半个时辰后被救。我们手里那条时间线，正好能把这个结扯开。",
             "emotion": "worried"
           }
         ],
@@ -1871,7 +2672,7 @@
           {
             "id": "fan_rescue_1",
             "speaker": "老范",
-            "text": "船一翻，我也掉水里了。那水冷得人发木，哪还顾得上东南西北。",
+            "text": "船一歪，我也栽进水里。那水冷得人骨头发木，哪还分得清东南西北。",
             "press": [
               {
                 "speaker": "你",
@@ -1898,7 +2699,7 @@
           {
             "id": "fan_rescue_2",
             "speaker": "老范",
-            "text": "我在水里泡了半个时辰，后来才被下游渔民拉上去。要不是命硬，早没了。",
+            "text": "我在水里泡了好一阵，后来才被下游渔民拉上去。要不是命硬，早没了。",
             "is_contradiction": true,
             "counter_evidence": "clue_fan_alibi_hole",
             "press": [
@@ -1974,19 +2775,19 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）破洞证明船是人为沉的，但这句在卡他“半个时辰”。要找时间上的矛盾。",
+                  "text": "（低声）破洞把翻船原因掀开了，但现在卡的是“半个时辰”。换时间上的东西。",
                   "emotion": "worried"
                 }
               ],
               "evidence_gambling_iou": [
                 {
                   "speaker": "老范",
-                  "text": "我欠债不假，可欠债不能证明我上岸有多快。",
+                  "text": "我欠债不假，可我上岸快慢还能被银子催着走？",
                   "emotion": "evasive"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）动机还没到。先把他“被救上岸”的说法拆掉。",
+                  "text": "（低声）动机还没到。他这会儿躲在“被救上岸”里，先别跟着他跑偏。",
                   "emotion": "worried"
                 }
               ],
@@ -1998,7 +2799,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）浮囊能证明阿贵有准备。老范这句要用“谁看见他多久上岸”的记录。",
+                  "text": "（低声）浮囊咬的是阿贵的准备。老范这边，谁见过他多久上岸才碰得到。",
                   "emotion": "worried"
                 }
               ]
@@ -2007,7 +2808,7 @@
           {
             "id": "fan_rescue_3",
             "speaker": "老范",
-            "text": "周老爷会水，可那夜浪急得很。阿贵又慌，我自己都顾不上，哪里还能救人？",
+            "text": "周老爷会水，可那夜浪凶。阿贵又慌，我自己都快没气了，哪里救得了人？",
             "press": [
               {
                 "speaker": "你",
@@ -2034,7 +2835,7 @@
           {
             "id": "fan_rescue_4",
             "speaker": "老范",
-            "text": "水里就我一个人。黑灯瞎火的，什么都看不见——只听见浪声和自己的心跳。",
+            "text": "水里黑得很，耳边全是浪。我只听见自己喘不上气，哪还看得见别人？",
             "press": [
               {
                 "speaker": "你",
@@ -2061,7 +2862,7 @@
           {
             "id": "fan_rescue_5",
             "speaker": "老范",
-            "text": "上了岸之后手脚都僵了，脑子里一片空白。蹲在岸边烤火烤了半个时辰才缓过来——哪里还顾得上别的？",
+            "text": "上岸以后手脚都僵了，蹲在火边烤了半天才缓过来。那会儿脑子里全是江水。",
             "press": [
               {
                 "speaker": "你",
@@ -2094,24 +2895,24 @@
         "preamble": [
           {
             "speaker": "陆昭",
-            "text": "老范。你说无冤无仇。那就说清楚——你为什么没有动机。",
+            "text": "老范。你说无冤无仇，那就说说你为什么不会动手。",
             "emotion": "cold"
           },
           {
             "speaker": "沈清月",
-            "text": "穷不是罪。码头上像老范这样欠钱的人多了去了，谁都可能有嫌疑。陆公子若要定他的罪，至少要拿出他\"非做不可\"的证据。",
+            "text": "穷不是罪。码头上欠钱的人多了，不能个个都往杀人上靠。陆公子要把他往案子里推，总得让人看见他为什么非做不可。",
             "emotion": "cooperative"
           },
           {
             "speaker": "老范",
-            "text": "我一个跑船的，跟周老爷不过一趟生意。哪来的仇？",
+            "text": "我一个跑船的，跟周老爷就一趟生意。哪来的仇？",
             "emotion": "evasive"
           }
         ],
         "readthrough_end_hint": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）她把老范的赌债说成\"码头上欠钱的人多了\"——像往浓茶里兑水。可码头竹棚里那张字据，浓得很。",
+            "text": "（低声）她把赌债兑成\"欠钱的人多了\"。兑得挺淡，可竹棚那张字据，味儿浓得很。",
             "emotion": "determined"
           }
         ],
@@ -2123,7 +2924,7 @@
           },
           {
             "speaker": "陆昭",
-            "text": "没想杀人？你选东汊、改船板、提前上岸。每一步都不是意外。",
+            "text": "没想杀人？东汊是你走的，船板是你动过的，上岸又快得不像逃命。哪一步像意外？",
             "emotion": "cold"
           },
           {
@@ -2143,7 +2944,7 @@
           },
           {
             "speaker": "沈清月",
-            "text": "（笑意停了一瞬）老范。你被赌债逼急了，别急着把所有人拖下水。",
+            "text": "（笑意停了一瞬）老范。赌债逼急了，也别见谁都往水里拖。",
             "emotion": "deflecting"
           },
           {
@@ -2158,29 +2959,29 @@
           },
           {
             "speaker": "陆昭",
-            "text": "够了。老范证明了船不是意外，债也不是传言。接下来——阿贵，你来解释你在船舱里做了什么。",
+            "text": "够了。船不是意外，赌债也不是闲话。阿贵，现在轮到你说船舱里那只手。",
             "emotion": "cold"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）老范这边压住了：航道、船底、赌债。他不是最后一个人，还能往后问。",
+            "text": "（低声）老范这边压住了：航道、船底、赌债。他不是最后一个人，后面还有手在推。",
             "emotion": "determined"
           }
         ],
         "fail_dialogue": [
           {
             "speaker": "老范",
-            "text": "陆公子，我是穷，可穷不等于杀人。您得拿出我非做不可的理由。",
+            "text": "陆公子，我是穷，可穷不等于杀人。您总得说出我为什么非做不可。",
             "emotion": "evasive"
           },
           {
             "speaker": "沈清月",
-            "text": "赌债是旧债，谁知道他是上个月的还是去年的？陆公子，时间对不上就不是动机。",
+            "text": "赌债也分新旧。上个月的债和去年的债，压在人身上的分量不一样。陆公子，时辰对不上，就别急着叫动机。",
             "emotion": "sharp"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）动机在那张借据上。四十二两、腊月底、断指——这三个字眼重得能压住桌角。",
+            "text": "（低声）动机在那张借据上。四十二两、腊月底、断指，这几个字能把桌角压塌。",
             "emotion": "worried"
           }
         ],
@@ -2188,7 +2989,7 @@
           {
             "id": "fan_motive_1",
             "speaker": "老范",
-            "text": "我跟周老爷第一次见。收了船钱，送他过江，仅此而已。",
+            "text": "我跟周老爷就一趟生意。收船钱，送他过江，别的没有。",
             "press": [
               {
                 "speaker": "你",
@@ -2215,7 +3016,7 @@
           {
             "id": "fan_motive_2",
             "speaker": "老范",
-            "text": "我不缺这点船钱，也不缺银子。杀人？为了什么？",
+            "text": "我不缺那点船钱。杀人？我图什么？",
             "is_contradiction": true,
             "counter_evidence": "evidence_gambling_iou",
             "press": [
@@ -2281,7 +3082,7 @@
               "evidence_hull_hole": [
                 {
                   "speaker": "老范",
-                  "text": "船底有洞只能说船出了事。陆公子要说我为了钱杀人，总得先证明我缺钱。",
+                  "text": "船底有洞只能说船出了事。陆公子要说我为了钱杀人，总得先说清我缺钱缺到什么份上。",
                   "emotion": "evasive"
                 },
                 {
@@ -2293,7 +3094,7 @@
               "evidence_float_bladder": [
                 {
                   "speaker": "老范",
-                  "text": "那浮囊是阿贵的。陆公子拿他的包袱来证明我缺银子？说不过去吧。",
+                  "text": "那浮囊是阿贵的。陆公子拿他的包袱来说我缺银子？说不过去吧。",
                   "emotion": "evasive"
                 },
                 {
@@ -2310,7 +3111,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）遣散字据说的是阿贵。要压住老范，得找他的赌债。",
+                  "text": "（低声）遣散字据说的是阿贵。老范的钱袋子，要看他的赌债。",
                   "emotion": "worried"
                 }
               ]
@@ -2319,7 +3120,7 @@
           {
             "id": "fan_motive_3",
             "speaker": "老范",
-            "text": "再说了，周老爷死了，货银也沉江。我能落着什么好？",
+            "text": "周老爷死了，货银沉了，船也没了。我还能捞着什么好？",
             "press": [
               {
                 "speaker": "你",
@@ -2346,7 +3147,7 @@
           {
             "id": "fan_motive_4",
             "speaker": "老范",
-            "text": "药材行的人找过我？我不记得有这回事。码头上每天人来人往——谁能记住每个搭话的？",
+            "text": "药材行的人找过我？码头上天天有人搭话，我哪记得每一张脸？",
             "press": [
               {
                 "speaker": "你",
@@ -2373,7 +3174,7 @@
           {
             "id": "fan_motive_5",
             "speaker": "老范",
-            "text": "船沉了——我的饭碗也没了。二十年的船、吃饭的家伙、全沉了江底。陆公子，你说，我图什么？",
+            "text": "船沉了，我吃饭的家伙也沉了。二十年的船啊，陆公子，你说我图什么？",
             "press": [
               {
                 "speaker": "你",
@@ -2405,12 +3206,12 @@
         "preamble": [
           {
             "speaker": "陆昭",
-            "text": "先坐下。别急着喊。你说你看见了，那就一件一件说清楚。",
+            "text": "先坐下。别急着喊。你说你看见了，那就一件一件说。",
             "emotion": "serious"
           },
           {
             "speaker": "沈清月",
-            "text": "阿贵是案发唯一在场的目击者。他的指控成不成立，得听完再说。陆公子，我知道你着急，但请允许他把话说完。",
+            "text": "阿贵是当夜在场的人。他的话真不真，得让他说完。陆公子，急着打断，反倒难看。",
             "emotion": "cooperative"
           },
           {
@@ -2420,7 +3221,7 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她又想给阿贵铺垫子。没事，我们不踩垫子，踩证词。",
+            "text": "（低声）她又给阿贵垫脚了。没事，咱们不踩垫子，踩他说出来的字。",
             "emotion": "determined"
           }
         ],
@@ -2432,17 +3233,17 @@
           },
           {
             "speaker": "陆昭",
-            "text": "死者身上没有钝器伤。你刚才那套说法，不成立。",
+            "text": "周德茂身上没有钝器伤。你说的那一下，打不出来。",
             "emotion": "serious"
           },
           {
             "speaker": "沈清月",
-            "text": "陆公子，钝器伤不存在只能说明死法不是打死——不能说明阿贵的其他描述都是假的。他仍然是唯一在场的目击者。",
+            "text": "没有钝器伤，顶多说明不是打死。陆公子，别顺手把阿贵整个人也抹掉。他仍是在场的人。",
             "emotion": "sharp"
           },
           {
             "speaker": "陆昭",
-            "text": "不是打死的。可也不是普通落水。",
+            "text": "不是打死，也不是普通落水。",
             "emotion": "serious"
           },
           {
@@ -2472,12 +3273,12 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她在替阿贵兜底。还有，她刚才接“草药”接得太快了，像早准备好了似的。",
+            "text": "（低声）她替阿贵兜得太快了。尤其“草药”那句，像早就含在嘴里。",
             "emotion": "determined"
           },
           {
             "speaker": "凌瑶",
-            "text": "接下来别让他抢节奏。你问细节，我在旁边数他改了几次口。",
+            "text": "别让他靠喊声抢回去。你问细节，我数他改几次口。",
             "emotion": "determined"
           }
         ],
@@ -2489,7 +3290,7 @@
           },
           {
             "speaker": "沈清月",
-            "text": "陆公子，若你要驳阿贵的证词，请对准他说的那一句来——别拿别的证物乱砸。",
+            "text": "陆公子，要驳阿贵，就对准他说的那一句。拿别的东西乱砸，只会砸出灰。",
             "emotion": "sharp"
           },
           {
@@ -2499,12 +3300,12 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）哎，这张牌偏了。他咬死'铁器打人'——得用验尸结果反驳。",
+            "text": "（低声）哎，偏了。他咬的是铁器打人，就让尸身上的东西替你说话。",
             "emotion": "worried"
           },
           {
             "speaker": "凌瑶",
-            "text": "死者身上没有钝器伤的证据！想想你验尸时看到了什么。",
+            "text": "想想验尸。死人身上有没有那一下？",
             "emotion": "worried"
           }
         ],
@@ -2512,7 +3313,7 @@
           {
             "id": "s0_1",
             "speaker": "阿贵",
-            "text": "那晚三更刚过，我起来解手——看见他蹲在船底舱口，手里攥着个铁家伙！",
+            "text": "三更刚过，我起来解手，看见他蹲在船底舱口，手里攥着铁家伙！",
             "press": [
               {
                 "speaker": "你",
@@ -2554,7 +3355,7 @@
           {
             "id": "s0_2",
             "speaker": "阿贵",
-            "text": "他用铁器打了老爷！老爷被打晕了才落水的！",
+            "text": "就是他打了老爷！老爷被打晕，才掉进水里的！",
             "is_contradiction": true,
             "counter_evidence": "evidence_no_blunt_trauma",
             "press": [
@@ -2600,7 +3401,7 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）他在退。从'看到'变'听到'变'看不出'。脚步往后，嘴还硬着——得拿能直接压住他的证据。",
+                "text": "（低声）他在退。从'看到'变'听到'变'看不出'。脚步往后，嘴还硬着——别跟他比嗓门，拿尸身上的东西堵他。",
                 "emotion": "determined"
               },
               {
@@ -2700,12 +3501,12 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）船底的洞只能证明船是人为沉的，不能证明死者有没有被铁器打。别拿船板去问伤痕。",
+                  "text": "（低声）船底的洞能戳翻翻船说法，戳不到“铁器打人”。别拿船板去问伤痕。",
                   "emotion": "worried"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "他咬的是'铁器打人'。要反咬回去，得拿尸体说话。",
+                  "text": "他咬的是'铁器打人'。要反咬回去，就让尸体说话。",
                   "emotion": "worried"
                 }
               ],
@@ -2717,12 +3518,12 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）浮囊证明他提前准备了逃生工具——但不能反驳'铁器打人'。",
+                  "text": "（低声）浮囊咬的是他早给自己留了退路，可碰不到'铁器打人'。",
                   "emotion": "worried"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "得找关于死者身上有没有伤痕的证据。",
+                  "text": "看死者身上有没有那一下留下的伤。",
                   "emotion": "worried"
                 }
               ],
@@ -2734,7 +3535,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）遣散字据证明他有动机——但不能反驳'铁器打人'。得先证明死者身上没伤！",
+                  "text": "（低声）遣散字据说的是怨气，不是伤痕。先让尸身开口。",
                   "emotion": "worried"
                 }
               ],
@@ -2751,7 +3552,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）方向不对。他说'铁器打人'——得找能证明死者身上没有钝器伤的东西。",
+                  "text": "（低声）方向不对。他说'铁器打人'——就回到尸体上：有没有那一下留下的伤。",
                   "emotion": "worried"
                 }
               ]
@@ -2760,7 +3561,7 @@
           {
             "id": "s0_3",
             "speaker": "阿贵",
-            "text": "他从天窗逃走的！那扇天窗平时用铁锁锁死——他肯定是用那把铁器撬开的！",
+            "text": "他从天窗跑的！那天窗平时锁死，肯定是他用铁器撬开的！",
             "press": [
               {
                 "speaker": "你",
@@ -2794,7 +3595,7 @@
               },
               {
                 "speaker": "沈清月",
-                "text": "他只是紧张说漏了嘴。船在沉的时候慌不择路，各种出口都可能试——这能说明什么呢？",
+                "text": "他只是紧张说漏了嘴。船在沉的时候，谁不乱摸出口？陆公子，别把一句口误急着当把柄。",
                 "emotion": "deflecting"
               }
             ]
@@ -2802,7 +3603,7 @@
           {
             "id": "s0_4",
             "speaker": "阿贵",
-            "text": "小的看得清清楚楚！他蹲在船底舱口，一只手举着铁家伙，另一只手——在老爷脖子上按着！",
+            "text": "小的看得清！他蹲在船底舱口，一只手举着铁家伙，另一只手按着老爷脖子！",
             "is_contradiction": true,
             "counter_evidence": "evidence_no_blunt_trauma",
             "break_evidence": "evidence_no_blunt_trauma",
@@ -2819,7 +3620,7 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）他咬死'按脖子'——可尸体上没有对应的伤痕。没有钝器伤、没有勒痕……他描述的场景和物证对不上。",
+                "text": "（低声）他咬死'按脖子'——可尸体上没有对应的伤痕。没有钝器伤、没有勒痕……他嘴里的场景和尸身对不上。",
                 "emotion": "determined"
               },
               {
@@ -2846,7 +3647,7 @@
           {
             "id": "s0_5",
             "speaker": "阿贵",
-            "text": "老爷落水之后，小的想去拉——但船晃得厉害，小的脚一滑就摔进水里了！小的想救的！",
+            "text": "老爷落水后，小的想拉！可船晃得太狠，我脚下一滑也摔下去了！小的真想救！",
             "press": [
               {
                 "speaker": "你",
@@ -2879,12 +3680,12 @@
         "preamble": [
           {
             "speaker": "陆昭",
-            "text": "阿贵，从上船开始说。别怕说慢，就怕说漏。",
+            "text": "阿贵，从上船开始。慢点说，别漏。",
             "emotion": "serious"
           },
           {
             "speaker": "沈清月",
-            "text": "怕水的人带浮囊上船，并不犯法。陆公子，若只凭一个\"提前准备\"就定预谋，怕是说不过去。",
+            "text": "怕水的人带浮囊，不犯法。陆公子，别把“怕死”两个字，硬拧成“预谋”。",
             "emotion": "cooperative"
           },
           {
@@ -2901,17 +3702,17 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）刚才他还举着手指别人。现在轮到他自己的浮囊上桌了。",
+            "text": "（低声）刚才他手指戳得那么直。现在轮到他自己的浮囊上桌了。",
             "emotion": "determined"
           },
           {
             "speaker": "",
-            "text": "（第一道防线破了。他现在知道我不是来走过场的——接下来他会更拼命地编。但越拼命，破绽越大。）",
+            "text": "（第一道防线破了。他知道我不是来走过场的。接下来他会更用力地编，也会更容易喘不上气。）",
             "emotion": "inner_thought"
           },
           {
             "speaker": "你",
-            "text": "阿贵，我不是问你怕不怕水。我问的是，这个浮囊为什么早就准备好了？",
+            "text": "阿贵，我没问你怕不怕水。我问这只浮囊，为什么早就等在船上。",
             "emotion": "serious"
           },
           {
@@ -2926,7 +3727,7 @@
           },
           {
             "speaker": "你",
-            "text": "保命，这话我听见了。可它得说得通。",
+            "text": "保命，这两个字我听见了。现在让它说得通。",
             "emotion": "serious"
           },
           {
@@ -2946,12 +3747,12 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）他现在抱着“我只是怕死”不撒手。这个解释听上去能过半座桥。",
+            "text": "（低声）他抱着“我怕死”不撒手。听着能过半座桥，但桥中间有洞。",
             "emotion": "worried"
           },
           {
             "speaker": "凌瑶",
-            "text": "先别急，按顺序问。先问浮囊，再问暗礁，别一脚踩空。",
+            "text": "别跳。先浮囊，再暗礁。一步踩歪，他就钻水里了。",
             "emotion": "determined"
           },
           {
@@ -2976,12 +3777,12 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）攒的？十二年工钱都被克扣了，他哪来的闲钱买酒买肉？",
+            "text": "（低声）攒的？十二年工钱都被扣成那样，他哪来的闲钱买酒买肉？",
             "emotion": "determined"
           },
           {
             "speaker": "你",
-            "text": "好。那我们就谈你说的这个'暗礁'。船底那个洞，你再想想，到底是怎么来的。",
+            "text": "好。那就谈你说的暗礁。船底那个洞，你再想一遍，到底怎么来的。",
             "emotion": "serious"
           }
         ],
@@ -2993,7 +3794,7 @@
           },
           {
             "speaker": "沈清月",
-            "text": "陆公子，你出示的证物跟\"提前准备\"搭不上。请对准他说的那一句。",
+            "text": "陆公子，这东西搭不到“提前准备”上。请对准他说的那一句。",
             "emotion": "sharp"
           },
           {
@@ -3003,12 +3804,12 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声拽你袖子）哎，偏了偏了。先别急着拿别的。他说自己没准备，那就用浮囊问他。",
+            "text": "（低声拽你袖子）哎，偏了。别急着拿别的。他说没准备，就让浮囊自己开口。",
             "emotion": "worried"
           },
           {
             "speaker": "凌瑶",
-            "text": "没事，再来一次。你脑子比他快，我袖子也还拽得住你。",
+            "text": "没事，再来。你脑子比他快，我袖子也还拽得住。",
             "emotion": "determined"
           }
         ],
@@ -3016,7 +3817,7 @@
           {
             "id": "s1_1",
             "speaker": "阿贵",
-            "text": "那晚老爷说要坐船赶路，叫我一起伺候。上了船我就在舱里待着。",
+            "text": "那晚老爷赶路，叫我跟着伺候。上船后我就在舱里守着。",
             "press": [
               {
                 "speaker": "你",
@@ -3078,7 +3879,7 @@
           {
             "id": "s1_2",
             "speaker": "阿贵",
-            "text": "船突然就翻了——什么征兆都没有！我完全没有准备，差点就淹死了！",
+            "text": "船突然就翻了！一点征兆都没有！小的什么都没备，差点就死在水里！",
             "is_contradiction": true,
             "counter_evidence": "evidence_float_bladder",
             "press": [
@@ -3149,7 +3950,7 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声，急了）糟，他咬死了'没用'！这个说法……确实没法直接反驳……",
+                "text": "（低声，急了）糟，他咬死了'没用'！他把话缩进'运气'里，手一伸还真抓不住……",
                 "emotion": "worried"
               },
               {
@@ -3169,12 +3970,12 @@
               },
               {
                 "speaker": "",
-                "text": "（一个不会游泳的仆从，毫无准备地上了夜船……却活了下来。如果不是运气——那就是有备无患。而现在，物证就握在手里。）",
+                "text": "（一个不会游泳的仆从，毫无准备地上了夜船……却活了下来。如果不是运气——那就是有备无患。而现在，那只鼓着气的浮囊就握在手里。）",
                 "emotion": "inner_thought"
               },
               {
                 "speaker": "沈清月",
-                "text": "带浮囊防身不犯法——陆公子自己也说了。至于有没有用过……鼓不鼓的也可能是受潮。这就是全部'物证'？",
+                "text": "带浮囊防身不犯法——陆公子自己也说了。至于有没有用过……鼓不鼓的也可能是受潮。你就拿这个说他预谋？",
                 "emotion": "sharp"
               }
             ],
@@ -3306,7 +4107,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）遣散证明他有怨气，不证明他提前备好了浮囊。别把动机和准备混在一起。",
+                  "text": "（低声）遣散字据说他有怨气，不说浮囊是什么时候备好的。别把动机和准备混在一起。",
                   "emotion": "worried"
                 }
               ],
@@ -3318,7 +4119,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）验尸打的是“铁器打人”。这句要证明他上船前就准备了浮囊。",
+                  "text": "（低声）验尸是上一轮的事。这句问的是他上船前有没有给自己留退路。",
                   "emotion": "worried"
                 }
               ],
@@ -3351,7 +4152,7 @@
           {
             "id": "s1_3",
             "speaker": "阿贵",
-            "text": "我不会水——落水之后就什么都不知道了。醒过来已经在岸上。",
+            "text": "小的不会水，落下去以后脑子一黑，醒来已经在岸边。",
             "press": [
               {
                 "speaker": "你",
@@ -3390,7 +4191,7 @@
               },
               {
                 "speaker": "沈清月",
-                "text": "冬天落水抱着船板飘到岸——困难，但不是没有先例。陆公子若只凭'运气太好'就定罪，那未免太武断了。",
+                "text": "冬天落水抱着船板飘到岸——困难，但不是没有先例。陆公子若只凭'运气太好'就把人钉死，未免太武断了。",
                 "emotion": "cooperative"
               }
             ]
@@ -3398,7 +4199,7 @@
           {
             "id": "s1_4",
             "speaker": "阿贵",
-            "text": "到了岸上浑身湿透，冻得不行。天亮才挣扎到客栈求救。",
+            "text": "到岸上时浑身湿透，冻得牙都合不上。天亮才摸到客栈求救。",
             "press": [
               {
                 "speaker": "你",
@@ -3450,7 +4251,7 @@
           {
             "id": "s1_5",
             "speaker": "阿贵",
-            "text": "上船之后老爷就歇下了，小的在旁边伺候。那晚风平浪静的——谁能想到会翻船？跟平时走水路一模一样。",
+            "text": "上船后老爷就歇下了，小的在旁边守着。那晚起先平得很，谁能想到会翻？",
             "press": [
               {
                 "speaker": "你",
@@ -3487,17 +4288,17 @@
           },
           {
             "speaker": "沈清月",
-            "text": "陆公子，凿痕只能证明船是人为沉的。\"谁凿的\"仍需进一步确认——船舱里还有死者和陆公子，不是只有阿贵一人。",
+            "text": "陆公子，凿痕顶多说船被人动过。谁动的，还没落到阿贵头上。船舱里可不止他一个活人。",
             "emotion": "sharp"
           },
           {
             "speaker": "凌瑶",
-            "text": "两次了——两次当场对不上。而且他刚才差点吐出个'教他的人'……继续问，别让他把话吞回去。",
+            "text": "两次了，两次当场对不上。而且他刚才差点吐出“教他的人”。继续，别让他吞回去。",
             "emotion": "determined"
           },
           {
             "speaker": "你",
-            "text": "凿痕在船舱内侧。那晚你就在舱里。阿贵，别急着推给别人，先说你自己做了什么。",
+            "text": "凿痕在船舱内侧。那晚你就在舱里。阿贵，别急着推，先说你自己这只手。",
             "emotion": "serious"
           },
           {
@@ -3517,7 +4318,7 @@
           },
           {
             "speaker": "你",
-            "text": "你说自己只是被逼。可浮囊是你带上船的，船底活板是在舱内动的，周德茂也是你最清楚弱点的人。",
+            "text": "你说被逼。可浮囊是你带的，船板是在舱里动的，周德茂最信谁、最防谁，你也最清楚。",
             "emotion": "serious"
           },
           {
@@ -3527,17 +4328,17 @@
           },
           {
             "speaker": "沈清月",
-            "text": "阿贵说是被迫帮忙。陆公子，一个仆从在公堂上把船家拖下水，很可能只是为了减轻自己的罪责。",
+            "text": "他说被逼，也未必全假。仆从在堂上拖船家下水，常见得很，为的是自己少担一点。",
             "emotion": "cooperative"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她又在替阿贵圆话。只要“被逼的”能立住，阿贵就能往后挪半步。",
+            "text": "（低声）她又给他找台阶。只要“被逼”立住，阿贵就能往后缩半步。",
             "emotion": "worried"
           },
           {
             "speaker": "你",
-            "text": "没有理由？只是被动帮忙？好——那我们来说说你跟周老爷的关系。一个字一个字说清楚。",
+            "text": "没有理由？只是被动？好。那就说你和周德茂。一个字都别省。",
             "emotion": "serious"
           }
         ],
@@ -3549,12 +4350,12 @@
           },
           {
             "speaker": "沈清月",
-            "text": "里正大人也说了，江底暗礁尖利得很。陆公子，若证物不能排除天灾，就不能把它说成人祸。",
+            "text": "江底暗礁尖，里正大人也知道。陆公子，排不掉天灾，就别急着叫人祸。",
             "emotion": "sharp"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）他这句说的是'暗礁'。咱们手里有能让暗礁退场的船底证据——用那个反驳他。",
+            "text": "（低声）他咬的是暗礁。让暗礁退场的东西，在船底。",
             "emotion": "worried"
           }
         ],
@@ -3562,7 +4363,7 @@
           {
             "id": "s2_1",
             "speaker": "阿贵",
-            "text": "老范之前跟我说过，这段水路有暗礁。我不会水，心里害怕，才带了浮囊！",
+            "text": "老范跟我说过，那段水路有暗礁。我不会水，心里怕，才带了浮囊！",
             "press": [
               {
                 "speaker": "你",
@@ -3619,7 +4420,7 @@
           {
             "id": "s2_2",
             "speaker": "阿贵",
-            "text": "船底那个洞——就是被暗礁撞出来的！石头尖利得很！",
+            "text": "船底那个洞就是暗礁撞的！那石头尖得很！",
             "is_contradiction": true,
             "counter_evidence": "evidence_hull_hole",
             "alt_evidence": [
@@ -3753,12 +4554,12 @@
               "evidence_float_bladder": [
                 {
                   "speaker": "阿贵",
-                  "text": "浮囊是防身的！就算小的带了浮囊，也不能说明船底那个洞是小的凿的吧？",
+                  "text": "浮囊是防身的！就算小的带了浮囊，也不能说船底那个洞就是小的凿的吧？",
                   "emotion": "defensive"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）浮囊证明他知道会落水，但这句在说“暗礁撞洞”。先拿破洞本身打他。",
+                  "text": "（低声）浮囊说明他给自己留了退路，可他现在躲在暗礁后头。把那块船板摆到他面前。",
                   "emotion": "worried"
                 }
               ],
@@ -3770,7 +4571,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）怨气是后面的防线。现在要证明那个洞不是自然撞出来的。",
+                  "text": "（低声）怨气是后面的账。现在先别让暗礁替他背锅。",
                   "emotion": "worried"
                 }
               ],
@@ -3791,7 +4592,7 @@
           {
             "id": "s2_3",
             "speaker": "阿贵",
-            "text": "带个浮囊也犯法？我不会水，我怕死，行不行？",
+            "text": "带个浮囊也有罪吗？小的怕死，怕死也不行？",
             "press": [
               {
                 "speaker": "你",
@@ -3849,7 +4650,7 @@
               "statement": {
                 "id": "s2_3b",
                 "speaker": "阿贵",
-                "text": "好……好吧！有人是提过一句，说带个浮囊稳妥。可那就是提醒我，没别的！",
+                "text": "好……是有人提过一句，说带浮囊稳妥。可那就是提醒我保命，没别的！",
                 "is_contradiction": true,
                 "counter_evidence": "evidence_dismissal_note",
                 "press": [
@@ -3941,7 +4742,7 @@
           {
             "id": "s2_4",
             "speaker": "阿贵",
-            "text": "船底那个洞肯定是外头撞的！从里头凿？那不是把自己也淹了？我没那么傻！",
+            "text": "船底肯定是外头撞的！从里头凿？那不是把自己也淹了？小的没那么傻！",
             "is_contradiction": true,
             "counter_evidence": "evidence_hull_hole",
             "break_evidence": "evidence_hull_hole",
@@ -3958,7 +4759,7 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）他说'从里面凿船舱会淹'——可那块船板的边缘是从内侧凿的。方向不对。咱手里的证物能戳穿他。",
+                "text": "（低声）他说'从里面凿船舱会淹'——可那块船板的边缘是从内侧凿的。方向不对。船板会戳穿他。",
                 "emotion": "determined"
               },
               {
@@ -3995,7 +4796,7 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）他又把话绕回“只是下人”。可这次看字据，不看眼泪。"
+            "text": "（低声）他又绕回“只是下人”。这次看字据，不看眼泪。"
           },
           {
             "speaker": "钱里正",
@@ -4011,7 +4812,7 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）周氏开口了。这下他的线可没那么好绕了。"
+            "text": "（低声）周氏开口了。这下他没那么好绕了。"
           },
           {
             "speaker": "周氏",
@@ -4025,7 +4826,7 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）第三种笔迹！旁边那张纸不是周德茂写的，也不是阿贵写的。还有别人插手。",
+            "text": "（低声）第三种笔迹！旁边那张纸不是周德茂，也不是阿贵。还有一只手。",
             "emotion": "shocked"
           },
           {
@@ -4035,12 +4836,12 @@
           },
           {
             "speaker": "沈清月",
-            "text": "（微不可察地顿了一下）……一张纸条而已。谁写字都能写。",
+            "text": "（微不可察地顿了一下）……纸条而已。字这种东西，谁都能写。",
             "emotion": "deflecting"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）看见没？她刚才顿了一下。第三种笔迹这条线，她没料到。",
+            "text": "（低声）她刚才顿了。第三种笔迹这条线，她没备好说法。",
             "emotion": "determined"
           }
         ],
@@ -4052,12 +4853,12 @@
           },
           {
             "speaker": "沈清月",
-            "text": "十二年主仆情分——陆公子若不能拿出他反目的证据，怎么叫人相信他会杀主人？",
+            "text": "十二年主仆。陆公子若拿不出他翻脸的那一下，谁信他会杀主人？",
             "emotion": "sharp"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）他说主仆情分好。那就看字据上到底写了几分情，拿出来给大家看。",
+            "text": "（低声）他说有主仆情分。那就看字据上还剩几分情。",
             "emotion": "worried"
           }
         ],
@@ -4117,7 +4918,7 @@
           {
             "id": "s3_2",
             "speaker": "阿贵",
-            "text": "老爷遣散我的时候，还给了我路费银子。让我回乡，我还能说什么？",
+            "text": "老爷遣散我时，还给了路费。让我回乡，我还能说什么？",
             "is_contradiction": true,
             "counter_evidence": "evidence_dismissal_note",
             "press": [
@@ -4168,7 +4969,7 @@
               },
               {
                 "speaker": "沈清月",
-                "text": "仆从拿几两路费银子回乡——这在哪个衙门都不会被当成杀人动机。陆公子是想证明'穷就会杀人'吗？",
+                "text": "仆从拿几两路费银子回乡——这在哪个衙门都不会被当成杀人动机。陆公子是想说，穷人就该被怀疑吗？",
                 "emotion": "sharp"
               }
             ],
@@ -4228,7 +5029,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）浮囊证明预谋逃生，不能直接反驳“遣散是体恤”。这句要看字据写了什么。",
+                  "text": "（低声）浮囊说的是逃路，挡不住“体恤”这句。看字据吧，纸上有价。",
                   "emotion": "worried"
                 }
               ],
@@ -4252,7 +5053,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）他巴不得你转去问老范。别被带走，这句要用阿贵自己的纸据。",
+                  "text": "（低声）他巴不得你转去问老范。别被带走，阿贵自己的纸据才打得到这句。",
                   "emotion": "worried"
                 }
               ]
@@ -4261,7 +5062,7 @@
           {
             "id": "s3_3",
             "speaker": "阿贵",
-            "text": "要说谁能安排夜船——老范跑东汊二十年！路、船、风浪都是他说了算！不关我事！",
+            "text": "要说谁能安排夜船，是老范！他跑东汊二十年，路、船、风浪都是他说了算！",
             "press": [
               {
                 "speaker": "你",
@@ -4365,7 +5166,7 @@
           {
             "id": "s3_5",
             "speaker": "阿贵",
-            "text": "十二年！小的伺候了他十二年！倒茶、搬货、守夜，什么活没干过？我怎么会害他！",
+            "text": "十二年！倒茶、搬货、守夜，什么活我没干过？我怎么会害他！",
             "is_contradiction": true,
             "counter_evidence": "evidence_dismissal_note",
             "break_evidence": "evidence_dismissal_note",
@@ -4417,7 +5218,7 @@
     "background": "res://assets/cn/scenes/prologue_confrontation_hall.png",
     "bgm": "confrontation_final",
     "bgm_break": "ferry_court_opening",
-    "bgm_break_actual": "ferry_court_opening",
+    "bgm_break_actual": "Prelogue_Confrontation_Intro",
     "bgm_final_round": "confrontation_final",
     "confidence": 5,
     "intro_dialogue": [
@@ -4428,72 +5229,72 @@
       },
       {
         "speaker": "钱里正",
-        "text": "沈姑娘……陆公子说，此案还没完。你得把话说清楚。",
+        "text": "沈姑娘……陆公子说，此案还没完。你站到前头来，把话当众说清楚。",
         "emotion": "nervous"
       },
       {
         "speaker": "沈清月",
-        "text": "我一直在这里。陆公子要问，我自然奉陪。",
+        "text": "我没走，也没藏。陆公子要问，就当着众人的面问。",
         "emotion": "cooperative"
       },
       {
         "speaker": "凌瑶",
-        "text": "她换了位置……还稳得像在自家柜台后算账。",
+        "text": "她站到堂中，连袖口都没乱一下。啧，这人越稳越吓人。",
         "emotion": "anxious"
       },
       {
         "speaker": "钱里正",
-        "text": "先说清楚。今日这堂只认堂上证据。人证可听，口供可记，但若要定沈姑娘的罪，必须有物证相印。",
+        "text": "丑话说前头。今天堂上不凭谁嗓门大。人证能听，口供能记；真要押沈姑娘，得有东西对得上。",
         "emotion": "stern"
       },
       {
         "speaker": "沈清月",
-        "text": "里正大人这话公允。陆公子若只有故事，我自然不会认。",
+        "text": "听见了？陆公子。故事讲得再顺，也不能当锁链拴人。",
         "emotion": "cold_smile"
       },
       {
         "speaker": "陆昭",
-        "text": "沈清月。阿贵招了。",
+        "text": "沈清月。阿贵已经画押。",
         "emotion": "serious"
       },
       {
         "speaker": "沈清月",
-        "text": "哦？一个杀人犯为了减罪攀咬别人，他说什么都能算数？",
+        "text": "画押？刀架脖子上的人，什么名字咬不出来？",
         "emotion": "sharp"
       },
       {
         "speaker": "陆昭",
-        "text": "我知道。光凭口供定不了罪。",
+        "text": "所以我没拿他的嘴定你。",
         "emotion": "serious"
       },
       {
         "speaker": "陆昭",
-        "text": "但我不只有口供。货银去向、下游打捞、老范的中间人证言、毒囊残壳、油脂锁毒，我都带了。",
+        "text": "我带来的，是银子去过哪里，谁在下游弯腰，赌坊那本账，还有船底那片没化干净的胶。",
         "emotion": "determined"
       },
       {
         "speaker": "沈清月",
-        "text": "好。那就来吧。——不过陆公子，“指向”和“证明”之间，隔着一条人命。",
+        "text": "那就摆上来。别急着把泥水说成钉子。",
         "emotion": "cold_smile"
       },
       {
         "speaker": "沈清月",
-        "text": "你要定我的罪，就拿能让我闭嘴的东西出来。",
+        "text": "想让我闭嘴？可以。拿一件能落到我名下的东西。",
         "emotion": "cold_fury"
       },
       {
         "speaker": "凌瑶",
-        "text": "她不是阿贵。她不会被一声喝问吓到掉底。",
+        "text": "她在等你先急。别急，慢慢拆。",
         "emotion": "determined"
       },
       {
         "speaker": "凌瑶",
-        "text": "她会逐条反驳。咱们就逐条把证据摆成小山。",
+        "text": "我盯她的手。你盯证据。",
         "emotion": "determined"
       },
       {
         "speaker": "陆昭",
-        "text": "好，开始。她要谈法律，我就让法律先听完真相。",
+        "text": "好。她要一件一件算，我们就一件一件给。",
         "emotion": "determined"
       }
     ],
@@ -4505,179 +5306,184 @@
       },
       {
         "speaker": "沈清月",
-        "text": "江岸采药，偶遇船难，全程未见行凶。陆公子想问什么？",
+        "text": "我说过了。江岸采药，听见船出事才赶来。陆公子还想从哪儿问？",
         "emotion": "cooperative"
       },
       {
         "speaker": "陆昭",
-        "text": "死者舌根有毒草残留。不是正常溺亡，有人动了手脚。",
+        "text": "周德茂不是自己沉下去的。舌根那点草渣，说明他落水前就失力了。",
         "emotion": "serious"
       },
       {
         "speaker": "沈清月",
-        "text": "此草遇淡水数分钟彻底失活。案发至验尸已过数十刻——残留仅有无害植物纤维。按县衙验断的规矩，这样的残迹不能采为定罪实证，当场就能驳回。",
+        "text": "草渣？从三更泡到验尸，毒性早散了。县里最多写“植物纤维”，不会替你写“毒杀”。",
         "emotion": "sharp"
       },
       {
         "speaker": "钱里正",
-        "text": "这……若真如沈姑娘所说，律法上确有此条……",
+        "text": "这话……县里验断，确实先看时效。",
         "emotion": "nervous"
       },
       {
         "speaker": "钱里正",
-        "text": "陆公子，草药残留能证明死者口中曾有异物，可若要拿它定罪，县衙会先问时效。她卡的正是这一点。",
+        "text": "陆公子，那点残留能看出嘴里进过东西，却未必能当毒证。她卡的就是这道门。",
         "emotion": "stern"
       },
       {
         "speaker": "凌瑶",
-        "text": "她把律法搬出来，硬把物证挡住了……！",
+        "text": "她早把门闩想好了。",
         "emotion": "shocked"
       },
       {
         "speaker": "陆昭",
-        "text": "沉船残骸进水口边缘，发现了未完全溶解的糯米鱼鳔胶薄膜。有人提前登船，把遇水即溶的毒囊固定在那里。",
+        "text": "那就看门闩外面的东西。进水口边上有一片没化干净的糯米鱼鳔胶。不是糊船缝，是裁过的药囊壳。",
         "emotion": "serious"
       },
       {
         "speaker": "陆昭",
-        "text": "毒囊的位置，正好贴着凿船破洞。能放到那里的人，一定事先知道破洞会开在哪里。",
+        "text": "它贴在破洞边。船板没凿穿前，就已经在那里了。",
         "emotion": "serious"
       },
       {
         "speaker": "沈清月",
-        "text": "码头泊船，人人可登。糯米胶薄膜随处可得。它定不到任何人身上。",
+        "text": "码头上的船谁不能靠近？糯米胶谁不能弄到？一片胶，要怎么写上我的名字？",
         "emotion": "cold_fury"
       },
       {
         "speaker": "钱里正",
-        "text": "糯米胶常见，这话也对。可若它正卡在破洞进水口边上，那就不是随手一片胶能说过去的。",
+        "text": "胶常见。可正卡在破洞边上，巧得过头。",
         "emotion": "stern"
       },
       {
         "speaker": "陆昭",
-        "text": "周德茂登船前吃过油腻东西。油脂锁住舌根药渣，挡住了毒素分解。你的药本该无迹可寻，可它偏偏留下了证据。",
+        "text": "还有油脂。周德茂上船前吃过重油酒菜，舌根那点残药被油裹住，没按你的算盘散干净。",
         "emotion": "serious"
       },
       {
         "speaker": "沈清月",
-        "text": "你以为我想杀人？！八十两——我爹的命就值八十两——！",
+        "text": "你以为我愿意走到这一步？！八十两……我爹一天都等不了。",
         "emotion": "angry"
       },
       {
+        "speaker": "",
+        "text": "堂上静了一瞬。沈清月的指尖掐进袖口，很快又松开。",
+        "emotion": "narration"
+      },
+      {
         "speaker": "沈清月",
-        "text": "臆测无据，不足为证。油脂可来自江中鱼虾，也可来自船板漆料。它不能证明有人投毒。",
+        "text": "……可惜，心急也不是罪证。油从哪儿来，饭菜、鱼虾、船板漆料，哪一样说不通？",
         "emotion": "cold_fury"
       },
       {
         "speaker": "凌瑶",
-        "text": "她愣了！刚才那一下，她没算到！",
+        "text": "她刚才漏了半口真话。陆昭，她不是没慌。",
         "emotion": "shocked"
       },
       {
         "speaker": "陆昭",
-        "text": "你漏算了油脂。毒素遇水本该消失，但他上船前吃了油腻的东西，把证据留住了。",
+        "text": "我听见了。她漏算的不是油，是周德茂临上船前那顿饭。",
         "emotion": "serious"
       },
       {
         "speaker": "沈清月",
-        "text": "陆公子。你把事实推到了我面前——这点我承认。",
+        "text": "陆公子，你把一串事实推到我面前，我认你查得细。",
         "emotion": "cold_smile"
       },
       {
         "speaker": "沈清月",
-        "text": "但公堂上定罪靠的是可采物证。植物纤维已过时效，糯米胶薄膜人人可得，油脂残痕来源不唯一。你有什么能“唯一证明”是我？",
+        "text": "可查得细，不等于能押人。草渣过了时效，胶片不认主人，油痕更认不出谁的手。你还差最后一扣。",
         "emotion": "cold_fury"
       },
       {
         "speaker": "钱里正",
-        "text": "陆公子……案情说得通。船是人为凿沉，毒囊确实存在，周老板也确实不是单纯溺亡。",
+        "text": "陆公子，案情我是听明白了。船不是撞礁，周老板也不像寻常溺亡。",
         "emotion": "stern"
       },
       {
         "speaker": "钱里正",
-        "text": "可要当堂押沈姑娘，县衙要问三件事：谁亲手放毒囊，草药残留为何仍可采，油脂残痕为何只能从她身上来。",
+        "text": "可要当堂押她，县里会追着问：毒囊谁放，草渣凭什么采，油痕凭什么只指她。",
         "emotion": "stern"
       },
       {
         "speaker": "钱里正",
-        "text": "这三问里，只要有一问答不死，她就能说是阿贵攀咬、老范自保、物证来源不明。",
+        "text": "三问只要有一问松，她就能走。",
         "emotion": "nervous"
       },
       {
         "speaker": "沈清月",
-        "text": "阿贵口供、老范翻供、王大爷目击——都只是人嘴里的话。至于毒理物证，陆公子自己也听见了：县衙不会轻易认。",
+        "text": "听见了吗？阿贵的嘴、老范的怯、王大爷那点夜眼，都不是锁。毒理这把锁，你也还没拧死。",
         "emotion": "cold_smile"
       },
       {
         "speaker": "钱里正",
-        "text": "本堂记下：陆公子已查明沉船与投毒的事实链。此链足以移送阿贵、老范。",
+        "text": "本堂记下：沉船和投毒之事，陆公子已查出一条链。阿贵、老范先行移送。",
         "emotion": "stern"
       },
       {
         "speaker": "钱里正",
-        "text": "但对沈清月本人，证据还不能直接定到她身上。证据不足，指控暂驳。沈姑娘……暂予释放。",
+        "text": "至于沈清月本人……证据还落不到她名下。指控暂驳。沈姑娘，暂予释放。",
         "emotion": "stern"
       },
       {
         "speaker": "沈清月",
-        "text": "陆公子。你赢了真相，却还没赢下法律。——这是两件事。",
+        "text": "陆公子，你赢了真相。可真相和案卷，中间还隔着门槛。",
         "emotion": "cold_smile"
       },
       {
         "speaker": "",
-        "text": "她撑伞走入雨里。没有奔逃，也没有回头。门外的人让开一条路，看着她离开。",
+        "text": "她撑伞走入雨里。步子不快，像从一场买卖里退出来。",
         "emotion": "narration"
       },
       {
         "speaker": "凌瑶",
-        "text": "我们明明把她逼到门槛了……她居然还能撑伞走出去。气人。",
+        "text": "我现在真想追出去。哪怕只把她那把伞踹歪一点。",
         "emotion": "worried"
       },
       {
         "speaker": "陆昭",
-        "text": "真相查到了……但证据还不够让县衙定她。",
+        "text": "不能追。现在追出去，就正中她下怀。",
         "emotion": "serious"
       },
       {
         "speaker": "凌瑶",
-        "text": "那……就这么算了？我现在很想追出去，哪怕只骂她两句也行。",
+        "text": "可她明明露馅了。那句八十两，她自己说漏了！",
         "emotion": "anxious"
       },
       {
         "speaker": "陆昭",
-        "text": "不。油脂锁毒，她漏算了这个。这就是突破口。",
+        "text": "所以才不能急。油脂锁毒，她漏算了。那是下一次能咬住她的地方。",
         "emotion": "determined"
       },
       {
         "speaker": "",
-        "text": "你第一次这么清楚地意识到：知道真相，和赢下案子，不是一回事。但油脂锁毒还在，这案子还没完。",
+        "text": "雨声落下来。你第一次这么清楚地明白：真相不是判词，愤怒也不是证据。但油脂锁毒还在，沈清月还没有真正走远。",
         "emotion": "inner_thought"
       }
     ],
     "defeat_dialogue": [
       {
         "speaker": "沈清月",
-        "text": "陆公子。你手里所有的证据加在一起——也只够定阿贵的罪。跟我有什么关系？",
+        "text": "陆公子，你把一桌子东西摊出来，最后还是只够压阿贵。我的名字在哪儿？",
         "emotion": "cold_fury"
       },
       {
         "speaker": "沈清月",
-        "text": "一个赌鬼的口供、一个杀人犯的攀咬、一个老渔翁在黑夜里看到的模糊身影——陆公子拿这些去县衙告我试试？",
+        "text": "赌鬼、杀人犯、夜里看错人的老渔翁。你拿他们三张嘴去县衙告我？",
         "emotion": "cold_smile"
       },
       {
         "speaker": "沈清月",
-        "text": "至于所谓毒理？草药遇淡水数分钟失活——案发到验尸过了数十刻。县衙不会凭这种残迹定罪。糯米胶薄膜谁都拿得到，定不到任何人身上。",
+        "text": "毒理也一样。泡过时效的草渣，码头人人有的糯米胶，江里到处能沾的油。县衙不吃这套。",
         "emotion": "sharp"
       },
       {
         "speaker": "沈清月",
-        "text": "回去再读读大明律吧。'指向'和'证明'之间——隔着一条人命。跨不过去，就别急着喊我凶手。",
+        "text": "回去把大明律再翻一遍。指到这儿，不等于锁到我身上。锁不住，就别喊我凶手。",
         "emotion": "sharp"
       },
       {
         "speaker": "凌瑶",
-        "text": "她在嘲笑我们……但她说得也没错。下次——一定抓住她逃不掉的那一点。",
+        "text": "她说得难听，可这次真被她堵住了。走，先把能锁住她的那一点找回来。",
         "emotion": "worried"
       }
     ],
@@ -4688,19 +5494,19 @@
         "preamble": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）第一轮。她把\"没有动机\"摆在桌面正中，像账房柜台。",
+            "text": "（低声）第一轮。她先把账本摊出来了：杀了债人，她就亏。听着很顺，顺得我牙疼。",
             "emotion": "determined"
           },
           {
             "speaker": "沈清月",
-            "text": "（抱臂，微笑）陆公子，请便。不过先说好——我跟周德茂只有债务纠纷。杀债务人对债主没有好处。",
+            "text": "（抱臂，微笑）问吧。不过先把账算清：周德茂欠我钱。债主杀债人，亏的是我。",
             "emotion": "bold"
           }
         ],
         "readthrough_end_hint": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）她一直说“钱沉了，所以我亏”。那就先看看五十两是不是真乖乖睡在江底。",
+            "text": "（低声）她咬死自己亏钱。那就先看看那五十两到底有没有沉。",
             "emotion": "determined"
           }
         ],
@@ -4712,7 +5518,7 @@
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）看到了吗？她刚才乱了一拍。“我亏得最惨”这块招牌挂不稳了。",
+            "text": "（低声）看到了吗？她刚才乱了一拍。“我最亏”这句话，挂不稳了。",
             "emotion": "determined"
           },
           {
@@ -4742,7 +5548,7 @@
           },
           {
             "speaker": "沈清月",
-            "text": "……好。就算有人打捞了那笔钱。你能证明——是我捞的？",
+            "text": "……好。就算那笔银子没沉。你凭什么说是我捞的？",
             "emotion": "cold_fury"
           },
           {
@@ -4767,12 +5573,12 @@
           },
           {
             "speaker": "沈清月",
-            "text": "好。换个说法。就算那天晚上我在码头待得久了——盯着自己的债务人上船有什么问题？不犯法。",
+            "text": "好。换个说法。就算那晚我在码头多站了一会儿，盯着欠债人上船，有什么问题？不犯法。",
             "emotion": "cold_fury"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她在往后退。从“不在场”退到“在场也不犯法”。也是在退，只是退得比阿贵稳多了。",
+            "text": "（低声）她退了。从“不在场”退到“在场也不犯法”。她退得稳，可也是退。",
             "emotion": "anxious"
           },
           {
@@ -4784,12 +5590,12 @@
         "fail_dialogue": [
           {
             "speaker": "沈清月",
-            "text": "陆公子。我说了——杀他对我只有坏处没有好处。你拿不出反驳这一点的东西。",
+            "text": "陆公子，我说过，杀他对我只坏不好。你要翻这账，先把银子翻出来。",
             "emotion": "sharp"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她还在说自己没有好处——得先证明'五十两没有沉江'。那个打捞证据——用它！",
+            "text": "（低声）她还咬着“没好处”。先别吵动机，去找那五十两到底去了哪。",
             "emotion": "worried"
           }
         ],
@@ -4797,7 +5603,7 @@
           {
             "id": "sf1_1",
             "speaker": "沈清月",
-            "text": "周德茂欠我三十八两。他死了——这笔钱就永远要不回来了。我杀他等于杀自己的钱袋子。",
+            "text": "周德茂欠我三十八两。他一死，这笔账就烂在江里了。债主杀债人，图什么？",
             "press": [
               {
                 "speaker": "你",
@@ -4849,7 +5655,7 @@
           {
             "id": "sf1_2",
             "speaker": "沈清月",
-            "text": "我当着二十多人的面骂了他。你见过哪个凶手杀人之前先大张旗鼓地公开动机？",
+            "text": "我当着二十多号人骂他。真要杀人，谁会先把动机敲锣打鼓挂出来？",
             "press": [
               {
                 "speaker": "你",
@@ -4891,7 +5697,7 @@
           {
             "id": "sf1_3",
             "speaker": "沈清月",
-            "text": "五十两货银随船沉了江。人死了，钱也没了——我是这件事里亏得最惨的人。",
+            "text": "五十两货银跟船一起没了。人死，钱也死。我才是亏得最狠的那个。",
             "is_contradiction": true,
             "counter_evidence": "evidence_salvage_mark",
             "alt_evidence": [
@@ -4968,7 +5774,7 @@
               },
               {
                 "speaker": "沈清月",
-                "text": "身量高的女人多了。这能证明是我？",
+                "text": "身量高的女人多了。这就能把名字贴到我身上？",
                 "emotion": "sharp"
               },
               {
@@ -4998,7 +5804,7 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）啧……她把'去打捞'说成'去查看'——还在狡辩！但至少已经证明：她不是亏得最惨的人。",
+                "text": "（低声）啧……她把'去打捞'说成'去查看'——还在狡辩！但至少看出来了：她不是亏得最惨的人。",
                 "emotion": "worried"
               }
             ],
@@ -5011,7 +5817,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）她把破洞推回阿贵和老范了。她现在守的是“钱沉江底”，得找钱没有沉的眼睛。",
+                  "text": "（低声）她把破洞推回阿贵和老范了。她现在守的是“钱沉江底”，谁看见钱没沉，才碰得到她这句。",
                   "emotion": "worried"
                 }
               ],
@@ -5035,7 +5841,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）她在笑你手乱。稳住，她说钱沉了，咱们就证明钱没真的沉在江底。",
+                  "text": "（低声）她在笑你手乱。稳住，她说钱沉了，咱们就让那五十两从江底冒出来。",
                   "emotion": "worried"
                 }
               ]
@@ -5044,7 +5850,7 @@
           {
             "id": "sf1_4",
             "speaker": "沈清月",
-            "text": "阿贵的供词？一个杀人犯为了脱罪什么都敢说。陆公子不会连这点都不明白吧？",
+            "text": "阿贵的供词？杀人犯想少挨一刀，谁的名字都敢咬。",
             "press": [
               {
                 "speaker": "你",
@@ -5086,7 +5892,7 @@
           {
             "id": "sf1_5",
             "speaker": "沈清月",
-            "text": "我爹等钱救命。杀他？杀了他钱就没了。追了三个月的债——我只需要他还钱，不需要他死。活人比死人有用得多。",
+            "text": "我爹等钱续命。我要的是周德茂活着还钱，不是死了让我抱着空账本哭。",
             "press": [
               {
                 "speaker": "你",
@@ -5118,19 +5924,19 @@
         "preamble": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）第二轮。她现在守的是\"我跟他们不认识\"。先看她把线画到哪里。",
+            "text": "（低声）第二轮。她改守人脉了：见过，不熟；听说，没碰。她会这么躲。",
             "emotion": "determined"
           },
           {
             "speaker": "沈清月",
-            "text": "陆公子，你要证明我跟两个共犯有联系？好——但请注意，\"码头碰过面\"跟\"合谋杀人\"之间有十万八千里。",
+            "text": "陆公子，你想把我和那两个男人绑在一处？可以。可碰过面，离合谋杀人还差一条江。",
             "emotion": "cold_fury"
           }
         ],
         "readthrough_end_hint": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）她在用\"熟人不等于同伙\"挡。那就找她伸手伸得太深的地方——打招呼不会知道凿船凿哪儿。",
+            "text": "（低声）她在把线剪短。别跟她吵熟不熟，问她为什么知道那么细。",
             "emotion": "determined"
           }
         ],
@@ -5152,7 +5958,7 @@
           },
           {
             "speaker": "钱里正",
-            "text": "不过丑话说在前头。口供能开线索，不能单独定罪。若没有旁的物证相印，县衙不会只凭阿贵一张嘴押人。",
+            "text": "不过丑话说在前头。口供能开线索，不能单独押人。若没有旁的东西相印，县衙不会只凭阿贵一张嘴拿人。",
             "emotion": "stern"
           },
           {
@@ -5162,12 +5968,12 @@
           },
           {
             "speaker": "陆昭",
-            "text": "口供不能单独定你。所以我没有单独用它。",
+            "text": "口供不能单独定你。所以我没把它单独拿来。",
             "emotion": "cold"
           },
           {
             "speaker": "陆昭",
-            "text": "老范说“药材行的姑娘”找过他。王大爷看见下游有人打捞。凌瑶记录了你的码头时间。阿贵口供只是让这些事对上了。",
+            "text": "老范说那姑娘找过他；王大爷看见下游有人弯腰捞东西；凌瑶记了你的码头时间。阿贵那张供词，只是把这些线打了个结。",
             "emotion": "cold"
           },
           {
@@ -5177,22 +5983,22 @@
           },
           {
             "speaker": "沈清月",
-            "text": "就算我认识老范。就算那天夜里我没回客栈。那也只能证明——我在场，我认识当事人。",
+            "text": "就算我认识老范。就算那天夜里我没有立刻回客栈。那也只是我在场，我认识人。",
             "emotion": "cold_fury"
           },
           {
             "speaker": "沈清月",
-            "text": "你能证明是我策划了这一切吗？你能证明是我教阿贵凿船的吗？你拿得出实物吗？",
+            "text": "策划？教阿贵凿船？陆公子，别把两个字喊得漂亮。拿东西。",
             "emotion": "cold_fury"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她反击了。她承认可能认识他们，但咬死“认识不等于合谋”。她在逼我们拿物证。",
+            "text": "（低声）她把话缩回去了。她不争清白，改争“你锁不住我”。",
             "emotion": "anxious"
           },
           {
             "speaker": "陆昭",
-            "text": "好。那我换一个问法。——如果凿船的位置不是阿贵自己定的，谁能提前把毒囊放在同一个位置？",
+            "text": "那我问得更窄一点。凿船位置如果不是阿贵自己定的，谁能提前把毒囊放到同一个点？",
             "emotion": "cold"
           },
           {
@@ -5202,19 +6008,19 @@
           },
           {
             "speaker": "陆昭",
-            "text": "下一轮，我们谈物证。",
+            "text": "下一轮，听物件说话。",
             "emotion": "cold"
           }
         ],
         "fail_dialogue": [
           {
             "speaker": "沈清月",
-            "text": "一个赌鬼和一个杀人犯的话——陆公子就凭这个定我的罪？传出去不怕人笑话吗？",
+            "text": "一个赌鬼，一个杀人犯，就把陆公子哄成这样？传出去，不怕人笑话吗？",
             "emotion": "cold_fury"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她硬撑'别人的话不可信'——可老范亲口说了那个中间人。拿那条证据堵她！",
+            "text": "（低声）别急着信嘴。赌坊那边有东西能堵她。",
             "emotion": "worried"
           }
         ],
@@ -5222,7 +6028,7 @@
           {
             "id": "sf2_1",
             "speaker": "沈清月",
-            "text": "老范？见过。码头的人谁没见过？但我没跟他说过超过三句话。",
+            "text": "老范？见过。码头跑船的谁没见过？可我跟他说不上交情。",
             "press": [
               {
                 "speaker": "你",
@@ -5259,7 +6065,7 @@
           {
             "id": "sf2_2",
             "speaker": "沈清月",
-            "text": "老范欠赌坊四十二两——这种事码头人尽皆知。我也是听说的。我跟赌坊没有任何来往。",
+            "text": "老范欠赌坊四十二两，这事码头上早传开了。我听过一耳朵，没进过赌坊门。",
             "is_contradiction": true,
             "counter_evidence": "evidence_shen_connection",
             "alt_evidence": [
@@ -5353,24 +6159,24 @@
               "evidence_float_bladder": [
                 {
                   "speaker": "沈清月",
-                  "text": "阿贵的浮囊能证明他早有准备。可这跟赌坊账没有关系。",
+                  "text": "阿贵的浮囊能咬住他早有准备。可这跟赌坊账没有关系。",
                   "emotion": "cold_smile"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）浮囊是阿贵线。她现在否认赌坊中间人，得拿能把“赌坊”和“药材行姑娘”扣在一起的东西。",
+                  "text": "（低声）浮囊是阿贵线。她现在否认赌坊中间人，能把“赌坊”和“药材行姑娘”扣在一起的东西，才打得到这句。",
                   "emotion": "worried"
                 }
               ],
               "evidence_dismissal_note": [
                 {
                   "speaker": "沈清月",
-                  "text": "遣散字据能说明阿贵恨周德茂。可陆公子，我问的是：你凭什么说我碰过赌坊的账？",
+                  "text": "遣散字据能看出阿贵恨周德茂。可陆公子，我问的是：你凭什么说我碰过赌坊的账？",
                   "emotion": "sharp"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）她巴不得我们又绕回阿贵身上。别让她牵着鼻子走，赌坊这层要用赌坊的东西打。",
+                  "text": "（低声）她巴不得我们又绕回阿贵身上。别让她牵着鼻子走，赌坊这层，就让赌坊的东西来打。",
                   "emotion": "worried"
                 }
               ],
@@ -5382,7 +6188,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）口供有用，但单拿出来会被她说成攀咬。先用老范或账本把她和赌坊连上。",
+                  "text": "（低声）口供有用，但单拿出来会被她说成攀咬。老范或账本，能把她和赌坊连上。",
                   "emotion": "worried"
                 }
               ]
@@ -5391,7 +6197,7 @@
           {
             "id": "sf2_3",
             "speaker": "沈清月",
-            "text": "阿贵？我甚至不认识他。一个商人的仆从——我为什么要跟他说话？",
+            "text": "阿贵？周家的仆从而已。我连他叫什么，都是出事后才听清的。",
             "press": [
               {
                 "speaker": "你",
@@ -5439,7 +6245,7 @@
               "statement": {
                 "id": "sf2_3b",
                 "speaker": "沈清月",
-                "text": "就算我跟他说过话——在码头碰见聊两句而已。我同情他的遭遇。这有什么不对？",
+                "text": "就算我跟他说过几句话，也不过是码头碰见。他被主家作践，我顺口问两句，有罪吗？",
                 "is_contradiction": true,
                 "counter_evidence": "evidence_dock_timing",
                 "alt_evidence": [
@@ -5511,7 +6317,7 @@
                   },
                   {
                     "speaker": "凌瑶",
-                    "text": "（低声）浮囊不只证明阿贵有准备，也能证明有人提前帮他准备逃生。",
+                    "text": "（低声）浮囊不只咬住阿贵的准备，也咬出有人提前替他留了退路。",
                     "emotion": "determined"
                   }
                 ],
@@ -5524,7 +6330,7 @@
                     },
                     {
                       "speaker": "凌瑶",
-                      "text": "（低声）她把接触压成“偶遇”。要证明不是偶遇，得回到她那晚在码头停留的时间。",
+                      "text": "（低声）她把接触压成“偶遇”。要戳穿“偶遇”，得回到她那晚在码头停留的时间。",
                       "emotion": "worried"
                     }
                   ]
@@ -5535,7 +6341,7 @@
           {
             "id": "sf2_4",
             "speaker": "沈清月",
-            "text": "那天晚上亥时之前我就回了客栈。掌柜的能作证。陆公子若要说我跟他们有联络——请拿出我'不在客栈'的证据来。",
+            "text": "亥时前我回了客栈。你要说我还在码头，就拿出比掌柜记性更硬的东西。",
             "is_contradiction": true,
             "counter_evidence": "evidence_dock_timing",
             "break_evidence": "evidence_dock_timing",
@@ -5570,7 +6376,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）这句是时间线。别被她带去动机或毒囊，先证明她那晚没有回客栈。",
+                  "text": "（低声）这句是时间线。别被她带去动机或毒囊，把她那晚没回客栈这点钉住。",
                   "emotion": "worried"
                 }
               ]
@@ -5585,31 +6391,31 @@
         "preamble": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）到这儿，她要看实物了。人证和口供这两条路，她多半都会堵上。",
+            "text": "（低声）到这儿，她要你拿实物了。她等的就是你拿不出来。",
             "emotion": "determined"
           },
           {
             "speaker": "沈清月",
-            "text": "（双臂抱得更紧，声音很平）你证明了我在场、认识共犯、有钱可图。但这些——在公堂上只叫\"嫌疑\"。你有实物能定我吗？",
+            "text": "（双臂抱得更紧，声音很平）你说我在场，认识人，也有钱可图。可这些到了堂上，只叫嫌疑。陆公子，嫌疑押不住人。",
             "emotion": "cold_fury"
           }
         ],
         "readthrough_end_hint": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）她在赌你手里没有实物。毒囊残壳和油脂锁毒都在，先拿毒囊残壳。",
+            "text": "（低声）她在逼你离开人证。别按她的节奏慌，先看船底那件实物。",
             "emotion": "determined"
           }
         ],
         "transition_dialogue": [
           {
             "speaker": "沈清月",
-            "text": "（抱臂，下巴微抬）陆公子。您的证据——都是间接的。",
+            "text": "（抱臂，下巴微抬）陆公子，您这些证据，绕得太远。",
             "emotion": "cold_fury"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她在说'你没有直接证据'。她要看物证，那就给她看物证。",
+            "text": "（低声）她嫌远。那就找最近的：能从船底碰到她的那根线。",
             "emotion": "determined"
           },
           {
@@ -5634,84 +6440,84 @@
           },
           {
             "speaker": "陆昭",
-            "text": "毒囊残壳卡在进水口破洞的边缘。糯米胶的附着痕迹——是在船板被凿穿之前就固定好的。",
+            "text": "这片胶卡在进水口破洞边上。附着痕在内侧，像是船板还没破时就贴好了。",
             "emotion": "cold"
           },
           {
             "speaker": "陆昭",
-            "text": "也就是说——放毒囊的人，必须精确知道凿船的位置。而阿贵供述：凿船位置——是她指定的。",
+            "text": "放毒囊的人，早知道阿贵会凿哪一块板。而阿贵画押说，位置是沈清月指定的。",
             "emotion": "cold"
           },
           {
             "speaker": "沈清月",
-            "text": "（手指微微收紧）……巧合。位置重合不代表是我放的。",
+            "text": "（手指微微收紧）……巧合。船底那么大，卡在那儿，不等于我放在那儿。",
             "emotion": "cracking"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她手指收紧了。毒囊定位——这条线她没算到。继续！",
+            "text": "（低声）她手指动了。这个点扎到她了。",
             "emotion": "determined"
           },
           {
             "speaker": "你",
-            "text": "间接证据也是证据。只要彼此对得上，就能定案。",
+            "text": "一条线软，三条线拧在一起就能勒住人。",
             "emotion": "serious"
           },
           {
             "speaker": "钱里正",
-            "text": "陆公子，小人明白您的意思。可这堂上要分清：链能说明案情，不一定能押住一个会辩的人。",
+            "text": "陆公子，小人听得懂。可堂上要分清：能串出案情，不等于能押住一个会辩的人。",
             "emotion": "nervous"
           },
           {
             "speaker": "沈清月",
-            "text": "（冷笑）对得上？陆公子，你这些东西，哪一样不是别人嘴里说出来的？",
+            "text": "（冷笑）勒住人？陆公子，你手里的线，哪根不是别人嘴里吐出来的？",
             "emotion": "cold_smile"
           },
           {
             "speaker": "沈清月",
-            "text": "阿贵的口供——杀人犯减罪攀咬。老范的证词——赌鬼为自保翻供。王大爷那套指认——你自己方才也拆穿了。",
+            "text": "阿贵想减罪，老范想自保，王大爷夜里连人都看不清。",
             "emotion": "cold_fury"
           },
           {
             "speaker": "沈清月",
-            "text": "陆公子，你全部的指控，都靠三个不可信的人开口。这叫证据？这叫互相推脱。",
+            "text": "三张嘴互相推，推到我身上，就叫证据了？",
             "emotion": "sharp"
           },
           {
             "speaker": "你",
-            "text": "那就不用他们的话。我用物证。",
+            "text": "那就先不听嘴。听物件。",
             "emotion": "cold"
           },
           {
             "speaker": "沈清月",
-            "text": "（眉头微微一动）……哪个物证？",
+            "text": "（眉头微微一动）……哪一件？",
             "emotion": "deflecting"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她刚才停了一下。她在想我们手里还剩什么。陆公子，先出毒囊残壳，再说油脂锁毒。",
+            "text": "（低声）她停了。她在数你手里还剩什么。别急，先让她自己往前走一步。",
             "emotion": "determined"
           },
           {
             "speaker": "你",
-            "text": "你问我还有什么。那就看——你那句'没有实物'能不能扛住接下来的东西。",
+            "text": "你要实物，我给你实物。只是看完以后，别再说它只是江上的杂物。",
             "emotion": "cold"
           },
           {
             "speaker": "沈清月",
-            "text": "（极轻地笑了）……好。那就请陆公子拿出来。",
+            "text": "（极轻地笑了）……好啊。拿来。",
             "emotion": "cold_smile"
           }
         ],
         "fail_dialogue": [
           {
             "speaker": "沈清月",
-            "text": "陆公子。巧合。全部都是巧合。——你带着这些'巧合'去县衙告我试试看？",
+            "text": "陆公子。巧。全是巧。你带着一堆巧合去县衙，看谁肯替你落印。",
             "emotion": "cold_fury"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她又在说巧合。先别急，拿她时间线上的矛盾问准一点。",
+            "text": "（低声）她把所有东西往巧合里塞。别跟她吵，抓最不巧的那个点。",
             "emotion": "worried"
           }
         ],
@@ -5719,7 +6525,7 @@
           {
             "id": "sf3_1",
             "speaker": "沈清月",
-            "text": "就算我在码头待到深夜。盯着自己的债务人——合情合理。这不叫犯罪。",
+            "text": "就算我在码头多待了一阵，盯着欠债人上船，也不是罪。",
             "press": [
               {
                 "speaker": "你",
@@ -5761,7 +6567,7 @@
           {
             "id": "sf3_2",
             "speaker": "沈清月",
-            "text": "你有的只是：一个赌鬼的指认、一个杀人犯的攀咬、和一个老渔翁在黑夜里看到的模糊身影。这些——够判死刑吗？",
+            "text": "你手里有赌鬼的指认，杀人犯的攀咬，还有老渔翁夜里看见的影子。陆公子，这些够给我上枷吗？",
             "is_contradiction": true,
             "counter_evidence": "evidence_dock_timing",
             "alt_evidence": [
@@ -5845,7 +6651,7 @@
               "_default": [
                 {
                   "speaker": "沈清月",
-                  "text": "这些人嘴里的话，互相咬来咬去。陆公子，你总不能把一团乱麻叫铁证。",
+                  "text": "这些人嘴里的话，互相咬来咬去。陆公子，你总不能把一团乱麻叫铁板一块。",
                   "emotion": "cold_fury"
                 },
                 {
@@ -5859,7 +6665,7 @@
           {
             "id": "sf3_3",
             "speaker": "沈清月",
-            "text": "就算……就算那笔账说得通。'有动机'和'做了'是两回事。你没有亲眼看到我教阿贵凿船——你永远证明不了。",
+            "text": "就算那笔账说得通，有动机和动手之间还隔着一段路。你看见我教阿贵凿船了吗？",
             "press": [
               {
                 "speaker": "你",
@@ -5878,7 +6684,7 @@
               },
               {
                 "speaker": "你",
-                "text": "你事后去下游浅滩打捞货银——那是你犯罪的直接获利。",
+                "text": "你事后去下游浅滩打捞货银——那才是你真正落到手里的钱。",
                 "emotion": "cold"
               },
               {
@@ -5911,23 +6717,23 @@
           {
             "id": "sf3_4",
             "speaker": "沈清月",
-            "text": "你没有任何能直接连到我身上的物证。没有物证，就算你的故事再漂亮，也只是故事。",
+            "text": "你手里没有一件能落到我身上的东西。没有这一下，你的案子讲得再漂亮，也只是讲得漂亮。",
             "is_contradiction": true,
             "counter_evidence": "evidence_drug_capsule_shell",
             "press": [
               {
                 "speaker": "你",
-                "text": "没有物证？你终于问到这一步了。",
+                "text": "你要实物？好，你终于问到船底了。",
                 "emotion": "cold"
               },
               {
                 "speaker": "沈清月",
-                "text": "（微笑）是啊。口供会变，目击会错。物证呢？",
+                "text": "（微笑）是啊。口供会变，目击会错。落在手里的东西呢？",
                 "emotion": "cold_smile"
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）她在逼你拿实物。毒囊残壳和油脂锁毒都在。但她肯定会拿验断规矩挡你。",
+                "text": "（低声）她在要看得见摸得着的东西。船底那片残胶，正该上桌了。但她肯定会拿验断规矩挡你。",
                 "emotion": "determined"
               },
               {
@@ -5937,7 +6743,7 @@
               },
               {
                 "speaker": "沈清月",
-                "text": "草药纤维？（轻轻一挑眉）此草遇淡水数分钟彻底失活。案发至验尸已过数十刻——残留仅有无害植物纤维。按县衙验断的规矩，这样的残迹不能采为定罪实证。",
+                "text": "草药纤维？（轻轻一挑眉）此草遇淡水数分钟就失活。案发到验尸隔了那么久，最后不过一点植物残纤。按县衙验断规矩，这点东西撑不起毒杀二字。",
                 "emotion": "sharp"
               },
               {
@@ -5952,12 +6758,12 @@
               },
               {
                 "speaker": "沈清月",
-                "text": "再说——就算有人放过毒囊，你能证明是谁放的？码头泊船人人可登。'有毒囊'不等于'是我放的'。",
+                "text": "再说——就算有人放过毒囊，谁放的？码头泊船人人可登。'有毒囊'不等于'是我放的'。",
                 "emotion": "cold_fury"
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）她每句都在说：药残不能定罪，糯米胶谁都能拿到。她是在堵县衙采信这条路。",
+                "text": "（低声）她每句都在说：药残撑不住，糯米胶谁都能拿。她是在堵县衙那道门。",
                 "emotion": "worried"
               },
               {
@@ -5969,7 +6775,7 @@
             "break_dialogue": [
               {
                 "speaker": "你",
-                "text": "物证在这里。（出示毒囊残壳）",
+                "text": "东西在这里。（出示毒囊残壳）",
                 "emotion": "cold"
               },
               {
@@ -6012,19 +6818,19 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）她现在要看物证。别再用口供，找船上留下的东西。",
+                  "text": "（低声）她现在要看东西。别再用口供，找船上留下来的那片东西。",
                   "emotion": "worried"
                 }
               ],
               "evidence_float_bladder": [
                 {
                   "speaker": "沈清月",
-                  "text": "浮囊只能证明阿贵知道自己会落水。它碰不到死者舌根，也碰不到进水口。",
+                  "text": "浮囊只能咬住阿贵知道自己会落水。它碰不到死者舌根，也碰不到进水口。",
                   "emotion": "cold_smile"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）浮囊证明阿贵有准备，不证明毒怎么进船。得找能把草药固定到船上的物证。",
+                  "text": "（低声）浮囊咬的是阿贵的准备，碰不到毒怎么进船。找船上留下的东西。",
                   "emotion": "worried"
                 }
               ],
@@ -6036,19 +6842,19 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）货银能说明动机，说明不了毒囊。这里要找沉船残骸里的东西。",
+                  "text": "（低声）货银咬的是好处，碰不到毒囊。这里要看沉船残骸。",
                   "emotion": "worried"
                 }
               ],
               "_default": [
                 {
                   "speaker": "沈清月",
-                  "text": "陆公子，这东西只能证明你的想象力很好。可惜，想象不能入案。",
+                  "text": "陆公子，这东西只会让人觉得你想得挺远。可惜，想得远不能入案。",
                   "emotion": "sharp"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）她现在要的是“物证”。不是动机，不是时间。先找能证明下毒手法的东西。",
+                  "text": "（低声）她现在要的是看得见摸得着的东西。不是动机，不是时间。找船上留下的下毒痕迹。",
                   "emotion": "worried"
                 }
               ]
@@ -6057,7 +6863,7 @@
           {
             "id": "sf3_5",
             "speaker": "沈清月",
-            "text": "大明律——'疑罪从无'。你说得再好听，没有铁证也定不了我。陆公子，公堂上赢的不是故事，是证据。",
+            "text": "律条不听故事。没硬东西，就不能押人。陆公子，堂上不是茶楼。",
             "press": [
               {
                 "speaker": "你",
@@ -6071,12 +6877,12 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）她搬出律法来了……确实，没有铁证就定不了罪。但她说得这么熟，说明这套说法早就想过。",
+                "text": "（低声）她搬出律法来了……确实，没硬东西就押不了人。但她说得这么熟，说明这套说法早就想过。",
                 "emotion": "anxious"
               },
               {
                 "speaker": "沈清月",
-                "text": "'疑罪从无'是大明律的根本。陆公子若要定罪——请拿出铁证。否则，你说得再像也只是故事。",
+                "text": "大明律写得清楚。陆公子若要押我——请拿出县衙肯认的硬东西。否则，你说得再像也只是故事。",
                 "emotion": "sharp"
               }
             ]
@@ -6089,53 +6895,53 @@
         "preamble": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）毒囊残壳能证明有人布毒。但她会拿验断规矩反驳——残迹泡得太久，不能单独定罪。这回要把毒囊位置、舌根药渣和油脂锁毒一起说清楚。",
+            "text": "（低声）最后一轮。她会把证据拆散：胶是胶，药是药，油是油。别被她剪开。",
             "emotion": "determined"
           },
           {
             "speaker": "沈清月",
-            "text": "（看着糯米胶薄膜碎片，笑意更冷）糯米胶薄膜？码头上封鱼篓、糊船缝都用这东西。你拿一片烂胶就想定我的罪？",
+            "text": "（看着糯米胶薄膜碎片，笑意更冷）糯米胶？码头上封鱼篓、补船缝都用。陆公子，你拿一片烂胶来吓我？",
             "emotion": "cold_fury"
           }
         ],
         "readthrough_end_hint": [
           {
             "speaker": "凌瑶",
-            "text": "（低声）她在把证据分开说：糯米胶说成常见物、药渣说成已失活、油脂说成普通饭菜。先追问她最坚持的那句，让她把话说完整。",
+            "text": "（低声）她开始拆了。先听她拆到哪儿，拆得越细，越容易露线头。",
             "emotion": "determined"
           }
         ],
         "transition_dialogue": [
           {
             "speaker": "沈清月",
-            "text": "……油脂锁毒、毒囊定位。陆公子，你倒真能把沉船残骸的细节翻出来。",
+            "text": "……油脂锁毒，毒囊定位。陆公子，你真把船底翻了个底朝天。",
             "emotion": "cracking"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她没否认毒囊和油脂锁毒了。她现在只咬两点：定不到她身上，药残按验断规矩也站不稳。",
+            "text": "（低声）她不否认这两件了。她现在只想让它们落不到自己身上。",
             "emotion": "determined"
           },
           {
             "speaker": "钱里正",
-            "text": "这两件物证若能互相印上，至少能证明一点：这不是临时起意，也不是江底暗礁。有人预先知道破洞会开在哪里。",
+            "text": "这两件东西若能互相印上，至少能让人看清一点：这不是临时起意，也不是江底暗礁。有人预先知道破洞会开在哪里。",
             "emotion": "stern"
           },
           {
             "speaker": "你",
-            "text": "能不能定到你身上——要看毒囊的位置。它正贴着凿船破洞。只有知道破洞会开在哪里的人，才能放对地方。而阿贵供述：凿船位置是你指定的。",
+            "text": "能不能落到你身上，看位置。毒囊贴着破洞，破洞是阿贵按你给的位置凿的。沈清月，这不是路过能撞上的巧。",
             "emotion": "cold"
           }
         ],
         "fail_dialogue": [
           {
             "speaker": "沈清月",
-            "text": "陆公子，糯米胶薄膜随处可得，草药残迹过了验断时限，油脂又不只一种来路。你拿这些定不了我的罪。",
+            "text": "糯米胶随处有，草渣过了时效，油也不是人名。陆公子，别把三样松东西硬拧成锁。",
             "emotion": "sharp"
           },
           {
             "speaker": "凌瑶",
-            "text": "（低声）她还没把话说完整。先追问她最坚持的那句——油脂、药残、毒囊，到底能不能分开解释。",
+            "text": "（低声）她还没把话说死。继续问，让她亲口把三样东西分开。",
             "emotion": "worried"
           }
         ],
@@ -6143,7 +6949,7 @@
           {
             "id": "sf4_1",
             "speaker": "沈清月",
-            "text": "周德茂落水前是否失力，你们没有亲眼看见。江水能让人抽筋，也能让人缠上水草。",
+            "text": "周德茂落水前是不是失力，没人亲眼看见。冬江能抽筋，水草也能缠人。",
             "press": [
               {
                 "speaker": "你",
@@ -6170,7 +6976,7 @@
           {
             "id": "sf4_2",
             "speaker": "沈清月",
-            "text": "糯米胶薄膜？码头上封鱼篓、糊船缝都用这东西。谁都拿得到，定不到任何人身上。",
+            "text": "糯米胶？封鱼篓、糊船缝都用。谁都摸得到，摸不到我头上。",
             "press": [
               {
                 "speaker": "你",
@@ -6189,7 +6995,7 @@
               },
               {
                 "speaker": "凌瑶",
-                "text": "（低声）她在讲“来源普遍”，你要讲“位置唯一”。别让她把毒囊说成码头杂物。",
+                "text": "（低声）她把话扯到“谁都拿得到”。你把她拽回“为什么偏在破洞边”。别让她把毒囊说成码头杂物。",
                 "emotion": "determined"
               },
               {
@@ -6211,7 +7017,7 @@
               },
               {
                 "speaker": "沈清月",
-                "text": "码头泊船人人可登。一个仆从的口供——能说明什么？杀人犯为减罪攀咬，任何人都可能被诬陷。",
+                "text": "码头泊船人人可登。一个仆从的口供——能指到谁？杀人犯为减罪攀咬，谁都可能被拖下水。",
                 "emotion": "sharp"
               },
               {
@@ -6224,24 +7030,24 @@
               "evidence_oil_lock_residue": [
                 {
                   "speaker": "沈清月",
-                  "text": "油脂锁住残留？有趣。但它只能说明残留为什么还在，不能证明毒囊是谁放的。",
+                  "text": "油脂锁住残留？有趣。但它说的是残留为什么还在，不是谁把毒囊放上去。",
                   "emotion": "cold_smile"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）油脂要后面再用。先把毒囊位置和凿船破洞说清楚，不然她会说油脂跟放毒无关。",
+                  "text": "（低声）油脂还够不到这里。毒囊位置和凿船破洞没说清，她会说油脂跟放毒无关。",
                   "emotion": "worried"
                 }
               ],
               "evidence_tongue_herb_residue": [
                 {
                   "speaker": "沈清月",
-                  "text": "舌根药渣只能说明死者接触过草药。草药落入口中，和毒囊固定在哪里，是两回事。",
+                  "text": "舌根药渣顶多说死者接触过草药。草药落入口中，和毒囊固定在哪里，是两回事。",
                   "emotion": "sharp"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）药渣证明毒进过口，但她现在说糯米胶人人可得。得证明那片胶偏偏卡在破洞那儿。",
+                  "text": "（低声）药渣指向入口，但她现在说糯米胶人人可得。得把那片胶钉回破洞边。",
                   "emotion": "worried"
                 }
               ],
@@ -6260,24 +7066,24 @@
               "evidence_drug_capsule_shell": [
                 {
                   "speaker": "沈清月",
-                  "text": "毒囊残壳证明有人布置过毒囊，不证明那个人是我。人人可登船，人人可糊胶片。",
+                  "text": "毒囊残壳只能说有人布置过毒囊，不等于那个人是我。人人可登船，人人可糊胶片。",
                   "emotion": "sharp"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）残壳只能证明有毒囊。要逼她，就让她继续拆，拆到最后没法拆。",
+                  "text": "（低声）残壳只把毒囊摆出来。要逼她，就让她继续拆，拆到最后没法拆。",
                   "emotion": "worried"
                 }
               ],
               "clue_agui_confession": [
                 {
                   "speaker": "沈清月",
-                  "text": "又回到阿贵了？陆公子，杀人犯的攀咬若能唯一指人，县衙早该改成茶馆了。",
+                  "text": "又回到阿贵了？陆公子，杀人犯的攀咬若能随便指人，县衙早该改成茶馆了。",
                   "emotion": "cold_fury"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）她一剪子就能剪断单独口供。口供要和位置物证绑在一起才结实。",
+                  "text": "（低声）她一剪子就能剪断单独口供。口供要和船底那个位置绑在一起才结实。",
                   "emotion": "worried"
                 }
               ]
@@ -6286,7 +7092,7 @@
           {
             "id": "sf4_3",
             "speaker": "沈清月",
-            "text": "麻痹草药入淡水数刻便散，舌根残留也可能只是江中水草或过期植物纤维。药理上无法定成毒杀。",
+            "text": "那点麻痹草入淡水几刻就散。舌根残留也可能是水草烂叶，药理上定不了毒杀。",
             "press": [
               {
                 "speaker": "你",
@@ -6310,7 +7116,7 @@
               },
               {
                 "speaker": "沈清月",
-                "text": "说得通，但依旧不是唯一结论。",
+                "text": "说得通，但也不是只有这一种说法。",
                 "emotion": "cold_fury"
               }
             ]
@@ -6318,11 +7124,11 @@
           {
             "id": "sf4_4",
             "speaker": "沈清月",
-            "text": "油脂可来自江中鱼虾，也可来自船板漆料。它不能证明有人投毒，更不能证明是我。",
+            "text": "油可能来自鱼虾，也可能来自船板漆。它不是凶器，更不是我的名字。",
             "press": [
               {
                 "speaker": "你",
-                "text": "油脂来源不唯一？那你解释一下：为什么油脂刚好锁住了舌根药残？",
+                "text": "油从哪儿来，说不清？那你解释一下：为什么油脂刚好裹住了舌根药残？",
                 "emotion": "cold"
               },
               {
@@ -6342,7 +7148,7 @@
               },
               {
                 "speaker": "沈清月",
-                "text": "连起来，也只能证明有人布过毒。陆公子，你还差能落到我身上的证据。",
+                "text": "连起来，也只能说有人下过毒。陆公子，你还差一步，差的是我的名字。",
                 "emotion": "cold_smile"
               }
             ],
@@ -6350,19 +7156,19 @@
               "evidence_drug_capsule_shell": [
                 {
                   "speaker": "沈清月",
-                  "text": "毒囊残壳证明有人做过毒囊。可我现在问的是油脂来源，陆公子别把刚才的话再说一遍。",
+                  "text": "毒囊残壳说的是有人做过毒囊。可我现在问的是油脂来源，陆公子别把刚才的话再说一遍。",
                   "emotion": "cold_fury"
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）毒囊残壳刚才已经用过了。最后这一句要用油脂锁毒。",
+                  "text": "（低声）毒囊残壳刚才已经用过了。这句不是它能答的，油脂锁毒才答得上。",
                   "emotion": "worried"
                 }
               ],
               "evidence_capsule_position_match": [
                 {
                   "speaker": "沈清月",
-                  "text": "定位吻合证明布置者知道凿船位置。可油脂从哪里来，仍然没有唯一答案。",
+                  "text": "定位吻合说的是布置者知道凿船位置。可油脂从哪里来，你仍然没答。",
                   "emotion": "sharp"
                 },
                 {
@@ -6374,7 +7180,7 @@
               "evidence_oil_lock_residue": [
                 {
                   "speaker": "沈清月",
-                  "text": "油脂锁毒？你急了。先证明它锁住的就是毒囊释放的那一口水，而不是你的推测。",
+                  "text": "油脂锁毒？你急了。先说清楚，它锁住的就是毒囊释放的那一口水，而不是你的推测。",
                   "emotion": "cold_smile"
                 },
                 {
@@ -6403,7 +7209,7 @@
                 },
                 {
                   "speaker": "凌瑶",
-                  "text": "（低声）她逼我们回到物证。这里别用口供，要用油脂锁毒。",
+                  "text": "（低声）她逼我们回到东西本身。口供在这里够不到，油脂锁毒才够得到。",
                   "emotion": "worried"
                 }
               ],
@@ -6425,7 +7231,7 @@
               "statement": {
                 "id": "sf4_4b",
                 "speaker": "沈清月",
-                "text": "除非你能证明所谓油脂锁住的，正是毒囊释放后被周德茂呛入口中的那一口毒水。否则油脂、药残、毒囊，仍然只是三件互不相干的东西。",
+                "text": "除非你能说清楚，油裹住的正是毒囊放出来、被周德茂呛进去的那口水。否则胶在船底，草在舌根，油在饭菜里，三样东西不该硬说成一桩。",
                 "is_contradiction": true,
                 "counter_evidence": "evidence_oil_lock_residue",
                 "press": [
@@ -6441,7 +7247,7 @@
                   },
                   {
                     "speaker": "凌瑶",
-                    "text": "（低声）她终于说完整了。现在不是单说毒囊，也不是单说药残——是证明这三样是在同一次下毒里连上的。",
+                    "text": "（低声）她终于说完整了。现在不是单说毒囊，也不是单说药残——是把这三样摁回同一口水里。",
                     "emotion": "determined"
                   },
                   {
@@ -6458,7 +7264,7 @@
                   },
                   {
                     "speaker": "你",
-                    "text": "毒囊固定在人工破洞处，证明毒水从那里进入船舱；舌根药残证明死者呛入了那口毒水；油脂锁毒证明为什么这口毒水留下了痕迹。",
+                    "text": "毒囊固定在人工破洞处，毒水就从那里进船舱；舌根药残，是死者呛下的第一口；油脂锁毒，才让这口水没被江水洗干净。",
                     "emotion": "cold"
                   },
                   {
@@ -6486,7 +7292,7 @@
                   "evidence_capsule_position_match": [
                     {
                       "speaker": "沈清月",
-                      "text": "位置吻合只能证明毒囊卡在破洞。它不能证明死者舌根那点残留从何而来。",
+                      "text": "位置吻合只能把毒囊钉在破洞上。它还没说死者舌根那点残留从何而来。",
                       "emotion": "sharp"
                     },
                     {
@@ -6515,7 +7321,7 @@
                     },
                     {
                       "speaker": "凌瑶",
-                      "text": "（低声）毒囊只能说明毒从哪来。现在要说明为什么药残还留在舌根。",
+                      "text": "（低声）毒囊说的是毒从哪来。现在要说清，为什么药残还留在舌根。",
                       "emotion": "determined"
                     }
                   ],
@@ -6527,7 +7333,7 @@
                     },
                     {
                       "speaker": "凌瑶",
-                      "text": "（低声）最后一击了。找那个能说明“为什么毒没有散、为什么残留还在舌根”的物证。",
+                      "text": "（低声）快到门口了。别被她绕走，想想是什么把药残留在舌根没散。",
                       "emotion": "worried"
                     }
                   ]

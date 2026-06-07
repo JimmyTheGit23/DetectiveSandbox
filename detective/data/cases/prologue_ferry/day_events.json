@@ -278,7 +278,7 @@
           "text": "你还想狡辩？！同船的人只有你活着！只有你从天窗跑了！不是你是谁？！",
           "emotion": "accusing"
         },
-        "围观人群又乱了。有人盯着你手边那根铁撬棍，小声说：这不就是凶器吗？",
+        "围观人群又乱了。有人顺着阿贵的话小声议论：他说的铁家伙……莫非就是凶器？",
         {
           "speaker": "",
           "text": "围观人群骚动。一个圆脸中年人从人群中挤出来——是渡口的里正。他扫了一眼尸体，又打量了你几眼。",
@@ -313,7 +313,7 @@
         },
         {
           "speaker": "钱里正",
-          "text": "姑娘，你先别急。我只看眼前这些事：他活着，死的是周老板，手边还有铁家伙。难怪大家盯着他。",
+          "text": "姑娘，你先别急。我只看眼前这些事：他活着，死的是周老板，还有人咬定他在船上拿过铁家伙。难怪大家盯着他。",
           "emotion": "stern"
         },
         "码头王大爷说，船翻之后不到一刻钟，就有人从南岸爬上来了。动作利索得很，不像快淹死的人。",
@@ -324,7 +324,7 @@
         },
         {
           "speaker": "沈清月",
-          "text": "第一，周老板会水，却死了。第二，陆公子活着，还带着铁撬棍。第三，他一开口就说船底有洞。",
+          "text": "第一，周老板会水，却死了。第二，阿贵指认陆公子在船上拿过铁器。第三，他一开口就说船底有洞。",
           "emotion": "sharp"
         },
         {
@@ -412,7 +412,11 @@
         "defer_change_location": true,
         "suppress_arrival_banter": true,
         "suppress_location_intro": true,
-        "auto_start_confrontation": "confrontation_wang"
+        "auto_start_confrontation": "confrontation_wang",
+        "narration_fx": {
+          "disable_typewriter_skip": true,
+          "typewriter_char_delay": 0.075
+        }
       },
       "auto_play": true,
       "_comment": "整理疑点结束后，播放沉船、落水、凌瑶救援、客栈发现尸体与被指控；关键证据随对应画面逐行发放，台词播完后再静默切到客栈并进入王大爷证词对峙。"
