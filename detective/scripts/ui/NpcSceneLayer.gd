@@ -17,6 +17,16 @@ const MULTI_HALF_WIDTH := 220.0  # 多 NPC 时单个立绘的半宽
 const PORTRAIT_CROP_PADDING_RATIO := 0.02
 const PORTRAIT_CROP_MIN_PADDING := 8
 const PORTRAIT_CROP_MIN_HEIGHT_RATIO := 0.78
+const DEFAULT_SINGLE_PORTRAIT_FRAME := {
+	"offset_left": -320.0,
+	"offset_top": 60.0,
+	"offset_right": 320.0,
+	"offset_bottom": 0.0,
+	"pivot_x": 320.0,
+}
+const DEFAULT_PORTRAIT_CROP_PADDING_RATIO := 0.02
+const DEFAULT_PORTRAIT_CROP_MIN_PADDING := 8
+const DEFAULT_PORTRAIT_CROP_MIN_HEIGHT_RATIO := 0.78
 
 var _portrait: TextureRect            # 单 NPC 模式的立绘（保持原行为）
 var _portraits: Array = []            # 多 NPC 模式的立绘列表
@@ -27,12 +37,24 @@ var _multi_mode: bool = false
 var _portrait_texture_cache: Dictionary = {}
 var _current_portrait_display_scale: float = 1.0
 var _current_portrait_pivot_y: float = 330.0
+var _current_portrait_offset_y: float = 0.0
+var _preview_active := false
+var _single_portrait_frame: Dictionary = DEFAULT_SINGLE_PORTRAIT_FRAME.duplicate(true)
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_refresh_single_portrait_frame()
 	_build_portrait()
+
+
+func _refresh_single_portrait_frame() -> void:
+	_single_portrait_frame = DEFAULT_SINGLE_PORTRAIT_FRAME.duplicate(true)
+	if AssetResolver != null and AssetResolver.has_method("get_center_portrait_standard_frame"):
+		var resolved = AssetResolver.get_center_portrait_standard_frame()
+		if typeof(resolved) == TYPE_DICTIONARY and not resolved.is_empty():
+			_single_portrait_frame = resolved.duplicate(true)
 
 
 func _build_portrait() -> void:
@@ -45,10 +67,10 @@ func _build_portrait() -> void:
 	_portrait.anchor_left = 0.5
 	_portrait.anchor_right = 0.5
 	_portrait.anchor_bottom = 1.0
-	_portrait.offset_left = -320.0
-	_portrait.offset_top = 60.0
-	_portrait.offset_right = 320.0
-	_portrait.offset_bottom = 0.0
+	_portrait.offset_left = float(_single_portrait_frame.get("offset_left", -320.0))
+	_portrait.offset_top = float(_single_portrait_frame.get("offset_top", 60.0))
+	_portrait.offset_right = float(_single_portrait_frame.get("offset_right", 320.0))
+	_portrait.offset_bottom = float(_single_portrait_frame.get("offset_bottom", 0.0))
 	# 应用边缘渐隐 shader（底部不渐隐，由对话框自然遮挡）
 	var shader = load("res://assets/cn/portrait_fade.gdshader")
 	if shader:
@@ -108,8 +130,11 @@ func refresh_npcs(location_id: String) -> void:
 		var nid := str(npc_id)
 		if nid == "lu_zhao":
 			continue
+		if AssetResolver != null and AssetResolver.has_method("is_center_npc_enabled") and not AssetResolver.is_center_npc_enabled(nid):
+			continue
 		filtered.append(nid)
 
+	_preview_active = false
 	if filtered.is_empty():
 		_hide_portrait()
 		return
@@ -122,8 +147,7 @@ func refresh_npcs(location_id: String) -> void:
 			_hide_portrait()
 			return
 		_current_npc_id = filtered[0]
-		_current_portrait_display_scale = AssetResolver.get_portrait_screen_scale(portrait_path)
-		_current_portrait_pivot_y = AssetResolver.get_portrait_screen_pivot_y(portrait_path)
+		_apply_single_portrait_presentation(filtered[0], "base", portrait_path)
 		_portrait.texture = _load_portrait_texture(portrait_path)
 		_show_portrait()
 		return
@@ -168,6 +192,9 @@ func _clear_multi_portraits() -> void:
 
 
 func _show_portrait() -> void:
+	_portrait.pivot_offset = Vector2(float(_single_portrait_frame.get("pivot_x", _portrait.size.x / 2.0)), _current_portrait_pivot_y)
+	_portrait.offset_top = float(_single_portrait_frame.get("offset_top", 60.0)) + _current_portrait_offset_y
+	_portrait.offset_bottom = float(_single_portrait_frame.get("offset_bottom", 0.0)) + _current_portrait_offset_y
 	if _portrait.visible and _portrait.modulate.a > 0.9:
 		return
 	# 如果有子面板活跃（探索/搜索/对峙等），不显示 NPC 立绘
@@ -177,7 +204,6 @@ func _show_portrait() -> void:
 	_portrait.visible = true
 	if _portrait_tween != null and _portrait_tween.is_valid():
 		_portrait_tween.kill()
-	_portrait.pivot_offset = Vector2(_portrait.size.x / 2.0, _current_portrait_pivot_y)
 	_portrait.modulate = Color(1, 1, 1, 0)
 	var target_scale := Vector2(_current_portrait_display_scale, _current_portrait_display_scale)
 	_portrait.scale = target_scale * 0.95
@@ -250,6 +276,7 @@ var _saved_texture: Texture2D = null
 var _saved_multi_ids: Array = []
 var _saved_portrait_display_scale: float = 1.0
 var _saved_portrait_pivot_y: float = 330.0
+var _saved_portrait_offset_y: float = 0.0
 
 func show_companion() -> void:
 	""" 先隐藏原 NPC 立绘，再显示助手立绘（居中） """
@@ -263,6 +290,7 @@ func show_companion() -> void:
 	_saved_texture = _portrait.texture
 	_saved_portrait_display_scale = _current_portrait_display_scale
 	_saved_portrait_pivot_y = _current_portrait_pivot_y
+	_saved_portrait_offset_y = _current_portrait_offset_y
 	# 先隐藏当前 NPC
 	if _portrait.visible:
 		if _portrait_tween != null and _portrait_tween.is_valid():
@@ -273,8 +301,7 @@ func show_companion() -> void:
 	var portrait_path: String = CompanionService.get_companion_portrait()
 	if portrait_path == "" or not ResourceLoader.exists(portrait_path):
 		return
-	_current_portrait_display_scale = AssetResolver.get_portrait_screen_scale(portrait_path)
-	_current_portrait_pivot_y = AssetResolver.get_portrait_screen_pivot_y(portrait_path)
+	_apply_single_portrait_presentation("__companion__", "base", portrait_path)
 	_portrait.texture = _load_portrait_texture(portrait_path)
 	_current_npc_id = "__companion__"
 	_show_portrait()
@@ -322,10 +349,13 @@ func _crop_texture_to_visible_alpha(texture: Texture2D) -> Texture2D:
 	if used.size.x <= 0 or used.size.y <= 0:
 		return texture
 	var image_size := image.get_size()
-	if float(used.size.y) / float(image_size.y) < PORTRAIT_CROP_MIN_HEIGHT_RATIO:
+	var normalize_cfg := _get_portrait_normalize_config()
+	if float(used.size.y) / float(image_size.y) < float(normalize_cfg.get("crop_min_height_ratio", DEFAULT_PORTRAIT_CROP_MIN_HEIGHT_RATIO)):
 		return texture
-	var pad_x: int = max(PORTRAIT_CROP_MIN_PADDING, int(ceil(float(used.size.x) * PORTRAIT_CROP_PADDING_RATIO)))
-	var pad_y: int = max(PORTRAIT_CROP_MIN_PADDING, int(ceil(float(used.size.y) * PORTRAIT_CROP_PADDING_RATIO)))
+	var pad_ratio := float(normalize_cfg.get("crop_padding_ratio", DEFAULT_PORTRAIT_CROP_PADDING_RATIO))
+	var min_padding := int(normalize_cfg.get("crop_min_padding", DEFAULT_PORTRAIT_CROP_MIN_PADDING))
+	var pad_x: int = max(min_padding, int(ceil(float(used.size.x) * pad_ratio)))
+	var pad_y: int = max(min_padding, int(ceil(float(used.size.y) * pad_ratio)))
 	var x1: int = max(0, used.position.x - pad_x)
 	var y1: int = max(0, used.position.y - pad_y)
 	var x2: int = min(image_size.x, used.position.x + used.size.x + pad_x)
@@ -336,6 +366,18 @@ func _crop_texture_to_visible_alpha(texture: Texture2D) -> Texture2D:
 	atlas.atlas = texture
 	atlas.region = Rect2(float(x1), float(y1), float(x2 - x1), float(y2 - y1))
 	return atlas
+
+
+func _get_portrait_normalize_config() -> Dictionary:
+	if AssetResolver != null and AssetResolver.has_method("get_center_portrait_texture_normalize_config"):
+		var resolved = AssetResolver.get_center_portrait_texture_normalize_config("scene")
+		if typeof(resolved) == TYPE_DICTIONARY and not resolved.is_empty():
+			return resolved
+	return {
+		"crop_padding_ratio": DEFAULT_PORTRAIT_CROP_PADDING_RATIO,
+		"crop_min_padding": DEFAULT_PORTRAIT_CROP_MIN_PADDING,
+		"crop_min_height_ratio": DEFAULT_PORTRAIT_CROP_MIN_HEIGHT_RATIO,
+	}
 
 
 func restore_npc() -> void:
@@ -358,13 +400,48 @@ func restore_npc() -> void:
 	if _saved_texture != null:
 		_current_portrait_display_scale = _saved_portrait_display_scale
 		_current_portrait_pivot_y = _saved_portrait_pivot_y
+		_current_portrait_offset_y = _saved_portrait_offset_y
 		_portrait.texture = _saved_texture
 		_saved_texture = null
 		_saved_npc_id = ""
 		_saved_portrait_display_scale = 1.0
 		_saved_portrait_pivot_y = 330.0
+		_saved_portrait_offset_y = 0.0
 		_show_portrait()
 	else:
 		_saved_npc_id = ""
 		_saved_portrait_display_scale = 1.0
 		_saved_portrait_pivot_y = 330.0
+		_saved_portrait_offset_y = 0.0
+
+
+func preview_center_npc(npc_id: String, emotion: String = "base") -> bool:
+	if npc_id == "":
+		return false
+	var portrait_path := AssetResolver.resolve_case_portrait(npc_id, emotion, GameManager.npcs_data)
+	if portrait_path == "" or not ResourceLoader.exists(portrait_path):
+		return false
+	_preview_active = true
+	_switch_to_single_mode()
+	_current_npc_id = npc_id
+	_apply_single_portrait_presentation(npc_id, emotion, portrait_path)
+	_portrait.texture = _load_portrait_texture(portrait_path)
+	_show_portrait()
+	return true
+
+
+func clear_preview() -> void:
+	_preview_active = false
+	if GameManager != null and GameManager.current_location != "":
+		refresh_npcs(GameManager.current_location)
+	else:
+		_hide_portrait()
+
+
+func _apply_single_portrait_presentation(npc_id: String, emotion: String, portrait_path: String) -> void:
+	var presentation := AssetResolver.get_center_portrait_surface_presentation("scene", npc_id, emotion, portrait_path)
+	_current_portrait_display_scale = float(presentation.get("screen_scale", 1.0))
+	_current_portrait_pivot_y = float(presentation.get("pivot_y", 330.0))
+	_current_portrait_offset_y = float(presentation.get("offset_y", 0.0))
+	_portrait.offset_top = float(_single_portrait_frame.get("offset_top", 60.0)) + _current_portrait_offset_y
+	_portrait.offset_bottom = float(_single_portrait_frame.get("offset_bottom", 0.0)) + _current_portrait_offset_y

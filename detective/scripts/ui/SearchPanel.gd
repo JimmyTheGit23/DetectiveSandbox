@@ -182,6 +182,14 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 				# 有图片时扩大面板最小尺寸
 				panel.custom_minimum_size.y = 620
 
+	var gained_item_id: String = result.get("gained_evidence", "")
+	if gained_item_id == "":
+		gained_item_id = result.get("gained_clue", "")
+	if gained_item_id != "":
+		await get_tree().create_timer(EVIDENCE_OBTAIN_HOLD_SECONDS).timeout
+		if not is_inside_tree():
+			return
+
 	var btn := Button.new()
 	btn.text = "知 道 了"
 	btn.custom_minimum_size = Vector2(180, 44)
@@ -189,13 +197,6 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 	btn.add_theme_font_size_override("font_size", 20)
 	btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.58, 1))
 	vbox.add_child(btn)
-
-	if result.get("gained_evidence", "") != "":
-		btn.disabled = true
-		await get_tree().create_timer(EVIDENCE_OBTAIN_HOLD_SECONDS).timeout
-		if not is_inside_tree():
-			return
-		btn.disabled = false
 
 	await btn.pressed
 	if is_instance_valid(overlay):

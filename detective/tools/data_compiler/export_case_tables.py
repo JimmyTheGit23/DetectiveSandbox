@@ -344,6 +344,12 @@ def export_confrontations(case_dir: Path, out_dir: Path) -> None:
                 "testimony_id": testimony_id,
                 "witness": testimony.get("witness", ""),
                 "title": testimony.get("title", ""),
+                "mode": testimony.get("mode", ""),
+                "proof_statement_id": testimony.get("proof_statement_id", ""),
+                "proof_evidence": testimony.get("proof_evidence", ""),
+                "proof_alt_evidence": compact(testimony.get("proof_alt_evidence", "")),
+                "proof_prompt": testimony.get("proof_prompt", ""),
+                "skip_title_card": compact(testimony.get("skip_title_card", "")),
                 "writer_note": "",
             })
             for section in ["preamble", "readthrough_end_hint", "transition_dialogue", "fail_dialogue"]:
@@ -390,7 +396,9 @@ def export_confrontations(case_dir: Path, out_dir: Path) -> None:
         "portrait_emotion", "portrait_override",
     ], confrontation_line_rows)
     write_csv(out_dir / "testimony_sets.csv", [
-        "confrontation_id", "order", "testimony_id", "witness", "title", "writer_note",
+        "confrontation_id", "order", "testimony_id", "witness", "title", "mode",
+        "proof_statement_id", "proof_evidence", "proof_alt_evidence", "proof_prompt",
+        "skip_title_card", "writer_note",
     ], testimony_rows)
     write_csv(out_dir / "testimony_lines.csv", [
         "testimony_id", "section", "order", "speaker_id", "speaker", "text", "emotion",

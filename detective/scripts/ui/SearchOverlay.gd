@@ -15,7 +15,9 @@ var _generic_label: Label
 var _generic_tween: Tween
 var _exit_btn: Button
 var _typewriter: Node = null
+var _interaction_locked_until_msec := 0
 var _TypewriterScript = preload("res://scripts/ui/TypewriterEffect.gd")
+const TextUtilsScript = preload("res://scripts/core/TextUtils.gd")
 
 const EVIDENCE_IMAGE_MIN_HOLD_SECONDS := 2.0
 
@@ -45,6 +47,10 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if _is_interaction_locked():
+		if event is InputEventMouseButton or event is InputEventKey or event is InputEventScreenTouch:
+			get_viewport().set_input_as_handled()
+		return
 	if not event is InputEventKey or not event.pressed:
 		return
 	if event.keycode == KEY_ESCAPE and not _is_searching:
@@ -524,6 +530,7 @@ func _show_evidence_image(icon_path: String, item_id: String) -> void:
 	await tween.finished
 
 	# 至少停留 2 秒
+	_lock_interaction_for(EVIDENCE_IMAGE_MIN_HOLD_SECONDS)
 	var min_wait := get_tree().create_timer(EVIDENCE_IMAGE_MIN_HOLD_SECONDS)
 	await min_wait.timeout
 
@@ -555,6 +562,20 @@ func _show_evidence_image(icon_path: String, item_id: String) -> void:
 	await fade.finished
 	if is_instance_valid(overlay):
 		overlay.queue_free()
+
+
+func _lock_interaction_for(seconds: float) -> void:
+	var duration_msec := int(maxf(seconds, 0.0) * 1000.0)
+	if duration_msec <= 0:
+		return
+	_interaction_locked_until_msec = maxi(
+		_interaction_locked_until_msec,
+		Time.get_ticks_msec() + duration_msec
+	)
+
+
+func _is_interaction_locked() -> bool:
+	return Time.get_ticks_msec() < _interaction_locked_until_msec
 
 
 ## 底部浮现结果文字（打字机逐字显示），点击跳过打字→再点击关闭
@@ -590,7 +611,7 @@ func _show_bottom_result(text: String) -> void:
 	label.add_theme_color_override("default_color", Color(0.92, 0.88, 0.76, 1))
 
 	# 打字机效果需要完整文本（含提示），但逐字播放
-	var full_text := text + "\n\n[center][color=#aa8844][i]— 点击任意处继续 —[/i][/color][/center]"
+	var full_text := TextUtilsScript.strip_stage_directions(text) + "\n\n[center][color=#aa8844][i]— 点击任意处继续 —[/i][/color][/center]"
 	label.text = ""
 	result_panel.add_child(label)
 

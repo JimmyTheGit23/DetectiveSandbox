@@ -94,6 +94,7 @@ static func load_case(case_id: String) -> Dictionary:
 		"locations": _compile_locations(src),
 		"npcs": npcs_and_casting.get("npcs", {}),
 		"casting": npcs_and_casting.get("casting", {}),
+		"center_npc_layouts": _compile_center_npc_layouts(src),
 		"evidence": _compile_evidence(src),
 		"key_info": docs.get("key_info", {}),
 		"search_results": _compile_search_results(src),
@@ -230,6 +231,12 @@ static func _parse_int(value, default_value = null):
 	if _is_blank(value):
 		return default_value
 	return int(float(str(value).strip_edges()))
+
+
+static func _parse_float(value, default_value: float = 0.0) -> float:
+	if _is_blank(value):
+		return default_value
+	return float(str(value).strip_edges())
 
 
 static func _parse_scalar(value):
@@ -745,6 +752,12 @@ static func _compile_case_data(src: String, base: Dictionary = {}) -> Dictionary
 		_set_if(testimony, "witness", _cell(row, "witness"))
 		_set_if(testimony, "title", _cell(row, "title"))
 		_set_if(testimony, "grant_evidence", _cell(row, "grant_evidence"))
+		for key in ["mode", "proof_statement_id", "proof_evidence", "proof_prompt"]:
+			_set_if(testimony, key, _cell(row, key))
+		if not _is_blank(row.get("proof_alt_evidence", "")):
+			testimony["proof_alt_evidence"] = _parse_list(row.get("proof_alt_evidence", ""))
+		if not _is_blank(row.get("skip_title_card", "")):
+			testimony["skip_title_card"] = _parse_bool(row.get("skip_title_card", false))
 		for section in ["preamble", "readthrough_end_hint", "transition_dialogue", "fail_dialogue"]:
 			var lines: Array = []
 			for x in testimony_lines_by_key.get("%s|%s" % [testimony_id, section], []):
@@ -1028,6 +1041,43 @@ static func _compile_portrait_expressions(src: String) -> Dictionary:
 			continue
 		_ensure_dict(portraits, base)[emotion] = portrait
 	return {"_comment": "Generated at runtime from portrait_expressions.csv", "portraits": portraits}
+
+
+static func _compile_center_npc_layouts(src: String) -> Dictionary:
+	var by_npc := {}
+	var by_portrait := {}
+	for row in _rows("%s/center_npc_layouts.csv" % src):
+		var npc_id := _cell(row, "npc_id")
+		var emotion := _cell(row, "emotion", "base")
+		var portrait := _cell(row, "portrait")
+		if npc_id == "" or portrait == "":
+			continue
+		var npc_entry := _ensure_dict(by_npc, npc_id)
+		if row.has("enabled") and not _is_blank(row.get("enabled")):
+			npc_entry["enabled"] = _parse_bool(row.get("enabled", true), true)
+		var cfg := {
+			"npc_id": npc_id,
+			"emotion": emotion,
+			"portrait": portrait,
+			"screen_scale": _parse_float(row.get("screen_scale", 1.0), 1.0),
+			"offset_y": _parse_float(row.get("offset_y", 0.0), 0.0),
+			"pivot_y": _parse_float(row.get("pivot_y", 330.0), 330.0),
+			"confrontation_screen_scale": _parse_float(
+				row.get("confrontation_screen_scale", row.get("screen_scale", 1.0)),
+				_parse_float(row.get("screen_scale", 1.0), 1.0)
+			),
+			"confrontation_offset_y": _parse_float(
+				row.get("confrontation_offset_y", row.get("offset_y", 0.0)),
+				_parse_float(row.get("offset_y", 0.0), 0.0)
+			),
+		}
+		_ensure_dict(npc_entry, "emotions")[emotion] = cfg
+		by_portrait[portrait] = cfg
+	return {
+		"_comment": "Generated at runtime from center_npc_layouts.csv",
+		"by_npc": by_npc,
+		"by_portrait": by_portrait,
+	}
 
 
 # ─── 表格编译：序章 / 尾声 / 伙伴系统 ───────────────────────────────────────

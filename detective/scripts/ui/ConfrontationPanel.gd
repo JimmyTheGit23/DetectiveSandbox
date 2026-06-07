@@ -8,6 +8,7 @@ extends Control
 signal confrontation_finished(result: String, mistakes: int)
 
 const TypewriterEffectScript = preload("res://scripts/ui/TypewriterEffect.gd")
+const TextUtilsScript = preload("res://scripts/core/TextUtils.gd")
 
 # ─── 状态机 ───
 enum State {
@@ -19,6 +20,7 @@ enum State {
 	EVIDENCE_OPEN,      # 证据面板已展开
 	BREAK_ANIM,        # 击破动画
 	FAIL_ANIM,          # 失败闪红
+	PROOF_SUCCESS,      # 强制自证成功后的对话
 	VICTORY,            # 全部击破
 	DEFEAT              # 信心归零
 }
@@ -36,6 +38,7 @@ var _max_confidence: int = 3
 var _mistakes: int = 0
 var _selected_evidence_id: String = ""
 var _hovered_evidence_id: String = ""   # 鼠标悬浮时的证物ID（仅用于详情预览）
+var _forced_proof_active: bool = false
 
 # ─── 对话播放 ───
 var _dialogue_queue: Array = []
@@ -43,6 +46,7 @@ var _dialogue_idx: int = 0
 var _click_callback: Callable = Callable()
 var _typewriter: Node = null
 var _typewriter_playing: bool = false
+var _input_locked_until_msec := 0
 
 # ─── 对话头像 ───
 var _dlg_portrait_rect: TextureRect = null
@@ -73,6 +77,8 @@ var _evidence_detail_desc: RichTextLabel = null
 var _evidence_detail_category: Label = null
 var _evidence_page_label: Label = null
 var _evidence_statement_quote: RichTextLabel = null  # 当前证词引用
+var _evidence_cancel_btn: Button = null
+var _evidence_hint_label: Label = null
 var _dialogue_box: PanelContainer
 var _dialogue_speaker: Label
 var _dialogue_text: RichTextLabel
@@ -86,22 +92,20 @@ const CAMERA_SWITCH_ENABLED := true
 # ─── 立绘 ───
 enum PortraitState { NORMAL, SHAKEN, COLLAPSED }
 const PORTRAIT_SLOT_WIDTH := 560.0
-const PORTRAIT_SLOT_TOP := 20.0
-const PORTRAIT_SLOT_BOTTOM := 80.0
+const PORTRAIT_SLOT_TOP := 60.0
+const PORTRAIT_SLOT_BOTTOM := 0.0
 const PORTRAIT_SLOT_SIDE_INSET := 24.0
 const PORTRAIT_SLOT_OFFSCREEN_GAP := 90.0
-const PORTRAIT_CROP_PADDING_RATIO := 0.0
-const PORTRAIT_CROP_MIN_PADDING := 6
-const PORTRAIT_LAYOUT_PROFILES := {
-	"zhou_wife": {"scale": 1.16, "offset_y": 36.0},
-	"li_zheng": {"scale": 0.86, "offset_y": 18.0},
-	"shen_qingyue": {"scale": 0.88, "offset_y": 14.0},
-	"lu_zhao": {"scale": 0.90, "offset_y": 14.0},
-	"xia_lingyao": {"scale": 0.90, "offset_y": 14.0},
-	"lingyao": {"scale": 0.90, "offset_y": 14.0},
+const DEFAULT_PORTRAIT_CROP_PADDING_RATIO := 0.02
+const DEFAULT_PORTRAIT_CROP_MIN_PADDING := 8
+const DEFAULT_PORTRAIT_CROP_MIN_HEIGHT_RATIO := 0.78
+var _center_portrait_frame := {
+	"offset_left": -320.0,
+	"offset_top": 60.0,
+	"offset_right": 320.0,
+	"offset_bottom": 0.0,
+	"pivot_x": 320.0,
 }
-var _default_center_layout := {"left": -280.0, "top": 20.0, "right": 280.0, "bottom": 80.0}
-var _center_portrait_layouts := {}
 var _portrait_texture_cache: Dictionary = {}
 var _portrait_state: int = PortraitState.NORMAL
 var _shake_tween: Tween = null
@@ -112,6 +116,9 @@ var _companion_rect: TextureRect = null     # 凌瑶立绘
 var _opponent_rect: TextureRect = null      # 右侧对手立绘（辩护方/沈清月等）
 var _camera_tween: Tween = null             # 镜头滑动动画
 var _current_camera_view: String = "npc"    # "npc" | "protagonist" | "companion" | "opponent" | "clash"
+var _protagonist_portrait_data: Dictionary = {}
+var _companion_portrait_data: Dictionary = {}
+var _opponent_portrait_data: Dictionary = {}
 
 # ─── 对手立绘位（数据驱动，可扩展辩护方角色） ───
 var _opponent_speaker_ids := {"shen_qingyue": true}
@@ -122,7 +129,7 @@ const CLR_GOLD_BRIGHT := Color(1.0, 0.92, 0.55)
 const CLR_DIM := Color(0.55, 0.50, 0.42, 0.6)
 const CLR_RED := Color(0.85, 0.25, 0.18, 0.9)
 const CLR_GREEN := Color(0.3, 0.8, 0.35)
-const CLR_NEW_DOT := Color(0.4, 0.85, 1.0)
+const EVIDENCE_ACQUIRED_LOCK_SECONDS := 2.0
 
 # ─── 威慑语音台词池 ───
 ## 符合陆昭性格：冷静、简洁、逻辑压迫感强
@@ -160,8 +167,10 @@ func _ready() -> void:
 	_current_testimony_idx = 0
 	_mistakes = 0
 	_portrait_state = PortraitState.NORMAL
+	_refresh_center_portrait_frame()
 	_typewriter = TypewriterEffectScript.new()
 	add_child(_typewriter)
+	_forced_proof_active = false
 	# intro 阶段用开庭音乐，证言开始时切正式对峙 BGM。
 	_play_confrontation_bgm(_confrontation_intro_bgm())
 	_build_ui()
@@ -174,6 +183,13 @@ func _play_confrontation_bgm(bgm_id: String) -> void:
 	var bgm_player := get_node_or_null("/root/BgmPlayer")
 	if bgm_player and bgm_player.has_method("play"):
 		bgm_player.play(bgm_id)
+
+
+func _refresh_center_portrait_frame() -> void:
+	if AssetResolver != null and AssetResolver.has_method("get_center_portrait_standard_frame"):
+		var resolved = AssetResolver.get_center_portrait_standard_frame()
+		if typeof(resolved) == TYPE_DICTIONARY and not resolved.is_empty():
+			_center_portrait_frame = resolved.duplicate(true)
 
 
 func _confrontation_intro_bgm() -> String:
@@ -661,6 +677,7 @@ func _build_ui() -> void:
 	cancel_btn.flat = true
 	cancel_btn.pressed.connect(_on_evidence_cancel)
 	cancel_btn.name = "CancelBtn"
+	_evidence_cancel_btn = cancel_btn
 	action_row.add_child(cancel_btn)
 
 	# ── 键盘操作提示 ──
@@ -674,6 +691,7 @@ func _build_ui() -> void:
 	hint_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint_text.add_theme_font_size_override("font_size", 13)
 	hint_text.add_theme_color_override("font_color", Color(0.5, 0.45, 0.35, 0.7))
+	_evidence_hint_label = hint_text
 	hint_row.add_child(hint_text)
 
 	# ── 对话框（覆盖底部，默认隐藏） ──
@@ -913,7 +931,18 @@ func _play_testimony_intro() -> void:
 	if not preamble.is_empty():
 		_dialogue_queue = preamble
 		_dialogue_idx = 0
-		_show_dialogue_queue(func(): _show_testimony_title_card(testimony))
+		_show_dialogue_queue(func(): _after_testimony_preamble(testimony))
+	else:
+		_after_testimony_preamble(testimony)
+
+
+func _after_testimony_preamble(testimony: Dictionary) -> void:
+	if bool(testimony.get("skip_title_card", false)):
+		_hide_dialogue()
+		_play_confrontation_bgm(_confrontation_testimony_bgm())
+		_portrait_state = PortraitState.NORMAL
+		_update_portrait()
+		_play_testimony_readthrough()
 	else:
 		_show_testimony_title_card(testimony)
 
@@ -963,8 +992,17 @@ func _play_testimony_readthrough() -> void:
 func _readthrough_next() -> void:
 	if _dialogue_idx >= _statements.size():
 		_hide_dialogue()
-		# 朗读结束后的提示（让玩家知道该操作了）
 		var testimony: Dictionary = _testimonies[_current_testimony_idx]
+		if _is_forced_proof_testimony(testimony):
+			var proof_hint: Array = testimony.get("readthrough_end_hint", [])
+			if proof_hint.is_empty():
+				_begin_forced_proof()
+			else:
+				_dialogue_queue = proof_hint
+				_dialogue_idx = 0
+				_show_dialogue_queue(func(): _begin_forced_proof())
+			return
+		# 朗读结束后的提示（让玩家知道该操作了）
 		var end_hint: Array = testimony.get("readthrough_end_hint", [
 			{"speaker": "凌瑶", "text": "（低声）证言说完了。哪句有破绽——你来判断。", "emotion": "determined"}
 		])
@@ -979,11 +1017,14 @@ func _readthrough_next() -> void:
 	_dialogue_speaker.text = speaker
 	_dialogue_box.visible = true
 
+	if _is_forced_proof_testimony():
+		_auto_camera_switch(speaker, str(stmt.get("emotion", "")), stmt)
+
 	# 更新对话头像
 	_update_dialogue_portrait(speaker, str(stmt.get("emotion", "")), stmt)
 
 	# 打字机效果
-	var text: String = "「" + str(stmt.get("text", "")) + "」"
+	var text: String = "「" + _statement_plain_text(stmt) + "」"
 	_typewriter_playing = true
 	_typewriter.play(_dialogue_text, text)
 	if _typewriter.is_playing():
@@ -1031,7 +1072,7 @@ func _refresh_stmt_display() -> void:
 	if _statements.is_empty():
 		return
 	var stmt: Dictionary = _statements[_current_stmt_idx]
-	var stmt_text: String = str(stmt.get("text", ""))
+	var stmt_text := _statement_plain_text(stmt)
 	_stmt_text_label.text = "[center]「" + stmt_text + "」[/center]"
 	_stmt_counter_label.text = "%d / %d" % [_current_stmt_idx + 1, _statements.size()]
 	_testimony_title_label.text = str(_testimonies[_current_testimony_idx].get("title", ""))
@@ -1053,23 +1094,86 @@ func _refresh_dots() -> void:
 	for i in range(_statements.size()):
 		var dot := Label.new()
 		var is_current: bool = (i == _current_stmt_idx)
-		var stmt_data: Dictionary = _statements[i]
-		var stmt_id: String = stmt_data.get("id", "")
-		var is_new: bool = stmt_id.contains("b") or stmt_id.contains("_added")
-		# 有 press_adds 标记的追加句
 		if is_current:
 			dot.text = "◉"
 			dot.add_theme_font_size_override("font_size", 18)
-			dot.add_theme_color_override("font_color", CLR_GOLD_BRIGHT)
-		elif is_new:
-			dot.text = "●"
-			dot.add_theme_font_size_override("font_size", 14)
-			dot.add_theme_color_override("font_color", CLR_NEW_DOT)
+			dot.add_theme_color_override("font_color", CLR_GOLD)
 		else:
 			dot.text = "●"
 			dot.add_theme_font_size_override("font_size", 14)
-			dot.add_theme_color_override("font_color", CLR_DIM)
+			dot.add_theme_color_override("font_color", CLR_GOLD)
 		_dot_container.add_child(dot)
+
+
+func _statement_plain_text(stmt: Dictionary) -> String:
+	var text := str(stmt.get("text", ""))
+	text = TextUtilsScript.strip_stage_directions(text)
+	var bbcode_tag := RegEx.new()
+	var compile_err := bbcode_tag.compile("\\[[^\\]]+\\]")
+	if compile_err == OK:
+		text = bbcode_tag.sub(text, "", true)
+	return text
+
+
+func _current_testimony() -> Dictionary:
+	if _current_testimony_idx >= 0 and _current_testimony_idx < _testimonies.size():
+		return _testimonies[_current_testimony_idx]
+	return {}
+
+
+func _is_forced_proof_testimony(testimony: Dictionary = {}) -> bool:
+	var t := testimony
+	if t.is_empty():
+		t = _current_testimony()
+	return str(t.get("mode", "")) == "forced_proof"
+
+
+func _forced_proof_statement_index(testimony: Dictionary) -> int:
+	var statements: Array = testimony.get("statements", [])
+	if statements.is_empty():
+		return 0
+	var proof_statement_id := str(testimony.get("proof_statement_id", ""))
+	if proof_statement_id != "":
+		for i in range(statements.size()):
+			if str(statements[i].get("id", "")) == proof_statement_id:
+				return i
+	var proof_evidence := str(testimony.get("proof_evidence", ""))
+	if proof_evidence != "":
+		for i in range(statements.size()):
+			var stmt: Dictionary = statements[i]
+			var alt: Array = stmt.get("alt_evidence", [])
+			if str(stmt.get("counter_evidence", "")) == proof_evidence or alt.has(proof_evidence):
+				return i
+	return statements.size() - 1
+
+
+func _forced_proof_expected_evidence(testimony: Dictionary = {}) -> Array:
+	var t := testimony
+	if t.is_empty():
+		t = _current_testimony()
+	var expected: Array = []
+	var proof_evidence := str(t.get("proof_evidence", ""))
+	if proof_evidence != "":
+		expected.append(proof_evidence)
+	var proof_alt: Array = t.get("proof_alt_evidence", [])
+	for eid in proof_alt:
+		var ev_id := str(eid)
+		if ev_id != "" and not expected.has(ev_id):
+			expected.append(ev_id)
+	if expected.is_empty():
+		var idx := _forced_proof_statement_index(t)
+		var statements: Array = t.get("statements", [])
+		if idx >= 0 and idx < statements.size():
+			var stmt: Dictionary = statements[idx]
+			var counter := str(stmt.get("counter_evidence", ""))
+			if counter != "":
+				expected.append(counter)
+			var alt: Array = stmt.get("alt_evidence", [])
+			for eid in alt:
+				var ev_id := str(eid)
+				if ev_id != "" and not expected.has(ev_id):
+					expected.append(ev_id)
+	return expected
 
 
 # ═══════════════════════════════════════════════════
@@ -1142,13 +1246,30 @@ func _on_present_clicked() -> void:
 	_enter_state(State.EVIDENCE_OPEN)
 
 
-# （旧变量已移除，证物册相关变量见类头部声明）
+	# （旧变量已移除，证物册相关变量见类头部声明）
+
+func _begin_forced_proof() -> void:
+	var testimony := _current_testimony()
+	if testimony.is_empty():
+		return
+	_forced_proof_active = true
+	_current_stmt_idx = _forced_proof_statement_index(testimony)
+	_enter_state(State.EVIDENCE_OPEN)
+
 
 func _open_evidence() -> void:
 	_portrait_state = PortraitState.NORMAL
 	_update_portrait()
 	_set_browsing_visible(false)
 	_evidence_panel.visible = true
+	if _evidence_cancel_btn != null and is_instance_valid(_evidence_cancel_btn):
+		_evidence_cancel_btn.visible = not _forced_proof_active
+		_evidence_cancel_btn.disabled = _forced_proof_active
+	if _evidence_hint_label != null and is_instance_valid(_evidence_hint_label):
+		if _forced_proof_active:
+			_evidence_hint_label.text = "← → 选择    Q/E 翻页    Enter 呈堂"
+		else:
+			_evidence_hint_label.text = "← → 选择    Q/E 翻页    Enter 呈堂    Esc 返回"
 
 	# 缓存可出示条目：物证优先，随后是证言/线索记录。
 	_evidence_items_cache.clear()
@@ -1174,7 +1295,13 @@ func _open_evidence() -> void:
 	# 显示当前证词引用
 	if not _statements.is_empty():
 		var stmt: Dictionary = _statements[_current_stmt_idx]
-		_evidence_statement_quote.text = "[color=#aa9966]当前证词：[/color]「" + stmt.get("text", "") + "」"
+		if _forced_proof_active:
+			var proof_prompt := str(_current_testimony().get("proof_prompt", ""))
+			if proof_prompt == "":
+				proof_prompt = "「" + _statement_plain_text(stmt) + "」"
+			_evidence_statement_quote.text = "[color=#aa9966]自证焦点：[/color]" + proof_prompt
+		else:
+			_evidence_statement_quote.text = "[color=#aa9966]当前证词：[/color]「" + _statement_plain_text(stmt) + "」"
 	else:
 		_evidence_statement_quote.text = ""
 
@@ -1182,6 +1309,8 @@ func _open_evidence() -> void:
 
 
 func _on_evidence_cancel() -> void:
+	if _forced_proof_active:
+		return
 	_evidence_panel.visible = false
 	_selected_evidence_id = ""
 	_enter_state(State.BROWSING)
@@ -1453,6 +1582,14 @@ func _update_card_selection_highlight() -> void:
 # ═══════════════════════════════════════════════════
 
 func _judge_evidence(eid: String) -> void:
+	if _forced_proof_active:
+		var expected := _forced_proof_expected_evidence()
+		if expected.has(eid):
+			_play_forced_proof_success()
+		else:
+			_enter_state(State.FAIL_ANIM)
+		return
+
 	var stmt: Dictionary = _statements[_current_stmt_idx]
 	var is_contradiction: bool = stmt.get("is_contradiction", false)
 	var counter: String = stmt.get("counter_evidence", "")
@@ -1462,6 +1599,34 @@ func _judge_evidence(eid: String) -> void:
 		_enter_state(State.BREAK_ANIM)
 	else:
 		_enter_state(State.FAIL_ANIM)
+
+
+func _play_forced_proof_success() -> void:
+	_state = State.PROOF_SUCCESS
+	_set_browsing_visible(false)
+	_evidence_panel.visible = false
+	_play_evidence_present_fx(_selected_evidence_id)
+	await get_tree().create_timer(0.35).timeout
+	_flash_screen_white()
+	_shake_screen(8.0, 5, 0.025)
+
+	var stmt: Dictionary = _statements[_current_stmt_idx]
+	var success_dlg: Array = stmt.get("break_dialogue", [])
+	_dialogue_queue = success_dlg
+	_dialogue_idx = 0
+	_show_dialogue_queue(func(): _after_forced_proof_success())
+
+
+func _after_forced_proof_success() -> void:
+	var testimony: Dictionary = _current_testimony()
+	_forced_proof_active = false
+	var transition_dlg: Array = testimony.get("transition_dialogue", [])
+	if not transition_dlg.is_empty():
+		_dialogue_queue = transition_dlg
+		_dialogue_idx = 0
+		_show_dialogue_queue(func(): _advance_to_next_testimony())
+	else:
+		_advance_to_next_testimony()
 
 
 # ═══════════════════════════════════════════════════
@@ -1549,6 +1714,7 @@ func _after_break_dialogue() -> void:
 func _show_evidence_acquired_fx(evidence_id: String) -> void:
 	var data: Dictionary = GameManager.evidence_data.get(evidence_id, {})
 	var ename: String = data.get("name", evidence_id)
+	_lock_input_for(EVIDENCE_ACQUIRED_LOCK_SECONDS)
 
 	var fx_layer := Control.new()
 	fx_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -1619,7 +1785,22 @@ func _show_evidence_acquired_fx(evidence_id: String) -> void:
 	await tw.finished
 
 
+func _lock_input_for(seconds: float) -> void:
+	var duration_msec := int(maxf(seconds, 0.0) * 1000.0)
+	if duration_msec <= 0:
+		return
+	_input_locked_until_msec = maxi(
+		_input_locked_until_msec,
+		Time.get_ticks_msec() + duration_msec
+	)
+
+
+func _is_input_locked() -> bool:
+	return Time.get_ticks_msec() < _input_locked_until_msec
+
+
 func _advance_to_next_testimony() -> void:
+	_forced_proof_active = false
 	_current_testimony_idx += 1
 	if _current_testimony_idx >= _testimonies.size():
 		_enter_state(State.VICTORY)
@@ -1669,12 +1850,15 @@ func _play_fail_anim() -> void:
 		fail_dlg = testimony.get("fail_dialogue", [])
 	_dialogue_queue = fail_dlg
 	_dialogue_idx = 0
-	_show_dialogue_queue(func():
-		if _confidence <= 0:
-			_enter_state(State.DEFEAT)
-		else:
-			_enter_state(State.BROWSING)
-	)
+		_show_dialogue_queue(func():
+			if _confidence <= 0:
+				_forced_proof_active = false
+				_enter_state(State.DEFEAT)
+			elif _forced_proof_active:
+				_begin_forced_proof()
+			else:
+				_enter_state(State.BROWSING)
+		)
 
 
 # ═══════════════════════════════════════════════════
@@ -1794,7 +1978,7 @@ func _play_epilogue_lines(lines: Array, idx: int, label: RichTextLabel, layer: C
 
 	# 打字机效果
 	_typewriter_playing = true
-	_typewriter.play(label, "[center]" + line + "[/center]")
+	_typewriter.play(label, "[center]" + TextUtilsScript.strip_stage_directions(line) + "[/center]")
 	if _typewriter.is_playing():
 		await _typewriter.finished
 	_typewriter_playing = false
@@ -1907,10 +2091,10 @@ func _show_next_dialogue_line(on_done: Callable) -> void:
 	if line is Dictionary:
 		line_data = line
 		speaker = str(line_data.get("speaker", ""))
-		text = str(line_data.get("text", ""))
+		text = TextUtilsScript.strip_stage_directions(str(line_data.get("text", "")))
 		emotion = str(line_data.get("emotion", ""))
 	else:
-		text = str(line)
+		text = TextUtilsScript.strip_stage_directions(str(line))
 
 	if speaker == "你":
 		speaker = "陆昭"
@@ -1972,6 +2156,10 @@ func _handle_browsing_mouse_click(event: InputEvent) -> bool:
 
 
 func _input(event: InputEvent) -> void:
+	if _is_input_locked():
+		if event is InputEventMouseButton or event is InputEventKey or event is InputEventScreenTouch:
+			get_viewport().set_input_as_handled()
+		return
 	# 浏览状态下手动兜底处理关键按钮区域。
 	if _state == State.BROWSING:
 		_click_callback = Callable()
@@ -2092,7 +2280,14 @@ func _camera_switch_to_opponent(speaker_id: String, emotion: String = "normal", 
 		return
 	if _current_camera_view == "opponent":
 		# 已经在对手镜头，只更新纹理，并确保其他角色不可见
-		_update_opponent_portrait(speaker_id, emotion)
+		var portrait_data := _update_opponent_portrait(speaker_id, emotion)
+		if not portrait_data.is_empty():
+			_apply_portrait_layout(_opponent_rect, _right_portrait_layout(
+				PORTRAIT_SLOT_SIDE_INSET,
+				str(portrait_data.get("npc_id", speaker_id)),
+				str(portrait_data.get("layout_emotion", portrait_data.get("emotion", emotion))),
+				str(portrait_data.get("path", ""))
+			))
 		if _portrait_rect:
 			_portrait_rect.visible = false
 		if _protagonist_rect:
@@ -2120,8 +2315,13 @@ func _camera_switch_to_opponent(speaker_id: String, emotion: String = "normal", 
 	# 对手从右侧滑入
 	if _opponent_rect:
 		_opponent_rect.visible = true
-		_update_opponent_portrait(speaker_id, emotion)
-		_tween_portrait_layout(_camera_tween, _opponent_rect, _right_portrait_layout(PORTRAIT_SLOT_SIDE_INSET, speaker_id), duration)
+		var portrait_data := _update_opponent_portrait(speaker_id, emotion)
+		_tween_portrait_layout(_camera_tween, _opponent_rect, _right_portrait_layout(
+			PORTRAIT_SLOT_SIDE_INSET,
+			str(portrait_data.get("npc_id", speaker_id)),
+			str(portrait_data.get("layout_emotion", portrait_data.get("emotion", emotion))),
+			str(portrait_data.get("path", ""))
+		), duration)
 		_camera_tween.tween_property(_opponent_rect, "modulate:a", 1.0, duration * 0.5)
 
 	_dlg_portrait_rect.visible = false
@@ -2136,20 +2336,20 @@ func _camera_switch_to_opponent(speaker_id: String, emotion: String = "normal", 
 
 
 ## 更新对手立绘纹理
-func _update_opponent_portrait(speaker_id: String, emotion: String = "normal") -> void:
+func _update_opponent_portrait(speaker_id: String, emotion: String = "normal") -> Dictionary:
 	if not _opponent_rect:
-		return
-	var path := AssetResolver.resolve_case_portrait(speaker_id, emotion, GameManager.npcs_data, "confrontation")
-	if path == "" or not ResourceLoader.exists(path):
-		path = AssetResolver.resolve_case_portrait(speaker_id, emotion, GameManager.npcs_data, "dialogue")
-	if path == "" or not ResourceLoader.exists(path):
-		path = AssetResolver.resolve_case_portrait(speaker_id, "normal", GameManager.npcs_data, "dialogue")
+		return {}
+	var portrait_data := _resolve_opponent_portrait_data(speaker_id, emotion)
+	var path := str(portrait_data.get("path", ""))
 	if path != "" and ResourceLoader.exists(path):
 		_set_portrait_texture(_opponent_rect, path)
+		_opponent_portrait_data = portrait_data
+		return portrait_data
+	return {}
 
 
 ## 切换到NPC镜头：NPC居中，主角/搭档退出
-func _camera_switch_to_npc(duration: float = 0.3) -> void:
+func _camera_switch_to_npc(duration: float = 0.3, target_npc_id: String = "", target_emotion: String = "", target_portrait_path: String = "") -> void:
 	if not CAMERA_SWITCH_ENABLED:
 		return
 	# 即使已经是NPC镜头，也要确保搭档/主角/对手立绘被隐藏
@@ -2173,23 +2373,49 @@ func _camera_switch_to_npc(duration: float = 0.3) -> void:
 
 	# NPC 滑回居中
 	_portrait_rect.visible = true
-	var layout := _get_center_portrait_layout(_current_center_portrait_id())
+	var center_id := target_npc_id
+	var center_emotion := target_emotion
+	var center_path := target_portrait_path
+	if center_id == "":
+		center_id = _current_center_portrait_id()
+		var portrait_variant := _resolve_center_portrait_variant(center_id)
+		center_emotion = str(portrait_variant.get("emotion", "confrontation"))
+		center_path = str(portrait_variant.get("path", ""))
+	if center_path != "" and ResourceLoader.exists(center_path):
+		_set_portrait_texture(_portrait_rect, center_path)
+	var layout := _get_center_portrait_layout(
+		center_id,
+		center_emotion,
+		center_path
+	)
 	_tween_portrait_layout(_camera_tween, _portrait_rect, layout, duration)
 	_camera_tween.tween_property(_portrait_rect, "modulate:a", 1.0, duration * 0.5)
 
 	# 主角滑出左侧
 	if _protagonist_rect:
-		_tween_portrait_layout(_camera_tween, _protagonist_rect, _offscreen_left_portrait_layout(), duration)
+		_tween_portrait_layout(_camera_tween, _protagonist_rect, _offscreen_left_portrait_layout(
+			str(_protagonist_portrait_data.get("npc_id", "")),
+			str(_protagonist_portrait_data.get("emotion", "")),
+			str(_protagonist_portrait_data.get("path", ""))
+		), duration)
 		_camera_tween.tween_property(_protagonist_rect, "modulate:a", 0.0, duration * 0.6)
 
 	# 搭档滑出左侧
 	if _companion_rect:
-		_tween_portrait_layout(_camera_tween, _companion_rect, _offscreen_left_portrait_layout(), duration)
+		_tween_portrait_layout(_camera_tween, _companion_rect, _offscreen_left_portrait_layout(
+			str(_companion_portrait_data.get("npc_id", "")),
+			str(_companion_portrait_data.get("emotion", "")),
+			str(_companion_portrait_data.get("path", ""))
+		), duration)
 		_camera_tween.tween_property(_companion_rect, "modulate:a", 0.0, duration * 0.6)
 
 	# 对手滑出右侧复位
 	if _opponent_rect:
-		_tween_portrait_layout(_camera_tween, _opponent_rect, _offscreen_right_portrait_layout(), duration)
+		_tween_portrait_layout(_camera_tween, _opponent_rect, _offscreen_right_portrait_layout(
+			str(_opponent_portrait_data.get("npc_id", "")),
+			str(_opponent_portrait_data.get("emotion", "")),
+			str(_opponent_portrait_data.get("path", ""))
+		), duration)
 		_camera_tween.tween_property(_opponent_rect, "modulate:a", 0.0, duration * 0.6)
 
 	# 隐藏小头像（NPC镜头下不需要）
@@ -2212,7 +2438,14 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3, sh
 	if not CAMERA_SWITCH_ENABLED:
 		return
 	if _current_camera_view == "protagonist":
-		_update_protagonist_portraits(speaker_id)
+		var protagonist_data := _update_protagonist_portraits(speaker_id)
+		if not protagonist_data.is_empty():
+			_apply_portrait_layout(_protagonist_rect, _left_portrait_layout(
+				PORTRAIT_SLOT_SIDE_INSET,
+				str(protagonist_data.get("npc_id", speaker_id)),
+				str(protagonist_data.get("layout_emotion", protagonist_data.get("emotion", "serious"))),
+				str(protagonist_data.get("path", ""))
+			))
 		# 独占镜头：主角连续台词也要确保其他角色不可见
 		if _portrait_rect:
 			_portrait_rect.visible = false
@@ -2221,7 +2454,13 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3, sh
 		if _companion_rect:
 			if show_both:
 				_companion_rect.visible = true
-				_update_companion_portrait()
+				var companion_data := _update_companion_portrait()
+				_apply_portrait_layout(_companion_rect, _left_portrait_layout(
+					350.0,
+					str(companion_data.get("npc_id", "xia_lingyao")),
+					str(companion_data.get("layout_emotion", companion_data.get("emotion", "confrontation_normal"))),
+					str(companion_data.get("path", ""))
+				))
 				_companion_rect.modulate = Color(1, 1, 1, 0.9)
 			else:
 				_companion_rect.visible = false
@@ -2243,18 +2482,25 @@ func _camera_switch_to_protagonist(speaker_id: String, duration: float = 0.3, sh
 	# 主角从左侧滑入
 	if _protagonist_rect:
 		_protagonist_rect.visible = true
-		_update_protagonist_portraits(speaker_id)
-		_tween_portrait_layout(_camera_tween, _protagonist_rect, _left_portrait_layout(PORTRAIT_SLOT_SIDE_INSET, speaker_id), duration)
+		var protagonist_data := _update_protagonist_portraits(speaker_id)
+		_tween_portrait_layout(_camera_tween, _protagonist_rect, _left_portrait_layout(
+			PORTRAIT_SLOT_SIDE_INSET,
+			str(protagonist_data.get("npc_id", speaker_id)),
+			str(protagonist_data.get("layout_emotion", protagonist_data.get("emotion", "serious"))),
+			str(protagonist_data.get("path", ""))
+		), duration)
 		_camera_tween.tween_property(_protagonist_rect, "modulate:a", 1.0, duration * 0.5)
 
 		if _companion_rect:
 			if show_both:
 				_companion_rect.visible = true
-				_update_companion_portrait()
-				_camera_tween.tween_property(_companion_rect, "offset_left", 350.0, duration)
-				_camera_tween.tween_property(_companion_rect, "offset_right", 650.0, duration)
-				_camera_tween.tween_property(_companion_rect, "offset_top", PORTRAIT_SLOT_TOP, duration)
-				_camera_tween.tween_property(_companion_rect, "offset_bottom", PORTRAIT_SLOT_BOTTOM, duration)
+				var companion_data := _update_companion_portrait()
+				_tween_portrait_layout(_camera_tween, _companion_rect, _left_portrait_layout(
+					350.0,
+					str(companion_data.get("npc_id", "xia_lingyao")),
+					str(companion_data.get("layout_emotion", companion_data.get("emotion", "confrontation_normal"))),
+					str(companion_data.get("path", ""))
+				), duration)
 				_camera_tween.tween_property(_companion_rect, "modulate:a", 0.9, duration * 0.5)
 			else:
 				# 只显示主角，搭档淡出
@@ -2295,8 +2541,13 @@ func _camera_switch_to_companion_only(duration: float = 0.3) -> void:
 	# 搭档从左侧滑入，使用与主角一致的单人镜头尺寸。
 	if _companion_rect:
 		_companion_rect.visible = true
-		_update_companion_portrait()
-		_tween_portrait_layout(_camera_tween, _companion_rect, _left_portrait_layout(PORTRAIT_SLOT_SIDE_INSET, "xia_lingyao"), duration)
+		var companion_data := _update_companion_portrait()
+		_tween_portrait_layout(_camera_tween, _companion_rect, _left_portrait_layout(
+			PORTRAIT_SLOT_SIDE_INSET,
+			str(companion_data.get("npc_id", "xia_lingyao")),
+			str(companion_data.get("emotion", "confrontation_normal")),
+			str(companion_data.get("path", ""))
+		), duration)
 		_camera_tween.tween_property(_companion_rect, "modulate:a", 1.0, duration * 0.5)
 
 	_camera_tween.chain().tween_callback(func():
@@ -2310,32 +2561,130 @@ func _camera_switch_to_companion_only(duration: float = 0.3) -> void:
 	_dlg_portrait_rect.visible = false
 
 
-## 更新主角立绘纹理
-func _update_protagonist_portraits(speaker_id: String) -> void:
-	if not _protagonist_rect:
-		return
+func _resolve_protagonist_portrait_data(speaker_id: String) -> Dictionary:
+	var npc_id := speaker_id if speaker_id != "" else "lu_zhao"
 	var emotion := "serious"
-	var path := AssetResolver.resolve_case_portrait(speaker_id, emotion, GameManager.npcs_data, "confrontation")
-	if path == "" or not ResourceLoader.exists(path):
-		path = AssetResolver.resolve_case_portrait(speaker_id, "normal", GameManager.npcs_data, "dialogue")
+	var path := AssetResolver.resolve_case_portrait(npc_id, emotion, GameManager.npcs_data, "confrontation")
+	if path != "" and ResourceLoader.exists(path):
+		return {
+			"npc_id": npc_id,
+			"emotion": emotion,
+			"layout_emotion": _default_layout_emotion_for_portrait(npc_id, emotion),
+			"path": path
+		}
+	emotion = "normal"
+	path = AssetResolver.resolve_case_portrait(npc_id, emotion, GameManager.npcs_data, "dialogue")
+	if path != "" and ResourceLoader.exists(path):
+		return {
+			"npc_id": npc_id,
+			"emotion": emotion,
+			"layout_emotion": _default_layout_emotion_for_portrait(npc_id, emotion),
+			"path": path
+		}
+	return {
+		"npc_id": npc_id,
+		"emotion": emotion,
+		"layout_emotion": _default_layout_emotion_for_portrait(npc_id, emotion),
+		"path": ""
+	}
+
+
+func _resolve_companion_portrait_data() -> Dictionary:
+	var npc_id := "xia_lingyao"
+	var emotion := "confrontation_normal"
+	var path := AssetResolver.resolve_case_portrait(npc_id, emotion, GameManager.npcs_data, "confrontation")
+	if path != "" and ResourceLoader.exists(path):
+		return {
+			"npc_id": npc_id,
+			"emotion": emotion,
+			"layout_emotion": _default_layout_emotion_for_portrait(npc_id, emotion),
+			"path": path
+		}
+	emotion = "anxious"
+	path = AssetResolver.resolve_case_portrait(npc_id, emotion, GameManager.npcs_data, "dialogue")
+	if path != "" and ResourceLoader.exists(path):
+		return {
+			"npc_id": npc_id,
+			"emotion": emotion,
+			"layout_emotion": _default_layout_emotion_for_portrait(npc_id, emotion),
+			"path": path
+		}
+	emotion = "normal"
+	path = AssetResolver.resolve_case_portrait(npc_id, emotion, GameManager.npcs_data, "dialogue")
+	if path != "" and ResourceLoader.exists(path):
+		return {
+			"npc_id": npc_id,
+			"emotion": emotion,
+			"layout_emotion": _default_layout_emotion_for_portrait(npc_id, emotion),
+			"path": path
+		}
+	return {
+		"npc_id": npc_id,
+		"emotion": emotion,
+		"layout_emotion": _default_layout_emotion_for_portrait(npc_id, emotion),
+		"path": ""
+	}
+
+
+func _resolve_opponent_portrait_data(speaker_id: String, emotion: String = "normal") -> Dictionary:
+	var npc_id := speaker_id
+	var portrait_emotion := emotion if emotion != "" else "normal"
+	var path := AssetResolver.resolve_case_portrait(npc_id, portrait_emotion, GameManager.npcs_data, "confrontation")
+	if path != "" and ResourceLoader.exists(path):
+		return {
+			"npc_id": npc_id,
+			"emotion": portrait_emotion,
+			"layout_emotion": _default_layout_emotion_for_portrait(npc_id, portrait_emotion),
+			"path": path
+		}
+	path = AssetResolver.resolve_case_portrait(npc_id, portrait_emotion, GameManager.npcs_data, "dialogue")
+	if path != "" and ResourceLoader.exists(path):
+		return {
+			"npc_id": npc_id,
+			"emotion": portrait_emotion,
+			"layout_emotion": _default_layout_emotion_for_portrait(npc_id, portrait_emotion),
+			"path": path
+		}
+	portrait_emotion = "normal"
+	path = AssetResolver.resolve_case_portrait(npc_id, portrait_emotion, GameManager.npcs_data, "dialogue")
+	if path != "" and ResourceLoader.exists(path):
+		return {
+			"npc_id": npc_id,
+			"emotion": portrait_emotion,
+			"layout_emotion": _default_layout_emotion_for_portrait(npc_id, portrait_emotion),
+			"path": path
+		}
+	return {
+		"npc_id": npc_id,
+		"emotion": portrait_emotion,
+		"layout_emotion": _default_layout_emotion_for_portrait(npc_id, portrait_emotion),
+		"path": ""
+	}
+
+
+## 更新主角立绘纹理
+func _update_protagonist_portraits(speaker_id: String) -> Dictionary:
+	if not _protagonist_rect:
+		return {}
+	var portrait_data := _resolve_protagonist_portrait_data(speaker_id)
+	var path := str(portrait_data.get("path", ""))
 	if path != "" and ResourceLoader.exists(path):
 		_set_portrait_texture(_protagonist_rect, path)
+		_protagonist_portrait_data = portrait_data
+		return portrait_data
+	return {}
 
 ## 更新搭档立绘纹理（对峙模式使用 confrontation_pose 立绘）
-func _update_companion_portrait() -> void:
+func _update_companion_portrait() -> Dictionary:
 	if not _companion_rect:
-		return
-	# 优先使用对峙专用立绘
-	var confrontation_path := "res://assets/cn/portraits/companion_lingyao_confrontation_normal.png"
-	if ResourceLoader.exists(confrontation_path):
-		_set_portrait_texture(_companion_rect, confrontation_path)
-		return
-	# 回退
-	var path := AssetResolver.resolve_case_portrait("xia_lingyao", "anxious", GameManager.npcs_data, "dialogue")
-	if path == "" or not ResourceLoader.exists(path):
-		path = AssetResolver.resolve_case_portrait("xia_lingyao", "normal", GameManager.npcs_data, "dialogue")
+		return {}
+	var portrait_data := _resolve_companion_portrait_data()
+	var path := str(portrait_data.get("path", ""))
 	if path != "" and ResourceLoader.exists(path):
 		_set_portrait_texture(_companion_rect, path)
+		_companion_portrait_data = portrait_data
+		return portrait_data
+	return {}
 
 ## 镜头恢复到NPC：用于浏览模式和对话结束后
 func _camera_reset_to_npc() -> void:
@@ -2387,7 +2736,16 @@ func _auto_camera_switch(speaker: String, emotion: String, line_data: Dictionary
 		_camera_switch_to_opponent(opp_sid, emotion, 0.3)
 	# NPC/其他人说话 → 切到NPC镜头
 	else:
-		_camera_switch_to_npc()
+		var speaker_id := _speaker_id_from_line(speaker, line_data)
+		var portrait_emotion := str(line_data.get("portrait_emotion", ""))
+		if portrait_emotion == "":
+			portrait_emotion = emotion
+		var portrait_layout_emotion := str(line_data.get("portrait_layout_emotion", ""))
+		if portrait_layout_emotion == "":
+			portrait_layout_emotion = _default_layout_emotion_for_portrait(speaker_id, portrait_emotion)
+		var portrait_override := str(line_data.get("portrait_override", ""))
+		var portrait_path := AssetResolver.resolve_case_portrait(speaker_id, portrait_emotion, GameManager.npcs_data, "dialogue", portrait_override)
+		_camera_switch_to_npc(0.3, speaker_id, portrait_layout_emotion, portrait_path)
 		# NPC镜头下不需要显示搭档/主角立绘，由 _camera_switch_to_npc 处理隐藏
 
 ## 在浏览模式进入时确保NPC镜头
@@ -2400,37 +2758,38 @@ func _camera_ensure_browsing() -> void:
 #  立绘
 # ═══════════════════════════════════════════════════
 
-func _left_portrait_layout(inset: float, npc_id: String = "") -> Dictionary:
+func _left_portrait_layout(inset: float, npc_id: String = "", emotion: String = "", portrait_path: String = "") -> Dictionary:
 	var layout := {
 		"left": inset,
 		"top": PORTRAIT_SLOT_TOP,
 		"right": inset + PORTRAIT_SLOT_WIDTH,
 		"bottom": PORTRAIT_SLOT_BOTTOM
 	}
-	return _apply_portrait_profile_to_layout(layout, npc_id)
+	return _apply_portrait_presentation_to_layout(layout, npc_id, emotion, portrait_path)
 
 
-func _right_portrait_layout(inset: float, npc_id: String = "") -> Dictionary:
+func _right_portrait_layout(inset: float, npc_id: String = "", emotion: String = "", portrait_path: String = "") -> Dictionary:
 	var layout := {
 		"left": -inset - PORTRAIT_SLOT_WIDTH,
 		"top": PORTRAIT_SLOT_TOP,
 		"right": -inset,
 		"bottom": PORTRAIT_SLOT_BOTTOM
 	}
-	return _apply_portrait_profile_to_layout(layout, npc_id)
+	return _apply_portrait_presentation_to_layout(layout, npc_id, emotion, portrait_path)
 
 
-func _offscreen_left_portrait_layout() -> Dictionary:
-	return _left_portrait_layout(-PORTRAIT_SLOT_WIDTH - PORTRAIT_SLOT_OFFSCREEN_GAP)
+func _offscreen_left_portrait_layout(npc_id: String = "", emotion: String = "", portrait_path: String = "") -> Dictionary:
+	return _left_portrait_layout(-PORTRAIT_SLOT_WIDTH - PORTRAIT_SLOT_OFFSCREEN_GAP, npc_id, emotion, portrait_path)
 
 
-func _offscreen_right_portrait_layout() -> Dictionary:
-	return {
+func _offscreen_right_portrait_layout(npc_id: String = "", emotion: String = "", portrait_path: String = "") -> Dictionary:
+	var layout := {
 		"left": PORTRAIT_SLOT_OFFSCREEN_GAP,
 		"top": PORTRAIT_SLOT_TOP,
 		"right": PORTRAIT_SLOT_OFFSCREEN_GAP + PORTRAIT_SLOT_WIDTH,
 		"bottom": PORTRAIT_SLOT_BOTTOM
 	}
+	return _apply_portrait_presentation_to_layout(layout, npc_id, emotion, portrait_path)
 
 
 func _apply_portrait_layout(rect: TextureRect, layout: Dictionary) -> void:
@@ -2441,9 +2800,11 @@ func _apply_portrait_layout(rect: TextureRect, layout: Dictionary) -> void:
 	rect.offset_right = float(layout.get("right", PORTRAIT_SLOT_WIDTH))
 	rect.offset_bottom = float(layout.get("bottom", PORTRAIT_SLOT_BOTTOM))
 	rect.scale = Vector2.ONE * float(layout.get("scale", 1.0))
+	var pivot_y := float(layout.get("pivot_y", (rect.offset_bottom - rect.offset_top) * 0.5))
+	var pivot_x := float(layout.get("pivot_x", (rect.offset_right - rect.offset_left) * 0.5))
 	rect.pivot_offset = Vector2(
-		(rect.offset_right - rect.offset_left) * 0.5,
-		(rect.offset_bottom - rect.offset_top) * 0.5
+		pivot_x,
+		pivot_y
 	)
 
 
@@ -2455,6 +2816,10 @@ func _tween_portrait_layout(tween: Tween, rect: TextureRect, layout: Dictionary,
 	tween.tween_property(rect, "offset_right", float(layout.get("right", rect.offset_right)), duration)
 	tween.tween_property(rect, "offset_bottom", float(layout.get("bottom", rect.offset_bottom)), duration)
 	tween.tween_property(rect, "scale", Vector2.ONE * float(layout.get("scale", 1.0)), duration)
+	rect.pivot_offset = Vector2(
+		float(layout.get("pivot_x", (float(layout.get("right", rect.offset_right)) - float(layout.get("left", rect.offset_left))) * 0.5)),
+		float(layout.get("pivot_y", rect.pivot_offset.y))
+	)
 
 
 func _set_portrait_texture(rect: TextureRect, path: String) -> bool:
@@ -2489,8 +2854,13 @@ func _crop_texture_to_visible_alpha(texture: Texture2D) -> Texture2D:
 	if used.size.x <= 0 or used.size.y <= 0:
 		return texture
 	var image_size := image.get_size()
-	var pad_x: int = max(PORTRAIT_CROP_MIN_PADDING, int(ceil(float(used.size.x) * PORTRAIT_CROP_PADDING_RATIO)))
-	var pad_y: int = max(PORTRAIT_CROP_MIN_PADDING, int(ceil(float(used.size.y) * PORTRAIT_CROP_PADDING_RATIO)))
+	var normalize_cfg := _get_portrait_normalize_config()
+	if float(used.size.y) / float(image_size.y) < float(normalize_cfg.get("crop_min_height_ratio", DEFAULT_PORTRAIT_CROP_MIN_HEIGHT_RATIO)):
+		return texture
+	var pad_ratio := float(normalize_cfg.get("crop_padding_ratio", DEFAULT_PORTRAIT_CROP_PADDING_RATIO))
+	var min_padding := int(normalize_cfg.get("crop_min_padding", DEFAULT_PORTRAIT_CROP_MIN_PADDING))
+	var pad_x: int = max(min_padding, int(ceil(float(used.size.x) * pad_ratio)))
+	var pad_y: int = max(min_padding, int(ceil(float(used.size.y) * pad_ratio)))
 	var x1: int = max(0, used.position.x - pad_x)
 	var y1: int = max(0, used.position.y - pad_y)
 	var x2: int = min(image_size.x, used.position.x + used.size.x + pad_x)
@@ -2513,48 +2883,71 @@ func _current_center_portrait_id() -> String:
 	return witness_id
 
 
-func _get_center_portrait_layout(npc_id: String) -> Dictionary:
-	var layout: Dictionary = _center_portrait_layouts.get(npc_id, _default_center_layout).duplicate()
-	return _apply_portrait_profile_to_layout(layout, npc_id)
+func _get_center_portrait_layout(npc_id: String, emotion: String = "", portrait_path: String = "") -> Dictionary:
+	var layout := {
+		"left": float(_center_portrait_frame.get("offset_left", -320.0)),
+		"top": float(_center_portrait_frame.get("offset_top", PORTRAIT_SLOT_TOP)),
+		"right": float(_center_portrait_frame.get("offset_right", 320.0)),
+		"bottom": float(_center_portrait_frame.get("offset_bottom", PORTRAIT_SLOT_BOTTOM)),
+		"pivot_x": float(_center_portrait_frame.get("pivot_x", 320.0)),
+	}
+	return _apply_portrait_presentation_to_layout(layout, npc_id, emotion, portrait_path)
 
 
-func _apply_portrait_profile_to_layout(layout: Dictionary, npc_id: String) -> Dictionary:
-	var profile: Dictionary = PORTRAIT_LAYOUT_PROFILES.get(npc_id, {})
-	if profile.is_empty():
-		layout["scale"] = float(layout.get("scale", 1.0))
-		return layout
-	var offset_x := float(profile.get("offset_x", 0.0))
-	var offset_y := float(profile.get("offset_y", 0.0))
-	layout["left"] = float(layout.get("left", 0.0)) + offset_x
-	layout["right"] = float(layout.get("right", 0.0)) + offset_x
+func _apply_portrait_presentation_to_layout(layout: Dictionary, npc_id: String, emotion: String = "", portrait_path: String = "") -> Dictionary:
+	var presentation := AssetResolver.get_center_portrait_surface_presentation("confrontation", npc_id, emotion, portrait_path)
+	var offset_y := float(presentation.get("offset_y", 0.0))
 	layout["top"] = float(layout.get("top", PORTRAIT_SLOT_TOP)) + offset_y
 	layout["bottom"] = float(layout.get("bottom", PORTRAIT_SLOT_BOTTOM)) + offset_y
-	layout["scale"] = float(profile.get("scale", layout.get("scale", 1.0)))
+	layout["scale"] = float(presentation.get("screen_scale", layout.get("scale", 1.0)))
+	layout["pivot_y"] = float(presentation.get("pivot_y", layout.get("pivot_y", 330.0)))
 	return layout
 
 
-func _apply_center_portrait_layout(npc_id: String) -> void:
+func _get_portrait_normalize_config() -> Dictionary:
+	if AssetResolver != null and AssetResolver.has_method("get_center_portrait_texture_normalize_config"):
+		var resolved = AssetResolver.get_center_portrait_texture_normalize_config("confrontation")
+		if typeof(resolved) == TYPE_DICTIONARY and not resolved.is_empty():
+			return resolved
+	return {
+		"crop_padding_ratio": DEFAULT_PORTRAIT_CROP_PADDING_RATIO,
+		"crop_min_padding": DEFAULT_PORTRAIT_CROP_MIN_PADDING,
+		"crop_min_height_ratio": DEFAULT_PORTRAIT_CROP_MIN_HEIGHT_RATIO,
+	}
+
+
+func _apply_center_portrait_layout(npc_id: String, emotion: String = "", portrait_path: String = "") -> void:
 	if _portrait_rect == null:
 		return
-	var layout := _get_center_portrait_layout(npc_id)
+	var layout := _get_center_portrait_layout(npc_id, emotion, portrait_path)
 	_apply_portrait_layout(_portrait_rect, layout)
 
 
-func _update_portrait() -> void:
-	var witness_id := _current_center_portrait_id()
-	if witness_id == "":
-		return
+func _resolve_center_portrait_variant(npc_id: String) -> Dictionary:
 	var emotion_key := "confrontation"
 	match _portrait_state:
 		PortraitState.SHAKEN:
 			emotion_key = "confrontation_shaken"
 		PortraitState.COLLAPSED:
 			emotion_key = "confrontation_collapsed"
-	var path := AssetResolver.resolve_case_portrait(witness_id, emotion_key, GameManager.npcs_data, "confrontation")
+	var path := AssetResolver.resolve_case_portrait(npc_id, emotion_key, GameManager.npcs_data, "confrontation")
+	return {
+		"emotion": emotion_key,
+		"path": path,
+	}
+
+
+func _update_portrait() -> void:
+	var witness_id := _current_center_portrait_id()
+	if witness_id == "":
+		return
+	var portrait_variant := _resolve_center_portrait_variant(witness_id)
+	var emotion_key := str(portrait_variant.get("emotion", "confrontation"))
+	var path := str(portrait_variant.get("path", ""))
 	if path == "" or not ResourceLoader.exists(path):
 		return
 	_set_portrait_texture(_portrait_rect, path)
-	_apply_center_portrait_layout(witness_id)
+	_apply_center_portrait_layout(witness_id, emotion_key, path)
 	_portrait_rect.visible = true
 	# 视觉效果
 	_portrait_rect.rotation = 0.0
@@ -2678,6 +3071,9 @@ func _update_dialogue_portrait(speaker: String, emotion: String, line_data: Dict
 		portrait_emotion = emotion
 	if (speaker_id == "lu_zhao" or speaker == "陆昭" or speaker == "你") and (portrait_emotion == "" or portrait_emotion == "normal"):
 		portrait_emotion = "serious"
+	var portrait_layout_emotion := str(line_data.get("portrait_layout_emotion", ""))
+	if portrait_layout_emotion == "":
+		portrait_layout_emotion = _default_layout_emotion_for_portrait(speaker_id, portrait_emotion)
 	var portrait_override := str(line_data.get("portrait_override", ""))
 	var portrait_path := AssetResolver.resolve_case_portrait(speaker_id, portrait_emotion, GameManager.npcs_data, "dialogue", portrait_override)
 	if portrait_path == "" or not ResourceLoader.exists(portrait_path):
@@ -2698,7 +3094,7 @@ func _update_dialogue_portrait(speaker: String, emotion: String, line_data: Dict
 			# NPC 台词仍显示在中央立绘位，但立绘路径同样走统一 resolver。
 			_dlg_portrait_rect.visible = false
 			_set_portrait_texture(_portrait_rect, portrait_path)
-			_apply_center_portrait_layout(speaker_id)
+			_apply_center_portrait_layout(speaker_id, portrait_layout_emotion, portrait_path)
 			_portrait_rect.visible = true
 
 
@@ -2716,6 +3112,19 @@ func _normalize_speaker_id(speaker_id: String) -> String:
 		"凌瑶", "lingyao":
 			return "xia_lingyao"
 	return speaker_id
+
+
+func _default_layout_emotion_for_portrait(speaker_id: String, portrait_emotion: String) -> String:
+	if portrait_emotion.begins_with("confrontation"):
+		return portrait_emotion
+	if AssetResolver != null and AssetResolver.has_method("get_center_npc_emotions"):
+		var configured_emotions: Array = AssetResolver.get_center_npc_emotions(speaker_id)
+		if configured_emotions.has(portrait_emotion):
+			return portrait_emotion
+	match speaker_id:
+		"li_zheng", "shen_qingyue", "lu_zhao", "xia_lingyao", "lingyao":
+			return "base"
+	return portrait_emotion if portrait_emotion != "" else "base"
 
 
 func _find_npc_id_by_speaker(speaker_name: String) -> String:

@@ -29,6 +29,8 @@ var _current_case_id: String = ""
 var _casting: Dictionary = {}         # role_npc_id -> casting_entry
 var _bgm_config: Dictionary = {}      # bgm_config.json 内容
 var _portrait_expressions: Dictionary = {}  # base_portrait -> emotion -> portrait_path
+var _center_npc_layouts_by_npc: Dictionary = {}
+var _center_npc_layouts_by_portrait: Dictionary = {}
 var _voice_status: String = "full"    # 当前案件的语音状态：full / partial / missing
 
 # 调试
@@ -54,6 +56,31 @@ const PORTRAIT_SCREEN_PIVOT_Y_BY_FILE := {
 	"prologue_li_zheng_shocked.png": 145.0,
 	"prologue_li_zheng_gossip.png": 145.0,
 	"prologue_li_zheng_evasive.png": 145.0,
+}
+
+# 中央立绘的标准框体，供 GM 预览 / 正式对话 / 场景常驻共用。
+const CENTER_PORTRAIT_STANDARD_FRAME := {
+	"offset_left": -320.0,
+	"offset_top": 60.0,
+	"offset_right": 320.0,
+	"offset_bottom": 0.0,
+	"pivot_x": 320.0,
+}
+
+const CENTER_PORTRAIT_TEXTURE_NORMALIZE_BY_SURFACE := {
+	# 统一中央立绘的透明边裁切规则，避免 GM 预览 / 场景常驻 / 对峙各自一套。
+	"scene": {"crop_padding_ratio": 0.02, "crop_min_padding": 8, "crop_min_height_ratio": 0.78},
+	"preview": {"crop_padding_ratio": 0.02, "crop_min_padding": 8, "crop_min_height_ratio": 0.78},
+	"dialogue": {"crop_padding_ratio": 0.02, "crop_min_padding": 8, "crop_min_height_ratio": 0.78},
+	"confrontation": {"crop_padding_ratio": 0.02, "crop_min_padding": 8, "crop_min_height_ratio": 0.78},
+}
+
+# 若后续确实需要某个界面单独微调，统一只在这里改，不再散落在各 UI 脚本里。
+const CENTER_PORTRAIT_SURFACE_TUNING := {
+	"scene": {"scale_multiplier": 1.0, "offset_y": 0.0, "pivot_y_offset": 0.0},
+	"preview": {"scale_multiplier": 1.0, "offset_y": 0.0, "pivot_y_offset": 0.0},
+	"dialogue": {"scale_multiplier": 1.0, "offset_y": 0.0, "pivot_y_offset": 0.0},
+	"confrontation": {"scale_multiplier": 1.0, "offset_y": 0.0, "pivot_y_offset": 0.0},
 }
 
 
@@ -121,6 +148,8 @@ func load_case(case_id: String) -> void:
 	_casting = table_data.get("casting", {}).get("casting", {})
 	_bgm_config = table_data.get("bgm_config", {})
 	_portrait_expressions = table_data.get("portrait_expressions", {}).get("portraits", {})
+	_center_npc_layouts_by_npc = table_data.get("center_npc_layouts", {}).get("by_npc", {})
+	_center_npc_layouts_by_portrait = table_data.get("center_npc_layouts", {}).get("by_portrait", {})
 	# 读 voice_status：优先 manifest.voice_status；找不到时从 case_index.csv 读；都没有默认 full
 	var manifest: Dictionary = table_data.get("manifest", {})
 	_voice_status = manifest.get("voice_status", "")
@@ -136,6 +165,7 @@ func load_case(case_id: String) -> void:
 		print("[AssetResolver] case=", case_id,
 			" casting=", _casting.size(),
 			" bgm_config=", _bgm_config.size(),
+			" center_npc_layouts=", _center_npc_layouts_by_portrait.size(),
 			" voice_status=", _voice_status)
 
 
@@ -202,15 +232,7 @@ func resolve_portrait_expression(base_path: String, emotion: String) -> String:
 	return ""
 
 
-## 统一解析案件角色立绘：角色 ID + 情绪/上下文 + 可选强制覆盖 → 最终资源路径。
-## 优先级：portrait_override > characters/casting 基础立绘 > portrait_expressions.csv > 文件名变体 > 基础立绘。
-func resolve_case_portrait(npc_id: String, emotion: String = "", npcs_data: Dictionary = {}, context: String = "", portrait_override: String = "") -> String:
-	var override_path := portrait_override.strip_edges()
-	if override_path != "" and ResourceLoader.exists(override_path):
-		return override_path
-	var base_path := get_portrait(npc_id, npcs_data)
-	if base_path == "":
-		base_path = _companion_base_portrait(npc_id)
+func resolve_portrait_from_base(base_path: String, emotion: String = "", context: String = "") -> String:
 	if base_path == "":
 		return ""
 	for key in _portrait_expression_candidates(emotion, context):
@@ -223,6 +245,49 @@ func resolve_case_portrait(npc_id: String, emotion: String = "", npcs_data: Dict
 	return base_path
 
 
+## 统一解析案件角色立绘：角色 ID + 情绪/上下文 + 可选强制覆盖 → 最终资源路径。
+## 优先级：portrait_override > characters/casting 基础立绘 > portrait_expressions.csv > 文件名变体 > 基础立绘。
+func resolve_case_portrait(npc_id: String, emotion: String = "", npcs_data: Dictionary = {}, context: String = "", portrait_override: String = "") -> String:
+	var override_path := portrait_override.strip_edges()
+	if override_path != "" and ResourceLoader.exists(override_path):
+		return override_path
+	var base_path := get_portrait(npc_id, npcs_data)
+	if base_path == "":
+		base_path = _companion_base_portrait(npc_id)
+	if base_path == "":
+		return ""
+	return resolve_portrait_from_base(base_path, emotion, context)
+
+
+func get_portrait_expression_emotions(base_path: String) -> Array:
+	var out: Array = []
+	_append_unique(out, "base")
+	var table = _portrait_expressions.get(base_path, null)
+	if typeof(table) == TYPE_DICTIONARY:
+		for emotion in table.keys():
+			_append_unique(out, str(emotion))
+	_append_portrait_file_variant_emotions(out, base_path)
+	out.sort()
+	if out.has("base"):
+		out.erase("base")
+		out.push_front("base")
+	return out
+
+
+func get_case_portrait_emotions(npc_id: String, npcs_data: Dictionary = {}) -> Array:
+	var base_path := get_portrait(npc_id, npcs_data)
+	if base_path == "":
+		base_path = _companion_base_portrait(npc_id)
+	var out := get_portrait_expression_emotions(base_path)
+	for emotion in get_center_npc_emotions(npc_id):
+		_append_unique(out, str(emotion))
+	out.sort()
+	if out.has("base"):
+		out.erase("base")
+		out.push_front("base")
+	return out
+
+
 ## 取立绘在屏幕上的显示缩放。默认 1.0；用于旧规格立绘的脸部比例校正。
 func get_portrait_screen_scale(portrait_path: String) -> float:
 	var file_name := portrait_path.get_file()
@@ -233,6 +298,150 @@ func get_portrait_screen_scale(portrait_path: String) -> float:
 func get_portrait_screen_pivot_y(portrait_path: String) -> float:
 	var file_name := portrait_path.get_file()
 	return float(PORTRAIT_SCREEN_PIVOT_Y_BY_FILE.get(file_name, 330.0))
+
+
+func get_center_portrait_standard_frame() -> Dictionary:
+	return CENTER_PORTRAIT_STANDARD_FRAME.duplicate(true)
+
+
+func get_center_portrait_texture_normalize_config(surface_id: String = "scene") -> Dictionary:
+	var fallback = CENTER_PORTRAIT_TEXTURE_NORMALIZE_BY_SURFACE.get("scene", {})
+	var cfg = CENTER_PORTRAIT_TEXTURE_NORMALIZE_BY_SURFACE.get(surface_id, fallback)
+	if typeof(cfg) != TYPE_DICTIONARY:
+		return {}
+	return cfg.duplicate(true)
+
+
+## 中央立绘展示配置。优先命中 npc+emotion，其次 portrait 精确配置，最后回退到旧的按文件名缩放规则。
+func get_center_portrait_presentation(npc_id: String = "", emotion: String = "", portrait_path: String = "") -> Dictionary:
+	var cfg := {
+		"enabled": true,
+		"screen_scale": get_portrait_screen_scale(portrait_path),
+		"offset_y": 0.0,
+		"pivot_y": get_portrait_screen_pivot_y(portrait_path),
+		"confrontation_screen_scale": get_portrait_screen_scale(portrait_path),
+		"confrontation_offset_y": 0.0,
+	}
+	var resolved := _lookup_center_portrait_layout(npc_id, emotion, portrait_path)
+	if typeof(resolved) == TYPE_DICTIONARY:
+		if resolved.has("screen_scale"):
+			cfg["screen_scale"] = float(resolved.get("screen_scale", cfg["screen_scale"]))
+		if resolved.has("offset_y"):
+			cfg["offset_y"] = float(resolved.get("offset_y", cfg["offset_y"]))
+		if resolved.has("pivot_y"):
+			cfg["pivot_y"] = float(resolved.get("pivot_y", cfg["pivot_y"]))
+		if resolved.has("confrontation_screen_scale"):
+			cfg["confrontation_screen_scale"] = float(resolved.get("confrontation_screen_scale", cfg["confrontation_screen_scale"]))
+		else:
+			cfg["confrontation_screen_scale"] = float(cfg["screen_scale"])
+		if resolved.has("confrontation_offset_y"):
+			cfg["confrontation_offset_y"] = float(resolved.get("confrontation_offset_y", cfg["confrontation_offset_y"]))
+		else:
+			cfg["confrontation_offset_y"] = float(cfg["offset_y"])
+		if resolved.has("enabled"):
+			cfg["enabled"] = bool(resolved.get("enabled", true))
+	return cfg
+
+
+func get_center_portrait_surface_presentation(surface_id: String = "scene", npc_id: String = "", emotion: String = "", portrait_path: String = "") -> Dictionary:
+	var cfg := get_center_portrait_presentation(npc_id, emotion, portrait_path).duplicate(true)
+	if surface_id == "confrontation":
+		cfg["screen_scale"] = float(cfg.get("confrontation_screen_scale", cfg.get("screen_scale", 1.0)))
+		cfg["offset_y"] = float(cfg.get("confrontation_offset_y", cfg.get("offset_y", 0.0)))
+	var tuning = CENTER_PORTRAIT_SURFACE_TUNING.get(surface_id, CENTER_PORTRAIT_SURFACE_TUNING["scene"])
+	if typeof(tuning) != TYPE_DICTIONARY:
+		return cfg
+	cfg["screen_scale"] = float(cfg.get("screen_scale", 1.0)) * float(tuning.get("scale_multiplier", 1.0))
+	cfg["offset_y"] = float(cfg.get("offset_y", 0.0)) + float(tuning.get("offset_y", 0.0))
+	cfg["pivot_y"] = float(cfg.get("pivot_y", 330.0)) + float(tuning.get("pivot_y_offset", 0.0))
+	return cfg
+
+
+func set_center_portrait_layout(npc_id: String, emotion: String, portrait_path: String, layout: Dictionary) -> void:
+	if npc_id == "" or portrait_path == "":
+		return
+	var clean_emotion := emotion if emotion != "" else "base"
+	var cfg := {
+		"npc_id": npc_id,
+		"emotion": clean_emotion,
+		"portrait": portrait_path,
+		"screen_scale": float(layout.get("screen_scale", get_portrait_screen_scale(portrait_path))),
+		"offset_y": float(layout.get("offset_y", 0.0)),
+		"pivot_y": float(layout.get("pivot_y", get_portrait_screen_pivot_y(portrait_path))),
+		"confrontation_screen_scale": float(layout.get(
+			"confrontation_screen_scale",
+			layout.get("screen_scale", get_portrait_screen_scale(portrait_path))
+		)),
+		"confrontation_offset_y": float(layout.get(
+			"confrontation_offset_y",
+			layout.get("offset_y", 0.0)
+		)),
+	}
+	if layout.has("enabled"):
+		cfg["enabled"] = bool(layout.get("enabled", true))
+	var npc_entry = _center_npc_layouts_by_npc.get(npc_id, null)
+	if typeof(npc_entry) != TYPE_DICTIONARY:
+		npc_entry = {}
+		_center_npc_layouts_by_npc[npc_id] = npc_entry
+	if layout.has("enabled"):
+		npc_entry["enabled"] = bool(layout.get("enabled", true))
+	var emotions = npc_entry.get("emotions", null)
+	if typeof(emotions) != TYPE_DICTIONARY:
+		emotions = {}
+		npc_entry["emotions"] = emotions
+	emotions[clean_emotion] = cfg
+	_center_npc_layouts_by_portrait[portrait_path] = cfg
+
+
+func is_center_npc_enabled(npc_id: String) -> bool:
+	var npc_entry = _center_npc_layouts_by_npc.get(npc_id, null)
+	if typeof(npc_entry) != TYPE_DICTIONARY:
+		return true
+	return bool(npc_entry.get("enabled", true))
+
+
+func get_center_npc_ids() -> Array:
+	var ids: Array = []
+	for npc_id in _center_npc_layouts_by_npc.keys():
+		ids.append(str(npc_id))
+	ids.sort()
+	return ids
+
+
+func get_center_npc_emotions(npc_id: String) -> Array:
+	var npc_entry = _center_npc_layouts_by_npc.get(npc_id, null)
+	if typeof(npc_entry) != TYPE_DICTIONARY:
+		return ["base"]
+	var emotions: Dictionary = npc_entry.get("emotions", {})
+	var out: Array = []
+	for emotion in emotions.keys():
+		out.append(str(emotion))
+	out.sort()
+	if out.has("base"):
+		out.erase("base")
+		out.push_front("base")
+	return out
+
+
+func _lookup_center_portrait_layout(npc_id: String, emotion: String, portrait_path: String) -> Dictionary:
+	var npc_entry = _center_npc_layouts_by_npc.get(npc_id, null)
+	var emotions: Dictionary = {}
+	if typeof(npc_entry) == TYPE_DICTIONARY:
+		emotions = npc_entry.get("emotions", {})
+		if emotion != "" and emotions.has(emotion):
+			var emotion_cfg = emotions.get(emotion, null)
+			if typeof(emotion_cfg) == TYPE_DICTIONARY:
+				return emotion_cfg
+	if portrait_path != "" and _center_npc_layouts_by_portrait.has(portrait_path):
+		var portrait_cfg = _center_npc_layouts_by_portrait.get(portrait_path, null)
+		if typeof(portrait_cfg) == TYPE_DICTIONARY:
+			return portrait_cfg
+	if typeof(npc_entry) == TYPE_DICTIONARY:
+		if emotions.has("base"):
+			var base_cfg = emotions.get("base", null)
+			if typeof(base_cfg) == TYPE_DICTIONARY:
+				return base_cfg
+	return {}
 
 
 func _companion_base_portrait(speaker_id: String) -> String:
@@ -299,6 +508,26 @@ func _portrait_variant_path(base_path: String, emotion: String) -> String:
 	if base_path == "" or emotion == "" or emotion == "normal" or emotion == "base":
 		return ""
 	return base_path.replace(".png", "_%s.png" % emotion)
+
+
+func _append_portrait_file_variant_emotions(arr: Array, base_path: String) -> void:
+	if base_path == "" or not base_path.ends_with(".png"):
+		return
+	var dir := DirAccess.open(base_path.get_base_dir())
+	if dir == null:
+		return
+	var base_name := base_path.get_file().get_basename()
+	var prefix := "%s_" % base_name
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if not dir.current_is_dir() and file_name.begins_with(prefix) and file_name.ends_with(".png"):
+			var suffix_len := file_name.length() - prefix.length() - ".png".length()
+			var suffix := file_name.substr(prefix.length(), suffix_len)
+			if suffix.find("raw") < 0 and suffix.find("magenta") < 0:
+				_append_unique(arr, suffix)
+		file_name = dir.get_next()
+	dir.list_dir_end()
 
 
 func _append_unique(arr: Array, value: String) -> void:

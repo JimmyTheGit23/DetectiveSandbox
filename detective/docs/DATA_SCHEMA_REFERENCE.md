@@ -201,6 +201,12 @@
 | `testimony_id` | 是 | 证词 ID |
 | `witness` | 否 | 证人 NPC ID |
 | `title` | 是 | 证词标题 |
+| `mode` | 否 | 特殊交互模式；`forced_proof` 表示读完后强制举证自证，不进入普通证词浏览 |
+| `proof_statement_id` | 否 | `forced_proof` 使用：证物选择时引用/判定的焦点陈述 |
+| `proof_evidence` | 否 | `forced_proof` 使用：自证所需的正确证物 |
+| `proof_alt_evidence` | 否 | `forced_proof` 使用：备选正确证物，支持 `[]` / JSON 数组 / 分号列表 |
+| `proof_prompt` | 否 | `forced_proof` 使用：证物册顶部显示的自证焦点提示 |
+| `skip_title_card` | 否 | 是否跳过证词标题卡；适合反压、临时自证等非正式证词段 |
 | `writer_note` | 否 | 备注 |
 
 ## `testimony_lines.csv`

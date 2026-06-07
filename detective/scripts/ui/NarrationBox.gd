@@ -4,6 +4,7 @@ extends Control
 ## 支持叙述中的选项（密室逃脱等交互场景）
 
 const TypewriterEffectScript = preload("res://scripts/ui/TypewriterEffect.gd")
+const TextUtilsScript = preload("res://scripts/core/TextUtils.gd")
 var UI_FONT: Font = null
 
 @onready var dim_bg: ColorRect = $DimBg
@@ -190,7 +191,7 @@ func show_narration(speaker: String, text: String, has_next: bool, centered := f
 	else:
 		_update_portrait(speaker)
 	# 去掉多余空行，保持与 DialogueBox 一致的紧凑显示
-	var display_text := text.replace("\r\n", "\n").replace("\r", "\n")
+	var display_text := TextUtilsScript.strip_stage_directions(text).replace("\r\n", "\n").replace("\r", "\n")
 	display_text = display_text.strip_edges()
 	# 双换行变单换行，单换行保留
 	while display_text.find("\n\n") >= 0:

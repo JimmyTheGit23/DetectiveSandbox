@@ -288,9 +288,12 @@ def validate_case(case_id: str, tables_root: Path) -> bool:
             rep.error("confrontation_lines.csv %s.%s 缺 text" % (confrontation_id, section))
         _check_portrait_line_fields(row, "confrontation_lines.csv", npc_ids, rep)
 
+    testimony_modes: Dict[str, str] = {}
+    valid_testimony_modes = {"forced_proof"}
     for row in testimony_sets:
         confrontation_id = _cell(row, "confrontation_id")
         testimony_id = _cell(row, "testimony_id")
+        testimony_modes[testimony_id] = _cell(row, "mode")
         if confrontation_ids and confrontation_id not in confrontation_ids:
             rep.error("testimony_sets.csv confrontation_id 不存在: %s" % confrontation_id)
         witness = _cell(row, "witness")
@@ -298,6 +301,21 @@ def validate_case(case_id: str, tables_root: Path) -> bool:
             rep.warn("testimony_sets.csv witness 未在 NPC 表中声明: %s" % witness)
         if not _cell(row, "title"):
             rep.error("testimony_sets.csv testimony_id=%s 缺 title" % testimony_id)
+        mode = _cell(row, "mode")
+        if mode and mode not in valid_testimony_modes:
+            rep.error("testimony_sets.csv testimony_id=%s mode 非法: %s" % (testimony_id, mode))
+        if mode == "forced_proof":
+            proof_statement_id = _cell(row, "proof_statement_id")
+            proof_evidence = _cell(row, "proof_evidence")
+            if proof_statement_id and statement_ids and proof_statement_id not in statement_ids:
+                rep.error("testimony_sets.csv proof_statement_id 不存在: %s" % proof_statement_id)
+            if not proof_evidence:
+                rep.error("testimony_sets.csv forced_proof 缺 proof_evidence: %s" % testimony_id)
+            elif item_ids and proof_evidence not in item_ids:
+                rep.error("testimony_sets.csv proof_evidence 不存在: %s" % proof_evidence)
+            for alt in parse_list(row.get("proof_alt_evidence", "")):
+                if alt and item_ids and alt not in item_ids:
+                    rep.error("testimony_sets.csv proof_alt_evidence 不存在: %s" % alt)
 
     valid_testimony_sections = {"preamble", "readthrough_end_hint", "transition_dialogue", "fail_dialogue"}
     for row in testimony_lines:
@@ -336,7 +354,7 @@ def validate_case(case_id: str, tables_root: Path) -> bool:
                 rep.error("testimony_statements.csv 矛盾句缺 counter_evidence/alt_evidence: %s" % statement_id)
 
     for testimony_id in testimony_ids:
-        if contradiction_by_testimony.get(testimony_id, 0) <= 0:
+        if contradiction_by_testimony.get(testimony_id, 0) <= 0 and testimony_modes.get(testimony_id, "") != "forced_proof":
             rep.warn("testimony_sets.csv testimony_id=%s 没有矛盾句" % testimony_id)
 
     for table_name, rows_to_check in [

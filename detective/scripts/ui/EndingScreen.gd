@@ -3,6 +3,8 @@ extends Control
 
 signal return_to_case_select_requested()
 
+const TextUtilsScript = preload("res://scripts/core/TextUtils.gd")
+
 @onready var title_label: Label = $Center/VBox/Title
 @onready var text_label: RichTextLabel = $Center/VBox/Text
 @onready var restart_btn: Button = $Center/VBox/RestartBtn
@@ -21,7 +23,7 @@ func _ready() -> void:
 func show_ending(title: String, text: String) -> void:
 	title_label.text = title
 	_apply_compact_layout()
-	text_label.text = "[center]" + text + "[/center]"
+	text_label.text = "[center]" + TextUtilsScript.strip_stage_directions(text) + "[/center]"
 	text_label.scroll_to_line(0)
 	# 每次显示先清空旧的进度结算
 	if _progression_container and is_instance_valid(_progression_container):

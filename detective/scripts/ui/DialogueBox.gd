@@ -3,6 +3,7 @@ extends Control
 ## 支持多帧动画循环（说话/待机），为 AI 生成动画帧做准备。
 
 const TypewriterEffectScript = preload("res://scripts/ui/TypewriterEffect.gd")
+const TextUtilsScript = preload("res://scripts/core/TextUtils.gd")
 # 字体通过 theme.tres 的 default_font 统一管理，不再硬编码
 var UI_FONT: Font = null
 
@@ -34,6 +35,7 @@ var _last_emotion: String = ""
 var _portrait_tween: Tween = null
 var _avatar_tween: Tween = null
 var _current_portrait_display_scale: float = 1.0
+var _current_portrait_offset_y: float = 0.0
 var _advance_locked_until_msec := 0
 var _typewriter_skip_disabled := false
 var _next_narration_typewriter_skip_disabled := false
@@ -90,6 +92,13 @@ const DIALOGUE_TEXT_LEFT_DEFAULT := 48.0
 const DIALOGUE_TEXT_LEFT_WITH_AVATAR := 264.0
 const DIALOGUE_TEXT_TOP_OFFSET := -224.0
 const DIALOGUE_TEXT_BOTTOM_OFFSET := -34.0
+const DEFAULT_CENTER_PORTRAIT_FRAME := {
+	"offset_left": -320.0,
+	"offset_top": 60.0,
+	"offset_right": 320.0,
+	"offset_bottom": 0.0,
+	"pivot_x": 320.0,
+}
 const AVATAR_SIZE := Vector2(286, 520)
 const AVATAR_OFFSET_LEFT := 10.0
 const AVATAR_OFFSET_TOP := -520.0
@@ -100,6 +109,7 @@ const PORTRAIT_CROP_MIN_PADDING := 8
 const PORTRAIT_CROP_MIN_HEIGHT_RATIO := 0.78
 
 var _portrait_texture_cache: Dictionary = {}
+var _center_portrait_frame: Dictionary = DEFAULT_CENTER_PORTRAIT_FRAME.duplicate(true)
 
 
 func _ready() -> void:
@@ -112,11 +122,20 @@ func _ready() -> void:
 		UI_FONT = load("res://assets/fonts/NotoSansSC.otf")
 	legacy_options.visible = false
 	exit_btn.visible = false
+	_refresh_center_portrait_frame()
 	# ── 立绘区域设置（全屏居中大图） ──
 	portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	portrait_rect.pivot_offset = Vector2(320, 330)  # center of 640x660
+	portrait_rect.anchor_left = 0.5
+	portrait_rect.anchor_right = 0.5
+	portrait_rect.anchor_top = 0.0
+	portrait_rect.anchor_bottom = 1.0
+	portrait_rect.offset_left = float(_center_portrait_frame.get("offset_left", -320.0))
+	portrait_rect.offset_top = float(_center_portrait_frame.get("offset_top", 60.0))
+	portrait_rect.offset_right = float(_center_portrait_frame.get("offset_right", 320.0))
+	portrait_rect.offset_bottom = float(_center_portrait_frame.get("offset_bottom", 0.0))
+	portrait_rect.pivot_offset = Vector2(float(_center_portrait_frame.get("pivot_x", 320.0)), 330.0)
 	# 立绘层级在对话框下面（下半身被对话框自然遮挡）
 	move_child(portrait_rect, 0)
 	# ── 文本区域设置 ──
@@ -141,6 +160,14 @@ func _ready() -> void:
 	_typewriter = TypewriterEffectScript.new()
 	add_child(_typewriter)
 	_setup_avatar_portrait()
+
+
+func _refresh_center_portrait_frame() -> void:
+	_center_portrait_frame = DEFAULT_CENTER_PORTRAIT_FRAME.duplicate(true)
+	if AssetResolver != null and AssetResolver.has_method("get_center_portrait_standard_frame"):
+		var resolved = AssetResolver.get_center_portrait_standard_frame()
+		if typeof(resolved) == TYPE_DICTIONARY and not resolved.is_empty():
+			_center_portrait_frame = resolved.duplicate(true)
 
 
 func _input(event: InputEvent) -> void:
@@ -224,7 +251,7 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 	# 检测是否为心理活动（心声）模式
 	var is_mind_voice := _is_mind_voice_speaker(speaker)
 	# 去掉多余空行，限制显示不超过3行（约60字）
-	var display_text := text.replace("\r\n", "\n").replace("\r", "\n").strip_edges()
+	var display_text := TextUtilsScript.strip_stage_directions(text).replace("\r\n", "\n").replace("\r", "\n").strip_edges()
 	while display_text.find("\n\n") >= 0:
 		display_text = display_text.replace("\n\n", "\n")
 	# 如果文字包含换行且超过3行，只显示前3行
@@ -240,7 +267,7 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 		# 显示主角思考立绘（居中大图）
 		var mind_portrait := _resolve_mind_voice_portrait()
 		if mind_portrait != "" and ResourceLoader.exists(mind_portrait):
-			_current_portrait_display_scale = AssetResolver.get_portrait_screen_scale(mind_portrait)
+			_apply_center_portrait_presentation("lu_zhao", mind_portrait, "serious")
 			portrait_rect.visible = _set_portrait_texture(portrait_rect, mind_portrait)
 			portrait_rect.modulate.a = 0.85
 			portrait_rect.scale = Vector2(_current_portrait_display_scale, _current_portrait_display_scale)
@@ -304,6 +331,9 @@ func _apply_normal_narration_style() -> void:
 
 ## 解析心声模式的主角思考立绘路径
 func _resolve_mind_voice_portrait() -> String:
+	var resolved := AssetResolver.resolve_case_portrait("lu_zhao", "serious", GameManager.npcs_data, "dialogue")
+	if resolved != "" and ResourceLoader.exists(resolved):
+		return resolved
 	# 优先使用 prologue 立绘（序章专用），回退到通用立绘
 	var candidates := [
 		"res://assets/cn/portraits/prologue_lu_zhao_serious.png",
@@ -336,8 +366,7 @@ func _apply_narration_speaker(speaker: String, portrait: String) -> void:
 		portrait_rect.visible = false
 	elif resolved != "" and ResourceLoader.exists(resolved):
 		# 指定了立绘 → 居中显示
-		_current_portrait_display_scale = AssetResolver.get_portrait_screen_scale(resolved)
-		portrait_rect.pivot_offset = Vector2(320, AssetResolver.get_portrait_screen_pivot_y(resolved))
+		_apply_center_portrait_presentation(_resolve_npc_id_for_speaker(speaker), resolved, "")
 		portrait_rect.visible = _set_portrait_texture(portrait_rect, resolved)
 		portrait_rect.modulate.a = 1.0
 		portrait_rect.scale = Vector2(_current_portrait_display_scale, _current_portrait_display_scale)
@@ -421,6 +450,33 @@ func _resolve_portrait_for_speaker(speaker_name: String) -> String:
 		if typeof(entry) == TYPE_DICTIONARY:
 			if entry.get("role_name", "") == speaker_name:
 				return AssetResolver.get_portrait(npc_id, GameManager.npcs_data)
+	return ""
+
+
+func _resolve_npc_id_for_speaker(speaker_name: String) -> String:
+	var visible_name := _normalize_visible_speaker(speaker_name)
+	if visible_name == "":
+		return ""
+	if visible_name == "陆昭" or visible_name == "你" or visible_name == "lu_zhao":
+		return "lu_zhao"
+	if visible_name == "凌瑶" or visible_name == "xia_lingyao" or visible_name == "lingyao":
+		return "xia_lingyao"
+	var cs = get_node_or_null("/root/CompanionService")
+	if cs and cs.has_method("get_companion_role_name"):
+		var companion_name: String = cs.get_companion_role_name()
+		if companion_name != "" and visible_name == companion_name:
+			if cs.has_method("get_companion_id"):
+				var companion_id := str(cs.get_companion_id())
+				if companion_id != "":
+					return companion_id
+			return "xia_lingyao"
+	var casting: Dictionary = AssetResolver.get_casting()
+	if casting.has(visible_name):
+		return visible_name
+	for npc_id in casting.keys():
+		var entry = casting[npc_id]
+		if typeof(entry) == TYPE_DICTIONARY and entry.get("role_name", "") == visible_name:
+			return str(npc_id)
 	return ""
 
 
@@ -532,10 +588,11 @@ func _play_current_page(run_id: int) -> void:
 	var page: Dictionary = _dialogue_pages[_dialogue_page_index]
 	_apply_speaker(page.get("speaker", ""), page.get("portrait", ""), page.get("emotion", ""))
 	var page_text: String = page.get("text", "")
-	_append_dialogue_log(page.get("speaker", ""), page_text)
+	var display_page_text := TextUtilsScript.strip_stage_directions(page_text)
+	_append_dialogue_log(page.get("speaker", ""), display_page_text)
 	_typewriter.set_blip_profile(_resolve_blip_profile(page.get("speaker", "")))
 	_start_talk_animation()
-	_typewriter.play(text_label, _decorate_text(page_text, page.get("highlight", [])))
+	_typewriter.play(text_label, _decorate_text(display_page_text, page.get("highlight", [])))
 	await _typewriter.finished
 	_stop_talk_animation()
 	if run_id != _dialogue_run_id:
@@ -582,11 +639,10 @@ func _apply_speaker(speaker: String, portrait_path: String, emotion: String = ""
 	_load_animation_frames(portrait_path, emotion)
 	_hide_avatar()  # 切换回 NPC 时隐藏头像
 	# 显示 NPC 居中立绘
-	var scale_value := AssetResolver.get_portrait_screen_scale(_resolved_portrait)
+	var scale_value := _apply_center_portrait_presentation(_resolve_npc_id_for_speaker(speaker), _resolved_portrait, emotion)
 	_current_portrait_display_scale = scale_value
 	var target_scale := Vector2(scale_value, scale_value)
 	if _resolved_portrait != "" and ResourceLoader.exists(_resolved_portrait):
-		portrait_rect.pivot_offset = Vector2(320, AssetResolver.get_portrait_screen_pivot_y(_resolved_portrait))
 		portrait_rect.visible = _set_portrait_texture(portrait_rect, _resolved_portrait)
 		if _skip_next_portrait_animation:
 			# NPC 已在场景层可见，直接显示不做动画（避免拖动/跳动感）
@@ -610,6 +666,18 @@ func _apply_speaker(speaker: String, portrait_path: String, emotion: String = ""
 				_portrait_tween.kill()
 			_portrait_tween = create_tween()
 			_portrait_tween.tween_property(portrait_rect, "modulate:a", 1.0, 0.15).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+
+func _apply_center_portrait_presentation(npc_id: String, portrait_path: String, emotion: String) -> float:
+	var presentation := AssetResolver.get_center_portrait_surface_presentation("dialogue", npc_id, emotion, portrait_path)
+	_current_portrait_display_scale = float(presentation.get("screen_scale", 1.0))
+	_current_portrait_offset_y = float(presentation.get("offset_y", 0.0))
+	portrait_rect.pivot_offset = Vector2(float(_center_portrait_frame.get("pivot_x", 320.0)), float(presentation.get("pivot_y", 330.0)))
+	portrait_rect.offset_left = float(_center_portrait_frame.get("offset_left", -320.0))
+	portrait_rect.offset_top = float(_center_portrait_frame.get("offset_top", 60.0)) + _current_portrait_offset_y
+	portrait_rect.offset_right = float(_center_portrait_frame.get("offset_right", 320.0))
+	portrait_rect.offset_bottom = float(_center_portrait_frame.get("offset_bottom", 0.0)) + _current_portrait_offset_y
+	return _current_portrait_display_scale
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -1889,7 +1957,7 @@ func _play_record_fx(page: Dictionary) -> void:
 	body.scroll_active = false
 	body.add_theme_font_size_override("normal_font_size", 18)
 	body.add_theme_color_override("default_color", Color(0.92, 0.86, 0.72, 1))
-	var record_text := str(page.get("record_text", page.get("text", "")))
+	var record_text := TextUtilsScript.strip_stage_directions(str(page.get("record_text", page.get("text", ""))))
 	body.text = _decorate_text(record_text, page.get("highlight", []))
 	vbox.add_child(body)
 

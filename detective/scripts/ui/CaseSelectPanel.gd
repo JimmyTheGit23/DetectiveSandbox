@@ -495,10 +495,7 @@ func _do_align_bg() -> void:
 
 
 func _case_has_save(case_id: String) -> bool:
-	if FileAccess.file_exists("user://saves/%s.json" % case_id):
-		return true
-	# 兼容旧存档路径，避免旧版本中途进度在选案界面消失。
-	return FileAccess.file_exists("user://%s_save.json" % case_id)
+	return GameManager.case_has_resume_save(case_id)
 
 
 func _show_action_bubble(case_id: String, case_title: String, has_save: bool, _is_cleared: bool) -> void:

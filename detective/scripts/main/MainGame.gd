@@ -85,10 +85,17 @@ const GM_PRESETS := {
 	},
 }
 
+const GM_CONFRONTATION_PRESET_MAP := {
+	"confrontation_wang": "wang_confront",
+	"confrontation": "main_confront_ready",
+	"confrontation_final": "final_ready",
+}
+
 const SettingsSealIcon = preload("res://scripts/ui/SettingsSealIcon.gd")
 const SETTINGS_BUTTON_ICON_PATH := "res://assets/cn/ui/icon_settings_seal.png"
-const EVIDENCE_OBTAIN_HOLD_SECONDS := 4.0
-const EVIDENCE_POPUP_VISIBLE_SECONDS := 4.8
+const GM_TEST_PANEL_SCENE_PATH := "res://scenes/ui/GmTestPanel.tscn"
+const EVIDENCE_OBTAIN_HOLD_SECONDS := 2.0
+const EVIDENCE_POPUP_VISIBLE_SECONDS := 2.0
 const EVIDENCE_POPUP_WIDTH := 660.0
 const EVIDENCE_CLICK_BLOCKER_Z_INDEX := 2048
 const EVIDENCE_POPUP_STACK_Z_INDEX := 2047
@@ -122,6 +129,8 @@ var _settings_btn_pressed_visual := false
 var _evidence_click_blocker: Control = null
 var _evidence_click_lock_until_msec := 0
 var _evidence_popup_stack: VBoxContainer = null
+var _screen_shake_tween_ref: Tween = null
+var _screen_shake_base_positions: Dictionary = {}
 
 
 func _ready() -> void:
@@ -206,6 +215,10 @@ func _input(event: InputEvent) -> void:
 	if not _is_evidence_click_locked():
 		return
 	if event is InputEventMouseButton or event is InputEventScreenTouch:
+		get_viewport().set_input_as_handled()
+	elif event is InputEventKey and event.pressed:
+		get_viewport().set_input_as_handled()
+	elif event is InputEventJoypadButton and event.pressed:
 		get_viewport().set_input_as_handled()
 
 
@@ -456,44 +469,66 @@ func _show_title() -> void:
 	
 	var shade := ColorRect.new()
 	shade.set_anchors_preset(Control.PRESET_FULL_RECT)
-	shade.color = Color(0.02, 0.02, 0.03, 0.45)
+	shade.color = Color(0.02, 0.02, 0.03, 0.38)
 	_title_layer.add_child(shade)
 	
-	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_title_layer.add_child(center)
-	
-	var vbox := VBoxContainer.new()
-	vbox.custom_minimum_size = Vector2(420, 360)
-	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	vbox.add_theme_constant_override("separation", 18)
-	center.add_child(vbox)
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 92)
+	margin.add_theme_constant_override("margin_top", 86)
+	margin.add_theme_constant_override("margin_right", 92)
+	margin.add_theme_constant_override("margin_bottom", 78)
+	_title_layer.add_child(margin)
+
+	var layout := HBoxContainer.new()
+	layout.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	layout.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	layout.add_theme_constant_override("separation", 54)
+	margin.add_child(layout)
+
+	var title_box := VBoxContainer.new()
+	title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	title_box.alignment = BoxContainer.ALIGNMENT_CENTER
+	title_box.add_theme_constant_override("separation", 14)
+	layout.add_child(title_box)
 	
 	var title := Label.new()
 	title.text = "推 理 者 计 划"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 56)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	title.add_theme_font_size_override("font_size", 66)
 	title.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1))
-	vbox.add_child(title)
+	title_box.add_child(title)
 	
+	var title_rule := ColorRect.new()
+	title_rule.custom_minimum_size = Vector2(380, 2)
+	title_rule.color = Color(0.85, 0.66, 0.32, 0.82)
+	title_box.add_child(title_rule)
+
 	var sub := Label.new()
 	sub.text = "Detective Program"
-	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	sub.add_theme_font_size_override("font_size", 20)
 	sub.add_theme_color_override("font_color", Color(0.85, 0.78, 0.62, 1))
-	vbox.add_child(sub)
+	title_box.add_child(sub)
 
-	# 调查员状态条
-	var iv := get_node_or_null("/root/InvestigatorService")
-	if iv:
-		vbox.add_child(_make_investigator_strip(iv))
+	var menu_center := CenterContainer.new()
+	menu_center.custom_minimum_size = Vector2(340, 0)
+	menu_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	layout.add_child(menu_center)
 
-	vbox.add_child(_make_title_button("开 始 调 查", _on_start_investigation_pressed, false))
+	var menu_box := VBoxContainer.new()
+	menu_box.custom_minimum_size = Vector2(320, 0)
+	menu_box.add_theme_constant_override("separation", 14)
+	menu_center.add_child(menu_box)
+
+	menu_box.add_child(_make_title_button("开 始 调 查", _on_start_investigation_pressed, false))
 	# 只要当前案件存在存档，就必须保留继续入口；即使案件已通关，也可能是在重玩途中。
-	if GameManager.has_save():
-		vbox.add_child(_make_title_button("继 续 游 戏", _continue_game, false))
-	vbox.add_child(_make_title_button("设 置", _on_title_settings_pressed, false))
-	vbox.add_child(_make_title_button("退 出 游 戏", func(): get_tree().quit(), false))
+	if GameManager.has_resume_save():
+		menu_box.add_child(_make_title_button("读 取 存 档", _on_title_load_save_pressed, false))
+	menu_box.add_child(_make_title_button("GM 测 试", _on_title_gm_test_pressed, false))
+	menu_box.add_child(_make_title_button("设 置", _on_title_settings_pressed, false))
+	menu_box.add_child(_make_title_button("退 出 游 戏", func(): get_tree().quit(), false))
 
 
 func _is_active_case_cleared() -> bool:
@@ -506,7 +541,8 @@ func _make_title_button(text: String, cb: Callable, disabled := false) -> Button
 	btn.text = text
 	btn.disabled = disabled
 	btn.flat = true
-	btn.custom_minimum_size = Vector2(0, 48)
+	btn.custom_minimum_size = Vector2(300, 50)
+	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.add_theme_font_size_override("font_size", 24)
 	btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.55, 1))
 	btn.add_theme_color_override("font_hover_color", Color(1.0, 1.0, 0.78, 1))
@@ -604,18 +640,39 @@ func _on_start_investigation_pressed() -> void:
 
 
 func _on_title_settings_pressed() -> void:
+	_open_title_settings_panel(0)
+
+
+func _on_title_load_save_pressed() -> void:
+	_open_title_settings_panel(1, true)
+
+
+func _open_title_settings_panel(initial_tab: int, title_load_only := false) -> void:
 	var scene_path: String = SubPanels.get("settings", "")
 	if scene_path == "" or not ResourceLoader.exists(scene_path):
 		push_warning("Panel scene missing: " + scene_path)
 		return
 	var packed: PackedScene = load(scene_path)
 	var panel: Control = packed.instantiate()
+	if panel != null:
+		panel.set("initial_tab", initial_tab)
+		panel.set("title_load_only", title_load_only)
 	add_child(panel)
 	move_child(panel, get_child_count() - 1)
 	if panel.has_signal("close_requested"):
 		panel.close_requested.connect(panel.queue_free)
 	if panel.has_signal("return_to_title_requested"):
 		panel.return_to_title_requested.connect(panel.queue_free)
+
+
+func _on_title_gm_test_pressed() -> void:
+	if GM_TEST_PANEL_SCENE_PATH == "" or not ResourceLoader.exists(GM_TEST_PANEL_SCENE_PATH):
+		push_warning("GM test panel missing: " + GM_TEST_PANEL_SCENE_PATH)
+		return
+	var packed: PackedScene = load(GM_TEST_PANEL_SCENE_PATH)
+	var panel: Control = packed.instantiate()
+	add_child(panel)
+	move_child(panel, get_child_count() - 1)
 
 
 func _show_restart_confirm() -> void:
@@ -716,8 +773,12 @@ func _start_new_game() -> void:
 
 
 func _continue_game() -> void:
-	if not GameManager.load_game():
+	if not GameManager.load_resume_save():
 		return
+	resume_loaded_game()
+
+
+func resume_loaded_game() -> void:
 	_hide_title()
 	top_bar_label.get_parent().visible = true
 	_restore_session_visited_locations_from_save()
@@ -1156,20 +1217,29 @@ func _play_event_now(evt_id: String, suppress_evidence_hold := false) -> void:
 		effects_for_apply.erase("defer_change_location")
 		evt_for_effects["effects"] = effects_for_apply
 	var lines: Array = []
+	var default_narration_fx: Dictionary = evt.get("effects", {}).get("narration_fx", {})
 	var cabin_escape_insert_index := -1
 	var idx := 0
 	for line in evt.get("narration", []):
 		if line is Dictionary:
-			var line_dict: Dictionary = line
+			var line_dict: Dictionary = line.duplicate(true)
 			var line_effect: Dictionary = line_dict.get("effect", {})
 			if bool(line_effect.get("cabin_escape_panel", false)):
 				cabin_escape_insert_index = lines.size()
 				idx += 1
 				continue
+			if not default_narration_fx.is_empty():
+				var merged_effect := default_narration_fx.duplicate(true)
+				for key in line_effect.keys():
+					merged_effect[key] = line_effect[key]
+				line_dict["effect"] = merged_effect
 			lines.append(line_dict)
 		else:
 			var voice_path: String = AssetResolver.resolve_event_voice_path(evt_id, idx)
-			lines.append({ "speaker": "", "text": str(line), "voice_path": voice_path })
+			var item := { "speaker": "", "text": str(line), "voice_path": voice_path }
+			if not default_narration_fx.is_empty():
+				item["effect"] = default_narration_fx.duplicate(true)
+			lines.append(item)
 		idx += 1
 	# 检查是否需要在 narration 结束后自动进入对峙
 	var suppress_arrival_banter_after_event := bool(evt.get("effects", {}).get("suppress_arrival_banter", false))
@@ -1482,7 +1552,11 @@ func gm_play_event(evt_id: String) -> void:
 
 func gm_start_confrontation(confront_key: String, reload_tables := true) -> void:
 	if reload_tables:
-		GameManager.reload_current_case_tables()
+		var preset_id := str(GM_CONFRONTATION_PRESET_MAP.get(confront_key, ""))
+		if preset_id != "":
+			gm_apply_preset(preset_id, true)
+		else:
+			GameManager.reload_current_case_tables()
 	if confront_key == "":
 		_flash_notification("请输入对峙 ID")
 		return
@@ -1503,6 +1577,36 @@ func gm_play_fixed_epilogue() -> void:
 	GameManager.save_game()
 	if not _try_play_case_epilogue("prologue_fixed"):
 		_show_ending("prologue_fixed")
+
+
+func gm_preview_center_npc(npc_id: String, emotion: String = "base") -> void:
+	if _npc_layer == null or not is_instance_valid(_npc_layer) or not _npc_layer.has_method("preview_center_npc"):
+		_flash_notification("中央 NPC 预览层不可用")
+		return
+	_gm_prepare_surface(false)
+	if GameManager.current_location != "" and GameManager.locations_data.has(GameManager.current_location):
+		_gm_force_location(GameManager.current_location)
+	if not _npc_layer.preview_center_npc(npc_id, emotion):
+		_flash_notification("预览失败：%s / %s" % [npc_id, emotion])
+
+
+func gm_clear_center_preview() -> void:
+	if _npc_layer != null and is_instance_valid(_npc_layer) and _npc_layer.has_method("clear_preview"):
+		_npc_layer.clear_preview()
+
+
+func gm_reload_center_npc_layouts() -> void:
+	GameManager.reload_current_case_tables()
+	if _npc_layer != null and is_instance_valid(_npc_layer):
+		if _npc_layer.has_method("clear_preview"):
+			_npc_layer.clear_preview()
+		elif _npc_layer.has_method("refresh_npcs") and GameManager.current_location != "":
+			_npc_layer.refresh_npcs(GameManager.current_location)
+	_flash_notification("已重载中央 NPC 配置")
+
+
+func gm_return_to_title() -> void:
+	_show_title()
 
 
 func _gm_prepare_surface(show_menu := true) -> void:
@@ -1716,9 +1820,9 @@ func _after_mid_confrontation(confront_key: String, result: String) -> void:
 		var buffer_lines: Array = []
 		if confront_key == "confrontation_wang":
 			buffer_lines = [
-				{"speaker": "凌瑶", "text": "看吧！浓雾、风浪、动机，三处全破！你不是凶手。", "emotion": "determined"},
+				{"speaker": "凌瑶", "text": "看吧！雾里认人、风浪里听喊声、还有你上岸那会儿的样子，这几句都站不住了。你不是凶手。", "emotion": "determined"},
 				{"speaker": "陆昭", "text": "王大爷的证词站不住了。有人想先把我钉死，再让真正的凶手从证据缝里逃走。", "emotion": "cold"},
-				{"speaker": "凌瑶", "text": "那个沈清月也太会接话了……每次都像在帮忙，其实都在往你身上压。", "emotion": "worried"}
+				{"speaker": "凌瑶", "text": "还有沈清月。她开场那几句听着像讲理，其实是在先把你摁成最顺手的嫌犯。", "emotion": "worried"}
 			]
 		else:
 			buffer_lines = [
@@ -1999,14 +2103,50 @@ var _mind_fade_tween_ref: Tween = null
 
 
 func _do_screen_shake(intensity: float = 6.0, duration: float = 0.4) -> void:
-	var original_pos := scene_bg.position
-	var tw := create_tween()
+	var targets: Array[CanvasItem] = []
+	if is_instance_valid(scene_bg):
+		targets.append(scene_bg)
+	if _scene_fx and is_instance_valid(_scene_fx):
+		targets.append(_scene_fx)
+	if _bg_fade_rect and is_instance_valid(_bg_fade_rect):
+		targets.append(_bg_fade_rect)
+	if _npc_layer and is_instance_valid(_npc_layer):
+		targets.append(_npc_layer)
+	if targets.is_empty():
+		return
+	for target in _screen_shake_base_positions.keys():
+		if is_instance_valid(target):
+			target.position = _screen_shake_base_positions[target]
+	if _screen_shake_tween_ref != null and _screen_shake_tween_ref.is_valid():
+		_screen_shake_tween_ref.kill()
+	var original_positions: Dictionary = {}
+	for target in targets:
+		original_positions[target] = target.position
+	_screen_shake_base_positions = original_positions.duplicate()
+	_screen_shake_tween_ref = create_tween()
 	var steps := int(duration / 0.05)
 	for i in range(steps):
 		var offset_x: float = intensity * (1.0 if i % 2 == 0 else -1.0) * (1.0 - float(i) / steps)
 		var offset_y: float = intensity * 0.5 * (1.0 if i % 3 == 0 else -1.0) * (1.0 - float(i) / steps)
-		tw.tween_property(scene_bg, "position", original_pos + Vector2(offset_x, offset_y), 0.05)
-	tw.tween_property(scene_bg, "position", original_pos, 0.05)
+		var first_target := true
+		for target in targets:
+			var base_pos: Vector2 = original_positions.get(target, target.position)
+			if first_target:
+				_screen_shake_tween_ref.tween_property(target, "position", base_pos + Vector2(offset_x, offset_y), 0.05)
+				first_target = false
+			else:
+				_screen_shake_tween_ref.parallel().tween_property(target, "position", base_pos + Vector2(offset_x, offset_y), 0.05)
+	var restore_first := true
+	for target in targets:
+		var base_pos: Vector2 = original_positions.get(target, target.position)
+		if restore_first:
+			_screen_shake_tween_ref.tween_property(target, "position", base_pos, 0.05)
+			restore_first = false
+		else:
+			_screen_shake_tween_ref.parallel().tween_property(target, "position", base_pos, 0.05)
+	_screen_shake_tween_ref.tween_callback(func():
+		_screen_shake_base_positions.clear()
+	)
 
 
 # ─── 选择案件 ───
@@ -2082,103 +2222,6 @@ func _display_ending_screen(ending_id: String, data: Dictionary) -> void:
 	dialogue_box.visible = false
 	subpanel_container.visible = false
 	event_hint_btn.visible = false
-
-
-# ─── 调查员状态条 / 代号设置 ──────────────────────────────────────────────
-
-func _make_investigator_strip(iv: Node) -> Control:
-	var panel := PanelContainer.new()
-	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.custom_minimum_size = Vector2(0, 70)
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.10, 0.09, 0.07, 0.85)
-	sb.border_color = Color(0.55, 0.42, 0.22, 0.85)
-	sb.set_border_width_all(1)
-	sb.corner_radius_top_left = 6
-	sb.corner_radius_top_right = 6
-	sb.corner_radius_bottom_left = 6
-	sb.corner_radius_bottom_right = 6
-	sb.content_margin_left = 14
-	sb.content_margin_right = 14
-	sb.content_margin_top = 8
-	sb.content_margin_bottom = 8
-	panel.add_theme_stylebox_override("panel", sb)
-
-	var vbx := VBoxContainer.new()
-	vbx.add_theme_constant_override("separation", 4)
-	panel.add_child(vbx)
-
-	# 行 1：代号 · Lv.x · 称号 · [改代号]
-	var top_hb := HBoxContainer.new()
-	top_hb.add_theme_constant_override("separation", 10)
-	vbx.add_child(top_hb)
-
-	var codename_lbl := Label.new()
-	codename_lbl.text = "代号：%s" % iv.get_codename()
-	codename_lbl.add_theme_font_size_override("font_size", 16)
-	codename_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1))
-	codename_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	top_hb.add_child(codename_lbl)
-
-	var rank_lbl := Label.new()
-	rank_lbl.text = "Lv.%d  %s" % [iv.get_rank(), iv.get_rank_title()]
-	rank_lbl.add_theme_font_size_override("font_size", 16)
-	rank_lbl.add_theme_color_override("font_color", Color(0.95, 0.78, 0.42, 1))
-	top_hb.add_child(rank_lbl)
-
-	var edit_btn := Button.new()
-	edit_btn.text = "改代号"
-	edit_btn.flat = true
-	edit_btn.add_theme_font_size_override("font_size", 12)
-	edit_btn.add_theme_color_override("font_color", Color(0.78, 0.70, 0.55, 1))
-	edit_btn.add_theme_color_override("font_hover_color", Color(1.0, 0.92, 0.68, 1))
-	edit_btn.pressed.connect(func(): _prompt_codename(iv, codename_lbl))
-	top_hb.add_child(edit_btn)
-
-	# 行 2：XP 进度条
-	var bar := ProgressBar.new()
-	bar.show_percentage = false
-	bar.min_value = 0
-	bar.max_value = 100
-	bar.value = iv.rank_progress() * 100.0
-	bar.custom_minimum_size = Vector2(0, 14)
-	vbx.add_child(bar)
-
-	var xp_lbl := Label.new()
-	xp_lbl.text = "经验：%d / %d" % [iv.get_xp(), iv.xp_for_next_rank()]
-	xp_lbl.add_theme_font_size_override("font_size", 12)
-	xp_lbl.add_theme_color_override("font_color", Color(0.75, 0.70, 0.55, 1))
-	xp_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	vbx.add_child(xp_lbl)
-
-	# 首次进入：未设代号 → 弹设置代号
-	if not iv.has_codename():
-		call_deferred("_prompt_codename", iv, codename_lbl)
-	return panel
-
-
-func _prompt_codename(iv: Node, codename_lbl: Label) -> void:
-	var dlg := AcceptDialog.new()
-	dlg.title = "设定调查员代号"
-	dlg.dialog_text = "「推理者计划」需要一个代号。你将以此身份接受所有模拟卷宗。"
-	dlg.ok_button_text = "确定"
-	var input := LineEdit.new()
-	input.placeholder_text = "输入代号（最多 16 字）"
-	input.text = iv.get_codename("")
-	input.max_length = 16
-	input.custom_minimum_size = Vector2(320, 36)
-	dlg.add_child(input)
-	add_child(dlg)
-	dlg.popup_centered(Vector2i(420, 220))
-	dlg.confirmed.connect(func():
-		var nm: String = input.text.strip_edges()
-		if nm == "":
-			nm = "无名调查员"
-		iv.set_codename(nm)
-		if is_instance_valid(codename_lbl):
-			codename_lbl.text = "代号：%s" % iv.get_codename()
-		dlg.queue_free()
-	)
 
 
 # ─── 助手系统集成 ─────────────────────────────────────────────────────────

@@ -280,6 +280,20 @@
       "loop_friendly": true,
       "description": "对峙终章：最终击破阶段，高潮中的高潮。"
     },
+    "Prelogue_Confrontation_Intro": {
+      "file": "res://assets/cn/bgm/Prelogue_Confrontation_Intro.mp3",
+      "tags": [
+        "climax",
+        "confrontation",
+        "break",
+        "success",
+        "ferry"
+      ],
+      "mood": "ferry_break_success",
+      "tempo": "fast",
+      "loop_friendly": true,
+      "description": "对峙击破成功：用于矛盾被当场击穿后的逆转推进。"
+    },
     "shen_corridor_theme": {
       "file": "res://assets/cn/bgm/shen_corridor_theme.wav",
       "tags": [

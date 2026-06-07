@@ -582,6 +582,13 @@ def compile_case_json(src: Path, case_id: str) -> JsonDict:
         _set_if(testimony, "witness", _cell(row, "witness"))
         _set_if(testimony, "title", _cell(row, "title"))
         _set_if(testimony, "grant_evidence", _cell(row, "grant_evidence"))
+        for key in ["mode", "proof_statement_id", "proof_evidence", "proof_prompt"]:
+            _set_if(testimony, key, _cell(row, key))
+        proof_alt = parse_list(row.get("proof_alt_evidence", ""))
+        if proof_alt or not is_blank(row.get("proof_alt_evidence", "")):
+            testimony["proof_alt_evidence"] = proof_alt
+        if not is_blank(row.get("skip_title_card", "")):
+            testimony["skip_title_card"] = parse_bool(row.get("skip_title_card", ""))
         for section in ["preamble", "readthrough_end_hint", "transition_dialogue", "fail_dialogue"]:
             lines = [_line(x) for x in testimony_lines_by_key.get((testimony_id, section), [])]
             _set_if(testimony, section, lines)

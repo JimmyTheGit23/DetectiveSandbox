@@ -594,13 +594,17 @@ func _emit_adhoc() -> void:
 	var background := ""
 	var speaker := ""
 	var text := ""
+	var item_effects: Dictionary = {}
 	if item is String:
 		text = item
 	else:
 		background = item.get("background", "")
 		speaker = item.get("speaker", "")
 		text = item.get("text", "")
-		_apply_narration_effects(item.get("effect", {}))
+		item_effects = item.get("effect", {})
+		_apply_narration_effects(item_effects)
+		if not item_effects.is_empty():
+			narration_effects.emit(item_effects)
 	var has_next := _adhoc_idx < _adhoc_lines.size() - 1
 	# 为叙述中有 speaker 的行触发 TTS
 	if speaker != "" and speaker != "旁白" and text != "":

@@ -19,6 +19,8 @@ var _gm_narration_input: LineEdit
 var _gm_event_input: LineEdit
 var _reset_button: Button
 var _settings: Node
+var initial_tab: int = 0
+var title_load_only: bool = false
 
 # 标签页系统
 var _tab_bar: HBoxContainer
@@ -33,6 +35,10 @@ var _load_slot_panels: Array[PanelContainer] = []
 func _ready() -> void:
 	_settings = get_node_or_null("/root/SettingsService")
 	_build_ui()
+	if title_load_only:
+		_refresh_load_slots()
+		return
+	open_tab(initial_tab)
 
 
 func _bgm_init_value() -> float:
@@ -49,6 +55,10 @@ func _build_ui() -> void:
 	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	root.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.add_child(root)
+
+	if title_load_only:
+		_build_title_load_page(root)
+		return
 
 	# ── 标签栏 ──
 	_tab_bar = HBoxContainer.new()
@@ -103,7 +113,54 @@ func _build_ui() -> void:
 	_update_tab_visuals()
 
 
+func _build_title_load_page(root: VBoxContainer) -> void:
+	var page_container := Control.new()
+	page_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	page_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	root.add_child(page_container)
+
+	var load_page := _build_load_page()
+	load_page.set_anchors_preset(Control.PRESET_FULL_RECT)
+	load_page.visible = true
+	page_container.add_child(load_page)
+	_tab_pages.append(load_page)
+
+	var sep := HSeparator.new()
+	sep.add_theme_color_override("separator", Color(0.6, 0.45, 0.25, 0.6))
+	root.add_child(sep)
+
+	var footer := HBoxContainer.new()
+	footer.add_theme_constant_override("separation", 12)
+	footer.alignment = BoxContainer.ALIGNMENT_CENTER
+	footer.custom_minimum_size = Vector2(0, 58)
+	root.add_child(footer)
+
+	var back_btn := Button.new()
+	back_btn.text = "返  回"
+	back_btn.flat = true
+	back_btn.custom_minimum_size = Vector2(150, 42)
+	back_btn.add_theme_font_size_override("font_size", 18)
+	back_btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.55, 1))
+	back_btn.add_theme_color_override("font_hover_color", Color(1.0, 1.0, 0.78, 1))
+	back_btn.add_theme_color_override("font_pressed_color", Color(0.95, 0.68, 0.28, 1))
+	back_btn.pressed.connect(_on_close)
+	footer.add_child(back_btn)
+
+
 # ─── 标签切换 ───
+func open_tab(index: int) -> void:
+	var clamped := clampi(index, 0, max(_tab_pages.size() - 1, 0))
+	_on_tab_clicked(clamped)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not title_load_only:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		close_requested.emit()
+		get_viewport().set_input_as_handled()
+
+
 func _on_tab_clicked(index: int) -> void:
 	_current_tab = index
 	for i in range(_tab_pages.size()):
@@ -370,9 +427,11 @@ func _on_load_slot(slot: int) -> void:
 	if GameManager.load_from_slot(slot):
 		_flash_msg("已读取槽位 %d" % slot)
 		close_requested.emit()
-		# 通知 MainGame 刷新场景
 		var main = get_tree().current_scene
-		if main and main.has_method("_on_location_changed"):
+		if main and main.has_method("resume_loaded_game"):
+			main.resume_loaded_game()
+		elif main and main.has_method("_on_location_changed"):
+			# 回退兼容：若主场景尚未接入统一恢复入口，至少保持旧行为。
 			main._on_location_changed(GameManager.current_location, true)
 			if main.has_method("_update_top_bar"):
 				main._update_top_bar()

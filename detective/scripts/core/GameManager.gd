@@ -318,6 +318,27 @@ func load_game() -> bool:
 # ─── 手动存档槽位（3个） ───
 const MANUAL_SLOT_COUNT := 3
 
+func has_resume_save() -> bool:
+	return case_has_resume_save(ACTIVE_CASE)
+
+
+func case_has_resume_save(case_id: String) -> bool:
+	if _case_has_primary_save(case_id):
+		return true
+	for slot in range(1, MANUAL_SLOT_COUNT + 1):
+		if FileAccess.file_exists(_manual_slot_path_for_case(case_id, slot)):
+			return true
+	return false
+
+
+func load_resume_save() -> bool:
+	var latest := _latest_resume_save()
+	if latest.is_empty():
+		return false
+	if str(latest.get("kind", "")) == "slot":
+		return load_from_slot(int(latest.get("slot", 0)))
+	return load_game()
+
 ## 保存当前状态到指定手动存档槽位（1-3）
 func save_to_slot(slot: int) -> bool:
 	if slot < 1 or slot > MANUAL_SLOT_COUNT:
@@ -378,7 +399,57 @@ func get_slot_info(slot: int) -> Dictionary:
 
 
 func _manual_slot_path(slot: int) -> String:
-	return "user://saves/%s_slot%d.json" % [ACTIVE_CASE, slot]
+	return _manual_slot_path_for_case(ACTIVE_CASE, slot)
+
+
+func _manual_slot_path_for_case(case_id: String, slot: int) -> String:
+	return "user://saves/%s_slot%d.json" % [case_id, slot]
+
+
+func _case_has_primary_save(case_id: String) -> bool:
+	var save_path := "user://saves/%s.json" % case_id
+	if FileAccess.file_exists(save_path):
+		return true
+	var legacy := "user://%s_save.json" % case_id
+	if not FileAccess.file_exists(legacy):
+		return false
+	if case_id != ACTIVE_CASE:
+		return true
+	_migrate_legacy_save(legacy)
+	return FileAccess.file_exists(save_path)
+
+
+func _latest_resume_save() -> Dictionary:
+	# 先迁移当前案件旧版继续档，避免比较修改时间时漏掉它。
+	has_save()
+	var best: Dictionary = {}
+	var auto_time := _existing_save_modified_time(SAVE_PATH)
+	if auto_time > 0:
+		best = {
+			"kind": "auto",
+			"modified_time": auto_time,
+		}
+	for slot in range(1, MANUAL_SLOT_COUNT + 1):
+		var slot_path := _manual_slot_path(slot)
+		var slot_time := _existing_save_modified_time(slot_path)
+		if slot_time <= 0:
+			continue
+		if best.is_empty() or slot_time >= int(best.get("modified_time", 0)):
+			best = {
+				"kind": "slot",
+				"slot": slot,
+				"modified_time": slot_time,
+			}
+	return best
+
+
+func _existing_save_modified_time(path: String) -> int:
+	if not FileAccess.file_exists(path):
+		return 0
+	var modified_time := int(FileAccess.get_modified_time(path))
+	if modified_time == 0:
+		modified_time = int(FileAccess.get_modified_time(ProjectSettings.globalize_path(path)))
+	return max(modified_time, 1)
 
 
 ## 构建存档数据（供 auto-save 和 manual-save 共用）
