@@ -3,106 +3,41 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "……你就是那个同船的公子？我叫周德茂，做布匹生意。这次是去武昌府进一批棉布。",
+      "text": "同船的公子？周德茂，做布匹。今夜赶武昌，明早有批货要看。",
       "emotion": "serious",
       "options": [
         {
           "text": "周老板是做什么生意的？",
-          "goto": "ask_business",
+          "goto": "ask_background",
           "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
-          "text": "为什么选夜船？",
+          "text": "这么晚还赶武昌？",
           "goto": "ask_night_ferry",
           "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
-          "text": "介绍夜船的那个朋友是谁？",
-          "goto": "ask_friend",
-          "type": "press",
-          "requires": [
-            {
-              "all": [
-                {
-                  "flag": "cabin_route_note_checked"
-                },
-                {
-                  "flag": "cabin_zhou_talked"
-                },
-                {
-                  "not_flag": "cabin_explore_done"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "text": "阿贵跟了你多久？",
-          "goto": "ask_servant",
-          "type": "observe",
+          "text": "货舱进水了吗？",
+          "goto": "press_cargo_marks",
+          "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ]
-        },
-        {
-          "text": "看看船舱里有什么",
-          "goto": "observe_cabin",
-          "type": "observe",
-          "requires": [
-            {
-              "not_flag": "cabin_explore_done"
-            }
-          ]
-        },
-        {
-          "text": "夜深了，整理疑点",
-          "goto": "sleep_review",
-          "type": "observe",
-          "requires": [
-            {
-              "all": [
-                {
-                  "flag": "cabin_agui_talked"
-                },
-                {
-                  "flag": "cabin_lao_fan_talked"
-                },
-                {
-                  "flag": "cabin_zhou_talked"
-                },
-                {
-                  "flag": "cabin_seal_box_checked"
-                },
-                {
-                  "flag": "cabin_route_note_checked"
-                },
-                {
-                  "flag": "cabin_storm_window_checked"
-                },
-                {
-                  "flag": "cabin_wet_cloak_checked"
-                },
-                {
-                  "not_flag": "cabin_review_done"
-                },
-                {
-                  "not_flag": "cabin_explore_done"
-                }
-              ]
-            }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "先告辞",
@@ -110,30 +45,45 @@
         }
       ]
     },
-    "ask_business": {
+    "ask_background": {
       "set_flags": [
         "cabin_zhou_talked"
       ],
       "lines": [
         {
-          "text": "不算大。就是混口饭吃。",
+          "text": "不算大。布匹生意，赚的是小钱。小钱攒多了，也能过日子。",
           "speaker_id": "zhou_de_gui_cabin",
           "emotion": "serious"
         },
         {
-          "text": "这次是去武昌府进一批棉布，过了年好卖。",
-          "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
-        },
-        {
-          "text": "周老板谦虚了。",
+          "text": "阿贵跟了你多久？看他做事很熟。",
           "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "十二年了。十六岁进的门。什么都不会——是我手把手教的。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "不短了。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "十二年确实不短。出门在外，有个熟手在身边也安心些。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "熟手用着顺。跑商在外，少一个懂事的人，什么都耽误。",
+          "speaker_id": "zhou_de_gui_cabin",
           "emotion": "serious"
         }
       ],
       "options": [
         {
-          "text": "继续询问",
+          "text": "继续聊",
           "goto": "hub"
         },
         {
@@ -144,31 +94,46 @@
     },
     "ask_night_ferry": {
       "set_flags": [
-        "cabin_zhou_talked"
+        "cabin_zhou_talked",
+        "cabin_friend_pressed"
       ],
       "lines": [
         {
-          "text": "急着赶路。武昌的早市不能错过。",
+          "text": "急着赶路。武昌早市一开，迟半日就少赚一大截。",
           "speaker_id": "zhou_de_gui_cabin",
           "emotion": "serious"
         },
         {
-          "text": "夜船快。半天就到。",
-          "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
+          "text": "他说话时带着一股荤油味，袖口还蹭着点油光。像是刚在码头吃过肥肉和油炸河鲜。",
+          "speaker_id": "narrator"
         },
         {
-          "text": "夜船危险。",
+          "text": "夜船本就不稳，何况今晚风雨这么重。我这个外乡人坐着，心里多少有些没底。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "text": "我知道。但时间不等人。而且……有人告诉我这条路快。",
+          "text": "没底就少看水。看多了心慌。我年轻时常跟船下水，照样不爱夜里走。",
           "speaker_id": "zhou_de_gui_cabin",
           "emotion": "serious"
         },
         {
-          "text": "他顿了顿，像是在斟酌用词",
+          "text": "周老板会水？",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "会。年轻时货掉江里，我自己下去捞过。现在胖了，游不快，但水性还没丢，不至于一落水就没命。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "我知道风险。但时间不等人。而且……有人告诉我这条路快。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "serious"
+        },
+        {
+          "text": "他顿了顿，才继续说。",
           "speaker_id": "narrator"
         },
         {
@@ -177,45 +142,17 @@
           "emotion": "serious"
         },
         {
-          "text": "什么朋友？",
+          "text": "那人也是跑商的？连船家和水路都说得准，听着像常走这条线。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "text": "……名字记不太清了。做生意的。以前在石矶渡碰过面。",
-          "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
-        }
-      ],
-      "options": [
-        {
-          "text": "继续询问",
-          "goto": "hub"
-        },
-        {
-          "text": "先告辞",
-          "goto": "__exit__"
-        }
-      ]
-    },
-    "ask_friend": {
-      "set_flags": [
-        "cabin_zhou_talked",
-        "cabin_friend_pressed"
-      ],
-      "lines": [
-        {
-          "text": "你说有个朋友介绍这条夜船。做生意的人，连介绍人名字都记不清？",
-          "speaker_id": "lu_zhao",
-          "emotion": "serious"
-        },
-        {
-          "text": "萍水相逢罢了。石矶渡来往客多，我哪能个个记住。",
+          "text": "路上碰见的。石矶渡来往客多，我做买卖，听路子，不问人名。",
           "speaker_id": "zhou_de_gui_cabin",
           "emotion": "serious"
         },
         {
-          "text": "但你记住了他推荐的船。",
+          "text": "这样啊。我只是觉得这人消息挺灵，船家和水路都说得准。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
@@ -223,15 +160,15 @@
           "text": "因为他讲得准。船家老范，东汊快，半日能到。做买卖的人听见快字，总会多信几分。",
           "speaker_id": "zhou_de_gui_cabin",
           "emotion": "serious",
-          "record_type": "testimony",
-          "record_title": "周德茂证言：介绍人",
-          "record_text": "周德茂称介绍夜船的人只是石矶渡偶遇的生意朋友，名字记不清，但对方准确说出了老范和东汊路线。",
+          "record_type": "key",
+          "record_title": "夜船记下：介绍人",
+          "record_text": "周德茂说夜船是路上碰见的人介绍的，对方准确说出老范和东汊路线。",
           "record_id": "record_cabin_zhou_friend"
         }
       ],
       "options": [
         {
-          "text": "继续询问",
+          "text": "继续聊",
           "goto": "hub"
         },
         {
@@ -240,224 +177,40 @@
         }
       ]
     },
-    "ask_servant": {
-      "set_flags": [
-        "cabin_zhou_talked"
-      ],
-      "lines": [
-        {
-          "text": "阿贵跟了我十二年。",
-          "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
-        },
-        {
-          "text": "十六岁进的门。什么都不会——是我手把手教的。",
-          "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
-        },
-        {
-          "text": "十二年了……不短了。",
-          "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
-        },
-        {
-          "text": "十二年……确实不短。",
-          "speaker_id": "lu_zhao",
-          "emotion": "serious"
-        }
-      ],
-      "options": [
-        {
-          "text": "继续询问",
-          "goto": "hub"
-        },
-        {
-          "text": "先告辞",
-          "goto": "__exit__"
-        }
-      ]
-    },
-    "observe_cabin": {
+    "press_cargo_marks": {
       "set_flags": [
         "cabin_observed"
       ],
       "lines": [
         {
-          "text": "船舱不大，但收拾得还算干净。",
+          "text": "第三次看这间船舱。有些东西看熟了，有些东西越看越不对。",
           "speaker_id": "narrator"
         },
         {
-          "text": "舱壁上挂着一根铁撬棍，旁边是蓑衣和斗笠。",
+          "text": "铁撬棍、蓑衣、木箱——三样东西的位置跟第一次看时一模一样。没有人动过。",
           "speaker_id": "narrator"
         },
         {
-          "text": "角落有几只木箱，用麻绳捆着。",
+          "text": "但舱壁底部有一道水痕——从铁撬棍正下方一直延伸到角落的木箱。像是有什么液体从撬棍上滴落，沿着舱壁流到了箱脚。",
           "speaker_id": "narrator"
         },
         {
-          "text": "铁撬棍的位置有点奇怪——挂在舱壁正中间，像是特意放在那里的。",
+          "text": "你蹲下来看了一眼——暗红色的。不是锈。",
           "speaker_id": "narrator"
         },
         {
-          "text": "这铁撬棍放得倒显眼……",
+          "text": "暗红色的痕迹……不像锈，也不像普通泥水。夜里光暗，先记下，等天亮再看清楚。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
       ],
       "options": [
         {
-          "text": "继续询问",
+          "text": "继续聊",
           "goto": "hub"
         },
         {
           "text": "先告辞",
-          "goto": "__exit__"
-        }
-      ]
-    },
-    "sleep_review": {
-      "lines": [
-        {
-          "text": "雨声压着舱板，灯火在木壁上晃。你把今夜见过的东西一件件放回脑中。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "官印木匣、行程简记、湿斗篷、窗外风浪，还有周老板那个说不清的朋友。",
-          "speaker_id": "lu_zhao",
-          "emotion": "serious"
-        },
-        {
-          "text": "最不该忽略的是哪一点？",
-          "speaker_id": "narrator"
-        }
-      ],
-      "options": [
-        {
-          "text": "路线和天气都不对",
-          "goto": "review_route",
-          "type": "reason"
-        },
-        {
-          "text": "湿斗篷和门缝不对",
-          "goto": "review_cloak",
-          "type": "reason"
-        },
-        {
-          "text": "周老板说的朋友不对",
-          "goto": "review_friend",
-          "type": "reason"
-        },
-        {
-          "text": "官印木匣必须记牢",
-          "goto": "review_seal",
-          "type": "reason"
-        }
-      ]
-    },
-    "review_route": {
-      "set_flags": [
-        "cabin_review_done",
-        "cabin_review_route"
-      ],
-      "lines": [
-        {
-          "text": "平水驿、夜船、东汊、风雨。几件事合在一起，像有人把我和周德茂都推上了同一条路。",
-          "speaker_id": "lu_zhao",
-          "emotion": "serious",
-          "record_type": "key",
-          "record_title": "推理札记：夜船路线",
-          "record_text": "行程简记与风雨相互印证。这趟船不是单纯赶路，路线和时机都可能被人提前安排过。",
-          "record_id": "record_cabin_review_route"
-        },
-        {
-          "text": "你把行程简记夹进内袋。船身在雨夜里轻轻一顿，像是擦过了什么硬物。",
-          "speaker_id": "narrator"
-        }
-      ],
-      "options": [
-        {
-          "text": "睡下",
-          "goto": "__exit__"
-        }
-      ]
-    },
-    "review_cloak": {
-      "set_flags": [
-        "cabin_review_done",
-        "cabin_review_cloak"
-      ],
-      "lines": [
-        {
-          "text": "斗篷湿得不对。若只是门缝进风，不该在斗篷下积出那样一摊水。",
-          "speaker_id": "lu_zhao",
-          "emotion": "serious",
-          "record_type": "key",
-          "record_title": "推理札记：舱门湿痕",
-          "record_text": "异常湿斗篷说明陆昭入舱之后，自己的舱门附近可能又发生过进出或翻动。",
-          "record_id": "record_cabin_review_cloak"
-        },
-        {
-          "text": "你下意识看向舱门。雨声太重，门外若有人压低脚步，确实很难听见。",
-          "speaker_id": "narrator"
-        }
-      ],
-      "options": [
-        {
-          "text": "睡下",
-          "goto": "__exit__"
-        }
-      ]
-    },
-    "review_friend": {
-      "set_flags": [
-        "cabin_review_done",
-        "cabin_review_friend"
-      ],
-      "lines": [
-        {
-          "text": "周德茂急着赶路可以理解。但一个连名字都记不清的人，却能让他改信夜船和东汊。",
-          "speaker_id": "lu_zhao",
-          "emotion": "serious",
-          "record_type": "key",
-          "record_title": "推理札记：介绍人",
-          "record_text": "周德茂所谓的生意朋友可能不是随口推荐，而是把他引上这条夜船的关键人物。",
-          "record_id": "record_cabin_review_friend"
-        },
-        {
-          "text": "你记下“介绍人”三个字。墨色未干，窗外忽然闪过一道白光。",
-          "speaker_id": "narrator"
-        }
-      ],
-      "options": [
-        {
-          "text": "睡下",
-          "goto": "__exit__"
-        }
-      ]
-    },
-    "review_seal": {
-      "set_flags": [
-        "cabin_review_done",
-        "cabin_review_seal"
-      ],
-      "lines": [
-        {
-          "text": "官印木匣还在，锁也完好。只要它在，我就还是奉旨南下的巡按。",
-          "speaker_id": "lu_zhao",
-          "emotion": "serious",
-          "record_type": "key",
-          "record_title": "推理札记：官印木匣",
-          "record_text": "官印木匣此刻仍在陆昭舱中。它是身份凭据，一旦遗失，陆昭会立刻失去自证身份的依凭。",
-          "record_id": "record_cabin_review_seal"
-        },
-        {
-          "text": "你又按了一次锁舌。铜锁冰冷，雨夜也冰冷。",
-          "speaker_id": "narrator"
-        }
-      ],
-      "options": [
-        {
-          "text": "睡下",
           "goto": "__exit__"
         }
       ]

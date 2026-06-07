@@ -87,7 +87,11 @@ const GM_PRESETS := {
 
 const SettingsSealIcon = preload("res://scripts/ui/SettingsSealIcon.gd")
 const SETTINGS_BUTTON_ICON_PATH := "res://assets/cn/ui/icon_settings_seal.png"
-const EVIDENCE_OBTAIN_HOLD_SECONDS := 2.0
+const EVIDENCE_OBTAIN_HOLD_SECONDS := 4.0
+const EVIDENCE_POPUP_VISIBLE_SECONDS := 4.8
+const EVIDENCE_POPUP_WIDTH := 660.0
+const EVIDENCE_CLICK_BLOCKER_Z_INDEX := 2048
+const EVIDENCE_POPUP_STACK_Z_INDEX := 2047
 
 var _active_subpanel: Control = null
 var _pending_events: Array[String] = []
@@ -104,6 +108,8 @@ var _title_layer: Control = null
 var _title_props_layer: Control = null
 var _scene_fx: Node = null
 var _playing_case_epilogue := false
+var _next_narration_typewriter_skip_disabled := false
+var _next_narration_typewriter_char_delay := -1.0
 var _bg_fade_rect: ColorRect = null
 var _bg_transition_id: int = 0
 var _current_bg_path: String = ""
@@ -113,9 +119,13 @@ var _settings_icon: Control = null
 var _settings_btn_tween: Tween = null
 var _settings_btn_hovered := false
 var _settings_btn_pressed_visual := false
+var _evidence_click_blocker: Control = null
+var _evidence_click_lock_until_msec := 0
+var _evidence_popup_stack: VBoxContainer = null
 
 
 func _ready() -> void:
+	set_process(false)
 	GameManager.location_changed.connect(_on_location_changed)
 	GameManager.evidence_added.connect(_on_evidence_added)
 	GameManager.clue_added.connect(_on_clue_added)
@@ -179,6 +189,24 @@ func _ready() -> void:
 		cs.banter_ready.connect(_on_companion_banter)
 	
 	_show_title()
+
+
+func _process(_delta: float) -> void:
+	if _evidence_click_blocker == null or not _evidence_click_blocker.visible:
+		set_process(false)
+		return
+	if _is_evidence_click_locked():
+		return
+	_evidence_click_blocker.visible = false
+	_evidence_click_blocker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	set_process(false)
+
+
+func _input(event: InputEvent) -> void:
+	if not _is_evidence_click_locked():
+		return
+	if event is InputEventMouseButton or event is InputEventScreenTouch:
+		get_viewport().set_input_as_handled()
 
 
 func _build_bg_fade_layer() -> void:
@@ -414,7 +442,7 @@ func _show_title() -> void:
 	if bg == "":
 		bg = "res://assets/cn/scenes/title_screen.png"
 	_set_background(bg, scene_bg.texture != null)
-	BgmPlayer.play("main_theme")
+	BgmPlayer.play("ferry_prologue_shore")
 	
 	# 标题前景漂浮物件层
 	_spawn_title_props()
@@ -901,52 +929,59 @@ func _flash_notification(text: String) -> void:
 
 func _show_evidence_popup(eid: String, ev: Dictionary, hold_advance := true) -> void:
 	var tex: Texture2D = _load_evidence_popup_texture(eid, ev)
+	if hold_advance:
+		_lock_evidence_clicks_for(EVIDENCE_OBTAIN_HOLD_SECONDS)
+		if dialogue_box and dialogue_box.has_method("lock_advance_for"):
+			dialogue_box.lock_advance_for(EVIDENCE_OBTAIN_HOLD_SECONDS)
 	if tex == null:
 		return
-	if hold_advance and dialogue_box and dialogue_box.has_method("lock_advance_for"):
-		dialogue_box.lock_advance_for(EVIDENCE_OBTAIN_HOLD_SECONDS)
 
 	var toast := PanelContainer.new()
 	toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	toast.position = Vector2(28, 82 + notification_layer.get_child_count() * 12)
+	toast.custom_minimum_size = Vector2(EVIDENCE_POPUP_WIDTH, 138)
+	toast.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	toast.modulate.a = 0.0
-	toast.scale = Vector2(0.96, 0.96)
+	toast.scale = Vector2(0.97, 0.97)
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.045, 0.035, 0.02, 0.92)
-	style.border_color = Color(0.85, 0.64, 0.24, 0.86)
+	style.bg_color = Color(0.045, 0.035, 0.02, 0.96)
+	style.border_color = Color(0.92, 0.70, 0.28, 0.94)
 	style.set_border_width_all(2)
 	style.set_corner_radius_all(6)
-	style.content_margin_left = 10
-	style.content_margin_right = 14
-	style.content_margin_top = 8
-	style.content_margin_bottom = 8
+	style.shadow_color = Color(0, 0, 0, 0.55)
+	style.shadow_size = 18
+	style.content_margin_left = 16
+	style.content_margin_right = 18
+	style.content_margin_top = 14
+	style.content_margin_bottom = 14
 	toast.add_theme_stylebox_override("panel", style)
-	notification_layer.add_child(toast)
+	_ensure_evidence_popup_stack().add_child(toast)
 
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
+	row.add_theme_constant_override("separation", 16)
 	toast.add_child(row)
 
 	var img := TextureRect.new()
 	img.texture = tex
 	img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	img.custom_minimum_size = Vector2(80, 80)
-	img.size = Vector2(80, 80)
+	img.custom_minimum_size = Vector2(112, 112)
+	img.size = Vector2(112, 112)
 	img.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	img.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(img)
 
 	var label_box := VBoxContainer.new()
-	label_box.custom_minimum_size = Vector2(190, 80)
+	label_box.custom_minimum_size = Vector2(480, 112)
 	label_box.alignment = BoxContainer.ALIGNMENT_CENTER
-	label_box.add_theme_constant_override("separation", 2)
+	label_box.add_theme_constant_override("separation", 4)
 	label_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(label_box)
 
 	var title_lbl := Label.new()
 	title_lbl.text = "获得证物"
-	title_lbl.add_theme_font_size_override("font_size", 15)
+	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_lbl.add_theme_font_size_override("font_size", 16)
 	title_lbl.add_theme_color_override("font_color", Color(0.96, 0.78, 0.34, 1))
 	title_lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
 	title_lbl.add_theme_constant_override("outline_size", 2)
@@ -955,23 +990,94 @@ func _show_evidence_popup(eid: String, ev: Dictionary, hold_advance := true) -> 
 
 	var name_lbl := Label.new()
 	name_lbl.text = str(ev.get("name", eid))
-	name_lbl.add_theme_font_size_override("font_size", 18)
+	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	name_lbl.add_theme_font_size_override("font_size", 24)
 	name_lbl.add_theme_color_override("font_color", Color(1, 0.95, 0.7, 1))
 	name_lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
 	name_lbl.add_theme_constant_override("outline_size", 2)
 	name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label_box.add_child(name_lbl)
 
+	var desc := str(ev.get("short_description", ev.get("description", ""))).strip_edges()
+	if desc != "":
+		var desc_lbl := Label.new()
+		desc_lbl.text = desc
+		desc_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		desc_lbl.clip_text = true
+		desc_lbl.max_lines_visible = 2
+		desc_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		desc_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		desc_lbl.add_theme_font_size_override("font_size", 17)
+		desc_lbl.add_theme_color_override("font_color", Color(0.86, 0.80, 0.66, 1))
+		desc_lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+		desc_lbl.add_theme_constant_override("outline_size", 1)
+		desc_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label_box.add_child(desc_lbl)
+
 	var tw := create_tween()
 	tw.set_parallel(true)
 	tw.tween_property(toast, "modulate:a", 1.0, 0.18)
-	tw.tween_property(toast, "position:x", 42.0, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tw.tween_property(toast, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tw.chain().tween_interval(EVIDENCE_OBTAIN_HOLD_SECONDS)
+	tw.chain().tween_interval(EVIDENCE_POPUP_VISIBLE_SECONDS)
 	tw.set_parallel(true)
-	tw.tween_property(toast, "modulate:a", 0.0, 0.35)
-	tw.tween_property(toast, "position:x", 26.0, 0.35)
+	tw.tween_property(toast, "modulate:a", 0.0, 0.45)
+	tw.tween_property(toast, "scale", Vector2(0.98, 0.98), 0.45)
 	tw.chain().tween_callback(toast.queue_free)
+
+
+func _ensure_evidence_popup_stack() -> VBoxContainer:
+	if _evidence_popup_stack != null and is_instance_valid(_evidence_popup_stack):
+		return _evidence_popup_stack
+	_evidence_popup_stack = VBoxContainer.new()
+	_evidence_popup_stack.name = "EvidencePopupStack"
+	_evidence_popup_stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_evidence_popup_stack.z_index = EVIDENCE_POPUP_STACK_Z_INDEX
+	_evidence_popup_stack.anchor_left = 0.5
+	_evidence_popup_stack.anchor_top = 0.0
+	_evidence_popup_stack.anchor_right = 0.5
+	_evidence_popup_stack.anchor_bottom = 0.0
+	_evidence_popup_stack.offset_left = -EVIDENCE_POPUP_WIDTH * 0.5
+	_evidence_popup_stack.offset_top = 70.0
+	_evidence_popup_stack.offset_right = EVIDENCE_POPUP_WIDTH * 0.5
+	_evidence_popup_stack.offset_bottom = 420.0
+	_evidence_popup_stack.add_theme_constant_override("separation", 10)
+	notification_layer.add_child(_evidence_popup_stack)
+	return _evidence_popup_stack
+
+
+func _lock_evidence_clicks_for(seconds: float) -> void:
+	var duration_msec := int(maxf(seconds, 0.0) * 1000.0)
+	if duration_msec <= 0:
+		return
+	_evidence_click_lock_until_msec = maxi(
+		_evidence_click_lock_until_msec,
+		Time.get_ticks_msec() + duration_msec
+	)
+	_ensure_evidence_click_blocker()
+	_evidence_click_blocker.visible = true
+	_evidence_click_blocker.mouse_filter = Control.MOUSE_FILTER_STOP
+	set_process(true)
+
+
+func _ensure_evidence_click_blocker() -> void:
+	if _evidence_click_blocker != null and is_instance_valid(_evidence_click_blocker):
+		return
+	_evidence_click_blocker = Control.new()
+	_evidence_click_blocker.name = "EvidenceClickBlocker"
+	_evidence_click_blocker.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_evidence_click_blocker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_evidence_click_blocker.visible = false
+	_evidence_click_blocker.z_index = EVIDENCE_CLICK_BLOCKER_Z_INDEX
+	_evidence_click_blocker.gui_input.connect(func(event: InputEvent) -> void:
+		if event is InputEventMouseButton or event is InputEventScreenTouch:
+			get_viewport().set_input_as_handled()
+	)
+	add_child(_evidence_click_blocker)
+
+
+func _is_evidence_click_locked() -> bool:
+	return Time.get_ticks_msec() < _evidence_click_lock_until_msec
 
 
 func _load_evidence_popup_texture(eid: String, ev: Dictionary) -> Texture2D:
@@ -1620,7 +1726,7 @@ func _after_mid_confrontation(confront_key: String, result: String) -> void:
 				{"speaker": "凌瑶", "text": "走吧。趁她还没反应过来——我们去查。", "emotion": "determined"}
 			]
 		DialogueManager.play_adhoc_narration(buffer_lines, func():
-			_return_to_investigation(result)
+			_return_to_investigation(confront_key, result)
 		)
 	else:
 		# 对峙失败：播放失败旁白后退回标题界面
@@ -1633,10 +1739,13 @@ func _after_mid_confrontation(confront_key: String, result: String) -> void:
 		)
 
 
-func _return_to_investigation(result: String) -> void:
+func _return_to_investigation(confront_key: String, result: String) -> void:
 	# 返回主界面继续调查
 	menu_panel.visible = true
-	BgmPlayer.play("ferry_inn")
+	if result == "victory" and confront_key == "confrontation_wang":
+		_gm_force_location("ferry_dock")
+	else:
+		BgmPlayer.play(GameManager.current_location)
 	# 注意：set_flag("agui_confessed_mastermind") 已在上层调用。
 	# GameManager.set_flag 内部自动调用 _check_progression()，
 	# 所以 phase_3 的解锁条件（flag: agui_confessed_mastermind）已满足，
@@ -1715,6 +1824,15 @@ func _on_narration_started(background: String, _speaker: String, text: String, h
 	# 进入游戏前的过场不叠加场景特效；无背景的助手短评不打断当前地点特效。
 	if background != "" and _scene_fx:
 		_scene_fx.clear_layers()
+	if dialogue_box and dialogue_box.has_method("set_next_narration_typewriter_settings"):
+		dialogue_box.set_next_narration_typewriter_settings(
+			_next_narration_typewriter_skip_disabled,
+			_next_narration_typewriter_char_delay
+		)
+	elif dialogue_box and dialogue_box.has_method("set_next_narration_typewriter_skip_disabled"):
+		dialogue_box.set_next_narration_typewriter_skip_disabled(_next_narration_typewriter_skip_disabled)
+	_next_narration_typewriter_skip_disabled = false
+	_next_narration_typewriter_char_delay = -1.0
 	dialogue_box.show_narration(_speaker, text, has_next, portrait)
 	dialogue_box.visible = true
 	menu_panel.visible = false
@@ -1816,8 +1934,10 @@ func _on_narration_time_card(text: String, sub_text: String) -> void:
 	)
 
 
-## 叙述演出效果处理（震动/闪屏/色调）
+## 叙述演出效果处理（震动/闪屏/色调/心理活动渐暗）
 func _on_narration_effects(fx: Dictionary) -> void:
+	_next_narration_typewriter_skip_disabled = bool(fx.get("disable_typewriter_skip", false))
+	_next_narration_typewriter_char_delay = float(fx.get("typewriter_char_delay", -1.0))
 	if fx.has("bgm"):
 		var bgm_id := str(fx.get("bgm", ""))
 		if bgm_id != "":
@@ -1842,6 +1962,19 @@ func _on_narration_effects(fx: Dictionary) -> void:
 			_bg_fade_rect.color = Color(0.02, 0.05, 0.15, 0.4)
 		elif tint_str == "clear":
 			_bg_fade_rect.color = Color(0, 0, 0, 0)
+	# 心理活动渐暗/恢复效果
+	if fx.has("mind_fade"):
+		var fade_str: String = str(fx.get("mind_fade", ""))
+		var fade_duration: float = float(fx.get("mind_fade_duration", 1.5))
+		if fade_str == "in":
+			_mind_fade_tween(fade_duration, 0.0, 0.65)
+		elif fade_str == "out":
+			_mind_fade_tween(fade_duration, _bg_fade_rect.color.a, 0.0)
+	# 心理活动音效提示（可选）
+	if fx.has("mind_sfx"):
+		var sfx_player = get_node_or_null("/root/SfxPlayer")
+		if sfx_player and sfx_player.has_method("play"):
+			sfx_player.play(str(fx.get("mind_sfx")))
 	if fx.has("sfx"):
 		var sfx_player = get_node_or_null("/root/SfxPlayer")
 		if sfx_player and sfx_player.has_method("play"):
@@ -1849,6 +1982,20 @@ func _on_narration_effects(fx: Dictionary) -> void:
 	# CG 背景偏移：bg_offset_y 负值向上推画面，露出被对话框遮住的下半部分
 	if fx.has("bg_offset_y"):
 		scene_bg.position.y = float(fx.get("bg_offset_y"))
+
+
+## 心理活动渐暗：使用 _bg_fade_rect 做全屏黑幕渐变
+func _mind_fade_tween(duration: float, from_alpha: float, to_alpha: float) -> void:
+	if _bg_fade_rect == null:
+		return
+	# 如果正在执行 mind_fade tween，先停止
+	if _mind_fade_tween_ref != null and _mind_fade_tween_ref.is_valid():
+		_mind_fade_tween_ref.kill()
+	_bg_fade_rect.color = Color(0.01, 0.01, 0.03, from_alpha)
+	_mind_fade_tween_ref = create_tween()
+	_mind_fade_tween_ref.tween_property(_bg_fade_rect, "color:a", to_alpha, duration).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+
+var _mind_fade_tween_ref: Tween = null
 
 
 func _do_screen_shake(intensity: float = 6.0, duration: float = 0.4) -> void:

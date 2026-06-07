@@ -3,65 +3,63 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "你……你是同船的？我叫阿贵，跟了老爷十二年。这次是去武昌府进棉布。",
+      "text": "公子找小的？小的叫阿贵，跟着周老爷跑腿。您要问路，问老爷更准。",
       "emotion": "nervous",
       "options": [
         {
-          "text": "你是做什么的？",
+          "text": "你跟周老板多久了？",
           "goto": "ask_master",
           "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
-          "text": "这次夜船是谁安排的？",
+          "text": "这么晚还赶路？",
           "goto": "ask_voyage",
           "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
-          "text": "你跟老爷关系好吗？",
+          "text": "跟着跑商辛苦吗？",
           "goto": "ask_feelings",
-          "type": "observe",
+          "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
-          "text": "墙边那件湿斗篷是谁碰过？",
-          "goto": "ask_wet_cloak",
-          "type": "press",
-          "requires": [
-            {
-              "all": [
-                {
-                  "flag": "cabin_wet_cloak_checked"
-                },
-                {
-                  "not_flag": "cabin_explore_done"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "text": "看看船舱里有什么",
-          "goto": "observe_cabin",
-          "type": "observe",
+          "text": "提醒包袱渗水",
+          "goto": "press_bag",
+          "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ]
+          ],
+          "hide_after_visit": true
+        },
+        {
+          "text": "船上常备这些工具？",
+          "goto": "press_crowbar",
+          "type": "ask",
+          "requires": [
+            {
+              "not_flag": "cabin_explore_done"
+            }
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "先告辞",
@@ -75,24 +73,29 @@
       ],
       "lines": [
         {
-          "text": "小的叫阿贵，跟了老爷十二年。老爷是做布匹生意的，这次是去武昌府进一批棉布。",
+          "text": "小的叫阿贵。十六岁进的周家，一直伺候到现在。开门、跑腿、守夜，什么活都干。",
           "speaker_id": "agui_cabin",
           "emotion": "nervous"
         },
         {
-          "text": "老爷对小的有知遇之恩。十六岁进的门，什么都不会——是老爷手把手教的。",
+          "text": "老爷救过小的。那年发大水，家里什么都冲走了。是老爷收留我，给口饭吃。",
           "speaker_id": "agui_cabin",
           "emotion": "nervous"
         },
         {
-          "text": "十二年了……不短。",
+          "text": "十二年不是短日子。出门跑商，有个熟人在身边，周老板也省心些。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
+        },
+        {
+          "text": "省心不省心，小的说不上。老爷叫做什么，小的就做什么。",
+          "speaker_id": "agui_cabin",
+          "emotion": "nervous"
         }
       ],
       "options": [
         {
-          "text": "继续询问",
+          "text": "继续聊",
           "goto": "hub"
         },
         {
@@ -112,19 +115,29 @@
           "emotion": "nervous"
         },
         {
-          "text": "小的不敢多嘴。老爷说什么就是什么。",
+          "text": "小的哪敢多嘴。老爷一句“走”，小的就跟着走。",
           "speaker_id": "agui_cabin",
           "emotion": "nervous"
         },
         {
-          "text": "夜船危险，他不敢多嘴？",
+          "text": "我头一次坐这趟夜船，心里没底。是周老板定的路，还是船家定的？",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "这个……老爷先说赶早市。到了渡口，船家又说东汊近，半日能到。小的只听见这几句，没敢插嘴。",
+          "speaker_id": "agui_cabin",
+          "emotion": "nervous"
+        },
+        {
+          "text": "这样啊。赶路归赶路，雨夜走近路，难免叫人心里没底。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
       ],
       "options": [
         {
-          "text": "继续询问",
+          "text": "继续聊",
           "goto": "hub"
         },
         {
@@ -139,28 +152,33 @@
       ],
       "lines": [
         {
-          "text": "老爷……老爷对小的严厉，但也是为小的好。",
+          "text": "老爷……脾气不好。骂起人来很难听，小的只能听着。",
           "speaker_id": "agui_cabin",
           "emotion": "nervous"
         },
         {
-          "text": "十二年了……小的半条命都是老爷给的。",
+          "text": "可有时候他又会给小的留半碗饭。十二年了，小的也说不清他到底算不算待我好。",
           "speaker_id": "agui_cabin",
           "emotion": "crying"
         },
         {
-          "text": "他低下头，手指无意识地搓着衣角",
+          "text": "他低下头，手指无意识地搓着衣角。搓了好几下才发觉自己在做这个动作，赶紧把手缩回袖子里。",
           "speaker_id": "narrator"
         },
         {
-          "text": "严厉……但也是为你好。",
+          "text": "跟主家久了，日子总有好有坏。不方便说也没关系，我只是随口问问。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
+        },
+        {
+          "text": "公子是好心。可这话说多了，叫老爷听见，小的又要挨骂。",
+          "speaker_id": "agui_cabin",
+          "emotion": "nervous"
         }
       ],
       "options": [
         {
-          "text": "继续询问",
+          "text": "继续聊",
           "goto": "hub"
         },
         {
@@ -169,44 +187,42 @@
         }
       ]
     },
-    "ask_wet_cloak": {
+    "press_bag": {
       "set_flags": [
-        "cabin_agui_talked",
-        "cabin_agui_cloak_pressed"
+        "cabin_agui_observed"
       ],
+      "gain_clue": "clue_agui_suspicious_bag",
       "lines": [
         {
-          "text": "我舱里那件斗篷又湿了一层。船上有人进过我的舱？",
+          "text": "你不动声色地打量阿贵。他坐在角落的木箱上，双手搁在膝盖上——但右手始终压着身旁的包袱。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "包袱鼓鼓囊囊的，底部有一圈深色水渍。不是雨水打湿的，水是从包袱里面渗出来的。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "你注意到他的目光。每隔一会儿，他就飞快地瞥一眼船底，又立刻收回。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "阿贵，你包袱底下在渗水。船上潮得厉害，别把衣裳泡坏了。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "text": "小的不知道。小的一直在老爷那边伺候。外头雨这么大，许是风从门缝灌进去的。",
+          "text": "啊？许是刚才雨飘进来沾的。多谢公子提醒，小的自己收着就成。",
           "speaker_id": "agui_cabin",
           "emotion": "nervous"
         },
         {
-          "text": "他答得太快，手指却把衣角搓得更紧。",
+          "text": "阿贵把包袱往身后挪了挪，手攥得更紧。",
           "speaker_id": "narrator"
-        },
-        {
-          "text": "若真有人进去过，小的也没瞧见。船舱这么窄，雨声又重，谁能听得清？",
-          "speaker_id": "agui_cabin",
-          "emotion": "nervous",
-          "record_type": "testimony",
-          "record_title": "阿贵证言：湿斗篷",
-          "record_text": "阿贵称自己没有碰过陆昭舱内湿斗篷，也不知道谁进过陆昭舱室。",
-          "record_id": "record_cabin_agui_wet_cloak"
-        },
-        {
-          "text": "听不清，不等于没人进去过。",
-          "speaker_id": "lu_zhao",
-          "emotion": "serious"
         }
       ],
       "options": [
         {
-          "text": "继续询问",
+          "text": "继续聊",
           "goto": "hub"
         },
         {
@@ -215,7 +231,7 @@
         }
       ]
     },
-    "observe_cabin": {
+    "press_crowbar": {
       "set_flags": [
         "cabin_observed"
       ],
@@ -233,18 +249,27 @@
           "speaker_id": "narrator"
         },
         {
-          "text": "铁撬棍的位置有点奇怪——挂在舱壁正中间，像是特意放在那里的。",
+          "text": "铁撬棍的位置有点奇怪，挂在舱壁正中间，不像是随手放的。",
           "speaker_id": "narrator"
         },
         {
-          "text": "这铁撬棍放得倒显眼……",
+          "text": "这铁撬棍挂在这儿挺显眼。夜里风浪大，船上常要备着这些工具？",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
+        },
+        {
+          "text": "船家的东西，小的不懂。老爷嫌它挡路，刚才还嘟囔过一句，船家说修船离不了。",
+          "speaker_id": "agui_cabin",
+          "emotion": "nervous"
+        },
+        {
+          "text": "他说得很快，眼睛却避开了那根撬棍。",
+          "speaker_id": "narrator"
         }
       ],
       "options": [
         {
-          "text": "继续询问",
+          "text": "继续聊",
           "goto": "hub"
         },
         {

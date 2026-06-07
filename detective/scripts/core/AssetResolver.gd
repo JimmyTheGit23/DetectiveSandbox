@@ -34,6 +34,28 @@ var _voice_status: String = "full"    # 当前案件的语音状态：full / par
 # 调试
 @export var debug_log: bool = false
 
+# 部分旧规格立绘需要按实际脸部大小做屏幕缩放校正。
+# 数值以 1280x720 对话画面中的脸高约 145px 为基准。
+const PORTRAIT_SCREEN_SCALE_BY_FILE := {
+	"prologue_li_zheng.png": 0.82,
+	"prologue_li_zheng_nervous.png": 0.92,
+	"prologue_li_zheng_sighing.png": 0.68,
+	"prologue_li_zheng_stern.png": 0.70,
+	"prologue_li_zheng_shocked.png": 1.05,
+	"prologue_li_zheng_gossip.png": 0.68,
+	"prologue_li_zheng_evasive.png": 0.78,
+}
+
+const PORTRAIT_SCREEN_PIVOT_Y_BY_FILE := {
+	"prologue_li_zheng.png": 145.0,
+	"prologue_li_zheng_nervous.png": 145.0,
+	"prologue_li_zheng_sighing.png": 145.0,
+	"prologue_li_zheng_stern.png": 145.0,
+	"prologue_li_zheng_shocked.png": 145.0,
+	"prologue_li_zheng_gossip.png": 145.0,
+	"prologue_li_zheng_evasive.png": 145.0,
+}
+
 
 func _ready() -> void:
 	_load_registries()
@@ -199,6 +221,18 @@ func resolve_case_portrait(npc_id: String, emotion: String = "", npcs_data: Dict
 		if variant != "" and ResourceLoader.exists(variant):
 			return variant
 	return base_path
+
+
+## 取立绘在屏幕上的显示缩放。默认 1.0；用于旧规格立绘的脸部比例校正。
+func get_portrait_screen_scale(portrait_path: String) -> float:
+	var file_name := portrait_path.get_file()
+	return float(PORTRAIT_SCREEN_SCALE_BY_FILE.get(file_name, 1.0))
+
+
+## 取立绘缩放支点的 Y 坐标。默认使用 640x660 立绘框中心；旧规格立绘靠近头脸缩放。
+func get_portrait_screen_pivot_y(portrait_path: String) -> float:
+	var file_name := portrait_path.get_file()
+	return float(PORTRAIT_SCREEN_PIVOT_Y_BY_FILE.get(file_name, 330.0))
 
 
 func _companion_base_portrait(speaker_id: String) -> String:

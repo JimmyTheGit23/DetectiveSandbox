@@ -11,7 +11,7 @@
     "fisherman_wang": {
       "role_name": "王大爷",
       "role_title": "江边渔翁",
-      "role_intro": "下游渔村的老渔翁，被周氏给了几两银子请来\"补几句\"，当堂替主家伸冤。",
+      "role_intro": "下游渔村的老渔翁，受人用银钱诱导在堂上补说不实目击；不实指认被拆穿后，转而提供下游真实见闻。",
       "portrait": "res://assets/cn/portraits/prologue_fisherman_wang.png"
     },
     "lao_fan": {

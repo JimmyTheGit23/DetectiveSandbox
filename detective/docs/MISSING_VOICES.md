@@ -112,7 +112,7 @@
 | node_id | 预期路径 | 文本预览 |
 |---------|---------|---------|
 | `hub` | `assets/cn/voices/lao_fan/hub.wav` | 哟……你就是那个同船的？听说周氏告了你杀人啊。胆子不小——被告了还到处问话。 |
-| `ask_route` | `assets/cn/voices/lao_fan/ask_route.wav` | 那客人催得急啊！说要赶武昌的早市。走大路绕远，走那条——  嗐，我也知道有礁石。但水涨了以后，以前那礁石应该没过去了嘛。谁知道还露着。 |
+| `ask_route` | `assets/cn/voices/lao_fan/ask_route.wav` | 周老板说赶早市，码头上又有人把东汊说得近。我想着绕大弯太费时，就拣了那条水路。  嗐，我也知道有礁石。但水涨了以后，以前那礁石应该没过去了嘛。谁知道还露着。 |
 
 #### lao_fan_cabin → (无 casting)（1 条）
 

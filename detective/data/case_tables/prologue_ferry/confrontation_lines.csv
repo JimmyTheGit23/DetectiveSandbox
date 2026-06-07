@@ -13,7 +13,7 @@ confrontation_wang,intro_dialogue,9,凌瑶,,别急。把他说的分三小堆：
 
 confrontation_wang,defeat_dialogue,0,钱里正,,证据不够。你说的话站不住，今天的堂就到这儿。,stern
 confrontation_wang,defeat_dialogue,1,沈清月,,陆公子，没有实证的清白只是自说自话。回去把证据补齐了再来。,sharp
-confrontation_wang,defeat_dialogue,2,凌瑶,,别垂眼。咱们手里还有东西没用上。回去把线头捋顺，下次不让他从袖缝里溜过去。,determined
+confrontation_wang,defeat_dialogue,2,凌瑶,,别低头。咱们手里还有东西没用上。回去重新理一遍，下次别让他混过去。,determined
 confrontation_wang,defeat_dialogue,3,陆昭,,……我知道了。,serious
 
 # === 阿贵对峙开场 ===
@@ -24,12 +24,12 @@ confrontation,intro_dialogue,3,,,人群一阵骚动。阿贵低下头去，肩�
 confrontation,intro_dialogue,4,钱里正,,陆公子……你说有证据。那——就当着大家的面说清楚吧。,stern
 confrontation,intro_dialogue,4a,阿贵,,里正大人！不要听他的！是他杀了老爷！那天夜里我亲眼看见他蹲在船舱里——手里攥着个铁家伙！他才是凶手！,angry
 confrontation,intro_dialogue,4b,陆昭,,我不躲。你说我害人，我会一条一条回应。但先让大家把话说完，别再靠喊声压人。,serious
-confrontation,intro_dialogue,4c,沈清月,,里正大人，我受周娘子所托在此旁听。陆公子若要把船家和仆从都拖成共犯，证据链必须比他的推测更硬。,cooperative
+confrontation,intro_dialogue,4c,沈清月,,里正大人，我受周娘子所托在此旁听。陆公子若要把船家和仆从都拖成共犯，证据必须比他的推测更硬。,cooperative
 confrontation,intro_dialogue,4d,沈清月,,浮囊也好、航道也好，都可能只是船上常备用具与行船失误。若只凭"可能"，那人人都能成凶手。,sharp
 confrontation,intro_dialogue,5,陆昭,,好。王大爷，你先说。你别怕，只说你亲眼看见、亲耳听见的。,serious
-confrontation,intro_dialogue,6,凌瑶,,让他说完整。证词越具体，越像算盘珠子，一颗一颗都能拨。,determined
+confrontation,intro_dialogue,6,凌瑶,,让他说完整。话说得越细，前后越容易对不上。,determined
 confrontation,intro_dialogue,7,,,外头雨声不停。大堂里谁都不敢先松这口气。,narration
-confrontation,intro_dialogue,8,凌瑶,,都到齐了。你负责开口，我负责把每颗珠子记进小账本。,cheerful
+confrontation,intro_dialogue,8,凌瑶,,都到齐了。你负责问，我帮你盯着谁说漏嘴。,cheerful
 confrontation,intro_dialogue,9,陆昭,,好。那就从头开始。谁也别抢，谁也别漏。,determined
 confrontation,victory_dialogue,0,阿贵,,…………,broken
 confrontation,victory_dialogue,1,,,阿贵瘫坐在地，双手抱头。,narration
@@ -56,13 +56,13 @@ confrontation,victory_dialogue,14,凌瑶,,等等——'她'？我刚才是不是
 confrontation,victory_dialogue,15,阿贵,,……不、不是……,panic
 confrontation,victory_dialogue,16,陆昭,,阿贵。你已经说到这里了，就别再一个人背着。她是谁，说出来。,serious
 confrontation,victory_dialogue,17,阿贵,,是……是那个……药材行的姑娘。沈……沈姑娘。,broken
-confrontation,victory_dialogue,18,凌瑶,,药材行——！那个追债追得算盘都要冒火的沈清月？！,shocked
+confrontation,victory_dialogue,18,凌瑶,,药材行——！那个天天追债的沈清月？！,shocked
 confrontation,victory_dialogue,19,阿贵,,她找的我。也是她去找的老范。连浮囊都是她帮我买的——她说'你不会水，这个保命用'。,broken
 confrontation,victory_dialogue,20,,,浮囊上那种过细的密封缝，不像船工手艺。之前的疑点，现在对上了。,inner_thought
 confrontation,victory_dialogue,21,凌瑶,,等等……浮囊如果是她买的，那它就不是普通包袱，是牵到她袖口上的线。,shocked
 confrontation,victory_dialogue,22,阿贵,,怎么凿船。凿哪里。什么时候动手——都是她说的。她还说，银子会冲到下游，有人会去捞……,broken
 confrontation,victory_dialogue,23,阿贵,,小的就是恨。恨了十二年。她说事成了能分我银子，我……我就昏了头。,broken
-confrontation,victory_dialogue,24,凌瑶,,她才是主谋。阿贵的恨、老范的债，全被她当算盘珠子拨了。,worried
+confrontation,victory_dialogue,24,凌瑶,,她才是主谋。阿贵的恨、老范的债，都被她拿来使了。,worried
 confrontation,victory_dialogue,25,陆昭,,阿贵。你说出来，至少没再替她挡着。可周德茂死了，该偿的罪也躲不过去。,serious
 confrontation,victory_dialogue,26,凌瑶,,钱里正！钱里正你进来——！他招了！,determined
 confrontation,victory_dialogue,27,,,钱里正带着两个渡口帮工跑进来。看了看瘫在地上的阿贵，又看了看你——脸上的表情很复杂。,narration
@@ -87,7 +87,7 @@ confrontation,victory_dialogue,41,凌瑶,,那怎么办？直接去抓她？我�
 confrontation,victory_dialogue,42,陆昭,,不。光凭阿贵一个人的口供不够，她会说是诬陷。,serious
 confrontation,victory_dialogue,43,陆昭,,还得再找证据。找到她没法反驳的那种。,determined
 confrontation,victory_dialogue,44,凌瑶,,等等——还有一颗钉子没落下。阿贵凿船、老范选航道，这些解释了船为什么沉。但——,determined
-confrontation,victory_dialogue,45,凌瑶,,死者舌根的药残呢？一个不会水的人落水，不该留下这种残迹。而且——凿船位置是谁定的？阿贵说'全是她教的'。,determined
+confrontation,victory_dialogue,45,凌瑶,,死者舌根的药残呢？周德茂会水，却很快失力，这才不对。而且——凿船位置是谁定的？阿贵说'全是她教的'。,determined
 confrontation,victory_dialogue,46,陆昭,,如果进水口有毒囊残留，凿船进水的那一刻毒就会扩散。周德茂不是溺水死的，是被毒到动不了才沉的。,serious
 confrontation,victory_dialogue,47,凌瑶,,阿贵不懂药。老范更不可能……能把凿船位置和毒理一起算进去的人，桌上只剩一个名字。,anxious
 confrontation,victory_dialogue,48,陆昭,,沈清月。,determined
@@ -104,9 +104,9 @@ confrontation,victory_dialogue,54,钱里正,,有罪。,stern
 confrontation,defeat_dialogue,0,阿贵,,陆公子，您说了这么多……都只是猜测吧。,defensive
 confrontation,defeat_dialogue,1,阿贵,,没有实证，您不能定小的罪。,nervous
 confrontation,defeat_dialogue,2,陆昭,,……,serious
-confrontation,defeat_dialogue,3,凌瑶,,哎，被他从指缝里滑过去了。不过别急，证据还在。咱们回去重排一遍，下回把口子收紧。,worried
+confrontation,defeat_dialogue,3,凌瑶,,哎，这回让他混过去了。不过别急，证据还在。咱们回去重排一遍，下次别给他说圆的机会。,worried
 confrontation,defeat_dialogue,4,阿贵,,小的冤枉。老爷的事，跟小的真的没关系。,defensive
-confrontation,defeat_dialogue,5,凌瑶,,走吧。回去把证物翻出来排排坐。这案子没那么难，是咱刚才把小账本翻乱了。,worried
+confrontation,defeat_dialogue,5,凌瑶,,走吧。回去把证物重新理一遍。不是没路，是刚才顺序乱了。,worried
 confrontation_final,intro_dialogue,0,,,"客栈大堂临时设下的公堂。阿贵和老范被押在一侧，周氏伏案发抖，钱里正坐在上首。
 
 沈清月原本站在周氏身后。此刻，她被请到了堂中。",narration
@@ -127,27 +127,27 @@ confrontation_final,intro_dialogue,12,陆昭,,好，开始。她要谈法律，�
 confrontation_final,victory_dialogue,0,,,客栈大堂临时设下的公堂里，雨声压在屋檐上。沈清月从讼师席走上证人席。所有人的目光都落在那块半透明的糯米胶薄膜碎片上。,narration
 confrontation_final,victory_dialogue,1,沈清月,,江岸采药，偶遇船难，全程未见行凶。陆公子想问什么？,cooperative
 confrontation_final,victory_dialogue,2,陆昭,,死者舌根有毒草残留。不是正常溺亡，有人动了手脚。,serious
-confrontation_final,victory_dialogue,3,沈清月,,此草遇淡水数分钟彻底失活。案发至尸检已过数十刻——残留仅有无害植物纤维。依大明律，过期残迹不得采为定罪实证，应当庭驳回。,sharp
+confrontation_final,victory_dialogue,3,沈清月,,此草遇淡水数分钟彻底失活。案发至验尸已过数十刻——残留仅有无害植物纤维。按县衙验断的规矩，这样的残迹不能采为定罪实证，当场就能驳回。,sharp
 confrontation_final,victory_dialogue,4,钱里正,,这……若真如沈姑娘所说，律法上确有此条……,nervous
 confrontation_final,victory_dialogue,4a,钱里正,,陆公子，草药残留能证明死者口中曾有异物，可若要拿它定罪，县衙会先问时效。她卡的正是这一点。,stern
-confrontation_final,victory_dialogue,5,凌瑶,,她拿法律当门闩，把物证关在外头了……！,shocked
+confrontation_final,victory_dialogue,5,凌瑶,,她把律法搬出来，硬把物证挡住了……！,shocked
 confrontation_final,victory_dialogue,6,陆昭,,沉船残骸进水口边缘，发现了未完全溶解的糯米鱼鳔胶薄膜。有人提前登船，把遇水即溶的毒囊固定在那里。,serious
 confrontation_final,victory_dialogue,7,陆昭,,毒囊的位置，正好贴着凿船破洞。能放到那里的人，一定事先知道破洞会开在哪里。,serious
-confrontation_final,victory_dialogue,8,沈清月,,码头泊船，人人可登。糯米胶薄膜随处可得。无法唯一指向任何人。,cold_fury
+confrontation_final,victory_dialogue,8,沈清月,,码头泊船，人人可登。糯米胶薄膜随处可得。它定不到任何人身上。,cold_fury
 confrontation_final,victory_dialogue,8a,钱里正,,糯米胶常见，这话也对。可若它正卡在破洞进水口边上，那就不是随手一片胶能说过去的。,stern
 confrontation_final,victory_dialogue,9,陆昭,,周德茂登船前吃过油腻东西。油脂锁住舌根药渣，挡住了毒素分解。你的药本该无迹可寻，可它偏偏留下了证据。,serious
 confrontation_final,victory_dialogue,10,沈清月,,你以为我想杀人？！八十两——我爹的命就值八十两——！,angry
-confrontation_final,victory_dialogue,11,沈清月,,臆测无据，不足为证。油脂可来自江中鱼虾，可来自船板漆料，无法唯一指向人为投毒。,cold_fury
-confrontation_final,victory_dialogue,12,凌瑶,,她愣了！刚才那一下，她的算盘珠子拨错了一颗！,shocked
+confrontation_final,victory_dialogue,11,沈清月,,臆测无据，不足为证。油脂可来自江中鱼虾，也可来自船板漆料。它不能证明有人投毒。,cold_fury
+confrontation_final,victory_dialogue,12,凌瑶,,她愣了！刚才那一下，她没算到！,shocked
 confrontation_final,victory_dialogue,13,陆昭,,你漏算了油脂。毒素遇水本该消失，但他上船前吃了油腻的东西，把证据留住了。,serious
 confrontation_final,victory_dialogue,14,沈清月,,陆公子。你把事实推到了我面前——这点我承认。,cold_smile
 confrontation_final,victory_dialogue,15,沈清月,,但公堂上定罪靠的是可采物证。植物纤维已过时效，糯米胶薄膜人人可得，油脂残痕来源不唯一。你有什么能“唯一证明”是我？,cold_fury
 confrontation_final,victory_dialogue,16,钱里正,,陆公子……案情说得通。船是人为凿沉，毒囊确实存在，周老板也确实不是单纯溺亡。,stern
 confrontation_final,victory_dialogue,16a,钱里正,,可要当堂押沈姑娘，县衙要问三件事：谁亲手放毒囊，草药残留为何仍可采，油脂残痕为何只能从她身上来。,stern
 confrontation_final,victory_dialogue,16b,钱里正,,这三问里，只要有一问答不死，她就能说是阿贵攀咬、老范自保、物证来源不明。,nervous
-confrontation_final,victory_dialogue,17,沈清月,,阿贵口供、老范翻供、王大爷目击——都只是人嘴里的话。至于毒理物证，陆公子自己也听见了：法理上有缝。,cold_smile
+confrontation_final,victory_dialogue,17,沈清月,,阿贵口供、老范翻供、王大爷目击——都只是人嘴里的话。至于毒理物证，陆公子自己也听见了：县衙不会轻易认。,cold_smile
 confrontation_final,victory_dialogue,18,钱里正,,本堂记下：陆公子已查明沉船与投毒的事实链。此链足以移送阿贵、老范。,stern
-confrontation_final,victory_dialogue,18a,钱里正,,但对沈清月本人，物证尚不能唯一闭合。证据不足，指控暂驳。沈姑娘……暂予释放。,stern
+confrontation_final,victory_dialogue,18a,钱里正,,但对沈清月本人，证据还不能直接定到她身上。证据不足，指控暂驳。沈姑娘……暂予释放。,stern
 confrontation_final,victory_dialogue,19,沈清月,,陆公子。你赢了真相，却还没赢下法律。——这是两件事。,cold_smile
 confrontation_final,victory_dialogue,20,,,她撑伞走入雨里。没有奔逃，也没有回头。门外的人让开一条路，看着她离开。,narration
 confrontation_final,victory_dialogue,21,凌瑶,,我们明明把她逼到门槛了……她居然还能撑伞走出去。气人。,worried
@@ -157,6 +157,6 @@ confrontation_final,victory_dialogue,24,陆昭,,不。油脂锁毒，她漏算�
 confrontation_final,victory_dialogue,25,,,你第一次这么清楚地意识到：知道真相，和赢下案子，不是一回事。但油脂锁毒还在，这案子还没完。,inner_thought
 confrontation_final,defeat_dialogue,0,沈清月,,陆公子。你手里所有的证据加在一起——也只够定阿贵的罪。跟我有什么关系？,cold_fury
 confrontation_final,defeat_dialogue,1,沈清月,,一个赌鬼的口供、一个杀人犯的攀咬、一个老渔翁在黑夜里看到的模糊身影——陆公子拿这些去县衙告我试试？,cold_smile
-confrontation_final,defeat_dialogue,2,沈清月,,至于所谓毒理？草药遇淡水数分钟失活——案发到尸检过了数十刻。依大明律，过期残迹不得采为定罪实证。糯米胶薄膜人人可得，不能唯一指向任何人。,sharp
+confrontation_final,defeat_dialogue,2,沈清月,,至于所谓毒理？草药遇淡水数分钟失活——案发到验尸过了数十刻。县衙不会凭这种残迹定罪。糯米胶薄膜谁都拿得到，定不到任何人身上。,sharp
 confrontation_final,defeat_dialogue,3,沈清月,,回去再读读大明律吧。'指向'和'证明'之间——隔着一条人命。跨不过去，就别急着喊我凶手。,sharp
-confrontation_final,defeat_dialogue,4,凌瑶,,她在嘲笑我们……但她说得也没错。下次——一定把那颗最滑的珠子按住。,worried
+confrontation_final,defeat_dialogue,4,凌瑶,,她在嘲笑我们……但她说得也没错。下次——一定抓住她逃不掉的那一点。,worried

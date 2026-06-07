@@ -22,7 +22,7 @@ var _stream_cache: Dictionary = {}
 ## 旧的硬编码映射，作为 AssetResolver 不可用时的兜底（迁移期保留，迁移完成后可删除）。
 const BGM_MAP := {
 	"prologue": "ferry_cabin_night",
-	"main_theme": "main_theme",
+	"main_theme": "ferry_prologue_shore",
 	"ferry_cabin": "ferry_cabin_night",
 	"cabin_lu_room": "ferry_cabin_night",
 	"cabin_agui_room": "ferry_cabin_night",

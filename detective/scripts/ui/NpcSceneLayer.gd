@@ -25,6 +25,8 @@ var _current_npc_ids: Array = []      # 多 NPC 模式所有 NPC
 var _portrait_tween: Tween = null
 var _multi_mode: bool = false
 var _portrait_texture_cache: Dictionary = {}
+var _current_portrait_display_scale: float = 1.0
+var _current_portrait_pivot_y: float = 330.0
 
 
 func _ready() -> void:
@@ -120,6 +122,8 @@ func refresh_npcs(location_id: String) -> void:
 			_hide_portrait()
 			return
 		_current_npc_id = filtered[0]
+		_current_portrait_display_scale = AssetResolver.get_portrait_screen_scale(portrait_path)
+		_current_portrait_pivot_y = AssetResolver.get_portrait_screen_pivot_y(portrait_path)
 		_portrait.texture = _load_portrait_texture(portrait_path)
 		_show_portrait()
 		return
@@ -173,10 +177,10 @@ func _show_portrait() -> void:
 	_portrait.visible = true
 	if _portrait_tween != null and _portrait_tween.is_valid():
 		_portrait_tween.kill()
-	_portrait.pivot_offset = _portrait.size / 2.0
+	_portrait.pivot_offset = Vector2(_portrait.size.x / 2.0, _current_portrait_pivot_y)
 	_portrait.modulate = Color(1, 1, 1, 0)
-	var target_scale := Vector2(1.0, 1.0)
-	_portrait.scale = Vector2(0.95, 0.95)
+	var target_scale := Vector2(_current_portrait_display_scale, _current_portrait_display_scale)
+	_portrait.scale = target_scale * 0.95
 	_portrait_tween = create_tween()
 	_portrait_tween.set_parallel(true)
 	_portrait_tween.tween_property(_portrait, "modulate:a", 1.0, 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -244,6 +248,8 @@ func show_npcs() -> void:
 var _saved_npc_id: String = ""
 var _saved_texture: Texture2D = null
 var _saved_multi_ids: Array = []
+var _saved_portrait_display_scale: float = 1.0
+var _saved_portrait_pivot_y: float = 330.0
 
 func show_companion() -> void:
 	""" 先隐藏原 NPC 立绘，再显示助手立绘（居中） """
@@ -255,6 +261,8 @@ func show_companion() -> void:
 		_multi_mode = false
 	_saved_npc_id = _current_npc_id
 	_saved_texture = _portrait.texture
+	_saved_portrait_display_scale = _current_portrait_display_scale
+	_saved_portrait_pivot_y = _current_portrait_pivot_y
 	# 先隐藏当前 NPC
 	if _portrait.visible:
 		if _portrait_tween != null and _portrait_tween.is_valid():
@@ -265,6 +273,8 @@ func show_companion() -> void:
 	var portrait_path: String = CompanionService.get_companion_portrait()
 	if portrait_path == "" or not ResourceLoader.exists(portrait_path):
 		return
+	_current_portrait_display_scale = AssetResolver.get_portrait_screen_scale(portrait_path)
+	_current_portrait_pivot_y = AssetResolver.get_portrait_screen_pivot_y(portrait_path)
 	_portrait.texture = _load_portrait_texture(portrait_path)
 	_current_npc_id = "__companion__"
 	_show_portrait()
@@ -346,9 +356,15 @@ func restore_npc() -> void:
 	# 恢复单 NPC
 	_current_npc_id = _saved_npc_id
 	if _saved_texture != null:
+		_current_portrait_display_scale = _saved_portrait_display_scale
+		_current_portrait_pivot_y = _saved_portrait_pivot_y
 		_portrait.texture = _saved_texture
 		_saved_texture = null
 		_saved_npc_id = ""
+		_saved_portrait_display_scale = 1.0
+		_saved_portrait_pivot_y = 330.0
 		_show_portrait()
 	else:
 		_saved_npc_id = ""
+		_saved_portrait_display_scale = 1.0
+		_saved_portrait_pivot_y = 330.0

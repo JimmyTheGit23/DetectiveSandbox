@@ -172,7 +172,8 @@
 | `is_final` | 否 | 是否最终对峙 |
 | `background` | 否 | 背景图 |
 | `bgm` | 否 | 基础对峙 BGM |
-| `bgm_break` | 否 | 击破 BGM |
+| `bgm_break` | 否 | 旧字段；当前兼作开场 BGM |
+| `bgm_break_actual` | 否 | 击破证词后的 BGM |
 | `bgm_final_round` | 否 | 最后一轮 BGM |
 | `confidence` | 否 | 信心值 |
 | `writer_note` | 否 | 备注 |

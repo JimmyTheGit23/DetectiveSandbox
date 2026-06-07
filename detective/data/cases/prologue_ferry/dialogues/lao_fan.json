@@ -3,7 +3,32 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "哟……你就是那个同船的？听说周氏告了你杀人啊。胆子不小——被告了还到处问话。",
+      "text": "哟，被告的还敢到处敲门。胆子够硬。问吧，老范我嘴不贵，但也不白送。",
+      "lines": [
+        {
+          "text": "又来了？你的事我听说了——王大爷的证词是假的？哼，我就说嘛。你还要问什么？",
+          "speaker_id": "lao_fan",
+          "emotion": "evasive",
+          "requires": [
+            {
+              "flag": "self_cleared"
+            },
+            {
+              "not_flag": "agui_confessed_mastermind"
+            }
+          ]
+        },
+        {
+          "text": "……你都知道了。阿贵那小子嘴比我松。行，你问吧。反正我也跑不了。",
+          "speaker_id": "lao_fan",
+          "emotion": "defeated",
+          "requires": [
+            {
+              "flag": "agui_confessed_mastermind"
+            }
+          ]
+        }
+      ],
       "options": [
         {
           "text": "说说当晚的事",
@@ -13,7 +38,8 @@
             {
               "not_flag": "agui_confessed_mastermind"
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "为什么走那条航道？",
@@ -30,7 +56,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true,
+          "min_hub_visits": 1
         },
         {
           "text": "本地人都知道那条路危险，你跑了二十年不知道？",
@@ -47,7 +75,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "你是怎么获救的？",
@@ -64,7 +93,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true,
+          "min_hub_visits": 2
         },
         {
           "text": "你那条船，船底以前修过没有？",
@@ -81,7 +112,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "听说你最近手头有点紧？",
@@ -94,16 +126,17 @@
                   "evidence": "evidence_gambling_iou"
                 },
                 {
-                  "not_flag": "agui_confessed_mastermind"
+                  "flag": "agui_confessed_mastermind"
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
-          "text": "你跑船跑了二十年……怎么欠的赌债？",
+          "text": "四十二两赌债，怎么欠出来的？",
           "goto": "ask_gambling_story",
-          "type": "observe",
+          "type": "press",
           "requires": [
             {
               "all": [
@@ -111,11 +144,12 @@
                   "clue": "clue_fan_boat_skill"
                 },
                 {
-                  "not_flag": "agui_confessed_mastermind"
+                  "flag": "agui_confessed_mastermind"
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "阿贵已经招了。那个'药材行的姑娘'——是她先找你的吧？",
@@ -125,7 +159,8 @@
             {
               "flag": "agui_confessed_mastermind"
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "先告辞",
@@ -139,12 +174,12 @@
       ],
       "lines": [
         {
-          "text": "唉，天灾呗。那夜雨大浪急，我跑了二十年船没见过那阵仗。",
+          "text": "嗐，天灾嘛。那夜雨大浪急，我跑了二十年漕线，烟杆都没见过那阵仗。",
           "speaker_id": "lao_fan",
           "emotion": "smirk"
         },
         {
-          "text": "到了礁石那段，一个浪头打过来——'咔嚓'一声船底就裂了。",
+          "text": "过了石矶嘴子，一个涌头打过来——'咔嚓'一声底板就裂了。船旧了，水又急，谁也扛不住。",
           "speaker_id": "lao_fan",
           "emotion": "smirk",
           "record_type": "testimony",
@@ -156,27 +191,27 @@
           ]
         },
         {
-          "text": "天灾……你说得倒轻巧。",
+          "text": "二十年老船家翻了船，一个脏字都没骂？",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "serious"
         },
         {
-          "text": "你说你水性好……好到能在冰水里泡半个时辰？",
+          "text": "腊月江水泡半个时辰……你确定没记错？",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "serious"
         },
         {
-          "text": "我水性好，自己扒着船板上了岸。那主仆两个……唉，没能救上来。",
+          "text": "我水性好嘛，吃这碗江饭的人，落了水也得想法子活。那主仆两个……唉，没能捞上来。",
           "speaker_id": "lao_fan",
           "emotion": "smirk"
         },
         {
-          "text": "他说得倒顺。翻船死了人，他一点都不慌。",
+          "text": "翻了船死了人，他还在这讲故事……要么是没心没肺，要么是心里有底。",
           "speaker_id": "xia_lingyao",
-          "emotion": "worried"
+          "emotion": "anxious"
         },
         {
-          "text": "水性好的人能自救，不奇怪。奇怪的是他说得太稳。",
+          "text": "这也太顺了吧。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
@@ -193,10 +228,10 @@
       ]
     },
     "ask_route": {
-      "text": "那客人催得急啊！说要赶武昌的早市。走大路绕远，走那条——\n\n嗐，我也知道有礁石。但水涨了以后，以前那礁石应该没过去了嘛。谁知道还露着。",
+      "text": "周老板说赶早市，码头上又有人把东汊说得近。我想着绕大弯太费时，就拣了那条水路。\n\n嗐，我也知道有礁石。但水涨了以后，以前那礁石应该没过去了嘛。谁知道还露着。",
       "lines": [
         {
-          "text": "那客人催得急啊！说要赶武昌的早市。走大路绕远，走那条——",
+          "text": "周老板说赶早市，码头上又有人把东汊说得近。我想着绕大弯太费时，就拣了那条水路。",
           "speaker_id": "lao_fan",
           "emotion": "evasive"
         },
@@ -206,12 +241,12 @@
           "emotion": "defensive"
         },
         {
-          "text": "二十年的老船家，会不知道涨水后礁石还在？",
+          "text": "老范，你跑了二十年。涨水后礁石还在不在，你比我清楚。",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "serious"
         },
         {
-          "text": "他在赌——赌你不会细查。",
+          "text": "他在赌，赌你不会细查。",
           "speaker_id": "xia_lingyao",
           "emotion": "determined"
         }
@@ -230,7 +265,7 @@
     "press_route": {
       "lines": [
         {
-          "text": "你这话说的……涨水嘛，水面高了礁石就该没了。我判断失误，这、这能怪我？",
+          "text": "嗐，陆公子这话说的……涨水嘛，水面高了礁石就该没了。走漕的人看水吃饭，偶尔也会被水呛一口。这、这能全怪我？",
           "speaker_id": "lao_fan",
           "emotion": "defensive",
           "record_type": "testimony",
@@ -242,12 +277,12 @@
           ]
         },
         {
-          "text": "怪不怪你，船底那个洞会告诉我们。",
+          "text": "判断失误？他走了二十年！闭着眼都能走。",
           "speaker_id": "xia_lingyao",
           "emotion": "determined"
         },
         {
-          "text": "先看证据。",
+          "text": "……",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
@@ -269,7 +304,7 @@
       ],
       "lines": [
         {
-          "text": "我水性好嘛。泡了……泡了有半个时辰。后来有船经过，把我捞上来的。",
+          "text": "我水性好嘛。泡了……泡了有半个时辰。江饭吃久了，水里也能咬牙熬一阵。后来有船经过，把我捞上来的。",
           "speaker_id": "lao_fan",
           "emotion": "smirk",
           "record_type": "testimony",
@@ -280,24 +315,24 @@
           ]
         },
         {
-          "text": "半个时辰？冬天的江水里泡半个时辰还能活？",
+          "text": "半个时辰？腊月的江水，半个时辰能把人泡成冰棍。他是鱼吗？",
           "speaker_id": "xia_lingyao",
           "emotion": "shocked"
         },
         {
-          "text": "我身体硬朗嘛。年轻时候在江里泡一两个时辰都试过。",
+          "text": "我身体硬朗嘛。年轻时候在江里扎猛子，一两个时辰都扛过。",
           "speaker_id": "lao_fan",
           "emotion": "defensive"
         },
         {
-          "text": "半个时辰……你确定不是一刻钟？",
-          "speaker_id": "lu_zhao",
-          "emotion": "cold"
-        },
-        {
-          "text": "半个时辰。跟王老汉说的'不到一刻钟'——对不上。先记下。",
+          "text": "半个时辰……你确定？",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
+        },
+        {
+          "text": "半个时辰和一刻钟……这差得也太多了吧。",
+          "speaker_id": "lu_zhao",
+          "emotion": "worried"
         }
       ],
       "options": [
@@ -314,7 +349,7 @@
     "show_hull": {
       "lines": [
         {
-          "text": "修……修过？哪条船不修呢，跑久了总要补补的嘛。",
+          "text": "修……修过？哪条船不修呢。船跑久了要捻缝补板，这都是常事。",
           "speaker_id": "lao_fan",
           "emotion": "nervous"
         },
@@ -324,19 +359,19 @@
           "emotion": "defensive"
         },
         {
-          "text": "他急了。一问船底就急——心里有鬼。",
+          "text": "他急了！一问船底就急。心里没鬼的人不会这样。",
           "speaker_id": "xia_lingyao",
           "emotion": "determined"
         },
         {
-          "text": "你说翻船之前没动过……那你船上那套工具是干什么用的？",
-          "speaker_id": "lu_zhao",
-          "emotion": "cold"
-        },
-        {
-          "text": "好。先记下。",
+          "text": "船上有捻凿和桐油。你解释一下。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
+        },
+        {
+          "text": "你在躲。",
+          "speaker_id": "lu_zhao",
+          "emotion": "determined"
         }
       ],
       "options": [
@@ -358,19 +393,24 @@
           "emotion": "defensive"
         },
         {
-          "text": "跑船嘛，有时多赚有时少赚……不至于！",
+          "text": "跑船嘛，有时多赚有时少赚……年关难过，水浅船沉，谁家不紧巴？",
           "speaker_id": "lao_fan",
           "emotion": "nervous"
         },
         {
-          "text": "瞧他那样，跟踩了尾巴似的。赌债的事八成是真的。",
+          "text": "四十二两……腊月底还不上就断指。这不是年关难过，是要命。",
           "speaker_id": "xia_lingyao",
           "emotion": "determined"
         },
         {
-          "text": "不急。之后再说。",
+          "text": "四十二两……谁给他兜的底？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "emotion": "angry"
+        },
+        {
+          "text": "没人兜底。老头子自己欠的债，自己认。陆公子别把什么事都往别人身上扯。",
+          "speaker_id": "lao_fan",
+          "emotion": "defensive"
         }
       ],
       "options": [
@@ -391,7 +431,7 @@
           "speaker_id": "lao_fan"
         },
         {
-          "text": "随便聊聊。二十年的老船家，怎么沾上的赌？",
+          "text": "二十年的老船家，怎么沾上的赌？",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
@@ -401,17 +441,17 @@
           "emotion": "dismissive"
         },
         {
-          "text": "五年前。我家小子——刚十二岁。一场急病。大夫说得用好药，开的方子贵得吓人。",
+          "text": "五年前。我家小子——刚十二岁。一场急病，烧了三天三夜不退。大夫说得用辽东参，一两就要八钱银子。",
           "speaker_id": "lao_fan",
           "emotion": "nervous"
         },
         {
-          "text": "我攒了一辈子的钱不够。找人借——没人借。最后有人说'赌坊有快钱'……",
+          "text": "我攒了一辈子的跑船钱不够。找人借——码头上谁肯借给一个穷船夫？最后有人说'赌坊有快钱'……",
           "speaker_id": "lao_fan",
           "emotion": "nervous"
         },
         {
-          "text": "赌坊有快钱……是谁跟你说的？",
+          "text": "谁跟你说的？",
           "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
@@ -421,12 +461,12 @@
           "emotion": "worried"
         },
         {
-          "text": "没了。药没凑齐……",
+          "text": "(她问这句话的时候声音轻了很多。)",
           "speaker_id": "xia_lingyao",
           "emotion": "worried"
         },
         {
-          "text": "没了。药没凑齐。",
+          "text": "没了。药没凑齐。腊月二十三走的——小年夜。",
           "speaker_id": "lao_fan",
           "emotion": "cornered"
         },
@@ -436,17 +476,17 @@
           "emotion": "nervous"
         },
         {
-          "text": "越赌越深。想翻本。翻不了。",
+          "text": "……",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "text": "大人。我不是好人。但我也不是天生的赌鬼。",
+          "text": "陆公子。我不是好人。但我也不是天生的赌鬼。那年孩子没了以后，我就没稳住。",
           "speaker_id": "lao_fan",
           "emotion": "cornered"
         },
         {
-          "text": "……为了孩子的药钱进了赌坊。和沈清月为父亲筹药钱——何其相似。",
+          "text": "……",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
@@ -469,42 +509,41 @@
       "gain_clue": "evidence_shen_connection",
       "lines": [
         {
-          "text": "老范。阿贵已经招了。你也可以说实话了。",
+          "text": "老范。阿贵招了。该你了。",
           "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
-          "text": "那个找你'商量发财路子'的人——是个做药材生意的姑娘。对不对？",
+          "text": "找你商量的人，是个做药材的姑娘。对不对？",
           "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
           "text": "烟杆从嘴边落了下来。整个人僵住。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "……陆公子都知道了？",
           "speaker_id": "lao_fan",
           "emotion": "cornered"
         },
         {
-          "text": "……大人都知道了？",
-          "speaker_id": "lao_fan",
-          "emotion": "cornered"
-        },
-        {
-          "text": "说。她怎么找的你。",
+          "text": "说。她怎么找上你的。",
           "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
-          "text": "别绕。她开了什么价？",
+          "text": "她开了什么条件？",
           "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
-          "text": "……是她先来的。说知道我欠赌坊的钱。说……有门生意，做完了赌债一笔勾销。",
+          "text": "……是她先来的。在我常去的茶馆坐了一下午，一句话没说，就把我那张欠条放在桌上。然后才开口——说有门生意，做完了赌债一笔勾销。",
           "speaker_id": "lao_fan",
           "emotion": "cornered"
         },
         {
-          "text": "我问什么生意。她说——把船弄沉就行。其他的不用管。",
+          "text": "我问什么生意。她说——'把船弄沉就行。其他的不用管。你水性好，淹不死你。'……她连我水性好都查过了。",
           "speaker_id": "lao_fan",
           "emotion": "cornered"
         },
@@ -514,12 +553,12 @@
           "emotion": "cornered"
         },
         {
-          "text": "他招了。老范也是被她拉下水的——跟阿贵一样。",
+          "text": "她连老范的水性都查过了……这不是临时起意。",
           "speaker_id": "xia_lingyao",
-          "emotion": "shocked"
+          "emotion": "anxious"
         },
         {
-          "text": "那个姑娘——长什么样？",
+          "text": "那个姑娘，什么样？",
           "speaker_id": "lu_zhao",
           "emotion": "cold"
         },

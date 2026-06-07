@@ -4,8 +4,8 @@
     {
       "id": "phase_0",
       "title": "船舱夜话",
-      "description": "渡船启航。在船舱里检查随身物件，与乘客们交谈，确认这趟夜船哪里不对。",
-      "hint": "先检查自己的舱室，再问船上的三个人。线索齐了以后，整理疑点再休息。",
+      "description": "渡船启航。在船舱里检查随身物品，与同船人闲谈，记下这趟夜船让人不安的地方。",
+      "hint": "先检查官印木匣和行程简记，再与至少一名船上人聊几句。回到自己的舱室后，整理疑点并进入沉船事件。",
       "locations": [
         "cabin_lu_room",
         "cabin_agui_room",
@@ -19,7 +19,7 @@
       "id": "phase_1",
       "title": "被指控",
       "description": "船沉了。你活下来了，但被指认为凶手。需要自证清白。",
-      "hint": "去码头搜索沉船残骸，找到证据反驳王大爷的证词。",
+      "hint": "王大爷的指认会直接压上来。先用船舱里已确认的风雨、视线、动机和身份线索拆掉指控。",
       "locations": [
         "ferry_inn",
         "ferry_dock",
@@ -34,7 +34,7 @@
       "id": "phase_2",
       "title": "深入追查",
       "description": "自证清白后，开始追查真凶。船底的破洞说明这不是意外。",
-      "hint": "先去码头和打捞处看看那条船，再问问死者妻子和那个仆从。",
+      "hint": "第一次问话只需要核心证据：船底破洞、浮囊、验尸无钝器伤、老范上岸时间矛盾、阿贵遣散字据。",
       "locations": [
         "ferry_inn",
         "ferry_dock",
@@ -50,7 +50,7 @@
       "id": "phase_3",
       "title": "追查幕后",
       "description": "阿贵不是主谋——他背后还有人。那个'教他的人'，就在这客栈里。",
-      "hint": "沈清月还在客栈二楼。现在需要找到能把她钉死的证据——阿贵的口供不够。查赌坊线索、码头时间线、还有那笔消失的货银。",
+      "hint": "阿贵口供只能开线。要定沈清月，补齐三条线：货银去向、共犯连接、毒囊与验尸物证。",
       "locations": [
         "shen_room",
         "gambling_alley"
@@ -63,8 +63,8 @@
     {
       "id": "phase_4",
       "title": "序章败局",
-      "description": "你已推到真相，却被毒物时效性和唯一指向性的法理反击挡住，无法当庭定罪。案件未结。",
-      "hint": "证据链能说明真相，但法理上还差最后一环。回到码头寻找官印暗线，准备下一章。",
+      "description": "你已推到真相，却被“毒物残迹过时”“物证不能直接定人”挡住，无法当庭定罪。案件未结。",
+      "hint": "证据能指向真相，但县衙还不会认。回到码头寻找官印暗线，准备下一章。",
       "locations": [
         "ferry_inn",
         "ferry_dock"
@@ -153,6 +153,12 @@
       },
       "locked_hint": "芦苇丛似乎有什么东西，但太远了看不清。需要更多线索才能确定该不该去翻。"
     },
+    "ferry_dock.dock_fan_belongings": {
+      "condition": {
+        "flag": "agui_confessed_mastermind"
+      },
+      "locked_hint": "现在先别翻老范的私物。第一堂前只需要船、尸体、浮囊、时间和遣散字据这几块核心证据。"
+    },
     "shen_room.shen_desk": {
       "condition": {
         "flag": "agui_confessed_mastermind"
@@ -235,29 +241,20 @@
             "evidence": "evidence_hull_hole"
           },
           {
-            "evidence": "evidence_nail_marks"
-          },
-          {
             "evidence": "evidence_float_bladder"
           },
           {
             "evidence": "evidence_no_blunt_trauma"
           },
           {
-            "clue": "evidence_wrong_channel"
-          },
-          {
             "clue": "clue_fan_alibi_hole"
           },
           {
             "evidence": "evidence_dismissal_note"
-          },
-          {
-            "evidence": "evidence_gambling_iou"
           }
         ]
       },
-      "_comment": "阿贵中BOSS对质——需要船底破洞、船底钉痕、浮囊、尸检、错误航道、老范时间矛盾、阿贵遣散动机、老范赌债。"
+      "_comment": "阿贵中BOSS对质——需要五件关键证据：沉船手段、阿贵提前准备浮囊、验尸排除铁器打人、老范时间矛盾、阿贵遣散动机；船底钉痕、错误航道和赌债留作补充或后段线索。"
     },
     "confrontation_final": {
       "condition": {
@@ -294,11 +291,11 @@
   "phase_notifications": {
     "phase_2": {
       "speaker": "凌瑶",
-      "text": "陆大人！船底那个洞……肯定是人为的！我听客栈的人说，下游渔村有个王大爷，那天夜里他在江上——说不定看到了什么！"
+      "text": "陆公子！船底那个洞……肯定是人为的！我听客栈的人说，下游渔村有个王大爷，那天夜里他在江上——说不定看到了什么！"
     },
     "phase_3": {
       "speaker": "凌瑶",
-      "text": "阿贵被押下去了。客栈里的局势变了：沈清月退回二楼房间，老范被看住，钱里正也不再催你结案。\n现在别急着抓人——去补实证。赌坊、码头时间线、沈清月房里的账册，才是下一步。"
+      "text": "阿贵被押下去了。客栈里的局势变了：沈清月退回二楼房间，老范被看住，钱里正也不再催你结案。\n现在别急着抓人——去补实证。钱去了哪，谁把共犯串起来，毒囊和尸体怎么互相印上，才是下一步。"
     }
   }
 }

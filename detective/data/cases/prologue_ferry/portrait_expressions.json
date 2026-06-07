@@ -22,6 +22,7 @@
     "res://assets/cn/portraits/prologue_fisherman_wang.png": {
       "base": "res://assets/cn/portraits/prologue_fisherman_wang.png",
       "evasive": "res://assets/cn/portraits/prologue_fisherman_wang_evasive.png",
+      "angry": "res://assets/cn/portraits/prologue_fisherman_wang_angry.png",
       "guilty": "res://assets/cn/portraits/prologue_fisherman_wang_guilty.png"
     },
     "res://assets/cn/portraits/prologue_lao_fan.png": {

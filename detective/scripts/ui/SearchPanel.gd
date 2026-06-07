@@ -9,6 +9,8 @@ signal search_result_acknowledged()
 @onready var result_box: RichTextLabel = $Panel/VBox/ResultBox
 @onready var close_btn: Button = $Panel/VBox/CloseBtn
 
+const EVIDENCE_OBTAIN_HOLD_SECONDS := 2.0
+
 var _is_searching := false
 
 
@@ -108,6 +110,7 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 	var overlay := Control.new()
 	overlay.name = "SearchResultOverlay"
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(overlay)
 	
 	var dim := ColorRect.new()
@@ -186,7 +189,14 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 	btn.add_theme_font_size_override("font_size", 20)
 	btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.58, 1))
 	vbox.add_child(btn)
-	
+
+	if result.get("gained_evidence", "") != "":
+		btn.disabled = true
+		await get_tree().create_timer(EVIDENCE_OBTAIN_HOLD_SECONDS).timeout
+		if not is_inside_tree():
+			return
+		btn.disabled = false
+
 	await btn.pressed
 	if is_instance_valid(overlay):
 		overlay.queue_free()

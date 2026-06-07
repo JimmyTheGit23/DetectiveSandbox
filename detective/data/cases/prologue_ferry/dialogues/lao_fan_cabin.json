@@ -3,35 +3,19 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "哟……又来一个问话的？我叫老范，跑了二十年船。这次是去武昌府的夜船。",
+      "text": "公子问路还是问船？老范跑这条水路多年，知道多少说多少。",
       "emotion": "evasive",
       "options": [
         {
-          "text": "你是船家？",
+          "text": "东汊这条路好走吗？",
           "goto": "ask_route",
           "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ]
-        },
-        {
-          "text": "行程简记写着东汊，谁定的？",
-          "goto": "ask_route_note",
-          "type": "press",
-          "requires": [
-            {
-              "all": [
-                {
-                  "flag": "cabin_route_note_checked"
-                },
-                {
-                  "not_flag": "cabin_explore_done"
-                }
-              ]
-            }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "这天气行船安全吗？",
@@ -41,54 +25,30 @@
             {
               "not_flag": "cabin_explore_done"
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
-          "text": "窗外风浪这么急，你还敢走？",
-          "goto": "ask_storm",
-          "type": "press",
-          "requires": [
-            {
-              "all": [
-                {
-                  "flag": "cabin_storm_window_checked"
-                },
-                {
-                  "not_flag": "cabin_explore_done"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "text": "船舱里那根铁撬棍是干什么用的？",
-          "goto": "ask_cabin",
-          "type": "observe",
+          "text": "船上工具常用吗？",
+          "goto": "press_crowbar",
+          "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
-          "text": "你跑船二十年，应该攒了不少钱吧？",
+          "text": "这几年跑船还好做吗？",
           "goto": "ask_money",
-          "type": "observe",
+          "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ]
-        },
-        {
-          "text": "看看船舱里有什么",
-          "goto": "observe_cabin",
-          "type": "observe",
-          "requires": [
-            {
-              "not_flag": "cabin_explore_done"
-            }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "先告辞",
@@ -102,71 +62,43 @@
       ],
       "lines": [
         {
-          "text": "走东汊那条。快是快，就是……有暗礁。",
+          "text": "东汊。近，省半日。顺水时一盏茶能把大弯抹过去。",
           "speaker_id": "lao_fan_cabin",
           "emotion": "evasive"
         },
         {
-          "text": "涨水的时候应该能过去。谁知道还露着。",
+          "text": "就是有块老礁，雨夜看不见。平日里我宁愿绕开。",
           "speaker_id": "lao_fan_cabin",
           "emotion": "evasive"
         },
         {
-          "text": "暗礁？你跑了二十年船，不知道有暗礁？",
-          "speaker_id": "lu_zhao",
-          "emotion": "cold"
-        },
-        {
-          "text": "知道……但客人催得急啊！",
-          "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
-        }
-      ],
-      "options": [
-        {
-          "text": "继续询问",
-          "goto": "hub"
-        },
-        {
-          "text": "先告辞",
-          "goto": "__exit__"
-        }
-      ]
-    },
-    "ask_route_note": {
-      "set_flags": [
-        "cabin_lao_fan_talked",
-        "cabin_route_note_pressed"
-      ],
-      "lines": [
-        {
-          "text": "我的行程简记上写着东汊。这个渡口，是谁先提的？",
+          "text": "既然平日宁愿绕开，今夜为什么偏走？",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "text": "客人上船前就问东汊。我只说能走，没说非走不可。",
+          "text": "船开了口，就不好改舵。人都上来了，总不能在渡口耗到天亮。",
           "speaker_id": "lao_fan_cabin",
           "emotion": "evasive"
         },
         {
-          "text": "你说能走。平水驿也说快。周老板也说有人介绍。几个人的话，倒像同一条线穿起来。",
+          "text": "周老板也提东汊。我刚看行程简记也写这条路，像是早就有人把近路摆到你们面前。",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "serious"
         },
         {
-          "text": "大人说笑了。跑船就是看水，看客人急不急。哪来什么线不线的？",
+          "text": "公子别把江水说成棋盘。东汊是我认的路，可不是我拿绳子拽谁上船。",
           "speaker_id": "lao_fan_cabin",
           "emotion": "evasive",
-          "record_type": "testimony",
-          "record_title": "老范证言：东汊路线",
-          "record_text": "老范称自己只是说东汊能走，并非主动要求所有人改走这条水路。",
+          "record_type": "key",
+          "record_title": "夜船记下：东汊路线",
+          "record_text": "老范承认东汊是自己认路选择，却把路线说成上船后顺势决定，不承认主动诱导众人改走。",
           "record_id": "record_cabin_lao_fan_route_note"
         }
       ],
       "options": [
         {
-          "text": "继续询问",
+          "text": "继续聊",
           "goto": "hub"
         },
         {
@@ -181,103 +113,47 @@
       ],
       "lines": [
         {
-          "text": "这天气……说实话，不太好。但客人催得急。",
+          "text": "这天气……不该说稳。雨打斜了，风是贴着江面刮的。",
           "speaker_id": "lao_fan_cabin",
           "emotion": "evasive"
         },
         {
-          "text": "老头子跑了二十年船，什么天气没经历过？",
+          "text": "可夜船吃的是水头。水头一顺，就算浪响，船也还能贴着走。",
           "speaker_id": "lao_fan_cabin",
           "emotion": "evasive"
         },
         {
           "text": "他转了转手里的旱烟杆，没点着",
           "speaker_id": "narrator"
-        }
-      ],
-      "options": [
-        {
-          "text": "继续询问",
-          "goto": "hub"
         },
         {
-          "text": "先告辞",
-          "goto": "__exit__"
-        }
-      ]
-    },
-    "ask_storm": {
-      "set_flags": [
-        "cabin_lao_fan_talked",
-        "cabin_storm_pressed"
-      ],
-      "lines": [
-        {
-          "text": "窗外浪头已经压到舷边。这样的夜里还走东汊？",
+          "text": "外头浪不小，还要贴滩过汊？我不懂水路，听着有些险。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "text": "再大的浪也有缝。老船家吃的就是这碗饭。",
+          "text": "险不险，得看掌舵的人手稳不稳。外人听浪，船家看水。",
           "speaker_id": "lao_fan_cabin",
           "emotion": "evasive"
         },
         {
-          "text": "你这碗饭，吃得太急了。",
+          "text": "听起来你心里有数。既然有数，东汊暗礁也该在数里。",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "serious"
         },
         {
-          "text": "急的是客人，不是我。",
+          "text": "水面上看不见的东西，谁敢说准？我只敢说没想到会刮得这么狠。",
           "speaker_id": "lao_fan_cabin",
           "emotion": "evasive",
-          "record_type": "testimony",
-          "record_title": "老范证言：风浪",
-          "record_text": "老范承认风浪不小，但坚持自己只是按客人催促继续夜渡。",
+          "record_type": "key",
+          "record_title": "夜船记下：风浪",
+          "record_text": "老范承认风浪和暗礁都在判断范围内，却把翻船归为雨夜水势突变。",
           "record_id": "record_cabin_lao_fan_storm"
         }
       ],
       "options": [
         {
-          "text": "继续询问",
-          "goto": "hub"
-        },
-        {
-          "text": "先告辞",
-          "goto": "__exit__"
-        }
-      ]
-    },
-    "ask_cabin": {
-      "set_flags": [
-        "cabin_lao_fan_talked",
-        "cabin_saw_crowbar"
-      ],
-      "lines": [
-        {
-          "text": "铁撬棍？那是……那是修船用的。有时候船板松了，得敲敲打打。",
-          "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
-        },
-        {
-          "text": "放在舱壁上，方便拿。",
-          "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
-        },
-        {
-          "text": "修船用的……放了多久了？",
-          "speaker_id": "lu_zhao",
-          "emotion": "cold"
-        },
-        {
-          "text": "……记不清了。",
-          "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
-        }
-      ],
-      "options": [
-        {
-          "text": "继续询问",
+          "text": "继续聊",
           "goto": "hub"
         },
         {
@@ -306,19 +182,33 @@
           "speaker_id": "narrator"
         },
         {
-          "text": "辛苦钱……但至少是安稳钱。",
+          "text": "跑船辛苦，也不容易安稳。看你刚才那一下，像是这两年不太顺。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "text": "安稳？嘿嘿……安稳。",
+          "text": "安稳？嘿，我要真安稳，就不至于这样了。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        },
+        {
+          "text": "他的眼神闪了一下。那声\"嘿嘿\"里有种苦涩——不像是在笑。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "不好说就算了。我只是觉得，这年头水上讨生活，确实不容易。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "公子这话中听。只是水上人有水上人的难处，挂在嘴边也没用。",
           "speaker_id": "lao_fan_cabin",
           "emotion": "evasive"
         }
       ],
       "options": [
         {
-          "text": "继续询问",
+          "text": "继续聊",
           "goto": "hub"
         },
         {
@@ -327,36 +217,57 @@
         }
       ]
     },
-    "observe_cabin": {
+    "press_crowbar": {
       "set_flags": [
-        "cabin_observed"
+        "cabin_observed",
+        "cabin_saw_crowbar"
       ],
       "lines": [
         {
-          "text": "船舱不大，但收拾得还算干净。",
-          "speaker_id": "narrator"
+          "text": "铁撬棍？那是……那是修船用的。有时候船板松了，得敲敲打打。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
         },
         {
-          "text": "舱壁上挂着一根铁撬棍，旁边是蓑衣和斗笠。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "角落有几只木箱，用麻绳捆着。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "铁撬棍的位置有点奇怪——挂在舱壁正中间，像是特意放在那里的。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "这铁撬棍放得倒显眼……",
+          "text": "这撬棍上有新磨痕。今晚风浪大，船板最近常修吗？",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
+        },
+        {
+          "text": "……记不清了。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
+        },
+        {
+          "text": "你环顾船舱，注意到了更多细节。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "铁撬棍上有一道新鲜的磨痕——不像是修船磨出来的，倒像是撬过什么硬东西。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "木箱的麻绳打了水手结——但其中一只箱子的结扣方向反了，像是被人解开后重新系过。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "蓑衣下面露出一角油布，油布上有淡淡的水渍——不是雨水，是溅上去的。",
+          "speaker_id": "narrator"
+        },
+        {
+          "text": "新磨痕、反手结、油布水渍。夜里行船还要顾着修补，确实辛苦。",
+          "speaker_id": "lu_zhao",
+          "emotion": "serious"
+        },
+        {
+          "text": "辛苦归辛苦，公子别乱碰。夜里船晃，划了手不值当。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "evasive"
         }
       ],
       "options": [
         {
-          "text": "继续询问",
+          "text": "继续聊",
           "goto": "hub"
         },
         {

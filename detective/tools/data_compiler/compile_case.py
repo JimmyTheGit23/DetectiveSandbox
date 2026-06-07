@@ -603,7 +603,7 @@ def compile_case_json(src: Path, case_id: str) -> JsonDict:
         _set_if(data, "suspect", _cell(row, "suspect"))
         if not is_blank(row.get("is_final", "")):
             data["is_final"] = parse_bool(row.get("is_final", ""))
-        for key in ["background", "bgm", "bgm_break", "bgm_final_round"]:
+        for key in ["background", "bgm", "bgm_break", "bgm_break_actual", "bgm_final_round"]:
             _set_if(data, key, _cell(row, key))
         confidence = parse_int(row.get("confidence", ""))
         if confidence is not None:

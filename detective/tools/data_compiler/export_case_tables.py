@@ -303,6 +303,7 @@ def export_confrontations(case_dir: Path, out_dir: Path) -> None:
             "background": data.get("background", ""),
             "bgm": data.get("bgm", ""),
             "bgm_break": data.get("bgm_break", ""),
+            "bgm_break_actual": data.get("bgm_break_actual", ""),
             "bgm_final_round": data.get("bgm_final_round", ""),
             "confidence": data.get("confidence", ""),
             "writer_note": data.get("_comment", ""),
@@ -382,7 +383,7 @@ def export_confrontations(case_dir: Path, out_dir: Path) -> None:
 
     write_csv(out_dir / "confrontations.csv", [
         "confrontation_id", "suspect", "is_final", "background", "bgm", "bgm_break",
-        "bgm_final_round", "confidence", "writer_note",
+        "bgm_break_actual", "bgm_final_round", "confidence", "writer_note",
     ], confrontation_rows)
     write_csv(out_dir / "confrontation_lines.csv", [
         "confrontation_id", "section", "order", "speaker_id", "speaker", "text", "emotion",

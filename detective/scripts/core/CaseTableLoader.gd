@@ -766,7 +766,7 @@ static func _compile_case_data(src: String, base: Dictionary = {}) -> Dictionary
 		_set_if(data, "suspect", _cell(row, "suspect"))
 		if not _is_blank(row.get("is_final", "")):
 			data["is_final"] = _parse_bool(row.get("is_final", false))
-		for key in ["background", "bgm", "bgm_break", "bgm_final_round"]:
+		for key in ["background", "bgm", "bgm_break", "bgm_break_actual", "bgm_final_round"]:
 			_set_if(data, key, _cell(row, key))
 		var confidence = _parse_int(row.get("confidence", ""), null)
 		if confidence != null:

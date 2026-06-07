@@ -3,8 +3,33 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "你……你是昨晚同船的那位？听说里正给了你两天。你要问什么……问吧。",
+      "text": "陆公子又来了？小的这心口还在灌冷水。您问吧，只求别把话拧成绳子套我。",
       "emotion": "crying",
+      "lines": [
+        {
+          "text": "……陆公子。你查清楚了？王大爷的证词是假的……那小的——小的是不是也冤枉了？",
+          "speaker_id": "agui",
+          "emotion": "nervous",
+          "requires": [
+            {
+              "flag": "self_cleared"
+            },
+            {
+              "not_flag": "agui_confessed_mastermind"
+            }
+          ]
+        },
+        {
+          "text": "陆公子……小的都招了。小的知道错了。您问什么……小的都说。",
+          "speaker_id": "agui",
+          "emotion": "defeated",
+          "requires": [
+            {
+              "flag": "agui_confessed_mastermind"
+            }
+          ]
+        }
+      ],
       "options": [
         {
           "text": "问问当晚发生了什么",
@@ -14,7 +39,8 @@
             {
               "not_flag": "agui_confessed_mastermind"
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "你和周德茂关系怎样？",
@@ -31,7 +57,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true,
+          "min_hub_visits": 1
         },
         {
           "text": "你是怎么从水里活下来的？",
@@ -48,7 +76,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true,
+          "min_hub_visits": 2
         },
         {
           "text": "你被遣散的时候，心里没怨气？",
@@ -65,7 +95,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "你包袱里的东西，都是你自己的？",
@@ -82,12 +113,13 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
-          "text": "你跟了周德茂十二年……这些年过得怎么样？",
+          "text": "周老板待你，真像你说的那么好吗？",
           "goto": "ask_twelve_years",
-          "type": "observe",
+          "type": "press",
           "requires": [
             {
               "all": [
@@ -99,7 +131,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true,
+          "min_hub_visits": 3
         },
         {
           "text": "先告辞",
@@ -127,7 +161,7 @@
           ]
         },
         {
-          "text": "他没有急着咬谁，只把自己说成了一个慌乱救主的人。",
+          "text": "他说得太顺了……一个差点淹死的人，还能把话说得这么齐整？我不太信。",
           "speaker_id": "xia_lingyao",
           "emotion": "worried"
         },
@@ -137,12 +171,12 @@
           "emotion": "grief"
         },
         {
-          "text": "他没有急着咬谁，只把自己说成了一个慌乱救主的人。听起来可怜，但也太干净了。",
+          "text": "这也太顺了吧……谁淹了水还能这么镇定？",
           "speaker_id": "xia_lingyao",
-          "emotion": "worried"
+          "emotion": "anxious"
         },
         {
-          "text": "先听着。看他后面怎么说。",
+          "text": "阿贵，你先别急。你刚从水里捡回一条命，却把前后说得一点不乱，这不太对。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
@@ -161,7 +195,7 @@
     "ask_relationship": {
       "lines": [
         {
-          "text": "老爷对小的有知遇之恩。十六岁进的门，什么都不会——是老爷手把手教的。",
+          "text": "老爷帮过小的。十六岁进的门，什么都不会，开门、跑腿、守夜，都是老爷叫人教的。",
           "speaker_id": "agui",
           "emotion": "grief"
         },
@@ -201,14 +235,19 @@
           "emotion": "grief"
         },
         {
-          "text": "冬天的江水，不会游泳的人抱块板子就能活？说得倒轻巧。",
+          "text": "冬天的江水，不会游泳的人抱块板子就能活？他当冬泳呢？",
           "speaker_id": "xia_lingyao",
           "emotion": "worried"
         },
         {
-          "text": "先记下。他的说法站不稳。",
+          "text": "腊月江水泡半天还能活？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "emotion": "worried"
+        },
+        {
+          "text": "小的也不知道怎么活下来的……真不知道。那时候脑子里全是水声，醒来就在岸边了。",
+          "speaker_id": "agui",
+          "emotion": "grief"
         }
       ],
       "options": [
@@ -228,7 +267,7 @@
       ],
       "lines": [
         {
-          "text": "大、大人——遣散？那是……那是老爷另有安排。老爷说让小的回乡置点田产，过自在日子。",
+          "text": "大、陆公子——遣散？那是……那是老爷另有安排。老爷说让小的回乡置点田产，过自在日子。",
           "speaker_id": "agui",
           "emotion": "nervous"
         },
@@ -238,9 +277,9 @@
           "emotion": "shaken"
         },
         {
-          "text": "另有安排？什么样的安排？",
+          "text": "二两？十二年就二两？",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "angry"
         },
         {
           "text": "小的没有怨恨。真的。",
@@ -248,12 +287,12 @@
           "emotion": "defensive"
         },
         {
-          "text": "十二年了，就换来一句放你走？",
+          "text": "你声音都在抖了。",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "serious"
         },
         {
-          "text": "嘴上说没有，拳头都攥白了。记下来——演技不错，但细节骗不了人。",
+          "text": "他拳头都攥白了……嘴上说没有，手可不答应。",
           "speaker_id": "xia_lingyao",
           "emotion": "determined"
         }
@@ -285,7 +324,7 @@
           "emotion": "panic"
         },
         {
-          "text": "心虚了。他包袱里肯定有鬼，回头正式审的时候再拿出来——打他个措手不及。",
+          "text": "心虚了。包袱里肯定有东西。",
           "speaker_id": "xia_lingyao",
           "emotion": "determined"
         }
@@ -310,22 +349,27 @@
         {
           "text": "阿贵。我不想再绕弯子了。",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "serious"
         },
         {
-          "text": "浮囊、船底的洞、你那身衣服——所有证据都指向你。",
+          "text": "浮囊、船底的洞、你的衣服。证据都在。",
           "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
-          "text": "大人！小的——小的是冤枉的！",
+          "text": "陆公子！小的——小的是冤枉的！",
           "speaker_id": "agui",
           "emotion": "panic"
         },
         {
-          "text": "那好。一条一条过。你说的每一句话——我都有东西反驳。",
+          "text": "你在编。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
+        },
+        {
+          "text": "那好。一条一条过。你说的每句话，我都有东西反驳。",
+          "speaker_id": "lu_zhao",
+          "emotion": "determined"
         }
       ],
       "options": [
@@ -339,11 +383,11 @@
     "ask_twelve_years": {
       "lines": [
         {
-          "text": "十二年？……大人怎么突然问这个？",
+          "text": "十二年？……陆公子怎么突然问这个？",
           "speaker_id": "agui"
         },
         {
-          "text": "随便聊聊。十二年不短了。",
+          "text": "随便聊聊。十二年……不短了。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
@@ -412,7 +456,7 @@
           "emotion": "worried"
         },
         {
-          "text": "大人，小的不是好人。但小的……这十二年过的也不是人过的日子。",
+          "text": "陆公子，小的不是好人。但小的……这十二年过的也不是人过的日子。",
           "speaker_id": "agui",
           "emotion": "grief"
         }

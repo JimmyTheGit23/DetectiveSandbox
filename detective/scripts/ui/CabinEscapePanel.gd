@@ -7,6 +7,9 @@ const BG_RISING := "res://assets/cn/scenes/prologue_ship_cabin_rising.png"
 const BG_ESCAPE := "res://assets/cn/scenes/prologue_ship_cabin_escape_injured.png"
 const BG_DARK_WATER := "res://assets/cn/scenes/prologue_dark_water.png"
 const FALLBACK_VIEW_SIZE := Vector2(1280, 720)
+const CAPTION_CHAR_DELAY := 0.048
+const CAPTION_COMMA_PAUSE := 0.11
+const CAPTION_PERIOD_PAUSE := 0.18
 
 const CabinWaterOverlayScript = preload("res://scripts/ui/CabinWaterOverlay.gd")
 
@@ -20,6 +23,8 @@ var _hint: Label
 
 var _hole_seen := false
 var _finishing := false
+var _caption_run_id := 0
+var _caption_typing := false
 
 
 func _ready() -> void:
@@ -189,7 +194,7 @@ func _run_auto_escape() -> void:
 	if _finishing or not is_inside_tree():
 		return
 	_intro_flash()
-	await get_tree().create_timer(0.65).timeout
+	await _wait_caption(0.65)
 	if not is_inside_tree():
 		return
 
@@ -197,7 +202,7 @@ func _run_auto_escape() -> void:
 	_shake(5.0, 0.24)
 	_raise_water(0.08)
 	_set_caption("舱门推不开。门外有沉重的货物顶着，木板被撞得发闷。只能另找出口。")
-	await get_tree().create_timer(1.45).timeout
+	await _wait_caption(0.4)
 	if not is_inside_tree():
 		return
 
@@ -208,7 +213,7 @@ func _run_auto_escape() -> void:
 	if not GameManager.has_evidence("evidence_hull_hole"):
 		GameManager.add_evidence("evidence_hull_hole")
 	_set_caption("你咬牙摸进冰水里。脚下有个方形洞口，边缘齐得发冷。不是撞裂，是凿开的。")
-	await get_tree().create_timer(1.65).timeout
+	await _wait_caption(0.45)
 	if not is_inside_tree():
 		return
 
@@ -217,7 +222,7 @@ func _run_auto_escape() -> void:
 	if not GameManager.has_evidence("evidence_iron_crowbar_location"):
 		GameManager.add_evidence("evidence_iron_crowbar_location")
 	_set_caption("你扯下舱壁上的铁撬棍。冰冷的铁柄滑得握不住，只能攥得更紧。")
-	await get_tree().create_timer(1.35).timeout
+	await _wait_caption(0.35)
 	if not is_inside_tree():
 		return
 
@@ -225,7 +230,7 @@ func _run_auto_escape() -> void:
 	_shake(2.0, 0.18)
 	_raise_water(0.04)
 	_set_caption("你把漂起的木箱推到天窗正下方。木箱在水里打转，勉强能踩。")
-	await get_tree().create_timer(1.35).timeout
+	await _wait_caption(0.35)
 	if not is_inside_tree():
 		return
 
@@ -246,28 +251,28 @@ func _finish_escape() -> void:
 		if not GameManager.has_evidence("evidence_hull_hole"):
 			GameManager.add_evidence("evidence_hull_hole")
 		_set_caption("你踩上木箱时，水流卷开杂物。船底那个洞一闪而过：方正、整齐，绝不是暗礁撞开的。")
-		await get_tree().create_timer(1.3).timeout
+		await _wait_caption(0.35)
 	_set_caption("铁撬卡进锁扣。你用尽全身力气往下一压。")
 	_play_sfx("ship_creak")
 	_shake(9.0, 0.55)
 	_raise_water(0.12)
-	await get_tree().create_timer(0.75).timeout
+	await _wait_caption(0.2)
 	_flash_screen(0.75, 0.18)
 	_background.texture = load(BG_ESCAPE)
 	_water.level = 0.48
 	_scene_root.rotation_degrees = 0.7
 	_play_sfx("glass_break")
 	_set_caption("咔嚓！天窗向外弹开。冷雨砸在脸上，你双手撑住破木边缘，硬生生钻了出去。")
-	await get_tree().create_timer(1.8).timeout
+	await _wait_caption(0.45)
 	if not GameManager.has_evidence("evidence_seal_lost"):
 		GameManager.add_evidence("evidence_seal_lost")
 	_background.texture = load(BG_DARK_WATER)
 	_water.level = 0.0
 	_flash_screen(0.35, 0.25)
 	_set_caption("船体在身后断裂。官印、行李和文书，全被黑水吞了下去。")
-	await get_tree().create_timer(1.25).timeout
+	await _wait_caption(0.35)
 	_set_caption("你抓住一块断板，江水冷得像针。岸线在雨里忽远忽近。")
-	await get_tree().create_timer(1.15).timeout
+	await _wait_caption(0.35)
 	completed.emit()
 
 
@@ -296,6 +301,48 @@ func _flash_screen(alpha: float, duration: float) -> void:
 
 func _set_caption(text: String) -> void:
 	_caption.text = text
+	_caption.visible_characters = 0
+	_caption_run_id += 1
+	_caption_typing = true
+	call_deferred("_run_caption_typewriter", _caption_run_id, text)
+
+
+func _run_caption_typewriter(run_id: int, text: String) -> void:
+	if _caption == null:
+		return
+	var total := text.length()
+	var shown := 0
+	while shown < total:
+		if run_id != _caption_run_id or not is_inside_tree():
+			return
+		shown += 1
+		_caption.visible_characters = shown
+		var delay := _caption_delay_for(text[shown - 1])
+		if delay > 0.0:
+			await get_tree().create_timer(delay).timeout
+	if run_id != _caption_run_id:
+		return
+	_caption.visible_characters = -1
+	_caption_typing = false
+
+
+func _caption_delay_for(ch: String) -> float:
+	if ch in ["，", "、", ",", "；", "："]:
+		return CAPTION_COMMA_PAUSE
+	if ch in ["。", "！", "？", ".", "!", "?"]:
+		return CAPTION_PERIOD_PAUSE
+	if ch == "—" or ch == "…":
+		return CAPTION_PERIOD_PAUSE
+	return CAPTION_CHAR_DELAY
+
+
+func _wait_caption(min_seconds: float) -> void:
+	var run_id := _caption_run_id
+	var done_after := Time.get_ticks_msec() + int(maxf(min_seconds, 0.0) * 1000.0)
+	while is_inside_tree() and run_id == _caption_run_id:
+		if not _caption_typing and Time.get_ticks_msec() >= done_after:
+			return
+		await get_tree().process_frame
 
 
 func _set_hint(text: String) -> void:

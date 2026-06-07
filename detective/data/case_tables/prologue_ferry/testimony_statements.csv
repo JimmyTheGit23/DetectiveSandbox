@@ -11,7 +11,7 @@ testimony_lao_fan_route,fan_route_4,老范,船是旧船嘛，平时也会修补�
 testimony_lao_fan_route,fan_route_5,老范,那天夜里风大浪急，走得又急——出码头的时候天已经黑透了。这种天气行船，出什么事都有可能。,,,,,,,
 testimony_lao_fan_rescue,fan_rescue_1,老范,船一翻，我也掉水里了。那水冷得人发木，哪还顾得上东南西北。,,,,,,,
 testimony_lao_fan_rescue,fan_rescue_2,老范,我在水里泡了半个时辰，后来才被下游渔民拉上去。要不是命硬，早没了。,,true,clue_fan_alibi_hole,,,,
-testimony_lao_fan_rescue,fan_rescue_3,老范,周老爷不会水，阿贵又慌。我自己都顾不上，哪里还能救人？,,,,,,,
+testimony_lao_fan_rescue,fan_rescue_3,老范,周老爷会水，可那夜浪急得很。阿贵又慌，我自己都顾不上，哪里还能救人？,,,,,,,
 testimony_lao_fan_rescue,fan_rescue_4,老范,水里就我一个人。黑灯瞎火的，什么都看不见——只听见浪声和自己的心跳。,,,,,,,
 testimony_lao_fan_rescue,fan_rescue_5,老范,上了岸之后手脚都僵了，脑子里一片空白。蹲在岸边烤火烤了半个时辰才缓过来——哪里还顾得上别的？,,,,,,,
 testimony_lao_fan_motive,fan_motive_1,老范,我跟周老爷第一次见。收了船钱，送他过江，仅此而已。,,,,,,,
@@ -53,11 +53,11 @@ shen_testimony_3,sf3_1,沈清月,就算我在码头待到深夜。盯着自己�
 shen_testimony_3,sf3_2,沈清月,你有的只是：一个赌鬼的指认、一个杀人犯的攀咬、和一个老渔翁在黑夜里看到的模糊身影。这些——够判死刑吗？,,true,evidence_dock_timing,evidence_father_ledger,,,
 shen_testimony_3,sf3_3,沈清月,就算……就算那笔账说得通。'有动机'和'做了'是两回事。你没有亲眼看到我教阿贵凿船——你永远证明不了。,,,,,,,
 shen_testimony_3,sf3_4,沈清月,你没有任何能直接连到我身上的物证。没有物证，就算你的故事再漂亮，也只是故事。,,true,evidence_drug_capsule_shell,,,,
-shen_testimony_3,sf3_5,沈清月,大明律——'疑罪从无'。你的推理再精妙，没有一条证据是铁板钉钉的。陆公子，公堂上赢的不是故事，是证据。,,,,,,,
+shen_testimony_3,sf3_5,沈清月,大明律——'疑罪从无'。你说得再好听，没有铁证也定不了我。陆公子，公堂上赢的不是故事，是证据。,,,,,,,
 shen_testimony_4,sf4_1,沈清月,周德茂落水前是否失力，你们没有亲眼看见。江水能让人抽筋，也能让人缠上水草。,,,,,,,
-shen_testimony_4,sf4_2,沈清月,糯米胶薄膜？码头上封鱼篓、糊船缝都用这东西。人人可得——无法唯一指向任何人。,,,,,,,
+shen_testimony_4,sf4_2,沈清月,糯米胶薄膜？码头上封鱼篓、糊船缝都用这东西。谁都拿得到，定不到任何人身上。,,,,,,,
 shen_testimony_4,sf4_3,沈清月,麻痹草药入淡水数刻便散，舌根残留也可能只是江中水草或过期植物纤维。药理上无法定成毒杀。,,,,,,,
-shen_testimony_4,sf4_4,沈清月,油脂可来自江中鱼虾、可来自船板漆料。无法唯一指向人为投毒——更不能证明是我。,,,,,,,
+shen_testimony_4,sf4_4,沈清月,油脂可来自江中鱼虾，也可来自船板漆料。它不能证明有人投毒，更不能证明是我。,,,,,,,
 shen_testimony_4,sf4_4b,沈清月,除非你能证明所谓油脂锁住的，正是毒囊释放后被周德茂呛入口中的那一口毒水。否则油脂、药残、毒囊，仍然只是三件互不相干的东西。,,true,evidence_oil_lock_residue,,,sf4_4,sf4_4
 
 # === 王大爷自证对峙证词（指向主角） ===

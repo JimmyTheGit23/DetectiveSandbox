@@ -3,8 +3,33 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "哦……你来了。我话撂在前头——周氏那边我得给交代。你要问话就问，但最后拿不出真凭实据……我只能按程序报上去。",
+      "text": "陆公子，周氏在哭，县里在催，我这顶小帽子快被雨泡软了。你要问就快，最好带着证据问。",
       "emotion": "nervous",
+      "lines": [
+        {
+          "text": "你查清楚了？王大爷的证词站不住——好，好。那周氏那边我先稳住。你继续查。",
+          "speaker_id": "li_zheng",
+          "emotion": "determined",
+          "requires": [
+            {
+              "flag": "self_cleared"
+            },
+            {
+              "not_flag": "agui_confessed_mastermind"
+            }
+          ]
+        },
+        {
+          "text": "阿贵招了？陆公子，这事……沈家不好惹。您要是有实证，小人可以替您把人聚齐问话。",
+          "speaker_id": "li_zheng",
+          "emotion": "nervous",
+          "requires": [
+            {
+              "flag": "agui_confessed_mastermind"
+            }
+          ]
+        }
+      ],
       "options": [
         {
           "text": "这件事你怎么看？",
@@ -14,7 +39,8 @@
             {
               "not_flag": "agui_confessed_mastermind"
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "那片礁石，本地人都知道？",
@@ -31,7 +57,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "老范这个人怎么样？",
@@ -66,7 +93,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "周德茂你了解吗？",
@@ -83,7 +111,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "渡口最近有什么异常吗？",
@@ -110,7 +139,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "阿贵认了。接下来怎么查？",
@@ -120,7 +150,8 @@
             {
               "flag": "agui_confessed_mastermind"
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "沈清月那边——你怎么看？",
@@ -137,7 +168,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "hide_after_visit": true
         },
         {
           "text": "先告辞",
@@ -151,31 +183,31 @@
       ],
       "lines": [
         {
-          "text": "我跟你说实话——周氏闹成那样，我不给你时间查不好收场。但反过来讲……",
+          "text": "我跟你说实话——周氏闹成那样，我不给你时间查，案卷上也不好收场。但反过来讲……",
           "speaker_id": "li_zheng",
           "emotion": "nervous"
         },
         {
-          "text": "这种事我见多了。冬天涨水，夜里走船——十年八年总得翻一回。老范跑了二十年没出过事，这次栽了，也不是不可能。",
+          "text": "这种事我见多了。冬天涨水，夜里走船——十年八年总得翻一回。老范跑了二十年没出过事，这次栽了——唉，也不是不可能。上个月邻县也翻了一条，最后还不是按意外结的案。",
           "speaker_id": "li_zheng"
         },
         {
-          "text": "意外……你倒是想大事化小。",
+          "text": "行，两天就两天。",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "determined"
         },
         {
-          "text": "我给你两天，是给周氏一个交代，也是给县衙一个交代。有证据，我开堂；没证据，我只能按意外和嫌疑报上去。懂我意思？",
+          "text": "我给你两天，是给周氏一个交代，也是给县衙一个交代。有证据，我替你把人聚齐问话；没证据，我就只能写“意外”二字再把嫌疑报上去。懂我意思？",
           "speaker_id": "li_zheng",
           "emotion": "sighing"
         },
         {
-          "text": "这老滑头——他不是不懂案子，是只认能写进案卷的东西。空口说破天，他也不会替你担责。",
+          "text": "这老滑头。先顾自己，再顾衙门，最后才轮到死人。",
           "speaker_id": "xia_lingyao",
           "emotion": "anxious"
         },
         {
-          "text": "他的态度很明确：想翻案，就让物证说话。",
+          "text": "他不是不懂，是怕担责。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
@@ -195,7 +227,7 @@
       "gain_clue": "clue_reef_common_knowledge",
       "lines": [
         {
-          "text": "那可不是！我从小在这儿长大，那片礁石连小孩儿都知道要绕着走。",
+          "text": "那可不是！这话就是写进案卷我也敢写——我从小在这儿长大，那片礁石连小孩儿都知道要绕着走。",
           "speaker_id": "li_zheng",
           "record_type": "testimony",
           "record_title": "证词记录：暗礁是常识",
@@ -246,22 +278,22 @@
           "emotion": "nervous"
         },
         {
-          "text": "欠了赌坊不少钱……前阵子有人来要账？",
+          "text": "欠了多少？",
           "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
         {
-          "text": "欠了赌坊的钱……如果有人拿这个做文章呢？",
+          "text": "如果有人拿这个做筹码呢？",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "serious"
         },
         {
-          "text": "不过嘛——大事化小。他水性好，人也实在。年轻时候还救过落水的孩子，全渡口都知道。",
+          "text": "不过嘛——案卷不能只写坏处。他水性好，人也实在。年轻时候还救过落水的孩子，全渡口都知道。",
           "speaker_id": "li_zheng",
           "emotion": "nervous"
         },
         {
-          "text": "那就不只是欠钱，是有人拿他的命门牵着他走。",
+          "text": "那就不只是欠钱，是有人拿这笔赌债逼他办事。",
           "speaker_id": "xia_lingyao",
           "emotion": "anxious"
         }
@@ -293,9 +325,9 @@
           "emotion": "nervous"
         },
         {
-          "text": "刚死了主人就买酒吃肉……出手阔绰。",
+          "text": "刚死了主人就买酒吃肉？",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "serious"
         },
         {
           "text": "按说刚死了主人的仆从……哪有心情喝酒吃肉啊？而且他马上要被遣散了，身上能有几个钱？",
@@ -333,17 +365,17 @@
           "emotion": "nervous"
         },
         {
-          "text": "待下人刻薄……阿贵跟了他十二年。",
+          "text": "十二年的刻薄……",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "text": "不过嘛——人死了，大事化小，就别说那么多坏话了。",
+          "text": "不过嘛——人死了，案卷上不好写太多坏话。大事化小，嘴也化小些。",
           "speaker_id": "li_zheng",
           "emotion": "nervous"
         },
         {
-          "text": "待下人刻薄……阿贵跟了他十二年，受的恐怕不止这些。",
+          "text": "十二年……受的恐怕不止这些。",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         }
@@ -385,7 +417,7 @@
           "speaker_id": "li_zheng"
         },
         {
-          "text": "他自称什么人？",
+          "text": "他是什么人？",
           "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
@@ -403,7 +435,7 @@
           "emotion": "anxious"
         },
         {
-          "text": "他后来呢？还在渡口吗？",
+          "text": "后来呢？",
           "speaker_id": "lu_zhao",
           "emotion": "cold"
         },
@@ -413,12 +445,12 @@
           "emotion": "evasive"
         },
         {
-          "text": "……南京来的读书人。打听航道、时间、常客。半个月后——'南京来信'引诱周德茂走夜船。这两件事之间……",
+          "text": "南京来的读书人，打听航道、时间、常客。半个月后周德茂就收到了那封信。这两件事……",
           "speaker_id": "lu_zhao",
           "emotion": "serious"
         },
         {
-          "text": "大人……这事跟周氏说的那封信——会不会有关系？先记下来。",
+          "text": "陆公子……这事跟周氏说的那封信——会不会有关系？南京来信、打听水路、半个月前踩点，这三件事都连上了。",
           "speaker_id": "xia_lingyao",
           "emotion": "determined"
         }
@@ -435,7 +467,7 @@
       ]
     },
     "ask_next_step": {
-      "text": "阿贵招了——但供出的人是沈清月。大人，这事……不好办啊。\n沈家在这一带做了几十年药材生意，人脉广。光凭阿贵一张嘴，县衙那边不会批捕的。\n您得找到实证。码头时间线、货银去向、她跟老范的联系，还有沉船残骸上的毒囊痕迹——哪条都行，但得能互相印上。\n小人可以开堂，但不能替您把口供当铁证。",
+      "text": "阿贵招了——但供出的人是沈清月。陆公子，这事……不好办啊。\n沈家在这一带做了几十年药材生意，人脉广。光凭阿贵一张嘴，县衙那边不会批捕的。\n您得找到实证。码头时间线、货银去向、她跟老范的联系，还有沉船残骸上的毒囊痕迹——哪条都行，但得能跟别的证据对上。\n小人可以替您把人聚齐问话，但不能替您把口供当铁证。",
       "emotion": "determined",
       "options": [
         {
@@ -449,7 +481,7 @@
       ]
     },
     "ask_shen_opinion": {
-      "text": "沈清月……说实话，以前觉得她就是个精明的生意人。讨债凶是凶了点，但也没出过格。\n不过现在想想——她那天在码头骂周德茂'别想走'，我还以为是气话。\n大人，您要是去查她……小心点。这姑娘脑子好使，嘴也利索。她会把每一件物证都拆成'不够定罪'。",
+      "text": "沈清月……说实话，以前觉得她就是个精明的生意人。讨债凶是凶了点，但也没出过格。\n不过现在想想——她那天在码头骂周德茂'别想走'，我还以为是气话。\n陆公子，您要是去查她……小心点。这姑娘脑子好使，嘴也利索。她会把每一件物证都说成'不够定罪'。",
       "emotion": "nervous",
       "options": [
         {

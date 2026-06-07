@@ -157,6 +157,7 @@ def extract_confrontation(conf_data, confrontation_id, out):
         "background": conf_data.get("background", ""),
         "bgm": conf_data.get("bgm", ""),
         "bgm_break": conf_data.get("bgm_break", ""),
+        "bgm_break_actual": conf_data.get("bgm_break_actual", ""),
         "bgm_final_round": conf_data.get("bgm_final_round", ""),
         "confidence": conf_data.get("confidence", ""),
         "writer_note": conf_data.get("_comment", ""),
@@ -310,7 +311,7 @@ def extract_confrontation(conf_data, confrontation_id, out):
 def write_confrontation_csvs(out):
     """Write all confrontation CSV files."""
     headers = {
-        "confrontations": ["confrontation_id", "suspect", "is_final", "background", "bgm", "bgm_break", "bgm_final_round", "confidence", "writer_note"],
+        "confrontations": ["confrontation_id", "suspect", "is_final", "background", "bgm", "bgm_break", "bgm_break_actual", "bgm_final_round", "confidence", "writer_note"],
         "confrontation_lines": ["confrontation_id", "section", "order", "speaker", "speaker_id", "text", "emotion"],
         "testimony_sets": ["confrontation_id", "testimony_id", "witness", "title", "order"],
         "testimony_lines": ["testimony_id", "section", "order", "speaker", "speaker_id", "text", "emotion"],

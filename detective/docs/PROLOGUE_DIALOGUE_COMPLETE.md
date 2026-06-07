@@ -61,17 +61,17 @@
 
 | # | speaker | text | emotion |
 |---|---|---|---|
-| 1 | lao_fan_cabin | 走东汊那条。快是快，就是……有暗礁。 | evasive |
-| 2 | lao_fan_cabin | 涨水的时候应该能过去。谁知道还露着。 | evasive |
-| 3 | lu_zhao | 暗礁？你跑了二十年船，不知道有暗礁？ | cold |
-| 4 | lao_fan_cabin | 知道……但客人催得急啊！ | evasive |
+| 1 | lao_fan_cabin | 东汊。近，省半日。顺水时一盏茶能把大弯抹过去。 | evasive |
+| 2 | lao_fan_cabin | 就是有块老礁，雨夜看不见。平日里我宁愿绕开。 | evasive |
+| 3 | lu_zhao | 既然平日宁愿绕开，今夜为什么偏走？ | serious |
+| 4 | lao_fan_cabin | 船开了口，就不好改舵。人都上来了，总不能在渡口耗到天亮。 | evasive |
 
 ### 对话：ask_weather
 
 | # | speaker | text | emotion |
 |---|---|---|---|
-| 1 | lao_fan_cabin | 这天气……说实话，不太好。但客人催得急。 | evasive |
-| 2 | lao_fan_cabin | 老头子跑了二十年船，什么天气没经历过？ | evasive |
+| 1 | lao_fan_cabin | 这天气……不该说稳。雨打斜了，风是贴着江面刮的。 | evasive |
+| 2 | lao_fan_cabin | 可夜船吃的是水头。水头一顺，就算浪响，船也还能贴着走。 | evasive |
 | 3 | narrator | （他转了转手里的旱烟杆，没点着） | — |
 
 ### 对话：ask_cabin
@@ -544,7 +544,7 @@
 
 | # | speaker | text | emotion |
 |---|---|---|---|
-| 1 | lao_fan | 那客人催得急啊！说要赶武昌的早市。走大路绕远，走那条—— | evasive |
+| 1 | lao_fan | 周老板说赶早市，码头上又有人把东汊说得近。我想着绕大弯太费时，就拣了那条水路。 | evasive |
 | 2 | lao_fan | 嗐，我也知道有礁石。但水涨了以后，以前那礁石应该没过去了嘛。谁知道还露着。 | defensive |
 | 3 | lu_zhao | 二十年的老船家，会不知道涨水后礁石还在？ | cold |
 | 4 | xia_lingyao | 他在赌——赌你不会细查。 | determined |

@@ -175,26 +175,21 @@
 
 ### 4.2 Confrontations.csv 配置
 
-| 对峙ID | bgm | bgm_break | bgm_final_round | 状态 |
-|--------|-----|-----------|-----------------|------|
-| confrontation | `ferry_confrontation` | `ferry_court_opening` | `ferry_confrontation` | ✅ |
-| confrontation_final | `accuse` | `pursuit` | `cornered` | ⚠️ 需检查 |
+| 对峙ID | bgm | bgm_break | bgm_break_actual | bgm_final_round | 状态 |
+|--------|-----|-----------|------------------|-----------------|------|
+| confrontation_wang | `ferry_confrontation` | `ferry_court_opening` | `ferry_court_opening` | `ferry_confrontation` | ✅ |
+| confrontation | `ferry_confrontation` | `ferry_court_opening` | `ferry_court_opening` | `ferry_confrontation` | ✅ |
+| confrontation_final | `confrontation_final` | `ferry_court_opening` | `ferry_court_opening` | `confrontation_final` | ✅ |
 
-**注意：** `confrontation_final` 的 bgm 配置使用了 `accuse`、`pursuit`、`cornered`，这些可能是别名或需要检查。
+**注意：** `bgm_break` 保留给开场阶段兼容旧流程；击破证词后的实际切曲使用 `bgm_break_actual`。
 
 ---
 
-## 5. 潜在问题
+## 5. 配置确认
 
-### 5.1 文件名不一致
+### 5.1 击破后的仪式感开场曲
 
-`ferry_court_opening` 在 registry.json 中映射到 `Prelogue_Confrontation_Intro.mp3`，文件名有拼写错误（Prelogue 应为 Prologue），但文件实际存在。
-
-### 5.2 confrontation_final 配置
-
-`confrontation_final` 的 bgm 配置使用了 `accuse`、`pursuit`、`cornered`，这些在 registry.json 中没有直接定义。可能需要：
-- 检查这些是否是有效的 track_id
-- 或者更新配置使用正确的 track_id
+`ferry_court_opening` 已在 registry.json 中注册，并通过 `bgm_break_actual` 作为击破证词后的背景音乐，气质偏庄重公堂开场。
 
 ---
 
@@ -214,16 +209,11 @@
 
 从开场沉船逃生、客栈暖场、三阶段探索、到两次对峙（阿贵、沈清月），所有BGM都已经齐全。
 
-### 6.3 建议修复
+### 6.3 建议维护
 
-1. **文件名拼写**：`Prelogue_Confrontation_Intro.mp3` 建议重命名为 `Prologue_Confrontation_Intro.mp3`
-
-2. **confrontation_final 配置**：检查 `accuse`、`pursuit`、`cornered` 是否是有效的 track_id，可能需要更新为：
-   - `accuse_tension`
-   - `ferry_confrontation`
-   - `confrontation_final`
+1. **击破曲配置**：新增对峙时优先使用 `bgm_break_actual` 表示击破证词后的背景音乐，避免和开场音乐混用。
 
 ---
 
 *文档版本：1.0*
-*最后更新：2026-05-30*
+*最后更新：2026-06-07*

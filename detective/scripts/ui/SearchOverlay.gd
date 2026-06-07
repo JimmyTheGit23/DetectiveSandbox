@@ -17,6 +17,8 @@ var _exit_btn: Button
 var _typewriter: Node = null
 var _TypewriterScript = preload("res://scripts/ui/TypewriterEffect.gd")
 
+const EVIDENCE_IMAGE_MIN_HOLD_SECONDS := 2.0
+
 
 func is_searching() -> bool:
 	return _is_searching
@@ -443,7 +445,7 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 			await _show_evidence_image(icon_path, item_id)
 
 
-## 居中展示证据/线索图片，至少停留 1 秒后可点击关闭
+## 居中展示证据/线索图片，至少停留 2 秒后可点击关闭
 func _show_evidence_image(icon_path: String, item_id: String) -> void:
 	var tex := load(icon_path) as Texture2D
 	if tex == null:
@@ -521,8 +523,8 @@ func _show_evidence_image(icon_path: String, item_id: String) -> void:
 	tween.tween_property(overlay, "modulate:a", 1.0, 0.35)
 	await tween.finished
 
-	# 至少停留 1 秒
-	var min_wait := get_tree().create_timer(1.0)
+	# 至少停留 2 秒
+	var min_wait := get_tree().create_timer(EVIDENCE_IMAGE_MIN_HOLD_SECONDS)
 	await min_wait.timeout
 
 	# 显示提示文字

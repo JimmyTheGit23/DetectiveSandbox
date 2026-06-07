@@ -8,21 +8,26 @@
       "trigger": {
         "all": [
           {
-            "flag": "cabin_agui_talked"
-          },
-          {
-            "flag": "cabin_lao_fan_talked"
-          },
-          {
-            "flag": "cabin_zhou_talked"
-          },
-          {
             "location": "cabin_lu_room"
           },
           {
-            "not": {
-              "flag": "cabin_review_prompted"
-            }
+            "flag": "cabin_seal_box_checked"
+          },
+          {
+            "flag": "cabin_route_note_checked"
+          },
+          {
+            "any": [
+              {
+                "flag": "cabin_agui_talked"
+              },
+              {
+                "flag": "cabin_lao_fan_talked"
+              },
+              {
+                "flag": "cabin_zhou_talked"
+              }
+            ]
           },
           {
             "not": {
@@ -31,31 +36,39 @@
           },
           {
             "not": {
-              "flag": "cabin_explore_done"
+              "flag": "cabin_phase_done"
             }
           }
         ]
       },
       "narration": [
-        "你回到自己的舱室。官印木匣、行程简记、湿斗篷和窗外风雨挤在脑子里，没有一件像巧合。",
+        "你回到自己的舱室。官印木匣和行程简记都还在，船外的雨却越下越急。",
         {
           "speaker": "陆昭",
-          "text": "还不能睡。先把这趟夜船哪里不对想清楚。",
+          "text": "夜船、近路、赶早市……都说得通，可放在今晚，还是让人不踏实。",
           "emotion": "serious"
-        }
+        },
+        {
+          "speaker": "陆昭",
+          "text": "先记下。等天亮了，再看哪里对不上。",
+          "emotion": "serious"
+        },
+        "你把几句闲谈记在心里，打算天亮后再慢慢核对。",
+        "雨声压着舱板。你合衣躺下。"
       ],
       "effects": {
         "set_flag": [
-          "cabin_review_prompted"
+          "cabin_review_prompted",
+          "cabin_review_done"
         ]
       },
       "auto_play": true,
-      "_comment": "与三个 NPC 都谈过后回到自己舱室 -> 提示整理疑点"
+      "_comment": "检查官印木匣、行程简记并至少问过一名船上人后回房，播放陆昭短推理收束。"
     },
     {
-      "id": "evt_cabin_sleep",
+      "id": "evt_cabin_sinking",
       "title": "沉船惊变",
-      "hint": "夜深了。你在船舱中睡去，随后船体进水。",
+      "hint": "夜深了。雨声越来越重。",
       "trigger": {
         "all": [
           {
@@ -63,105 +76,8 @@
           },
           {
             "not": {
-              "flag": "evt_cabin_sleep_done"
+              "flag": "evt_cabin_sinking_done"
             }
-          }
-        ]
-      },
-      "narration": [
-        "夜深了。你躺在船板上，听着雨声，渐渐入睡。",
-        "黑暗中，身体猛烈一震。冰冷的水从脚底涌上来，船舱正在倾斜。",
-        {
-          "speaker": "陆昭",
-          "text": "船在沉。",
-          "emotion": "cold"
-        },
-        "你咬牙蹲入刺骨的冰水中，双手摸索船底。一个方形洞口，边缘整齐——不是撞击，是凿出来的。",
-        "你扯下舱壁上的铁撬棍，踩上漂起的木箱，撬开天窗。下一刻，船体发出巨响，彻底沉入黑水。",
-        "「喂！喂！你还活着吗！」有人把你从江边湿冷的沙砾上拖起来。",
-        {
-          "speaker": "凌瑶",
-          "text": "别死啊你！我好不容易把你拖上来的！咳出来！把水咳出来！",
-          "emotion": "anxious"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "我叫凌瑶，金鳞镖局首席镖师。别的等进屋再说——你再淋下去非冻成冰棍不可！",
-          "emotion": "determined"
-        },
-        "清晨，码头下游的浅滩发现了周德茂的尸体。人群围了上来，哭声、雨声和窃窃私语混成一片。",
-        {
-          "speaker": "周氏",
-          "text": "就是他！一个来路不明的外乡人，图财害命！",
-          "emotion": "accusing"
-        },
-        {
-          "speaker": "阿贵",
-          "text": "昨晚三更刚过，我看见这位爷蹲在船底舱口那边，手里好像攥着个铁家伙……",
-          "emotion": "nervous"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "周娘子莫急。人命案最怕情急乱判——但若有证人、有动机、有物证，也不能因他自称御史就轻放。",
-          "emotion": "cooperative"
-        },
-        {
-          "speaker": "钱里正",
-          "text": "你说你是御史？有官印文书吗？",
-          "emotion": "nervous"
-        },
-        {
-          "speaker": "陆昭",
-          "text": "官印落在船舱里。连同行李、文书，全沉在江底了。",
-          "emotion": "serious"
-        },
-        {
-          "speaker": "沈清月",
-          "text": "没有官印，便只能先按眼前证据说话。陆公子，您若清白，就请当堂自证。",
-          "emotion": "sharp"
-        },
-        {
-          "speaker": "凌瑶",
-          "text": "他被我拖上来的时候都快断气了！昏迷了大半个时辰才醒！",
-          "emotion": "determined"
-        },
-        {
-          "speaker": "钱里正",
-          "text": "既然你说冤枉——那就当面对质！王大爷，你把那天夜里看到的，再说一遍！",
-          "emotion": "nervous"
-        }
-      ],
-      "effects": {
-        "set_flag": [
-          "evt_cabin_sleep_done",
-          "cabin_explore_done",
-          "accused_of_murder"
-        ],
-        "gain_evidence": [
-          "evidence_hull_hole",
-          "evidence_lingyao_identity",
-          "evidence_iron_crowbar_location",
-          "evidence_seal_lost"
-        ],
-        "gain_clue": [
-          "evidence_cabin_escape_time",
-          "evidence_weather_fog",
-          "evidence_storm_noise",
-          "evidence_no_motive"
-        ],
-        "change_location": "ferry_inn",
-        "auto_start_confrontation": "confrontation_wang"
-      },
-      "_comment": "船舱疑点整理结束后，等待对话关闭再自动播放沉船、救援、被指控，并直接进入王大爷伪证对峙。"
-    },
-    {
-      "id": "evt_accused_of_murder",
-      "title": "被指认为凶手",
-      "hint": "你被村民围住，被指认为凶手",
-      "trigger": {
-        "all": [
-          {
-            "flag": "inn_warm_7_done"
           },
           {
             "not": {
@@ -170,13 +86,336 @@
           }
         ]
       },
-      "narration": [],
+      "narration": [
+        {
+          "speaker": "",
+          "text": "船舱猛地一震。黑水从脚边涌上来，木板在暗处吱呀作响。",
+          "effect": {
+            "cabin_escape_panel": true
+          }
+        },
+        "你刚踩进水里，小腿先是一冷，紧接着发麻。不是冻麻，像有细针顺着皮肉往上爬。",
+        {
+          "speaker": "陆昭",
+          "text": "水里有东西……？",
+          "emotion": "nervous"
+        },
+        "你想喊，江水已经灌进口鼻。手脚越来越沉，岸边的灯像隔着一层黑布。",
+        "不能沉。官印、案子、这条船为什么会被凿开——都还没弄清。你咬住这一口气，硬往岸边有风声的方向游。",
+        {
+          "speaker": "",
+          "text": "……「喂！喂！你还活着吗！」有人拖拽你的身体。沙砾磨着后背，冰冷中有一双温热的手在拍你的脸。",
+          "background": "res://assets/cn/scenes/prologue_shore_rescue.png",
+          "effect": {
+            "bgm": "ferry_prologue_shore"
+          }
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "醒醒！把水咳出来！别在这儿死！",
+          "emotion": "anxious",
+          "background": "res://assets/cn/scenes/prologue_cg_lingyao_meets_luzhao.png"
+        },
+        "你剧烈咳嗽，吐出一口江水。睁开眼——冬雨中一张年轻女子的脸贴得很近，碎发湿漉漉地粘在额头上。",
+        {
+          "speaker": "凌瑶",
+          "text": "能说话吗？你叫什么？怎么掉水里的？",
+          "emotion": "anxious"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "陆昭。船……沉了。",
+          "emotion": "cold"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "船沉了？怪不得刚才那么大一声。先别说了，客栈就在那边，我扶你过去。",
+          "emotion": "shocked"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "我叫凌瑶，金鳞镖局跑镖的。别的进屋再说，你再淋下去真要冻坏了。走。",
+          "emotion": "determined",
+          "effect": {
+            "gain_evidence": "evidence_lingyao_identity"
+          }
+        },
+        {
+          "speaker": "",
+          "text": "石矶渡。客栈。凌瑶半扶半拖着你进了门。掌柜给了热水和干衣服，你坐在火堆旁，寒意还没完全退去。",
+          "background": "res://assets/cn/scenes/prologue_ferry_inn_aftermath.png",
+          "effect": {
+            "bgm": "ferry_inn_investigation"
+          }
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "先喝口姜汤。船上还有谁？",
+          "emotion": "concerned"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "一个布商，一个仆从，还有船家。昨晚一起上的船。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "那他们人呢？",
+          "emotion": "worried"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "不知道。天亮了才能看清。",
+          "emotion": "serious"
+        },
+        "你盯着火堆出了会儿神。脑海里还是那条船——黑暗中的水、冰冷的触感，还有船底那个方形的洞。",
+        {
+          "speaker": "陆昭",
+          "text": "船底有个方洞。不是撞的，是人凿的。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "你是说，有人故意把船弄沉？",
+          "emotion": "shocked"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "先歇一会儿。多谢你救我。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "客气什么。先把命缓过来，明早再说。",
+          "emotion": "relieved"
+        },
+        "雨一直下。你躺在客栈的硬板床上，盯着天花板。船底那个洞，在脑海里挥之不去。",
+        "你试着握拳——掌心火辣辣地疼。撬天窗时磨破的皮还在渗血。但至少手指还能动。命是捡回来了。",
+        {
+          "speaker": "",
+          "text": "天快亮时，你被客栈里的动静吵醒。雨小了些，但天色还是灰的。掌柜正在擦桌子。",
+          "background": "res://assets/cn/scenes/prologue_ferry_inn.png"
+        },
+        {
+          "speaker": "掌柜",
+          "text": "昨晚那条夜船，后头又冲上来两个人。一个仆从，一个船家。都活着。",
+          "emotion": "neutral"
+        },
+        "话音未落，渡口方向传来嘈杂的人声。有人在喊。",
+        {
+          "speaker": "凌瑶",
+          "text": "陆昭！快来！渡口又冲上来一个人！",
+          "emotion": "urgent",
+          "background": "res://assets/cn/scenes/prologue_cg_lingyao_rush.png"
+        },
+        {
+          "speaker": "",
+          "text": "码头下游的浅滩。一具尸体面朝下，半截身子还泡在浑黄的水里。围观的人站了一圈，没人敢上前。",
+          "background": "res://assets/cn/scenes/prologue_ferry_dock.png",
+          "effect": {
+            "bgm": "ferry_dock_investigation"
+          }
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "这是……你昨晚说的同船那个人？",
+          "emotion": "worried"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "周德茂。昨晚跟我同船的布商。死的是他，活下来的是阿贵和老范。",
+          "emotion": "serious"
+        },
+        "三个人落水，水性不差的周德茂死了，阿贵和老范却活着。这个结论还没人说出口，人群已经安静了几分。",
+        {
+          "speaker": "",
+          "text": "正在此时——一个披头散发的女人从人群中冲出来，扑倒在尸体旁。她哭得发抖，几乎说不出完整的话。",
+          "background": "res://assets/cn/scenes/prologue_cg_zhou_kneel.png"
+        },
+        {
+          "speaker": "周氏",
+          "text": "老爷！老爷——！你——！你是跟他同船的！",
+          "emotion": "grief"
+        },
+        {
+          "speaker": "周氏",
+          "text": "同船的人——他死了，你活着！上船的时候你连船钱都付不起，还是我家老爷替你垫的！五十两货银——钱呢？！你就是图财害命！！",
+          "emotion": "accusing"
+        },
+        {
+          "speaker": "",
+          "text": "人群外围，一个穿素色布衣的年轻男子缩着肩膀挤了进来。是阿贵，周德茂的随行仆从，眼圈通红，嘴唇还在抖。",
+          "background": "res://assets/cn/scenes/prologue_ferry_dock.png"
+        },
+        {
+          "speaker": "阿贵",
+          "text": "夫人……老爷他……昨晚三更刚过，我睡不着起来解手，看见这位爷……蹲在船底舱口那边。",
+          "emotion": "nervous"
+        },
+        {
+          "speaker": "阿贵",
+          "text": "他手里好像攥着个铁家伙——我当时没多想，以为是他自己的东西……现在想来……",
+          "emotion": "nervous"
+        },
+        {
+          "speaker": "阿贵",
+          "text": "那个铁家伙一定是凶器！他肯定是在舱里趁老爷不备，用铁器砸了老爷！老爷被打晕了才落水的！",
+          "emotion": "accusing"
+        },
+        {
+          "speaker": "阿贵",
+          "text": "还有一件事——船沉的时候，我和船家都被困在舱里，门被货物堵死了！他从天窗逃走，肯定早就想好了路线！",
+          "emotion": "nervous"
+        },
+        "你刚要开口，周氏的哭声和阿贵的指认就一起响起来。四周全是盯着你的眼睛。",
+        {
+          "speaker": "陆昭",
+          "text": "我没碰过周德茂。船底有洞，这条船不是自己翻的。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "周氏",
+          "text": "你还想狡辩？！同船的人只有你活着！只有你从天窗跑了！不是你是谁？！",
+          "emotion": "accusing"
+        },
+        "围观人群又乱了。有人盯着你手边那根铁撬棍，小声说：这不就是凶器吗？",
+        {
+          "speaker": "",
+          "text": "围观人群骚动。一个圆脸中年人从人群中挤出来——是渡口的里正。他扫了一眼尸体，又打量了你几眼。",
+          "background": "res://assets/cn/scenes/prologue_ferry_dock.png"
+        },
+        {
+          "speaker": "钱里正",
+          "text": "都别吵！出了人命，谁都别先往人头上扣死帽子。你先报姓名——昨晚船翻的时候，你在船上？",
+          "emotion": "stern"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "陆昭。昨晚我在船上，从舱里逃出来，命是她救的。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "钱里正",
+          "text": "那你就把话说清楚。船在江心翻的，你一个外地书生，怎么活着上的岸？",
+          "emotion": "stern"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "我是金鳞镖局的镖师，就住码头客栈！昨晚我在客栈外避雨，听见江上炸响才跑出去的。他上岸的时候人都快没气了！",
+          "emotion": "determined"
+        },
+        {
+          "speaker": "",
+          "text": "钱里正当场让掌柜记下凌瑶的话，又补了一句：陆昭被拖回客栈后昏了大半个时辰才醒。这份临时笔录，先按在桌上。",
+          "effect": {
+            "gain_evidence": "evidence_cabin_escape_time"
+          }
+        },
+        {
+          "speaker": "钱里正",
+          "text": "姑娘，你先别急。我只看眼前这些事：他活着，死的是周老板，手边还有铁家伙。难怪大家盯着他。",
+          "emotion": "stern"
+        },
+        "码头王大爷说，船翻之后不到一刻钟，就有人从南岸爬上来了。动作利索得很，不像快淹死的人。",
+        {
+          "speaker": "沈清月",
+          "text": "里正，话先别散。现在有三件事。",
+          "emotion": "cooperative"
+        },
+        {
+          "speaker": "沈清月",
+          "text": "第一，周老板会水，却死了。第二，陆公子活着，还带着铁撬棍。第三，他一开口就说船底有洞。",
+          "emotion": "sharp"
+        },
+        {
+          "speaker": "沈清月",
+          "text": "陆公子，你说自己只是逃命。那我问一句：船翻成那样，你怎么知道洞在船底？",
+          "emotion": "sharp"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "喂！他刚捡回一条命，你现在这么问，是要把人往死里扣吗？",
+          "emotion": "angry"
+        },
+        {
+          "speaker": "沈清月",
+          "text": "我只问话。真是清白，就把话说圆。",
+          "emotion": "cold_smile"
+        },
+        {
+          "speaker": "沈清月",
+          "text": "周娘子先别急。既然有人看见了，那就把证人叫出来，当面说清楚。",
+          "emotion": "cooperative"
+        },
+        {
+          "speaker": "沈清月",
+          "text": "陆公子，您现在不自证，等县衙来人，就不是站着说话了。",
+          "emotion": "sharp"
+        },
+        {
+          "speaker": "钱里正",
+          "text": "沈姑娘这话不假。陆公子，说不清楚，我只能先把你看住，等县衙来提人。",
+          "emotion": "stern"
+        },
+        "人群慢慢挪开了些，可看你的眼神更重了。周氏还在哭，阿贵也不敢抬头。",
+        "阿贵低着头跟在人群后面走了。走之前，他飞快地瞥了你一眼。那眼神不像刚丧主的人。",
+        {
+          "speaker": "凌瑶",
+          "text": "陆昭，我真没跟谁串通。我就是听见动静才跑出去的。可这帮人现在全冲着你来。",
+          "emotion": "worried"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "我知道。不是他们反应快，是有人提前安排好了怎么指认我。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "凌瑶",
+          "text": "阿贵说自己不会水，老范又偏偏把船开上暗礁。这两个人哪边都不对。",
+          "emotion": "determined"
+        },
+        {
+          "speaker": "陆昭",
+          "text": "我差点死在船里。可阿贵和老范，好像都知道落水后该怎么办。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "钱里正",
+          "text": "行。既然你说自己是被人栽的，那就别在雨里乱喊了。进客栈，把证人叫来，当面一条一条对。",
+          "emotion": "stern",
+          "effect": {
+            "bgm": "ferry_court_opening"
+          }
+        },
+        "几个人被赶进客栈大堂。雨水顺着门槛往里淌，尸首先安在廊下，周氏哭着不肯走，也被人扶了进来。",
+        {
+          "speaker": "",
+          "text": "钱里正先叫更夫和码头脚夫把昨夜的情形补成两张记录：一张记雾势和岸距，一张记风浪和江岸听声。纸不算漂亮，至少比空口强。",
+          "effect": {
+            "gain_evidence": [
+              "evidence_weather_fog",
+              "evidence_storm_noise"
+            ]
+          }
+        },
+        "王大爷原本缩在人群后头，被钱里正点了名，才慢吞吞走到中间。脸色不太自然。"
+      ],
       "effects": {
         "set_flag": [
+          "evt_cabin_sinking_done",
+          "evt_cabin_sleep_done",
+          "cabin_explore_done",
+          "cabin_phase_done",
           "accused_of_murder"
-        ]
+        ],
+        "change_location": "ferry_inn",
+        "defer_change_location": true,
+        "suppress_arrival_banter": true,
+        "suppress_location_intro": true,
+        "auto_start_confrontation": "confrontation_wang"
       },
-      "_comment": "触发去码头搜索"
+      "auto_play": true,
+      "_comment": "整理疑点结束后，播放沉船、落水、凌瑶救援、客栈发现尸体与被指控；关键证据随对应画面逐行发放，台词播完后再静默切到客栈并进入王大爷证词对峙。"
     },
     {
       "id": "evt_self_cleared",
@@ -208,6 +447,19 @@
       "hint": "（你发现了船底的人工破洞）",
       "trigger": {
         "all": [
+          {
+            "flag": "self_cleared"
+          },
+          {
+            "any": [
+              {
+                "location": "ferry_dock"
+              },
+              {
+                "location": "wreck_site"
+              }
+            ]
+          },
           {
             "evidence": "evidence_hull_hole"
           },
@@ -268,7 +520,7 @@
         },
         {
           "speaker": "凌瑶",
-          "text": "陆大人！如果阿贵也提前知道船要沉——那就不只是老范一个人的事了！他们……他们是一伙的？！"
+          "text": "陆公子！如果阿贵也提前知道船要沉——那就不只是老范一个人的事了！他们……他们是一伙的？！"
         },
         {
           "speaker": "陆昭",
@@ -306,7 +558,7 @@
         },
         {
           "speaker": "陆昭",
-          "text": "十二年青春换来一纸遣散。换了谁都会恨。"
+          "text": "跟了十二年，只给二两。换了谁心里都过不去。"
         },
         {
           "speaker": "凌瑶",
@@ -327,6 +579,9 @@
       "trigger": {
         "all": [
           {
+            "flag": "agui_confessed_mastermind"
+          },
+          {
             "evidence": "evidence_gambling_iou"
           },
           {
@@ -340,15 +595,15 @@
         "四十二两赌债。腊月底还不上就断指。",
         {
           "speaker": "凌瑶",
-          "text": "四十二两！怪不得他铤而走险……这已经不是一般欠钱了，是要命的债！"
+          "text": "这不是普通欠钱。还不上就断指，难怪有人会拿这个逼他。"
         },
         {
           "speaker": "陆昭",
-          "text": "阿贵许给他一半货银——二十五两。加上船家的活计还能接着干。对一个走投无路的人来说，这买卖合算。"
+          "text": "先记下。赌债说明老范可能被人开价，但开价的是谁，还要证言或账目相印。"
         },
         {
           "speaker": "凌瑶",
-          "text": "一条人命换四十二两银子……"
+          "text": "嗯。不能把“缺钱”直接当成“主谋”。他更可能是被人挑中来办事的。"
         }
       ],
       "effects": {
@@ -384,7 +639,7 @@
       "narration": [
         {
           "speaker": "凌瑶",
-          "text": "陆大人。"
+          "text": "陆公子。"
         },
         {
           "speaker": "",
@@ -400,15 +655,16 @@
         },
         {
           "speaker": "凌瑶",
-          "text": "骗谁呢？你肚子刚才叫了两次我都听见了。堂堂巡按御史——饿得咕咕叫，像什么样子？"
+          "text": "骗谁呢？你刚才肚子都叫了。再硬撑下去，我都替你丢脸。"
         },
         {
           "speaker": "陆昭",
-          "text": "（接过来）……谢了。"
+          "text": "……行。谢了。"
         },
         {
           "speaker": "凌瑶",
-          "text": "（笑了一下）别客气。这顿算你欠我的——等案子结了请我吃顿好的。"
+          "text": "这才对嘛。等案子结了，你请我吃顿好的，我就当今天没听见你肚子叫。",
+          "emotion": "cheerful"
         },
         {
           "speaker": "陆昭",
@@ -448,7 +704,7 @@
       "narration": [
         {
           "speaker": "钱里正",
-          "text": "（在门口探头）陆……陆大人？"
+          "text": "（在门口探头）陆……陆公子？"
         },
         {
           "speaker": "钱里正",
@@ -456,23 +712,25 @@
         },
         {
           "speaker": "钱里正",
-          "text": "我不能只写“陆大人说自己冤”。要么有证据开堂，要么我只能把嫌疑和证词一并报上去。"
+          "text": "我不能只写“陆公子说自己冤”。要么有能聚人问话的证据，要么我只能把嫌疑和证词一并报上去。"
         },
         {
           "speaker": "凌瑶",
-          "text": "（低声）嘶——他在施压。不是催你讲故事，是催你把物证凑到能开堂的程度。"
+          "text": "（低声）他在催你。不是催你吵赢，是催你赶紧把能落堂的东西找出来。"
         },
         {
           "speaker": "陆昭",
-          "text": "我知道了。不会到那一步。"
+          "text": "我知道。我会在县衙来之前把证据补上。",
+          "emotion": "serious"
         },
         {
           "speaker": "钱里正",
-          "text": "那小人先去稳住周氏和渡口的人。大人若有实证，我就替您把堂开起来。"
+          "text": "那小人先去稳住周氏和渡口的人。陆公子若有实证，我就替您把人聚齐问话。"
         },
         {
           "speaker": "凌瑶",
-          "text": "陆大人——时间不多了。先找能让里正开堂的东西。"
+          "text": "时间不多了。咱们先找最硬的那几样，别眉毛胡子一把抓。",
+          "emotion": "determined"
         }
       ],
       "effects": {
@@ -491,28 +749,16 @@
             "evidence": "evidence_hull_hole"
           },
           {
-            "evidence": "evidence_nail_marks"
-          },
-          {
             "evidence": "evidence_float_bladder"
           },
           {
             "evidence": "evidence_no_blunt_trauma"
           },
           {
-            "clue": "evidence_wrong_channel"
-          },
-          {
             "clue": "clue_fan_alibi_hole"
           },
           {
             "evidence": "evidence_dismissal_note"
-          },
-          {
-            "evidence": "evidence_gambling_iou"
-          },
-          {
-            "flag": "agui_premeditation_known"
           },
           {
             "not": {
@@ -524,7 +770,8 @@
       "narration": [
         {
           "speaker": "凌瑶",
-          "text": "陆大人！航道、验尸、船底破洞、船底钉痕、浮囊、老范获救时间、阿贵遣散字据和赌债——对峙要用的证据链都齐了！"
+          "text": "陆公子，能摆堂问话的几样硬证据齐了。验尸、船底破洞、浮囊、老范上岸时间，还有阿贵的遣散字据。够用了！",
+          "emotion": "determined"
         },
         {
           "speaker": "钱里正",
@@ -532,11 +779,13 @@
         },
         {
           "speaker": "凌瑶",
-          "text": "这次不能只盯阿贵。先让老范把船和时间说清楚，再逼阿贵开口。"
+          "text": "这次别只盯着阿贵。先问老范的漏洞，再回头问阿贵，顺一点。",
+          "emotion": "determined"
         },
         {
           "speaker": "陆昭",
-          "text": "好。是时候了。"
+          "text": "好。那就问话。",
+          "emotion": "determined"
         }
       ],
       "effects": {
@@ -562,10 +811,10 @@
         ]
       },
       "narration": [
-        "阿贵被两个帮工押进后院柴房。门闩落下的一刻，客栈大堂像被人抽走了声音。",
+        "阿贵被两个帮工押进后院柴房。后门一关，客栈大堂里安静了好一阵。",
         {
           "speaker": "钱里正",
-          "text": "陆大人。先前是小人眼拙。从现在起，客栈上下听您调遣。"
+          "text": "陆公子。先前是小人眼拙。从现在起，客栈上下听您调遣。"
         },
         {
           "speaker": "钱里正",
@@ -598,7 +847,7 @@
           "text": "她说自己看着周德茂上船就回客栈。若你看到的无误，她的不在场证明就裂了。",
           "emotion": "serious"
         },
-        "雨声压着屋檐。大堂的人不再看你像嫌犯，而是等着你下一个命令。"
+        "屋檐外还在落雨。大堂的人不再把你当嫌犯，而是等着你下一个命令。"
       ],
       "effects": {
         "set_flag": [
@@ -639,11 +888,11 @@
         },
         {
           "speaker": "凌瑶",
-          "text": "等等——浮囊。咱们之前以为那是阿贵自己藏的退路。可他刚才说，连浮囊都是沈清月帮他买的。"
+          "text": "等等——浮囊。咱们之前以为那是阿贵自己准备的。可他刚才说，连浮囊都是沈清月帮他买的。"
         },
         {
           "speaker": "凌瑶",
-          "text": "那件证物，从一开始就是她的指纹。我们之前看它的角度——错了。"
+          "text": "那件证物不只指向阿贵，也能证明她接触过阿贵。我们之前看错方向了。"
         },
         {
           "speaker": "陆昭",
@@ -695,15 +944,15 @@
       "narration": [
         {
           "speaker": "凌瑶",
-          "text": "陆大人。核心证据齐了：货银未沉、打捞目击、中间人、时间矛盾、毒囊残壳、舌根药渣和油脂食盒。它们连成一条链，全指向沈清月。"
+          "text": "陆公子。核心证据齐了：货银未沉、打捞目击、中间人、时间矛盾、毒囊残壳、舌根药渣和油脂食盒。它们连成一条链，全指向沈清月。"
         },
         {
           "speaker": "钱里正",
-          "text": "这堂我可以开。但沈姑娘不是阿贵。要让县衙认账，每一环都得说清楚：谁得利、谁串人、毒囊怎么布、药残为什么还在。"
+          "text": "这堂我可以开。但沈姑娘不是阿贵。要让县衙认账，几件事都得说清楚：谁得利、谁串人、毒囊怎么布、药残为什么还在。"
         },
         {
           "speaker": "凌瑶",
-          "text": "够了吧？这次不是靠直觉抓人，是用完整证据链去逼她开口。你准备好了吗？"
+          "text": "够了吧？这次不是靠直觉抓人，是把完整证据一件一件摆出来逼她开口。你准备好了吗？"
         },
         {
           "speaker": "陆昭",
@@ -711,7 +960,7 @@
         },
         {
           "speaker": "凌瑶",
-          "text": "（深吸一口气）好。这次跟阿贵不一样——她不会哭。不会慌。她会用逻辑咬你。"
+          "text": "（深吸一口气）好。这次跟阿贵不一样——她不会哭。不会慌。她会一条一条反驳你。"
         },
         {
           "speaker": "凌瑶",

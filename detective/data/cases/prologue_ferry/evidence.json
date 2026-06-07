@@ -19,7 +19,7 @@
     "name": "赌债字据",
     "description": "一张皱巴巴的借据：老范欠赌坊四十二两白银，限腊月底还清，否则断指抵债。日期是上月。",
     "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_gambling_iou.png",
-    "phase": "phase_1"
+    "phase": "phase_3"
   },
   "evidence_dismissal_note": {
     "type": "evidence",
@@ -39,7 +39,7 @@
     "type": "clue",
     "category": "证言记录",
     "name": "下游打捞痕迹",
-    "description": "王大爷目击：天亮前他在下游浅滩看到有人用长竿探水打捞东西。那人穿深色衣裳，身量高挑——像个女子。天亮后那人就不见了。（注：此条目击与王大爷被沈清月银钱收买后'补说'的陆昭杀人证词无关——他在下游打渔时的所见是独立观察。）",
+    "description": "王大爷目击：天亮前他在下游浅滩看到有人用长竿探水打捞东西。那人穿深色衣裳，身量高挑——像个女子。天亮后那人就不见了。（注：此条目击与他收钱后'补说'的陆昭杀人证词无关——这是他在下游打渔时的所见。）",
     "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_salvage_mark.png",
     "phase": "phase_2"
   },
@@ -49,7 +49,7 @@
     "name": "赌坊中间人",
     "description": "老范被逼急后交代：当初不是阿贵来找的他——是一个'药材行的姑娘'先找到他，说有门发财的路子。那姑娘知道他欠赌债，问他'想不想一笔勾销'。",
     "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_shen_connection.png",
-    "phase": "phase_2"
+    "phase": "phase_3"
   },
   "evidence_dock_timing": {
     "type": "clue",
@@ -57,7 +57,7 @@
     "name": "码头时间矛盾",
     "description": "沈清月说'我在码头盯着他上船就回客栈了'。但凌瑶的证词：船开出去之后至少一刻钟，码头边仍有一个穿男装的高挑身影没有离开——方向朝着下游。",
     "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_dock_timing.png",
-    "phase": "phase_2"
+    "phase": "phase_3"
   },
   "evidence_father_ledger": {
     "type": "evidence",
@@ -75,7 +75,7 @@
   },
   "evidence_no_blunt_trauma": {
     "type": "evidence",
-    "name": "尸检报告：无钝器伤",
+    "name": "验尸格目：无钝器伤",
     "description": "周德茂的尸体面色青紫、口鼻有泡沫——典型的溺亡特征。头部和身体没有钝器击打的痕迹。如果有人用铁器击打，不可能不留伤痕。但奇怪的是：死者指甲缝残留蓝色碎屑，脖颈侧面有极淡压痕——溺亡前似乎还发生了别的事。",
     "icon": "res://assets/ai_processed/objects/evidence_icons/evidence_no_blunt_trauma.png",
     "phase": "phase_1"
@@ -126,8 +126,8 @@
   },
   "clue_victim_cant_swim": {
     "type": "clue",
-    "name": "死者不识水性",
-    "description": "周氏说：老爷是旱鸭子，连洗澡都怕水深。这也是他平时不坐夜船的原因——这次是急着赶路才破了例。"
+    "name": "死者水性尚可",
+    "description": "周氏说：周德茂年轻时常跟船跑货，水性不错，普通落水不至于立刻溺亡。正因为他会水，昨夜没能自救才更反常。"
   },
   "clue_reef_common_knowledge": {
     "type": "clue",
@@ -157,8 +157,8 @@
   },
   "clue_lingyao_dock_witness": {
     "type": "clue",
-    "name": "码头的三个人影",
-    "description": "凌瑶说：翻船前一晚，她看见两三个人蹲在码头角落说话。",
+    "name": "码头的高挑身影",
+    "description": "凌瑶说：翻船当夜，她在码头附近看见一个穿男装的高挑身影迟迟未走。",
     "hidden": true,
     "meta_clue": true
   },
@@ -213,15 +213,15 @@
     "hidden": true
   },
   "evidence_cabin_escape_time": {
-    "type": "clue",
-    "category": "证言记录",
-    "name": "逃生时间记录",
-    "description": "凌瑶证词：陆昭昏迷了大半个时辰才醒。船沉后不可能在一刻钟内清醒并爬上岸。"
+    "type": "evidence",
+    "category": "证人笔录",
+    "name": "救起时间笔录",
+    "description": "凌瑶与客栈掌柜都能作证：陆昭被拖上岸时已近昏迷，直到大半个时辰后才转醒。以他的状态，不可能在船翻后不久就自己走回岸边。"
   },
   "evidence_lingyao_identity": {
     "type": "evidence",
     "name": "凌瑶身份证明",
-    "description": "金鳞镖局的镖师铜牌——证明凌瑶是押送急件途经石矶渡的首席镖师，与陆昭素不相识。"
+    "description": "金鳞镖局的镖师铜牌——证明凌瑶是押送急件途经石矶渡的镖师，与陆昭素不相识。"
   },
   "evidence_iron_crowbar_location": {
     "type": "evidence",
@@ -229,22 +229,23 @@
     "description": "船舱内发现铁撬棍的使用痕迹——它被用来撬开天窗逃生，随船沉了。"
   },
   "evidence_weather_fog": {
-    "type": "clue",
-    "category": "推理札记",
-    "name": "浓雾与江岸距离",
-    "description": "案发夜江面浓雾极重，岸边到翻船处相隔百丈以上。寻常人不可能隔着雾雨看清船上人物身形。"
+    "type": "evidence",
+    "category": "现场勘验",
+    "name": "翻船处岸距与雾况",
+    "description": "今晨复勘：码头岸边到翻船水域相隔极远，昨夜又有浓雾压江。隔着那样的雾雨，岸上不可能看清船头是谁在拉扯。"
   },
   "evidence_storm_noise": {
-    "type": "clue",
-    "category": "推理札记",
-    "name": "狂风浪声",
-    "description": "案发夜狂风夹雨，江浪拍岸。即便有人在船上争执，岸边也难以听清具体话语。"
+    "type": "evidence",
+    "category": "现场勘验",
+    "name": "夜雨风浪与听距",
+    "description": "昨夜江面风急浪大，岸边听见的多是浪拍船板和木头断裂声。若说隔着江风雨势，还能听清船上具体喊了什么，几乎不可能。"
   },
   "evidence_no_motive": {
     "type": "clue",
-    "category": "推理札记",
+    "category": "案情札记",
     "name": "陆昭无杀人动机",
-    "description": "陆昭初到石矶渡，与周德茂仅一面之缘，无财仇私怨。若为谋财，沉船后反而几乎丧命，逻辑不通。"
+    "description": "陆昭初到石矶渡，与周德茂仅一面之缘，无财仇私怨。若为谋财，沉船后反而几乎丧命，说不通。",
+    "hidden": true
   },
   "evidence_blue_herb_residue": {
     "type": "evidence",
@@ -318,7 +319,7 @@
   "clue_travel_notes": {
     "type": "clue",
     "name": "旅途札记",
-    "description": "奉旨巡查南直隶，途经石矶渡。平水驿驿丞建议改走夜船，说半日可到。船上另有布商周德茂、仆从阿贵、船家老范。",
+    "description": "奉旨南下暗查沿江漕运账弊，途经石矶渡。平水驿驿丞建议改走夜船，说半日可到武昌。船上另有布商周德茂、仆从阿贵、船家老范。",
     "hidden": true,
     "meta_clue": true
   },
@@ -353,7 +354,7 @@
   "evidence_tongue_herb_residue": {
     "type": "evidence",
     "name": "舌根草药残留",
-    "description": "死者舌根深处残留少量植物纤维，本应在淡水中数分钟内彻底失活分解——但被登船前多食油腻酒菜留下的油脂层包裹锁住，未能消散。这是麻痹毒经口腔进入的直接证据，却因'过期残迹'法律规则而在法理上被视为无效。",
+    "description": "死者舌根深处残留少量植物纤维，本应在淡水中数分钟内彻底失活分解——但他登船前吃过油腻酒菜，口腔里的油脂把残留锁在舌根，江水没能把它化开。这能说明麻痹草药曾随毒水入口，但残迹已被浸泡太久，县衙很难单凭这一点坐实毒杀。",
     "tags": [
       "herb",
       "autopsy",
@@ -364,7 +365,7 @@
   "evidence_oil_lock_residue": {
     "type": "evidence",
     "name": "油脂锁毒推定",
-    "description": "周德茂登船前在码头食摊吃了大量肥肉、油炸河鲜和烈酒——食盒和油纸上残着厚重油脂。口腔内的油脂层恰好将呛入的麻痹毒锁在舌根，阻滞其在淡水中分解。凶手本意是'毒素遇水即消、死无对证'——但油脂锁药，留下了本不该存在的残留。",
+    "description": "周德茂登船前在码头食摊吃了大量肥肉、油炸河鲜和烈酒——食盒和油纸上残着厚重油脂。口腔内的油脂层恰好将呛入的麻痹草药残留锁在舌根，阻滞其在淡水中分解。凶手本意是'药遇水即散、死无对证'——但油脂锁药，留下了本不该存在的残留。",
     "tags": [
       "meal",
       "oil",

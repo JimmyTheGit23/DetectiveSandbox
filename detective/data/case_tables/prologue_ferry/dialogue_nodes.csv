@@ -42,7 +42,7 @@ fisherman_wang,ask_river_life,,"老头子在这江上打了一辈子鱼。
 所以我才说——老范那样的老船家，绝不可能糊里糊涂把船往东汊暗礁上带。",evasive,,,clue_reef_common_knowledge,,,,
 lao_fan,hub,true,哟，被告的还敢到处敲门。胆子够硬。问吧，老范我嘴不贵，但也不白送。,,,,,,,,
 lao_fan,intro,,,,fan_talked_once,,,,,,
-lao_fan,ask_route,,"那客人催得急啊！说要赶武昌的早市。走大路绕远，走那条——
+lao_fan,ask_route,,"周老板说赶早市，码头上又有人把东汊说得近。我想着绕大弯太费时，就拣了那条水路。
 
 嗐，我也知道有礁石。但水涨了以后，以前那礁石应该没过去了嘛。谁知道还露着。",,,,,,,,
 lao_fan,press_route,,,,,,,,,,
@@ -73,11 +73,11 @@ li_zheng,ask_recent_strangers,,,,stranger_from_nanjing_known,,clue_third_handwri
 li_zheng,ask_next_step,,"阿贵招了——但供出的人是沈清月。陆公子，这事……不好办啊。
 沈家在这一带做了几十年药材生意，人脉广。光凭阿贵一张嘴，县衙那边不会批捕的。
 您得找到实证。码头时间线、货银去向、她跟老范的联系，还有沉船残骸上的毒囊痕迹——哪条都行，但得能跟别的证据对上。
-小人可以开堂，但不能替您把口供当铁证。",determined,,,,,,,
+小人可以替您把人聚齐问话，但不能替您把口供当铁证。",determined,,,,,,,
 li_zheng,ask_shen_opinion,,"沈清月……说实话，以前觉得她就是个精明的生意人。讨债凶是凶了点，但也没出过格。
 不过现在想想——她那天在码头骂周德茂'别想走'，我还以为是气话。
 陆公子，您要是去查她……小心点。这姑娘脑子好使，嘴也利索。她会把每一件物证都说成'不够定罪'。",nervous,,,,,,,
-shen_qingyue,hub,true,同船活下来的那位？凭证没了，胆子还在。好，问吧。我看看你这把刀到底快不快。,cold_smile,,,,,,,
+shen_qingyue,hub,true,陆公子。刚才堂上没说完？行，你问。不过我先说清楚：我只认账，也只认证据。,cold_smile,,,,,,,
 shen_qingyue,intro,,,,shen_talked_once,,,,,,
 shen_qingyue,ask_quarrel,,,,shen_quarrel_told,,,,,,
 shen_qingyue,ask_alibi,,,,shen_alibi_told,,,,,,
@@ -92,7 +92,7 @@ shen_qingyue,confession_trigger,,,,shen_confrontation_triggered,,,True,confronta
 zhou_wife,hub,true,里正说给你两天，我给你半盏茶的耐心。问吧，但若你只是替自己洗清，我会把这盏茶泼回去。,trembling,,,,,,,
 zhou_wife,intro,,"（她冷冷地看着你，好一会儿才开口）……里正说你要自证清白。随你。
 
-老爷做布匹生意。这次是去武昌府进一批棉布，过了年好卖。
+老爷做布匹生意。这次是去武昌府进一批棉布，说南京那边过年缺货，转手好卖。
 
 他带了五十两货银。还有阿贵跟着。
 
@@ -102,7 +102,7 @@ zhou_wife,ask_suspicion,,"阿贵不对劲。案发后他哭得比我都凶——
 
 上船前还被骂了一通，当晚就哭天抹泪？我不信。
 
-还有——老爷是旱鸭子。连洗澡都怕水深。让他坐夜船，一定是阿贵催的。",suspicious,zhou_suspicion_heard,,clue_wife_suspicion,,,,
+还有——老爷会水，胆子也不小。真是普通翻船，他不该连一口气都撑不过去。",suspicious,zhou_suspicion_heard,,clue_wife_suspicion,,,,
 zhou_wife,ask_swimming,,,,,,clue_victim_cant_swim,,,,
 zhou_wife,comfort,,"……你不像凶手。凶手不会还留在这里问话。
 

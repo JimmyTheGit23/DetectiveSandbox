@@ -33,7 +33,11 @@ var _last_speaker: String = ""
 var _last_emotion: String = ""
 var _portrait_tween: Tween = null
 var _avatar_tween: Tween = null
+var _current_portrait_display_scale: float = 1.0
 var _advance_locked_until_msec := 0
+var _typewriter_skip_disabled := false
+var _next_narration_typewriter_skip_disabled := false
+var _next_narration_typewriter_char_delay := -1.0
 
 # ─── 叙述模式 ───
 var _narration_mode: bool = false
@@ -60,6 +64,10 @@ var _is_blinking: bool = false
 var _flash_rect: ColorRect = null
 var _screen_shake_tween: Tween = null
 var _skip_next_portrait_animation: bool = false
+# ─── 心声模式 ───
+var _mind_voice_active: bool = false
+const DEFAULT_TYPEWRITER_CHAR_DELAY := 0.04
+const MIND_VOICE_CHAR_DELAY := 0.065  # 心声模式每字延迟（比默认0.04慢）
 
 const CLR_GOLD := Color(0.96, 0.84, 0.46, 1.0)
 const CLR_PAPER := Color(0.12, 0.075, 0.04, 0.94)
@@ -156,8 +164,10 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	# 文字出字中点击 → 立即显示当前句全文。
+	# 心声模式/特殊演出下不允许跳过打字机，必须等打完。
 	if _typewriter.is_playing():
-		_typewriter.skip()
+		if not _mind_voice_active and not _typewriter_skip_disabled:
+			_typewriter.skip()
 		get_viewport().set_input_as_handled()
 		return
 	# 当前句播完后点击 → 下一句；最后一句播完后才显示选项。
@@ -180,6 +190,16 @@ func _is_advance_locked() -> bool:
 	return Time.get_ticks_msec() < _advance_locked_until_msec
 
 
+func set_next_narration_typewriter_skip_disabled(disabled: bool) -> void:
+	_next_narration_typewriter_skip_disabled = disabled
+	_next_narration_typewriter_char_delay = -1.0
+
+
+func set_next_narration_typewriter_settings(skip_disabled: bool, char_delay: float = -1.0) -> void:
+	_next_narration_typewriter_skip_disabled = skip_disabled
+	_next_narration_typewriter_char_delay = char_delay
+
+
 
 # ═══════════════════════════════════════════════════════════════
 # ███  叙述模式（替代 NarrationBox）
@@ -191,12 +211,18 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 	_narration_mode = true
 	_narration_has_next = has_next
 	_dialogue_run_id += 1
+	_typewriter_skip_disabled = _next_narration_typewriter_skip_disabled
+	var custom_char_delay := _next_narration_typewriter_char_delay
+	_next_narration_typewriter_skip_disabled = false
+	_next_narration_typewriter_char_delay = -1.0
 	var my_run_id := _dialogue_run_id
 	_hide_options()
 	if _log_panel != null:
 		_log_panel.visible = false
 	_set_choice_hint("", false)
 	_waiting_for_advance = false
+	# 检测是否为心理活动（心声）模式
+	var is_mind_voice := _is_mind_voice_speaker(speaker)
 	# 去掉多余空行，限制显示不超过3行（约60字）
 	var display_text := text.replace("\r\n", "\n").replace("\r", "\n").strip_edges()
 	while display_text.find("\n\n") >= 0:
@@ -205,12 +231,36 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 	var lines := display_text.split("\n")
 	if lines.size() > 3:
 		display_text = "\n".join(lines.slice(0, 3))
-	# 显示说话者和立绘
-	_apply_narration_speaker(_normalize_visible_speaker(speaker), portrait)
+	# 心声模式：应用专属文字样式，显示主角思考立绘
+	if is_mind_voice:
+		_mind_voice_active = true
+		_apply_mind_voice_style()
+		_set_speaker_name("陆昭 · 心声")
+		_hide_avatar()
+		# 显示主角思考立绘（居中大图）
+		var mind_portrait := _resolve_mind_voice_portrait()
+		if mind_portrait != "" and ResourceLoader.exists(mind_portrait):
+			_current_portrait_display_scale = AssetResolver.get_portrait_screen_scale(mind_portrait)
+			portrait_rect.visible = _set_portrait_texture(portrait_rect, mind_portrait)
+			portrait_rect.modulate.a = 0.85
+			portrait_rect.scale = Vector2(_current_portrait_display_scale, _current_portrait_display_scale)
+		else:
+			portrait_rect.visible = false
+		_typewriter.base_char_delay = custom_char_delay if custom_char_delay > 0.0 else MIND_VOICE_CHAR_DELAY
+	else:
+		_mind_voice_active = false
+		_apply_normal_narration_style()
+		# 显示说话者和立绘
+		_apply_narration_speaker(_normalize_visible_speaker(speaker), portrait)
+		_typewriter.base_char_delay = custom_char_delay if custom_char_delay > 0.0 else DEFAULT_TYPEWRITER_CHAR_DELAY
 	# 根据说话人角色切换打字音效 profile
-	_typewriter.set_blip_profile(_resolve_blip_profile(_normalize_visible_speaker(speaker)))
+	var blip_speaker := "陆昭" if is_mind_voice else _normalize_visible_speaker(speaker)
+	_typewriter.set_blip_profile(_resolve_blip_profile(blip_speaker))
 	# 叙述模式不播放打字电子音（物品描述等场景不需要）
 	_typewriter.typing_sound_enabled = false
+	# 心声模式：启用轻柔打字音效
+	if is_mind_voice:
+		_typewriter.typing_sound_enabled = true
 	# 打字机播放文字（不调用说话动画，避免立绘偏移）
 	_typewriter.play(text_label, display_text)
 	await _typewriter.finished
@@ -223,6 +273,48 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 	_set_choice_hint(hint, true)
 	_waiting_for_advance = true
 	print("[DialogueBox] _waiting_for_advance = true")
+
+
+## 检测是否为心理活动（心声）说话者标记
+func _is_mind_voice_speaker(speaker: String) -> bool:
+	var s := speaker.strip_edges()
+	if s == "心声" or s.ends_with("·心声") or s.ends_with("· 心声"):
+		return true
+	if s.begins_with("心声") and s.length() > 2:
+		return true
+	# 支持 CSV 中用 "mind_voice" 标记
+	if s.to_lower() == "mind_voice" or s.to_lower().ends_with(":mind_voice"):
+		return true
+	return false
+
+
+## 心声模式：应用专属文字样式（偏暗灰紫色调，区别于普通叙述的暖黄）
+func _apply_mind_voice_style() -> void:
+	text_label.add_theme_color_override("default_color", Color(0.72, 0.68, 0.82, 1.0))
+	text_label.add_theme_font_size_override("normal_font_size", 20)
+	speaker_label.add_theme_color_override("font_color", Color(0.65, 0.60, 0.78, 1.0))
+
+
+## 恢复普通叙述模式的文字样式
+func _apply_normal_narration_style() -> void:
+	text_label.add_theme_color_override("default_color", CLR_INK)
+	text_label.add_theme_font_size_override("normal_font_size", 22)
+	speaker_label.add_theme_color_override("font_color", CLR_INK)
+
+
+## 解析心声模式的主角思考立绘路径
+func _resolve_mind_voice_portrait() -> String:
+	# 优先使用 prologue 立绘（序章专用），回退到通用立绘
+	var candidates := [
+		"res://assets/cn/portraits/prologue_lu_zhao_serious.png",
+		"res://assets/cn/portraits/lu_zhao_serious.png",
+		"res://assets/cn/portraits/prologue_lu_zhao.png",
+		"res://assets/cn/portraits/lu_zhao.png",
+	]
+	for c in candidates:
+		if ResourceLoader.exists(c):
+			return c
+	return ""
 
 
 func _apply_narration_speaker(speaker: String, portrait: String) -> void:
@@ -244,11 +336,14 @@ func _apply_narration_speaker(speaker: String, portrait: String) -> void:
 		portrait_rect.visible = false
 	elif resolved != "" and ResourceLoader.exists(resolved):
 		# 指定了立绘 → 居中显示
+		_current_portrait_display_scale = AssetResolver.get_portrait_screen_scale(resolved)
+		portrait_rect.pivot_offset = Vector2(320, AssetResolver.get_portrait_screen_pivot_y(resolved))
 		portrait_rect.visible = _set_portrait_texture(portrait_rect, resolved)
 		portrait_rect.modulate.a = 1.0
-		portrait_rect.scale = Vector2(1.0, 1.0)
+		portrait_rect.scale = Vector2(_current_portrait_display_scale, _current_portrait_display_scale)
 		_hide_avatar()
 	else:
+		_current_portrait_display_scale = 1.0
 		portrait_rect.visible = false
 		_hide_avatar()
 
@@ -357,6 +452,9 @@ func clear_for_transition() -> void:
 	"""打断当前打字与显示，避免时间卡或强制切场时闪出旧文本。"""
 	_dialogue_run_id += 1
 	_waiting_for_advance = false
+	_typewriter_skip_disabled = false
+	_next_narration_typewriter_skip_disabled = false
+	_next_narration_typewriter_char_delay = -1.0
 	_hide_options()
 	_set_choice_hint("", false)
 	if _typewriter != null and _typewriter.is_playing():
@@ -374,6 +472,13 @@ func end_narration_mode() -> void:
 	_narration_mode = false
 	_narration_has_next = false
 	_waiting_for_advance = false
+	_typewriter_skip_disabled = false
+	_next_narration_typewriter_skip_disabled = false
+	_next_narration_typewriter_char_delay = -1.0
+	_mind_voice_active = false
+	if _typewriter:
+		_typewriter.base_char_delay = DEFAULT_TYPEWRITER_CHAR_DELAY
+	_apply_normal_narration_style()
 	_hide_options()
 	portrait_rect.visible = false
 	_hide_avatar()
@@ -388,6 +493,11 @@ func skip_portrait_intro() -> void:
 func show_dialogue(speaker: String, portrait_path: String, text: String, options: Array, pages: Array = []) -> void:
 	_narration_mode = false
 	_dialogue_run_id += 1
+	_typewriter_skip_disabled = false
+	_next_narration_typewriter_skip_disabled = false
+	_next_narration_typewriter_char_delay = -1.0
+	if _typewriter:
+		_typewriter.base_char_delay = DEFAULT_TYPEWRITER_CHAR_DELAY
 	_hide_options()
 	if _log_panel != null:
 		_log_panel.visible = false
@@ -472,8 +582,11 @@ func _apply_speaker(speaker: String, portrait_path: String, emotion: String = ""
 	_load_animation_frames(portrait_path, emotion)
 	_hide_avatar()  # 切换回 NPC 时隐藏头像
 	# 显示 NPC 居中立绘
-	var target_scale := Vector2(1.0, 1.0)
+	var scale_value := AssetResolver.get_portrait_screen_scale(_resolved_portrait)
+	_current_portrait_display_scale = scale_value
+	var target_scale := Vector2(scale_value, scale_value)
 	if _resolved_portrait != "" and ResourceLoader.exists(_resolved_portrait):
+		portrait_rect.pivot_offset = Vector2(320, AssetResolver.get_portrait_screen_pivot_y(_resolved_portrait))
 		portrait_rect.visible = _set_portrait_texture(portrait_rect, _resolved_portrait)
 		if _skip_next_portrait_animation:
 			# NPC 已在场景层可见，直接显示不做动画（避免拖动/跳动感）
@@ -484,7 +597,7 @@ func _apply_speaker(speaker: String, portrait_path: String, emotion: String = ""
 			_portrait_tween.kill()
 	elif _changed:
 		portrait_rect.modulate.a = 0.0
-		portrait_rect.scale = Vector2(0.96, 0.96)
+		portrait_rect.scale = target_scale * 0.96
 		if _portrait_tween != null and _portrait_tween.is_valid():
 			_portrait_tween.kill()
 		_portrait_tween = create_tween()
@@ -733,8 +846,9 @@ func shake_character(intensity: float = 8.0, duration: float = 0.5) -> void:
 ## 角色特写放大（情绪高潮时）
 func zoom_character(target_scale: float = 1.08, duration: float = 0.3) -> void:
 	var tw := create_tween()
-	tw.tween_property(portrait_rect, "scale", Vector2(target_scale, target_scale), duration * 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tw.tween_property(portrait_rect, "scale", Vector2(1.0, 1.0), duration * 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	var base_scale := _current_portrait_display_scale
+	tw.tween_property(portrait_rect, "scale", Vector2(base_scale * target_scale, base_scale * target_scale), duration * 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(portrait_rect, "scale", Vector2(base_scale, base_scale), duration * 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 
 
 # ═══════════════════════════════════════════════════════════════
