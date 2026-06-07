@@ -1850,15 +1850,15 @@ func _play_fail_anim() -> void:
 		fail_dlg = testimony.get("fail_dialogue", [])
 	_dialogue_queue = fail_dlg
 	_dialogue_idx = 0
-		_show_dialogue_queue(func():
-			if _confidence <= 0:
-				_forced_proof_active = false
-				_enter_state(State.DEFEAT)
-			elif _forced_proof_active:
-				_begin_forced_proof()
-			else:
-				_enter_state(State.BROWSING)
-		)
+	_show_dialogue_queue(func():
+		if _confidence <= 0:
+			_forced_proof_active = false
+			_enter_state(State.DEFEAT)
+		elif _forced_proof_active:
+			_begin_forced_proof()
+		else:
+			_enter_state(State.BROWSING)
+	)
 
 
 # ═══════════════════════════════════════════════════
