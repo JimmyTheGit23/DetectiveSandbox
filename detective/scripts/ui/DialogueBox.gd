@@ -18,6 +18,7 @@ var UI_FONT: Font = null
 
 var _typewriter: Node = null
 var _top_options_panel: PanelContainer = null
+var _top_options_scroll: ScrollContainer = null
 var _top_options_vbox: VBoxContainer = null
 var _choice_hint_label: Label = null
 var _choice_hint_plate: PanelContainer = null
@@ -1189,9 +1190,15 @@ func _build_top_options_panel() -> void:
 	margin.add_theme_constant_override("margin_bottom", 0)
 	_top_options_panel.add_child(margin)
 
+	_top_options_scroll = ScrollContainer.new()
+	_top_options_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_top_options_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	margin.add_child(_top_options_scroll)
+
 	_top_options_vbox = VBoxContainer.new()
+	_top_options_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_top_options_vbox.add_theme_constant_override("separation", 12)
-	margin.add_child(_top_options_vbox)
+	_top_options_scroll.add_child(_top_options_vbox)
 	_top_options_panel.visible = false
 
 
@@ -1210,6 +1217,8 @@ func _position_top_options(option_count: int) -> void:
 	var visible_count: int = option_count if option_count > 0 else 1
 	var panel_h: float = minf(380.0, float(visible_count) * btn_height + float(maxi(0, visible_count - 1) * separation))
 	_top_options_panel.size = Vector2(panel_w, panel_h)
+	if _top_options_scroll:
+		_top_options_scroll.custom_minimum_size = Vector2(panel_w, panel_h)
 	var dialogue_box_top: float = dim_bg.get_rect().position.y
 	var target_y: float = dialogue_box_top - panel_h - 22.0
 	if target_y < 24.0:
@@ -1242,7 +1251,7 @@ func _show_options(options: Array) -> void:
 			continue
 		var option_text: String = opt.get("text", "")
 		if opt.get("_visited", false):
-			option_text = "✓ " + option_text
+			option_text = "✓ 已完成 " + option_text
 		var info := _option_type_info(option_text, opt)
 		action_items.append({"idx": i, "opt": opt, "text": option_text, "type": info.get("type", "ask")})
 	var visible_count := 0
@@ -1394,7 +1403,10 @@ func _option_font_size_for(label: String) -> int:
 func _option_type_info(text: String, opt: Dictionary) -> Dictionary:
 	var clean := text.strip_edges()
 	var visited := false
-	if clean.begins_with("✓ "):
+	if clean.begins_with("✓ 已完成 "):
+		visited = true
+		clean = clean.substr("✓ 已完成 ".length()).strip_edges()
+	elif clean.begins_with("✓ "):
 		visited = true
 		clean = clean.substr(2).strip_edges()
 	var option_type: String = str(opt.get("type", "")).strip_edges()
@@ -1433,7 +1445,7 @@ func _option_type_info(text: String, opt: Dictionary) -> Dictionary:
 			prefix = "〔呈证〕"
 	var label := "%s  %s" % [prefix, _strip_option_prefix(clean)]
 	if visited:
-		label = "✓ " + label
+		label = "✓ 已完成 " + label
 	return {"type": option_type, "label": label}
 
 
@@ -1545,7 +1557,7 @@ func _evidence_title(opt: Dictionary) -> String:
 
 func _apply_evidence_option_style(btn: Button) -> void:
 	var had_visited := btn.text.begins_with("✓")
-	btn.text = ("✓ " if had_visited else "") + "〔呈证〕  " + _strip_evidence_label(btn.text)
+	btn.text = ("✓ 已完成 " if had_visited else "") + "〔呈证〕  " + _strip_evidence_label(btn.text)
 	btn.add_theme_font_size_override("font_size", _option_font_size_for(btn.text))
 	btn.add_theme_color_override("font_color", Color(1.0, 0.88, 0.50, 1.0))
 	btn.add_theme_color_override("font_hover_color", Color(1.0, 0.97, 0.70, 1.0))
@@ -1561,7 +1573,7 @@ func _apply_evidence_option_style(btn: Button) -> void:
 
 func _strip_evidence_label(text: String) -> String:
 	var out := text
-	for prefix in ["✓ 〔呈证〕", "〔呈证〕", "✓ 〔问〕", "〔问〕"]:
+	for prefix in ["✓ 已完成 〔呈证〕", "✓ 〔呈证〕", "〔呈证〕", "✓ 已完成 〔问〕", "✓ 〔问〕", "〔问〕"]:
 		if out.begins_with(prefix):
 			out = out.substr(prefix.length()).strip_edges()
 	return out

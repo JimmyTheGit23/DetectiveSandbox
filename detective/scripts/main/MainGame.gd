@@ -1482,6 +1482,8 @@ func _on_game_reset() -> void:
 	GameManager.collected_evidence.clear()
 	GameManager.collected_clues.clear()
 	GameManager.dialogue_flags.clear()
+	GameManager.visited_nodes.clear()
+	GameManager.visited_node_versions.clear()
 	GameManager.triggered_events.clear()
 	GameManager.unlocked_phases = ["phase_0", "phase_1"]
 	GameManager.ACTIVE_CASE = ""

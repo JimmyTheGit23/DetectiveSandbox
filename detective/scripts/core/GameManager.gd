@@ -76,6 +76,7 @@ var visited_locations: Array[String] = ["post_station"]
 var search_history: Dictionary = {}
 var dialogue_flags: Dictionary = {}     # flag_id -> true
 var visited_nodes: Dictionary = {}      # "npc_id.node_id" -> count
+var visited_node_versions: Dictionary = {}  # "npc_id.node_id" -> current visible content version
 var triggered_events: Dictionary = {}   # event_id -> true
 var npc_states: Dictionary = {}         # npc_id -> { stat_name: value }
 var case_records: Array[Dictionary] = []       # 证词 / 疑点 / 关键信息记录
@@ -156,6 +157,7 @@ func switch_case(case_id: String) -> bool:
 	search_history.clear()
 	dialogue_flags.clear()
 	visited_nodes.clear()
+	visited_node_versions.clear()
 	triggered_events.clear()
 	case_records.clear()
 	dialogue_records.clear()
@@ -251,6 +253,7 @@ func reset_progress() -> void:
 	search_history.clear()
 	dialogue_flags.clear()
 	visited_nodes.clear()
+	visited_node_versions.clear()
 	triggered_events.clear()
 	case_records.clear()
 	dialogue_records.clear()
@@ -464,6 +467,7 @@ func _build_save_data() -> Dictionary:
 		"search_history": search_history,
 		"dialogue_flags": dialogue_flags,
 		"visited_nodes": visited_nodes,
+		"visited_node_versions": visited_node_versions,
 		"triggered_events": triggered_events,
 		"npc_states": npc_states,
 		"case_records": case_records,
@@ -490,6 +494,7 @@ func _apply_save_data(data: Dictionary) -> void:
 	search_history = data.get("search_history", {})
 	dialogue_flags = data.get("dialogue_flags", {})
 	visited_nodes = data.get("visited_nodes", {})
+	visited_node_versions = data.get("visited_node_versions", {})
 	triggered_events = data.get("triggered_events", {})
 	npc_states = data.get("npc_states", {})
 	case_records.assign(data.get("case_records", []))
@@ -754,6 +759,18 @@ func node_visit_count(npc_id: String, node_id: String) -> int:
 
 func has_visited(npc_id: String, node_id: String) -> bool:
 	return node_visit_count(npc_id, node_id) > 0
+
+
+func mark_node_version_seen(npc_id: String, node_id: String, version: String) -> void:
+	if version == "":
+		return
+	visited_node_versions["%s.%s" % [npc_id, node_id]] = version
+
+
+func has_seen_node_version(npc_id: String, node_id: String, version: String) -> bool:
+	if version == "":
+		return has_visited(npc_id, node_id)
+	return str(visited_node_versions.get("%s.%s" % [npc_id, node_id], "")) == version
 
 
 ## 统计玩家在某个 NPC 的 hub 中访问过多少个不同的分支节点。
