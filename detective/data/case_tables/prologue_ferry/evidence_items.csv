@@ -50,6 +50,6 @@ clue_cabin_route_note,clue,,夜船路线疑点,"桌上行程简记写着：平�
 clue_cabin_storm_window,clue,,窗外风雨,"窗外风急雨斜，江面偶有闪电。这样的夜里行船，本就不是稳妥选择。",True,True,,,,,
 clue_cabin_wet_cloak,clue,,异常湿斗篷,"挂在墙边的斗篷下方滴着水，湿痕比刚上船时更重。像是有人在你入舱后又从外面进来过。",True,True,,,,,
 evidence_tongue_herb_residue,evidence,,舌根草药残留,"死者舌根深处残留少量植物纤维，本应在淡水中数分钟内彻底失活分解——但他登船前吃过油腻酒菜，口腔里的油脂把残留锁在舌根，江水没能把它化开。这能说明麻痹草药曾随毒水入口，但残迹已被浸泡太久，县衙很难单凭这一点坐实毒杀。",,False,,herb;autopsy;oil,phase_2,,
-evidence_oil_lock_residue,evidence,,油脂锁毒推定,"周德茂登船前在码头食摊吃了大量肥肉、油炸河鲜和烈酒——食盒和油纸上残着厚重油脂。口腔内的油脂层恰好将呛入的麻痹草药残留锁在舌根，阻滞其在淡水中分解。凶手本意是'药遇水即散、死无对证'——但油脂锁药，留下了本不该存在的残留。",,False,,meal;oil;poison,phase_3,,
+evidence_oil_lock_residue,evidence,,油脂锁毒推定,"周德茂登船前在码头食摊吃了大量肥肉、油炸河鲜和烈酒——揉皱的油纸上还残着厚重油脂。口腔内的油脂层恰好将呛入的麻痹草药残留锁在舌根，阻滞其在淡水中分解。凶手本意是'药遇水即散、死无对证'——但油脂锁药，留下了本不该存在的残留。",,False,,meal;oil;poison,phase_3,,
 evidence_account_fragment,evidence,,漕账残页,"沉船打捞时发现夹在船板缝里的湿纸残页，字迹大多被泡烂，只剩'南京''漕''账'和一个洇开的'沈'字。它揭示周德茂并非普通布商——他手握漕运分赃残账，是黑网必须拔除的人。",True,True,,ledger;mainplot,phase_4,,
 clue_agui_confession,clue,口供笔录,阿贵口供笔录,"阿贵在当堂对质中画押的书面供词。供词写道：'船底是小的凿的。浮囊是小的带的。凿船的位置、浮囊的来历——全是沈姑娘教的。'钱里正当堂记录、阿贵按了手印。这份口供是阿贵中BOSS对峙胜利的直接产物。",False,False,,confession;agui;shen,phase_3,阿贵中BOSS对峙胜利后自动生成,
