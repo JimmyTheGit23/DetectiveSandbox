@@ -127,7 +127,7 @@ evt_bladder_meaning_changed,dialogue,0,,陆昭重新捏起那只牛皮浮囊。�
 evt_bladder_meaning_changed,dialogue,1,凌瑶,等等——浮囊。咱们之前以为那是阿贵自己准备的。可他刚才说，连浮囊都是沈清月帮他买的。,,
 evt_bladder_meaning_changed,dialogue,2,凌瑶,那件证物不只指向阿贵，也能证明她接触过阿贵。我们之前看错方向了。,,
 evt_bladder_meaning_changed,dialogue,3,陆昭,重新看。,,
-evt_shen_evidence_ready,dialogue,0,凌瑶,陆公子。核心证据齐了：货银未沉、打捞目击、中间人、时间矛盾、毒囊残壳、舌根药渣和油脂食盒。它们连成一条链，全指向沈清月。,,
+evt_shen_evidence_ready,dialogue,0,凌瑶,陆公子。核心证据齐了：货银未沉、打捞痕迹、中间人、时间矛盾、毒囊残壳、舌根药渣和油脂食盒。它们连成一条链，全指向沈清月。,,
 evt_shen_evidence_ready,dialogue,1,钱里正,这堂我可以开。但沈姑娘不是阿贵。要让县衙认账，几件事都得说清楚：谁得利、谁串人、毒囊怎么布、药残为什么还在。,,
 evt_shen_evidence_ready,dialogue,2,凌瑶,够了吧？这次不是靠直觉抓人，是把完整证据一件一件摆出来逼她开口。你准备好了吗？,,
 evt_shen_evidence_ready,dialogue,3,陆昭,……去吧。,,

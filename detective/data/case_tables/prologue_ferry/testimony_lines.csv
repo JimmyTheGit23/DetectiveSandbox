@@ -195,9 +195,9 @@ shen_testimony_1,transition_dialogue,4,凌瑶,,站得住！我就是有点紧张
 shen_testimony_1,transition_dialogue,5,你,,……进展不错。,serious
 shen_testimony_1,transition_dialogue,6,凌瑶,,（愣了一下，然后笑了）哎。好。继续。,cheerful
 shen_testimony_1,transition_dialogue,7,沈清月,,……好。就算那笔银子没沉。你凭什么说是我捞的？,cold_fury
-shen_testimony_1,transition_dialogue,8,你,,你说你亥时前就回了客栈。可有人看到你一直待到船走远了才走。天亮前，你又出现在下游。,determined
-shen_testimony_1,transition_dialogue,9,沈清月,,那是——（停了一下）别人。不是我。,cracking
-shen_testimony_1,transition_dialogue,10,你,,你之前说'看他上船就走了'。后来改成'多站了一会儿'。现在又说不是你。沈清月，你那晚到底在哪里？,determined
+shen_testimony_1,transition_dialogue,8,你,,你说你亥时前就回了客栈。可有人看到你一直待到船走远了才走。天亮前，下游浅滩又留下了打捞痕迹。,determined
+shen_testimony_1,transition_dialogue,9,沈清月,,那是——（停了一下）别人留下的。不是我。,cracking
+shen_testimony_1,transition_dialogue,10,你,,你之前说'看他上船就走了'。后来改成'多站了一会儿'。现在又急着把浅滩痕迹推出去。沈清月，你那晚到底在哪里？,determined
 shen_testimony_1,transition_dialogue,11,沈清月,,（沉默了五息。然后她深吸一口气。）,cracking
 shen_testimony_1,transition_dialogue,12,沈清月,,好。换个说法。就算那晚我在码头多站了一会儿，盯着欠债人上船，有什么问题？不犯法。,cold_fury
 shen_testimony_1,transition_dialogue,13,凌瑶,,她退了。从“不在场”退到“在场也不犯法”。退得稳，可也是退。,anxious
@@ -213,7 +213,7 @@ shen_testimony_2,transition_dialogue,2,钱里正,,上面写着：'船底是小�
 shen_testimony_2,transition_dialogue,2a,钱里正,,不过丑话说在前头。口供能开线索，不能单独押人。若没有旁的东西相印，县衙不会只凭阿贵一张嘴拿人。,stern
 shen_testimony_2,transition_dialogue,3,沈清月,,（眼神一凛）……一个杀人犯为了减罪攀咬别人。这种口供——陆公子不会当真吧？,cold_fury
 shen_testimony_2,transition_dialogue,4,陆昭,,我知道光靠口供不够。所以我没把它单独拿来。,serious
-shen_testimony_2,transition_dialogue,5,陆昭,,老范说那姑娘找过他；王大爷看见下游有人打捞；凌瑶记得你在码头待到什么时候。阿贵的供词，只是把这些事串起来。,determined
+shen_testimony_2,transition_dialogue,5,陆昭,,老范说那姑娘找过他；下游浅滩留下打捞痕迹；凌瑶记得你在码头待到什么时候。阿贵的供词，只是把这些事串起来。,determined
 shen_testimony_2,transition_dialogue,6,沈清月,,（声音变了——不再有演出的飒。是真正的她。极冷。极静。）,cold_fury
 shen_testimony_2,transition_dialogue,7,沈清月,,就算我认识老范。就算那天夜里我没有立刻回客栈。那也只是我在场，我认识人。,cold_fury
 shen_testimony_2,transition_dialogue,8,沈清月,,策划？教阿贵凿船？陆公子，别把两个字喊得漂亮。拿东西。,cold_fury

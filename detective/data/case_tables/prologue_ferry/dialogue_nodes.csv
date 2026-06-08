@@ -8,7 +8,7 @@ agui,show_bladder,,,,agui_bladder_confronted,,,,,,
 agui,confession,,,,confrontation_triggered,,,True,,,
 agui,ask_twelve_years,,,,,,,,,,
 fisherman_wang,hub,true,是你吧？来得好。老头子这辈子捞鱼，也捞过尸，最怕把活人的黑心也捞上来。问。,,,,,,,,
-fisherman_wang,intro,,,,wang_talked_once,,clue_fan_alibi_hole,,,,
+fisherman_wang,intro,,,,wang_talked_once,,,,,,
 fisherman_wang,ask_channel,,"走的东汊那条。
 
 在这一带跑船的人都知道——东汊有暗礁。涨水没涨水都不能走。
@@ -30,11 +30,11 @@ fisherman_wang,trust,,"老头子活了一辈子，在这江上。
 那天夜里那人在水里扑腾的声音……老头子一辈子忘不了。
 
 有人跟我说'别多管闲事'。放屁。杀了人就该偿命。老头子不怕得罪人。",,,,,,,,
-fisherman_wang,ask_dawn_sighting,,"天还没亮的时候，老头子在下游浅滩看见一个人拿长竿探水。
+fisherman_wang,ask_dawn_sighting,,"天还没亮的时候，老头子在下游浅滩收夜网。那边芦苇被踩得乱，水边还有长竿探过的划痕。
 
-那人穿深色衣裳，身量高挑，不像老范，也不像阿贵。
+老头子看不清人，也不敢再乱认人。但那痕迹新得很，不像白天留下的。
 
-我当时离得远，不敢说死。但天一亮，那人就不见了。要不是后来听说货银也没找着，老头子还真以为是自己眼花。",evasive,,,evidence_salvage_mark,,,,
+你们要查，就查浅滩泥印和芦苇折口。东西会说话，比老头子这双夜眼可靠。",evasive,,,,,,,
 fisherman_wang,ask_river_life,,"老头子在这江上打了一辈子鱼。
 
 哪条汊水有暗礁，哪片浅滩能藏东西，心里都有数。
