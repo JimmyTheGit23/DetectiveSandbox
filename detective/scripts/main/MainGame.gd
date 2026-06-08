@@ -106,6 +106,7 @@ var _event_hint_auto_pending := false
 var _silent_auto_event_pending := false
 var _silent_auto_event_suppress_evidence_hold := false
 var _pending_adhoc_lines: Array = []
+var _defer_adhoc_until_confrontation_result_done := false
 var _last_location_day: int = -1         # 上次进入场景时的 day
 var _time_card_playing: bool = false     # 场景过场是否正在播放
 var _visited_locations: Dictionary = {}  # 已访问过的场景 ID → true（首次访问时显示地名卡）
@@ -1768,9 +1769,10 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 	_close_subpanel()
 	GameManager.suppress_evidence_obtain_hold = false
 	var confront_key: String = GameManager.active_confrontation_key
+	var confront_data: Dictionary = GameManager.case_data.get(confront_key, {})
+	_defer_adhoc_until_confrontation_result_done = not bool(confront_data.get("is_final", false))
 	# 对峙胜利后设置对应 flag
 	if result == "victory":
-		GameManager.set_flag(confront_key + "_completed")
 		var suspect: String = GameManager.case_data.get(confront_key, {}).get("suspect", "")
 		if confront_key == "confrontation_wang":
 			GameManager.set_flag("self_cleared")
@@ -1782,10 +1784,10 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 			GameManager.set_flag("prologue_truth_reached")
 			GameManager.set_flag("prologue_defeated")
 			GameManager.set_flag("case_partially_resolved")
+		GameManager.set_flag(confront_key + "_completed")
 	# 重置对峙路由键（DialogueManager 在下次触发时会重新设置正确的 key）
 	GameManager.active_confrontation_key = "confrontation"
 	# 判断是否为中间对峙（非最终BOSS）：播放过渡剧情后返回调查
-	var confront_data: Dictionary = GameManager.case_data.get(confront_key, {})
 	if not confront_data.get("is_final", false):
 		_play_mid_confrontation_result(confront_key, confront_data, result, mistakes)
 		return
@@ -1801,6 +1803,7 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 		_try_companion_banter("accuse_fail")
 	if _try_play_case_epilogue(ending_id):
 		return
+	_defer_adhoc_until_confrontation_result_done = false
 	_show_ending(ending_id)
 
 
@@ -1823,8 +1826,11 @@ func _after_mid_confrontation(confront_key: String, result: String) -> void:
 		if confront_key == "confrontation_wang":
 			buffer_lines = [
 				{"speaker": "凌瑶", "text": "看吧！雾里认人、风浪里听喊声、还有你上岸那会儿的样子，这几句都站不住了。你不是凶手。", "emotion": "determined"},
+				{"speaker": "钱里正", "text": "既然这份证词压不住人，我不会再把陆公子当凶犯看。但案子没结，客栈里的人都先别走。", "emotion": "stern"},
 				{"speaker": "陆昭", "text": "王大爷的证词站不住了。有人想先把我钉死，再让真正的凶手从证据缝里逃走。", "emotion": "cold"},
-				{"speaker": "凌瑶", "text": "还有沈清月。她开场那几句听着像讲理，其实是在先把你摁成最顺手的嫌犯。", "emotion": "worried"}
+				{"speaker": "凌瑶", "text": "还有沈清月。她开场那几句听着像讲理，其实是在先把你摁成最顺手的嫌犯。", "emotion": "worried"},
+				{"speaker": "陆昭", "text": "先不碰她。回到证据：船怎么沉，周德茂怎么死，阿贵和老范为什么活下来。一样一样查。", "emotion": "serious"},
+				{"speaker": "凌瑶", "text": "明白。客栈里能问的先问清楚，码头那条破船也得重新看。", "emotion": "determined"}
 			]
 		else:
 			buffer_lines = [
@@ -1848,10 +1854,14 @@ func _after_mid_confrontation(confront_key: String, result: String) -> void:
 func _return_to_investigation(confront_key: String, result: String) -> void:
 	# 返回主界面继续调查
 	menu_panel.visible = true
-	if result == "victory" and confront_key == "confrontation_wang":
-		_gm_force_location("ferry_dock")
-	else:
-		BgmPlayer.play(GameManager.current_location)
+	_defer_adhoc_until_confrontation_result_done = false
+	BgmPlayer.play(GameManager.current_location)
+	if menu_panel.has_method("refresh_visibility"):
+		menu_panel.refresh_visibility()
+	if _npc_layer and _npc_layer.has_method("refresh_npcs"):
+		_npc_layer.refresh_npcs(GameManager.current_location)
+	_refresh_event_hint()
+	_flush_pending_adhoc_lines()
 	# 注意：set_flag("agui_confessed_mastermind") 已在上层调用。
 	# GameManager.set_flag 内部自动调用 _check_progression()，
 	# 所以 phase_3 的解锁条件（flag: agui_confessed_mastermind）已满足，
@@ -2291,7 +2301,7 @@ func _play_or_queue_adhoc(lines: Array) -> void:
 	if lines.is_empty():
 		return
 	# 搜索流程中，必须先让玩家阅读“探索结果”并点“知道了”，再播放助手对话。
-	if _is_search_panel_busy():
+	if _defer_adhoc_until_confrontation_result_done or _is_search_panel_busy():
 		_pending_adhoc_lines.append(lines)
 		return
 	DialogueManager.play_adhoc_narration(lines)
