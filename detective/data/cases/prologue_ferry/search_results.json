@@ -230,12 +230,48 @@
       "evidence": "evidence_wet_letter"
     }
   },
+  "shen_room.shen_desk": {
+    "default": {
+      "narration": "桌上账册夹着一张新近撕下的兑银小票。票面写着五十两整，墨迹被雨气洇开，角上却压着沈家药行的记号。周德茂带上船的货银没有沉江，有人已经把它换成了能带走的银票。",
+      "evidence": "evidence_cargo_silver",
+      "set_flags": [
+        "found_shen_money_record"
+      ]
+    }
+  },
+  "shen_room.shen_window": {
+    "default": {
+      "narration": "窗台上有半枚湿脚印，泥色与码头下游浅滩一致。推窗望去，正能看见渡船离岸后的水路。沈清月若真是一上船就回房，窗台不该留下这种半夜才会沾上的冷泥。",
+      "clue": "evidence_dock_timing",
+      "set_flags": [
+        "found_shen_window_mud"
+      ]
+    }
+  },
   "shen_room.shen_bedside": {
     "default": {
       "narration": "床边缝隙里卡着几根干草和一缕辛冷药香。再往里拨，找到了沈父药铺账本。最后一页写着父亲急需八十两药钱——这就是她铤而走险的表层动机。",
       "evidence": "evidence_father_ledger",
       "set_flags": [
         "found_father_ledger"
+      ]
+    }
+  },
+  "gambling_alley.gambling_den": {
+    "default": {
+      "narration": "赌坊柜台后的账簿里夹着一页私记：老范的四十二两赌债旁，有人用小楷写了「药行沈姑娘代问」。赌坊掌柜不肯多说，但这四个字足够说明老范不是自己撞进这局里的。",
+      "clue": "evidence_shen_connection",
+      "set_flags": [
+        "found_gambling_middleman_note"
+      ]
+    }
+  },
+  "gambling_alley.gambling_alley_wall": {
+    "default": {
+      "narration": "后巷墙角靠着一根湿长竿，竿梢缠着新鲜芦苇絮，泥水还没干。墙根还有重物临时搁放留下的方形压痕。有人天亮前用这根竿子在下游探水，捞走了不该被人看见的东西。",
+      "clue": "evidence_salvage_mark",
+      "set_flags": [
+        "found_alley_salvage_pole"
       ]
     }
   },

@@ -30,7 +30,11 @@ river_bend,village_wang_home,default,,,"江湾浅滩的芦苇倒了一片，折�
 你在芦苇根旁捡到一卷泡烂的纸，字迹几乎散开，只剩半枚油印。
 
 这里不是普通渔民收网留下的痕迹。有人在天亮前来这里打捞过东西。",evidence_wet_letter,evidence_salvage_mark,,,,
+shen_room,shen_desk,default,,,桌上账册夹着一张新近撕下的兑银小票。票面写着五十两整，墨迹被雨气洇开，角上却压着沈家药行的记号。周德茂带上船的货银没有沉江，有人已经把它换成了能带走的银票。,evidence_cargo_silver,,found_shen_money_record,,,
+shen_room,shen_window,default,,,窗台上有半枚湿脚印，泥色与码头下游浅滩一致。推窗望去，正能看见渡船离岸后的水路。沈清月若真是一上船就回房，窗台不该留下这种半夜才会沾上的冷泥。,,evidence_dock_timing,found_shen_window_mud,,,
 shen_room,shen_bedside,default,,,床边缝隙里卡着几根干草和一缕辛冷药香。再往里拨，找到了沈父药铺账本。最后一页写着父亲急需八十两药钱——这就是她铤而走险的表层动机。,evidence_father_ledger,,found_father_ledger,,,
+gambling_alley,gambling_den,default,,,赌坊柜台后的账簿里夹着一页私记：老范的四十二两赌债旁，有人用小楷写了「药行沈姑娘代问」。赌坊掌柜不肯多说，但这四个字足够说明老范不是自己撞进这局里的。,,evidence_shen_connection,found_gambling_middleman_note,,,
+gambling_alley,gambling_alley_wall,default,,,后巷墙角靠着一根湿长竿，竿梢缠着新鲜芦苇絮，泥水还没干。墙根还有重物临时搁放留下的方形压痕。有人天亮前用这根竿子在下游探水，捞走了不该被人看见的东西。,,evidence_salvage_mark,found_alley_salvage_pole,,,
 ferry_dock,dock_reed_seal,default,,,雨后的芦苇伏在江边。你在泥水里捡到一小片油布锦袋残角，边缘有朱砂印泥的痕迹——像是官印匣上的封布。官印没有回来，但有人碰过它。,evidence_seal_cloth_wrap,,found_seal_cloth_wrap,,,
 cabin_lu_room,cabin_seal_box,default,,,木匣压在床边，铜锁还扣着。里面是官印、敕牒和巡按令牌。你伸手按了按锁舌——完好。至少此刻，你的身份还稳稳放在这里。,,clue_cabin_seal_box,cabin_seal_box_checked,,,
 cabin_lu_room,cabin_route_note,default,,,桌上压着一页行程简记：平水驿、石矶渡、夜船、东汊、武昌。东汊二字被一点水痕洇开。你想起驿丞说过“这条水路快”——但他没提过夜里的风浪。,,clue_cabin_route_note,cabin_route_note_checked,,,
