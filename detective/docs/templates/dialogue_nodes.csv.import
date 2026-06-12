@@ -6,14 +6,12 @@ uid="uid://fviwt10i0bbo"
 
 [deps]
 
-files=["res://docs/templates/dialogue_nodes.node.translation", "res://docs/templates/dialogue_nodes.is.translation", "res://docs/templates/dialogue_nodes.text.translation", "res://docs/templates/dialogue_nodes.en.translation", "res://docs/templates/dialogue_nodes.set.translation", "res://docs/templates/dialogue_nodes.en.translation", "res://docs/templates/dialogue_nodes.en.translation", "res://docs/templates/dialogue_nodes.trigger.translation", "res://docs/templates/dialogue_nodes.en.translation", "res://docs/templates/dialogue_nodes.en.translation", "res://docs/templates/dialogue_nodes.en.translation"]
+files=["res://docs/case_template/dialogue_nodes.node.translation", "res://docs/case_template/dialogue_nodes.is.translation", "res://docs/case_template/dialogue_nodes.text.translation", "res://docs/case_template/dialogue_nodes.emotion.translation", "res://docs/case_template/dialogue_nodes.set.translation", "res://docs/case_template/dialogue_nodes.gain.translation", "res://docs/case_template/dialogue_nodes.gain.translation", "res://docs/case_template/dialogue_nodes.trigger.translation", "res://docs/case_template/dialogue_nodes.confrontation.translation", "res://docs/case_template/dialogue_nodes.end.translation", "res://docs/case_template/dialogue_nodes.writer.translation"]
 
 source_file="res://docs/templates/dialogue_nodes.csv"
-dest_files=["res://docs/templates/dialogue_nodes.node.translation", "res://docs/templates/dialogue_nodes.is.translation", "res://docs/templates/dialogue_nodes.text.translation", "res://docs/templates/dialogue_nodes.en.translation", "res://docs/templates/dialogue_nodes.set.translation", "res://docs/templates/dialogue_nodes.en.translation", "res://docs/templates/dialogue_nodes.en.translation", "res://docs/templates/dialogue_nodes.trigger.translation", "res://docs/templates/dialogue_nodes.en.translation", "res://docs/templates/dialogue_nodes.en.translation", "res://docs/templates/dialogue_nodes.en.translation"]
+dest_files=["res://docs/case_template/dialogue_nodes.node.translation", "res://docs/case_template/dialogue_nodes.is.translation", "res://docs/case_template/dialogue_nodes.text.translation", "res://docs/case_template/dialogue_nodes.emotion.translation", "res://docs/case_template/dialogue_nodes.set.translation", "res://docs/case_template/dialogue_nodes.gain.translation", "res://docs/case_template/dialogue_nodes.gain.translation", "res://docs/case_template/dialogue_nodes.trigger.translation", "res://docs/case_template/dialogue_nodes.confrontation.translation", "res://docs/case_template/dialogue_nodes.end.translation", "res://docs/case_template/dialogue_nodes.writer.translation"]
 
 [params]
 
 compress=true
 delimiter=0
-unescape_keys=false
-unescape_translations=true

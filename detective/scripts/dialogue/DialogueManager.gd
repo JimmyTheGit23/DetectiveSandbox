@@ -7,6 +7,7 @@ signal confrontation_triggered()
 signal narration_started(background: String, speaker: String, text: String, has_next: bool, centered: bool, portrait: String)
 signal narration_choices_ready(choices: Array)
 signal narration_ended()
+signal narration_video(video_path: String)
 signal narration_time_card(text: String, sub_text: String)
 signal narration_effects(effects: Dictionary)
 signal lie_exposed(npc_id: String, lie_node: String)
@@ -511,6 +512,11 @@ func _emit_narration() -> void:
 	if node.is_empty():
 		print("[NARRATION] !!! NODE EMPTY - ending narration at '%s'" % _narration_node)
 		_end_narration()
+		return
+	# 视频节点：发出信号后由 MainGame 播放，结束后推进到下一节点
+	if node.get("type", "") == "video":
+		var fx: Dictionary = node.get("effect", {})
+		narration_video.emit(fx.get("video", ""))
 		return
 	# 时间卡片节点：发出信号让 MainGame 显示时间过场，然后自动跳到下一节点
 	if node.get("type", "") == "time_card":

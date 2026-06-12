@@ -1,5 +1,6 @@
 node_id,type,background,next,centered,end,portrait,emotion,fx,effect
-# === 时间卡 → 船舱调查 ===
+# === 开场视频 → 时间卡 → 船舱调查 ===
+intro_video,video,res://assets/cn/scenes/pure_black.png,time_card_opening,,,,,,{"video": "res://assets/video/intro.mp4"}
 time_card_opening,time_card,res://assets/cn/scenes/pure_black.png,cabin_1,,,,,,
 # === 船舱开场 ===
 cabin_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_2,,,,,"{""bgm"": ""ferry_cabin_night"",""gain_clue"": ""clue_travel_notes"",""mind_fade"": ""in"",""mind_fade_duration"": 1.0}"

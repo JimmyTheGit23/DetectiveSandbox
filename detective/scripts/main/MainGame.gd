@@ -148,6 +148,7 @@ func _ready() -> void:
 	DialogueManager.narration_started.connect(_on_narration_started)
 	DialogueManager.narration_ended.connect(_on_narration_ended)
 	DialogueManager.narration_choices_ready.connect(_on_narration_choices_ready)
+	DialogueManager.narration_video.connect(_on_narration_video)
 	DialogueManager.narration_time_card.connect(_on_narration_time_card)
 	DialogueManager.narration_effects.connect(_on_narration_effects)
 	DialogueManager.lie_exposed.connect(_on_lie_exposed)
@@ -1980,6 +1981,38 @@ func _on_narration_ended() -> void:
 	if _npc_layer and _npc_layer.has_method("show_npcs"):
 		_npc_layer.show_npcs()
 
+
+## 叙述中遇到 video 节点：播放视频，结束后自动推进叙述
+func _on_narration_video(video_path: String) -> void:
+	if video_path == "":
+		DialogueManager.narration_next()
+		return
+	
+	if dialogue_box and dialogue_box.has_method("clear_for_transition"):
+		dialogue_box.clear_for_transition()
+	dialogue_box.visible = false
+	menu_panel.visible = false
+	
+	var stream := load(video_path)
+	if stream:
+		var vp := VideoStreamPlayer.new()
+		vp.expand = true
+		vp.loop = false
+		vp.bus = &"Master"
+		add_child(vp)
+		vp.stream = stream
+		vp.play()
+		vp.finished.connect(func():
+			vp.queue_free()
+			dialogue_box.visible = true
+			menu_panel.visible = true
+			DialogueManager.narration_next()
+		, CONNECT_ONE_SHOT)
+	else:
+		push_error("[MainGame] Failed to load video: %s" % video_path)
+		dialogue_box.visible = true
+		menu_panel.visible = true
+		DialogueManager.narration_next()
 
 ## 叙述中遇到 time_card 节点：显示时间过场，结束后自动推进叙述
 func _on_narration_time_card(text: String, sub_text: String) -> void:
