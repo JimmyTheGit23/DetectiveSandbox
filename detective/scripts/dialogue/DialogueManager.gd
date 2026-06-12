@@ -515,9 +515,8 @@ func _emit_narration() -> void:
 		return
 	# 视频节点：发出信号后由 MainGame 播放，结束后推进到下一节点
 	if node.get("type", "") == "video":
-		var fx: Dictionary = node.get("effect", {})
-		var video_path: String = fx.get("video", "")
-		print("[NARRATION] Video node detected, path='%s'" % video_path)
+		var video_path: String = node.get("video", "")
+		print("[NARRATION] Video node detected, video='%s'" % video_path)
 		narration_video.emit(video_path)
 		return
 	# 时间卡片节点：发出信号让 MainGame 显示时间过场，然后自动跳到下一节点

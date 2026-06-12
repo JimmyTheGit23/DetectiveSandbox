@@ -1126,6 +1126,7 @@ static func _compile_prologue(src: String, fallback: Dictionary = {}) -> Diction
 		var node_type := _cell(row, "type")
 		if node_type != "":
 			node["type"] = node_type
+		_set_if(node, "video", _cell(row, "video"))
 		# Lines (text)
 		var nlines: Array = lines_by_node.get(nid, [])
 		if not nlines.is_empty():
