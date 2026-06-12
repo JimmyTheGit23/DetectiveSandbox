@@ -123,6 +123,8 @@ var _bg_transition_id: int = 0
 var _current_bg_path: String = ""
 var _npc_layer: Control = null
 var _settings_btn: Button = null
+var _video_skip_fn: Callable = Callable()
+var _video_skip_btn: Button = null
 var _settings_icon: Control = null
 var _settings_btn_tween: Tween = null
 var _settings_btn_hovered := false
@@ -215,6 +217,13 @@ func _process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	# 视频播放中 ESC 跳过
+	if _video_skip_fn.is_valid():
+		if event is InputEventKey and event.keycode == KEY_ESCAPE and event.pressed and not event.echo:
+			print("[MainGame] Video skipped by ESC.")
+			_video_skip_fn.call()
+			get_viewport().set_input_as_handled()
+			return
 	if not _is_evidence_click_locked():
 		return
 	if event is InputEventMouseButton or event is InputEventScreenTouch:
@@ -2009,11 +2018,7 @@ func _on_narration_video(video_path: String) -> void:
 		return
 	
 	# 安全超时：最多等 120 秒，超时自动跳过（防止编码不兼容导致 finished 永不触发）
-	var video_timed_out := false
-	var timeout_timer := get_tree().create_timer(120.0)
-	timeout_timer.timeout.connect(func():
-		video_timed_out = true
-	)
+	var video_done := false
 	
 	var vp := VideoStreamPlayer.new()
 	vp.expand = true
@@ -2024,50 +2029,55 @@ func _on_narration_video(video_path: String) -> void:
 	vp.anchor_right = 1.0
 	vp.anchor_top = 0.0
 	vp.anchor_bottom = 1.0
-	vp.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(vp)
 	vp.stream = stream
-	print("[MainGame] Video: %s" % video_path)
-	vp.play()
 	
-	# 每秒轮询：如果超时或 stream_position 不前进，则跳过
-	var skip_video := func():
-		if not is_instance_valid(vp) or not vp.is_inside_tree():
+	var _finish_video := func():
+		if video_done:
 			return
-		if video_timed_out:
-			print("[MainGame] Video timeout, skipping.")
+		video_done = true
+		if is_instance_valid(vp):
 			vp.stop()
 			vp.queue_free()
-			dialogue_box.visible = true
-			menu_panel.visible = true
-			DialogueManager.narration_next()
-		elif vp.is_playing():
-			# 超时计时器到期且仍在播放 → 强制跳过
-			pass  # 由 timeout_timer 处理
-	skip_video
-	
-	timeout_timer.timeout.connect(func():
-		if not is_instance_valid(vp) or not vp.is_inside_tree():
-			vp.queue_free() if is_instance_valid(vp) else null
-			dialogue_box.visible = true
-			menu_panel.visible = true
-			DialogueManager.narration_next()
-			return
-		print("[MainGame] Video timeout reached, force-skipping.")
-		vp.stop()
-		vp.queue_free()
+		if is_instance_valid(_video_skip_btn):
+			_video_skip_btn.queue_free()
+		_video_skip_fn = Callable()
+		_video_skip_btn = null
 		dialogue_box.visible = true
 		menu_panel.visible = true
 		DialogueManager.narration_next()
+	print("[MainGame] Video: %s (press ESC or click to skip)" % video_path)
+	vp.play()
+	
+	# 超时保护
+	get_tree().create_timer(120.0).timeout.connect(func():
+		print("[MainGame] Video timeout, force-skipping.")
+		_finish_video.call()
 	, CONNECT_ONE_SHOT)
 	
+	# 正常播完
 	vp.finished.connect(func():
 		print("[MainGame] Video finished normally.")
-		vp.queue_free()
-		dialogue_box.visible = true
-		menu_panel.visible = true
-		DialogueManager.narration_next()
+		_finish_video.call()
 	, CONNECT_ONE_SHOT)
+	
+	# ESC/点击跳过：用一个全屏按钮覆盖
+	var skip_btn := Button.new()
+	skip_btn.anchor_left = 0.0
+	skip_btn.anchor_right = 1.0
+	skip_btn.anchor_top = 0.0
+	skip_btn.anchor_bottom = 1.0
+	skip_btn.mouse_filter = Control.MOUSE_FILTER_PASS
+	skip_btn.flat = true
+	skip_btn.modulate.a = 0.0  # 完全透明
+	add_child(skip_btn)
+	skip_btn.pressed.connect(func():
+		print("[MainGame] Video skipped by click.")
+		_finish_video.call()
+	)
+	
+	_video_skip_fn = _finish_video
+	_video_skip_btn = skip_btn
 
 ## 叙述中遇到 time_card 节点：显示时间过场，结束后自动推进叙述
 func _on_narration_time_card(text: String, sub_text: String) -> void:
