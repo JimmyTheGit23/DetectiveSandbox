@@ -2027,18 +2027,7 @@ func _on_narration_video(video_path: String) -> void:
 	vp.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(vp)
 	vp.stream = stream
-	
-	# 检查 stream 是否有有效时长
-	var stream_length: float = vp.stream_length
-	print("[MainGame] Video: %s, stream_length=%.1fs" % [video_path, stream_length])
-	if stream_length <= 0.0:
-		push_warning("[MainGame] Video stream has zero length, skipping.")
-		vp.queue_free()
-		dialogue_box.visible = true
-		menu_panel.visible = true
-		DialogueManager.narration_next()
-		return
-	
+	print("[MainGame] Video: %s" % video_path)
 	vp.play()
 	
 	# 每秒轮询：如果超时或 stream_position 不前进，则跳过
