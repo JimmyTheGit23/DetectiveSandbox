@@ -2008,9 +2008,9 @@ func _on_narration_video(video_path: String) -> void:
 		DialogueManager.narration_next()
 		return
 	
-	# 安全超时：最多等 5 秒，超时自动跳过（防止编码不兼容导致 finished 永不触发）
+	# 安全超时：最多等 120 秒，超时自动跳过（防止编码不兼容导致 finished 永不触发）
 	var video_timed_out := false
-	var timeout_timer := get_tree().create_timer(5.0)
+	var timeout_timer := get_tree().create_timer(120.0)
 	timeout_timer.timeout.connect(func():
 		video_timed_out = true
 	)
