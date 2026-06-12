@@ -1,6 +1,6 @@
 node_id,order,speaker,text,emotion,type
 time_card_opening,0,,半个时辰前 · 荆江石矶渡,,time_card
-cabin_1,0,陆昭,这就是驿丞说的'顺路夜船'。比我想的小。,observing,inner_thought
+cabin_1,0,陆昭,驿丞说的'顺路夜船'——比我想的小。,observing,inner_thought
 cabin_2,0,陆昭,湿斗篷……先拧干挂起来。官印匣子——封蜡还在，绳结是自己打的活扣。,focused,inner_thought
 cabin_3,0,陆昭,官印匣子没动过。行程简记——油纸外层潮了，内页没湿。好。,relieved,inner_thought
 cabin_4,0,陆昭,到武昌还有一夜水路。漕运亏空若真如密报——三年十四万两——牵扯进去的人不会只是转运使。,serious,inner_thought
@@ -11,10 +11,10 @@ cabin_8,0,陆昭,同船的——驿丞说是个布商，带了个仆从。还有
 cabin_9,0,陆昭,先出去看看这三个人。,determined,inner_thought
 cabin_free_explore,0,陆昭,舱室不大。桌上有行程简记，床脚搁着木匣。前舱和船尾有人在说话——趁现在去聊聊。,determined,inner_thought
 cabin_after_all_talked_1,0,陆昭,回到舱室。没点灯。三个人——在心里排一遍。,serious,inner_thought
-cabin_after_all_talked_2,0,陆昭,周德茂——铜锁木箱不离身。水性好，年轻时掉江里都活下来了。但吃了一肚子油腻……油腻入水容易呛。他不知道？除非……他根本没想到会正常落水。,serious,inner_thought
+cabin_after_all_talked_2,0,陆昭,周德茂——铜锁木箱不离身。水性好，年轻时掉江里都活下来了。可吃了满肚子油腻还赶夜船……就不怕万一？除非他确信这趟船稳得很。,serious,inner_thought
 cabin_after_all_talked_3,0,陆昭,阿贵——包袱里有个圆弧形的东西。问他——咽口水、不看眼睛、说'没什么'。跟了周德茂十二年，说老爷'还行'。不是'好'。十二年——就这两个字。,suspicious,inner_thought
-cabin_after_all_talked_4,0,陆昭,老范——走了东汊。说南汊堵了，但一路没人通报。他说'客官也急着到'——我从没说过。还特意叮嘱——别开窗。,suspicious,inner_thought
+cabin_after_all_talked_4,0,陆昭,老范——走了东汊。说南汊堵了，但上船前码头上没人提过这事，驿丞也没说。他说'客官也急着到'——我从没说过急。还特意叮嘱——别开窗。,suspicious,inner_thought
 cabin_after_all_talked_5,0,陆昭,三个人。一个护着箱子频频看江面。一个包袱里藏着说不清的东西。一个把船开进了险航道。,serious,inner_thought
 cabin_after_all_talked_6,0,陆昭,……也许我想多了。但如果没想多呢？,anxious,inner_thought
-cabin_after_all_talked_7,0,陆昭,先睡。养精神。明天到码头之前再观察一轮。如果有事——别栽在水里。,tired,inner_thought
+cabin_after_all_talked_7,0,陆昭,先睡。养精神。到码头之前再留意一轮。这是在江上——出了事连退路都没有。,tired,inner_thought
 cabin_after_all_talked_8,0,陆昭,……别开窗。,nervous,inner_thought
