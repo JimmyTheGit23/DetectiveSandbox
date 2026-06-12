@@ -5,7 +5,7 @@ cold_open_2,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cold_open_3,t
 cold_open_3,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cold_open_4,true,,,,"{""disable_typewriter_skip"": true, ""typewriter_char_delay"": 0.075}","{""shake"": true, ""shake_intensity"": 5.0, ""shake_duration"": 0.35, ""tint"": ""dark_blue""}"
 cold_open_4,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cold_open_5,true,,,serious,"{""disable_typewriter_skip"": true, ""typewriter_char_delay"": 0.075}","{""shake"": true, ""shake_intensity"": 8.0, ""shake_duration"": 0.55, ""tint"": ""dark_blue""}"
 cold_open_5,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,time_card_opening,true,,,,"{""disable_typewriter_skip"": true, ""typewriter_char_delay"": 0.075}","{""sfx"": ""water_rush"", ""tint"": ""dark_blue""}"
-time_card_opening,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_1,,,,,,
+time_card_opening,time_card,res://assets/cn/scenes/pure_black.png,cabin_1,,,,,,
 # === 船舱开场 ===
 cabin_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_2,,,,,"{""bgm"": ""ferry_cabin_night"",""gain_clue"": ""clue_travel_notes"",""mind_fade"": ""in"",""mind_fade_duration"": 1.0}"
 cabin_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_3,,,,,
