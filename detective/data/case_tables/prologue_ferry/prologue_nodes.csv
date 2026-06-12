@@ -5,24 +5,23 @@ cold_open_2,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cold_open_3,t
 cold_open_3,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cold_open_4,true,,,,"{""disable_typewriter_skip"": true, ""typewriter_char_delay"": 0.075}","{""shake"": true, ""shake_intensity"": 5.0, ""shake_duration"": 0.35, ""tint"": ""dark_blue""}"
 cold_open_4,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,cold_open_5,true,,,serious,"{""disable_typewriter_skip"": true, ""typewriter_char_delay"": 0.075}","{""shake"": true, ""shake_intensity"": 8.0, ""shake_duration"": 0.55, ""tint"": ""dark_blue""}"
 cold_open_5,,res://assets/cn/scenes/prologue_ship_cabin_rising.png,time_card_opening,true,,,,"{""disable_typewriter_skip"": true, ""typewriter_char_delay"": 0.075}","{""sfx"": ""water_rush"", ""tint"": ""dark_blue""}"
-time_card_opening,time_card,res://assets/cn/scenes/pure_black.png,cabin_prologue_1,,,,,,
-cabin_prologue_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,era_context_1,,,res://assets/cn/portraits/prologue_lu_zhao.png,serious,,"{""gain_clue"": ""clue_travel_notes""}"
-# === 时代背景：万历后期漕运与渡口 ===
-era_context_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,era_context_2,,,,,,{}
-era_context_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,era_context_3,,,res://assets/cn/portraits/prologue_lu_zhao.png,serious,,{}
-era_context_3,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,era_context_4,,,,,,{}
-era_context_4,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,mind_voice_1,,,,,,{}
-# === 第一段心理活动：陆昭判断此行不寻常 ===
-mind_voice_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,mind_voice_1_restore,,,,,"{""mind_fade"": ""in"", ""mind_fade_duration"": 1.5}",{}
-mind_voice_1_restore,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_2,,,,,"{""mind_fade"": ""out"", ""mind_fade_duration"": 1.0}",{}
-# === 原有船舱调查段落 ===
-cabin_prologue_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_3,,,res://assets/cn/portraits/prologue_lu_zhao.png,serious,,
-cabin_prologue_3,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_4,,,,,,
-cabin_prologue_4,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_5,,,res://assets/cn/portraits/prologue_lu_zhao.png,serious,,
-cabin_prologue_5,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,mind_voice_2,,,,,,
-# === 第二段心理活动：危机感升级 ===
-mind_voice_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,mind_voice_2_restore,,,,,"{""mind_fade"": ""in"", ""mind_fade_duration"": 1.5}",{}
-mind_voice_2_restore,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_prologue_6,,,,,"{""mind_fade"": ""out"", ""mind_fade_duration"": 1.0}",{}
-# === 收束：回到原有流程 ===
-cabin_prologue_6,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_free_explore,,,res://assets/cn/portraits/prologue_lu_zhao.png,serious,,
+time_card_opening,time_card,res://assets/cn/scenes/pure_black.png,cabin_1,,,,,,
+# === 船舱开场 ===
+cabin_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_2,,,,,"{""bgm"": ""ferry_cabin_night"",""gain_clue"": ""clue_travel_notes""}"
+cabin_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_3,,,,,
+cabin_3,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_4,,,,,
+cabin_4,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_5,,,,,
+cabin_5,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_6,,,,,
+cabin_6,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_7,,,,,
+cabin_7,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_8,,,,,
+cabin_8,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_9,,,,,
+cabin_9,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_free_explore,,,,,
 cabin_free_explore,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,,,,,,,
+cabin_after_all_talked_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_2,,,,,"{""set_flags"": ""cabin_review_done"", ""mind_fade"": ""in"", ""mind_fade_duration"": 1.5}"
+cabin_after_all_talked_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_3,,,,,
+cabin_after_all_talked_3,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_4,,,,,
+cabin_after_all_talked_4,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_5,,,,,
+cabin_after_all_talked_5,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_6,,,,,
+cabin_after_all_talked_6,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_7,,,,,
+cabin_after_all_talked_7,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_8,,,,,
+cabin_after_all_talked_8,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,,,,,"{""mind_fade"": ""out"", ""mind_fade_duration"": 1.0}",{}
