@@ -1,10 +1,4 @@
 node_id,order,speaker,text,emotion,type
-cold_open_1,0,陆昭,水声。不是浪——水在舱里。,shaken,dark_screen
-cold_open_1,1,陆昭,门外有人——别开门。,nervous,dark_screen
-cold_open_2,0,陆昭,撑起来。水从门缝灌。冷。,panic,dark_screen
-cold_open_2,1,陆昭,谁在外面？开门！,nervous,
-cold_open_2,2,陆昭,没有回答。船一歪——灯灭了。,shaken,dark_screen
-cold_open_3,0,陆昭,船底一声闷响。下一息——整间舱室被江水吞了。,panic,dark_screen
 time_card_opening,0,,半个时辰前 · 荆江石矶渡,,time_card
 cabin_1,0,陆昭,这就是驿丞说的'顺路夜船'。比我想的小。,observing,inner_thought
 cabin_2,0,陆昭,湿斗篷……先拧干挂起来。官印匣子——封蜡还在，绳结是自己打的活扣。,focused,inner_thought
