@@ -6,12 +6,14 @@ uid="uid://d1i855sw2schd"
 
 [deps]
 
-files=["res://data/case_tables/linchuan_inn/dialogue_nodes.node.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.is.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.text.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.emotion.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.set.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.gain.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.gain.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.trigger.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.confrontation.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.end.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.writer.translation"]
+files=["res://data/case_tables/linchuan_inn/dialogue_nodes.node.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.is.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.text.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.en.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.set.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.gain.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.gain.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.en.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.en.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.en.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.en.translation"]
 
 source_file="res://data/case_tables/linchuan_inn/dialogue_nodes.csv"
-dest_files=["res://data/case_tables/linchuan_inn/dialogue_nodes.node.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.is.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.text.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.emotion.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.set.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.gain.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.gain.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.trigger.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.confrontation.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.end.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.writer.translation"]
+dest_files=["res://data/case_tables/linchuan_inn/dialogue_nodes.node.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.is.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.text.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.en.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.set.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.gain.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.gain.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.en.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.en.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.en.translation", "res://data/case_tables/linchuan_inn/dialogue_nodes.en.translation"]
 
 [params]
 
 compress=1
 delimiter=0
+unescape_keys=false
+unescape_translations=true

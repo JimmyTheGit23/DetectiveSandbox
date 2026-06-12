@@ -6,12 +6,14 @@ uid="uid://dumoo34gnh4t1"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/prologue_lines.order.translation", "res://data/case_tables/prologue_ferry/prologue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/prologue_lines.text.translation", "res://data/case_tables/prologue_ferry/prologue_lines.emotion.translation", "res://data/case_tables/prologue_ferry/prologue_lines.type.translation"]
+files=["res://data/case_tables/prologue_ferry/prologue_lines.order.translation", "res://data/case_tables/prologue_ferry/prologue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/prologue_lines.text.translation", "res://data/case_tables/prologue_ferry/prologue_lines.emotion.translation", "res://data/case_tables/prologue_ferry/prologue_lines.en.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/prologue_lines.csv"
-dest_files=["res://data/case_tables/prologue_ferry/prologue_lines.order.translation", "res://data/case_tables/prologue_ferry/prologue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/prologue_lines.text.translation", "res://data/case_tables/prologue_ferry/prologue_lines.emotion.translation", "res://data/case_tables/prologue_ferry/prologue_lines.type.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/prologue_lines.order.translation", "res://data/case_tables/prologue_ferry/prologue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/prologue_lines.text.translation", "res://data/case_tables/prologue_ferry/prologue_lines.emotion.translation", "res://data/case_tables/prologue_ferry/prologue_lines.en.translation"]
 
 [params]
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true

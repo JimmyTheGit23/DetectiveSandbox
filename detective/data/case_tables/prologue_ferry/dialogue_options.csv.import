@@ -6,12 +6,14 @@ uid="uid://btbwrbum8uyeq"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/dialogue_options.node.translation", "res://data/case_tables/prologue_ferry/dialogue_options.order.translation", "res://data/case_tables/prologue_ferry/dialogue_options.text.translation", "res://data/case_tables/prologue_ferry/dialogue_options.goto.translation", "res://data/case_tables/prologue_ferry/dialogue_options.type.translation", "res://data/case_tables/prologue_ferry/dialogue_options.requires.translation", "res://data/case_tables/prologue_ferry/dialogue_options.set.translation", "res://data/case_tables/prologue_ferry/dialogue_options.hide.translation", "res://data/case_tables/prologue_ferry/dialogue_options.min.translation", "res://data/case_tables/prologue_ferry/dialogue_options.cost.translation"]
+files=["res://data/case_tables/prologue_ferry/dialogue_options.node.translation", "res://data/case_tables/prologue_ferry/dialogue_options.order.translation", "res://data/case_tables/prologue_ferry/dialogue_options.text.translation", "res://data/case_tables/prologue_ferry/dialogue_options.goto.translation", "res://data/case_tables/prologue_ferry/dialogue_options.type.translation", "res://data/case_tables/prologue_ferry/dialogue_options.requires.translation", "res://data/case_tables/prologue_ferry/dialogue_options.en.translation", "res://data/case_tables/prologue_ferry/dialogue_options.hide.translation", "res://data/case_tables/prologue_ferry/dialogue_options.min.translation", "res://data/case_tables/prologue_ferry/dialogue_options.en.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/dialogue_options.csv"
-dest_files=["res://data/case_tables/prologue_ferry/dialogue_options.node.translation", "res://data/case_tables/prologue_ferry/dialogue_options.order.translation", "res://data/case_tables/prologue_ferry/dialogue_options.text.translation", "res://data/case_tables/prologue_ferry/dialogue_options.goto.translation", "res://data/case_tables/prologue_ferry/dialogue_options.type.translation", "res://data/case_tables/prologue_ferry/dialogue_options.requires.translation", "res://data/case_tables/prologue_ferry/dialogue_options.set.translation", "res://data/case_tables/prologue_ferry/dialogue_options.hide.translation", "res://data/case_tables/prologue_ferry/dialogue_options.min.translation", "res://data/case_tables/prologue_ferry/dialogue_options.cost.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/dialogue_options.node.translation", "res://data/case_tables/prologue_ferry/dialogue_options.order.translation", "res://data/case_tables/prologue_ferry/dialogue_options.text.translation", "res://data/case_tables/prologue_ferry/dialogue_options.goto.translation", "res://data/case_tables/prologue_ferry/dialogue_options.type.translation", "res://data/case_tables/prologue_ferry/dialogue_options.requires.translation", "res://data/case_tables/prologue_ferry/dialogue_options.en.translation", "res://data/case_tables/prologue_ferry/dialogue_options.hide.translation", "res://data/case_tables/prologue_ferry/dialogue_options.min.translation", "res://data/case_tables/prologue_ferry/dialogue_options.en.translation"]
 
 [params]
 
 compress=1
 delimiter=0
+unescape_keys=false
+unescape_translations=true

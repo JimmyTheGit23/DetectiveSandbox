@@ -6,12 +6,14 @@ uid="uid://by3wdg386jkeq"
 
 [deps]
 
-files=["res://docs/case_template/day_events.title.translation", "res://docs/case_template/day_events.hint.translation", "res://docs/case_template/day_events.trigger.translation", "res://docs/case_template/day_events.effects.translation", "res://docs/case_template/day_events.auto.translation", "res://docs/case_template/day_events.writer.translation"]
+files=["res://docs/templates/day_events.title.translation", "res://docs/templates/day_events.hint.translation", "res://docs/templates/day_events.trigger.translation", "res://docs/templates/day_events.effects.translation", "res://docs/templates/day_events.en.translation", "res://docs/templates/day_events.en.translation"]
 
 source_file="res://docs/templates/day_events.csv"
-dest_files=["res://docs/case_template/day_events.title.translation", "res://docs/case_template/day_events.hint.translation", "res://docs/case_template/day_events.trigger.translation", "res://docs/case_template/day_events.effects.translation", "res://docs/case_template/day_events.auto.translation", "res://docs/case_template/day_events.writer.translation"]
+dest_files=["res://docs/templates/day_events.title.translation", "res://docs/templates/day_events.hint.translation", "res://docs/templates/day_events.trigger.translation", "res://docs/templates/day_events.effects.translation", "res://docs/templates/day_events.en.translation", "res://docs/templates/day_events.en.translation"]
 
 [params]
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true

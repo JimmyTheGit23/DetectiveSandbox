@@ -6,12 +6,14 @@ uid="uid://cwwqr34c24n5u"
 
 [deps]
 
-files=["res://data/case_tables/xunyang_pavilion/testimony_sets.order.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.testimony.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.witness.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.title.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.writer.translation"]
+files=["res://data/case_tables/xunyang_pavilion/testimony_sets.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.en.translation"]
 
 source_file="res://data/case_tables/xunyang_pavilion/testimony_sets.csv"
-dest_files=["res://data/case_tables/xunyang_pavilion/testimony_sets.order.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.testimony.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.witness.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.title.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.writer.translation"]
+dest_files=["res://data/case_tables/xunyang_pavilion/testimony_sets.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.en.translation", "res://data/case_tables/xunyang_pavilion/testimony_sets.en.translation"]
 
 [params]
 
 compress=1
 delimiter=0
+unescape_keys=false
+unescape_translations=true

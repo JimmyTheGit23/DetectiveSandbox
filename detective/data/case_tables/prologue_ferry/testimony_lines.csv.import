@@ -6,12 +6,14 @@ uid="uid://c7rctcws8h3fl"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/testimony_lines.section.translation", "res://data/case_tables/prologue_ferry/testimony_lines.order.translation", "res://data/case_tables/prologue_ferry/testimony_lines.section.translation", "res://data/case_tables/prologue_ferry/testimony_lines.section.translation", "res://data/case_tables/prologue_ferry/testimony_lines.text.translation", "res://data/case_tables/prologue_ferry/testimony_lines.emotion.translation"]
+files=["res://data/case_tables/prologue_ferry/testimony_lines.section.translation", "res://data/case_tables/prologue_ferry/testimony_lines.order.translation", "res://data/case_tables/prologue_ferry/testimony_lines.section.translation", "res://data/case_tables/prologue_ferry/testimony_lines.en.translation", "res://data/case_tables/prologue_ferry/testimony_lines.text.translation", "res://data/case_tables/prologue_ferry/testimony_lines.emotion.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/testimony_lines.csv"
-dest_files=["res://data/case_tables/prologue_ferry/testimony_lines.section.translation", "res://data/case_tables/prologue_ferry/testimony_lines.order.translation", "res://data/case_tables/prologue_ferry/testimony_lines.section.translation", "res://data/case_tables/prologue_ferry/testimony_lines.section.translation", "res://data/case_tables/prologue_ferry/testimony_lines.text.translation", "res://data/case_tables/prologue_ferry/testimony_lines.emotion.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/testimony_lines.section.translation", "res://data/case_tables/prologue_ferry/testimony_lines.order.translation", "res://data/case_tables/prologue_ferry/testimony_lines.section.translation", "res://data/case_tables/prologue_ferry/testimony_lines.en.translation", "res://data/case_tables/prologue_ferry/testimony_lines.text.translation", "res://data/case_tables/prologue_ferry/testimony_lines.emotion.translation"]
 
 [params]
 
 compress=1
 delimiter=0
+unescape_keys=false
+unescape_translations=true

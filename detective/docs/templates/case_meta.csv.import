@@ -6,12 +6,14 @@ uid="uid://s8kuibgmfki1"
 
 [deps]
 
-files=["res://docs/case_template/case_meta.value.translation"]
+files=["res://docs/templates/case_meta.value.translation"]
 
 source_file="res://docs/templates/case_meta.csv"
-dest_files=["res://docs/case_template/case_meta.value.translation"]
+dest_files=["res://docs/templates/case_meta.value.translation"]
 
 [params]
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true

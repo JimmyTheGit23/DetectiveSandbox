@@ -129,3 +129,4 @@ zhou_de_gui_cabin,hub,true,同船的公子？周德茂，做布匹。今夜赶�
 zhou_de_gui_cabin,ask_background,,,,cabin_zhou_talked,,,,,,
 zhou_de_gui_cabin,ask_night_ferry,,,,cabin_zhou_talked;cabin_friend_pressed,,,,,,
 zhou_de_gui_cabin,press_cargo_marks,,,,cabin_observed,,,,,,
+zhou_de_gui_cabin,ask_business,,,,cabin_zhou_talked,,,,,,
