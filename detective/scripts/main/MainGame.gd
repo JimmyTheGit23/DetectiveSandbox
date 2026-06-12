@@ -2000,29 +2000,87 @@ func _on_narration_video(video_path: String) -> void:
 	dialogue_box.visible = false
 	menu_panel.visible = false
 	
-	# 直接 load（Godot 4 会自动触发即时导入 .ogv）
 	var stream: Resource = load(video_path)
-	if stream and stream is VideoStream:
-		var vp := VideoStreamPlayer.new()
-		vp.expand = true
-		vp.loop = false
-		vp.bus = &"Master"
-		vp.volume_db = 0.0
-		add_child(vp)
-		vp.stream = stream
-		vp.play()
-		print("[MainGame] Playing video: %s" % video_path)
-		vp.finished.connect(func():
+	if not stream or not stream is VideoStream:
+		push_error("[MainGame] Invalid video stream: %s" % video_path)
+		dialogue_box.visible = true
+		menu_panel.visible = true
+		DialogueManager.narration_next()
+		return
+	
+	# 安全超时：最多等 5 秒，超时自动跳过（防止编码不兼容导致 finished 永不触发）
+	var video_timed_out := false
+	var timeout_timer := get_tree().create_timer(5.0)
+	timeout_timer.timeout.connect(func():
+		video_timed_out = true
+	)
+	
+	var vp := VideoStreamPlayer.new()
+	vp.expand = true
+	vp.loop = false
+	vp.bus = &"Master"
+	vp.volume_db = 0.0
+	vp.anchor_left = 0.0
+	vp.anchor_right = 1.0
+	vp.anchor_top = 0.0
+	vp.anchor_bottom = 1.0
+	vp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(vp)
+	vp.stream = stream
+	
+	# 检查 stream 是否有有效时长
+	var stream_length := vp.stream_length
+	print("[MainGame] Video: %s, stream_length=%.1fs" % [video_path, stream_length])
+	if stream_length <= 0.0:
+		push_warning("[MainGame] Video stream has zero length, skipping.")
+		vp.queue_free()
+		dialogue_box.visible = true
+		menu_panel.visible = true
+		DialogueManager.narration_next()
+		return
+	
+	vp.play()
+	
+	# 每秒轮询：如果超时或 stream_position 不前进，则跳过
+	var skip_video := func():
+		if not is_instance_valid(vp) or not vp.is_inside_tree():
+			return
+		if video_timed_out:
+			print("[MainGame] Video timeout, skipping.")
+			vp.stop()
 			vp.queue_free()
 			dialogue_box.visible = true
 			menu_panel.visible = true
 			DialogueManager.narration_next()
-		, CONNECT_ONE_SHOT)
-	else:
-		push_error("[MainGame] Failed to load video stream: %s" % video_path)
+		elif vp.is_playing():
+			# 超时计时器到期且仍在播放 → 强制跳过
+			pass  # 由 timeout_timer 处理
+	skip_video
+	
+	timeout_timer.timeout.connect(func():
+		if not is_instance_valid(vp) or not vp.is_inside_tree():
+			vp.queue_free() if is_instance_valid(vp) else null
+			dialogue_box.visible = true
+			menu_panel.visible = true
+			DialogueManager.narration_next()
+			return
+		print("[MainGame] Video timeout reached, force-skipping.")
+		vp.stop()
+		vp.queue_free()
 		dialogue_box.visible = true
 		menu_panel.visible = true
 		DialogueManager.narration_next()
+	, CONNECT_ONE_SHOT)
+	
+	vp.finished.connect(func():
+		if timeout_timer and timeout_timer.time_left > 0:
+			timeout_timer.queue_free()
+		print("[MainGame] Video finished normally.")
+		vp.queue_free()
+		dialogue_box.visible = true
+		menu_panel.visible = true
+		DialogueManager.narration_next()
+	, CONNECT_ONE_SHOT)
 
 ## 叙述中遇到 time_card 节点：显示时间过场，结束后自动推进叙述
 func _on_narration_time_card(text: String, sub_text: String) -> void:
