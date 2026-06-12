@@ -136,6 +136,7 @@ var _screen_shake_base_positions: Dictionary = {}
 
 func _ready() -> void:
 	set_process(false)
+	CaseTableLoader.clear_cache()
 	GameManager.location_changed.connect(_on_location_changed)
 	GameManager.evidence_added.connect(_on_evidence_added)
 	GameManager.clue_added.connect(_on_clue_added)
@@ -1984,7 +1985,13 @@ func _on_narration_ended() -> void:
 
 ## 叙述中遇到 video 节点：播放视频，结束后自动推进叙述
 func _on_narration_video(video_path: String) -> void:
-	if video_path == "" or not ResourceLoader.exists(video_path):
+	if video_path == "":
+		DialogueManager.narration_next()
+		return
+	
+	# 用 FileAccess 检查原始文件（不依赖 Godot 导入缓存）
+	if not FileAccess.file_exists(video_path):
+		push_warning("[MainGame] Video file not found: %s, skipping." % video_path)
 		DialogueManager.narration_next()
 		return
 	
@@ -1993,15 +2000,18 @@ func _on_narration_video(video_path: String) -> void:
 	dialogue_box.visible = false
 	menu_panel.visible = false
 	
+	# 直接 load（Godot 4 会自动触发即时导入 .ogv）
 	var stream: Resource = load(video_path)
 	if stream and stream is VideoStream:
 		var vp := VideoStreamPlayer.new()
 		vp.expand = true
 		vp.loop = false
 		vp.bus = &"Master"
+		vp.volume_db = 0.0
 		add_child(vp)
 		vp.stream = stream
 		vp.play()
+		print("[MainGame] Playing video: %s" % video_path)
 		vp.finished.connect(func():
 			vp.queue_free()
 			dialogue_box.visible = true
@@ -2009,7 +2019,7 @@ func _on_narration_video(video_path: String) -> void:
 			DialogueManager.narration_next()
 		, CONNECT_ONE_SHOT)
 	else:
-		push_warning("[MainGame] Video not loaded: %s, skipping." % video_path)
+		push_error("[MainGame] Failed to load video stream: %s" % video_path)
 		dialogue_box.visible = true
 		menu_panel.visible = true
 		DialogueManager.narration_next()
