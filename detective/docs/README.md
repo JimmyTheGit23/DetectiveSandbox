@@ -63,6 +63,21 @@ python tools/data_compiler/compile_case.py your_case_id --write-runtime
   - 常见错误及修复
   - 自动化集成
 
+- **[《逆转裁判1》文本解包拆读归档](narrative/ACE_ATTORNEY1_SCRIPT_ANALYSIS_ARCHIVE.md)** - 叙事写作参考
+  - 角色塑造方法
+  - 剧本结构与节奏模板
+  - 自然台词与对峙台词审稿清单
+
+- **[序章台词重构蓝图](narrative/PROLOGUE_DIALOGUE_RESTRUCTURE_BLUEPRINT.md)** - 《渡口沉舟》台词重构执行锚点
+  - 新版陆昭/凌瑶人物发动机
+  - 序章节拍表与分批执行顺序
+  - 非逐句微调的质量控制流程
+
+- **[序章台词重构执行归档](narrative/PROLOGUE_DIALOGUE_REWRITE_LOG.md)** - 《渡口沉舟》CSV 改写批次记录
+  - 每批戏剧任务与改动范围
+  - 保留骨架与验证结果
+  - 后续批次建议
+
 ### 模板文件
 
 - **[CSV 模板](case_template/)** - 可用的 CSV 模板
