@@ -2062,8 +2062,6 @@ func _on_narration_video(video_path: String) -> void:
 	, CONNECT_ONE_SHOT)
 	
 	vp.finished.connect(func():
-		if timeout_timer and timeout_timer.time_left > 0:
-			timeout_timer.queue_free()
 		print("[MainGame] Video finished normally.")
 		vp.queue_free()
 		dialogue_box.visible = true
