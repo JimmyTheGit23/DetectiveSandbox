@@ -4,11 +4,10 @@ cabin_1,0,陆昭,驿丞说的'顺路夜船'——比我想的小。,observing,in
 cabin_2,0,陆昭,湿斗篷……先拧干挂起来。官印匣子——封蜡还在，绳结是自己打的活扣。,focused,inner_thought
 cabin_3,0,陆昭,官印匣子没动过。行程简记——油纸外层潮了，内页没湿。好。,relieved,inner_thought
 cabin_4,0,陆昭,到武昌还有一夜水路。漕运亏空若真如密报——三年十四万两——牵扯进去的人不会只是转运使。,serious,inner_thought
-cabin_5,0,陆昭,背上一阵凉。不是雨——想起上一任御史，到任前坠马死了。死的地方离这条江不远。,anxious,inner_thought
+cabin_5,0,陆昭,上一任御史到任就没了……离这条江不远。,anxious,inner_thought
 cabin_6,0,陆昭,别想了。先到了再说。,tired,inner_thought
-cabin_7,0,陆昭,油灯火苗被风扯得忽闪。前舱飘来肥肉油味，筷子碰碗边——这么晚了还在吃？,observing,inner_thought
-cabin_8,0,陆昭,同船的——驿丞说是个布商，带了个仆从。还有一个船家。先出去看看。,curious,inner_thought
-cabin_9,0,陆昭,先出去看看这三个人。,determined,inner_thought
+cabin_7,0,陆昭,前舱还在吃饭？这么晚了……,observing,inner_thought
+cabin_8,0,陆昭,同船的——驿丞说是个布商，带了个仆从。还有一个船家。先出去看看这三个人。,determined,inner_thought
 cabin_free_explore,0,陆昭,舱室不大。桌上有行程简记，床脚搁着木匣。前舱和船尾有人在说话——趁现在去聊聊。,determined,inner_thought
 cabin_after_all_talked_1,0,陆昭,回到舱室。没点灯。三个人——在心里排一遍。,serious,inner_thought
 cabin_after_all_talked_2,0,陆昭,周德茂——铜锁木箱不离身。水性好，年轻时掉江里都活下来了。可吃了满肚子油腻还赶夜船……就不怕万一？除非他确信这趟船稳得很。,serious,inner_thought
