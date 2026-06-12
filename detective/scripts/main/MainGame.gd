@@ -1984,7 +1984,7 @@ func _on_narration_ended() -> void:
 
 ## 叙述中遇到 video 节点：播放视频，结束后自动推进叙述
 func _on_narration_video(video_path: String) -> void:
-	if video_path == "":
+	if video_path == "" or not ResourceLoader.exists(video_path):
 		DialogueManager.narration_next()
 		return
 	
@@ -1993,8 +1993,8 @@ func _on_narration_video(video_path: String) -> void:
 	dialogue_box.visible = false
 	menu_panel.visible = false
 	
-	var stream := load(video_path)
-	if stream:
+	var stream: Resource = load(video_path)
+	if stream and stream is VideoStream:
 		var vp := VideoStreamPlayer.new()
 		vp.expand = true
 		vp.loop = false
@@ -2009,7 +2009,7 @@ func _on_narration_video(video_path: String) -> void:
 			DialogueManager.narration_next()
 		, CONNECT_ONE_SHOT)
 	else:
-		push_error("[MainGame] Failed to load video: %s" % video_path)
+		push_warning("[MainGame] Video not loaded: %s, skipping." % video_path)
 		dialogue_box.visible = true
 		menu_panel.visible = true
 		DialogueManager.narration_next()

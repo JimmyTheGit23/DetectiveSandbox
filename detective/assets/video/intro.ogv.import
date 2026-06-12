@@ -1,0 +1,13 @@
+[remap]
+
+importer="theora_video"
+type="VideoStreamTheora"
+
+[deps]
+
+source_file="res://assets/video/intro.ogv"
+dest_files=["res://.godot/imported/intro.ogv-1a2b3c.ogvstr"]
+
+[params]
+
+loop=false
