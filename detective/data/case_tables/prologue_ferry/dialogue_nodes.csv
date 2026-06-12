@@ -119,7 +119,7 @@ agui_cabin,ask_master,,,,cabin_agui_talked,,,,,,
 agui_cabin,ask_voyage,,,,cabin_agui_talked,,,,,,
 agui_cabin,ask_feelings,,,,cabin_agui_talked,,,,,,
 agui_cabin,press_bag,,,,cabin_agui_observed,,clue_agui_suspicious_bag,,,,
-agui_cabin,press_crowbar,,,,cabin_observed,,,,,,
+
 lao_fan_cabin,hub,true,公子问路还是问船？老范跑这条水路多年，能说的都说。,evasive,,,,,,,
 lao_fan_cabin,ask_route,,,,cabin_lao_fan_talked,,,,,,
 lao_fan_cabin,ask_weather,,,,cabin_lao_fan_talked,,,,,,
