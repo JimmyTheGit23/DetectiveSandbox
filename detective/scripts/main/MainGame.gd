@@ -2029,7 +2029,7 @@ func _on_narration_video(video_path: String) -> void:
 	vp.stream = stream
 	
 	# 检查 stream 是否有有效时长
-	var stream_length := vp.stream_length
+	var stream_length: float = vp.stream_length
 	print("[MainGame] Video: %s, stream_length=%.1fs" % [video_path, stream_length])
 	if stream_length <= 0.0:
 		push_warning("[MainGame] Video stream has zero length, skipping.")
