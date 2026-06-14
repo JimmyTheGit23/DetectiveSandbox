@@ -1,0 +1,13 @@
+[remap]
+
+importer="ogg_vorbis"
+type="VideoStreamTheora"
+
+[deps]
+
+source_file="res://assets/video/intro.mp4"
+dest_files=["res://.godot/imported/intro.mp4-abcdef.ogv"]
+
+[params]
+
+loop=false

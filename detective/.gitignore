@@ -55,3 +55,4 @@ data/case_tables/*/_compiled/
 
 # Art generation rules (contains API key)
 docs/art_generation_rules.md
+tools/ffmpeg.zip

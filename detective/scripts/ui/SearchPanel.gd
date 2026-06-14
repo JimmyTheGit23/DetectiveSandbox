@@ -4,6 +4,8 @@ extends Control
 signal close_requested()
 signal search_result_acknowledged()
 
+const TextUtilsScript = preload("res://scripts/core/TextUtils.gd")
+
 @onready var title_label: Label = $Panel/VBox/Title
 @onready var list_vbox: VBoxContainer = $Panel/VBox/List
 @onready var result_box: RichTextLabel = $Panel/VBox/ResultBox
@@ -159,7 +161,7 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 	body.scroll_active = true
 	body.add_theme_font_size_override("normal_font_size", 20)
 	body.add_theme_color_override("default_color", Color(0.9, 0.86, 0.76, 1))
-	body.text = _result_dialog_text(result)
+	body.text = TextUtilsScript.color_inner_thoughts(_result_dialog_text(result))
 	vbox.add_child(body)
 
 	# 证据/线索图片展示
@@ -204,10 +206,12 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 
 
 func _result_dialog_text(result: Dictionary) -> String:
-	var txt: String = "你完成了这次调查。\n\n"
+	var txt: String = ""
 	var narration: String = result.get("narration", "")
 	if narration == "":
 		narration = result.get("intro_text", "")
+	if narration == "":
+		narration = "（仔细看了看，没发现什么特别的。）"
 	txt += narration
 	if result.get("gained_evidence", "") != "":
 		var ev = GameManager.evidence_data.get(result.gained_evidence, {})

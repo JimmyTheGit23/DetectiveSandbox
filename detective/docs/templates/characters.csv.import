@@ -6,14 +6,12 @@ uid="uid://4mja1f8mp5sj"
 
 [deps]
 
-files=["res://docs/templates/characters.name.translation", "res://docs/templates/characters.title.translation", "res://docs/templates/characters.intro.translation", "res://docs/templates/characters.dialogue.translation", "res://docs/templates/characters.actor.translation", "res://docs/templates/characters.portrait.translation", "res://docs/templates/characters.en.translation", "res://docs/templates/characters.is.translation", "res://docs/templates/characters.is.translation", "res://docs/templates/characters.is.translation"]
+files=["res://docs/case_template/characters.name.translation", "res://docs/case_template/characters.title.translation", "res://docs/case_template/characters.intro.translation", "res://docs/case_template/characters.dialogue.translation", "res://docs/case_template/characters.actor.translation", "res://docs/case_template/characters.portrait.translation", "res://docs/case_template/characters.always.translation", "res://docs/case_template/characters.is.translation", "res://docs/case_template/characters.is.translation", "res://docs/case_template/characters.is.translation"]
 
 source_file="res://docs/templates/characters.csv"
-dest_files=["res://docs/templates/characters.name.translation", "res://docs/templates/characters.title.translation", "res://docs/templates/characters.intro.translation", "res://docs/templates/characters.dialogue.translation", "res://docs/templates/characters.actor.translation", "res://docs/templates/characters.portrait.translation", "res://docs/templates/characters.en.translation", "res://docs/templates/characters.is.translation", "res://docs/templates/characters.is.translation", "res://docs/templates/characters.is.translation"]
+dest_files=["res://docs/case_template/characters.name.translation", "res://docs/case_template/characters.title.translation", "res://docs/case_template/characters.intro.translation", "res://docs/case_template/characters.dialogue.translation", "res://docs/case_template/characters.actor.translation", "res://docs/case_template/characters.portrait.translation", "res://docs/case_template/characters.always.translation", "res://docs/case_template/characters.is.translation", "res://docs/case_template/characters.is.translation", "res://docs/case_template/characters.is.translation"]
 
 [params]
 
 compress=true
 delimiter=0
-unescape_keys=false
-unescape_translations=true

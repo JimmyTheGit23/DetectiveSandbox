@@ -26,76 +26,79 @@ const SubPanels = {
 }
 
 const GM_PRESET_ORDER := [
-	"cabin_start",
-	"wang_confront",
-	"phase2_investigate",
-	"main_confront_ready",
-	"phase3_after_agui",
-	"final_ready",
+	"rescue_start",
+	"before_wang",
+	"after_wang",
+	"before_agui",
+	"after_agui",
+	"before_shen",
 	"fixed_epilogue",
 ]
 
 const GM_PRESETS := {
-	"cabin_start": {
-		"label": "船舱调查开始",
-		"location": "cabin_lu_room",
-	},
-	"wang_confront": {
-		"label": "王大爷自证对峙前",
+	"rescue_start": {
+		"label": "① 沉船救援（凌瑶出场）",
 		"location": "ferry_inn",
-		"flags": ["cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "cabin_phase_done"],
-		"evidence": ["evidence_hull_hole", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
-		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive"],
+		"flags": ["cabin_review_done"],
+	},
+	"before_wang": {
+		"label": "② 王大爷对峙前",
+		"location": "ferry_inn",
+		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done"],
+		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location"],
+		"clues": ["evidence_no_motive"],
 		"confrontation": "confrontation_wang",
 	},
-	"phase2_investigate": {
-		"label": "自证清白后调查",
+	"after_wang": {
+		"label": "③ 王大爷对峙后·循线查证（自动续播）",
 		"location": "ferry_dock",
-		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed"],
-		"evidence": ["evidence_hull_hole", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
-		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive"],
+		"linear_chain": ["evt_self_cleared"],
+		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked"],
+		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time"],
+		"clues": ["evidence_no_motive"],
 	},
-	"main_confront_ready": {
-		"label": "老范/阿贵对峙前",
+	"before_agui": {
+		"label": "④ 老范阿贵对峙前",
 		"location": "ferry_inn",
-		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known"],
-		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
-		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole"],
+		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked"],
+		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time", "evidence_hull_hole", "evidence_nail_marks", "evidence_no_blunt_trauma", "evidence_float_bladder", "evidence_dismissal_note", "evidence_gambling_iou"],
+		"clues": ["evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole"],
 		"confrontation": "confrontation",
 	},
-	"phase3_after_agui": {
-		"label": "阿贵招供后",
+	"after_agui": {
+		"label": "⑤ 阿贵招供后·收网（自动续播）",
 		"location": "ferry_inn",
-		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done", "phase3_scene_rearranged"],
-		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
-		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing"],
+		"linear_chain": ["evt_phase3_transition", "evt_night_before_shen"],
+		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "confrontation_completed", "agui_confessed_mastermind"],
+		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time", "evidence_hull_hole", "evidence_nail_marks", "evidence_no_blunt_trauma", "evidence_float_bladder", "evidence_dismissal_note", "evidence_gambling_iou"],
+		"clues": ["evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing"],
 	},
-	"final_ready": {
-		"label": "沈清月终局前",
+	"before_shen": {
+		"label": "⑥ 沈清月终局前",
 		"location": "shen_room",
-		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done", "phase3_scene_rearranged", "bladder_meaning_revised", "evt_shen_evidence_ready_done"],
-		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost", "evidence_cargo_silver", "evidence_drug_capsule_shell", "evidence_tongue_herb_residue", "evidence_oil_lock_residue", "evidence_father_ledger"],
-		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing", "evidence_salvage_mark", "evidence_shen_connection"],
+		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done"],
+		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time", "evidence_hull_hole", "evidence_nail_marks", "evidence_no_blunt_trauma", "evidence_float_bladder", "evidence_dismissal_note", "evidence_gambling_iou", "evidence_cargo_silver", "evidence_drug_capsule_shell", "evidence_tongue_herb_residue", "evidence_oil_lock_residue", "evidence_father_ledger"],
+		"clues": ["evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing", "evidence_salvage_mark", "evidence_shen_connection"],
 		"confrontation": "confrontation_final",
 	},
 	"fixed_epilogue": {
-		"label": "固定结尾过渡",
+		"label": "⑦ 固定结尾",
 		"location": "ferry_inn",
 		"flags": ["cabin_phase_done", "prologue_truth_reached", "prologue_defeated", "case_partially_resolved"],
 	},
 }
 
 const GM_CONFRONTATION_PRESET_MAP := {
-	"confrontation_wang": "wang_confront",
-	"confrontation": "main_confront_ready",
-	"confrontation_final": "final_ready",
+	"confrontation_wang": "before_wang",
+	"confrontation": "before_agui",
+	"confrontation_final": "before_shen",
 }
 
 const SettingsSealIcon = preload("res://scripts/ui/SettingsSealIcon.gd")
 const SETTINGS_BUTTON_ICON_PATH := "res://assets/cn/ui/icon_settings_seal.png"
 const GM_TEST_PANEL_SCENE_PATH := "res://scenes/ui/GmTestPanel.tscn"
-const EVIDENCE_OBTAIN_HOLD_SECONDS := 2.0
-const EVIDENCE_POPUP_VISIBLE_SECONDS := 2.0
+const EVIDENCE_OBTAIN_HOLD_SECONDS := 3.0
+const EVIDENCE_POPUP_VISIBLE_SECONDS := 3.0
 const EVIDENCE_POPUP_WIDTH := 660.0
 const EVIDENCE_CLICK_BLOCKER_Z_INDEX := 2048
 const EVIDENCE_POPUP_STACK_Z_INDEX := 2047
@@ -107,6 +110,8 @@ var _silent_auto_event_pending := false
 var _silent_auto_event_suppress_evidence_hold := false
 var _pending_adhoc_lines: Array = []
 var _defer_adhoc_until_confrontation_result_done := false
+var _linear_prologue_active := false      # 线性序章进行中：全程由回调驱动，不展示菜单/自由探索
+var _wang_confrontation_entry_pending := false
 var _last_location_day: int = -1         # 上次进入场景时的 day
 var _time_card_playing: bool = false     # 场景过场是否正在播放
 var _visited_locations: Dictionary = {}  # 已访问过的场景 ID → true（首次访问时显示地名卡）
@@ -123,6 +128,8 @@ var _bg_transition_id: int = 0
 var _current_bg_path: String = ""
 var _npc_layer: Control = null
 var _settings_btn: Button = null
+var _video_skip_fn: Callable = Callable()
+var _video_skip_btn: Button = null
 var _settings_icon: Control = null
 var _settings_btn_tween: Tween = null
 var _settings_btn_hovered := false
@@ -136,6 +143,7 @@ var _screen_shake_base_positions: Dictionary = {}
 
 func _ready() -> void:
 	set_process(false)
+	CaseTableLoader.clear_cache()
 	GameManager.location_changed.connect(_on_location_changed)
 	GameManager.evidence_added.connect(_on_evidence_added)
 	GameManager.clue_added.connect(_on_clue_added)
@@ -148,6 +156,7 @@ func _ready() -> void:
 	DialogueManager.narration_started.connect(_on_narration_started)
 	DialogueManager.narration_ended.connect(_on_narration_ended)
 	DialogueManager.narration_choices_ready.connect(_on_narration_choices_ready)
+	DialogueManager.narration_video.connect(_on_narration_video)
 	DialogueManager.narration_time_card.connect(_on_narration_time_card)
 	DialogueManager.narration_effects.connect(_on_narration_effects)
 	DialogueManager.lie_exposed.connect(_on_lie_exposed)
@@ -213,6 +222,13 @@ func _process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	# 视频播放中 ESC 跳过
+	if _video_skip_fn.is_valid():
+		if event is InputEventKey and event.keycode == KEY_ESCAPE and event.pressed and not event.echo:
+			print("[MainGame] Video skipped by ESC.")
+			_video_skip_fn.call()
+			get_viewport().set_input_as_handled()
+			return
 	if not _is_evidence_click_locked():
 		return
 	if event is InputEventMouseButton or event is InputEventScreenTouch:
@@ -411,11 +427,11 @@ func _animate_settings_button(target_scale: Vector2, duration: float) -> void:
 	_settings_btn_tween.tween_property(_settings_btn, "scale", target_scale, duration)
 
 
-func _set_background(path: String, use_fade := true) -> void:
+func _set_background(path: String, use_fade := true, force := false) -> void:
 	if path == "" or not ResourceLoader.exists(path):
 		return
 	# 背景没有变化时不做 fade，避免同场景连续叙述闪黑。
-	if path == _current_bg_path:
+	if path == _current_bg_path and not force:
 		return
 	var tex := load(path)
 	if tex == null:
@@ -423,6 +439,9 @@ func _set_background(path: String, use_fade := true) -> void:
 	# 切换背景时重置位置偏移（CG 场景可能偏移过）
 	scene_bg.position = Vector2.ZERO
 	if not use_fade or _bg_fade_rect == null or scene_bg.texture == null:
+		_bg_transition_id += 1
+		if _bg_fade_rect != null:
+			_bg_fade_rect.color.a = 0.0
 		scene_bg.texture = tex
 		_current_bg_path = path
 		return
@@ -767,10 +786,54 @@ func _start_new_game() -> void:
 	top_bar_label.get_parent().visible = false
 	_visited_locations.clear()
 	_pending_events.clear()
+	_linear_prologue_active = false
 	GameManager.reset_progress()
 	GameManager.set_state(GameManager.STATE_PROLOGUE)
-	BgmPlayer.play("ferry_cabin_night")
+	BgmPlayer.stop()
 	DialogueManager.start_narration("prologue")
+
+
+func _use_linear_prologue_route() -> bool:
+	return GameManager.ACTIVE_CASE == "prologue_ferry"
+
+
+func _prepare_linear_prologue_surface(location_id: String) -> void:
+	_defer_adhoc_until_confrontation_result_done = false
+	_gm_prepare_surface(false)
+	top_bar_label.get_parent().visible = false
+	menu_panel.visible = false
+	if location_id != "":
+		_gm_force_location(location_id)
+	if _npc_layer and _npc_layer.has_method("hide_npcs"):
+		_npc_layer.hide_npcs()
+
+
+func _start_linear_prologue_route() -> void:
+	# 线性序章入口：开场动画结束后直接进入沉船事件，全程不灌注预设证据。
+	# 所有证据都由过渡事件（evt_cabin_sinking / evt_self_cleared / evt_phase3_transition）
+	# 的行内 gain_evidence/gain_clue 在对应剧情画面随台词自然发放。
+	GameManager.reload_current_case_tables()
+	GameManager.set_state(GameManager.STATE_PLAYING)
+	GameManager.set_flag("cabin_review_done")   # 满足 evt_cabin_sinking 的 trigger 语义
+	_gm_clear_event_noise()
+	_prepare_linear_prologue_surface(GameManager.case_main_scene)
+	_set_background("res://assets/cn/scenes/pure_black.png", false, true)
+	# evt_cabin_sinking 的 effects 会在播完后静默切到客栈并自动进入王大爷证词对峙。
+	_play_event_now("evt_cabin_sinking", true)
+
+
+func _advance_linear_prologue_checkpoint(preset_id: String, event_id: String, extra_flags: Array = []) -> void:
+	if not GM_PRESETS.has(preset_id):
+		return
+	GameManager.reload_current_case_tables()
+	var preset: Dictionary = GM_PRESETS[preset_id]
+	for flag_id in extra_flags:
+		GameManager.set_flag(str(flag_id))
+	_gm_grant_state(preset)
+	_gm_clear_event_noise()
+	_prepare_linear_prologue_surface(str(preset.get("location", GameManager.case_main_scene)))
+	if event_id != "":
+		_play_event_now(event_id, true)
 
 
 func _continue_game() -> void:
@@ -806,8 +869,7 @@ func resume_loaded_game() -> void:
 		_schedule_silent_auto_event(true)
 	else:
 		_refresh_event_hint()
-	if _should_resume_wang_confrontation_after_continue():
-		_deferred_start_confrontation.call_deferred("confrontation_wang")
+	_force_wang_confrontation_entry()
 
 
 func _should_resume_cabin_from_prologue_save() -> bool:
@@ -850,12 +912,46 @@ func _has_pending_auto_event() -> bool:
 
 
 func _should_resume_wang_confrontation_after_continue() -> bool:
+	return _should_force_wang_confrontation_entry()
+
+
+func _should_force_wang_confrontation_entry() -> bool:
 	return (
 		GameManager.ACTIVE_CASE == "prologue_ferry"
-		and GameManager.current_location == "ferry_inn"
 		and GameManager.has_flag("accused_of_murder")
 		and not GameManager.has_flag("confrontation_wang_completed")
+		and GameManager.case_data.has("confrontation_wang")
 	)
+
+
+func _force_wang_confrontation_entry() -> bool:
+	if not _should_force_wang_confrontation_entry():
+		return false
+	if _wang_confrontation_entry_pending:
+		return true
+	_wang_confrontation_entry_pending = true
+	_linear_prologue_active = true
+	_pending_events.clear()
+	event_hint_btn.visible = false
+	menu_panel.visible = false
+	_close_subpanel()
+	if GameManager.current_location != "ferry_inn":
+		_suppress_next_arrival_banter = true
+		_suppress_next_location_intro = true
+		GameManager.change_location("ferry_inn", false)
+	_start_wang_confrontation_entry_when_idle.call_deferred()
+	return true
+
+
+func _start_wang_confrontation_entry_when_idle() -> void:
+	await get_tree().process_frame
+	while dialogue_box.visible or GameManager.current_state == GameManager.STATE_DIALOGUE:
+		await get_tree().process_frame
+	_wang_confrontation_entry_pending = false
+	if not _should_force_wang_confrontation_entry():
+		return
+	GameManager.active_confrontation_key = "confrontation_wang"
+	_open_confrontation_panel()
 
 
 # ─── 时间/地点/通知 ───
@@ -885,14 +981,17 @@ func _on_location_changed(loc_id: String, suppress_arrival_banter := false) -> v
 		var loc_name: String = data.get("name", "")
 		if loc_name != "":
 			var card_text := "%s · %s" % [GameManager.get_current_time_label(), loc_name]
-			day_transition.show_period(card_text)
-			day_transition.finished.connect(func():
+			if _npc_layer and _npc_layer.has_method("hide_npcs"):
+				_npc_layer.hide_npcs()
+			_show_dialogue_time_card(card_text, func():
 				_time_card_playing = false
 				if _npc_layer and _npc_layer.has_method("refresh_npcs"):
 					_npc_layer.refresh_npcs(loc_id)
 				if not block_arrival_banter:
 					_try_companion_banter("arrive_location:" + loc_id)
-			, CONNECT_ONE_SHOT)
+			)
+		else:
+			_time_card_playing = false
 	else:
 		_set_background(bg_path, true)
 	# 同步场景动态特效层
@@ -906,11 +1005,29 @@ func _on_location_changed(loc_id: String, suppress_arrival_banter := false) -> v
 		if _npc_layer and _npc_layer.has_method("refresh_npcs"):
 			_npc_layer.refresh_npcs(loc_id)
 	BgmPlayer.play(loc_id)
-	if menu_panel.has_method("refresh_visibility"):
-		menu_panel.refresh_visibility()
+	if not _linear_prologue_active:
+		if menu_panel.has_method("refresh_visibility"):
+			menu_panel.refresh_visibility()
 	_close_subpanel()
 	if not should_show_time and not block_arrival_banter:
 		_try_companion_banter("arrive_location:" + loc_id)
+
+
+func _show_dialogue_time_card(text: String, on_done: Callable = Callable()) -> void:
+	if text.strip_edges() == "":
+		if on_done.is_valid():
+			on_done.call()
+		return
+	var line := {
+		"speaker": "",
+		"text": text,
+		"effect": {
+			"time_card": true,
+			"disable_typewriter_skip": true,
+			"typewriter_char_delay": 0.14,
+		},
+	}
+	DialogueManager.play_adhoc_narration([line], on_done)
 
 
 func _update_top_bar() -> void:
@@ -956,6 +1073,9 @@ func _on_phase_unlocked(phase_id: String) -> void:
 	if phase.is_empty():
 		return
 	_flash_notification("【调查进展】" + phase.get("title", "新阶段解锁"))
+	# 线性序章不展示菜单/地图，也不插入阶段解锁的助手闲谈，节奏完全由路由控制。
+	if _linear_prologue_active:
+		return
 	# 刷新菜单和地图
 	if menu_panel.has_method("refresh_visibility"):
 		menu_panel.refresh_visibility()
@@ -964,6 +1084,9 @@ func _on_phase_unlocked(phase_id: String) -> void:
 
 func _on_progression_hint(speaker: String, text: String) -> void:
 	if text == "":
+		return
+	# 线性序章：探索引导提示无意义且会插队打断过渡叙事，直接屏蔽。
+	if _linear_prologue_active:
 		return
 	var lines: Array = [{ "speaker": speaker, "text": text }]
 	_play_or_queue_adhoc(lines)
@@ -989,12 +1112,12 @@ func _flash_notification(text: String) -> void:
 	tw.tween_callback(lbl.queue_free)
 
 
-func _show_evidence_popup(eid: String, ev: Dictionary, hold_advance := true) -> void:
+func _show_evidence_popup(eid: String, ev: Dictionary, _hold_advance := true) -> void:
 	var tex: Texture2D = _load_evidence_popup_texture(eid, ev)
-	if hold_advance:
-		_lock_evidence_clicks_for(EVIDENCE_OBTAIN_HOLD_SECONDS)
-		if dialogue_box and dialogue_box.has_method("lock_advance_for"):
-			dialogue_box.lock_advance_for(EVIDENCE_OBTAIN_HOLD_SECONDS)
+	# 入场动画期间先短暂锁定，防止误点；入场完成后重新从头计时完整锁定时长
+	_lock_evidence_clicks_for(0.25)
+	if dialogue_box and dialogue_box.has_method("lock_advance_for"):
+		dialogue_box.lock_advance_for(0.25)
 	if tex == null:
 		return
 
@@ -1081,11 +1204,18 @@ func _show_evidence_popup(eid: String, ev: Dictionary, hold_advance := true) -> 
 	tw.set_parallel(true)
 	tw.tween_property(toast, "modulate:a", 1.0, 0.18)
 	tw.tween_property(toast, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tw.chain().tween_interval(EVIDENCE_POPUP_VISIBLE_SECONDS)
-	tw.set_parallel(true)
-	tw.tween_property(toast, "modulate:a", 0.0, 0.45)
-	tw.tween_property(toast, "scale", Vector2(0.98, 0.98), 0.45)
-	tw.chain().tween_callback(toast.queue_free)
+	await tw.finished
+	# 入场完成后施加完整锁定（弹窗完全可见起阻塞 EVIDENCE_OBTAIN_HOLD_SECONDS）
+	_lock_evidence_clicks_for(EVIDENCE_OBTAIN_HOLD_SECONDS)
+	if dialogue_box and dialogue_box.has_method("lock_advance_for"):
+		dialogue_box.lock_advance_for(EVIDENCE_OBTAIN_HOLD_SECONDS)
+	await get_tree().create_timer(EVIDENCE_POPUP_VISIBLE_SECONDS).timeout
+	var tw2 := create_tween()
+	tw2.set_parallel(true)
+	tw2.tween_property(toast, "modulate:a", 0.0, 0.45)
+	tw2.tween_property(toast, "scale", Vector2(0.98, 0.98), 0.45)
+	await tw2.finished
+	toast.queue_free()
 
 
 func _ensure_evidence_popup_stack() -> VBoxContainer:
@@ -1159,6 +1289,11 @@ func _load_evidence_popup_texture(eid: String, ev: Dictionary) -> Texture2D:
 
 # ─── 日程事件 ───
 func _on_day_event_available(evt_id: String) -> void:
+	# 线性序章：所有过渡事件均由路由回调显式驱动（_play_event_now / auto_start_confrontation），
+	# 屏蔽因 flag/evidence 变动触发的自动排队与自动播放，避免探索期事件
+	#（evt_quiet_moment / evt_hull_discovered / evt_inn_recovery 等）插队打断节奏或弹出提示按钮。
+	if _linear_prologue_active:
+		return
 	var evt: Dictionary = GameManager.get_day_event(evt_id)
 	if bool(evt.get("auto_play", false)):
 		if not _pending_events.has(evt_id):
@@ -1204,7 +1339,7 @@ func _play_silent_auto_event_when_idle() -> void:
 	_silent_auto_event_suppress_evidence_hold = false
 
 
-func _play_event_now(evt_id: String, suppress_evidence_hold := false) -> void:
+func _play_event_now(evt_id: String, suppress_evidence_hold := false, on_done: Callable = Callable()) -> void:
 	var previous_suppress_evidence_hold := GameManager.suppress_evidence_obtain_hold
 	if suppress_evidence_hold:
 		GameManager.suppress_evidence_obtain_hold = true
@@ -1246,6 +1381,13 @@ func _play_event_now(evt_id: String, suppress_evidence_hold := false) -> void:
 	var suppress_arrival_banter_after_event := bool(evt.get("effects", {}).get("suppress_arrival_banter", false))
 	var suppress_location_intro_after_event := bool(evt.get("effects", {}).get("suppress_location_intro", false))
 	var auto_confront: String = str(evt.get("effects", {}).get("auto_start_confrontation", ""))
+	# 防止旧缓存/旧存档漏读 effects：沉船后必须回客栈并进入王大爷对峙。
+	if GameManager.ACTIVE_CASE == "prologue_ferry" and evt_id == "evt_cabin_sinking":
+		if deferred_location == "":
+			deferred_location = "ferry_inn"
+		suppress_arrival_banter_after_event = true
+		suppress_location_intro_after_event = true
+		auto_confront = "confrontation_wang"
 
 	var finish_event := func():
 		# 事件级效果必须在整段叙事播放完后再落库。
@@ -1260,8 +1402,12 @@ func _play_event_now(evt_id: String, suppress_evidence_hold := false) -> void:
 			GameManager.change_location(deferred_location, false)
 		_refresh_event_hint()
 		_try_companion_banter("after_event:" + evt_id)
-		if auto_confront != "":
+		if auto_confront == "confrontation_wang" and GameManager.ACTIVE_CASE == "prologue_ferry":
+			_force_wang_confrontation_entry()
+		elif auto_confront != "":
 			_deferred_start_confrontation.call_deferred(auto_confront)
+		elif on_done.is_valid():
+			on_done.call()
 
 	if cabin_escape_insert_index >= 0:
 		var before_escape: Array = lines.slice(0, cabin_escape_insert_index)
@@ -1314,7 +1460,7 @@ func _show_cabin_escape_panel(done: Callable) -> void:
 
 
 func _deferred_start_confrontation(confront_key: String) -> void:
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().process_frame
 	GameManager.active_confrontation_key = confront_key
 	_open_confrontation_panel()
 
@@ -1417,6 +1563,8 @@ func _on_menu_locked_hint_requested(hint: String) -> void:
 
 
 func _on_menu_clicked(menu_id: String) -> void:
+	if _force_wang_confrontation_entry():
+		return
 	if menu_id == "talk":
 		var npcs: Array = GameManager.get_active_npcs_at(GameManager.current_location)
 		if npcs.is_empty():
@@ -1505,12 +1653,42 @@ func gm_apply_preset(preset_id: String, reset_first := true) -> void:
 		return
 	GameManager.reload_current_case_tables()
 	var preset: Dictionary = GM_PRESETS[preset_id]
+	# 线性续播型预设（序章中段）：跳进去后不展示菜单/自由探索，
+	# 直接续播过渡事件链 → 由事件自带的 auto_start_confrontation 自动进入对峙，
+	# 与正式线性流程完全一致（玩家不会撞见调查取证界面）。
+	var linear_chain: Array = preset.get("linear_chain", [])
+	var use_linear := not linear_chain.is_empty() and _use_linear_prologue_route()
 	if reset_first:
 		GameManager.reset_progress()
+	if use_linear:
+		# 提前置位：屏蔽 _gm_grant_state 灌注证据期间触发的探索事件自动排队
+		_linear_prologue_active = true
 	_gm_grant_state(preset)
+	if use_linear:
+		_gm_clear_event_noise()
+		_prepare_linear_prologue_surface(str(preset.get("location", GameManager.case_main_scene)))
+		_flash_notification("GM 预设：" + str(preset.get("label", preset_id)))
+		_gm_play_linear_chain(linear_chain)
+		return
 	_gm_prepare_surface(true)
 	_gm_force_location(str(preset.get("location", GameManager.case_main_scene)))
 	_flash_notification("GM 预设：" + str(preset.get("label", preset_id)))
+
+
+func _gm_play_linear_chain(events: Array, index := 0) -> void:
+	# 依次播放序章过渡事件：非末尾事件播完后衔接下一段（隐藏菜单，保持线性）；
+	# 末尾事件由其自身的 auto_start_confrontation 接管，自动进入对峙。
+	if index >= events.size():
+		return
+	var evt_id := str(events[index])
+	if index >= events.size() - 1:
+		_play_event_now(evt_id, true)
+		return
+	_play_event_now(evt_id, true, func():
+		_gm_clear_event_noise()
+		_prepare_linear_prologue_surface("")
+		_gm_play_linear_chain(events, index + 1)
+	)
 
 
 func gm_apply_preset_and_confront(preset_id: String) -> void:
@@ -1789,7 +1967,10 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 	GameManager.active_confrontation_key = "confrontation"
 	# 判断是否为中间对峙（非最终BOSS）：播放过渡剧情后返回调查
 	if not confront_data.get("is_final", false):
-		_play_mid_confrontation_result(confront_key, confront_data, result, mistakes)
+		if _use_linear_prologue_route():
+			_play_linear_prologue_mid_confrontation(confront_key, result)
+		else:
+			_play_mid_confrontation_result(confront_key, confront_data, result, mistakes)
 		return
 	# 最终对峙 → 结局流程。序章终局无论机制胜败，都是"逼近真相但沈清月翻盘"的败局。
 	var ending_id := GameManager.judge_confrontation(result, mistakes)
@@ -1805,6 +1986,47 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 		return
 	_defer_adhoc_until_confrontation_result_done = false
 	_show_ending(ending_id)
+
+
+func _play_linear_prologue_mid_confrontation(confront_key: String, result: String) -> void:
+	# 线性序章的两次中途对峙（王大爷 / 老范阿贵）结束后的衔接。
+	# 胜利：播放情感缓冲台词，再播下一段过渡事件（事件内行内发放下一轮证据）。
+	# 失败：沿用原有败北流程（旁白 → 返回标题）。
+	if result != "victory":
+		_after_mid_confrontation(confront_key, result)
+		return
+	var suspect: String = GameManager.case_data.get(confront_key, {}).get("suspect", "")
+	match confront_key:
+		"confrontation_wang":
+			var buf_wang: Array = [
+				{"speaker": "凌瑶", "text": "看吧！那大雾天怎么看清人、风浪那么响怎么听得见喊声，还有你上岸时连气都喘不匀的样子……一听就是瞎编的。这下他们别想再赖你了！", "emotion": "determined"},
+				{"speaker": "陆昭", "text": "王大爷的证词站不住了。有人想先把罪名按在我头上。", "emotion": "cold"}
+			]
+			DialogueManager.play_adhoc_narration(buf_wang, func():
+				_gm_clear_event_noise()
+				_prepare_linear_prologue_surface("")
+				# evt_self_cleared 行内发放对峙二所需物证，事件级 auto_start_confrontation: confrontation
+				_play_event_now("evt_self_cleared", true)
+			)
+		_:
+			if suspect == "agui" or confront_key == "confrontation":
+				var buf_agui: Array = [
+					{"speaker": "凌瑶", "text": "……这案子比我想的要深多了。阿贵不过是听人摆布的，真正的对头，怕是还躲在后头呢。", "emotion": "worried"},
+					{"speaker": "陆昭", "text": "太顺了。破船、遣散银、赌债……像是有人替我们把路铺好的。", "emotion": "cold"}
+				]
+				DialogueManager.play_adhoc_narration(buf_agui, func():
+					_gm_clear_event_noise()
+					_prepare_linear_prologue_surface("")
+					# evt_phase3_transition 行内发放终局物证 → evt_night_before_shen 情感铺垫
+					#（后者事件级 auto_start_confrontation: confrontation_final）
+					_play_event_now("evt_phase3_transition", true, func():
+						_gm_clear_event_noise()
+						_prepare_linear_prologue_surface("")
+						_play_event_now("evt_night_before_shen", true)
+					)
+				)
+			else:
+				_return_to_investigation(confront_key, result)
 
 
 func _play_mid_confrontation_result(confront_key: String, confront_data: Dictionary, result: String, _mistakes: int) -> void:
@@ -1872,6 +2094,7 @@ func _return_to_investigation(confront_key: String, result: String) -> void:
 
 func _return_to_title_after_defeat() -> void:
 	# 对峙失败后退回标题界面
+	_linear_prologue_active = false
 	dialogue_box.visible = false
 	menu_panel.visible = false
 	subpanel_container.visible = false
@@ -1934,7 +2157,7 @@ func _on_dialogue_ended() -> void:
 
 
 # ─── 序章 / 叙述 ───
-func _on_narration_started(background: String, _speaker: String, text: String, has_next: bool, _centered: bool, portrait: String = "") -> void:
+func _on_narration_started(background: String, _speaker: String, text: String, has_next: bool, _centered: bool, portrait: String = "", meta: Dictionary = {}) -> void:
 	if background != "":
 		_set_background(background, true)
 	# 进入游戏前的过场不叠加场景特效；无背景的助手短评不打断当前地点特效。
@@ -1949,7 +2172,7 @@ func _on_narration_started(background: String, _speaker: String, text: String, h
 		dialogue_box.set_next_narration_typewriter_skip_disabled(_next_narration_typewriter_skip_disabled)
 	_next_narration_typewriter_skip_disabled = false
 	_next_narration_typewriter_char_delay = -1.0
-	dialogue_box.show_narration(_speaker, text, has_next, portrait)
+	dialogue_box.show_narration(_speaker, text, has_next, portrait, meta)
 	dialogue_box.visible = true
 	menu_panel.visible = false
 	if _npc_layer and _npc_layer.has_method("hide_npcs"):
@@ -1968,11 +2191,20 @@ func _on_narration_ended() -> void:
 	if _playing_case_epilogue:
 		menu_panel.visible = false
 		return
+	# 线性序章进行中：每段过渡事件/缓冲台词都经 play_adhoc_narration，结束时也会触发本信号。
+	# 后续衔接全部由各自回调驱动（播下一段事件或开启对峙），此处绝不展示菜单/NPC，避免闪出探索界面。
+	if _linear_prologue_active:
+		return
 	if GameManager.current_state == GameManager.STATE_PROLOGUE:
 		GameManager.set_state(GameManager.STATE_PLAYING)
 		top_bar_label.get_parent().visible = true
 		var initial_time_card_key := "D%d_%s" % [GameManager.current_day, GameManager.case_main_scene]
 		GameManager.shown_time_cards[initial_time_card_key] = true
+		# 序章走纯线性流程：开场动画结束后直接进入沉船事件，跳过船舱自由探索。
+		if _use_linear_prologue_route():
+			_linear_prologue_active = true
+			_start_linear_prologue_route()
+			return
 		GameManager.change_location(GameManager.case_main_scene, false)
 		_update_top_bar()
 	menu_panel.visible = true
@@ -1981,76 +2213,124 @@ func _on_narration_ended() -> void:
 		_npc_layer.show_npcs()
 
 
-## 叙述中遇到 time_card 节点：显示时间过场，结束后自动推进叙述
-func _on_narration_time_card(text: String, sub_text: String) -> void:
+## 叙述中遇到 video 节点：播放视频，结束后自动推进叙述
+func _on_narration_video(video_path: String) -> void:
+	if video_path == "":
+		DialogueManager.narration_next()
+		return
+	
+	# 用 FileAccess 检查原始文件（不依赖 Godot 导入缓存）
+	if not FileAccess.file_exists(video_path):
+		push_warning("[MainGame] Video file not found: %s, skipping." % video_path)
+		DialogueManager.narration_next()
+		return
+	
 	if dialogue_box and dialogue_box.has_method("clear_for_transition"):
 		dialogue_box.clear_for_transition()
 	dialogue_box.visible = false
-	# 先立即黑屏遮住一切（避免闪帧）
-	day_transition.bg.modulate.a = 1.0
-	day_transition.visible = true
-	day_transition.label.visible_characters = 0
-
-	# 然后再预加载下一个节点的背景（此时已被黑屏遮住）
-	var next_node_id: String = DialogueManager._current_tree.get("nodes", {}).get(DialogueManager._narration_node, {}).get("next", "")
-	var next_bg: String = ""
-	if next_node_id != "":
-		next_bg = DialogueManager._current_tree.get("nodes", {}).get(next_node_id, {}).get("background", "")
-	if next_bg != "" and ResourceLoader.exists(next_bg):
-		_set_background(next_bg, false)
-
-	# 设置时间卡样式：较小字号 + 左对齐（打字机效果不跳动）
-	var orig_font_size: int = day_transition.label.get_theme_font_size("font_size")
-	var orig_sub_size: int = day_transition.sub_label.get_theme_font_size("font_size")
-	day_transition.label.add_theme_font_size_override("font_size", 42)
-	day_transition.sub_label.add_theme_font_size_override("font_size", 24)
-	day_transition.label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	day_transition.sub_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-
-	day_transition.visible = true
-	day_transition.label.text = text
-	day_transition.sub_label.text = sub_text if sub_text != "" else ""
-	day_transition.label.visible_characters = 0
-	day_transition.label.modulate.a = 1.0
-	day_transition.sub_label.visible_characters = 0
-	day_transition.sub_label.modulate.a = 1.0 if sub_text != "" else 0.0
-	# 保持黑幕完全遮住，避免预载下一张背景时漏出 1-2 帧画面。
-	day_transition.bg.modulate.a = 1.0
-
-	var total_main: int = text.length()
-	var total_sub: int = sub_text.length() if sub_text != "" else 0
-	GameManager.set_state(GameManager.STATE_TRANSITION)
-
-	var tw := create_tween()
-	# 黑屏淡入
-	tw.tween_property(day_transition.bg, "modulate:a", 1.0, 0.3)
-	# 主文本打字机（从左往右，每字~0.09秒）
-	tw.tween_property(day_transition.label, "visible_characters", total_main, total_main * 0.09).set_delay(0.3)
-	# 副文本打字机（主文本打完后开始）
-	if total_sub > 0:
-		tw.tween_interval(0.2)
-		tw.tween_property(day_transition.sub_label, "visible_characters", total_sub, total_sub * 0.08)
-	# 全部打完停留1.5秒
-	tw.tween_interval(1.5)
-	# 整体淡出
-	tw.tween_property(day_transition.label, "modulate:a", 0.0, 0.4)
-	tw.parallel().tween_property(day_transition.sub_label, "modulate:a", 0.0, 0.4)
-	tw.tween_property(day_transition.bg, "modulate:a", 0.0, 0.35)
-	tw.tween_callback(func():
-		day_transition.visible = false
-		# 恢复原始样式
-		day_transition.label.visible_characters = -1
-		day_transition.sub_label.visible_characters = -1
-		day_transition.label.add_theme_font_size_override("font_size", orig_font_size)
-		day_transition.sub_label.add_theme_font_size_override("font_size", orig_sub_size)
-		day_transition.label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		day_transition.sub_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		GameManager.set_state(GameManager.STATE_PROLOGUE)
+	menu_panel.visible = false
+	
+	var stream: Resource = load(video_path)
+	if not stream or not stream is VideoStream:
+		push_error("[MainGame] Invalid video stream: %s" % video_path)
+		dialogue_box.visible = true
+		menu_panel.visible = true
 		DialogueManager.narration_next()
+		return
+	
+	# 安全超时：最多等 120 秒，超时自动跳过（防止编码不兼容导致 finished 永不触发）
+	var video_done := false
+	
+	var vp := VideoStreamPlayer.new()
+	vp.expand = true
+	vp.loop = false
+	vp.bus = &"Master"
+	vp.volume_db = 0.0
+	vp.anchor_left = 0.0
+	vp.anchor_right = 1.0
+	vp.anchor_top = 0.0
+	vp.anchor_bottom = 1.0
+	add_child(vp)
+	vp.stream = stream
+	
+	var _finish_video := func():
+		if video_done:
+			return
+		video_done = true
+		if is_instance_valid(vp):
+			vp.stop()
+			vp.queue_free()
+		if is_instance_valid(_video_skip_btn):
+			_video_skip_btn.queue_free()
+		_video_skip_fn = Callable()
+		_video_skip_btn = null
+		dialogue_box.visible = true
+		menu_panel.visible = true
+		DialogueManager.narration_next()
+	print("[MainGame] Video: %s (press ESC or click to skip)" % video_path)
+	vp.play()
+	
+	# 超时保护
+	get_tree().create_timer(120.0).timeout.connect(func():
+		print("[MainGame] Video timeout, force-skipping.")
+		_finish_video.call()
+	, CONNECT_ONE_SHOT)
+	
+	# 正常播完
+	vp.finished.connect(func():
+		print("[MainGame] Video finished normally.")
+		_finish_video.call()
+	, CONNECT_ONE_SHOT)
+	
+	# 右上角跳过按钮
+	var skip_btn := Button.new()
+	skip_btn.text = "跳过"
+	skip_btn.flat = true
+	skip_btn.anchor_left = 1.0
+	skip_btn.anchor_right = 1.0
+	skip_btn.anchor_top = 0.0
+	skip_btn.anchor_bottom = 0.0
+	skip_btn.offset_left = -90.0
+	skip_btn.offset_top = 16.0
+	skip_btn.offset_right = -16.0
+	skip_btn.offset_bottom = 48.0
+	skip_btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	skip_btn.add_theme_font_size_override("font_size", 15)
+	skip_btn.add_theme_color_override("font_color", Color(0.85, 0.82, 0.75, 0.8))
+	skip_btn.add_theme_color_override("font_hover_color", Color(1.0, 0.95, 0.8, 1.0))
+	skip_btn.add_theme_color_override("font_pressed_color", Color(0.7, 0.65, 0.55, 1.0))
+	add_child(skip_btn)
+	skip_btn.pressed.connect(func():
+		print("[MainGame] Video skipped by button.")
+		_finish_video.call()
 	)
+	
+	_video_skip_fn = _finish_video
+	_video_skip_btn = skip_btn
+
+## 叙述中遇到 time_card 节点：在对话框里以绿色慢速打字机显示时间卡文字，不黑屏
+func _on_narration_time_card(text: String, sub_text: String) -> void:
+	# 拼合主文本与副文本（副文本作为第二行）
+	var display_text := text
+	if sub_text != "":
+		display_text = text + "\n" + sub_text
+	# 预加载下一个节点的背景
+	var next_node_id: String = DialogueManager._current_tree.get("nodes", {}).get(DialogueManager._narration_node, {}).get("next", "")
+	if next_node_id != "":
+		var next_bg: String = DialogueManager._current_tree.get("nodes", {}).get(next_node_id, {}).get("background", "")
+		if next_bg != "" and ResourceLoader.exists(next_bg):
+			_set_background(next_bg, false)
+	# 设置慢速打字机，必须在 show_narration 之前通过 dialogue_box 接口传入
+	if dialogue_box and dialogue_box.has_method("set_next_narration_typewriter_settings"):
+		dialogue_box.set_next_narration_typewriter_settings(true, 0.14)
+	dialogue_box.show_narration("", display_text, true, "", {"type": "time_card", "effect": {"time_card": true}})
+	dialogue_box.visible = true
+	menu_panel.visible = false
+	if _npc_layer and _npc_layer.has_method("hide_npcs"):
+		_npc_layer.hide_npcs()
 
 
-## 叙述演出效果处理（震动/闪屏/色调/心理活动渐暗）
+## 叙述演出效果处理（震动/闪屏/色调等）
 func _on_narration_effects(fx: Dictionary) -> void:
 	_next_narration_typewriter_skip_disabled = bool(fx.get("disable_typewriter_skip", false))
 	_next_narration_typewriter_char_delay = float(fx.get("typewriter_char_delay", -1.0))
@@ -2078,14 +2358,6 @@ func _on_narration_effects(fx: Dictionary) -> void:
 			_bg_fade_rect.color = Color(0.02, 0.05, 0.15, 0.4)
 		elif tint_str == "clear":
 			_bg_fade_rect.color = Color(0, 0, 0, 0)
-	# 心理活动渐暗/恢复效果
-	if fx.has("mind_fade"):
-		var fade_str: String = str(fx.get("mind_fade", ""))
-		var fade_duration: float = float(fx.get("mind_fade_duration", 1.5))
-		if fade_str == "in":
-			_mind_fade_tween(fade_duration, 0.0, 0.65)
-		elif fade_str == "out":
-			_mind_fade_tween(fade_duration, _bg_fade_rect.color.a, 0.0)
 	# 心理活动音效提示（可选）
 	if fx.has("mind_sfx"):
 		var sfx_player = get_node_or_null("/root/SfxPlayer")
@@ -2098,20 +2370,6 @@ func _on_narration_effects(fx: Dictionary) -> void:
 	# CG 背景偏移：bg_offset_y 负值向上推画面，露出被对话框遮住的下半部分
 	if fx.has("bg_offset_y"):
 		scene_bg.position.y = float(fx.get("bg_offset_y"))
-
-
-## 心理活动渐暗：使用 _bg_fade_rect 做全屏黑幕渐变
-func _mind_fade_tween(duration: float, from_alpha: float, to_alpha: float) -> void:
-	if _bg_fade_rect == null:
-		return
-	# 如果正在执行 mind_fade tween，先停止
-	if _mind_fade_tween_ref != null and _mind_fade_tween_ref.is_valid():
-		_mind_fade_tween_ref.kill()
-	_bg_fade_rect.color = Color(0.01, 0.01, 0.03, from_alpha)
-	_mind_fade_tween_ref = create_tween()
-	_mind_fade_tween_ref.tween_property(_bg_fade_rect, "color:a", to_alpha, duration).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-
-var _mind_fade_tween_ref: Tween = null
 
 
 func _do_screen_shake(intensity: float = 6.0, duration: float = 0.4) -> void:
@@ -2239,6 +2497,9 @@ func _display_ending_screen(ending_id: String, data: Dictionary) -> void:
 # ─── 助手系统集成 ─────────────────────────────────────────────────────────
 
 func _try_companion_banter(trigger: String, npc_id: String = "", node_id: String = "") -> void:
+	# 线性序章全程由路由叙事驱动，屏蔽所有助手闲谈，避免插队打断事件/对峙串联。
+	if _linear_prologue_active:
+		return
 	var cs = get_node_or_null("/root/CompanionService")
 	if cs == null:
 		return

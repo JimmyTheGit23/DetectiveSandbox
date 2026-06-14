@@ -445,6 +445,13 @@ static func _line(row: Dictionary) -> Dictionary:
 	var d := {"speaker": _cell(row, "speaker"), "text": _cell(row, "text")}
 	for key in ["speaker_id", "emotion", "portrait_emotion", "portrait_override"]:
 		_set_if(d, key, _cell(row, key))
+	# 方案B：对峙台词可携带 effect（如 gain_evidence / gain_clue / set_flag），
+	# 由角色在对峙过程中"当庭抛出"证据/线索。
+	var effect_str := _cell(row, "effect")
+	if effect_str != "":
+		var eff = _parse_json_any(effect_str, {})
+		if typeof(eff) == TYPE_DICTIONARY and not eff.is_empty():
+			d["effect"] = eff
 	return d
 
 
@@ -943,12 +950,20 @@ static func _compile_day_events(src: String, base: Dictionary = {}) -> Dictionar
 					narration.append(_cell(line, "text"))
 			else:
 				var item := {"speaker": _cell(line, "speaker"), "text": _cell(line, "text")}
+				_set_if(item, "speaker_id", _cell(line, "speaker_id"))
 				_set_if(item, "emotion", _cell(line, "emotion"))
 				_set_if(item, "voice_path", _cell(line, "voice_path"))
 				_set_if(item, "background", _cell(line, "background"))
 				var line_effect = _parse_json_any(line.get("effect", ""), {})
 				if typeof(line_effect) == TYPE_DICTIONARY and not line_effect.is_empty():
-					item["effect"] = line_effect
+					# speaker_id 可能临时写在 effect JSON 里（day_event_lines 无独立列）
+					# 提升到顶层，供 _emit_adhoc 的立绘解析使用
+					if line_effect.has("speaker_id") and not item.has("speaker_id"):
+						item["speaker_id"] = str(line_effect["speaker_id"])
+					var effect_without_sid: Dictionary = line_effect.duplicate()
+					effect_without_sid.erase("speaker_id")
+					if not effect_without_sid.is_empty():
+						item["effect"] = effect_without_sid
 				narration.append(item)
 		evt["narration"] = narration
 		evt["effects"] = _parse_json_any(row.get("effects", ""), {})
@@ -1126,12 +1141,21 @@ static func _compile_prologue(src: String, fallback: Dictionary = {}) -> Diction
 		var node_type := _cell(row, "type")
 		if node_type != "":
 			node["type"] = node_type
+		_set_if(node, "video", _cell(row, "video"))
 		# Lines (text)
 		var nlines: Array = lines_by_node.get(nid, [])
 		if not nlines.is_empty():
 			var first_line: Dictionary = nlines[0]
 			_set_if(node, "speaker", _cell(first_line, "speaker"))
 			_set_if(node, "text", _cell(first_line, "text"))
+			# 若 prologue_lines 的行有 type（如 inner_thought），且 node 尚无 type，则继承
+			var line_type := _cell(first_line, "type")
+			if line_type != "" and not node.has("type"):
+				node["type"] = line_type
+			# 若 prologue_lines 的行有 emotion，且 node 尚无 emotion，则继承
+			var line_emotion := _cell(first_line, "emotion")
+			if line_emotion != "" and not node.has("emotion"):
+				node["emotion"] = line_emotion
 		# Choices
 		var nchoices: Array = choices_by_node.get(nid, [])
 		if not nchoices.is_empty():

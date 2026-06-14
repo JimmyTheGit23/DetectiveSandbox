@@ -3,41 +3,38 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "同船的公子？周德茂，做布匹。今夜赶武昌，明早有批货要看。",
+      "text": "同船的公子？周德茂，做布匹。今夜赶武昌，明早要看一批货。",
       "emotion": "serious",
       "options": [
         {
-          "text": "周老板是做什么生意的？",
+          "text": "周老板做什么生意？",
           "goto": "ask_background",
           "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ],
-          "hide_after_visit": true
+          ]
         },
         {
-          "text": "这么晚还赶武昌？",
+          "text": "为什么赶夜船？",
           "goto": "ask_night_ferry",
           "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ],
-          "hide_after_visit": true
+          ]
         },
         {
-          "text": "货舱进水了吗？",
+          "text": "那箱货是什么？",
           "goto": "press_cargo_marks",
           "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ],
-          "hide_after_visit": true
+          ]
         },
         {
           "text": "先告辞",
@@ -51,34 +48,37 @@
       ],
       "lines": [
         {
-          "text": "不算大。布匹生意，赚的是小钱。小钱攒多了，也能过日子。",
-          "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
-        },
-        {
-          "text": "阿贵跟了你多久？看他做事很熟。",
+          "text": "周老板是做什么生意的？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "casual"
         },
         {
-          "text": "十二年了。十六岁进的门。什么都不会——是我手把手教的。",
+          "text": "布匹。荆江来的细布，转到武昌早市，一口价。辰时开市午时裁完，去晚了连布头都轮不上。阿贵！箱子靠墙！磕掉漆了你赔？",
           "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
+          "emotion": "business"
         },
         {
-          "text": "不短了。",
-          "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
-        },
-        {
-          "text": "十二年确实不短。出门在外，有个熟手在身边也安心些。",
+          "text": "就专跑荆江这一路？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "curious"
         },
         {
-          "text": "熟手用着顺。跑商在外，少一个懂事的人，什么都耽误。",
+          "text": "粗的细的都做。可这一趟不一样……南京来了信，说武昌有人点名要这批货，晚了就换别家。",
           "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
+          "emotion": "business"
+        },
+        {
+          "text": "阿贵跟你挺久了？",
+          "speaker_id": "lu_zhao",
+          "speaker": "陆昭",
+          "emotion": "casual"
+        },
+        {
+          "text": "十二年。搬货看箱还行，账册货银……他碰不得。十二年了我心里有数。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "brusque"
         }
       ],
       "options": [
@@ -99,71 +99,37 @@
       ],
       "lines": [
         {
-          "text": "急着赶路。武昌早市一开，迟半日就少赚一大截。",
-          "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
-        },
-        {
-          "text": "他说话时带着一股荤油味，袖口还蹭着点油光。像是刚在码头吃过肥肉和油炸河鲜。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "夜船本就不稳，何况今晚风雨这么重。我这个外乡人坐着，心里多少有些没底。",
+          "text": "这么晚还赶路，武昌有急事？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "curious"
         },
         {
-          "text": "没底就少看水。看多了心慌。我年轻时常跟船下水，照样不爱夜里走。",
+          "text": "武昌早市辰时开，午前好布就被挑完。误了这趟，银子就落到别人袋里了。",
           "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
+          "emotion": "impatient"
         },
         {
-          "text": "周老板会水？",
+          "text": "白天出发赶不上？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "casual"
         },
         {
-          "text": "会。年轻时货掉江里，我自己下去捞过。现在胖了，游不快，但水性还没丢，不至于一落水就没命。",
+          "text": "不行。南京递话的人说了……这批货等不得。还说石矶渡老范的船今夜正好走武昌。我就来了。",
           "speaker_id": "zhou_de_gui_cabin",
           "emotion": "serious"
         },
         {
-          "text": "我知道风险。但时间不等人。而且……有人告诉我这条路快。",
-          "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
-        },
-        {
-          "text": "他顿了顿，才继续说。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "一个朋友介绍的。说这条船靠谱，船家跑了二十年。",
-          "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
-        },
-        {
-          "text": "那人也是跑商的？连船家和水路都说得准，听着像常走这条线。",
+          "text": "递话的……什么人？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "curious"
         },
         {
-          "text": "路上碰见的。石矶渡来往客多，我做买卖，听路子，不问人名。",
+          "text": "做药材的。她说老范跑了二十年水路，夜里也稳。我信她，也信这趟买卖。",
           "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious"
-        },
-        {
-          "text": "这样啊。我只是觉得这人消息挺灵，船家和水路都说得准。",
-          "speaker_id": "lu_zhao",
-          "emotion": "serious"
-        },
-        {
-          "text": "因为他讲得准。船家老范，东汊快，半日能到。做买卖的人听见快字，总会多信几分。",
-          "speaker_id": "zhou_de_gui_cabin",
-          "emotion": "serious",
-          "record_type": "key",
-          "record_title": "夜船记下：介绍人",
-          "record_text": "周德茂说夜船是路上碰见的人介绍的，对方准确说出老范和东汊路线。",
-          "record_id": "record_cabin_zhou_friend"
+          "emotion": "brusque"
         }
       ],
       "options": [
@@ -183,25 +149,87 @@
       ],
       "lines": [
         {
-          "text": "第三次看这间船舱。有些东西看熟了，有些东西越看越不对。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "铁撬棍、蓑衣、木箱——三样东西的位置跟第一次看时一模一样。没有人动过。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "但舱壁底部有一道水痕——从铁撬棍正下方一直延伸到角落的木箱。像是有什么液体从撬棍上滴落，沿着舱壁流到了箱脚。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "你蹲下来看了一眼——暗红色的。不是锈。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "暗红色的痕迹……不像锈，也不像普通泥水。夜里光暗，先记下，等天亮再看清楚。",
+          "text": "（这箱子……从上船起他就没松过手。指节都发白了。）",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "inner_thought"
+        },
+        {
+          "text": "从上船就没离过手……要紧东西？",
+          "speaker_id": "lu_zhao",
+          "speaker": "陆昭",
+          "emotion": "curious"
+        },
+        {
+          "text": "红的装布样和货契，铜锁的……账册。做生意的人，这些东西比衣裳要紧。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "business"
+        },
+        {
+          "text": "货银也在里头？",
+          "speaker_id": "lu_zhao",
+          "speaker": "陆昭",
+          "emotion": "casual"
+        },
+        {
+          "text": "五十两……在我贴身小箱里，不在这口。到了武昌要马上兑货，少一两都谈不成。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "business"
+        },
+        {
+          "text": "所以阿贵守外箱。",
+          "speaker_id": "lu_zhao",
+          "speaker": "陆昭",
+          "emotion": "casual"
+        },
+        {
+          "text": "他只守外箱。真要紧的我自己盯。他手脚快，脑子……不该伸到生意里。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "brusque"
+        }
+      ],
+      "options": [
+        {
+          "text": "继续聊",
+          "goto": "hub"
+        },
+        {
+          "text": "先告辞",
+          "goto": "__exit__"
+        }
+      ]
+    },
+    "ask_business": {
+      "set_flags": [
+        "cabin_zhou_talked"
+      ],
+      "lines": [
+        {
+          "text": "这趟挺急的。",
+          "speaker_id": "lu_zhao",
+          "speaker": "陆昭",
+          "emotion": "casual"
+        },
+        {
+          "text": "急得很。买家只等一上午……辰时看货，午前定价，过时就去别家了。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "business"
+        },
+        {
+          "text": "所以冒雨赶夜船。",
+          "speaker_id": "lu_zhao",
+          "speaker": "陆昭",
+          "emotion": "casual"
+        },
+        {
+          "text": "五十两压在身上，晚半日就可能白跑一趟。做生意不是读书……错过时辰没人等你。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "brusque"
+        },
+        {
+          "text": "行了书生，你读你的圣贤书。到了武昌各走各的。阿贵！去看看老范舵稳不稳……这浪颠得我胃里又翻。",
+          "speaker_id": "zhou_de_gui_cabin",
+          "emotion": "dismissive"
         }
       ],
       "options": [

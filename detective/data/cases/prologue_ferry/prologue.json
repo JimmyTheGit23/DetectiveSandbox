@@ -1,7 +1,7 @@
 {
   "_comment": "序章「渡口沉舟」：密室逃脱开场(3回合行动限制) → 被凌瑶救起 → 客栈暖场 → 次日发现尸体。",
   "_design_note": "逃脱需要铁撬+木箱(2回合)+使用(1回合)=刚好3回合。任何浪费导致逃脱质量下降。观察船洞=用1回合换关键线索(有意义的取舍)。",
-  "start": "opening_monologue_1",
+  "start": "intro_video",
   "nodes": {
     "opening_monologue_1": {
       "speaker": "",

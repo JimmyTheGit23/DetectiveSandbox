@@ -6,14 +6,12 @@ uid="uid://dpo1c70qnhhsy"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/epilogue_lines.order.translation", "res://data/case_tables/prologue_ferry/epilogue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/epilogue_lines.text.translation", "res://data/case_tables/prologue_ferry/epilogue_lines.en.translation"]
+files=["res://data/case_tables/prologue_ferry/epilogue_lines.order.translation", "res://data/case_tables/prologue_ferry/epilogue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/epilogue_lines.text.translation", "res://data/case_tables/prologue_ferry/epilogue_lines.emotion.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/epilogue_lines.csv"
-dest_files=["res://data/case_tables/prologue_ferry/epilogue_lines.order.translation", "res://data/case_tables/prologue_ferry/epilogue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/epilogue_lines.text.translation", "res://data/case_tables/prologue_ferry/epilogue_lines.en.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/epilogue_lines.order.translation", "res://data/case_tables/prologue_ferry/epilogue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/epilogue_lines.text.translation", "res://data/case_tables/prologue_ferry/epilogue_lines.emotion.translation"]
 
 [params]
 
 compress=true
 delimiter=0
-unescape_keys=false
-unescape_translations=true

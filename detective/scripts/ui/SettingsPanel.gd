@@ -669,7 +669,7 @@ func _populate_gm_presets() -> void:
 			_gm_preset_select.add_item(label)
 			_gm_preset_select.set_item_metadata(_gm_preset_select.get_item_count() - 1, preset_id)
 	else:
-		for preset_id in ["cabin_start", "wang_confront", "phase2_investigate", "main_confront_ready", "phase3_after_agui", "final_ready", "fixed_epilogue"]:
+		for preset_id in ["rescue_start", "before_wang", "after_wang", "before_agui", "after_agui", "before_shen", "fixed_epilogue"]:
 			_gm_preset_select.add_item(preset_id)
 			_gm_preset_select.set_item_metadata(_gm_preset_select.get_item_count() - 1, preset_id)
 

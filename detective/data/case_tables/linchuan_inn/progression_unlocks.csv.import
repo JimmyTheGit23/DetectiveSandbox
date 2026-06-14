@@ -6,14 +6,12 @@ uid="uid://33ufadg46emi"
 
 [deps]
 
-files=["res://data/case_tables/linchuan_inn/progression_unlocks.target.translation", "res://data/case_tables/linchuan_inn/progression_unlocks.condition.translation", "res://data/case_tables/linchuan_inn/progression_unlocks.locked.translation", "res://data/case_tables/linchuan_inn/progression_unlocks.en.translation"]
+files=["res://data/case_tables/linchuan_inn/progression_unlocks.target.translation", "res://data/case_tables/linchuan_inn/progression_unlocks.condition.translation", "res://data/case_tables/linchuan_inn/progression_unlocks.locked.translation", "res://data/case_tables/linchuan_inn/progression_unlocks.writer.translation"]
 
 source_file="res://data/case_tables/linchuan_inn/progression_unlocks.csv"
-dest_files=["res://data/case_tables/linchuan_inn/progression_unlocks.target.translation", "res://data/case_tables/linchuan_inn/progression_unlocks.condition.translation", "res://data/case_tables/linchuan_inn/progression_unlocks.locked.translation", "res://data/case_tables/linchuan_inn/progression_unlocks.en.translation"]
+dest_files=["res://data/case_tables/linchuan_inn/progression_unlocks.target.translation", "res://data/case_tables/linchuan_inn/progression_unlocks.condition.translation", "res://data/case_tables/linchuan_inn/progression_unlocks.locked.translation", "res://data/case_tables/linchuan_inn/progression_unlocks.writer.translation"]
 
 [params]
 
 compress=1
 delimiter=0
-unescape_keys=false
-unescape_translations=true

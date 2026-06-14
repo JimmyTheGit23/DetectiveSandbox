@@ -1,0 +1,15 @@
+[remap]
+
+importer="theora_video"
+type="VideoStreamTheora"
+uid="uid://bltfmwpcg50dr"
+path="res://.godot/imported/intro.ogv-4e9cd0b8a17e2c3f.ogvstr"
+metadata={}
+
+[deps]
+
+source_file="res://assets/video/intro.ogv"
+
+[params]
+
+loop=false

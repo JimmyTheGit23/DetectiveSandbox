@@ -6,14 +6,12 @@ uid="uid://hbhwstarx00u"
 
 [deps]
 
-files=["res://docs/templates/prologue_nodes.en.translation", "res://docs/templates/prologue_nodes.background.translation", "res://docs/templates/prologue_nodes.next.translation", "res://docs/templates/prologue_nodes.centered.translation", "res://docs/templates/prologue_nodes.en.translation", "res://docs/templates/prologue_nodes.portrait.translation", "res://docs/templates/prologue_nodes.emotion.translation", "res://docs/templates/prologue_nodes.en.translation", "res://docs/templates/prologue_nodes.en.translation"]
+files=["res://docs/case_template/prologue_nodes.type.translation", "res://docs/case_template/prologue_nodes.background.translation", "res://docs/case_template/prologue_nodes.next.translation", "res://docs/case_template/prologue_nodes.centered.translation", "res://docs/case_template/prologue_nodes.end.translation", "res://docs/case_template/prologue_nodes.portrait.translation", "res://docs/case_template/prologue_nodes.emotion.translation", "res://docs/case_template/prologue_nodes.fx.translation", "res://docs/case_template/prologue_nodes.effect.translation"]
 
 source_file="res://docs/templates/prologue_nodes.csv"
-dest_files=["res://docs/templates/prologue_nodes.en.translation", "res://docs/templates/prologue_nodes.background.translation", "res://docs/templates/prologue_nodes.next.translation", "res://docs/templates/prologue_nodes.centered.translation", "res://docs/templates/prologue_nodes.en.translation", "res://docs/templates/prologue_nodes.portrait.translation", "res://docs/templates/prologue_nodes.emotion.translation", "res://docs/templates/prologue_nodes.en.translation", "res://docs/templates/prologue_nodes.en.translation"]
+dest_files=["res://docs/case_template/prologue_nodes.type.translation", "res://docs/case_template/prologue_nodes.background.translation", "res://docs/case_template/prologue_nodes.next.translation", "res://docs/case_template/prologue_nodes.centered.translation", "res://docs/case_template/prologue_nodes.end.translation", "res://docs/case_template/prologue_nodes.portrait.translation", "res://docs/case_template/prologue_nodes.emotion.translation", "res://docs/case_template/prologue_nodes.fx.translation", "res://docs/case_template/prologue_nodes.effect.translation"]
 
 [params]
 
 compress=true
 delimiter=0
-unescape_keys=false
-unescape_translations=true
