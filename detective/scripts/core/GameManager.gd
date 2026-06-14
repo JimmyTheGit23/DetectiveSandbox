@@ -998,7 +998,12 @@ func get_npc_data(nid: String) -> Dictionary:
 
 ## 获取 NPC 对玩家显示的名字（考虑名字是否已解锁）
 func get_npc_display_name(nid: String) -> String:
-	var data: Dictionary = npcs_data.get(nid, {})
+	if not npcs_data.has(nid):
+		return nid
+	var raw = npcs_data[nid]
+	if typeof(raw) != TYPE_DICTIONARY:
+		return nid
+	var data: Dictionary = raw
 	if data.is_empty():
 		return nid
 	# 没有 hidden_name 字段 → 始终显示真名

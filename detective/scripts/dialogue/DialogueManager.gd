@@ -649,7 +649,31 @@ func _emit_adhoc() -> void:
 		VoicePlayer.play_voice_path(item.get("voice_path", ""))
 	else:
 		VoicePlayer.stop()
-	narration_started.emit(background, speaker, text, has_next, centered, "", meta)
+	# 解析带 emotion 的立绘路径：通过 casting 找 npc_id，再用 AssetResolver 解析表情变体
+	var portrait := ""
+	if item is Dictionary and speaker != "" and speaker != "旁白":
+		var emotion := str(item.get("emotion", "")).strip_edges()
+		if emotion != "" and emotion != "inner_thought":
+			var npc_id := str(item.get("speaker_id", "")).strip_edges()
+			if npc_id == "":
+				var casting: Dictionary = AssetResolver.get_casting()
+				for id in casting.keys():
+					var entry = casting[id]
+					if typeof(entry) == TYPE_DICTIONARY and entry.get("role_name", "") == speaker:
+						npc_id = str(id)
+						break
+			if npc_id != "":
+				var resolved := AssetResolver.resolve_case_portrait(npc_id, emotion, GameManager.npcs_data)
+				if resolved != "" and ResourceLoader.exists(resolved):
+					portrait = resolved
+		# speaker_id 存在时，即使没有 emotion，也尝试解析默认立绘（用于 ??? 显示正确头像）
+		if portrait == "":
+			var sid := str(item.get("speaker_id", "")).strip_edges()
+			if sid != "":
+				var fallback := AssetResolver.get_portrait(sid, GameManager.npcs_data)
+				if fallback != "" and ResourceLoader.exists(fallback):
+					portrait = fallback
+	narration_started.emit(background, speaker, text, has_next, centered, portrait, meta)
 
 
 func adhoc_next() -> void:

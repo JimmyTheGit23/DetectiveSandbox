@@ -72,6 +72,7 @@ const DEFAULT_TYPEWRITER_CHAR_DELAY := 0.04
 const CLR_GOLD := Color(0.96, 0.84, 0.46, 1.0)
 const CLR_PAPER := Color(0.12, 0.075, 0.04, 0.94)
 const CLR_INK := Color(0.92, 0.86, 0.72, 1.0)
+const CLR_TIME_CARD := Color(0.46, 1.0, 0.62, 1.0)
 const KEYWORD_HIGHLIGHTS := [
 	"船板", "撞礁", "暗礁", "水涨", "破洞", "凿痕", "钉眼", "浮囊", "包袱",
 	"二两", "十二两", "遣散", "赌债", "四十二两", "不到一刻钟", "半个时辰", "夜船"
@@ -245,10 +246,18 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 		_log_panel.visible = false
 	_set_choice_hint("", false)
 	_waiting_for_advance = false
-	var is_inner_thought := _is_inner_thought_meta(meta) or _is_mind_voice_speaker(speaker)
-	if is_inner_thought:
+	var is_time_card := _is_time_card_meta(meta)
+	var is_inner_thought := (_is_inner_thought_meta(meta) or _is_mind_voice_speaker(speaker)) and not is_time_card
+	if is_time_card:
+		_typewriter_skip_disabled = true
+		if custom_char_delay <= 0.0:
+			custom_char_delay = 0.14
+	else:
+		# time_card 이외의 행은 무조건 skip 가능으로 초기화
+		# (이전 time_card의 disable_typewriter_skip 효과가 전파되지 않도록)
 		_typewriter_skip_disabled = false
-		custom_char_delay = -1.0
+		if is_inner_thought:
+			custom_char_delay = -1.0
 	# 去掉多余空行，限制显示不超过3行（约60字）
 	var display_text := TextUtilsScript.prepare_dialogue_plain_text(text, is_inner_thought)
 	# 如果文字包含换行且超过3行，只显示前3行
@@ -257,12 +266,21 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 		display_text = "\n".join(lines.slice(0, 3))
 		if is_inner_thought and display_text.begins_with("（") and not display_text.ends_with("）"):
 			display_text += "）"
-	var rich_display_text := TextUtilsScript.color_inner_thoughts(display_text) if is_inner_thought else TextUtilsScript.strip_all_parentheticals(display_text)
-	_apply_normal_narration_style()
+	var rich_display_text := ""
+	if is_time_card:
+		rich_display_text = display_text
+	elif is_inner_thought:
+		rich_display_text = TextUtilsScript.color_inner_thoughts(display_text)
+	else:
+		rich_display_text = TextUtilsScript.strip_all_parentheticals(display_text)
+	if is_time_card:
+		_apply_time_card_narration_style()
+	else:
+		_apply_normal_narration_style()
 	var hide_portrait := bool(meta.get("effect", {}).get("hide_portrait", false))
-	if is_inner_thought or hide_portrait:
+	if is_time_card or is_inner_thought or hide_portrait:
 		# 心理活动或明确要求隐藏立绘：只显示说话人名字，不显示头像/立绘
-		_apply_narration_speaker(_normalize_visible_speaker(speaker), "")
+		_apply_narration_speaker(_normalize_visible_speaker(speaker), "", true)
 	else:
 		_apply_narration_speaker(_normalize_visible_speaker(speaker), portrait)
 	_typewriter.base_char_delay = custom_char_delay if custom_char_delay > 0.0 else DEFAULT_TYPEWRITER_CHAR_DELAY
@@ -278,7 +296,7 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 		print("[DialogueBox] !!! RUN ID MISMATCH - another show_narration was called during await!")
 		return
 	# 文字播放完毕，等待点击
-	var hint := "▼ 点击继续" if has_next else "▼ 点击进入游戏"
+	var hint := "▼ 点击继续" if has_next or is_time_card else "▼ 点击进入游戏"
 	_set_choice_hint(hint, true)
 	_waiting_for_advance = true
 	print("[DialogueBox] _waiting_for_advance = true")
@@ -303,6 +321,13 @@ func _is_inner_thought_meta(meta: Dictionary) -> bool:
 	return line_type == "inner_thought" or emotion == "inner_thought"
 
 
+func _is_time_card_meta(meta: Dictionary) -> bool:
+	var line_type := str(meta.get("type", "")).strip_edges().to_lower()
+	var effect = meta.get("effect", {})
+	var effect_is_time_card := typeof(effect) == TYPE_DICTIONARY and bool(effect.get("time_card", false))
+	return line_type == "time_card" or effect_is_time_card
+
+
 func _is_inner_thought_page(page: Dictionary) -> bool:
 	return _is_inner_thought_meta(page) or _is_mind_voice_speaker(str(page.get("speaker", "")))
 
@@ -314,7 +339,13 @@ func _apply_normal_narration_style() -> void:
 	speaker_label.add_theme_color_override("font_color", CLR_INK)
 
 
-func _apply_narration_speaker(speaker: String, portrait: String) -> void:
+func _apply_time_card_narration_style() -> void:
+	text_label.add_theme_color_override("default_color", CLR_TIME_CARD)
+	text_label.add_theme_font_size_override("normal_font_size", 24)
+	speaker_label.add_theme_color_override("font_color", CLR_TIME_CARD)
+
+
+func _apply_narration_speaker(speaker: String, portrait: String, force_hide_portrait: bool = false) -> void:
 	"""叙述模式的说话者/立绘处理"""
 	_set_speaker_name(speaker)
 	if speaker == "":
@@ -328,12 +359,20 @@ func _apply_narration_speaker(speaker: String, portrait: String) -> void:
 		portrait_rect.visible = false
 		_hide_avatar()
 		return
+	# hide_portrait 效果：强制不显示任何立绘
+	if force_hide_portrait:
+		portrait_rect.visible = false
+		_hide_avatar()
+		return
 	# 如果没有提供 portrait，尝试自动解析
 	var resolved := portrait
 	if resolved == "" or not ResourceLoader.exists(resolved):
 		resolved = _resolve_portrait_for_speaker(speaker)
 	# 有说话者：走立绘规则
-	if _is_protagonist_or_companion(speaker):
+	# 注意：portrait 由外部明确传入（非自动解析）时，优先居中显示，不走同伴头像路径
+	# 这用于处理 ??? 说话人但实际是 NPC（如沈清月初登场）的情况
+	var portrait_was_explicit := portrait != "" and ResourceLoader.exists(portrait)
+	if _is_protagonist_or_companion(speaker) and not portrait_was_explicit:
 		# 同伴（非讨论模式）→ 左下角头像
 		_show_avatar(speaker, resolved, "")
 		portrait_rect.visible = false
@@ -410,11 +449,19 @@ func _resolve_portrait_for_speaker(speaker_name: String) -> String:
 	speaker_name = _normalize_visible_speaker(speaker_name)
 	if speaker_name == "":
 		return ""
+	# ??? 是同伴（凌瑶）的隐藏身份：只有当前同伴确实是凌瑶时才走同伴路径
+	var lookup_name := speaker_name
+	if speaker_name == "???":
+		var cs2 = get_node_or_null("/root/CompanionService")
+		if cs2 and cs2.has_method("get_companion_role_name"):
+			lookup_name = cs2.get_companion_role_name()
+		if lookup_name == "???":
+			return ""
 	# 助手
 	var cs = get_node_or_null("/root/CompanionService")
 	if cs and cs.has_method("get_companion_role_name"):
 		var companion_name: String = cs.get_companion_role_name()
-		if companion_name != "" and speaker_name == companion_name:
+		if companion_name != "" and lookup_name == companion_name:
 			return cs.get_companion_portrait()
 	# 通过 casting 查找 NPC
 	var casting: Dictionary = AssetResolver.get_casting()
@@ -714,7 +761,11 @@ func _is_protagonist_or_companion(speaker_name: String) -> bool:
 	"""检查说话者是否为主角或同伴"""
 	if speaker_name == "陆昭" or speaker_name == "lu_zhao":
 		return true
-	# 讨论模式下，助手作为“NPC角色”居中显示，不走头像路径
+	# ??? 是同伴（凌瑶）的隐藏身份：只有当前同伴确实是凌瑶时才走同伴头像路径
+	if speaker_name == "???":
+		var companion_role := CompanionService.get_companion_role_name()
+		return companion_role == "凌瑶"
+	# 讨论模式下，助手作为"NPC角色"居中显示，不走头像路径
 	if DialogueManager.is_discuss_mode():
 		return false
 	var companion_role_name = CompanionService.get_companion_role_name()
@@ -722,6 +773,7 @@ func _is_protagonist_or_companion(speaker_name: String) -> bool:
 	if speaker_name == companion_role_name or speaker_name == companion_id:
 		return true
 	return false
+
 
 
 func _show_avatar(_speaker: String, portrait_path: String, emotion: String = "") -> void:

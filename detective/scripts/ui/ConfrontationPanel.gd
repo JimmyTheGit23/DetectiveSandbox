@@ -3109,6 +3109,8 @@ func _update_dialogue_portrait(speaker: String, emotion: String, line_data: Dict
 	var speaker_id := _speaker_id_from_line(speaker, line_data)
 	if speaker_id == "":
 		_dlg_portrait_rect.visible = false
+		# 未知说话人（无 casting）：清除中央立绘，避免显示上一个 NPC 的立绘
+		_portrait_rect.visible = false
 		return
 	var portrait_emotion := str(line_data.get("portrait_emotion", ""))
 	if portrait_emotion == "":

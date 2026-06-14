@@ -950,12 +950,20 @@ static func _compile_day_events(src: String, base: Dictionary = {}) -> Dictionar
 					narration.append(_cell(line, "text"))
 			else:
 				var item := {"speaker": _cell(line, "speaker"), "text": _cell(line, "text")}
+				_set_if(item, "speaker_id", _cell(line, "speaker_id"))
 				_set_if(item, "emotion", _cell(line, "emotion"))
 				_set_if(item, "voice_path", _cell(line, "voice_path"))
 				_set_if(item, "background", _cell(line, "background"))
 				var line_effect = _parse_json_any(line.get("effect", ""), {})
 				if typeof(line_effect) == TYPE_DICTIONARY and not line_effect.is_empty():
-					item["effect"] = line_effect
+					# speaker_id 可能临时写在 effect JSON 里（day_event_lines 无独立列）
+					# 提升到顶层，供 _emit_adhoc 的立绘解析使用
+					if line_effect.has("speaker_id") and not item.has("speaker_id"):
+						item["speaker_id"] = str(line_effect["speaker_id"])
+					var effect_without_sid: Dictionary = line_effect.duplicate()
+					effect_without_sid.erase("speaker_id")
+					if not effect_without_sid.is_empty():
+						item["effect"] = effect_without_sid
 				narration.append(item)
 		evt["narration"] = narration
 		evt["effects"] = _parse_json_any(row.get("effects", ""), {})

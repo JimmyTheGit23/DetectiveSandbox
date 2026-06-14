@@ -1,18 +1,20 @@
-﻿confrontation_id,section,order,speaker,speaker_id,text,emotion
-confrontation_wang,intro_dialogue,0,陆昭,lu_zhao,（几条长凳，一张方桌。不像公堂。就在这儿审案？）,inner_thought
-confrontation_wang,intro_dialogue,1,陆昭,lu_zhao,（……人到了。可没一个人看着像来帮忙的。）,inner_thought
-confrontation_wang,intro_dialogue,2,钱里正,li_zheng,咳。人都到齐了。今儿个把昨晚的事说说清楚，也好给周娘子一个交代嘛。,nervous
-confrontation_wang,intro_dialogue,3,钱里正,li_zheng,丑话说前头。这儿不是县衙，可该问的还得问。谁说话谁举手，别七嘴八舌。,stern
-confrontation_wang,intro_dialogue,4,周氏,zhou_wife,……里正大人。我只想知道，我家老爷到底怎么没的。,grief
-confrontation_wang,intro_dialogue,5,阿贵,agui,夫人！小的看见了！是陆公子……是他动的手！,nervous
-confrontation_wang,intro_dialogue,6,钱里正,li_zheng,阿贵！刚说完别七嘴八舌，你就抢上了。先坐下。,stern
-confrontation_wang,intro_dialogue,7,沈清月,shen_qingyue,里正大人，当晚在场的人不止阿贵一个。不如先从岸上的目击者问起，由远及近。,calm
-confrontation_wang,intro_dialogue,8,陆昭,lu_zhao,（她第一个开口就排了顺序。不让阿贵先说……还是不想让别人？）,inner_thought
-confrontation_wang,intro_dialogue,9,钱里正,li_zheng,嗯……沈姑娘说得在理。王大爷，您老在岸上看了一夜，先来说几句。站近些，我这耳朵不好使。,nervous
-confrontation_wang,intro_dialogue,10,王大爷,fisherman_wang,……好。我只说我瞧见的，不往里加话。,evasive
-confrontation_wang,intro_dialogue,11,陆昭,lu_zhao,（他不敢看人。说完一句就垂下眼皮，像在数地上砖缝。）,inner_thought
-confrontation_wang,intro_dialogue,12,凌瑶,xia_lingyao,你问你的——我就在这儿呢。,cheerful
-confrontation_wang,intro_dialogue,14,陆昭,lu_zhao,嗯。王大爷，你说看见了，那我就问细些。一句一句来，不急。,gentle
+﻿confrontation_id,section,order,speaker,speaker_id,text,emotion,effect
+confrontation_wang,intro_dialogue,0,陆昭,lu_zhao,（几条长凳，一张方桌。不像公堂。就在这儿审案？）,inner_thought,
+confrontation_wang,intro_dialogue,1,陆昭,lu_zhao,（……人到了。可没一个人看着像来帮忙的。）,inner_thought,
+confrontation_wang,intro_dialogue,2,钱里正,li_zheng,咳。人都到齐了。今儿个把昨晚的事说说清楚，也好给周娘子一个交代嘛。,nervous,
+confrontation_wang,intro_dialogue,3,钱里正,li_zheng,丑话说前头。这儿不是县衙，可该问的还得问。谁说话谁举手，别七嘴八舌。,stern,
+confrontation_wang,intro_dialogue,4,周氏,zhou_wife,……里正大人。我只想知道，我家老爷到底怎么没的。,grief,
+confrontation_wang,intro_dialogue,5,阿贵,agui,夫人！小的看见了！是陆公子……是他动的手！,nervous,
+confrontation_wang,intro_dialogue,6,钱里正,li_zheng,阿贵！刚说完别七嘴八舌，你就抢上了。先坐下。,stern,
+confrontation_wang,intro_dialogue,7,沈清月,shen_qingyue,里正大人，当晚在场的人不止阿贵一个。不如先从岸上的目击者问起，由远及近。,calm,
+confrontation_wang,intro_dialogue,8,陆昭,lu_zhao,（她第一个开口就排了顺序。不让阿贵先说……还是不想让别人？）,inner_thought,
+confrontation_wang,intro_dialogue,9,钱里正,li_zheng,嗯……沈姑娘说得在理。王大爷，您老在岸上看了一夜，先来说几句。站近些，我这耳朵不好使。,nervous,
+confrontation_wang,intro_dialogue,10,王大爷,fisherman_wang,……好。我只说我瞧见的，不往里加话。,evasive,
+confrontation_wang,intro_dialogue,11,陆昭,lu_zhao,（他不敢看人。说完一句就垂下眼皮，像在数地上砖缝。）,inner_thought,
+confrontation_wang,intro_dialogue,12,凌瑶,xia_lingyao,你问你的——我就在这儿呢。,cheerful,
+confrontation_wang,intro_dialogue,13,码头脚夫,,陆公子，这是老朽记的渡口气象簿，昨晚的雾况和风浪都记在上面。还有更夫的值班记录。你拿着。,nervous,"{""gain_evidence"": [""evidence_weather_fog"", ""evidence_storm_noise""]}"
+confrontation_wang,intro_dialogue,14,凌瑶,xia_lingyao,掌柜也让我把旅客登记捎来了。你昨晚什么时候被拖进客栈、昏了多久，上面写得清清楚楚。,determined,"{""gain_evidence"": ""evidence_cabin_escape_time""}"
+confrontation_wang,intro_dialogue,15,陆昭,lu_zhao,嗯。王大爷，你说看见了，那我就问细些。一句一句来，不急。,gentle,
 confrontation_wang,defeat_dialogue,0,钱里正,li_zheng,嗯……这回嘛，王大爷的话还是驳不倒。陆公子，您手头还得再找找呵。,stern
 confrontation_wang,defeat_dialogue,1,沈清月,shen_qingyue,陆公子，要洗清自己，总得拿出实打实的东西来。,calm
 confrontation_wang,defeat_dialogue,2,凌瑶,xia_lingyao,别急。他刚才慌了一下，你看见没？,worried
@@ -59,7 +61,7 @@ confrontation,victory_dialogue,28,阿贵,agui,是……沈姑娘。,broken
 confrontation,victory_dialogue,29,钱里正,li_zheng,沈姑娘？等等，阿贵，你嘴里的人，是沈清月？,shocked
 confrontation,victory_dialogue,30,陆昭,lu_zhao,她还做了什么？,gentle
 confrontation,victory_dialogue,31,阿贵,agui,她找过老范，也替我备了浮囊。凿哪块板，什么时候动手，都是她说的。,broken
-confrontation,victory_dialogue,32,凌瑶,lingyao,,determined
+confrontation,victory_dialogue,32,凌瑶,lingyao,……沈清月。,determined
 confrontation,victory_dialogue,33,陆昭,lu_zhao,嗯。还不够。,gentle
 confrontation,victory_dialogue,34,凌瑶,lingyao,我知道。还得往下查。,determined
 confrontation,victory_dialogue,35,钱里正,li_zheng,案情又推了一步。阿贵先看住。陆公子若还要查，我叫人带路。,stern

@@ -45,7 +45,7 @@ const GM_PRESETS := {
 		"label": "② 王大爷对峙前",
 		"location": "ferry_inn",
 		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done"],
-		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time"],
+		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location"],
 		"clues": ["evidence_no_motive"],
 		"confrontation": "confrontation_wang",
 	},
@@ -111,6 +111,7 @@ var _silent_auto_event_suppress_evidence_hold := false
 var _pending_adhoc_lines: Array = []
 var _defer_adhoc_until_confrontation_result_done := false
 var _linear_prologue_active := false      # 线性序章进行中：全程由回调驱动，不展示菜单/自由探索
+var _wang_confrontation_entry_pending := false
 var _last_location_day: int = -1         # 上次进入场景时的 day
 var _time_card_playing: bool = false     # 场景过场是否正在播放
 var _visited_locations: Dictionary = {}  # 已访问过的场景 ID → true（首次访问时显示地名卡）
@@ -426,11 +427,11 @@ func _animate_settings_button(target_scale: Vector2, duration: float) -> void:
 	_settings_btn_tween.tween_property(_settings_btn, "scale", target_scale, duration)
 
 
-func _set_background(path: String, use_fade := true) -> void:
+func _set_background(path: String, use_fade := true, force := false) -> void:
 	if path == "" or not ResourceLoader.exists(path):
 		return
 	# 背景没有变化时不做 fade，避免同场景连续叙述闪黑。
-	if path == _current_bg_path:
+	if path == _current_bg_path and not force:
 		return
 	var tex := load(path)
 	if tex == null:
@@ -438,6 +439,9 @@ func _set_background(path: String, use_fade := true) -> void:
 	# 切换背景时重置位置偏移（CG 场景可能偏移过）
 	scene_bg.position = Vector2.ZERO
 	if not use_fade or _bg_fade_rect == null or scene_bg.texture == null:
+		_bg_transition_id += 1
+		if _bg_fade_rect != null:
+			_bg_fade_rect.color.a = 0.0
 		scene_bg.texture = tex
 		_current_bg_path = path
 		return
@@ -813,8 +817,8 @@ func _start_linear_prologue_route() -> void:
 	GameManager.set_flag("cabin_review_done")   # 满足 evt_cabin_sinking 的 trigger 语义
 	_gm_clear_event_noise()
 	_prepare_linear_prologue_surface(GameManager.case_main_scene)
-	# evt_cabin_sinking 的事件级 effects 含 auto_start_confrontation: confrontation_wang，
-	# 播完后自动进入对峙一。
+	_set_background("res://assets/cn/scenes/pure_black.png", false, true)
+	# evt_cabin_sinking 的 effects 会在播完后静默切到客栈并自动进入王大爷证词对峙。
 	_play_event_now("evt_cabin_sinking", true)
 
 
@@ -865,8 +869,7 @@ func resume_loaded_game() -> void:
 		_schedule_silent_auto_event(true)
 	else:
 		_refresh_event_hint()
-	if _should_resume_wang_confrontation_after_continue():
-		_deferred_start_confrontation.call_deferred("confrontation_wang")
+	_force_wang_confrontation_entry()
 
 
 func _should_resume_cabin_from_prologue_save() -> bool:
@@ -909,12 +912,46 @@ func _has_pending_auto_event() -> bool:
 
 
 func _should_resume_wang_confrontation_after_continue() -> bool:
+	return _should_force_wang_confrontation_entry()
+
+
+func _should_force_wang_confrontation_entry() -> bool:
 	return (
 		GameManager.ACTIVE_CASE == "prologue_ferry"
-		and GameManager.current_location == "ferry_inn"
 		and GameManager.has_flag("accused_of_murder")
 		and not GameManager.has_flag("confrontation_wang_completed")
+		and GameManager.case_data.has("confrontation_wang")
 	)
+
+
+func _force_wang_confrontation_entry() -> bool:
+	if not _should_force_wang_confrontation_entry():
+		return false
+	if _wang_confrontation_entry_pending:
+		return true
+	_wang_confrontation_entry_pending = true
+	_linear_prologue_active = true
+	_pending_events.clear()
+	event_hint_btn.visible = false
+	menu_panel.visible = false
+	_close_subpanel()
+	if GameManager.current_location != "ferry_inn":
+		_suppress_next_arrival_banter = true
+		_suppress_next_location_intro = true
+		GameManager.change_location("ferry_inn", false)
+	_start_wang_confrontation_entry_when_idle.call_deferred()
+	return true
+
+
+func _start_wang_confrontation_entry_when_idle() -> void:
+	await get_tree().process_frame
+	while dialogue_box.visible or GameManager.current_state == GameManager.STATE_DIALOGUE:
+		await get_tree().process_frame
+	_wang_confrontation_entry_pending = false
+	if not _should_force_wang_confrontation_entry():
+		return
+	GameManager.active_confrontation_key = "confrontation_wang"
+	_open_confrontation_panel()
 
 
 # ─── 时间/地点/通知 ───
@@ -944,14 +981,17 @@ func _on_location_changed(loc_id: String, suppress_arrival_banter := false) -> v
 		var loc_name: String = data.get("name", "")
 		if loc_name != "":
 			var card_text := "%s · %s" % [GameManager.get_current_time_label(), loc_name]
-			day_transition.show_period(card_text)
-			day_transition.finished.connect(func():
+			if _npc_layer and _npc_layer.has_method("hide_npcs"):
+				_npc_layer.hide_npcs()
+			_show_dialogue_time_card(card_text, func():
 				_time_card_playing = false
 				if _npc_layer and _npc_layer.has_method("refresh_npcs"):
 					_npc_layer.refresh_npcs(loc_id)
 				if not block_arrival_banter:
 					_try_companion_banter("arrive_location:" + loc_id)
-			, CONNECT_ONE_SHOT)
+			)
+		else:
+			_time_card_playing = false
 	else:
 		_set_background(bg_path, true)
 	# 同步场景动态特效层
@@ -965,11 +1005,29 @@ func _on_location_changed(loc_id: String, suppress_arrival_banter := false) -> v
 		if _npc_layer and _npc_layer.has_method("refresh_npcs"):
 			_npc_layer.refresh_npcs(loc_id)
 	BgmPlayer.play(loc_id)
-	if menu_panel.has_method("refresh_visibility"):
-		menu_panel.refresh_visibility()
+	if not _linear_prologue_active:
+		if menu_panel.has_method("refresh_visibility"):
+			menu_panel.refresh_visibility()
 	_close_subpanel()
 	if not should_show_time and not block_arrival_banter:
 		_try_companion_banter("arrive_location:" + loc_id)
+
+
+func _show_dialogue_time_card(text: String, on_done: Callable = Callable()) -> void:
+	if text.strip_edges() == "":
+		if on_done.is_valid():
+			on_done.call()
+		return
+	var line := {
+		"speaker": "",
+		"text": text,
+		"effect": {
+			"time_card": true,
+			"disable_typewriter_skip": true,
+			"typewriter_char_delay": 0.14,
+		},
+	}
+	DialogueManager.play_adhoc_narration([line], on_done)
 
 
 func _update_top_bar() -> void:
@@ -1323,6 +1381,13 @@ func _play_event_now(evt_id: String, suppress_evidence_hold := false, on_done: C
 	var suppress_arrival_banter_after_event := bool(evt.get("effects", {}).get("suppress_arrival_banter", false))
 	var suppress_location_intro_after_event := bool(evt.get("effects", {}).get("suppress_location_intro", false))
 	var auto_confront: String = str(evt.get("effects", {}).get("auto_start_confrontation", ""))
+	# 防止旧缓存/旧存档漏读 effects：沉船后必须回客栈并进入王大爷对峙。
+	if GameManager.ACTIVE_CASE == "prologue_ferry" and evt_id == "evt_cabin_sinking":
+		if deferred_location == "":
+			deferred_location = "ferry_inn"
+		suppress_arrival_banter_after_event = true
+		suppress_location_intro_after_event = true
+		auto_confront = "confrontation_wang"
 
 	var finish_event := func():
 		# 事件级效果必须在整段叙事播放完后再落库。
@@ -1337,7 +1402,9 @@ func _play_event_now(evt_id: String, suppress_evidence_hold := false, on_done: C
 			GameManager.change_location(deferred_location, false)
 		_refresh_event_hint()
 		_try_companion_banter("after_event:" + evt_id)
-		if auto_confront != "":
+		if auto_confront == "confrontation_wang" and GameManager.ACTIVE_CASE == "prologue_ferry":
+			_force_wang_confrontation_entry()
+		elif auto_confront != "":
 			_deferred_start_confrontation.call_deferred(auto_confront)
 		elif on_done.is_valid():
 			on_done.call()
@@ -1393,7 +1460,7 @@ func _show_cabin_escape_panel(done: Callable) -> void:
 
 
 func _deferred_start_confrontation(confront_key: String) -> void:
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().process_frame
 	GameManager.active_confrontation_key = confront_key
 	_open_confrontation_panel()
 
@@ -1496,6 +1563,8 @@ func _on_menu_locked_hint_requested(hint: String) -> void:
 
 
 func _on_menu_clicked(menu_id: String) -> void:
+	if _force_wang_confrontation_entry():
+		return
 	if menu_id == "talk":
 		var npcs: Array = GameManager.get_active_npcs_at(GameManager.current_location)
 		if npcs.is_empty():
@@ -2239,7 +2308,7 @@ func _on_narration_video(video_path: String) -> void:
 	_video_skip_fn = _finish_video
 	_video_skip_btn = skip_btn
 
-## 叙述中遇到 time_card 节点：在对话框里以慢速打字机显示时间卡文字，不黑屏
+## 叙述中遇到 time_card 节点：在对话框里以绿色慢速打字机显示时间卡文字，不黑屏
 func _on_narration_time_card(text: String, sub_text: String) -> void:
 	# 拼合主文本与副文本（副文本作为第二行）
 	var display_text := text
@@ -2251,10 +2320,10 @@ func _on_narration_time_card(text: String, sub_text: String) -> void:
 		var next_bg: String = DialogueManager._current_tree.get("nodes", {}).get(next_node_id, {}).get("background", "")
 		if next_bg != "" and ResourceLoader.exists(next_bg):
 			_set_background(next_bg, false)
-	# 设置慢速打字机（每字 0.14 秒），必须在 show_narration 之前通过 dialogue_box 接口传入
+	# 设置慢速打字机，必须在 show_narration 之前通过 dialogue_box 接口传入
 	if dialogue_box and dialogue_box.has_method("set_next_narration_typewriter_settings"):
-		dialogue_box.set_next_narration_typewriter_settings(false, 0.14)
-	dialogue_box.show_narration("", display_text, false, "", {})
+		dialogue_box.set_next_narration_typewriter_settings(true, 0.14)
+	dialogue_box.show_narration("", display_text, true, "", {"type": "time_card", "effect": {"time_card": true}})
 	dialogue_box.visible = true
 	menu_panel.visible = false
 	if _npc_layer and _npc_layer.has_method("hide_npcs"):

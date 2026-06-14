@@ -3,40 +3,46 @@ event_id,line_kind,order,speaker,text,emotion,voice_path,background,effect
 evt_cabin_return_to_room,dialogue,1,陆昭,回舱。把刚才听到的几句话先按住。,inner_thought,,,
 evt_cabin_return_to_room,dialogue,2,陆昭,周德茂的铜锁箱。阿贵的包袱。老范那句别开窗。三样东西……,inner_thought,,,
 evt_cabin_return_to_room,dialogue,3,陆昭,先睡不成了。再听一会儿水声。,anxious,,,
-evt_cabin_sinking,dialogue,7,陆昭,（暴雨夜。船底一声闷响，地板歪了。灯灭了，冷水冲进来……再后来就是往下沉。）,inner_thought,,,
-evt_cabin_sinking,dialogue,7a,陆昭,（喉头全是江水。有人扣住了我的手腕。）,inner_thought,,,
-evt_cabin_sinking,dialogue,8,凌瑶,抓住我！别松手！,determined,,res://assets/cn/scenes/prologue_cg_lingyao_meets_luzhao.png,"{""bgm"": ""ferry_prologue_shore""}"
+evt_cabin_sinking,dialogue,7,陆昭,（暴雨夜。船底一声闷响，地板歪了。灯灭了，冷水冲进来……再后来就是往下沉。）,inner_thought,,res://assets/cn/scenes/pure_black.png,
+evt_cabin_sinking,dialogue,7a,陆昭,（喉头全是江水。有人扣住了我的手腕。）,inner_thought,,res://assets/cn/scenes/pure_black.png,
+evt_cabin_sinking,dialogue,8,???,抓住我！别松手！,determined,,res://assets/cn/scenes/prologue_cg_lingyao_meets_luzhao.png,"{""bgm"": ""ferry_prologue_shore""}"
 evt_cabin_sinking,dialogue,9,陆昭,（有人从水里扣住手腕。那只手很稳，把人从冰冷里硬拽出来。）,inner_thought,,,
 evt_cabin_sinking,dialogue,10,陆昭,（石矶渡客栈。火盆噼啪作响。醒来时，喉咙里全是江水的腥味。）,inner_thought,,res://assets/cn/scenes/prologue_ferry_inn_aftermath.png,"{""bgm"": ""ferry_inn_investigation""}"
-evt_cabin_sinking,dialogue,11,凌瑶,别急着起。你刚才连咳都咳不出来。,concerned,,,
-evt_cabin_sinking,dialogue,12,陆昭,我的官印匣呢？,panic,,,
-evt_cabin_sinking,dialogue,13,凌瑶,我捞的是人，不是木匣。你先活着。,serious,,,"{""gain_evidence"": ""evidence_seal_lost""}"
+evt_cabin_sinking,dialogue,10a,???,别急着起。你刚才连咳都咳不出来。,concerned,,,
+evt_cabin_sinking,dialogue,10b,陆昭,……你是？,vulnerable,,,
+evt_cabin_sinking,dialogue,10c,???,先喝点水。问题多，养好了再问。,gentle,,,
+evt_cabin_sinking,dialogue,11,陆昭,我的官印匣呢？,panic,,,
+evt_cabin_sinking,dialogue,12,???,我捞的是人，不是木匣。你先活着。,serious,,,"{""gain_evidence"": ""evidence_seal_lost""}"
+evt_cabin_sinking,dialogue,13,陆昭,……你是怎么——,vulnerable,,,
+evt_cabin_sinking,dialogue,13a,???,押急件路过渡口，听见动静就跳下去了。别想多了，你欠我一条命的事等你缓过来再算。,matter_of_fact,,,
 evt_cabin_sinking,dialogue,14,陆昭,……陆昭。,vulnerable,,,
-evt_cabin_sinking,dialogue,15,凌瑶,凌瑶。金鳞镖局。路过这里押一封急件，顺手捞了个人。,determined,,,"{""gain_evidence"": ""evidence_lingyao_identity""}"
-evt_cabin_sinking,dialogue,15a,陆昭,（火盆暖了一整夜。雨声在黎明前收住。楼下忽然一阵乱——有人喊着"又捞起一个"。）,inner_thought,,,
+evt_cabin_sinking,dialogue,15,凌瑶,凌瑶。金鳞镖局首席镖师。,determined,,,"{""gain_evidence"": ""evidence_lingyao_identity""}"
+evt_cabin_sinking,text,15a,,翌日清晨 · 石矶渡渡口,,,res://assets/cn/scenes/prologue_ferry_dock.png,"{""time_card"": true, ""disable_typewriter_skip"": true, ""typewriter_char_delay"": 0.14}"
 evt_cabin_sinking,dialogue,16,陆昭,（天刚亮，下游浅滩又抬回来一具尸首。湿衣贴在身上，脸已经青了。）,inner_thought,,res://assets/cn/scenes/prologue_ferry_dock.png,"{""bgm"": ""ferry_dock_investigation""}"
-evt_cabin_sinking,dialogue,17,钱里正,"这不是周德茂，周老板嘛……吃晚饭时候还说要赶去武昌收一笔布款，一个时辰前还好好的人——这、这怎么……",shaken,,,
+evt_cabin_sinking,dialogue,17,钱里正,"这不是周德茂，周老板嘛……吃晚饭时候还说要赶去武昌收一笔布款，一个时辰前还好好的人——这、这怎么……",shocked,,,
 evt_cabin_sinking,dialogue,17a,陆昭,是昨晚同船的那个布商。,serious,,,
 evt_cabin_sinking,dialogue,18,凌瑶,阿贵和老范都没事。可那个周老板……掌柜说明明他最懂水性，怎么偏偏是他没上来？,worried,,,
+evt_cabin_sinking,dialogue,18b,陆昭,（她就站在旁边。昨晚在江里拽住我的那只手，现在很安静地垂在身侧。）,inner_thought,,,
 evt_cabin_sinking,dialogue,19,周氏,昨夜他还在说武昌的货，今天就躺在这儿。到底是谁……,grief,,res://assets/cn/scenes/prologue_cg_zhou_kneel.png,"{""hide_portrait"": true}"
-evt_cabin_sinking,dialogue,20,阿贵,夫人……小的看见陆公子在底舱口。手里，像拿着铁的东西。,nervous,,,
+evt_cabin_sinking,dialogue,20,阿贵,夫人……小的看见陆公子在底舱口。手里，像拿着铁的东西。,nervous,,res://assets/cn/scenes/prologue_ferry_dock.png,
 evt_cabin_sinking,dialogue,21,陆昭,那是我撬天窗逃命用的。,gentle,,,"{""gain_evidence"": ""evidence_iron_crowbar_location""}"
 evt_cabin_sinking,dialogue,22,老范,我没看清谁害谁。可船翻前，舱里确实有铁碰木头的声儿。,nervous,,,
 evt_cabin_sinking,dialogue,23,周氏,一个说没看清，一个说只为逃命。可我老爷死了，你活着。,accusing,,,
-evt_cabin_sinking,dialogue,24,陆昭,（人群后方……沈清月没有往前挤。她只抬了抬眼。）,inner_thought,,,
-evt_cabin_sinking,dialogue,25,沈清月,先别乱。阿贵既说看见了，就把话说细些，是哪只手，拿的又是哪件铁器？,calm,,,
-evt_cabin_sinking,dialogue,26,沈清月,还有陆公子这话，我倒有些听不明白。船上当时乱成那样，你怎么就知道，是船底先进的水？,calm,,,
+evt_cabin_sinking,dialogue,23a,陆昭,（人群里还有个人。昨夜船离岸时她也站在码头——一直站到船没了影。没跟上船的，却一大早出现在这儿。）,inner_thought,,,
+evt_cabin_sinking,dialogue,24,陆昭,（人群后方……那个穿男装的高挑女子没有往前挤。她只抬了抬眼。）,inner_thought,,,
+evt_cabin_sinking,dialogue,25,???,先别乱。阿贵既说看见了，就把话说细些，是哪只手，拿的又是哪件铁器？,calm,,,"{""speaker_id"": ""shen_qingyue""}"
+evt_cabin_sinking,dialogue,26,???,还有陆公子这话，我倒有些听不明白。船上当时乱成那样，你怎么就知道，是船底先进的水？,calm,,,"{""speaker_id"": ""shen_qingyue""}"
+evt_cabin_sinking,dialogue,26a,钱里正,咳，这位是沈清月沈姑娘，在渡口做药材买卖的。昨晚也在码头送过船。,nervous,,,
 evt_cabin_sinking,dialogue,27,凌瑶,他刚从江里捞回来，话都没喘匀。你倒问得稳。,angry,,,
 evt_cabin_sinking,dialogue,28,钱里正,哎呀，都少说两句！人命在这儿呢，这会儿谁也别先把话钉死嘛。,stern,,,
 evt_cabin_sinking,dialogue,29,钱里正,陆公子，小人斗胆说句公道话，您眼下也脱不了干系呵。先移步客栈堂上，把看见的听见的，慢慢说清嘛。,stern,,,"{""bgm"": ""ferry_confrontation""}"
 evt_cabin_sinking,dialogue,30,陆昭,我没害周德茂。,gentle,,,
 evt_cabin_sinking,dialogue,31,凌瑶,那就查。陆昭，我信你。他们怎么说的不算，咱们自己去看。,determined,,,
 evt_cabin_sinking,dialogue,32,陆昭,（先别慌着辩。把立得住的几条，自己先理出来。）,inner_thought,,,
-evt_cabin_sinking,dialogue,33,陆昭,昨夜朔月，江上压着浓雾。从岸边到翻船那片水隔着老远，这样的雾雨，谁也认不清船头站的是谁。,serious,,,"{""gain_evidence"": ""evidence_weather_fog""}"
-evt_cabin_sinking,dialogue,34,凌瑶,何止认不清。那风浪拍在船板上跟擂鼓似的，岸上能听见的只有水响。船上喊了什么，根本送不到耳朵里。,determined,,,"{""gain_evidence"": ""evidence_storm_noise""}"
-evt_cabin_sinking,dialogue,35,陆昭,还有我自己。初到石矶渡，与周德茂只一面之缘，无冤无仇。若说我图财害命，又何必在那条船上险些把命搭进去。,serious,,,"{""gain_clue"": ""evidence_no_motive""}"
-evt_cabin_sinking,dialogue,36,凌瑶,再说你这条命，是我从江里拖回来的。你昏在火盆边大半个时辰才睁眼，连口水都咳不出。要害人，你哪来的力气。,gentle,,,"{""gain_evidence"": ""evidence_cabin_escape_time""}"
-evt_cabin_sinking,dialogue,37,陆昭,嗯。这几条，够我先站住脚。,determined,,,
+evt_cabin_sinking,dialogue,33,陆昭,还有我自己。初到石矶渡，与周德茂只一面之缘，无冤无仇。若说我图财害命，又何必在那条船上险些把命搭进去。,serious,,,
+evt_cabin_sinking,dialogue,34,凌瑶,再说你这条命，是我从江里拖回来的。你昏在火盆边大半个时辰才睁眼，连口水都咳不出。要害人，你哪来的力气。,gentle,,,
+evt_cabin_sinking,dialogue,34a,掌柜,老朽可以作证。客栈旅客登记上写着：昨夜子时，此公子被人拖进来，昏死过去，到寅时才缓过来。,serious,,,
+evt_cabin_sinking,dialogue,35,陆昭,嗯。这几条，够我先站住脚。,determined,,,
 evt_cabin_sinking,dialogue,38,钱里正,嗯，陆公子说得也有几分道理。王大爷，您老不是讲昨晚在岸边瞧见什么了嘛？再进来把昨晚的话说一回。您别怵，照实说就好。,stern,,,
 evt_cabin_sinking,dialogue,39,陆昭,（王大爷被人从门边请出来。搓着冻红的手，眼神直往地上躲。）,inner_thought,,,
 evt_self_cleared,dialogue,1,钱里正,不至于不至于……王大爷这话嘛，怕是不能再当铁证了。陆公子这一层，小人记下了。,stern,,res://assets/cn/scenes/prologue_confrontation_hall.png,
