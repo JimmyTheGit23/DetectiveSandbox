@@ -260,7 +260,8 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 	var rich_display_text := TextUtilsScript.color_inner_thoughts(display_text)
 	_apply_normal_narration_style()
 	if is_inner_thought:
-		_apply_narration_speaker("", "")
+		# 心理活动显示主角名字（不显示头像）
+		_apply_narration_speaker(_normalize_visible_speaker(speaker), "")
 	else:
 		_apply_narration_speaker(_normalize_visible_speaker(speaker), portrait)
 	_typewriter.base_char_delay = custom_char_delay if custom_char_delay > 0.0 else DEFAULT_TYPEWRITER_CHAR_DELAY
@@ -552,7 +553,8 @@ func _play_current_page(run_id: int) -> void:
 	var page: Dictionary = _dialogue_pages[_dialogue_page_index]
 	var page_is_inner_thought := _is_inner_thought_page(page)
 	if page_is_inner_thought:
-		_apply_speaker("", "", "")
+		# 心理活动显示主角名字（不显示头像），与 show_narration 保持一致
+		_apply_speaker(page.get("speaker", ""), "", "")
 	else:
 		_apply_speaker(page.get("speaker", ""), page.get("portrait", ""), page.get("emotion", ""))
 	var page_text: String = page.get("text", "")
@@ -562,7 +564,9 @@ func _play_current_page(run_id: int) -> void:
 	_typewriter.set_blip_profile(_resolve_blip_profile(page.get("speaker", "")))
 	if not page_is_inner_thought:
 		_start_talk_animation()
-	_typewriter.play(text_label, _decorate_text(page_text, page.get("highlight", []), page_is_inner_thought))
+	# 基于 display_page_text（已完成括号处理）只做高亮+染色，避免重复调 prepare_dialogue_plain_text 导致双重括号
+	var play_text := _highlight_and_color_text(display_page_text, page.get("highlight", []))
+	_typewriter.play(text_label, play_text)
 	await _typewriter.finished
 	_stop_talk_animation()
 	if run_id != _dialogue_run_id:
@@ -1663,6 +1667,23 @@ func _split_block_into_sentences(block: String) -> Array[String]:
 
 func _decorate_text(text: String, extra_highlights = [], force_inner_thought := false) -> String:
 	var out := TextUtilsScript.prepare_dialogue_plain_text(text, force_inner_thought)
+	var words: Array = []
+	for kw in KEYWORD_HIGHLIGHTS:
+		words.append(kw)
+	if extra_highlights is Array:
+		for kw in extra_highlights:
+			words.append(str(kw))
+	elif extra_highlights is String and str(extra_highlights) != "":
+		words.append(str(extra_highlights))
+	out = _highlight_keywords_outside_thoughts(out, words)
+	out = TextUtilsScript.color_inner_thoughts(out)
+	return out
+
+
+## 轻量级文本装饰：仅高亮+染色，不复执行 prepare_dialogue_plain_text（避免双重括号）。
+## 入参 text 应当是已经过 prepare_dialogue_plain_text 处理的文本。
+func _highlight_and_color_text(text: String, extra_highlights = []) -> String:
+	var out := text
 	var words: Array = []
 	for kw in KEYWORD_HIGHLIGHTS:
 		words.append(kw)
