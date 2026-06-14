@@ -451,7 +451,13 @@ static func _line(row: Dictionary) -> Dictionary:
 	if effect_str != "":
 		var eff = _parse_json_any(effect_str, {})
 		if typeof(eff) == TYPE_DICTIONARY and not eff.is_empty():
-			d["effect"] = eff
+			# speaker_id 可能临时写在 effect JSON 里（如 day_event_lines 无独立列）
+			if eff.has("speaker_id") and not d.has("speaker_id"):
+				d["speaker_id"] = str(eff["speaker_id"])
+			var clean_eff: Dictionary = eff.duplicate()
+			clean_eff.erase("speaker_id")
+			if not clean_eff.is_empty():
+				d["effect"] = clean_eff
 	return d
 
 
