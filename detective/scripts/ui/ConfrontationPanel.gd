@@ -2154,6 +2154,15 @@ func _show_next_dialogue_line(on_done: Callable) -> void:
 	if line_data.has("effect"):
 		await _apply_line_effect(line_data.get("effect", {}))
 
+	# 威慑演出属于强制衔接段，自动续下一句，避免不同机器上第一次点威慑后卡在对话板上。
+	if _state == State.PRESSING:
+		await get_tree().create_timer(0.4).timeout
+		if _state != State.PRESSING:
+			return
+		_dialogue_idx += 1
+		_show_next_dialogue_line(on_done)
+		return
+
 	_set_waiting_for_click(func():
 		_dialogue_idx += 1
 		_show_next_dialogue_line(on_done)
