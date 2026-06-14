@@ -1389,6 +1389,19 @@ func _play_event_now(evt_id: String, suppress_evidence_hold := false, on_done: C
 		suppress_location_intro_after_event = true
 		auto_confront = "confrontation_wang"
 
+	# 这类事件的结尾会立刻切地点或开对峙；不要再依赖最后一次点击，避免被输入层/焦点竞争吞掉。
+	if (deferred_location != "" or auto_confront != "") and not lines.is_empty():
+		var last_idx := lines.size() - 1
+		if lines[last_idx] is Dictionary:
+			var last_line: Dictionary = (lines[last_idx] as Dictionary).duplicate(true)
+			var last_effect = last_line.get("effect", {})
+			if typeof(last_effect) != TYPE_DICTIONARY:
+				last_effect = {}
+			if not last_effect.has("auto_advance"):
+				last_effect["auto_advance"] = 0.18
+				last_line["effect"] = last_effect
+				lines[last_idx] = last_line
+
 	var finish_event := func():
 		# 事件级效果必须在整段叙事播放完后再落库。
 		# 否则玩家在沉船/指控等长事件中途退出，继续游戏会把未播完的剧情当作已完成。

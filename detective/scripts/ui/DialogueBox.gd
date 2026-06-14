@@ -295,7 +295,25 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 	if my_run_id != _dialogue_run_id:
 		print("[DialogueBox] !!! RUN ID MISMATCH - another show_narration was called during await!")
 		return
-	# 文字播放完毕，等待点击
+	# 文字播放完毕；部分强制衔接段落允许自动推进，避免不同机器上最后一次点击被其他输入层吞掉。
+	var effect_meta = meta.get("effect", {})
+	var auto_advance_cfg = null
+	if typeof(effect_meta) == TYPE_DICTIONARY:
+		auto_advance_cfg = effect_meta.get("auto_advance", null)
+	var auto_advance_seconds := -1.0
+	if typeof(auto_advance_cfg) == TYPE_BOOL and bool(auto_advance_cfg):
+		auto_advance_seconds = 0.18
+	elif typeof(auto_advance_cfg) == TYPE_INT or typeof(auto_advance_cfg) == TYPE_FLOAT:
+		auto_advance_seconds = maxf(float(auto_advance_cfg), 0.0)
+	if auto_advance_seconds >= 0.0 and _narration_mode:
+		_set_choice_hint("", false)
+		_waiting_for_advance = false
+		if auto_advance_seconds > 0.0:
+			await get_tree().create_timer(auto_advance_seconds).timeout
+			if my_run_id != _dialogue_run_id:
+				return
+		DialogueManager.narration_advance()
+		return
 	var hint := "▼ 点击继续" if has_next or is_time_card else "▼ 点击进入游戏"
 	_set_choice_hint(hint, true)
 	_waiting_for_advance = true
