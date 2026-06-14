@@ -16,7 +16,7 @@ suspect_now,0,"{""all"": [{""flag"": ""agui_confessed_mastermind""}, {""evidence
 suspect_now,1,"{""flag"": ""agui_confessed_mastermind""}","[{""speaker"": ""凌瑶"", ""text"": ""沈姑娘一个人坐在楼上，像在等什么。""}]",,
 suspect_now,2,"{""all"": [{""flag"": ""agui_premeditation_known""}, {""flag"": ""fan_motive_known""}]}","[{""speaker"": ""凌瑶"", ""text"": ""阿贵身上那个浮囊。是别人给的。一个十六岁的仆从，哪儿来的钱。""}, {""speaker"": ""陆昭"", ""text"": ""有人替他想好了后路。""}, {""speaker"": ""凌瑶"", ""text"": ""嗯，所以那个人也知道船要沉。""}]",,
 suspect_now,3,"{""all"": [{""flag"": ""agui_premeditation_known""}, {""flag"": ""fan_talked_once""}]}","[{""speaker"": ""凌瑶"", ""text"": ""阿贵和老范。感觉是被同一件事堵进来的。""}]",,
-suspect_now,4,"{""flag"": ""agui_premeditation_known""}","[{""speaker"": ""凌瑶"", ""text"": ""阿贵之前一直盯着那个包袱，话却说得很顺溜。""}, {""speaker"": ""陆昭"", ""text"": ""顺溜到不像临时想出来的。""}]",,
+suspect_now,4,"{""flag"": ""agui_premeditation_known""}","[{""speaker"": ""凌瑶"", ""text"": ""阿贵之前一直守着那个包袱，话却说得很顺溜。""}, {""speaker"": ""陆昭"", ""text"": ""顺溜到不像临时想出来的。""}]",,
 suspect_now,5,"{""all"": [{""flag"": ""hull_sabotage_known""}, {""flag"": ""fan_talked_once""}]}","[{""speaker"": ""凌瑶"", ""text"": ""老范……他走东汊，说南汊堵了。可昨天停在渡口的船里，有两条是从南汊来的。""}]",,
 suspect_now,6,"{""flag"": ""hull_sabotage_known""}","[{""speaker"": ""凌瑶"", ""text"": ""同船三个人，死的是最会水的。活下来的说自己不会水。""}, {""speaker"": ""陆昭"", ""text"": ""嗯。""}, {""speaker"": ""凌瑶"", ""text"": ""这说不通。""}]",,
 suspect_now,7,"{""all"": [{""flag"": ""fan_talked_once""}, {""flag"": ""agui_talked_once""}]}","[{""speaker"": ""凌瑶"", ""text"": ""老范和阿贵，哪个先知道船会沉？""}, {""speaker"": ""陆昭"", ""text"": ""……或者两个都知道。""}, {""speaker"": ""凌瑶"", ""text"": ""可两个人凑在一起策划这种事，需要有个人牵线。""}]",,

@@ -1,6 +1,6 @@
 npc_id,name,title,intro,dialogue_id,actor_id,portrait,always_in_notebook,is_victim,is_player,is_culprit
 agui,阿贵,死者仆从,跟随周德茂十二年的老仆，受怨恨与银钱诱导卷入沉船局。,agui,,res://assets/cn/portraits/prologue_agui.png,,,,
-fisherman_wang,王大爷,江边渔翁,下游渔村的老渔翁，受人用银钱诱导在堂上补说不实目击；不实指认被拆穿后，说话再不敢咬死，只能提供一些边角线索。,fisherman_wang,,res://assets/cn/portraits/prologue_fisherman_wang.png,,,,
+fisherman_wang,王大爷,江边渔翁,下游渔村的老渔翁，受人用银钱诱导在堂上补说不实目击；不实指认被拆穿后，说话再不敢说死，只能提供一些边角线索。,fisherman_wang,,res://assets/cn/portraits/prologue_fisherman_wang.png,,,,
 lao_fan,老范,石矶渡船家,在这段江面跑了二十年船的老船家，熟悉沉船骗保的河道门道。,lao_fan,,res://assets/cn/portraits/prologue_lao_fan.png,,,,
 li_zheng,钱里正,石矶渡里正,地方小吏，圆滑世故，熟知河上骗保陋习却畏惧担责。,li_zheng,,res://assets/cn/portraits/prologue_li_zheng.png,,,,
 lu_zhao,陆昭,巡按御史,玩家本人。奉旨南下暗查漕运账弊，途经石矶渡时被卷入命案。,,actor_imperial_inspector,res://assets/cn/portraits/prologue_lu_zhao.png,,,True,

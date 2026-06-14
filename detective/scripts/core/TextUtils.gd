@@ -47,6 +47,22 @@ static func ensure_inner_thought_parentheses(text: String) -> String:
 	return "（%s）" % result
 
 
+## 剥离所有中文括号内容（用于非心理活动的普通对话，确保漏网的舞台指示不残留）。
+static func strip_all_parentheticals(text: String) -> String:
+	var out := ""
+	var i := 0
+	while i < text.length():
+		var ch := text[i]
+		if ch == "（":
+			var end := text.find("）", i + 1)
+			if end > i:
+				i = end + 1
+				continue
+		out += ch
+		i += 1
+	return _collapse_spaces(out).strip_edges()
+
+
 ## 将保留下来的括号段染蓝。调用前应先移除舞台指示。
 static func color_inner_thoughts(text: String, color := INNER_THOUGHT_COLOR) -> String:
 	var out := ""
@@ -66,7 +82,8 @@ static func color_inner_thoughts(text: String, color := INNER_THOUGHT_COLOR) -> 
 
 
 static func format_dialogue_text(text: String, force_inner_thought := false, color := INNER_THOUGHT_COLOR) -> String:
-	return color_inner_thoughts(prepare_dialogue_plain_text(text, force_inner_thought), color)
+	var plain := prepare_dialogue_plain_text(text, force_inner_thought)
+	return color_inner_thoughts(plain, color) if force_inner_thought else strip_all_parentheticals(plain)
 
 
 static func _strip_stage_parentheticals(text: String) -> String:

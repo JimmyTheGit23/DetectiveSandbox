@@ -5,7 +5,7 @@ testimony_wang_self,preamble,2,王大爷,fisherman_wang,……从哪说起。,ev
 testimony_wang_self,preamble,3,凌瑶,xia_lingyao,他从一进门就在搓手，现在手心都快搓红了。,focused
 testimony_wang_self,preamble,4,凌瑶,xia_lingyao,一个常年跟风浪打交道的老渔翁，站在堂上，怎么脚跟直发软呢。,focused
 testimony_wang_self,readthrough_end_hint,0,凌瑶,xia_lingyao,他话里一直兜圈子，就是不爽快。陆昭，你听出什么没？,focused
-testimony_wang_self,readthrough_end_hint,1,陆昭,lu_zhao,（他每句话前都犹豫一下。说不准，是在回忆，还是在编。）,inner_thought
+testimony_wang_self,readthrough_end_hint,1,陆昭,lu_zhao,（他每句话前都停一下。回忆？还是编？）,inner_thought
 testimony_wang_self,transition_dialogue,0,王大爷,fisherman_wang,……那晚……朔月。,guilty
 testimony_wang_self,transition_dialogue,1,王大爷,fisherman_wang,江上没有光。雾又大。,guilty
 testimony_wang_self,transition_dialogue,2,王大爷,fisherman_wang,……脸……,guilty
@@ -13,7 +13,7 @@ testimony_wang_self,transition_dialogue,3,王大爷,fisherman_wang,脸是真没�
 testimony_wang_self,transition_dialogue,4,周氏,zhou_wife,那你刚才咬得那么死……！,grief
 testimony_wang_self,transition_dialogue,5,沈清月,shen_qingyue,夜里看不清，不等于一字都不能听。周娘子，让老人家把听见的也说完。,sharp
 testimony_wang_self,transition_dialogue,6,陆昭,lu_zhao,行。眼睛先放一边。听听耳朵那段。,determined
-testimony_wang_self,transition_dialogue,7,凌瑶,xia_lingyao,（王大爷还没哼声呢，她倒先替人家把调子起好了。）,inner_thought
+testimony_wang_self,transition_dialogue,7,凌瑶,xia_lingyao,（侧目，声音极轻）王大爷还没哼声呢，她倒先把调子起好了。,focused
 testimony_wang_self,fail_dialogue,0,王大爷,fisherman_wang,我没瞎编。你不信，也得说清我哪一句看错了。,evasive
 testimony_wang_self,fail_dialogue,1,凌瑶,xia_lingyao,糟糕，我手心又全是汗了。,worried
 testimony_wang_self_hearing,preamble,0,钱里正,li_zheng,王大爷，只说喊声。别把前头后头都揉进去。,stern
@@ -107,7 +107,7 @@ testimony_lao_fan_motive,transition_dialogue,3,陆昭,lu_zhao,他们？还有谁
 testimony_lao_fan_motive,transition_dialogue,4,老范,lao_fan,"阿贵来找过我。还有一个……药材行的姑娘。她知道我欠四十二两，知道腊月底要断指。她说""你只要照做，债就没了""。",panic
 testimony_lao_fan_motive,transition_dialogue,5,沈清月,shen_qingyue,老范。赌债逼急了，别把谁都往水里拖。话出口前，先想想哪句能进案卷。,deflecting
 testimony_lao_fan_motive,transition_dialogue,6,阿贵,agui,你胡说！明明是你先收了她的钱，明明是你说东汊好下手！,angry
-testimony_lao_fan_motive,transition_dialogue,7,陆昭,lu_zhao,（堂上一阵骚动。老范和阿贵同时闭嘴。两个人的说法对不上……反而露出了第三个人。）,inner_thought
+testimony_lao_fan_motive,transition_dialogue,7,陆昭,lu_zhao,（两个人的话对不上……第三个人？）,inner_thought
 testimony_lao_fan_motive,transition_dialogue,8,陆昭,lu_zhao,船不是意外。赌债也不是。阿贵，你和老范说的不一样。,determined
 testimony_lao_fan_motive,transition_dialogue,9,凌瑶,xia_lingyao,那个药材行的姑娘……他刚才舌头都到牙齿边了，偏偏又缩了回去。,focused
 testimony_lao_fan_motive,fail_dialogue,0,老范,lao_fan,陆公子，我是穷，可穷不等于杀人。您总得说出我为什么非做不可。,evasive
@@ -138,7 +138,7 @@ testimony_1,preamble,1,沈清月,shen_qingyue,"怕水的人带浮囊，不犯法
 testimony_1,preamble,2,阿贵,agui,是……是，陆公子。,nervous
 testimony_1,transition_dialogue,0,陆昭,lu_zhao,（阿贵瘫坐在地上，大口喘着气。额头上的汗比刚才更密了。）,inner_thought
 testimony_1,transition_dialogue,1,凌瑶,xia_lingyao,刚才还喊得震天响，这会儿整个人跟漏了气的皮球似的，我瞧着都替他脸红。,playful
-testimony_1,transition_dialogue,2,陆昭,lu_zhao,（第一道防线破了。他知道我不是来走过场的。接下来他会更用力地编，也会更容易喘不上气。）,inner_thought
+testimony_1,transition_dialogue,2,陆昭,lu_zhao,（第一道防线破了。他知道我不是来走过场的。）,inner_thought
 testimony_1,transition_dialogue,3,陆昭,lu_zhao,我没问你是不是怕水。这只浮囊，上船前就充好了。,serious
 testimony_1,transition_dialogue,4,阿贵,agui,陆公子……陆公子，您听我说……,panic
 testimony_1,transition_dialogue,5,阿贵,agui,那个浮囊……小的确实是提前准备的。但不是为了害人，是为了保命啊！,defensive
@@ -176,9 +176,9 @@ testimony_2,transition_dialogue,6,阿贵,agui,……,shaken
 testimony_2,transition_dialogue,7,陆昭,lu_zhao,（他蹲在那里，忽然不抖了。整个人僵住……像在做一个很重的决定。）,inner_thought
 testimony_2,transition_dialogue,8,阿贵,agui,……是。是小的动的。,broken
 testimony_2,transition_dialogue,9,阿贵,agui,可我不是自己要做的。,broken
-testimony_2,transition_dialogue,10,阿贵,agui,是老范！是他先说东汊好下手，他说只要船沉了货银漂到下游……我……我只是没拒绝。,defensive
+testimony_2,transition_dialogue,10,阿贵,agui,是老范！是他先说东汊好下手，他说只要船沉了货银漂到下游……小的……小的只是没拒绝。,defensive
 testimony_2,transition_dialogue,11,陆昭,lu_zhao,浮囊是你自己备的。船板是你自己动的。周德茂最信的人是你。,serious
-testimony_2,transition_dialogue,12,阿贵,agui,我跟了他十二年，吃穿不愁，我为什么要主动害他？我没有理由！,nervous
+testimony_2,transition_dialogue,12,阿贵,agui,小的跟了他十二年，吃穿不愁，小的为什么要主动害他？小的没有理由！,nervous
 testimony_2,transition_dialogue,13,沈清月,shen_qingyue,他说被逼，也未必全假。下人犯了事，总会先找一个更有力气的人压在前头。,cooperative
 testimony_2,transition_dialogue,14,陆昭,lu_zhao,没有理由？十二年工钱被扣光。遣散字据在你身上。,serious
 testimony_2,fail_dialogue,0,阿贵,agui,暗礁撞的！石头不长眼！陆公子，您讲道理啊！,defensive
@@ -188,7 +188,7 @@ testimony_3,fail_dialogue,0,阿贵,agui,陆公子……小的只是个下人，�
 testimony_3,fail_dialogue,1,沈清月,shen_qingyue,十二年主仆，饭碗和命都系在周家门槛上。陆公子若拿不出他翻脸的那一下，谁信他会杀主人？,sharp
 testimony_3,fail_dialogue,2,凌瑶,xia_lingyao,十二年啊……我听着心里头怪堵得慌。可难受归难受，害了人，就不能这么稀里糊涂算了。,gentle
 testimony_3,transition_dialogue,0,阿贵,agui,小的……小的只是个下人……,shaken
-testimony_3,transition_dialogue,1,陆昭,lu_zhao,"他又缩回去了。""只是下人""——这是他最后的壳。但壳已经裂了。",inner_thought
+testimony_3,transition_dialogue,1,陆昭,lu_zhao,"他又缩回去了。""只是下人""——壳。",inner_thought
 testimony_3,transition_dialogue,2,钱里正,li_zheng,这……遣散字据……阿贵，你之前可没提过这个。,stern
 testimony_3,transition_dialogue,3,陆昭,lu_zhao,（钱里正话音落下。堂上忽然静了。所有人都看向周氏……她站起来了。）,inner_thought
 testimony_3,transition_dialogue,4,周氏,zhou_wife,阿贵。,grief
@@ -221,7 +221,7 @@ shen_testimony_1,transition_dialogue,8,陆昭,lu_zhao,亥时就回客栈了？�
 shen_testimony_1,transition_dialogue,9,沈清月,shen_qingyue,那是，……别人留下的。不是我。,cracking
 shen_testimony_1,transition_dialogue,10,陆昭,lu_zhao,"看他上船就走了，后来又说""多站了一会儿""。现在连浅滩的痕迹也不认。沈清月，那晚你到底在哪儿？",determined
 shen_testimony_1,transition_dialogue,11,沈清月,shen_qingyue,……,cracking
-shen_testimony_1,transition_dialogue,12,沈清月,shen_qingyue,好。换个说法。就算那晚我在码头多站了一会儿，盯着欠债人上船，有什么问题？不犯法。,cold_fury
+shen_testimony_1,transition_dialogue,12,沈清月,shen_qingyue,好。换个说法。就算那晚我在码头多站了一会儿，候着欠债人上船，有什么问题？不犯法。,cold_fury
 shen_testimony_1,transition_dialogue,13,凌瑶,xia_lingyao,'不犯法'……她把这三个字说得跟吃茶一样随便，听着真气人。,focused
 shen_testimony_1,transition_dialogue,14,陆昭,lu_zhao,时间对不上，地方也对不上。沈清月，你那晚做的事，比你嘴上说的多。,determined
 shen_testimony_1,fail_dialogue,0,沈清月,shen_qingyue,陆公子，我说过，杀他对我只坏不好。你要翻这账，先把银子翻出来。,sharp

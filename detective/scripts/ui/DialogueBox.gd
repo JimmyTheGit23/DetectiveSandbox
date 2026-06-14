@@ -257,7 +257,7 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 		display_text = "\n".join(lines.slice(0, 3))
 		if is_inner_thought and display_text.begins_with("（") and not display_text.ends_with("）"):
 			display_text += "）"
-	var rich_display_text := TextUtilsScript.color_inner_thoughts(display_text)
+	var rich_display_text := TextUtilsScript.color_inner_thoughts(display_text) if is_inner_thought else TextUtilsScript.strip_all_parentheticals(display_text)
 	_apply_normal_narration_style()
 	if is_inner_thought:
 		# 心理活动显示主角名字（不显示头像）
@@ -565,7 +565,7 @@ func _play_current_page(run_id: int) -> void:
 	if not page_is_inner_thought:
 		_start_talk_animation()
 	# 基于 display_page_text（已完成括号处理）只做高亮+染色，避免重复调 prepare_dialogue_plain_text 导致双重括号
-	var play_text := _highlight_and_color_text(display_page_text, page.get("highlight", []))
+	var play_text := _highlight_and_color_text(display_page_text, page.get("highlight", []), page_is_inner_thought)
 	_typewriter.play(text_label, play_text)
 	await _typewriter.finished
 	_stop_talk_animation()
@@ -1676,13 +1676,13 @@ func _decorate_text(text: String, extra_highlights = [], force_inner_thought := 
 	elif extra_highlights is String and str(extra_highlights) != "":
 		words.append(str(extra_highlights))
 	out = _highlight_keywords_outside_thoughts(out, words)
-	out = TextUtilsScript.color_inner_thoughts(out)
+	out = TextUtilsScript.color_inner_thoughts(out) if force_inner_thought else TextUtilsScript.strip_all_parentheticals(out)
 	return out
 
 
 ## 轻量级文本装饰：仅高亮+染色，不复执行 prepare_dialogue_plain_text（避免双重括号）。
 ## 入参 text 应当是已经过 prepare_dialogue_plain_text 处理的文本。
-func _highlight_and_color_text(text: String, extra_highlights = []) -> String:
+func _highlight_and_color_text(text: String, extra_highlights = [], is_inner_thought := false) -> String:
 	var out := text
 	var words: Array = []
 	for kw in KEYWORD_HIGHLIGHTS:
@@ -1693,7 +1693,7 @@ func _highlight_and_color_text(text: String, extra_highlights = []) -> String:
 	elif extra_highlights is String and str(extra_highlights) != "":
 		words.append(str(extra_highlights))
 	out = _highlight_keywords_outside_thoughts(out, words)
-	out = TextUtilsScript.color_inner_thoughts(out)
+	out = TextUtilsScript.color_inner_thoughts(out) if is_inner_thought else TextUtilsScript.strip_all_parentheticals(out)
 	return out
 
 

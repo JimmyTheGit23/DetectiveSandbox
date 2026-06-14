@@ -65,7 +65,7 @@ shen_testimony_2,sf2_2,2,沈清月,他欠赌坊四十二两，这事码头上都
 shen_testimony_2,sf2_3,3,沈清月,阿贵？我只在码头见他跟着周德茂。船开后我便回客栈，哪来的工夫同他说话。,sharp,true,evidence_dock_timing,,,,
 shen_testimony_2,sf2_4,4,沈清月,我亥时前就回客栈了。陆公子若疑我时辰，就拿能落到点上的东西来说。,sharp,true,evidence_dock_timing,,evidence_dock_timing,,
 shen_testimony_2,sf2_5,5,沈清月,说我教他们怎么做？先拿出我跟他们开口的那一刻。没有那一刻，就只是他们两张嘴。,cold_fury,,,,,,
-shen_testimony_3,sf3_1,1,沈清月,我在码头多站一会儿又怎样。讨债的人盯着欠债人上船，很怪吗。,sharp,,,,,,
+shen_testimony_3,sf3_1,1,沈清月,我在码头多站一会儿又怎样。讨债的人候着欠债人上船，很怪吗。,sharp,,,,,,
 shen_testimony_3,sf3_2,2,沈清月,你拿几个人的话来凑我。一个赌鬼，一个仆从，一个老渔翁，这就要定我？,sharp,true,evidence_father_ledger,,evidence_father_ledger,,
 shen_testimony_3,sf3_3,3,沈清月,你说我在码头多站了一会儿，可以。可从码头走到船底那一步，你还没说清。,cold_fury,,,,,,
 shen_testimony_3,sf3_4,4,沈清月,你找到了药囊壳。可它什么时候放上去，谁放上去，你还没抓住。码头能靠近船的人，不止我一个。,cold_fury,true,evidence_drug_capsule_shell,,evidence_drug_capsule_shell,,
