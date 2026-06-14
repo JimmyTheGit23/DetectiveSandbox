@@ -1133,6 +1133,14 @@ static func _compile_prologue(src: String, fallback: Dictionary = {}) -> Diction
 			var first_line: Dictionary = nlines[0]
 			_set_if(node, "speaker", _cell(first_line, "speaker"))
 			_set_if(node, "text", _cell(first_line, "text"))
+			# 若 prologue_lines 的行有 type（如 inner_thought），且 node 尚无 type，则继承
+			var line_type := _cell(first_line, "type")
+			if line_type != "" and not node.has("type"):
+				node["type"] = line_type
+			# 若 prologue_lines 的行有 emotion，且 node 尚无 emotion，则继承
+			var line_emotion := _cell(first_line, "emotion")
+			if line_emotion != "" and not node.has("emotion"):
+				node["emotion"] = line_emotion
 		# Choices
 		var nchoices: Array = choices_by_node.get(nid, [])
 		if not nchoices.is_empty():

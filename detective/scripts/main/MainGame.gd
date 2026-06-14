@@ -1945,7 +1945,7 @@ func _on_dialogue_ended() -> void:
 
 
 # ─── 序章 / 叙述 ───
-func _on_narration_started(background: String, _speaker: String, text: String, has_next: bool, _centered: bool, portrait: String = "") -> void:
+func _on_narration_started(background: String, _speaker: String, text: String, has_next: bool, _centered: bool, portrait: String = "", meta: Dictionary = {}) -> void:
 	if background != "":
 		_set_background(background, true)
 	# 进入游戏前的过场不叠加场景特效；无背景的助手短评不打断当前地点特效。
@@ -1960,7 +1960,7 @@ func _on_narration_started(background: String, _speaker: String, text: String, h
 		dialogue_box.set_next_narration_typewriter_skip_disabled(_next_narration_typewriter_skip_disabled)
 	_next_narration_typewriter_skip_disabled = false
 	_next_narration_typewriter_char_delay = -1.0
-	dialogue_box.show_narration(_speaker, text, has_next, portrait)
+	dialogue_box.show_narration(_speaker, text, has_next, portrait, meta)
 	dialogue_box.visible = true
 	menu_panel.visible = false
 	if _npc_layer and _npc_layer.has_method("hide_npcs"):
@@ -2148,7 +2148,7 @@ func _on_narration_time_card(text: String, sub_text: String) -> void:
 	)
 
 
-## 叙述演出效果处理（震动/闪屏/色调/心理活动渐暗）
+## 叙述演出效果处理（震动/闪屏/色调等）
 func _on_narration_effects(fx: Dictionary) -> void:
 	_next_narration_typewriter_skip_disabled = bool(fx.get("disable_typewriter_skip", false))
 	_next_narration_typewriter_char_delay = float(fx.get("typewriter_char_delay", -1.0))
@@ -2176,14 +2176,6 @@ func _on_narration_effects(fx: Dictionary) -> void:
 			_bg_fade_rect.color = Color(0.02, 0.05, 0.15, 0.4)
 		elif tint_str == "clear":
 			_bg_fade_rect.color = Color(0, 0, 0, 0)
-	# 心理活动渐暗/恢复效果
-	if fx.has("mind_fade"):
-		var fade_str: String = str(fx.get("mind_fade", ""))
-		var fade_duration: float = float(fx.get("mind_fade_duration", 1.5))
-		if fade_str == "in":
-			_mind_fade_tween(fade_duration, 0.0, 0.65)
-		elif fade_str == "out":
-			_mind_fade_tween(fade_duration, _bg_fade_rect.color.a, 0.0)
 	# 心理活动音效提示（可选）
 	if fx.has("mind_sfx"):
 		var sfx_player = get_node_or_null("/root/SfxPlayer")
@@ -2196,20 +2188,6 @@ func _on_narration_effects(fx: Dictionary) -> void:
 	# CG 背景偏移：bg_offset_y 负值向上推画面，露出被对话框遮住的下半部分
 	if fx.has("bg_offset_y"):
 		scene_bg.position.y = float(fx.get("bg_offset_y"))
-
-
-## 心理活动渐暗：使用 _bg_fade_rect 做全屏黑幕渐变
-func _mind_fade_tween(duration: float, from_alpha: float, to_alpha: float) -> void:
-	if _bg_fade_rect == null:
-		return
-	# 如果正在执行 mind_fade tween，先停止
-	if _mind_fade_tween_ref != null and _mind_fade_tween_ref.is_valid():
-		_mind_fade_tween_ref.kill()
-	_bg_fade_rect.color = Color(0.01, 0.01, 0.03, from_alpha)
-	_mind_fade_tween_ref = create_tween()
-	_mind_fade_tween_ref.tween_property(_bg_fade_rect, "color:a", to_alpha, duration).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-
-var _mind_fade_tween_ref: Tween = null
 
 
 func _do_screen_shake(intensity: float = 6.0, duration: float = 0.4) -> void:

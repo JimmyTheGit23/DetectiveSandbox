@@ -67,10 +67,7 @@ var _is_blinking: bool = false
 var _flash_rect: ColorRect = null
 var _screen_shake_tween: Tween = null
 var _skip_next_portrait_animation: bool = false
-# ─── 心声模式 ───
-var _mind_voice_active: bool = false
 const DEFAULT_TYPEWRITER_CHAR_DELAY := 0.04
-const MIND_VOICE_CHAR_DELAY := 0.065  # 心声模式每字延迟（比默认0.04慢）
 
 const CLR_GOLD := Color(0.96, 0.84, 0.46, 1.0)
 const CLR_PAPER := Color(0.12, 0.075, 0.04, 0.94)
@@ -191,10 +188,9 @@ func _input(event: InputEvent) -> void:
 	if _is_advance_locked():
 		get_viewport().set_input_as_handled()
 		return
-	# 文字出字中点击 → 立即显示当前句全文。
-	# 心声模式/特殊演出下不允许跳过打字机，必须等打完。
+	# 文字出字中点击 → 立即显示当前句全文；仅特殊演出可禁用跳过。
 	if _typewriter.is_playing():
-		if not _mind_voice_active and not _typewriter_skip_disabled:
+		if not _typewriter_skip_disabled:
 			_typewriter.skip()
 		get_viewport().set_input_as_handled()
 		return
@@ -233,7 +229,7 @@ func set_next_narration_typewriter_settings(skip_disabled: bool, char_delay: flo
 # ███  叙述模式（替代 NarrationBox）
 # ═══════════════════════════════════════════════════════════════
 
-func show_narration(speaker: String, text: String, has_next: bool, portrait: String = "") -> void:
+func show_narration(speaker: String, text: String, has_next: bool, portrait: String = "", meta: Dictionary = {}) -> void:
 	"""叙述模式：与 DialogueManager 的 narration 信号对接，点击推进"""
 	print("[DialogueBox] show_narration called. speaker='%s' has_next=%s run_id=%d" % [speaker, has_next, _dialogue_run_id + 1])
 	_narration_mode = true
@@ -249,48 +245,31 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 		_log_panel.visible = false
 	_set_choice_hint("", false)
 	_waiting_for_advance = false
-	# 检测是否为心理活动（心声）模式
-	var is_mind_voice := _is_mind_voice_speaker(speaker)
+	var is_inner_thought := _is_inner_thought_meta(meta) or _is_mind_voice_speaker(speaker)
+	if is_inner_thought:
+		_typewriter_skip_disabled = false
+		custom_char_delay = -1.0
 	# 去掉多余空行，限制显示不超过3行（约60字）
-	var display_text := TextUtilsScript.strip_stage_directions(text).replace("\r\n", "\n").replace("\r", "\n").strip_edges()
-	while display_text.find("\n\n") >= 0:
-		display_text = display_text.replace("\n\n", "\n")
+	var display_text := TextUtilsScript.prepare_dialogue_plain_text(text, is_inner_thought)
 	# 如果文字包含换行且超过3行，只显示前3行
 	var lines := display_text.split("\n")
 	if lines.size() > 3:
 		display_text = "\n".join(lines.slice(0, 3))
-	# 心声模式：应用专属文字样式，显示主角思考立绘
-	if is_mind_voice:
-		_mind_voice_active = true
-		_apply_mind_voice_style()
-		_set_speaker_name("陆昭 · 心声")
-		_hide_avatar()
-		# 显示主角思考立绘（居中大图）
-		var mind_portrait := _resolve_mind_voice_portrait()
-		if mind_portrait != "" and ResourceLoader.exists(mind_portrait):
-			_apply_center_portrait_presentation("lu_zhao", mind_portrait, "serious")
-			portrait_rect.visible = _set_portrait_texture(portrait_rect, mind_portrait)
-			portrait_rect.modulate.a = 0.85
-			portrait_rect.scale = Vector2(_current_portrait_display_scale, _current_portrait_display_scale)
-		else:
-			portrait_rect.visible = false
-		_typewriter.base_char_delay = custom_char_delay if custom_char_delay > 0.0 else MIND_VOICE_CHAR_DELAY
+		if is_inner_thought and display_text.begins_with("（") and not display_text.ends_with("）"):
+			display_text += "）"
+	var rich_display_text := TextUtilsScript.color_inner_thoughts(display_text)
+	_apply_normal_narration_style()
+	if is_inner_thought:
+		_apply_narration_speaker("", "")
 	else:
-		_mind_voice_active = false
-		_apply_normal_narration_style()
-		# 显示说话者和立绘
 		_apply_narration_speaker(_normalize_visible_speaker(speaker), portrait)
-		_typewriter.base_char_delay = custom_char_delay if custom_char_delay > 0.0 else DEFAULT_TYPEWRITER_CHAR_DELAY
+	_typewriter.base_char_delay = custom_char_delay if custom_char_delay > 0.0 else DEFAULT_TYPEWRITER_CHAR_DELAY
 	# 根据说话人角色切换打字音效 profile
-	var blip_speaker := "陆昭" if is_mind_voice else _normalize_visible_speaker(speaker)
-	_typewriter.set_blip_profile(_resolve_blip_profile(blip_speaker))
+	_typewriter.set_blip_profile(_resolve_blip_profile(_normalize_visible_speaker(speaker)))
 	# 叙述模式不播放打字电子音（物品描述等场景不需要）
 	_typewriter.typing_sound_enabled = false
-	# 心声模式：启用轻柔打字音效
-	if is_mind_voice:
-		_typewriter.typing_sound_enabled = true
 	# 打字机播放文字（不调用说话动画，避免立绘偏移）
-	_typewriter.play(text_label, display_text)
+	_typewriter.play(text_label, rich_display_text)
 	await _typewriter.finished
 	print("[DialogueBox] typewriter finished. my_run_id=%d current_run_id=%d" % [my_run_id, _dialogue_run_id])
 	if my_run_id != _dialogue_run_id:
@@ -316,11 +295,14 @@ func _is_mind_voice_speaker(speaker: String) -> bool:
 	return false
 
 
-## 心声模式：应用专属文字样式（偏暗灰紫色调，区别于普通叙述的暖黄）
-func _apply_mind_voice_style() -> void:
-	text_label.add_theme_color_override("default_color", Color(0.72, 0.68, 0.82, 1.0))
-	text_label.add_theme_font_size_override("normal_font_size", 20)
-	speaker_label.add_theme_color_override("font_color", Color(0.65, 0.60, 0.78, 1.0))
+func _is_inner_thought_meta(meta: Dictionary) -> bool:
+	var line_type := str(meta.get("type", "")).strip_edges().to_lower()
+	var emotion := str(meta.get("emotion", meta.get("mood", ""))).strip_edges().to_lower()
+	return line_type == "inner_thought" or emotion == "inner_thought"
+
+
+func _is_inner_thought_page(page: Dictionary) -> bool:
+	return _is_inner_thought_meta(page) or _is_mind_voice_speaker(str(page.get("speaker", "")))
 
 
 ## 恢复普通叙述模式的文字样式
@@ -328,24 +310,6 @@ func _apply_normal_narration_style() -> void:
 	text_label.add_theme_color_override("default_color", CLR_INK)
 	text_label.add_theme_font_size_override("normal_font_size", 22)
 	speaker_label.add_theme_color_override("font_color", CLR_INK)
-
-
-## 解析心声模式的主角思考立绘路径
-func _resolve_mind_voice_portrait() -> String:
-	var resolved := AssetResolver.resolve_case_portrait("lu_zhao", "serious", GameManager.npcs_data, "dialogue")
-	if resolved != "" and ResourceLoader.exists(resolved):
-		return resolved
-	# 优先使用 prologue 立绘（序章专用），回退到通用立绘
-	var candidates := [
-		"res://assets/cn/portraits/prologue_lu_zhao_serious.png",
-		"res://assets/cn/portraits/lu_zhao_serious.png",
-		"res://assets/cn/portraits/prologue_lu_zhao.png",
-		"res://assets/cn/portraits/lu_zhao.png",
-	]
-	for c in candidates:
-		if ResourceLoader.exists(c):
-			return c
-	return ""
 
 
 func _apply_narration_speaker(speaker: String, portrait: String) -> void:
@@ -532,7 +496,6 @@ func end_narration_mode() -> void:
 	_typewriter_skip_disabled = false
 	_next_narration_typewriter_skip_disabled = false
 	_next_narration_typewriter_char_delay = -1.0
-	_mind_voice_active = false
 	if _typewriter:
 		_typewriter.base_char_delay = DEFAULT_TYPEWRITER_CHAR_DELAY
 	_apply_normal_narration_style()
@@ -587,13 +550,19 @@ func _play_current_page(run_id: int) -> void:
 	_set_choice_hint("", false)
 	_waiting_for_advance = false
 	var page: Dictionary = _dialogue_pages[_dialogue_page_index]
-	_apply_speaker(page.get("speaker", ""), page.get("portrait", ""), page.get("emotion", ""))
+	var page_is_inner_thought := _is_inner_thought_page(page)
+	if page_is_inner_thought:
+		_apply_speaker("", "", "")
+	else:
+		_apply_speaker(page.get("speaker", ""), page.get("portrait", ""), page.get("emotion", ""))
 	var page_text: String = page.get("text", "")
-	var display_page_text := TextUtilsScript.strip_stage_directions(page_text)
-	_append_dialogue_log(page.get("speaker", ""), display_page_text)
+	var display_page_text := TextUtilsScript.prepare_dialogue_plain_text(page_text, page_is_inner_thought)
+	var log_speaker := "" if page_is_inner_thought else str(page.get("speaker", ""))
+	_append_dialogue_log(log_speaker, display_page_text)
 	_typewriter.set_blip_profile(_resolve_blip_profile(page.get("speaker", "")))
-	_start_talk_animation()
-	_typewriter.play(text_label, _decorate_text(display_page_text, page.get("highlight", [])))
+	if not page_is_inner_thought:
+		_start_talk_animation()
+	_typewriter.play(text_label, _decorate_text(page_text, page.get("highlight", []), page_is_inner_thought))
 	await _typewriter.finished
 	_stop_talk_animation()
 	if run_id != _dialogue_run_id:
@@ -622,7 +591,15 @@ func _apply_speaker(speaker: String, portrait_path: String, emotion: String = ""
 		_hide_avatar()
 		portrait_rect.visible = false
 		return
-	# 主角/同伴：左下角头像 + 文字右移
+	# DialogueBox 不属于对峙阶段，陆昭在此只显示名字，不显示头像
+	# 对峙阶段由 ConfrontationPanel 独立渲染，不经过此函数
+	if speaker == "陆昭" or speaker == "lu_zhao":
+		_hide_avatar()
+		# 保持 NPC 居中立绘显示（如果已设置），不隐藏
+		box.offset_left = DIALOGUE_TEXT_LEFT_DEFAULT
+		_last_speaker = speaker
+		return
+	# 主角/同伴：左下角头像 + 文字右移（仅叙述模式或对峙内调用）
 	if _is_protagonist_or_companion(speaker):
 		_last_speaker = speaker
 		_show_avatar(speaker, portrait_path, emotion)
@@ -1223,9 +1200,9 @@ func _position_top_options(option_count: int) -> void:
 	var target_y: float = dialogue_box_top - panel_h - 22.0
 	if target_y < 24.0:
 		target_y = 24.0
-	var target_x: float = vp.x - panel_w - 42.0
-	if target_x < 24.0:
-		target_x = 24.0
+	# 选项面板居中于对话框区域（box 可能因陆昭/头像设置而有偏移）
+	var target_x: float = box.global_position.x + (box.size.x - panel_w) / 2.0
+	target_x = clampf(target_x, 24.0, vp.x - panel_w - 24.0)
 	_top_options_panel.position = Vector2(target_x, target_y)
 
 
@@ -1684,8 +1661,8 @@ func _split_block_into_sentences(block: String) -> Array[String]:
 	return sentences
 
 
-func _decorate_text(text: String, extra_highlights = []) -> String:
-	var out := text
+func _decorate_text(text: String, extra_highlights = [], force_inner_thought := false) -> String:
+	var out := TextUtilsScript.prepare_dialogue_plain_text(text, force_inner_thought)
 	var words: Array = []
 	for kw in KEYWORD_HIGHLIGHTS:
 		words.append(kw)
@@ -1694,13 +1671,39 @@ func _decorate_text(text: String, extra_highlights = []) -> String:
 			words.append(str(kw))
 	elif extra_highlights is String and str(extra_highlights) != "":
 		words.append(str(extra_highlights))
+	out = _highlight_keywords_outside_thoughts(out, words)
+	out = TextUtilsScript.color_inner_thoughts(out)
+	return out
+
+
+func _highlight_keywords_outside_thoughts(text: String, words: Array) -> String:
+	var out := ""
+	var i := 0
+	while i < text.length():
+		if text[i] == "（":
+			var end := text.find("）", i + 1)
+			if end > i:
+				out += text.substr(i, end - i + 1)
+				i = end + 1
+				continue
+		var next_thought := text.find("（", i)
+		var chunk_len := text.length() - i if next_thought < 0 else next_thought - i
+		if chunk_len <= 0:
+			out += text[i]
+			i += 1
+			continue
+		out += _highlight_keywords_in_chunk(text.substr(i, chunk_len), words)
+		i += chunk_len
+	return out
+
+
+func _highlight_keywords_in_chunk(text: String, words: Array) -> String:
+	var out := text
 	for kw in words:
 		if kw == "":
 			continue
 		if out.find(kw) >= 0 and out.find("[font_size=28][color=#e84a36][b]" + kw) < 0:
 			out = out.replace(kw, "[font_size=28][color=#e84a36][b]%s[/b][/color][/font_size]" % kw)
-	if out.begins_with("（") and out.ends_with("）"):
-		out = "[color=#b9aa8a]%s[/color]" % out
 	return out
 
 

@@ -10,7 +10,7 @@
   "fisherman_wang": {
     "name": "王大爷",
     "title": "江边渔翁",
-    "intro": "下游渔村的老渔翁，受人用银钱诱导在堂上补说不实目击；不实指认被拆穿后，转而提供下游真实见闻。",
+    "intro": "下游渔村的老渔翁，受人用银钱诱导在堂上补说不实目击；不实指认被拆穿后，说话再不敢咬死，只能提供一些边角线索。",
     "dialogue": "fisherman_wang",
     "portrait": "res://assets/cn/portraits/prologue_fisherman_wang.png"
   },

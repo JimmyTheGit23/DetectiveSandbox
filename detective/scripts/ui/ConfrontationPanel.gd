@@ -2091,13 +2091,18 @@ func _show_next_dialogue_line(on_done: Callable) -> void:
 	if line is Dictionary:
 		line_data = line
 		speaker = str(line_data.get("speaker", ""))
-		text = TextUtilsScript.strip_stage_directions(str(line_data.get("text", "")))
+		text = str(line_data.get("text", ""))
 		emotion = str(line_data.get("emotion", ""))
 	else:
-		text = TextUtilsScript.strip_stage_directions(str(line))
+		text = str(line)
 
 	if speaker == "你":
 		speaker = "陆昭"
+	var is_inner_thought := emotion == "inner_thought" or str(line_data.get("type", "")).to_lower() == "inner_thought"
+	var display_text := TextUtilsScript.format_dialogue_text(text, is_inner_thought)
+	# 对峙阶段 inner_thought 仍显示说话人名字
+	if is_inner_thought and speaker == "":
+		speaker = ""
 
 	_dialogue_speaker.text = speaker
 	_dialogue_box.visible = true
@@ -2115,7 +2120,7 @@ func _show_next_dialogue_line(on_done: Callable) -> void:
 
 	# 打字机效果
 	_typewriter_playing = true
-	_typewriter.play(_dialogue_text, text)
+	_typewriter.play(_dialogue_text, display_text)
 	if _typewriter.is_playing():
 		await _typewriter.finished
 	_typewriter_playing = false
@@ -2704,8 +2709,8 @@ func _camera_reset_to_npc() -> void:
 func _auto_camera_switch(speaker: String, emotion: String, line_data: Dictionary = {}) -> void:
 	if not CAMERA_SWITCH_ENABLED:
 		return
-	# 叙述/内心独白 → 隐藏立绘，不切换镜头
-	if emotion == "narration" or emotion == "inner_thought" or speaker == "":
+	# 叙述 → 隐藏立绘，不切换镜头（inner_thought 照常切换）
+	if emotion == "narration" or speaker == "":
 		# 隐藏主角立绘
 		if _protagonist_rect and _protagonist_rect.visible:
 			_protagonist_rect.visible = false
@@ -3066,9 +3071,12 @@ func _flash_screen_white() -> void:
 func _update_dialogue_portrait(speaker: String, emotion: String, line_data: Dictionary = {}) -> void:
 	if _dlg_portrait_rect == null:
 		return
-	if speaker == "" or emotion == "narration" or emotion == "inner_thought":
+	if speaker == "" or emotion == "narration":
 		_dlg_portrait_rect.visible = false
 		return
+	# inner_thought 在对峙阶段照常显示头像（用 serious 表情）
+	if emotion == "inner_thought":
+		emotion = "serious"
 	var speaker_id := _speaker_id_from_line(speaker, line_data)
 	if speaker_id == "":
 		_dlg_portrait_rect.visible = false

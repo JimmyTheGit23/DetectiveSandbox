@@ -3,52 +3,38 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "公子问路还是问船？老范跑这条水路多年，知道多少说多少。",
+      "text": "公子问路还是问船？我跑这条水路二十来年，能说的都说。",
       "emotion": "evasive",
       "options": [
         {
-          "text": "东汊这条路好走吗？",
+          "text": "怎么改走东汊了？",
           "goto": "ask_route",
           "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ],
-          "hide_after_visit": true
+          ]
         },
         {
-          "text": "这天气行船安全吗？",
+          "text": "这天气还能行船吗？",
           "goto": "ask_weather",
           "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ],
-          "hide_after_visit": true
+          ]
         },
         {
-          "text": "船上工具常用吗？",
-          "goto": "press_crowbar",
-          "type": "ask",
-          "requires": [
-            {
-              "not_flag": "cabin_explore_done"
-            }
-          ],
-          "hide_after_visit": true
-        },
-        {
-          "text": "这几年跑船还好做吗？",
+          "text": "跑了二十年——不容易吧？",
           "goto": "ask_money",
           "type": "ask",
           "requires": [
             {
               "not_flag": "cabin_explore_done"
             }
-          ],
-          "hide_after_visit": true
+          ]
         },
         {
           "text": "先告辞",
@@ -62,38 +48,43 @@
       ],
       "lines": [
         {
-          "text": "东汊。近，省半日。顺水时一盏茶能把大弯抹过去。",
-          "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
-        },
-        {
-          "text": "就是有块老礁，雨夜看不见。平日里我宁愿绕开。",
-          "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
-        },
-        {
-          "text": "既然平日宁愿绕开，今夜为什么偏走？",
+          "text": "老范师傅，我看走的是东汊？那边不是礁多嘛。",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "curious"
         },
         {
-          "text": "船开了口，就不好改舵。人都上来了，总不能在渡口耗到天亮。",
+          "text": "嗐！大人这话说得……礁多？那点石头，我闭着眼都绕得过嘛！跑了二十年，哪块石头长了青苔我都认得。走西湾绕大弯，多磨半个时辰，周老板催得紧嘛。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "smirk"
+        },
+        {
+          "text": "走东汊是你自己定的，还是周老板催的？",
+          "speaker_id": "lu_zhao",
+          "speaker": "陆昭",
+          "emotion": "casual"
+        },
+        {
+          "text": "我说能走，他说要快，两下里凑一块儿了嘛。船都开了，总不能再回渡口等天亮？吃水的饭哪有不湿鞋的。",
           "speaker_id": "lao_fan_cabin",
           "emotion": "evasive"
         },
         {
-          "text": "周老板也提东汊。我刚看行程简记也写这条路，像是早就有人把近路摆到你们面前。",
+          "text": "（他说\"能走\"的时候……顿了一下。）",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "inner_thought"
         },
         {
-          "text": "公子别把江水说成棋盘。东汊是我认的路，可不是我拿绳子拽谁上船。",
+          "text": "那个……暗礁那边没事吧？",
+          "speaker_id": "lu_zhao",
+          "speaker": "陆昭",
+          "emotion": "curious"
+        },
+        {
+          "text": "嘛事没有！大人您坐稳就是了。贴着水口过去，错不了。您别往窗外看，黑灯瞎火的看不出个啥，反倒自己吓自己。",
           "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive",
-          "record_type": "key",
-          "record_title": "夜船记下：东汊路线",
-          "record_text": "老范承认东汊是自己认路选择，却把路线说成上船后顺势决定，不承认主动诱导众人改走。",
-          "record_id": "record_cabin_lao_fan_route_note"
+          "emotion": "defensive"
         }
       ],
       "options": [
@@ -113,42 +104,43 @@
       ],
       "lines": [
         {
-          "text": "这天气……不该说稳。雨打斜了，风是贴着江面刮的。",
-          "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
-        },
-        {
-          "text": "可夜船吃的是水头。水头一顺，就算浪响，船也还能贴着走。",
-          "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
-        },
-        {
-          "text": "他转了转手里的旱烟杆，没点着",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "外头浪不小，还要贴滩过汊？我不懂水路，听着有些险。",
+          "text": "这雨……今晚行船没问题吧？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "casual"
         },
         {
-          "text": "险不险，得看掌舵的人手稳不稳。外人听浪，船家看水。",
+          "text": "能走能走。雨斜风紧不假，可舵压住了就不会横过来。大人您别开窗啊……风灌进来不是闹着玩的。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "smirk"
+        },
+        {
+          "text": "（还有\"别开窗\"……晚上行船开窗透气不是常事吗？）",
+          "speaker_id": "lu_zhao",
+          "speaker": "陆昭",
+          "emotion": "inner_thought"
+        },
+        {
+          "text": "碰上什么情况会停船呢？",
+          "speaker_id": "lu_zhao",
+          "speaker": "陆昭",
+          "emotion": "curious"
+        },
+        {
+          "text": "起雾该停。今晚雨大，倒还没到那个份上。嘛……您别站舱口，船晃起来摔着不是玩的。坐低，坐低就稳当。",
           "speaker_id": "lao_fan_cabin",
           "emotion": "evasive"
         },
         {
-          "text": "听起来你心里有数。既然有数，东汊暗礁也该在数里。",
+          "text": "船晃得挺厉害……没事吧？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "casual"
         },
         {
-          "text": "水面上看不见的东西，谁敢说准？我只敢说没想到会刮得这么狠。",
+          "text": "没事没事！过了前头那个弯就好……水面宽些，船就没这么扭了。嘛事没有……坐稳就行。",
           "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive",
-          "record_type": "key",
-          "record_title": "夜船记下：风浪",
-          "record_text": "老范承认风浪和暗礁都在判断范围内，却把翻船归为雨夜水势突变。",
-          "record_id": "record_cabin_lao_fan_storm"
+          "emotion": "nervous"
         }
       ],
       "options": [
@@ -168,42 +160,37 @@
       ],
       "lines": [
         {
-          "text": "嗐……跑船挣的是辛苦钱。",
-          "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
-        },
-        {
-          "text": "这两年行情不好，客人少，价钱也压得低。",
-          "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
-        },
-        {
-          "text": "他转了转手里的旱烟杆，没点着",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "跑船辛苦，也不容易安稳。看你刚才那一下，像是这两年不太顺。",
+          "text": "二十年水路，辛苦吧？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "casual"
         },
         {
-          "text": "安稳？嘿，我要真安稳，就不至于这样了。",
+          "text": "嗐，不辛苦是假的。冬天手裂，夏天背脱皮，夜里掌舵，眼睛一眨都怕错过水口。可那不是嘛……船翻三次还怕水啊？干这行的命。",
           "speaker_id": "lao_fan_cabin",
           "emotion": "evasive"
         },
         {
-          "text": "他的眼神闪了一下。那声\"嘿嘿\"里有种苦涩——不像是在笑。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "不好说就算了。我只是觉得，这年头水上讨生活，确实不容易。",
+          "text": "夜船多挣不少钱吧？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "casual"
         },
         {
-          "text": "公子这话中听。只是水上人有水上人的难处，挂在嘴边也没用。",
+          "text": "多？多不了几个钱。周老板给的是行价，不是赏钱。可年关到了……有活就得接嘛。",
           "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
+          "emotion": "defensive"
+        },
+        {
+          "text": "（跑了二十年，年关还得接这种活……）",
+          "speaker_id": "lu_zhao",
+          "speaker": "陆昭",
+          "emotion": "inner_thought"
+        },
+        {
+          "text": "船要补，税要交，家里也要吃饭。江上看着宽，能落进手里的铜板没几个。那死鬼崽子要是还在……嗐，说这些干啥。大人您歇着。",
+          "speaker_id": "lao_fan_cabin",
+          "emotion": "cornered"
         }
       ],
       "options": [
@@ -224,45 +211,32 @@
       ],
       "lines": [
         {
-          "text": "铁撬棍？那是……那是修船用的。有时候船板松了，得敲敲打打。",
-          "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
-        },
-        {
-          "text": "这撬棍上有新磨痕。今晚风浪大，船板最近常修吗？",
+          "text": "这根铁家伙是干什么用的？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "casual"
         },
         {
-          "text": "……记不清了。",
+          "text": "……修船的！修船、起钉、撬松板，都用得上。船跑久了，哪条船上没几件铁家伙嘛。",
           "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
+          "emotion": "nervous"
         },
         {
-          "text": "你环顾船舱，注意到了更多细节。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "铁撬棍上有一道新鲜的磨痕——不像是修船磨出来的，倒像是撬过什么硬东西。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "木箱的麻绳打了水手结——但其中一只箱子的结扣方向反了，像是被人解开后重新系过。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "蓑衣下面露出一角油布，油布上有淡淡的水渍——不是雨水，是溅上去的。",
-          "speaker_id": "narrator"
-        },
-        {
-          "text": "新磨痕、反手结、油布水渍。夜里行船还要顾着修补，确实辛苦。",
+          "text": "放这么近？随手就能碰到。",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "speaker": "陆昭",
+          "emotion": "casual"
         },
         {
-          "text": "辛苦归辛苦，公子别乱碰。夜里船晃，划了手不值当。",
+          "text": "夜里船晃，我才放近些。真有板缝进水……晚一刻拿到东西，都可能要命嘛。大人您别碰，铁家伙沉，碰着不好。",
           "speaker_id": "lao_fan_cabin",
-          "emotion": "evasive"
+          "emotion": "defensive"
+        },
+        {
+          "text": "（他说\"板缝进水\"的时候……怎么像是话赶话冒出来的？）",
+          "speaker_id": "lu_zhao",
+          "speaker": "陆昭",
+          "emotion": "inner_thought"
         }
       ],
       "options": [

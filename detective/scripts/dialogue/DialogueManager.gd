@@ -4,7 +4,7 @@ extends Node
 signal dialogue_started(speaker: String, portrait: String, text: String, options: Array, pages: Array)
 signal dialogue_ended()
 signal confrontation_triggered()
-signal narration_started(background: String, speaker: String, text: String, has_next: bool, centered: bool, portrait: String)
+signal narration_started(background: String, speaker: String, text: String, has_next: bool, centered: bool, portrait: String, meta: Dictionary)
 signal narration_choices_ready(choices: Array)
 signal narration_ended()
 signal narration_video(video_path: String)
@@ -357,7 +357,10 @@ func _filter_options(options: Array) -> Array:
 				continue
 		var option_copy: Dictionary = o.duplicate(true)
 		var goto: String = option_copy.get("goto", "")
-		option_copy["_visited"] = _is_option_completed(goto)
+		var completed := _is_option_completed(goto)
+		if completed and option_copy.get("hide_after_visit", false):
+			continue
+		option_copy["_visited"] = completed
 		out.append(option_copy)
 	if _current_node_id == "hub":
 		out = _limit_hub_options(out)
@@ -545,11 +548,11 @@ func _emit_narration() -> void:
 				BgmPlayer.play(bgm_id)
 		narration_effects.emit(fx)
 	if node.get("end", false):
-		narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), false, centered, node_portrait)
+		narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), false, centered, node_portrait, _narration_meta_from_node(node))
 		return
 	# 有选项时 has_next 设为 false（不显示"点击继续"），改为等选项
 	var has_next: bool = not has_choices
-	narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), has_next, centered, node_portrait)
+	narration_started.emit(node.get("background", ""), node.get("speaker", ""), node.get("text", ""), has_next, centered, node_portrait, _narration_meta_from_node(node))
 	if has_choices:
 		narration_choices_ready.emit(node.get("choices", []))
 
@@ -580,6 +583,14 @@ func _apply_narration_effects(effects) -> void:
 				GameManager.add_evidence(str(evidence_id), not _suppress_evidence_obtain_hold)
 		else:
 			GameManager.add_evidence(str(evidence_value), not _suppress_evidence_obtain_hold)
+
+
+func _narration_meta_from_node(node: Dictionary) -> Dictionary:
+	var meta := {
+		"type": str(node.get("type", "")),
+		"emotion": str(node.get("emotion", node.get("mood", ""))),
+	}
+	return meta
 
 
 func _end_narration() -> void:
@@ -616,12 +627,14 @@ func _emit_adhoc() -> void:
 	var speaker := ""
 	var text := ""
 	var item_effects: Dictionary = {}
+	var meta: Dictionary = {}
 	if item is String:
 		text = item
 	else:
 		background = item.get("background", "")
 		speaker = item.get("speaker", "")
 		text = item.get("text", "")
+		meta = item.duplicate(true)
 		item_effects = item.get("effect", {})
 		_apply_narration_effects(item_effects)
 		if not item_effects.is_empty():
@@ -636,7 +649,7 @@ func _emit_adhoc() -> void:
 		VoicePlayer.play_voice_path(item.get("voice_path", ""))
 	else:
 		VoicePlayer.stop()
-	narration_started.emit(background, speaker, text, has_next, centered, "")
+	narration_started.emit(background, speaker, text, has_next, centered, "", meta)
 
 
 func adhoc_next() -> void:

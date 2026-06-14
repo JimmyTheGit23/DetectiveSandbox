@@ -3,46 +3,20 @@
   "start": "hub",
   "nodes": {
     "hub": {
-      "text": "是你吧？来得好。老头子这辈子捞鱼，也捞过尸，最怕把活人的黑心也捞上来。问。",
-      "lines": [
-        {
-          "text": "你又来了？查出什么了？老头子那几句糊涂话被你拆穿了——也好。欠下的，老头子自己补回来。",
-          "speaker_id": "fisherman_wang",
-          "emotion": "determined",
-          "requires": [
-            {
-              "flag": "self_cleared"
-            },
-            {
-              "not_flag": "agui_confessed_mastermind"
-            }
-          ]
-        },
-        {
-          "text": "阿贵招了？好小子。老头子就知道那晚的事不简单。你还想知道什么——问吧。",
-          "speaker_id": "fisherman_wang",
-          "emotion": "determined",
-          "requires": [
-            {
-              "flag": "agui_confessed_mastermind"
-            }
-          ]
-        }
-      ],
+      "text": "问吧。昨夜雾重，我这双老眼也有看不准的时候。",
       "options": [
         {
-          "text": "你看到了什么？",
+          "text": "昨夜你到底看见了什么？",
           "goto": "intro",
           "type": "ask",
           "requires": [
             {
               "not_flag": "agui_confessed_mastermind"
             }
-          ],
-          "hide_after_visit": true
+          ]
         },
         {
-          "text": "他们走的哪条航道？",
+          "text": "东汊那条水路，老范会不知道？",
           "goto": "ask_channel",
           "type": "ask",
           "requires": [
@@ -57,11 +31,10 @@
               ]
             }
           ],
-          "hide_after_visit": true,
           "min_hub_visits": 1
         },
         {
-          "text": "案发前一晚你看到什么了？",
+          "text": "前一晚码头角落那两个人是谁？",
           "goto": "ask_meeting",
           "type": "press",
           "requires": [
@@ -76,11 +49,10 @@
               ]
             }
           ],
-          "hide_after_visit": true,
           "min_hub_visits": 2
         },
         {
-          "text": "有人让你闭嘴？",
+          "text": "有人让你把话说满？",
           "goto": "trust",
           "type": "press",
           "requires": [
@@ -95,37 +67,17 @@
               ]
             }
           ],
-          "hide_after_visit": true,
           "min_hub_visits": 1
         },
         {
-          "text": "天亮之前，你还看到别的什么了吗？",
+          "text": "天亮前，下游浅滩有什么痕迹？",
           "goto": "ask_dawn_sighting",
           "type": "press",
           "requires": [
             {
               "flag": "agui_confessed_mastermind"
             }
-          ],
-          "hide_after_visit": true
-        },
-        {
-          "text": "你敢断定老范不是失手？",
-          "goto": "ask_river_life",
-          "type": "press",
-          "requires": [
-            {
-              "all": [
-                {
-                  "flag": "wang_talked_once"
-                },
-                {
-                  "not_flag": "agui_confessed_mastermind"
-                }
-              ]
-            }
-          ],
-          "hide_after_visit": true
+          ]
         },
         {
           "text": "先告辞",
@@ -137,57 +89,35 @@
       "set_flags": [
         "wang_talked_once"
       ],
-      "gain_clue": "clue_fan_alibi_hole",
       "lines": [
         {
-          "text": "那天夜里，老头子在江上收夜网。",
-          "speaker_id": "fisherman_wang"
+          "text": "又来问那事啊……行，行。可我丑话说前头，这回我不咬死了。",
+          "speaker_id": "fisherman_wang",
+          "emotion": "evasive"
         },
         {
-          "text": "先是听到一声巨响——不是打雷，是木头断裂的声音。跑了四十年江面的人分得清。然后是人喊。",
-          "speaker_id": "fisherman_wang"
+          "text": "不要你把话说死。你只说看见了什么，没看见什么。",
+          "speaker_id": "lu_zhao",
+          "emotion": "soft"
         },
         {
-          "text": "四十年江面的老人说不是风浪，那八成就真不是。这种人不会听错。",
-          "speaker_id": "xia_lingyao",
-          "emotion": "anxious"
-        },
-        {
-          "text": "老头子划过去的时候，船已经翻了。看到一个人趴在水里。另一个——自己扒着船板游上了岸。动作很快，不像刚淹过的人。",
+          "text": "船头……像是有人。两个。一个高些，一个矮些。脸嘛，雾大，看不清。衣裳也糊成一团。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive",
           "highlight": [
-            "自己扒着船板游上了岸"
+            "一高一矮",
+            "脸看不清"
           ]
         },
         {
-          "text": "自己游上岸？那就是老范了。他说自己泡了半个时辰才被救上来的，可这老爷子说他不到一刻钟就上岸了。两个版本，总有一个在说谎。",
+          "text": "他刚才这话，跟在堂上说的不大一样了。先前他可是说得很肯定。",
           "speaker_id": "xia_lingyao",
-          "emotion": "shocked",
-          "requires": {
-            "visited": "lao_fan.ask_rescue"
-          }
+          "emotion": "determined"
         },
         {
-          "text": "自己游上岸？还利索得很？落水的人自己利索上岸，这听着就不像快淹死的样子。",
-          "speaker_id": "xia_lingyao",
-          "emotion": "anxious",
-          "requires": {
-            "not": {
-              "visited": "lao_fan.ask_rescue"
-            }
-          }
-        },
-        {
-          "text": "放屁。不到一刻钟他就上岸了。老头子看得清清楚楚。",
+          "text": "人命的事，话不能说死。说死了要出大事的。昨儿个我就……唉，不提了。",
           "speaker_id": "fisherman_wang",
-          "emotion": "evasive",
-          "record_type": "testimony",
-          "record_title": "证词记录：老范获救时间矛盾",
-          "record_text": "王大爷说老范不到一刻钟就自己上岸，与老范“半个时辰后被救”的说法冲突。",
-          "highlight": [
-            "不到一刻钟"
-          ]
+          "emotion": "guilty"
         }
       ],
       "options": [
@@ -207,7 +137,7 @@
       "gain_clue": "evidence_wrong_channel",
       "lines": [
         {
-          "text": "走的东汊那条。",
+          "text": "东汊。那条水，面上看着乖，底下全是石头牙子。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive",
           "highlight": [
@@ -215,39 +145,24 @@
           ]
         },
         {
-          "text": "在这一带跑船的人都知道——东汊有暗礁。涨水没涨水都不能走。",
+          "text": "本地摇桨的，闭着眼都绕开走。涨水也不中，石头尖尖就藏在水皮底下，看不见。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive"
         },
         {
-          "text": "本地人都知道……老范不可能不知道。",
+          "text": "老范跑了二十年，不会不知道吧。",
           "speaker_id": "lu_zhao",
-          "emotion": "determined"
+          "emotion": "soft"
         },
         {
-          "text": "老范在这儿跑了二十年。他不知道？他比谁都知道！",
+          "text": "他敢说不知道？我把这张老脸按江里给他洗眼睛。",
           "speaker_id": "fisherman_wang",
           "emotion": "angry"
         },
         {
-          "text": "故意走危险航道……除非他有把握自己能活下来。",
+          "text": "（这不是失误。至少不是普通失误。）",
           "speaker_id": "xia_lingyao",
-          "emotion": "anxious"
-        },
-        {
-          "text": "除非——他就是故意走那条路。",
-          "speaker_id": "fisherman_wang",
-          "emotion": "evasive"
-        },
-        {
-          "text": "他知道这趟船会沉。",
-          "speaker_id": "lu_zhao",
-          "emotion": "serious"
-        },
-        {
-          "text": "二十年老船家走暗礁航道，这不是失误，是故意的。",
-          "speaker_id": "xia_lingyao",
-          "emotion": "anxious"
+          "emotion": "inner_thought"
         }
       ],
       "options": [
@@ -262,44 +177,59 @@
       ]
     },
     "ask_meeting": {
-      "text": "前一晚……对，老头子那天也收了夜网。\n\n路过码头的时候，看到两个人蹲在角落里说话。黑灯瞎火的，鬼鬼祟祟。\n\n一高一矮。高的像是那仆从——腰板直。矮的精瘦精瘦的——像船家。\n\n老头子当时没在意。第二天出了事才想起来。",
+      "text": "前一晚……对，我那天也收了夜网。\n\n路过码头的时候，看到两个人蹲在角落里说话。黑灯瞎火的，鬼鬼祟祟。\n\n一高一矮。高的像是那仆从——腰板直。矮的精瘦精瘦的——像船家。\n\n我当时没在意。第二天出了事才想起来。",
       "emotion": "evasive",
       "gain_clue": "clue_secret_meeting",
       "lines": [
         {
-          "text": "前一晚……对，老头子那天也收了夜网。",
+          "text": "前一晚……嗯，那天我也收了夜网来着。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive"
         },
         {
-          "text": "路过码头的时候，看到两个人蹲在角落里说话。黑灯瞎火的，鬼鬼祟祟。",
+          "text": "路过码头那会儿，瞧见两个人蹲在角角里。黑乎乎的，嘀嘀咕咕的。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive"
         },
         {
           "text": "他们说了什么？",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "soft"
         },
         {
-          "text": "一高一矮。高的像是那仆从——腰板直。矮的精瘦精瘦的——像船家。",
+          "text": "一个高，一个矮。高的那个……像是那仆从，腰板挺得直。矮的呢，精瘦精瘦，像是撑船的。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive"
         },
         {
-          "text": "你确定高的是阿贵？",
+          "text": "你确定，高个的是阿贵？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "emotion": "soft"
         },
         {
-          "text": "老头子当时没在意。第二天出了事才想起来。",
-          "speaker_id": "fisherman_wang",
-          "emotion": "evasive"
-        },
-        {
-          "text": "案发前一晚两人鬼祟说话……这时间点也太巧了。",
+          "text": "那晚他们说了什么？声音大不大？",
           "speaker_id": "xia_lingyao",
           "emotion": "anxious"
+        },
+        {
+          "text": "（瞅了凌瑶一眼，嘴闭上了）……没听着。就是远远瞅了一眼。",
+          "speaker_id": "fisherman_wang",
+          "emotion": "evasive"
+        },
+        {
+          "text": "（低声，对陆昭）对不住，问急了。",
+          "speaker_id": "xia_lingyao",
+          "emotion": "worried"
+        },
+        {
+          "text": "那会儿没往心里去。第二天听说出了事，才咂摸过来。",
+          "speaker_id": "fisherman_wang",
+          "emotion": "evasive"
+        },
+        {
+          "text": "（案发前一晚两个人鬼鬼祟祟地说话，这时间，未免也太巧了。）",
+          "speaker_id": "xia_lingyao",
+          "emotion": "inner_thought"
         }
       ],
       "options": [
@@ -314,42 +244,42 @@
       ]
     },
     "trust": {
-      "text": "老头子活了一辈子，在这江上。\n\n见过太多死在水里的人。有些是真出事，有些一看就不对。\n\n那天夜里那人在水里扑腾的声音……老头子一辈子忘不了。\n\n有人跟我说'别多管闲事'。放屁。杀了人就该偿命。老头子不怕得罪人。",
+      "text": "我活了一辈子，在这江上。\n\n见过太多死在水里的人。有些是真出事，有些一看就不对。\n\n那天夜里那人在水里扑腾的声音……我这一辈子忘不了。\n\n有人跟我说'别多管闲事'。放屁。杀了人就该偿命。我不怕得罪人。",
       "lines": [
         {
-          "text": "老头子活了一辈子，在这江上。这江面夜里是什么声气，我闭着眼都听得出来。",
+          "text": "一辈子都在这江上。夜里水是什么响动，我闭着眼都听得出来。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive"
         },
         {
-          "text": "见过太多死在水里的人。有些是真出事，有些一看就不对。",
+          "text": "死在水里的，见多了。有的是真遭了事，有的一看就不对劲。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive"
         },
         {
           "text": "有些是命，有些不是……你看到了什么？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "emotion": "soft"
         },
         {
-          "text": "那天夜里……那人扑腾的声音不对。老头子听了四十年水声，人真溺水的时候，手乱拍，声儿很急，听得出来。",
+          "text": "那天夜里……扑腾的声儿不对。四十年了，我听水听惯了。人真掉水里，手是乱拍的，啪啪啪的，急得很。那声儿，不像。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive"
         },
         {
           "text": "谁？谁让你别管的？",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "emotion": "soft"
         },
         {
-          "text": "有人跟我说'别多管闲事'——还往我船上扔了两条鱼，说是'谢礼'。放屁。老头子一辈子没收过这种黑心鱼。杀了人就该偿命。",
+          "text": "有人跟我说，别多管闲事。还往我船上扔了两条鱼，说什么谢礼。放他娘的屁。我老王打了一辈子鱼，没收过这种黑心东西。杀了人，就该偿命。",
           "speaker_id": "fisherman_wang",
           "emotion": "angry"
         },
         {
           "text": "谢了。",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "emotion": "gentle"
         }
       ],
       "options": [
@@ -364,39 +294,38 @@
       ]
     },
     "ask_dawn_sighting": {
-      "text": "天还没亮的时候，老头子在下游浅滩看见一个人拿长竿探水。\n\n那人穿深色衣裳，身量高挑，不像老范，也不像阿贵。\n\n我当时离得远，不敢说死。但天一亮，那人就不见了。要不是后来听说货银也没找着，老头子还真以为是自己眼花。",
+      "text": "天还没亮的时候，我在下游浅滩收夜网。那边芦苇被踩得乱，水边还有长竿探过的划痕。\n\n我看不清人，也不敢再乱认人。但那痕迹新得很，不像白天留下的。\n\n你们要查，就查浅滩泥印和芦苇折口。东西会说话，比我这双夜眼可靠。",
       "emotion": "evasive",
-      "gain_clue": "evidence_salvage_mark",
       "lines": [
         {
-          "text": "天还没亮的时候——鸡叫头遍那会儿。老头子在下游浅滩收夜网，看见一个人拿长竿在水里探。",
+          "text": "天还没亮呢。鸡叫头遍那会儿。我在下游浅滩收网，瞅见芦苇倒了一大片。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive"
         },
         {
-          "text": "那人穿深色衣裳，身量高挑。动作很稳——不像慌慌张张捞东西的，像是知道东西在哪儿。",
+          "text": "水边上……有竿子戳过的印子，还有拖东西上来的泥印子。新的，不像是白天弄的。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive"
         },
         {
-          "text": "看清是男是女了吗？",
+          "text": "看清是谁留下的吗？",
           "speaker_id": "lu_zhao",
-          "emotion": "cold"
+          "emotion": "soft"
         },
         {
-          "text": "我当时离得远，不敢说死。但天一亮，那人就不见了。",
+          "text": "别的我看不真切，也不敢瞎说了。你们要查，就去看看浅滩那片泥印子，还有芦苇折的口子。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive"
         },
         {
-          "text": "深色衣裳、身量高挑……如果不是老范和阿贵，那还有谁？",
+          "text": "嘴会改，泥可不会。陆昭，咱们得去那片浅滩瞧瞧了。",
           "speaker_id": "xia_lingyao",
-          "emotion": "anxious"
+          "emotion": "determined"
         },
         {
-          "text": "先记下。有人在天亮前去下游捞东西，这一点已经够重要。",
+          "text": "嗯。下游浅滩要查现场，不靠目击。",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "emotion": "gentle"
         }
       ],
       "options": [
@@ -411,34 +340,34 @@
       ]
     },
     "ask_river_life": {
-      "text": "老头子在这江上打了一辈子鱼。\n\n哪条汊水有暗礁，哪片浅滩能藏东西，心里都有数。\n\n所以我才说——老范那样的老船家，绝不可能糊里糊涂把船往东汊暗礁上带。",
+      "text": "我在这江上打了一辈子鱼。\n\n哪条汊水有暗礁，哪片浅滩能藏东西，心里都有数。\n\n所以我才说——老范那样的老船家，绝不可能糊里糊涂把船往东汊暗礁上带。",
       "emotion": "evasive",
       "gain_clue": "clue_reef_common_knowledge",
       "lines": [
         {
-          "text": "老头子在这江上打了一辈子鱼。",
+          "text": "这条江，我打了一辈子鱼。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive"
         },
         {
-          "text": "哪条汊水有暗礁，哪片浅滩能藏东西，心里都有数。",
+          "text": "哪条汊子底下有石头，哪片滩能藏住东西，我心里门儿清。",
           "speaker_id": "fisherman_wang",
           "emotion": "evasive"
         },
         {
-          "text": "你对这片江很熟。",
+          "text": "你对这片江很熟啊。",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "emotion": "casual"
         },
         {
-          "text": "所以我才说——老范那样的老船家，绝不可能糊里糊涂把船往东汊暗礁上带。",
+          "text": "所以我才敢说。老范那样的人，在江上跑了大半辈子，绝不可能瞎着眼把船往东汊石头上带。",
           "speaker_id": "fisherman_wang",
           "emotion": "angry"
         },
         {
-          "text": "谢了！我记下了。",
+          "text": "谢了，我先记下。",
           "speaker_id": "lu_zhao",
-          "emotion": "serious"
+          "emotion": "casual"
         }
       ],
       "options": [

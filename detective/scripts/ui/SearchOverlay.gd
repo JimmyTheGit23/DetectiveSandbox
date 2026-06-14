@@ -426,7 +426,7 @@ func _show_result_dialog(point_name: String, result: Dictionary) -> void:
 	if text == "":
 		text = str(result.get("intro_text", ""))
 	if text == "":
-		text = "你仔细查看了这里。"
+		text = "（仔细查看了这里，没发现什么特别的。）"
 
 	# 收集获得的证据/线索 ID（用于图片展示）
 	var gained_item_ids: Array[String] = []
@@ -611,7 +611,8 @@ func _show_bottom_result(text: String) -> void:
 	label.add_theme_color_override("default_color", Color(0.92, 0.88, 0.76, 1))
 
 	# 打字机效果需要完整文本（含提示），但逐字播放
-	var full_text := TextUtilsScript.strip_stage_directions(text) + "\n\n[center][color=#aa8844][i]— 点击任意处继续 —[/i][/color][/center]"
+	var processed_text := TextUtilsScript.color_inner_thoughts(TextUtilsScript.strip_stage_directions(text))
+	var full_text := processed_text + "\n\n[center][color=#aa8844][i]— 点击任意处继续 —[/i][/color][/center]"
 	label.text = ""
 	result_panel.add_child(label)
 

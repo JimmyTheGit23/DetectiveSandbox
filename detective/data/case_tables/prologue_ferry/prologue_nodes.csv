@@ -3,21 +3,20 @@ node_id,type,background,next,centered,end,portrait,emotion,fx,video,effect
 intro_video,video,res://assets/cn/scenes/pure_black.png,time_card_opening,,,,,,res://assets/video/intro.ogv,
 time_card_opening,time_card,res://assets/cn/scenes/pure_black.png,cabin_1,,,,,,
 # === 船舱开场 ===
-cabin_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_2,,,,,"{""bgm"": ""ferry_cabin_night"",""gain_clue"": ""clue_travel_notes"",""mind_fade"": ""in"",""mind_fade_duration"": 1.0}"
+cabin_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_2,,,,,"{""bgm"": ""ferry_cabin_night"",""gain_clue"": ""clue_travel_notes""}"
 cabin_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_3,,,,,
 cabin_3,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_4,,,,,
 cabin_4,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_5,,,,,
 cabin_5,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_6,,,,,
 cabin_6,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_7,,,,,
 cabin_7,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_8,,,,,
-cabin_8,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_9,,,,,
-cabin_9,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_free_explore,,,,,
-cabin_free_explore,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,,,,,"{""mind_fade"": ""out"",""mind_fade_duration"": 1.0}",
-cabin_after_all_talked_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_2,,,,,"{""set_flags"": ""cabin_review_done"", ""mind_fade"": ""in"", ""mind_fade_duration"": 1.5}"
+cabin_8,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_free_explore,,,,,
+cabin_free_explore,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,,,,,,,,,
+cabin_after_all_talked_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_2,,,,,"{""set_flags"": ""cabin_review_done""}"
 cabin_after_all_talked_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_3,,,,,
 cabin_after_all_talked_3,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_4,,,,,
 cabin_after_all_talked_4,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_5,,,,,
 cabin_after_all_talked_5,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_6,,,,,
 cabin_after_all_talked_6,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_7,,,,,
 cabin_after_all_talked_7,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_8,,,,,
-cabin_after_all_talked_8,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,,,,,"{""mind_fade"": ""out"", ""mind_fade_duration"": 1.0}",{}
+cabin_after_all_talked_8,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,,,,,,,,{}
