@@ -117,7 +117,7 @@ testimony_0,preamble,0,陆昭,lu_zhao,阿贵，先坐下。别急着喊。你说
 testimony_0,preamble,1,沈清月,shen_qingyue,阿贵是当夜在场的人，也是周家用了十二年的仆从。话真不真，得让他说完整。陆公子，急着打断，反倒难看。,cooperative
 testimony_0,preamble,2,阿贵,agui,我说！那晚三更刚过，,angry
 testimony_0,preamble,3,凌瑶,xia_lingyao,他突然这么大嗓门，震得我耳朵嗡嗡直响……,playful
-testimony_0,transition_dialogue,0,陆昭,lu_zhao,（阿贵咬着牙坐回去。汗从额角滚到下巴。刚才那套指控，已经说不下去了。）,inner_thought
+testimony_0,transition_dialogue,0,陆昭,lu_zhao,（阿贵咬着牙坐回去。汗从额角滚到下巴。）,inner_thought
 testimony_0,transition_dialogue,1,陆昭,lu_zhao,你说他用铁器打的。他身上的伤呢。没有。,serious
 testimony_0,transition_dialogue,2,沈清月,shen_qingyue,没有钝器伤，顶多说明不是打死。陆公子，别顺手把阿贵整个人也抹掉。他仍是在场的人，仍有该听的部分。,sharp
 testimony_0,transition_dialogue,3,陆昭,lu_zhao,不是打死。可也不是普通落水，凌瑶验过了，指甲有碎屑，脖子有压痕。,serious
@@ -130,13 +130,13 @@ testimony_0,transition_dialogue,9,陆昭,lu_zhao,你听出来了？,serious
 testimony_0,transition_dialogue,10,凌瑶,xia_lingyao,听得出来。死人开不了口，我替他多听一耳朵。,gentle
 testimony_0,fail_dialogue,0,阿贵,agui,陆公子，他就是凶手！铁器打人、天窗逃跑，都是他干的！,angry
 testimony_0,fail_dialogue,1,沈清月,shen_qingyue,陆公子，要驳阿贵，就对准他说的那一句。拿错东西，只会让他咬得更死。,sharp
-testimony_0,fail_dialogue,2,陆昭,lu_zhao,（他喊得很大声，但手指在发抖。他把这套说法当成最后的遮挡。）,inner_thought
+testimony_0,fail_dialogue,2,陆昭,lu_zhao,（喊得很大声，但手指在发抖。）,inner_thought
 testimony_0,fail_dialogue,3,凌瑶,xia_lingyao,陆昭，你瞧，他的右手一直在抖呢。,focused
 testimony_0,fail_dialogue,4,凌瑶,xia_lingyao,只要一聊别的他气就顺了，可一说起那个物件，他连气都快喘不匀了。陆昭，他怕那个东西。,focused
 testimony_1,preamble,0,陆昭,lu_zhao,阿贵，从上船开始。慢点说，别漏。,serious
 testimony_1,preamble,1,沈清月,shen_qingyue,"怕水的人带浮囊，不犯法。下人命贱，怕死更寻常。陆公子，别把""怕死""两个字硬拧成""预谋""。",cooperative
 testimony_1,preamble,2,阿贵,agui,是……是，陆公子。,nervous
-testimony_1,transition_dialogue,0,陆昭,lu_zhao,（阿贵瘫坐在地上，大口喘着气。额头上的汗比刚才更密了。）,inner_thought
+testimony_1,transition_dialogue,0,陆昭,lu_zhao,（阿贵瘫在地上。汗比刚才更密了。）,inner_thought
 testimony_1,transition_dialogue,1,凌瑶,xia_lingyao,刚才还喊得震天响，这会儿整个人跟漏了气的皮球似的，我瞧着都替他脸红。,playful
 testimony_1,transition_dialogue,2,陆昭,lu_zhao,（第一道防线破了。他知道我不是来走过场的。）,inner_thought
 testimony_1,transition_dialogue,3,陆昭,lu_zhao,我没问你是不是怕水。这只浮囊，上船前就充好了。,serious
@@ -145,12 +145,12 @@ testimony_1,transition_dialogue,5,阿贵,agui,那个浮囊……小的确实是�
 testimony_1,transition_dialogue,6,陆昭,lu_zhao,保命，这两个字我听见了。可你得把它说圆。,serious
 testimony_1,transition_dialogue,7,阿贵,agui,老范跟小的说过，这段水路有暗礁，夜里走尤其凶险。小的不会水，怕出事……所以才藏了个浮囊。,nervous
 testimony_1,transition_dialogue,8,阿贵,agui,小的怕死！就这么简单！这又不犯法！……不犯法的……,defensive
-testimony_1,transition_dialogue,9,陆昭,lu_zhao,"（他反复说""不犯法""。这不是解释，是早就准备好的挡法。）",inner_thought
+testimony_1,transition_dialogue,9,陆昭,lu_zhao,"（他反复说""不犯法""。不是解释……是挡法。）",inner_thought
 testimony_1,transition_dialogue,10,凌瑶,xia_lingyao,'我怕死'……他都嘟囔多少遍了。真要是吓得命都快没了，可不是这个腔调。,focused
 testimony_1,transition_dialogue,11,凌瑶,xia_lingyao,我才不信呢。真要是吓破了胆，说话哪能这么一顺溜吐出来，一个磕绊都不带打的。,focused
 testimony_1,transition_dialogue,12,陆昭,lu_zhao,连这个你都听得出来？,serious
 testimony_1,transition_dialogue,13,凌瑶,xia_lingyao,听得出来。真害怕的时候，那急喘气和念学堂里的课文，怎么能是一个声音嘛。,playful
-testimony_1,transition_dialogue,14,陆昭,lu_zhao,（浮囊不是推理。它就摆在堂上：充好气，泡过江水，绳结上还挂着河草。阿贵必须解释这个东西为什么会在那里。）,inner_thought
+testimony_1,transition_dialogue,14,陆昭,lu_zhao,（浮囊就摆在堂上：充好气，泡过江水，绳结上还挂着河草。他怎么解释？）,inner_thought
 testimony_1,transition_dialogue,15,钱里正,li_zheng,等等，陆公子，有件事我一直没提。,nervous
 testimony_1,transition_dialogue,16,钱里正,li_zheng,案发后第二天，阿贵在客栈买了一壶好酒、打了半斤卤肉。一个被遣散的仆从，哪来这么多闲钱？,shocked
 testimony_1,transition_dialogue,17,阿贵,agui,那、那是……小的之前攒的……,panic
@@ -158,7 +158,7 @@ testimony_1,transition_dialogue,18,凌瑶,xia_lingyao,攒的？他自己都说�
 testimony_1,transition_dialogue,19,陆昭,lu_zhao,浮囊是提前备的，闲钱也不知道哪来的。阿贵，你嘴上说怕死，可做的事不像怕死的人。,serious
 testimony_1,fail_dialogue,0,阿贵,agui,陆公子……这、这跟那晚有什么关系？您别冤枉好人啊……,defensive
 testimony_1,fail_dialogue,1,沈清月,shen_qingyue,"陆公子，这东西搭不到""提前准备""上。药引搭错方，越问越偏。",sharp
-testimony_1,fail_dialogue,2,陆昭,lu_zhao,（那一闪而过的眼神，不像无辜者的委屈，倒像是庆幸你问偏了。）,inner_thought
+testimony_1,fail_dialogue,2,陆昭,lu_zhao,（那眼神……庆幸我问偏了？）,inner_thought
 testimony_1,fail_dialogue,3,凌瑶,xia_lingyao,他刚才偷偷斜着眼瞧咱们……那根本就不是受了冤枉的委屈样。,focused
 testimony_1,fail_dialogue,4,凌瑶,xia_lingyao,看来拿这个还没法让他老实。陆昭，你包袱里还有别的东西没有？,worried
 testimony_2,preamble,0,陆昭,lu_zhao,阿贵，浮囊先放一边。船底那个洞，说说。,serious
@@ -173,7 +173,7 @@ testimony_2,transition_dialogue,3,阿贵,agui,……,shaken
 testimony_2,transition_dialogue,4,阿贵,agui,洞……洞是暗礁撞的。小的说了……说了好多遍了。,defensive
 testimony_2,transition_dialogue,5,陆昭,lu_zhao,暗礁撞不出从里往外翻的木茬。你在舱里，你知道。,serious
 testimony_2,transition_dialogue,6,阿贵,agui,……,shaken
-testimony_2,transition_dialogue,7,陆昭,lu_zhao,（他蹲在那里，忽然不抖了。整个人僵住……像在做一个很重的决定。）,inner_thought
+testimony_2,transition_dialogue,7,陆昭,lu_zhao,（他忽然不抖了。整个人僵住。）,inner_thought
 testimony_2,transition_dialogue,8,阿贵,agui,……是。是小的动的。,broken
 testimony_2,transition_dialogue,9,阿贵,agui,可我不是自己要做的。,broken
 testimony_2,transition_dialogue,10,阿贵,agui,是老范！是他先说东汊好下手，他说只要船沉了货银漂到下游……小的……小的只是没拒绝。,defensive
@@ -190,9 +190,9 @@ testimony_3,fail_dialogue,2,凌瑶,xia_lingyao,十二年啊……我听着心里
 testimony_3,transition_dialogue,0,阿贵,agui,小的……小的只是个下人……,shaken
 testimony_3,transition_dialogue,1,陆昭,lu_zhao,"他又缩回去了。""只是下人""——壳。",inner_thought
 testimony_3,transition_dialogue,2,钱里正,li_zheng,这……遣散字据……阿贵，你之前可没提过这个。,stern
-testimony_3,transition_dialogue,3,陆昭,lu_zhao,（钱里正话音落下。堂上忽然静了。所有人都看向周氏……她站起来了。）,inner_thought
+testimony_3,transition_dialogue,3,陆昭,lu_zhao,（堂上静了。周氏……站起来了。）,inner_thought
 testimony_3,transition_dialogue,4,周氏,zhou_wife,阿贵。,grief
-testimony_3,transition_dialogue,5,陆昭,lu_zhao,（她只叫了一声名字。阿贵整个人就矮了半截……像被这个名字压弯了腰。）,inner_thought
+testimony_3,transition_dialogue,5,陆昭,lu_zhao,（她只叫了一声名字。阿贵整个人就矮了半截。）,inner_thought
 testimony_3,transition_dialogue,6,周氏,zhou_wife,老爷遣散你，是为什么？,grief
 testimony_3,transition_dialogue,7,阿贵,agui,夫、夫人……小的……,shaken
 testimony_3,transition_dialogue,6,周氏,zhou_wife,等等……老爷的字我认得。遣散字据是老爷写的，但旁边那张纸条不是。,shocked
@@ -209,7 +209,7 @@ shen_testimony_1,preamble,2,凌瑶,xia_lingyao,好得我都有些胃疼了……
 shen_testimony_1,preamble,3,沈清月,shen_qingyue,问吧。不过先把账算清：周德茂欠我钱。债主杀债人，亏的是我。,bold
 shen_testimony_1,readthrough_end_hint,0,凌瑶,xia_lingyao,陆昭，我心里有点发毛。她说的每一个字，怎么都这么顺耳，顺耳得不正常……,worried
 shen_testimony_1,readthrough_end_hint,1,陆昭,lu_zhao,怕就站我后面。她再厉害也是一个人。,serious
-shen_testimony_1,transition_dialogue,0,陆昭,lu_zhao,（沈清月的表情变了，只有一瞬间。嘴角的弧度消失了。她重新抱起双臂……这次，手指攥得更紧了。）,inner_thought
+shen_testimony_1,transition_dialogue,0,陆昭,lu_zhao,（嘴角的弧度消失了。她重新抱起双臂……手指攥得更紧了。）,inner_thought
 shen_testimony_1,transition_dialogue,1,凌瑶,xia_lingyao,她手指头都掐白了。别看她脸上还跟没事落雪一样，可这手上的力道骗不了人。,focused
 shen_testimony_1,transition_dialogue,2,凌瑶,xia_lingyao,我手心里都是汗……她可比阿贵那家伙厉害得太多了。,worried
 shen_testimony_1,transition_dialogue,3,陆昭,lu_zhao,还撑得住吗？,serious
@@ -233,7 +233,7 @@ shen_testimony_2,preamble,3,凌瑶,xia_lingyao,结果呀，全是假的！越是
 shen_testimony_2,preamble,4,沈清月,shen_qingyue,陆公子，你想把我和那两个男人绑在一处？可以。可碰过面，离合谋杀人还差一条江。,cold_fury
 shen_testimony_2,readthrough_end_hint,0,凌瑶,xia_lingyao,她这一身素色衣裳，干净得连个灰点子都没有。一点都不像我们镖局常年打交道的那些浑身草药味的药商。,focused
 shen_testimony_2,readthrough_end_hint,1,陆昭,lu_zhao,嗯。她从上到下都不像。,serious
-shen_testimony_2,transition_dialogue,0,陆昭,lu_zhao,（沈清月的呼吸节奏变了。不再是之前均匀的、控制着的呼吸。胸口有了微微的起伏。）,inner_thought
+shen_testimony_2,transition_dialogue,0,陆昭,lu_zhao,（她的呼吸……胸口有了微微的起伏。）,inner_thought
 shen_testimony_2,transition_dialogue,1,钱里正,li_zheng,陆公子，阿贵的供词。他画了押的。,stern
 shen_testimony_2,transition_dialogue,2,钱里正,li_zheng,上面写着：'船底是小的凿的。浮囊是小的带的。凿船的位置、浮囊的来历，全是沈姑娘教的。',stern
 shen_testimony_2,transition_dialogue,3,钱里正,li_zheng,不过丑话说在前头。口供能开线索，不能单独押人。若没有旁的东西相印，县衙不会只凭阿贵一张嘴拿人。,stern
@@ -260,7 +260,7 @@ shen_testimony_3,transition_dialogue,0,沈清月,shen_qingyue,陆公子，您这
 shen_testimony_3,transition_dialogue,1,凌瑶,xia_lingyao,'太远了'……她说这三个字的时候，舌头慢了半拍。她脸上瞧着稳，心里多半也在直犯嘀咕呢。,focused
 shen_testimony_3,transition_dialogue,2,陆昭,lu_zhao,……等等。,serious
 shen_testimony_3,transition_dialogue,3,陆昭,lu_zhao,毒囊残壳的固定位置。船底破洞的位置。两个点，完全重合。,inner_thought
-shen_testimony_3,transition_dialogue,4,陆昭,lu_zhao,（想起老师一句话。证据不是单件用的，是连起来用的。这两个点，毒囊和破洞，放在一起，才是一件事。）,inner_thought
+shen_testimony_3,transition_dialogue,4,陆昭,lu_zhao,（老师说过：证据是连起来用的。毒囊和破洞……同一个地方。）,inner_thought
 shen_testimony_3,transition_dialogue,5,陆昭,lu_zhao,……等等。我好像漏看了一点。,shocked
 shen_testimony_3,transition_dialogue,6,凌瑶,xia_lingyao,陆昭？怎么了，是不是有什么不对？,worried
 shen_testimony_3,transition_dialogue,7,陆昭,lu_zhao,这片胶卡在进水口破洞边上。附着痕在内侧，像是船板还没破时就贴好了。,determined
@@ -292,6 +292,6 @@ shen_testimony_4,transition_dialogue,0,沈清月,shen_qingyue,……你把三样
 shen_testimony_4,transition_dialogue,1,凌瑶,xia_lingyao,她还在那儿分辨呢……可声音底气明显发虚。陆昭，她手心多半也跟本姑娘刚才一样，全湿透喽。,playful
 shen_testimony_4,transition_dialogue,2,钱里正,li_zheng,这两件东西若能互相印上，至少能让人看清一点：这不是临时起意，也不是江底暗礁。有人预先知道破洞会开在哪里。,stern
 shen_testimony_4,transition_dialogue,3,陆昭,lu_zhao,能不能落到你身上，要看位置。毒囊贴着破洞，破洞又是阿贵照你给的地方凿的。沈清月，这不是路过就能撞上的巧。,determined
-shen_testimony_4,transition_dialogue,4,陆昭,lu_zhao,"（老师。你教我的，""让证据自己说话""。胶在破洞边上。破洞是她指定的位置。毒囊贴着胶。三样东西，不在别处，在同一个地方。）",inner_thought
+shen_testimony_4,transition_dialogue,4,陆昭,lu_zhao,（胶在破洞边上。破洞是她指定的位置。毒囊贴着胶。同一个地方。）,inner_thought
 shen_testimony_4,fail_dialogue,0,沈清月,shen_qingyue,糯米胶随处有，草渣过了时效，油也不是人名。陆公子，别把三样说不清的东西硬拧成一桩案。,sharp
 shen_testimony_4,fail_dialogue,1,凌瑶,xia_lingyao,她就是要把这些物件全搅浑……陆昭，千万别被她带歪了！,worried
