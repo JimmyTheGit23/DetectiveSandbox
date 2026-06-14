@@ -10,8 +10,8 @@ confrontation_wang,intro_dialogue,7,沈清月,shen_qingyue,里正大人，当晚
 confrontation_wang,intro_dialogue,8,陆昭,lu_zhao,（她第一个开口就排了顺序。不让阿贵先说……还是不想让别人？）,inner_thought
 confrontation_wang,intro_dialogue,9,钱里正,li_zheng,嗯……沈姑娘说得在理。王大爷，您老在岸上看了一夜，先来说几句。站近些，我这耳朵不好使。,nervous
 confrontation_wang,intro_dialogue,10,王大爷,fisherman_wang,……好。我只说我瞧见的，不往里加话。,evasive
-confrontation_wang,intro_dialogue,11,陆昭,lu_zhao,（手还在搓。已经说完一句了，手还在搓。）,inner_thought
-confrontation_wang,intro_dialogue,12,凌瑶,xia_lingyao,陆昭，我站你后面。你问，我看人。,determined
+confrontation_wang,intro_dialogue,11,陆昭,lu_zhao,（他不敢看人。说完一句就垂下眼皮，像在数地上砖缝。）,inner_thought
+confrontation_wang,intro_dialogue,12,凌瑶,xia_lingyao,你问你的——我就在这儿呢。,cheerful
 confrontation_wang,intro_dialogue,14,陆昭,lu_zhao,嗯。王大爷，你说看见了，那我就问细些。一句一句来，不急。,gentle
 confrontation_wang,defeat_dialogue,0,钱里正,li_zheng,嗯……这回嘛，王大爷的话还是驳不倒。陆公子，您手头还得再找找呵。,stern
 confrontation_wang,defeat_dialogue,1,沈清月,shen_qingyue,陆公子，要洗清自己，总得拿出实打实的东西来。,calm

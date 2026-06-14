@@ -445,6 +445,13 @@ static func _line(row: Dictionary) -> Dictionary:
 	var d := {"speaker": _cell(row, "speaker"), "text": _cell(row, "text")}
 	for key in ["speaker_id", "emotion", "portrait_emotion", "portrait_override"]:
 		_set_if(d, key, _cell(row, key))
+	# 方案B：对峙台词可携带 effect（如 gain_evidence / gain_clue / set_flag），
+	# 由角色在对峙过程中"当庭抛出"证据/线索。
+	var effect_str := _cell(row, "effect")
+	if effect_str != "":
+		var eff = _parse_json_any(effect_str, {})
+		if typeof(eff) == TYPE_DICTIONARY and not eff.is_empty():
+			d["effect"] = eff
 	return d
 
 

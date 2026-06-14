@@ -15,7 +15,7 @@ npc_unlock,fisherman_wang,"{""any"": [{""evidence"": ""evidence_hull_hole""}, {"
 npc_unlock,shen_qingyue,,,沈清月在phase_1就可以交谈（她是'追债的外地人'），但Phase 3后对话树会解锁新分支。
 # === 王大爷对峙解锁条件（需要证据） ===
 confrontation_unlock,confrontation_wang,"{""flag"": ""accused_of_murder""}",事态还没有发展到当面对质。,王大爷对峙由船舱沉船事件自动触发，不再要求玩家先自由搜齐证据。
-confrontation_unlock,confrontation,"{""all"": [{""evidence"": ""evidence_hull_hole""}, {""evidence"": ""evidence_float_bladder""}, {""evidence"": ""evidence_no_blunt_trauma""}, {""clue"": ""clue_fan_alibi_hole""}, {""evidence"": ""evidence_dismissal_note""}]}",,阿贵中BOSS对质——需要五件关键证据：沉船手段、阿贵提前准备浮囊、验尸排除铁器打人、老范时间矛盾、阿贵遣散动机；船底钉痕、错误航道和赌债留作补充或后段线索。
-confrontation_unlock,confrontation_final,"{""all"": [{""flag"": ""agui_confessed_mastermind""}, {""evidence"": ""evidence_cargo_silver""}, {""clue"": ""evidence_salvage_mark""}, {""clue"": ""evidence_shen_connection""}, {""clue"": ""evidence_dock_timing""}, {""evidence"": ""evidence_drug_capsule_shell""}, {""evidence"": ""evidence_tongue_herb_residue""}, {""evidence"": ""evidence_oil_lock_residue""}]}",,沈清月FINAL BOSS对质——需要阿贵认罪 + 货银未沉 + 打捞痕迹 + 中间人连接 + 码头时间矛盾 + 毒囊残壳 + 舌根药残 + 油脂锁毒。
+confrontation_unlock,confrontation,"{""flag"": ""self_cleared""}",,方案B：阿贵老范对峙不再要求玩家先持有证据。王大爷对峙完成后即可上堂，物证由角色在各证词 preamble 当庭抛出（见 testimony_lines.csv 的 effect）。
+confrontation_unlock,confrontation_final,"{""flag"": ""agui_confessed_mastermind""}",,方案B：沈清月终局对峙不再要求玩家先持有证据。阿贵招供后即可上堂，终局物证由角色在各证词 preamble 当庭抛出（见 testimony_lines.csv 的 effect）。
 search_point_unlock,shen_room.shen_bedside,"{""all"": [{""flag"": ""agui_confessed_mastermind""}, {""evidence"": ""evidence_blue_herb_residue""}]}",还没有足够理由搜到沈清月的床边细处。先确认尸体上的草药痕迹。,沈父药账线索需先发现尸体草药残迹。
 search_point_unlock,ferry_dock.dock_reed_seal,"{""flag"": ""prologue_defeated""}",此时还没意识到官印暗线的重要性。,序章败局后补官印暗线。

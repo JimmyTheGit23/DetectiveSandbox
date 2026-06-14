@@ -1,9 +1,8 @@
-testimony_id,section,order,speaker,speaker_id,text,emotion
+testimony_id,section,order,speaker,speaker_id,text,emotion,effect
 testimony_wang_self,preamble,0,钱里正,li_zheng,王大爷，站近些。昨晚看见什么，再说一遍。,stern
 testimony_wang_self,preamble,1,王大爷,fisherman_wang,……嗯。那我说。,evasive
 testimony_wang_self,preamble,2,王大爷,fisherman_wang,……从哪说起。,evasive
-testimony_wang_self,preamble,3,凌瑶,xia_lingyao,他从一进门就在搓手，现在手心都快搓红了。,focused
-testimony_wang_self,preamble,4,凌瑶,xia_lingyao,一个常年跟风浪打交道的老渔翁，站在堂上，怎么脚跟直发软呢。,focused
+testimony_wang_self,preamble,3,凌瑶,xia_lingyao,一个在江上吹了一辈子风浪的人，站到堂上倒跟踩了船板似的，晃个不停。,focused
 testimony_wang_self,readthrough_end_hint,0,凌瑶,xia_lingyao,他话里一直兜圈子，就是不爽快。陆昭，你听出什么没？,focused
 testimony_wang_self,readthrough_end_hint,1,陆昭,lu_zhao,（他每句话前都停一下。回忆？还是编？）,inner_thought
 testimony_wang_self,transition_dialogue,0,王大爷,fisherman_wang,……那晚……朔月。,guilty
@@ -66,7 +65,8 @@ testimony_wang_shen_counter,fail_dialogue,0,沈清月,shen_qingyue,陆公子，�
 testimony_wang_shen_counter,fail_dialogue,1,凌瑶,xia_lingyao,她怎么能把我和王大爷混在一块说……本姑娘这双眼睛可亮堂着呢，怎么会看错。,playful
 testimony_lao_fan_route,preamble,0,钱里正,li_zheng,老范，别贴门边了。船是你的，你得说。,nervous
 testimony_lao_fan_route,preamble,1,老范,lao_fan,嗐，钱里正，我这腰靠惯了门框嘛……大人要问，我当然说，跑船的哪有不敢开口的？吃水的饭嘛，风里浪里二十年了，什么场面没见过……大人您问，我都接着。,evasive
-testimony_lao_fan_route,preamble,2,沈清月,shen_qingyue,江上风浪一句话就能变。陆公子若说不是风浪，先让船板替你开口。,cooperative
+testimony_lao_fan_route,preamble,2,沈清月,shen_qingyue,江上风浪一句话就能变。陆公子若说不是风浪，先让船板替你开口。,cooperative,
+testimony_lao_fan_route,preamble,3,凌瑶,xia_lingyao,船板我已让镖局的伙计抬上堂了。大人请看——这洞口的木刺全朝外翻，旁边还有一圈新钉眼，盖着旧钉眼。,focused,"{""gain_evidence"": [""evidence_hull_hole"", ""evidence_nail_marks""]}"
 testimony_lao_fan_route,readthrough_end_hint,0,凌瑶,xia_lingyao,老范身上这烟味也太重了，我在堂下就闻着了。还有，他每次一提到那个什么暗礁，眼珠子就直往别处瞅，根本不敢瞧人。,focused
 testimony_lao_fan_route,readthrough_end_hint,1,凌瑶,xia_lingyao,陆昭，我师父教过我一个看人的法子。看跑船的，不看手，看鞋。,focused
 testimony_lao_fan_route,readthrough_end_hint,2,陆昭,lu_zhao,怎么说。,serious
@@ -83,7 +83,8 @@ testimony_lao_fan_route,fail_dialogue,1,沈清月,shen_qingyue,证物要对准�
 testimony_lao_fan_route,fail_dialogue,2,凌瑶,xia_lingyao,哎呀……好像不大对。陆昭，你是不是带错物件了？,worried
 testimony_lao_fan_rescue,preamble,0,陆昭,lu_zhao,继续。船翻之后，你怎么活下来的？,serious
 testimony_lao_fan_rescue,preamble,1,沈清月,shen_qingyue,翻船落水，人在冷水里连呼吸都乱，时辰乱半刻不稀奇。陆公子，只拿这点问不实。,cooperative
-testimony_lao_fan_rescue,preamble,2,老范,lao_fan,我……命大。扒着块船板，漂了好久。,evasive
+testimony_lao_fan_rescue,preamble,2,老范,lao_fan,我……命大。扒着块船板，漂了好久。,evasive,
+testimony_lao_fan_rescue,preamble,3,凌瑶,xia_lingyao,竹棚的脚夫登记我也抄了一份。翻船还不到一刻钟，你就湿淋淋回棚里烤火了——哪像在水里泡了好久的样子。,focused,"{""gain_clue"": ""clue_fan_alibi_hole""}"
 testimony_lao_fan_rescue,readthrough_end_hint,0,凌瑶,xia_lingyao,老范这才刚张嘴呢，她就知道他要往哪儿吐气似的。这两个人，该不会是私底下商量好了吧？,focused
 testimony_lao_fan_rescue,transition_dialogue,0,陆昭,lu_zhao,半个时辰。太快了。你游的方向，是最近的浅滩。,serious
 testimony_lao_fan_rescue,transition_dialogue,1,沈清月,shen_qingyue,跑船二十年，水性好，上岸快，不奇怪。快不是罪，熟水路也不是罪。,sharp
@@ -97,7 +98,8 @@ testimony_lao_fan_rescue,fail_dialogue,1,沈清月,shen_qingyue,"冬江逃生，
 testimony_lao_fan_rescue,fail_dialogue,2,凌瑶,xia_lingyao,又是快、快、快……他嘴里除了这个字就没别的了。真奇怪，船板破成那样，怎么大家伙都不提呢。,worried
 testimony_lao_fan_motive,preamble,0,陆昭,lu_zhao,老范，你说无冤无仇。那四十二两赌债，是怎么压到你身上的？,serious
 testimony_lao_fan_motive,preamble,1,沈清月,shen_qingyue,欠债不是杀人。码头上被银子逼得喘不过气的人多了，不能个个都往案子里按。,cooperative
-testimony_lao_fan_motive,preamble,2,老范,lao_fan,我一个跑船的，跟周老爷就一趟生意。哪来的仇？,evasive
+testimony_lao_fan_motive,preamble,2,老范,lao_fan,我一个跑船的，跟周老爷就一趟生意。哪来的仇？,evasive,
+testimony_lao_fan_motive,preamble,3,钱里正,li_zheng,赌坊的借据，差役也替咱们讨来了。四十二两，限腊月底还清，还不上就断指抵债。老范，这白纸黑字，可对得上？,stern,"{""gain_evidence"": ""evidence_gambling_iou""}"
 testimony_lao_fan_motive,readthrough_end_hint,0,凌瑶,xia_lingyao,那可是四十二两银子和一根手指头啊……她怎么说得跟吹口气似的。我光听着都替老范觉得疼。,gentle
 testimony_lao_fan_motive,readthrough_end_hint,1,陆昭,lu_zhao,你见过断指的人吗。,serious
 testimony_lao_fan_motive,transition_dialogue,0,老范,lao_fan,我……我欠了赌债，四十二两。那死鬼崽子要是还在……嗐，不提了。我就是欠了债嘛，他们找上我，说帮我还，我、我能怎么办？,shaken
@@ -116,7 +118,8 @@ testimony_lao_fan_motive,fail_dialogue,2,凌瑶,xia_lingyao,腊月底不还债�
 testimony_0,preamble,0,陆昭,lu_zhao,阿贵，先坐下。别急着喊。你说你看见了，那就一件一件说，我会听完。,serious
 testimony_0,preamble,1,沈清月,shen_qingyue,阿贵是当夜在场的人，也是周家用了十二年的仆从。话真不真，得让他说完整。陆公子，急着打断，反倒难看。,cooperative
 testimony_0,preamble,2,阿贵,agui,我说！那晚三更刚过，,angry
-testimony_0,preamble,3,凌瑶,xia_lingyao,他突然这么大嗓门，震得我耳朵嗡嗡直响……,playful
+testimony_0,preamble,3,凌瑶,xia_lingyao,他突然这么大嗓门，震得我耳朵嗡嗡直响……,playful,
+testimony_0,preamble,4,凌瑶,xia_lingyao,先别急。周老爷的验状在我这儿——通身是溺亡之相，可周身上下，连一处钝器砸的青印都没有。阿贵，你说的铁器打人，打哪儿了？,focused,"{""gain_evidence"": ""evidence_no_blunt_trauma""}"
 testimony_0,transition_dialogue,0,陆昭,lu_zhao,（阿贵咬着牙坐回去。汗从额角滚到下巴。）,inner_thought
 testimony_0,transition_dialogue,1,陆昭,lu_zhao,你说他用铁器打的。他身上的伤呢。没有。,serious
 testimony_0,transition_dialogue,2,沈清月,shen_qingyue,没有钝器伤，顶多说明不是打死。陆公子，别顺手把阿贵整个人也抹掉。他仍是在场的人，仍有该听的部分。,sharp
@@ -135,7 +138,8 @@ testimony_0,fail_dialogue,3,凌瑶,xia_lingyao,陆昭，你瞧，他的右手一
 testimony_0,fail_dialogue,4,凌瑶,xia_lingyao,只要一聊别的他气就顺了，可一说起那个物件，他连气都快喘不匀了。陆昭，他怕那个东西。,focused
 testimony_1,preamble,0,陆昭,lu_zhao,阿贵，从上船开始。慢点说，别漏。,serious
 testimony_1,preamble,1,沈清月,shen_qingyue,"怕水的人带浮囊，不犯法。下人命贱，怕死更寻常。陆公子，别把""怕死""两个字硬拧成""预谋""。",cooperative
-testimony_1,preamble,2,阿贵,agui,是……是，陆公子。,nervous
+testimony_1,preamble,2,阿贵,agui,是……是，陆公子。,nervous,
+testimony_1,preamble,3,凌瑶,xia_lingyao,还有这个——下游芦苇里捞起的，正是你阿贵的包袱。最底下塞着只牛皮浮囊，气还鼓鼓的，缝里全是江泥。,focused,"{""gain_evidence"": ""evidence_float_bladder""}"
 testimony_1,transition_dialogue,0,陆昭,lu_zhao,（阿贵瘫在地上。汗比刚才更密了。）,inner_thought
 testimony_1,transition_dialogue,1,凌瑶,xia_lingyao,刚才还喊得震天响，这会儿整个人跟漏了气的皮球似的，我瞧着都替他脸红。,playful
 testimony_1,transition_dialogue,2,陆昭,lu_zhao,（第一道防线破了。他知道我不是来走过场的。）,inner_thought
@@ -163,7 +167,8 @@ testimony_1,fail_dialogue,3,凌瑶,xia_lingyao,他刚才偷偷斜着眼瞧咱们
 testimony_1,fail_dialogue,4,凌瑶,xia_lingyao,看来拿这个还没法让他老实。陆昭，你包袱里还有别的东西没有？,worried
 testimony_2,preamble,0,陆昭,lu_zhao,阿贵，浮囊先放一边。船底那个洞，说说。,serious
 testimony_2,preamble,1,沈清月,shen_qingyue,暗礁咬船的事码头上年年都有。陆公子别急着把天灾写成人祸。,cooperative
-testimony_2,preamble,2,阿贵,agui,那洞就是撞出来的……石头不长眼。,defensive
+testimony_2,preamble,2,阿贵,agui,那洞就是撞出来的……石头不长眼。,defensive,
+testimony_2,preamble,3,周氏,zhou_wife,……等等。这张字据，是从阿贵屋里翻出来的。老爷亲笔，遣他回乡，给银二两，各不相欠。落款是出发前三日。,grief,"{""gain_evidence"": ""evidence_dismissal_note""}"
 testimony_2,readthrough_end_hint,0,凌瑶,xia_lingyao,他刚才一提到'暗礁'两个字，嗓子眼一下子就捏紧了。先前说那个皮浮囊的时候，他声音可宽敞得多。,focused
 testimony_2,readthrough_end_hint,1,陆昭,lu_zhao,（洞的边缘。从里往外翻开的木茬。暗礁撞船，力是从外往里；可这道痕，方向反了。）,inner_thought
 testimony_2,transition_dialogue,0,阿贵,agui,……,shaken
@@ -206,7 +211,9 @@ testimony_3,transition_dialogue,13,凌瑶,xia_lingyao,你们看，她突然把�
 shen_testimony_1,preamble,0,凌瑶,xia_lingyao,听得我后槽牙直发酸。她说话，怎么能这么滴水不漏啊。,playful
 shen_testimony_1,preamble,1,陆昭,lu_zhao,牙疼也先站稳。,serious
 shen_testimony_1,preamble,2,凌瑶,xia_lingyao,好得我都有些胃疼了……,playful
-shen_testimony_1,preamble,3,沈清月,shen_qingyue,问吧。不过先把账算清：周德茂欠我钱。债主杀债人，亏的是我。,bold
+shen_testimony_1,preamble,3,沈清月,shen_qingyue,问吧。不过先把账算清：周德茂欠我钱。债主杀债人，亏的是我。,bold,
+shen_testimony_1,preamble,4,凌瑶,xia_lingyao,这件事我得当堂说清。天亮前我去下游浅滩看过——芦苇是新踩倒的，泥地上还留着长竿探水的拖痕。有人赶在天亮前，来这儿捞过沉下去的东西。,focused,"{""gain_clue"": ""evidence_salvage_mark""}"
+shen_testimony_1,preamble,5,周氏,zhou_wife,我家老爷的货单也在这儿。武昌布庄预付的五十两银，本压在他随身褡裢里。可捞上来的、岸上的，哪儿都没了。,grief,"{""gain_evidence"": ""evidence_cargo_silver""}"
 shen_testimony_1,readthrough_end_hint,0,凌瑶,xia_lingyao,陆昭，我心里有点发毛。她说的每一个字，怎么都这么顺耳，顺耳得不正常……,worried
 shen_testimony_1,readthrough_end_hint,1,陆昭,lu_zhao,怕就站我后面。她再厉害也是一个人。,serious
 shen_testimony_1,transition_dialogue,0,陆昭,lu_zhao,（嘴角的弧度消失了。她重新抱起双臂……手指攥得更紧了。）,inner_thought
@@ -230,7 +237,9 @@ shen_testimony_2,preamble,0,凌瑶,xia_lingyao,她说话声音越来越轻了…
 shen_testimony_2,preamble,1,凌瑶,xia_lingyao,我忽然想起一件旧事。去年我押过一个温州药材商的暗镖，他随身带的那账本，也是画得像一朵花一样好看。,focused
 shen_testimony_2,preamble,2,陆昭,lu_zhao,后来呢。,serious
 shen_testimony_2,preamble,3,凌瑶,xia_lingyao,结果呀，全是假的！越是好看得找不出错的账目，越有鬼。那商人用来封药箱的树胶，平白看着没异样，可一丢进水里泡上个把时辰，底下的裂缝就全显出来了。,focused
-shen_testimony_2,preamble,4,沈清月,shen_qingyue,陆公子，你想把我和那两个男人绑在一处？可以。可碰过面，离合谋杀人还差一条江。,cold_fury
+shen_testimony_2,preamble,4,沈清月,shen_qingyue,陆公子，你想把我和那两个男人绑在一处？可以。可碰过面，离合谋杀人还差一条江。,cold_fury,
+shen_testimony_2,preamble,5,老范,lao_fan,沈、沈姑娘……是你先寻来的嘛！你晓得我欠着四十二两，问我想不想一笔勾销……,shaken,"{""gain_clue"": ""evidence_shen_connection""}"
+shen_testimony_2,preamble,6,凌瑶,xia_lingyao,还有，船开的时候，你还站在码头上。这是我亲眼瞧见的，错不了。,focused,"{""gain_clue"": ""evidence_dock_timing""}"
 shen_testimony_2,readthrough_end_hint,0,凌瑶,xia_lingyao,她这一身素色衣裳，干净得连个灰点子都没有。一点都不像我们镖局常年打交道的那些浑身草药味的药商。,focused
 shen_testimony_2,readthrough_end_hint,1,陆昭,lu_zhao,嗯。她从上到下都不像。,serious
 shen_testimony_2,transition_dialogue,0,陆昭,lu_zhao,（她的呼吸……胸口有了微微的起伏。）,inner_thought
@@ -252,7 +261,9 @@ shen_testimony_2,transition_dialogue,15,陆昭,lu_zhao,下一轮，看船上留�
 shen_testimony_2,fail_dialogue,0,沈清月,shen_qingyue,一个赌鬼，一个杀人犯，就把陆公子哄成这样？传出去，不怕人笑话吗？,cold_fury
 shen_testimony_2,fail_dialogue,1,凌瑶,xia_lingyao,哎呀，她根本就没把这话当回事。陆昭，咱们换个东西问！,worried
 shen_testimony_3,preamble,0,凌瑶,xia_lingyao,她有些绷不住了。人只要一急，手底下的拳法可就乱了。,focused
-shen_testimony_3,preamble,1,沈清月,shen_qingyue,你说我在场，认识人，也有钱可图。可这些到了堂上，只叫嫌疑。陆公子，嫌疑押不住人。,cold_fury
+shen_testimony_3,preamble,1,沈清月,shen_qingyue,你说我在场，认识人，也有钱可图。可这些到了堂上，只叫嫌疑。陆公子，嫌疑押不住人。,cold_fury,
+shen_testimony_3,preamble,2,钱里正,li_zheng,差役方才从沈姑娘落脚的房里，搜出一本药铺账本。最后一页写着：父病急需八十两，家中仅余四十二两，差额——另想办法。落款是案发前五天。,stern,"{""gain_evidence"": ""evidence_father_ledger""}"
+shen_testimony_3,preamble,3,陆昭,lu_zhao,还有这片东西。那块抬上堂的船板，进水口破洞边卡着一片半透明的薄膜——糯米鱼鳔胶，遇水就化，是被木刺挂住才剩下这么一点。,serious,"{""gain_evidence"": ""evidence_drug_capsule_shell""}"
 shen_testimony_3,readthrough_end_hint,0,凌瑶,xia_lingyao,她不跟咱们绕圈子了……我这心里反而直打鼓。陆昭，你手里还有底牌吗？,worried
 shen_testimony_3,fail_dialogue,0,沈清月,shen_qingyue,陆公子，你把每个巧合都往我身上拧，是怕案子空着，还是怕自己先前看错了人？这样的案卷，县衙不会落印。,cold_fury
 shen_testimony_3,fail_dialogue,1,凌瑶,xia_lingyao,她说'巧合'那两个字的时候，嗓子眼明显噎了一下。我瞧着，连她自己都不大相信这鬼话。,focused
@@ -285,7 +296,8 @@ shen_testimony_4,preamble,2,陆昭,lu_zhao,封条泡水才看得出来。,seriou
 shen_testimony_4,preamble,3,凌瑶,xia_lingyao,对！你手里那片从木板上抠下来的胶，在江水里泡了一整夜，现在拿出来让钱里正看，刚刚好！,focused
 shen_testimony_4,preamble,4,陆昭,lu_zhao,胶、药、油，三样都摆在这儿。她想一件件拆开，我就一件件听她怎么拆。,serious
 shen_testimony_4,preamble,5,凌瑶,xia_lingyao,她倒好，把这几样连在一块的物件，愣是说成是江里的草、地上的泥，跟她半点干系都没有。,focused
-shen_testimony_4,preamble,6,沈清月,shen_qingyue,糯米胶？码头上封鱼篓、补船缝都用。陆公子，你拿一片烂胶来吓我？,cold_fury
+shen_testimony_4,preamble,6,沈清月,shen_qingyue,糯米胶？码头上封鱼篓、补船缝都用。陆公子，你拿一片烂胶来吓我？,cold_fury,
+shen_testimony_4,preamble,7,陆昭,lu_zhao,不止这片胶。仵作再验过——周德茂舌根深处，还留着一点没散尽的草纤维。他上船前在码头吃了重油酒菜，那层油把呛进舌根的药残裹住了，江水才化不开。,serious,"{""gain_evidence"": [""evidence_tongue_herb_residue"", ""evidence_oil_lock_residue""]}"
 shen_testimony_4,readthrough_end_hint,0,凌瑶,xia_lingyao,她一件件忙着往外摘，我脑子里倒是一直在转：这胶、这草、这药囊，怎么就不能是同一个人搁在那儿的呢？陆昭，你说呢？,focused
 shen_testimony_4,readthrough_end_hint,1,陆昭,lu_zhao,你说得对。快完了。,serious
 shen_testimony_4,transition_dialogue,0,沈清月,shen_qingyue,……你把三样东西硬拼到一处。可胶是码头上的，草渣是江里的，油更说不准来路。陆公子，拼凑不是证据。,cracking

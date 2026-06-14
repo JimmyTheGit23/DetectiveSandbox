@@ -26,69 +26,72 @@ const SubPanels = {
 }
 
 const GM_PRESET_ORDER := [
-	"cabin_start",
-	"wang_confront",
-	"phase2_investigate",
-	"main_confront_ready",
-	"phase3_after_agui",
-	"final_ready",
+	"rescue_start",
+	"before_wang",
+	"after_wang",
+	"before_agui",
+	"after_agui",
+	"before_shen",
 	"fixed_epilogue",
 ]
 
 const GM_PRESETS := {
-	"cabin_start": {
-		"label": "船舱调查开始",
-		"location": "cabin_lu_room",
-	},
-	"wang_confront": {
-		"label": "王大爷自证对峙前",
+	"rescue_start": {
+		"label": "① 沉船救援（凌瑶出场）",
 		"location": "ferry_inn",
-		"flags": ["cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "cabin_phase_done"],
-		"evidence": ["evidence_hull_hole", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
-		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive"],
+		"flags": ["cabin_review_done"],
+	},
+	"before_wang": {
+		"label": "② 王大爷对峙前",
+		"location": "ferry_inn",
+		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done"],
+		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time"],
+		"clues": ["evidence_no_motive"],
 		"confrontation": "confrontation_wang",
 	},
-	"phase2_investigate": {
-		"label": "自证清白后调查",
+	"after_wang": {
+		"label": "③ 王大爷对峙后·循线查证（自动续播）",
 		"location": "ferry_dock",
-		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed"],
-		"evidence": ["evidence_hull_hole", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
-		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive"],
+		"linear_chain": ["evt_self_cleared"],
+		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked"],
+		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time"],
+		"clues": ["evidence_no_motive"],
 	},
-	"main_confront_ready": {
-		"label": "老范/阿贵对峙前",
+	"before_agui": {
+		"label": "④ 老范阿贵对峙前",
 		"location": "ferry_inn",
-		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known"],
-		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
-		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole"],
+		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked"],
+		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time", "evidence_hull_hole", "evidence_nail_marks", "evidence_no_blunt_trauma", "evidence_float_bladder", "evidence_dismissal_note", "evidence_gambling_iou"],
+		"clues": ["evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole"],
 		"confrontation": "confrontation",
 	},
-	"phase3_after_agui": {
-		"label": "阿贵招供后",
+	"after_agui": {
+		"label": "⑤ 阿贵招供后·收网（自动续播）",
 		"location": "ferry_inn",
-		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done", "phase3_scene_rearranged"],
-		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost"],
-		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing"],
+		"linear_chain": ["evt_phase3_transition", "evt_night_before_shen"],
+		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "confrontation_completed", "agui_confessed_mastermind"],
+		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time", "evidence_hull_hole", "evidence_nail_marks", "evidence_no_blunt_trauma", "evidence_float_bladder", "evidence_dismissal_note", "evidence_gambling_iou"],
+		"clues": ["evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing"],
 	},
-	"final_ready": {
-		"label": "沈清月终局前",
+	"before_shen": {
+		"label": "⑥ 沈清月终局前",
 		"location": "shen_room",
-		"flags": ["cabin_phase_done", "cabin_review_done", "evt_cabin_sleep_done", "accused_of_murder", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "zhou_wife_bribe_exposed", "evt_hull_discovered_done", "hull_sabotage_known", "evt_bladder_found_done", "agui_premeditation_known", "evt_dismissal_revealed_done", "agui_motive_known", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done", "phase3_scene_rearranged", "bladder_meaning_revised", "evt_shen_evidence_ready_done"],
-		"evidence": ["evidence_hull_hole", "evidence_nail_marks", "evidence_float_bladder", "evidence_no_blunt_trauma", "evidence_dismissal_note", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_seal_lost", "evidence_cargo_silver", "evidence_drug_capsule_shell", "evidence_tongue_herb_residue", "evidence_oil_lock_residue", "evidence_father_ledger"],
-		"clues": ["evidence_cabin_escape_time", "evidence_weather_fog", "evidence_storm_noise", "evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing", "evidence_salvage_mark", "evidence_shen_connection"],
+		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done"],
+		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time", "evidence_hull_hole", "evidence_nail_marks", "evidence_no_blunt_trauma", "evidence_float_bladder", "evidence_dismissal_note", "evidence_gambling_iou", "evidence_cargo_silver", "evidence_drug_capsule_shell", "evidence_tongue_herb_residue", "evidence_oil_lock_residue", "evidence_father_ledger"],
+		"clues": ["evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing", "evidence_salvage_mark", "evidence_shen_connection"],
 		"confrontation": "confrontation_final",
 	},
 	"fixed_epilogue": {
-		"label": "固定结尾过渡",
+		"label": "⑦ 固定结尾",
 		"location": "ferry_inn",
 		"flags": ["cabin_phase_done", "prologue_truth_reached", "prologue_defeated", "case_partially_resolved"],
 	},
 }
 
 const GM_CONFRONTATION_PRESET_MAP := {
-	"confrontation_wang": "wang_confront",
-	"confrontation": "main_confront_ready",
-	"confrontation_final": "final_ready",
+	"confrontation_wang": "before_wang",
+	"confrontation": "before_agui",
+	"confrontation_final": "before_shen",
 }
 
 const SettingsSealIcon = preload("res://scripts/ui/SettingsSealIcon.gd")
@@ -1581,12 +1584,42 @@ func gm_apply_preset(preset_id: String, reset_first := true) -> void:
 		return
 	GameManager.reload_current_case_tables()
 	var preset: Dictionary = GM_PRESETS[preset_id]
+	# 线性续播型预设（序章中段）：跳进去后不展示菜单/自由探索，
+	# 直接续播过渡事件链 → 由事件自带的 auto_start_confrontation 自动进入对峙，
+	# 与正式线性流程完全一致（玩家不会撞见调查取证界面）。
+	var linear_chain: Array = preset.get("linear_chain", [])
+	var use_linear := not linear_chain.is_empty() and _use_linear_prologue_route()
 	if reset_first:
 		GameManager.reset_progress()
+	if use_linear:
+		# 提前置位：屏蔽 _gm_grant_state 灌注证据期间触发的探索事件自动排队
+		_linear_prologue_active = true
 	_gm_grant_state(preset)
+	if use_linear:
+		_gm_clear_event_noise()
+		_prepare_linear_prologue_surface(str(preset.get("location", GameManager.case_main_scene)))
+		_flash_notification("GM 预设：" + str(preset.get("label", preset_id)))
+		_gm_play_linear_chain(linear_chain)
+		return
 	_gm_prepare_surface(true)
 	_gm_force_location(str(preset.get("location", GameManager.case_main_scene)))
 	_flash_notification("GM 预设：" + str(preset.get("label", preset_id)))
+
+
+func _gm_play_linear_chain(events: Array, index := 0) -> void:
+	# 依次播放序章过渡事件：非末尾事件播完后衔接下一段（隐藏菜单，保持线性）；
+	# 末尾事件由其自身的 auto_start_confrontation 接管，自动进入对峙。
+	if index >= events.size():
+		return
+	var evt_id := str(events[index])
+	if index >= events.size() - 1:
+		_play_event_now(evt_id, true)
+		return
+	_play_event_now(evt_id, true, func():
+		_gm_clear_event_noise()
+		_prepare_linear_prologue_surface("")
+		_gm_play_linear_chain(events, index + 1)
+	)
 
 
 func gm_apply_preset_and_confront(preset_id: String) -> void:
@@ -2180,18 +2213,26 @@ func _on_narration_video(video_path: String) -> void:
 		_finish_video.call()
 	, CONNECT_ONE_SHOT)
 	
-	# ESC/点击跳过：用一个全屏按钮覆盖
+	# 右上角跳过按钮
 	var skip_btn := Button.new()
-	skip_btn.anchor_left = 0.0
+	skip_btn.text = "跳过"
+	skip_btn.flat = true
+	skip_btn.anchor_left = 1.0
 	skip_btn.anchor_right = 1.0
 	skip_btn.anchor_top = 0.0
-	skip_btn.anchor_bottom = 1.0
-	skip_btn.mouse_filter = Control.MOUSE_FILTER_PASS
-	skip_btn.flat = true
-	skip_btn.modulate.a = 0.0  # 完全透明
+	skip_btn.anchor_bottom = 0.0
+	skip_btn.offset_left = -90.0
+	skip_btn.offset_top = 16.0
+	skip_btn.offset_right = -16.0
+	skip_btn.offset_bottom = 48.0
+	skip_btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	skip_btn.add_theme_font_size_override("font_size", 15)
+	skip_btn.add_theme_color_override("font_color", Color(0.85, 0.82, 0.75, 0.8))
+	skip_btn.add_theme_color_override("font_hover_color", Color(1.0, 0.95, 0.8, 1.0))
+	skip_btn.add_theme_color_override("font_pressed_color", Color(0.7, 0.65, 0.55, 1.0))
 	add_child(skip_btn)
 	skip_btn.pressed.connect(func():
-		print("[MainGame] Video skipped by click.")
+		print("[MainGame] Video skipped by button.")
 		_finish_video.call()
 	)
 	

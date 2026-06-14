@@ -2060,6 +2060,31 @@ func _show_dialogue_queue(on_done: Callable) -> void:
 	_show_next_dialogue_line(on_done)
 
 
+## 方案B：执行对峙台词携带的 effect（当庭抛出证据/线索 / 设置 flag）。
+## 支持单个字符串或字符串数组。每件证据/线索播放一次"获得"金光特效。
+func _apply_line_effect(effect: Dictionary) -> void:
+	if effect == null or effect.is_empty():
+		return
+	for ev in _effect_id_list(effect.get("gain_evidence", null)):
+		if GameManager.add_evidence(ev) and not GameManager.suppress_evidence_obtain_hold:
+			await _show_evidence_acquired_fx(ev)
+	for cl in _effect_id_list(effect.get("gain_clue", null)):
+		if GameManager.add_clue(cl) and not GameManager.suppress_evidence_obtain_hold:
+			await _show_evidence_acquired_fx(cl)
+	for f in _effect_id_list(effect.get("set_flag", null)):
+		GameManager.set_flag(f)
+
+
+func _effect_id_list(v) -> Array:
+	if v == null:
+		return []
+	if v is Array:
+		return v
+	if v is String and v != "":
+		return [v]
+	return []
+
+
 func _hide_dialogue() -> void:
 	_dialogue_box.visible = false
 	if _dlg_portrait_rect:
@@ -2124,6 +2149,10 @@ func _show_next_dialogue_line(on_done: Callable) -> void:
 	if _typewriter.is_playing():
 		await _typewriter.finished
 	_typewriter_playing = false
+
+	# 方案B：对峙台词可携带 effect，由角色在本句念完后"当庭抛出"证据/线索。
+	if line_data.has("effect"):
+		await _apply_line_effect(line_data.get("effect", {}))
 
 	_set_waiting_for_click(func():
 		_dialogue_idx += 1
