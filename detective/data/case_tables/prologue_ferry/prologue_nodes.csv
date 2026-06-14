@@ -1,8 +1,7 @@
 node_id,type,background,next,centered,end,portrait,emotion,fx,video,effect
-# === 开场视频 → 时间卡 → 船舱调查 ===
-intro_video,video,res://assets/cn/scenes/pure_black.png,time_card_opening,,,,,,res://assets/video/intro.ogv,
-time_card_opening,time_card,res://assets/cn/scenes/pure_black.png,cabin_1,,,,,,
-# === 船舱开场 ===
+# === 开场视频 → 直接进入沉船/救援事件 ===
+intro_video,video,res://assets/cn/scenes/pure_black.png,,,end,,,,res://assets/video/intro.ogv,
+# === 船舱开场（已停用，保留供 GM 跳转调试）===
 cabin_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_2,,,,,"{""bgm"": ""ferry_cabin_night"",""gain_clue"": ""clue_travel_notes""}"
 cabin_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_3,,,,,
 cabin_3,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_4,,,,,

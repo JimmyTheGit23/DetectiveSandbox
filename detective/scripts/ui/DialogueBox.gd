@@ -259,8 +259,9 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 			display_text += "）"
 	var rich_display_text := TextUtilsScript.color_inner_thoughts(display_text) if is_inner_thought else TextUtilsScript.strip_all_parentheticals(display_text)
 	_apply_normal_narration_style()
-	if is_inner_thought:
-		# 心理活动显示主角名字（不显示头像）
+	var hide_portrait := bool(meta.get("effect", {}).get("hide_portrait", false))
+	if is_inner_thought or hide_portrait:
+		# 心理活动或明确要求隐藏立绘：只显示说话人名字，不显示头像/立绘
 		_apply_narration_speaker(_normalize_visible_speaker(speaker), "")
 	else:
 		_apply_narration_speaker(_normalize_visible_speaker(speaker), portrait)
@@ -321,13 +322,19 @@ func _apply_narration_speaker(speaker: String, portrait: String) -> void:
 		portrait_rect.visible = false
 		_hide_avatar()
 		return
+	# 主角陆昭：非对峙阶段只显示名字，不显示头像/立绘
+	# 对峙阶段由 ConfrontationPanel 独立渲染，不经过此函数
+	if speaker == "陆昭" or speaker == "lu_zhao":
+		portrait_rect.visible = false
+		_hide_avatar()
+		return
 	# 如果没有提供 portrait，尝试自动解析
 	var resolved := portrait
 	if resolved == "" or not ResourceLoader.exists(resolved):
 		resolved = _resolve_portrait_for_speaker(speaker)
 	# 有说话者：走立绘规则
 	if _is_protagonist_or_companion(speaker):
-		# 主角或助手（非讨论模式）→ 左下角头像
+		# 同伴（非讨论模式）→ 左下角头像
 		_show_avatar(speaker, resolved, "")
 		portrait_rect.visible = false
 	elif resolved != "" and ResourceLoader.exists(resolved):

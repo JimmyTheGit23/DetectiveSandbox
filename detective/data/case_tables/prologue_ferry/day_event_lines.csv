@@ -3,28 +3,20 @@ event_id,line_kind,order,speaker,text,emotion,voice_path,background,effect
 evt_cabin_return_to_room,dialogue,1,陆昭,回舱。把刚才听到的几句话先按住。,inner_thought,,,
 evt_cabin_return_to_room,dialogue,2,陆昭,周德茂的铜锁箱。阿贵的包袱。老范那句别开窗。三样东西……,inner_thought,,,
 evt_cabin_return_to_room,dialogue,3,陆昭,先睡不成了。再听一会儿水声。,anxious,,,
-evt_cabin_sinking,dialogue,0,陆昭,（夜深。船舱只剩半盏油灯。雨敲在船篷上，像有人隔着木板细细敲门。）,inner_thought,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,"{""cabin_escape_panel"": true}"
-evt_cabin_sinking,dialogue,1,陆昭,水声不对。,inner_thought,,,
-evt_cabin_sinking,dialogue,2,陆昭,（船底忽然传来一声闷响。下一瞬，地板从脚下歪过去。）,inner_thought,,res://assets/cn/scenes/prologue_ship_cabin_night.png,
-evt_cabin_sinking,dialogue,3,陆昭,官印匣！,panic,,,
-evt_cabin_sinking,dialogue,4,陆昭,（冷水从底舱缝里冲上来。灯灭了，四周只剩木头断裂和人喊人的声音。）,inner_thought,,,
-evt_cabin_sinking,dialogue,5,陆昭,水太急……什么都抓不住……,panic,,,
-evt_cabin_sinking,dialogue,6,陆昭,（水压像一只手按住胸口。摸到天窗边的铁器，狠狠撬了一下。）,inner_thought,,,
-evt_cabin_sinking,dialogue,7,陆昭,（木栓断开。江水裹着人撞出船舱，夜色和浪一起压下来。）,inner_thought,,res://assets/cn/scenes/prologue_shore_rescue.png,"{""bgm"": ""ferry_prologue_shore""}"
-evt_cabin_sinking,dialogue,8,凌瑶,抓住我！别松手！,determined,,res://assets/cn/scenes/prologue_cg_lingyao_meets_luzhao.png,
+evt_cabin_sinking,dialogue,8,凌瑶,抓住我！别松手！,determined,,res://assets/cn/scenes/prologue_cg_lingyao_meets_luzhao.png,"{""bgm"": ""ferry_prologue_shore""}"
 evt_cabin_sinking,dialogue,9,陆昭,（有人从水里扣住手腕。那只手很稳，把人从冰冷里硬拽出来。）,inner_thought,,,
 evt_cabin_sinking,dialogue,10,陆昭,（石矶渡客栈。火盆噼啪作响。醒来时，喉咙里全是江水的腥味。）,inner_thought,,res://assets/cn/scenes/prologue_ferry_inn_aftermath.png,"{""bgm"": ""ferry_inn_investigation""}"
 evt_cabin_sinking,dialogue,11,凌瑶,别急着起。你刚才连咳都咳不出来。,concerned,,,
 evt_cabin_sinking,dialogue,12,陆昭,我的官印匣呢？,panic,,,
-evt_cabin_sinking,dialogue,13,凌瑶,我捞的是人，不是木匣。你先活着。,serious,,,
+evt_cabin_sinking,dialogue,13,凌瑶,我捞的是人，不是木匣。你先活着。,serious,,,"{""gain_evidence"": ""evidence_seal_lost""}"
 evt_cabin_sinking,dialogue,14,陆昭,……陆昭。,vulnerable,,,
 evt_cabin_sinking,dialogue,15,凌瑶,凌瑶。金鳞镖局。路过这里押一封急件，顺手捞了个人。,determined,,,"{""gain_evidence"": ""evidence_lingyao_identity""}"
 evt_cabin_sinking,dialogue,16,陆昭,（天刚亮，下游浅滩又抬回来一具尸首。湿衣贴在身上，脸已经青了。）,inner_thought,,res://assets/cn/scenes/prologue_ferry_dock.png,"{""bgm"": ""ferry_dock_investigation""}"
 evt_cabin_sinking,dialogue,17,陆昭,周德茂死了？,shaken,,,
 evt_cabin_sinking,dialogue,18,凌瑶,阿贵和老范都没事。可那个周老板……掌柜说明明他最懂水性，怎么偏偏是他没上来？,worried,,,
-evt_cabin_sinking,dialogue,19,周氏,昨夜他还在说武昌的货，今天就躺在这儿。到底是谁……,grief,,res://assets/cn/scenes/prologue_cg_zhou_kneel.png,
+evt_cabin_sinking,dialogue,19,周氏,昨夜他还在说武昌的货，今天就躺在这儿。到底是谁……,grief,,res://assets/cn/scenes/prologue_cg_zhou_kneel.png,"{""hide_portrait"": true}"
 evt_cabin_sinking,dialogue,20,阿贵,夫人……小的看见陆公子在底舱口。手里，像拿着铁的东西。,nervous,,,
-evt_cabin_sinking,dialogue,21,陆昭,那是我撬天窗逃命用的。,gentle,,,
+evt_cabin_sinking,dialogue,21,陆昭,那是我撬天窗逃命用的。,gentle,,,"{""gain_evidence"": ""evidence_iron_crowbar_location""}"
 evt_cabin_sinking,dialogue,22,老范,我没看清谁害谁。可船翻前，舱里确实有铁碰木头的声儿。,nervous,,,
 evt_cabin_sinking,dialogue,23,周氏,一个说没看清，一个说只为逃命。可我老爷死了，你活着。,accusing,,,
 evt_cabin_sinking,dialogue,24,陆昭,（人群后方……沈清月没有往前挤。她只抬了抬眼。）,inner_thought,,,
@@ -35,10 +27,41 @@ evt_cabin_sinking,dialogue,28,钱里正,哎呀，都少说两句！人命在这�
 evt_cabin_sinking,dialogue,29,钱里正,陆公子，小人斗胆说句公道话，您眼下也脱不了干系呵。先移步客栈堂上，把看见的听见的，慢慢说清嘛。,stern,,,"{""bgm"": ""ferry_confrontation""}"
 evt_cabin_sinking,dialogue,30,陆昭,我没害周德茂。,gentle,,,
 evt_cabin_sinking,dialogue,31,凌瑶,那就查。陆昭，我信你。他们怎么说的不算，咱们自己去看。,determined,,,
-evt_cabin_sinking,dialogue,32,陆昭,（王大爷被人从门边请出来。搓着冻红的手，眼神直往地上躲。）,inner_thought,,,
-evt_self_cleared,dialogue,1,钱里正,不至于不至于……王大爷这话嘛，怕是不能再当铁证了。陆公子，这一层小人记下了，记下了呵。,stern,,,
-evt_self_cleared,dialogue,2,凌瑶,你的嫌疑是洗干净了，可这案子还没完呢，凶手还在暗处窥伺着咱们呢。,determined,,,
+evt_cabin_sinking,dialogue,32,陆昭,（先别慌着辩。把立得住的几条，自己先理出来。）,inner_thought,,,
+evt_cabin_sinking,dialogue,33,陆昭,昨夜朔月，江上压着浓雾。从岸边到翻船那片水隔着老远，这样的雾雨，谁也认不清船头站的是谁。,serious,,,"{""gain_evidence"": ""evidence_weather_fog""}"
+evt_cabin_sinking,dialogue,34,凌瑶,何止认不清。那风浪拍在船板上跟擂鼓似的，岸上能听见的只有水响。船上喊了什么，根本送不到耳朵里。,determined,,,"{""gain_evidence"": ""evidence_storm_noise""}"
+evt_cabin_sinking,dialogue,35,陆昭,还有我自己。初到石矶渡，与周德茂只一面之缘，无冤无仇。若说我图财害命，又何必在那条船上险些把命搭进去。,serious,,,"{""gain_clue"": ""evidence_no_motive""}"
+evt_cabin_sinking,dialogue,36,凌瑶,再说你这条命，是我从江里拖回来的。你昏在火盆边大半个时辰才睁眼，连口水都咳不出。要害人，你哪来的力气。,gentle,,,"{""gain_evidence"": ""evidence_cabin_escape_time""}"
+evt_cabin_sinking,dialogue,37,陆昭,嗯。这几条，够我先站住脚。,determined,,,
+evt_cabin_sinking,dialogue,38,陆昭,（王大爷被人从门边请出来。搓着冻红的手，眼神直往地上躲。）,inner_thought,,,
+evt_self_cleared,dialogue,1,钱里正,不至于不至于……王大爷这话嘛，怕是不能再当铁证了。陆公子，这一层小人记下了，记下了呵。,stern,,res://assets/cn/scenes/prologue_confrontation_hall.png,
+evt_self_cleared,dialogue,2,凌瑶,你的嫌疑是洗干净了，可这案子还没完呢，凶手还在暗处盯着咱们呢。,determined,,,
 evt_self_cleared,dialogue,3,陆昭,去看船。阿贵和老范的话，都得落到木板上。,gentle,,,
+evt_self_cleared,dialogue,4,陆昭,（残骸拖到了浅滩。船底朝天，那个洞就在眼前。）,inner_thought,,res://assets/cn/scenes/prologue_wreck_site.png,
+evt_self_cleared,dialogue,5,陆昭,洞口边缘的木刺全朝外翻。撞礁是从外往里压，这个是从里往外开的。,serious,,,"{""gain_evidence"": ""evidence_hull_hole""}"
+evt_self_cleared,dialogue,6,凌瑶,真要撞上暗礁，船底该是一片稀烂，哪会只齐齐整整破这么一个口子。,focused,,,
+evt_self_cleared,dialogue,7,陆昭,再看这圈钉眼。一圈旧的，一圈新的。这块板被人拆下来过，又重新钉了回去。,serious,,,"{""gain_evidence"": ""evidence_nail_marks""}"
+evt_self_cleared,dialogue,8,凌瑶,补板？跑船的都拿补板搪塞。可补板哪有把好端端一块板拆了再钉回去的道理。,determined,,,
+evt_self_cleared,dialogue,9,陆昭,而且那晚走的是东汊。码头旧水牌写着东汊有暗礁，涨水更凶。跑了二十年船的老范，不会不知道。,serious,,,"{""gain_clue"": ""evidence_wrong_channel""}"
+evt_self_cleared,dialogue,10,陆昭,（码头边，仵作把周德茂的验状递了过来。）,inner_thought,,res://assets/cn/scenes/prologue_ferry_dock.png,
+evt_self_cleared,dialogue,11,陆昭,面色青紫，口鼻有沫，是溺亡。可周身上下，没有一处钝器打的伤。,serious,,,"{""gain_evidence"": ""evidence_no_blunt_trauma""}"
+evt_self_cleared,dialogue,12,凌瑶,阿贵不是一直嚷嚷你拿铁器打人么？可周德茂身上连块青印子都没有，他这瞎话编得不灵。,determined,,,
+evt_self_cleared,dialogue,13,陆昭,（沿江往下游走。芦苇丛里，凌瑶先翻出了那个包袱。）,inner_thought,,res://assets/cn/scenes/prologue_river_bend.png,
+evt_self_cleared,dialogue,14,凌瑶,陆昭，你看这个。阿贵包袱最底下，塞着只牛皮浮囊，气还鼓着，缝里全是江泥。,shocked,,,"{""gain_evidence"": ""evidence_float_bladder""}"
+evt_self_cleared,dialogue,15,陆昭,他口口声声说自己不会水，抱着块木板才活下来。那这只提前充好气的浮囊，又算什么。,serious,,,
+evt_self_cleared,dialogue,16,凌瑶,怕水怕到提前备浮囊，又偏偏赶在出事那晚带上船。这哪是防万一，是早知道要落水。,focused,,,
+evt_self_cleared,dialogue,17,陆昭,（回客栈翻检阿贵的旧物，一张折皱的字据掉了出来。）,inner_thought,,res://assets/cn/scenes/prologue_ferry_inn.png,
+evt_self_cleared,dialogue,18,陆昭,周德茂亲笔。遣仆人阿贵，给银二两，各不相欠。落款是出发前三日。,serious,,,"{""gain_evidence"": ""evidence_dismissal_note""}"
+evt_self_cleared,dialogue,19,凌瑶,跟了十二年，临了两行字打发走，还只给二两。这梁子，结得可不浅。,worried,,,
+evt_self_cleared,dialogue,20,陆昭,（顺着老范的踪迹，摸到渡口后巷的赌坊。）,inner_thought,,res://assets/cn/scenes/prologue_gambling_alley.png,
+evt_self_cleared,dialogue,21,陆昭,老范欠赌坊四十二两，限腊月底还清，还不上就断指抵债。日子就压在眼前。,serious,,,"{""gain_evidence"": ""evidence_gambling_iou""}"
+evt_self_cleared,dialogue,22,凌瑶,四十二两，一根手指头。这当口要有人塞给他一条活路，他还有的选么。,determined,,,
+evt_self_cleared,dialogue,23,陆昭,（码头竹棚里，脚夫的临时登记还摊在桌上。）,inner_thought,,res://assets/cn/scenes/prologue_ferry_dock.png,
+evt_self_cleared,dialogue,24,陆昭,老范说自己在水里泡了好一阵才被下游渔民救起。可这上头记着：翻船不到一刻钟，他就自己湿淋淋回了竹棚烤火。,serious,,,"{""gain_clue"": ""clue_fan_alibi_hole""}"
+evt_self_cleared,dialogue,25,凌瑶,泡了好一阵？一刻钟人就回来了。他这话，跟那船底的洞一样，都是反着的。,focused,,,
+evt_self_cleared,dialogue,26,陆昭,够了。能立住的，都立住了。该问人了。,serious,,,
+evt_self_cleared,dialogue,27,凌瑶,这下阿贵和老范怕是躲不过去了。把他们拎上堂，好好审一审！,determined,,res://assets/cn/scenes/prologue_confrontation_hall.png,
+evt_self_cleared,dialogue,28,陆昭,嗯。先从老范的船说起，再问阿贵的浮囊。一件一件，叫他们自己对不上。,determined,,,
 # === 线索事件 ===,,,,,,,,
 evt_hull_discovered,dialogue,1,陆昭,洞口边缘太齐。木刺朝外……不像撞进去，像从里头开出来。,gentle,,,
 evt_hull_discovered,dialogue,2,凌瑶,要是撞上了暗礁，船底下不该只有这么一个整整齐齐的窟窿。,determined,,,
@@ -71,10 +94,33 @@ evt_inn_recovery,dialogue,1,凌瑶,你醒了就别乱动。掌柜说你刚才冻
 evt_inn_recovery,dialogue,2,陆昭,我欠你一条命。,vulnerable,,,
 evt_inn_recovery,dialogue,3,凌瑶,记账可以，先活过今晚。你到底惹上什么事，等能坐稳了再说。,serious,,,
 # === Phase 3 与终局前夜 ===,,,,,,,,
-evt_phase3_transition,dialogue,1,钱里正,哎哟，阿贵画押了……小人先前真是不知情呵！可口供只能开个门，单凭这个可动不了沈清月嘛。,stern,,,
+evt_phase3_transition,dialogue,1,钱里正,哎哟，阿贵画押了……小人先前真是不知情呵！可口供只能开个门，单凭这个可动不了沈清月嘛。,stern,,res://assets/cn/scenes/prologue_confrontation_hall.png,
 evt_phase3_transition,dialogue,2,钱里正,要小人说嘛，要动她，还得找她自己留下的物证。时辰、银子、药，哪样都得对上她的脚步。不过小人也是听说的呵。,stern,,,
-evt_phase3_transition,dialogue,3,凌瑶,沈清月绝不像阿贵那么好对付。（压低声音）她那双眼睛冷清清的，看人时连个波澜都没有……陆昭，你可得当心。,worried,,,
-evt_phase3_transition,dialogue,4,陆昭,洞是谁凿的，浮囊谁给的，字据谁写的。一件一件对。,gentle,,,
+evt_phase3_transition,dialogue,3,凌瑶,沈清月绝不像阿贵那么好对付。她那双眼睛冷清清的，看人时连个波澜都没有……陆昭，你可得当心。,worried,,,
+evt_phase3_transition,dialogue,4,陆昭,时辰、银子、药。要定她，就得把她留下的痕迹，一件一件找出来。,gentle,,,
+evt_phase3_transition,dialogue,5,陆昭,（先去问周娘子。她翻出了丈夫的货单。）,inner_thought,,res://assets/cn/scenes/prologue_ferry_inn.png,
+evt_phase3_transition,dialogue,6,周氏,他走前还念叨这笔钱……武昌布庄的预付银，五十两，压在随身褡裢里。可捞上来的、岸上的，哪儿都没有。人没了，连他这点东西，我都留不住。,grief,,,"{""gain_evidence"": ""evidence_cargo_silver""}"
+evt_phase3_transition,dialogue,7,陆昭,五十两不是小数。船能冲走人，冲不走压在舱底的银箱。这笔银子，是被人取走的。,serious,,,
+evt_phase3_transition,dialogue,8,陆昭,（再回下游那片浅滩。芦苇被踩乱了，泥地上还留着拖痕。）,inner_thought,,res://assets/cn/scenes/prologue_river_bend.png,
+evt_phase3_transition,dialogue,9,凌瑶,这片芦苇是新近才踩倒的，还有长竿探水的划痕。有人赶在天亮前，来这儿打捞过沉下去的东西。,focused,,,"{""gain_clue"": ""evidence_salvage_mark""}"
+evt_phase3_transition,dialogue,10,陆昭,捞银子的人，早知道船会在哪儿沉、货会往哪儿漂。这不是临时起意。,serious,,,
+evt_phase3_transition,dialogue,11,陆昭,（回头再压老范。这一次，他松了口。）,inner_thought,,res://assets/cn/scenes/prologue_gambling_alley.png,
+evt_phase3_transition,dialogue,12,老范,……不是我……不是阿贵。嗐！是个药材行的姑娘先寻来的嘛。她晓得我欠着四十二两，问我想不想一笔勾销。,shaken,,,"{""gain_clue"": ""evidence_shen_connection""}"
+evt_phase3_transition,dialogue,13,凌瑶,药材行的姑娘……石矶渡这地界，开着药材行、又插得上这桩事的姑娘，能有几个。,focused,,,
+evt_phase3_transition,dialogue,14,陆昭,（又回到破船边，凑近那个洞口细看。）,inner_thought,,res://assets/cn/scenes/prologue_wreck_site.png,
+evt_phase3_transition,dialogue,15,陆昭,进水口破洞的木刺上，勾着一片半透明的薄膜。糯米鱼鳔胶，遇水就化——这一片是被木刺挂住才剩下的。,serious,,,"{""gain_evidence"": ""evidence_drug_capsule_shell""}"
+evt_phase3_transition,dialogue,16,凌瑶,胶？谁会把胶贴在船底的破洞上？,shocked,,,
+evt_phase3_transition,dialogue,17,陆昭,一只遇水即溶的毒囊。有人提前登船，把它固定在阿贵要凿穿的那块板上。船一进水，药就化进江里。,serious,,,
+evt_phase3_transition,dialogue,18,陆昭,（带着这个疑问，请仵作再验一次周德茂的口鼻。）,inner_thought,,res://assets/cn/scenes/prologue_ferry_dock.png,
+evt_phase3_transition,dialogue,19,陆昭,死者舌根深处，还留着一点植物纤维。这种草入了淡水本该几刻钟就散尽，偏偏没散。,serious,,,"{""gain_evidence"": ""evidence_tongue_herb_residue""}"
+evt_phase3_transition,dialogue,20,凌瑶,没散？江水泡了一整夜，都没把它化开？,focused,,,
+evt_phase3_transition,dialogue,21,陆昭,因为油。周德茂登船前在码头食摊吃了大量肥肉、油炸河鲜，还灌了烈酒。,serious,,,"{""gain_evidence"": ""evidence_oil_lock_residue""}"
+evt_phase3_transition,dialogue,22,陆昭,口腔里那层厚油，正好把呛进去的药残裹在舌根，江水化不开。下毒的人本想药遇水即散、死无对证，偏偏被这桌油腻菜留住了。,serious,,,
+evt_phase3_transition,dialogue,23,凌瑶,她算尽了水，算尽了药，独独没算到他上船前那顿饭。,focused,,,
+evt_phase3_transition,dialogue,24,陆昭,（最后一处。趁沈清月在堂上，搜了她落脚的房间。）,inner_thought,,res://assets/cn/scenes/prologue_shen_room.png,
+evt_phase3_transition,dialogue,25,陆昭,一本药铺账本。最后一页：父病急需人参鹿茸，需银八十两，家中仅余四十二两，差额——另想办法。落款是案发前五天。,serious,,,"{""gain_evidence"": ""evidence_father_ledger""}"
+evt_phase3_transition,dialogue,26,凌瑶,八十两救命钱，缺四十二两。周德茂欠她的旧债，加上那五十两失踪货银……这数，刚好凑得上。,focused,,,
+evt_phase3_transition,dialogue,27,陆昭,动机、银子、毒、人。一条一条，都通到她那儿了。,serious,,,
 evt_confrontation_ready,dialogue,1,凌瑶,东西都在这儿了。陆昭，一会儿上了堂，看那阿贵还要怎么躲。,determined,,,
 evt_confrontation_ready,dialogue,2,陆昭,阿贵的话里有三处对不上。从他开始。,gentle,,,
 evt_shen_evidence_ready,dialogue,1,凌瑶,你要的物件都在这儿了。陆昭，这沈清月可不是好对付的，一会儿你可得千万当心。,determined,,,
@@ -82,7 +128,7 @@ evt_shen_evidence_ready,dialogue,2,陆昭,每一样都没直接碰到她手上�
 evt_shen_evidence_ready,dialogue,3,凌瑶,既然她不肯认，那咱们就走着瞧。陆昭，你打算先问她哪一件？,determined,,,
 evt_night_before_shen,dialogue,0,陆昭,（终局前夜。客栈二楼安静下来，只剩雨后水滴从檐角落下。）,inner_thought,,,
 evt_night_before_shen,dialogue,1,陆昭,（官印还在江底。明天堂上，我就是个刚洗清嫌疑的外乡人。）,vulnerable,,,
-evt_night_before_shen,dialogue,2,陆昭,怕的不是她嘴上赢我。怕的是……我全说对了，县衙还是判不了她。,vulnerable,,,
+evt_night_before_shen,dialogue,2,陆昭,怕的不是在堂上说不过她。怕的是……我全说对了，县衙还是判不了她。,vulnerable,,,
 evt_night_before_shen,dialogue,3,陆昭,（门响了。一回头……凌瑶端着一盏热茶站在外面。）,inner_thought,,,
 evt_night_before_shen,dialogue,4,凌瑶,在这儿坐多久了？,worried,,,
 evt_night_before_shen,dialogue,5,陆昭,不知道。,tired,,,
