@@ -1205,12 +1205,12 @@ func _after_press(stmt_id: String, stmt: Dictionary) -> void:
 		var new_stmt: Dictionary = adds.get("statement", {})
 		if not new_stmt.is_empty():
 			_insert_statement(after_id, new_stmt)
-			# 短暂提示追加了新证词
+			# 短暂提示追加了新证词（威慑子流程，自动消退，不阻塞）
 			_dialogue_queue = [
 				{"speaker": "", "text": "[center][color=#66ddff]— 证词发生了变化 —[/color][/center]"}
 			]
 			_dialogue_idx = 0
-			_show_dialogue_queue(func(): _enter_state(State.BROWSING))
+			_show_dialogue_queue(func(): _enter_state(State.BROWSING), true, 0.9)
 			return
 
 	_enter_state(State.BROWSING)
@@ -2056,8 +2056,8 @@ func _play_defeat() -> void:
 #  对话播放系统
 # ═══════════════════════════════════════════════════
 
-func _show_dialogue_queue(on_done: Callable) -> void:
-	_show_next_dialogue_line(on_done)
+func _show_dialogue_queue(on_done: Callable, auto_advance := false, auto_delay := 0.4) -> void:
+	_show_next_dialogue_line(on_done, auto_advance, auto_delay)
 
 
 ## 方案B：执行对峙台词携带的 effect（当庭抛出证据/线索 / 设置 flag）。
@@ -2103,7 +2103,7 @@ func _hide_speaking_portraits(kill_tween := false) -> void:
 	_current_camera_view = "npc"
 
 
-func _show_next_dialogue_line(on_done: Callable) -> void:
+func _show_next_dialogue_line(on_done: Callable, auto_advance := false, auto_delay := 0.4) -> void:
 	if _dialogue_idx >= _dialogue_queue.size():
 		_hide_dialogue()
 		on_done.call()
@@ -2154,18 +2154,17 @@ func _show_next_dialogue_line(on_done: Callable) -> void:
 	if line_data.has("effect"):
 		await _apply_line_effect(line_data.get("effect", {}))
 
-	# 威慑演出属于强制衔接段，自动续下一句，避免不同机器上第一次点威慑后卡在对话板上。
-	if _state == State.PRESSING:
-		await get_tree().create_timer(0.4).timeout
-		if _state != State.PRESSING:
+	if auto_advance:
+		await get_tree().create_timer(auto_delay).timeout
+		if _dialogue_idx >= _dialogue_queue.size():
 			return
 		_dialogue_idx += 1
-		_show_next_dialogue_line(on_done)
+		_show_next_dialogue_line(on_done, auto_advance, auto_delay)
 		return
 
 	_set_waiting_for_click(func():
 		_dialogue_idx += 1
-		_show_next_dialogue_line(on_done)
+		_show_next_dialogue_line(on_done, auto_advance, auto_delay)
 	)
 
 
@@ -3255,7 +3254,7 @@ func _play_press_effect(voice_line: String, stmt: Dictionary) -> void:
 
 	_dialogue_queue = press_dlg
 	_dialogue_idx = 0
-	_show_dialogue_queue(func(): _after_press(stmt_id, stmt))
+	_show_dialogue_queue(func(): _after_press(stmt_id, stmt), true, 0.55)
 
 
 ## 屏幕上方居中显示主角台词（大字 + 淡入淡出）

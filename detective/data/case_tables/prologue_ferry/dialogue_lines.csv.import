@@ -2,23 +2,16 @@
 
 importer="csv_translation"
 type="Translation"
-uid="uid://cpfyn0dwp5l7"
+uid="uid://dtaovktl8knag"
 
 [deps]
 
-<<<<<<< HEAD
-files=["res://data/case_tables/prologue_ferry/dialogue_lines.node.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.order.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.en.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.en.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.text.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.emotion.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.requires.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.highlight.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.en.translation"]
-
-source_file="res://data/case_tables/prologue_ferry/dialogue_lines.csv"
-dest_files=["res://data/case_tables/prologue_ferry/dialogue_lines.node.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.order.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.en.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.en.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.text.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.emotion.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.requires.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.highlight.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.en.translation"]
-=======
 files=["res://data/case_tables/prologue_ferry/dialogue_lines.node.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.order.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.type.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.text.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.emotion.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.requires.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.highlight.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/dialogue_lines.csv"
 dest_files=["res://data/case_tables/prologue_ferry/dialogue_lines.node.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.order.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.speaker.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.type.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.text.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.emotion.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.requires.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.highlight.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation", "res://data/case_tables/prologue_ferry/dialogue_lines.record.translation"]
->>>>>>> d73fa347e6a02b9f0b8a82ef82d776a95fcae68c
 
 [params]
 
-compress=1
+compress=true
 delimiter=0
