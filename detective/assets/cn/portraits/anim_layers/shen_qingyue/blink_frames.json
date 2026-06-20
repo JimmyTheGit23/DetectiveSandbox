@@ -1,0 +1,20 @@
+{
+  "frames": [
+    {
+      "name": "half",
+      "file": "eyes_half.png",
+      "description": "半闭眼"
+    },
+    {
+      "name": "closed",
+      "file": "eyes_closed.png",
+      "description": "全闭眼"
+    }
+  ],
+  "roi": [
+    320,
+    240,
+    300,
+    130
+  ]
+}

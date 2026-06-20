@@ -3,6 +3,8 @@ extends Control
 signal cancelled()
 
 const NPC_LAYOUT_PREVIEW_PANEL_SCENE_PATH := "res://scenes/ui/NpcLayoutPreviewPanel.tscn"
+const DYNAMIC_PORTRAIT_TEST_SCENE_PATH := "res://scenes/ui/DynamicPortraitTest.tscn"
+const DYNAMIC_PORTRAIT_V2_TEST_SCENE_PATH := "res://scenes/ui/DynamicPortraitTestV2.tscn"
 
 var _preset_select: OptionButton
 var _confront_select: OptionButton
@@ -162,6 +164,38 @@ func _build_preview_column() -> Control:
 	open_btn.pressed.connect(_on_open_preview_scene_pressed)
 	vbox.add_child(open_btn)
 
+	var sep2 := HSeparator.new()
+	sep2.add_theme_color_override("separator", Color(0.50, 0.38, 0.22, 0.35))
+	vbox.add_child(sep2)
+
+	vbox.add_child(_make_section_title("动态立绘测试"))
+
+	var anim_desc := RichTextLabel.new()
+	anim_desc.bbcode_enabled = true
+	anim_desc.fit_content = true
+	anim_desc.scroll_active = false
+	anim_desc.add_theme_font_size_override("normal_font_size", 15)
+	anim_desc.add_theme_color_override("default_color", Color(0.88, 0.84, 0.78, 1.0))
+	anim_desc.text = "[b]V2 分层叠加[/b]：Body + Eyes 小图块 + Mouth 小图块\n(小图 Gemini 生成，精准无漂移)"
+	vbox.add_child(anim_desc)
+
+	var anim_btn2 := _make_action_button("打开动态立绘测试 V2")
+	anim_btn2.pressed.connect(_on_open_dynamic_portrait_v2_pressed)
+	vbox.add_child(anim_btn2)
+
+	var anim_desc_v1 := RichTextLabel.new()
+	anim_desc_v1.bbcode_enabled = true
+	anim_desc_v1.fit_content = true
+	anim_desc_v1.scroll_active = false
+	anim_desc_v1.add_theme_font_size_override("normal_font_size", 14)
+	anim_desc_v1.add_theme_color_override("default_color", Color(0.72, 0.70, 0.65, 1.0))
+	anim_desc_v1.text = "V1 整图帧方案 (旧)"
+	vbox.add_child(anim_desc_v1)
+
+	var anim_btn := _make_action_button("打开动态立绘测试 V1")
+	anim_btn.pressed.connect(_on_open_dynamic_portrait_pressed)
+	vbox.add_child(anim_btn)
+
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vbox.add_child(spacer)
@@ -272,6 +306,26 @@ func _on_open_preview_scene_pressed() -> void:
 	var panel: Control = packed.instantiate()
 	get_tree().current_scene.add_child(panel)
 	_update_status("已打开立绘预览场景")
+
+
+func _on_open_dynamic_portrait_v2_pressed() -> void:
+	if not ResourceLoader.exists(DYNAMIC_PORTRAIT_V2_TEST_SCENE_PATH):
+		_update_status("缺少动态立绘测试 V2 场景")
+		return
+	var packed: PackedScene = load(DYNAMIC_PORTRAIT_V2_TEST_SCENE_PATH)
+	var panel: Control = packed.instantiate()
+	get_tree().current_scene.add_child(panel)
+	_update_status("已打开动态立绘测试 V2 (分层叠加)")
+
+
+func _on_open_dynamic_portrait_pressed() -> void:
+	if not ResourceLoader.exists(DYNAMIC_PORTRAIT_TEST_SCENE_PATH):
+		_update_status("缺少动态立绘测试场景")
+		return
+	var packed: PackedScene = load(DYNAMIC_PORTRAIT_TEST_SCENE_PATH)
+	var panel: Control = packed.instantiate()
+	get_tree().current_scene.add_child(panel)
+	_update_status("已打开动态立绘测试")
 
 
 func _on_return_title_pressed() -> void:
