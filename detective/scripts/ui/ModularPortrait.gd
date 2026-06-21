@@ -48,20 +48,22 @@ func _ready() -> void:
     _body_layer.mouse_filter = MOUSE_FILTER_IGNORE
     add_child(_body_layer)
     
-    # 2. 眼睛层 (覆盖在眼睛位置上方)
+    # 2. 眼睛层 (与基底同尺寸，同拉伸模式，自动对齐)
     _eyes_layer = TextureRect.new()
     _eyes_layer.texture = load(EYES_DIR + "eyes_open.png")
-    _eyes_layer.position = EYES_POS
-    _eyes_layer.stretch_mode = TextureRect.STRETCH_SCALE  # 按纹理自然大小显示
+    _eyes_layer.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+    _eyes_layer.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+    _eyes_layer.set_anchors_preset(PRESET_FULL_RECT)
     _eyes_layer.mouse_filter = MOUSE_FILTER_IGNORE
     _eyes_layer.z_index = 10
     add_child(_eyes_layer)
     
-    # 3. 嘴巴层
+    # 3. 嘴巴层 (与基底同尺寸，同拉伸模式，自动对齐)
     _mouth_layer = TextureRect.new()
     _mouth_layer.texture = load(MOUTH_DIR + "mouth_closed.png")
-    _mouth_layer.position = MOUTH_POS
-    _mouth_layer.stretch_mode = TextureRect.STRETCH_SCALE  # 按纹理自然大小显示
+    _mouth_layer.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+    _mouth_layer.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+    _mouth_layer.set_anchors_preset(PRESET_FULL_RECT)
     _mouth_layer.mouse_filter = MOUSE_FILTER_IGNORE
     _mouth_layer.z_index = 11
     add_child(_mouth_layer)
