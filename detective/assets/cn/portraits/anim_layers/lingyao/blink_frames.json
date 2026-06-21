@@ -1,0 +1,22 @@
+{
+  "frames": [
+    {
+      "name": "half",
+      "file": "eyes_half.png",
+      "description": "半闭眼"
+    },
+    {
+      "name": "closed",
+      "file": "eyes_closed.png",
+      "description": "全闭眼"
+    }
+  ],
+  "roi": [
+    295,
+    305,
+    215,
+    70
+  ],
+  "hard_cut_top": 312,
+  "note": "终极版：双眼完整闭合，Gemini强制输出"
+}

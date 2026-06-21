@@ -31,6 +31,7 @@ MODEL = "gemini-2.5-flash-image"
 
 DEFAULT_BASE = {
     "shen_qingyue": PORTRAITS / "prologue_shen_qingyue.png",
+    "lingyao": PORTRAITS / "companion_lingyao.png",
 }
 
 # ── Prompt: 强调只改眼睛、绝对不动眉毛 ────────────────────────────
@@ -43,7 +44,7 @@ CRITICAL RULES:
 2. DO NOT change the forehead area above the eyebrows
 3. DO NOT change the nose, mouth, cheeks, or any other facial feature
 4. ONLY modify the eyelids: upper lid comes down partially, lower lid stays still
-5. The upper eyelid should naturally cover about half of the iris/pupil area
+5. The upper eyelid should naturally cover about half of the iris/pupil area, with a visible dark upper lash line still showing.
 6. Keep the exact same skin tone on the closed portion of the eyelid as surrounding face skin
 7. Keep the SOLID MAGENTA (#FF00FF) background EXACTLY unchanged
 8. Keep EVERYTHING else 100% identical: hair, ears, clothing, accessories, pose, lighting
@@ -59,20 +60,33 @@ CRITICAL RULES:
 2. DO NOT change the forehead area above the eyebrows
 3. DO NOT change the nose, mouth, cheeks, or any other facial feature
 4. ONLY modify the eyelids: both upper and lower lids meet gently
-5. The closed eyelids show natural gentle curve with subtle lash line hint
-6. Use the character's natural skin tone for the eyelids (not lighter or darker)
+5. IMPORTANT: the closed eyelids MUST show a clear, crisp DARK EYELASH LINE along where the lids meet (a soft dark curved lash arc, like a real closed eye). Do NOT just fill the eye with smooth skin color — there must be a visible dark closed-eye line so the blink is clearly noticeable.
+6. Use the character's natural skin tone for the eyelid surface (not lighter or darker), but keep the lash line dark.
 7. Keep the SOLID MAGENTA (#FF00FF) background EXACTLY unchanged
 8. Keep EVERYTHING else 100% identical: hair, ears, clothing, accessories, pose, lighting
 
 Output at the same size (848x1264). This is frame 2 of a 2-frame blink animation (fully closed)."""
 
 # 眼部 ROI（只在这个区域内提取差异，避免其他区域干扰）
-# ⚠️ 重要：y起点必须避开眉毛！眉毛在 y≈250~272，眼睛在 y≈283~300。
-# ROI 的 y 起点设在 280 以避开眉毛+眉眼间隔，否则眨眼时眉毛会跟着变形/上下动。
-EYE_ROI = (320, 280, 300, 45)  # x, y, w, h — 仅覆盖眼睛带，不含眉毛
-# 硬切线：生成 overlay 后，y < HARD_CUT_TOP 的像素全部强制 alpha=0，
-# 物理保证眉毛区零像素（即使羽化扩散也不会碰到眉毛）。
-HARD_CUT_TOP = 280
+# ⚠️ 每个角色坐标不同，必须按实际定位！
+# 沈清月: 眉毛 y=[245,272], 眼睛 y=[283,300]
+# 凌瑶(companion_lingyao.png, 848x1264 半身像):
+#   ✅ 实测眼睛在 y≈275~330, 双眼 x≈330~490。
+#   眉毛在 y≈250~270, 硬切线设 y=275 避开眉毛。
+#   (之前误判眼睛在y=440是错的，那是嘴巴位置！)
+CHAR_ROI = {
+    "shen_qingyue": {
+        "EYE_ROI": (320, 280, 300, 45),
+        "HARD_CUT_TOP": 280,
+    },
+    "lingyao": {  # 半身像，眼睛实测在 y=275~330 (脸在上半部分！)
+        "EYE_ROI": (330, 275, 160, 55),
+        "HARD_CUT_TOP": 275,
+    },
+}
+# 默认: 沈清月
+EYE_ROI = CHAR_ROI["shen_qingyue"]["EYE_ROI"]
+HARD_CUT_TOP = CHAR_ROI["shen_qingyue"]["HARD_CUT_TOP"]
 
 
 def setup_client():
@@ -261,6 +275,13 @@ def main() -> None:
     if base_path is None or not base_path.exists():
         print(f"找不到基准立绘: {base_path}")
         sys.exit(1)
+
+    # 按角色选择眼部 ROI（眉毛不能动！）
+    char_config = CHAR_ROI.get(args.char, CHAR_ROI["shen_qingyue"])
+    EYE_ROI = char_config["EYE_ROI"]
+    HARD_CUT_TOP = char_config["HARD_CUT_TOP"]
+    print(f"角色: {args.char}")
+    print(f"眼部 ROI: {EYE_ROI}, 硬切 y<{HARD_CUT_TOP} (避开眉毛)")
 
     base = Image.open(base_path).convert("RGBA")
     size = base.size
