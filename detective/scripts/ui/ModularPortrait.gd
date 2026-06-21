@@ -52,7 +52,7 @@ func _ready() -> void:
     _eyes_layer = TextureRect.new()
     _eyes_layer.texture = load(EYES_DIR + "eyes_open.png")
     _eyes_layer.position = EYES_POS
-    _eyes_layer.size = EYES_SIZE
+    _eyes_layer.stretch_mode = TextureRect.STRETCH_SCALE  # 按纹理自然大小显示
     _eyes_layer.mouse_filter = MOUSE_FILTER_IGNORE
     _eyes_layer.z_index = 10
     add_child(_eyes_layer)
@@ -61,7 +61,7 @@ func _ready() -> void:
     _mouth_layer = TextureRect.new()
     _mouth_layer.texture = load(MOUTH_DIR + "mouth_closed.png")
     _mouth_layer.position = MOUTH_POS
-    _mouth_layer.size = MOUTH_SIZE
+    _mouth_layer.stretch_mode = TextureRect.STRETCH_SCALE  # 按纹理自然大小显示
     _mouth_layer.mouse_filter = MOUSE_FILTER_IGNORE
     _mouth_layer.z_index = 11
     add_child(_mouth_layer)
