@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy5nbrys0qw18"
-path="res://.godot/imported/blink_half_NEW_raw_NEW.png-28d5f9c04b82799ffe889e96da65842b.ctex"
+uid="uid://o8jvm78koeqs"
+path="res://.godot/imported/mouth_open.png-4b56d0fd79b92704f5ff1e84337e7e3a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cn/portraits/anim_layers/lingyao/blink_half_NEW_raw_NEW.png"
-dest_files=["res://.godot/imported/blink_half_NEW_raw_NEW.png-28d5f9c04b82799ffe889e96da65842b.ctex"]
+source_file="res://assets/cn/portraits/anim_layers/lingyao/mouth_open.png"
+dest_files=["res://.godot/imported/mouth_open.png-4b56d0fd79b92704f5ff1e84337e7e3a.ctex"]
 
 [params]
 

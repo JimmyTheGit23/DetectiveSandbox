@@ -5,6 +5,7 @@ signal cancelled()
 const NPC_LAYOUT_PREVIEW_PANEL_SCENE_PATH := "res://scenes/ui/NpcLayoutPreviewPanel.tscn"
 const DYNAMIC_PORTRAIT_TEST_SCENE_PATH := "res://scenes/ui/DynamicPortraitTest.tscn"
 const DYNAMIC_PORTRAIT_V2_TEST_SCENE_PATH := "res://scenes/ui/DynamicPortraitTestV2.tscn"
+const MODULAR_PORTRAIT_TEST_SCENE_PATH := "res://scenes/ui/ModularPortraitTest.tscn"
 
 var _preset_select: OptionButton
 var _confront_select: OptionButton
@@ -183,6 +184,19 @@ func _build_preview_column() -> Control:
 	anim_btn2.pressed.connect(_on_open_dynamic_portrait_v2_pressed)
 	vbox.add_child(anim_btn2)
 
+	var anim_desc_mod := RichTextLabel.new()
+	anim_desc_mod.bbcode_enabled = true
+	anim_desc_mod.fit_content = true
+	anim_desc_mod.scroll_active = false
+	anim_desc_mod.add_theme_font_size_override("normal_font_size", 15)
+	anim_desc_mod.add_theme_color_override("default_color", Color(0.88, 0.84, 0.78, 1.0))
+	anim_desc_mod.text = "[b]模块化方案[/b]：基底 + Eyes 精确裁剪 + 坐标对齐\n(彻底解决眉毛动 / 叠影问题)"
+	vbox.add_child(anim_desc_mod)
+
+	var anim_btn3 := _make_action_button("打开模块化立绘测试 (新)")
+	anim_btn3.pressed.connect(_on_open_modular_portrait_pressed)
+	vbox.add_child(anim_btn3)
+
 	var anim_desc_v1 := RichTextLabel.new()
 	anim_desc_v1.bbcode_enabled = true
 	anim_desc_v1.fit_content = true
@@ -316,6 +330,16 @@ func _on_open_dynamic_portrait_v2_pressed() -> void:
 	var panel: Control = packed.instantiate()
 	get_tree().current_scene.add_child(panel)
 	_update_status("已打开动态立绘测试 V2 (分层叠加)")
+
+
+func _on_open_modular_portrait_pressed() -> void:
+	if not ResourceLoader.exists(MODULAR_PORTRAIT_TEST_SCENE_PATH):
+		_update_status("缺少模块化立绘测试场景")
+		return
+	var packed: PackedScene = load(MODULAR_PORTRAIT_TEST_SCENE_PATH)
+	var panel: Control = packed.instantiate()
+	get_tree().current_scene.add_child(panel)
+	_update_status("已打开模块化立绘测试 (精确裁剪，无叠影)")
 
 
 func _on_open_dynamic_portrait_pressed() -> void:

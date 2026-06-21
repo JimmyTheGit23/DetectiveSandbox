@@ -25,8 +25,8 @@ var _eye_frames = [
 ]
 
 # 位置坐标 (来自Python分析)
-const EYES_POS = Vector2(310, 300)
-const EYES_SIZE = Vector2(190, 70)
+const EYES_POS = Vector2(310, 315)
+const EYES_SIZE = Vector2(195, 53)
 const MOUTH_POS = Vector2(375, 390)
 const MOUTH_SIZE = Vector2(100, 55)
 
