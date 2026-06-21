@@ -79,8 +79,8 @@ func _ready() -> void:
     _schedule_blink()
     
     print("✅ ModularPortrait 初始化完成")
-    print(f"   眼睛位置: {EYES_POS}, 大小: {EYES_SIZE}")
-    print(f"   嘴巴位置: {MOUTH_POS}, 大小: {MOUTH_SIZE}")
+    print("   眼睛位置: ", EYES_POS, ", 大小: ", EYES_SIZE)
+    print("   嘴巴位置: ", MOUTH_POS, ", 大小: ", MOUTH_SIZE)
 
 func _schedule_blink() -> void:
     """调度下一次眨眼"""
