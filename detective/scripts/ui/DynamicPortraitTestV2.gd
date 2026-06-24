@@ -42,21 +42,20 @@ func _load_char(char_id: String) -> void:
 	_tex_eyes_closed = load(cfg.anim_dir + "eyes_closed.png")
 	_tex_mouth_open = load(cfg.anim_dir + "mouth_layer.png")  # 可能为 null
 	
-	# 眨眼序列: 只使用有效的眼纹理
+	# 眨眼序列: 多帧 + alpha 渐变, 让闭眼/睁眼过渡更自然流畅。
+	# 5 帧曲线: 睁(隐藏) → 半闭低 → 半闭高 → 全闭 → 半闭高 → 半闭低 → 睁(隐藏)
+	# 每帧 tex 与 modulate.a 同时变化, 视觉上接近连续动画。
 	_blink_frames.clear()
-	if _tex_eyes_half != null:
-		_blink_frames.append({"tex": _tex_eyes_half, "dur": 0.06})
-	if _tex_eyes_closed != null:
-		_blink_frames.append({"tex": _tex_eyes_closed, "dur": 0.10})
-	if _tex_eyes_half != null:
-		_blink_frames.append({"tex": _tex_eyes_half, "dur": 0.06})
-	
-	# 眨眼序列
-	_blink_frames = [
-		{"tex": _tex_eyes_half,  "dur": 0.06},
-		{"tex": _tex_eyes_closed, "dur": 0.10},
-		{"tex": _tex_eyes_half,  "dur": 0.06},
-	]
+	if _tex_eyes_half != null and _tex_eyes_closed != null:
+		_blink_frames = [
+			{"tex": _tex_eyes_half,   "dur": 0.045, "alpha": 0.55},
+			{"tex": _tex_eyes_half,   "dur": 0.040, "alpha": 0.90},
+			{"tex": _tex_eyes_closed, "dur": 0.090, "alpha": 1.00},
+			{"tex": _tex_eyes_half,   "dur": 0.040, "alpha": 0.90},
+			{"tex": _tex_eyes_half,   "dur": 0.045, "alpha": 0.55},
+		]
+	elif _tex_eyes_closed != null:
+		_blink_frames = [{"tex": _tex_eyes_closed, "dur": 0.12, "alpha": 1.0}]
 
 func _ready() -> void:
 	# ⚡ Z序约定: [0]=背景, [1]=立绘层, [2]=UIbar(最上面)
@@ -270,9 +269,12 @@ func _do_blink() -> void:
 			_is_blinking = false
 			return
 		_eyes_rect.texture = frame.tex
+		var a := float(frame.get("alpha", 1.0))
+		_eyes_rect.modulate = Color(1, 1, 1, a)
 		await get_tree().create_timer(frame.dur).timeout
 	
 	if is_instance_valid(_eyes_rect):
 		_eyes_rect.visible = false
+		_eyes_rect.modulate = Color(1, 1, 1, 1.0)
 	_is_blinking = false
 	_schedule_blink()

@@ -3,7 +3,7 @@
     {
       "name": "half",
       "file": "eyes_half.png",
-      "description": "半闭眼"
+      "description": "半闭眼（closed 的 0.55x alpha 渐隐版，用于动画过渡）"
     },
     {
       "name": "closed",
@@ -12,11 +12,14 @@
     }
   ],
   "roi": [
-    295,
-    305,
+    300,
+    320,
     215,
-    70
+    55
   ],
-  "hard_cut_top": 312,
-  "note": "终极版：双眼完整闭合，Gemini强制输出"
+  "hard_cut_top": 320,
+  "threshold": 22,
+  "feather": 2.5,
+  "min_alpha": 18,
+  "note": "v4: 修复『左边黑色线条+眨眼不流畅』。1) 启用羽化(feather=2.5)消除 overlay 边缘硬切锯齿；2) eyes_half 用 eyes_closed 的 0.55x alpha 合成，避免 Gemini 生成的 half/closed 像素几乎相同导致退化为两帧；3) 播放序列升级到 5 帧 + alpha 渐变 (0.55→0.90→1.0→0.90→0.55)，眨眼过渡更连续流畅。"
 }
