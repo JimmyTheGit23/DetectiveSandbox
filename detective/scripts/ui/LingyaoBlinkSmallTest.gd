@@ -13,7 +13,8 @@ const EYES_HALF_PATH := "res://assets/cn/portraits/anim_layers/lingyao/small/eye
 const EYES_CLOSED_PATH := "res://assets/cn/portraits/anim_layers/lingyao/small/eyes_closed.png"
 
 ## ROI 在源图(848x1264)中的位置 —— 与 crop_blink_to_small.py 配置一致
-const EYE_ROI_IN_SOURCE := Rect2(300, 312, 215, 60)
+## 上沿 325 避开眉毛(右眉延伸到 y=324), 下沿 367 避开脸颊溢出
+const EYE_ROI_IN_SOURCE := Rect2(300, 325, 215, 43)
 const SOURCE_SIZE := Vector2(848, 1264)
 
 var _tex_body: Texture2D
