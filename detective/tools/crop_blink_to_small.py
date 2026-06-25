@@ -23,6 +23,15 @@ CONFIG = {
         "hard_cut_bottom": 367,
         "frames": ["eyes_half.png", "eyes_closed.png"],
     },
+    "shen_qingyue": {
+        "src_dir": "assets/cn/portraits/anim_layers/shen_qingyue",
+        # 实测 overlay bbox: x=[318..617] y=[280..329], 但 y=312..329 是
+        # Gemini 改脸颊的溢出残留(18 行), 实际眼睛/下睫毛在 y=280..311
+        "roi": (315, 278, 305, 34),
+        # 硬切 y > 311 (脸颊皮肤变化区)
+        "hard_cut_bottom": 311,
+        "frames": ["eyes_half.png", "eyes_closed.png"],
+    },
 }
 
 
