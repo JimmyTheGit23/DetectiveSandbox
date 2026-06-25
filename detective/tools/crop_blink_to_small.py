@@ -22,10 +22,11 @@ CONFIG = {
         # 上硬切=325(避开眉毛), 下硬切=367(避开脸颊)
         "hard_cut_top": 325,
         "hard_cut_bottom": 367,
-        # alpha 升压: 仅 closed 帧 在瞳孔区 (local y=10..38) 把 0.3~1.0 的 alpha
-        # 乘 1.6 上限 1.0, 解决"睁眼帧从 overlay 缝隙透出"问题
+        # alpha 升压: closed 帧用 gamma 压缩, 让中等 alpha (0.15~0.7) 
+        # 推向 1.0, 但保留 alpha=0 不变(不破坏 ROI 边缘形状).
+        # 凌瑶眼睛大、上眼线深黑(RGB~14), overlay 必须近乎不透明才能压住.
         "alpha_boost": {
-            "closed": {"local_y_range": (10, 38), "factor": 1.6, "min_alpha": 0.3},
+            "closed": {"local_y_range": (0, 42), "mode": "gamma", "gamma": 0.35, "min_alpha": 0.10},
         },
         "frames": ["eyes_half.png", "eyes_closed.png"],
     },
@@ -66,20 +67,27 @@ def process(char: str) -> None:
         cropped = arr[ry:ry + rh, rx:rx + rw, :].copy()
         # 3) alpha 升压 (按帧)
         boost_cfg = cfg.get("alpha_boost", {})
-        # 帧名匹配: 文件名包含 "closed"/"half" 等关键字
         for key, bcfg in boost_cfg.items():
             if key in fname:
                 y0, y1 = bcfg["local_y_range"]
-                factor = bcfg["factor"]
                 min_a = int(bcfg.get("min_alpha", 0.0) * 255)
                 a = cropped[:, :, 3].astype(np.float32)
                 mask = np.zeros_like(a, dtype=bool)
                 mask[y0:y1 + 1, :] = True
                 mask &= (a >= min_a)
-                a[mask] = np.clip(a[mask] * factor, 0, 255)
+                mode = bcfg.get("mode", "linear")
+                if mode == "gamma":
+                    g = bcfg["gamma"]
+                    # gamma<1 把中等值推向1; (a/255)^g * 255
+                    a[mask] = np.clip(np.power(a[mask] / 255.0, g) * 255.0, 0, 255)
+                    print(f"    ↑ alpha boost ({key}): y=[{y0}..{y1}] "
+                          f"gamma={g} min_alpha={bcfg.get('min_alpha', 0)}")
+                else:
+                    factor = bcfg["factor"]
+                    a[mask] = np.clip(a[mask] * factor, 0, 255)
+                    print(f"    ↑ alpha boost ({key}): y=[{y0}..{y1}] "
+                          f"factor={factor} min_alpha={bcfg.get('min_alpha', 0)}")
                 cropped[:, :, 3] = a.astype(np.uint8)
-                print(f"    ↑ alpha boost ({key}): y=[{y0}..{y1}] "
-                      f"factor={factor} min_alpha={bcfg.get('min_alpha', 0)}")
                 break
         out_path = out_dir / fname
         Image.fromarray(cropped).save(out_path, optimize=True)
