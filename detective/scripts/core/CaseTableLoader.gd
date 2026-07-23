@@ -62,6 +62,11 @@ static func load_manifest(case_id: String) -> Dictionary:
 	return load_case(case_id).get("manifest", {})
 
 
+## 案件流程骨架定义（json_docs.csv 中 doc_id="flow"，无则返回空）
+static func load_flow(case_id: String) -> Dictionary:
+	return load_case(case_id).get("flow", {})
+
+
 static func load_dialogue(case_id: String, npc_id: String) -> Dictionary:
 	return load_case(case_id).get("dialogues", {}).get(npc_id, {})
 
@@ -113,6 +118,9 @@ static func load_case(case_id: String) -> Dictionary:
 		"companion_config": _compile_companion_config(src),
 		"companion_discussions": _compile_companion_discussions(src),
 		"companion_banter": _compile_companion_banter(src),
+		"flow": docs.get("flow", {}),
+		"gm_presets": docs.get("gm_presets", {}),
+		"map_config": docs.get("map_config", {}),
 	}
 	_case_cache[case_id] = data.duplicate(true)
 	return data
@@ -792,7 +800,7 @@ static func _compile_case_data(src: String, base: Dictionary = {}) -> Dictionary
 		_set_if(data, "suspect", _cell(row, "suspect"))
 		if not _is_blank(row.get("is_final", "")):
 			data["is_final"] = _parse_bool(row.get("is_final", false))
-		for key in ["background", "bgm", "bgm_break", "bgm_break_actual", "bgm_final_round"]:
+		for key in ["background", "bgm", "bgm_break", "bgm_break_actual", "bgm_final_round", "verdict_text"]:
 			_set_if(data, key, _cell(row, key))
 		var confidence = _parse_int(row.get("confidence", ""), null)
 		if confidence != null:
@@ -1054,6 +1062,7 @@ static func _compile_culprit_actions(src: String, base: Dictionary = {}) -> Dict
 
 static func _compile_portrait_expressions(src: String) -> Dictionary:
 	var portraits := {}
+	var portrait_meta := {}
 	for row in _rows("%s/portrait_expressions.csv" % src):
 		var base := _cell(row, "base_portrait")
 		var emotion := _cell(row, "emotion")
@@ -1061,7 +1070,12 @@ static func _compile_portrait_expressions(src: String) -> Dictionary:
 		if base == "" or emotion == "" or portrait == "":
 			continue
 		_ensure_dict(portraits, base)[emotion] = portrait
-	return {"_comment": "Generated at runtime from portrait_expressions.csv", "portraits": portraits}
+		# 对话立绘缩放校正元数据（旧规格立绘按脸部比例校正；screen_scale 默认 1.0、pivot_y 默认 330）
+		var scale = _parse_float(row.get("screen_scale", ""), 1.0)
+		var pivot = _parse_float(row.get("pivot_y", ""), 330.0)
+		if scale != 1.0 or pivot != 330.0:
+			portrait_meta[portrait.get_file()] = {"screen_scale": scale, "pivot_y": pivot}
+	return {"_comment": "Generated at runtime from portrait_expressions.csv", "portraits": portraits, "portrait_meta": portrait_meta}
 
 
 static func _compile_center_npc_layouts(src: String) -> Dictionary:
@@ -1324,6 +1338,7 @@ static func _compile_companion_config(src: String) -> Dictionary:
 	_set_if(out, "role_name", _cell(row, "role_name"))
 	_set_if(out, "actor_id", _cell(row, "actor_id"))
 	_set_if(out, "intro_hint", _cell(row, "intro_hint"))
+	_set_if(out, "banter_suppress_until_flag", _cell(row, "banter_suppress_until_flag"))
 	if _parse_bool(row.get("tutorial_mode", false)):
 		out["tutorial_mode"] = true
 	if _parse_bool(row.get("lock_on_final_day", false)):

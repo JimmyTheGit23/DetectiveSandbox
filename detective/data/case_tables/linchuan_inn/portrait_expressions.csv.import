@@ -6,12 +6,14 @@ uid="uid://dfl8n0ofnxhth"
 
 [deps]
 
-files=["res://data/case_tables/linchuan_inn/portrait_expressions.base.translation", "res://data/case_tables/linchuan_inn/portrait_expressions.emotion.translation", "res://data/case_tables/linchuan_inn/portrait_expressions.portrait.translation", "res://data/case_tables/linchuan_inn/portrait_expressions.writer.translation"]
+files=["res://data/case_tables/linchuan_inn/portrait_expressions.base.translation", "res://data/case_tables/linchuan_inn/portrait_expressions.emotion.translation", "res://data/case_tables/linchuan_inn/portrait_expressions.portrait.translation", "res://data/case_tables/linchuan_inn/portrait_expressions.en.translation"]
 
 source_file="res://data/case_tables/linchuan_inn/portrait_expressions.csv"
-dest_files=["res://data/case_tables/linchuan_inn/portrait_expressions.base.translation", "res://data/case_tables/linchuan_inn/portrait_expressions.emotion.translation", "res://data/case_tables/linchuan_inn/portrait_expressions.portrait.translation", "res://data/case_tables/linchuan_inn/portrait_expressions.writer.translation"]
+dest_files=["res://data/case_tables/linchuan_inn/portrait_expressions.base.translation", "res://data/case_tables/linchuan_inn/portrait_expressions.emotion.translation", "res://data/case_tables/linchuan_inn/portrait_expressions.portrait.translation", "res://data/case_tables/linchuan_inn/portrait_expressions.en.translation"]
 
 [params]
 
 compress=1
 delimiter=0
+unescape_keys=false
+unescape_translations=true

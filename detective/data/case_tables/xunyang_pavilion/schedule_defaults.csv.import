@@ -15,3 +15,5 @@ dest_files=["res://data/case_tables/xunyang_pavilion/schedule_defaults.role.tran
 
 compress=1
 delimiter=0
+unescape_keys=false
+unescape_translations=true

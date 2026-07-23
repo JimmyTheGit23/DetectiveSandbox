@@ -17,7 +17,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="推理模拟器"
 config/description="中国风古代侦探推理游戏"
 run/main_scene="res://scenes/main/MainGame.tscn"
-config/features=PackedStringArray("4.5", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -35,6 +35,9 @@ SfxPlayer="*res://scripts/core/SfxPlayer.gd"
 MCPScreenshot="*res://addons/godot_mcp/mcp_screenshot_service.gd"
 MCPInputService="*res://addons/godot_mcp/mcp_input_service.gd"
 MCPGameInspector="*res://addons/godot_mcp/mcp_game_inspector_service.gd"
+EffectRegistry="*res://scripts/core/effects/EffectRegistry.gd"
+HookBus="*res://scripts/core/hooks/HookBus.gd"
+FlowRunner="*res://scripts/core/flow/FlowRunner.gd"
 
 [display]
 

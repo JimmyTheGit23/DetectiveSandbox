@@ -6,12 +6,14 @@ uid="uid://cxugcg6b0npve"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/prologue_nodes.type.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.background.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.next.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.centered.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.end.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.portrait.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.emotion.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.fx.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.video.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.effect.translation"]
+files=["res://data/case_tables/prologue_ferry/prologue_nodes.type.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.background.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.next.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.en.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.end.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.en.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.en.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.fx.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.video.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.effect.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/prologue_nodes.csv"
-dest_files=["res://data/case_tables/prologue_ferry/prologue_nodes.type.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.background.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.next.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.centered.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.end.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.portrait.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.emotion.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.fx.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.video.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.effect.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/prologue_nodes.type.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.background.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.next.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.en.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.end.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.en.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.en.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.fx.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.video.translation", "res://data/case_tables/prologue_ferry/prologue_nodes.effect.translation"]
 
 [params]
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true

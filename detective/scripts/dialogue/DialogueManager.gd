@@ -77,6 +77,7 @@ func choose_option(index: int) -> void:
 	if index < 0 or index >= options.size():
 		return
 	var opt: Dictionary = options[index]
+	HookBus.emit_hook(HookBus.OPTION_CHOSEN, {"npc_id": _current_npc_id, "node_id": _current_node_id, "option_index": index})
 	# 设置 flag
 	for f in opt.get("set_flags", []):
 		GameManager.set_flag(f)
@@ -108,6 +109,7 @@ func end_dialogue(suppress_companion_banter := false) -> void:
 	VoicePlayer.end_session()
 	GameManager.set_state(GameManager.STATE_PLAYING)
 	dialogue_ended.emit()
+	HookBus.emit_hook(HookBus.DIALOGUE_ENDED, {"npc_id": ended_npc})
 	# 对峙触发：对话结束后立即进入对峙
 	if should_confront:
 		confrontation_triggered.emit()
@@ -130,21 +132,20 @@ func _emit_current() -> void:
 		GameManager.mark_node_visited(_current_npc_id, _current_node_id)
 		for f in node.get("set_flags", []):
 			GameManager.set_flag(f)
-		# 兼容旧对话格式 effects: { set_flag/add_clue/add_evidence }
+		# 兼容旧对话格式 effects: { set_flag/add_clue/add_evidence }（键名映射到统一效果表）
 		var effects: Dictionary = node.get("effects", {})
 		if not effects.is_empty():
+			var mapped: Dictionary = {}
 			var flags = effects.get("set_flag", effects.get("set_flags", []))
-			if flags is String:
-				GameManager.set_flag(flags)
-			elif flags is Array:
-				for fx_flag in flags:
-					GameManager.set_flag(str(fx_flag))
+			if (flags is String and flags != "") or (flags is Array and not flags.is_empty()):
+				mapped["set_flag"] = flags
 			var old_gc: String = effects.get("add_clue", "")
 			if old_gc != "":
-				GameManager.add_clue(old_gc)
+				mapped["gain_clue"] = old_gc
 			var old_ge: String = effects.get("add_evidence", "")
 			if old_ge != "":
-				GameManager.add_evidence(old_ge, not _suppress_evidence_obtain_hold)
+				mapped["gain_evidence"] = old_ge
+			EffectRegistry.apply_effects(mapped, {"hold_obtain_display": not _suppress_evidence_obtain_hold})
 		# 通过对话直接获得线索/证据
 		var gc: String = node.get("gain_clue", "")
 		if gc != "":
@@ -559,30 +560,7 @@ func _emit_narration() -> void:
 
 ## 应用叙述节点/选项的效果
 func _apply_narration_effects(effects) -> void:
-	if effects == null or typeof(effects) != TYPE_DICTIONARY:
-		return
-	var d: Dictionary = effects
-	if d.has("set_flag"):
-		var f = d["set_flag"]
-		if f is String:
-			GameManager.set_flag(f)
-		elif f is Array:
-			for x in f:
-				GameManager.set_flag(str(x))
-	if d.has("gain_clue"):
-		var clue_value = d["gain_clue"]
-		if clue_value is Array:
-			for clue_id in clue_value:
-				GameManager.add_clue(str(clue_id))
-		else:
-			GameManager.add_clue(str(clue_value))
-	if d.has("gain_evidence"):
-		var evidence_value = d["gain_evidence"]
-		if evidence_value is Array:
-			for evidence_id in evidence_value:
-				GameManager.add_evidence(str(evidence_id), not _suppress_evidence_obtain_hold)
-		else:
-			GameManager.add_evidence(str(evidence_value), not _suppress_evidence_obtain_hold)
+	EffectRegistry.apply_effects(effects, {"hold_obtain_display": not _suppress_evidence_obtain_hold})
 
 
 func _narration_meta_from_node(node: Dictionary) -> Dictionary:

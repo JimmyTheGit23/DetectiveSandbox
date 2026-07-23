@@ -59,6 +59,10 @@ var unlocked_phases: Array[String] = ["phase_1"]
 var schedules_data: Dictionary = {}
 var time_progression_data: Array = []
 var culprit_actions_data: Dictionary = {}
+# GM 调试预设（数据驱动，原 MainGame 硬编码）
+var gm_presets_data: Dictionary = {}
+# 地图配置（数据驱动，原 MapPanel 硬编码）
+var map_config_data: Dictionary = {}
 
 # 对峙数据路由：由对话系统设置，ConfrontationPanel 读取
 var active_confrontation_key: String = "confrontation"
@@ -91,6 +95,26 @@ func _ready() -> void:
 	_resolve_active_case()
 	_load_data()
 	_init_npc_states()
+	# 延迟到所有 autoload 就绪后订阅钩子（顺序不敏感）
+	call_deferred("_subscribe_hooks")
+
+
+# ─── 钩子订阅（Layer 2：替代旧的 mutator 内联轮询） ───
+## 检查链优先级：day_events(20) 先于 progression(10)，与旧内联调用顺序一致
+func _subscribe_hooks() -> void:
+	for h in [HookBus.FLAG_SET, HookBus.EVIDENCE_ADDED, HookBus.CLUE_ADDED]:
+		HookBus.subscribe(h, _hook_check_day_events, 20)
+		HookBus.subscribe(h, _hook_check_progression, 10)
+	HookBus.subscribe(HookBus.LOCATION_CHANGED, _hook_check_day_events, 20)
+	HookBus.subscribe(HookBus.NODE_VISITED, _hook_check_day_events, 20)
+
+
+func _hook_check_day_events(_payload: Dictionary) -> void:
+	_check_day_events()
+
+
+func _hook_check_progression(_payload: Dictionary) -> void:
+	_check_progression()
 
 
 # ─── 案件管理 ───
@@ -171,6 +195,7 @@ func switch_case(case_id: String) -> bool:
 	var cs = get_node_or_null("/root/CompanionService")
 	if cs and cs.has_method("reload_for_case"):
 		cs.reload_for_case()
+	HookBus.emit_hook(HookBus.CASE_SWITCHED, {"case_id": case_id})
 	return true
 
 
@@ -196,6 +221,8 @@ func _load_data() -> void:
 	schedules_data = table_data.get("schedules", {})
 	time_progression_data = table_data.get("time_progression", [])
 	culprit_actions_data = table_data.get("culprit_actions", {})
+	gm_presets_data = table_data.get("gm_presets", {})
+	map_config_data = table_data.get("map_config", {})
 	_resolve_culprit_action_schedule()
 	# 通知资产解析器加载本案的 casting / bgm_config
 	if Engine.has_singleton("AssetResolver") or get_node_or_null("/root/AssetResolver") != null:
@@ -517,6 +544,7 @@ func _apply_save_data(data: Dictionary) -> void:
 	_repair_loaded_save_state()
 	_check_day_events()
 	_check_progression()
+	HookBus.emit_hook(HookBus.SAVE_LOADED, {})
 
 
 func _repair_loaded_save_state() -> void:
@@ -593,7 +621,7 @@ func change_location(loc_id: String, advance: bool = true) -> void:
 	if not visited_locations.has(loc_id):
 		visited_locations.append(loc_id)
 	location_changed.emit(loc_id)
-	_check_day_events()
+	HookBus.emit_hook(HookBus.LOCATION_CHANGED, {"location_id": loc_id})
 	save_game()
 
 
@@ -639,8 +667,7 @@ func add_evidence(eid: String, hold_obtain_display := true) -> bool:
 	_apply_transitions("evidence_obtained:" + eid)
 	_last_evidence_obtain_hold_enabled = hold_obtain_display and not suppress_evidence_obtain_hold
 	evidence_added.emit(eid)
-	_check_day_events()
-	_check_progression()
+	HookBus.emit_hook(HookBus.EVIDENCE_ADDED, {"evidence_id": eid})
 	# 自动存档已移除，改为关键节点前存档
 	return true
 
@@ -655,8 +682,7 @@ func add_clue(cid: String) -> bool:
 	collected_clues.append(cid)
 	_apply_transitions("clue_obtained:" + cid)
 	clue_added.emit(cid)
-	_check_day_events()
-	_check_progression()
+	HookBus.emit_hook(HookBus.CLUE_ADDED, {"clue_id": cid})
 	# 自动存档已移除，改为关键节点前存档
 	return true
 
@@ -721,8 +747,7 @@ func set_flag(flag_id: String) -> void:
 	dialogue_flags[flag_id] = true
 	_apply_transitions("flag_set:" + flag_id)
 	flag_set.emit(flag_id)
-	_check_day_events()
-	_check_progression()
+	HookBus.emit_hook(HookBus.FLAG_SET, {"flag_id": flag_id})
 	# 自动存档已移除，改为关键节点前存档
 
 
@@ -749,7 +774,7 @@ func mark_node_visited(npc_id: String, node_id: String) -> void:
 	visited_nodes[key] = visited_nodes.get(key, 0) + 1
 	_apply_transitions_for_npc(npc_id, "node_visited:" + node_id)
 	node_visited.emit(npc_id, node_id)
-	_check_day_events()
+	HookBus.emit_hook(HookBus.NODE_VISITED, {"npc_id": npc_id, "node_id": node_id})
 	# 自动存档已移除，改为关键节点前存档
 
 
@@ -797,6 +822,7 @@ func set_npc_state(npc_id: String, stat: String, value) -> void:
 	if not npc_states.has(npc_id):
 		npc_states[npc_id] = {}
 	npc_states[npc_id][stat] = value
+	HookBus.emit_hook(HookBus.NPC_STATE_CHANGED, {"npc_id": npc_id, "stat": stat, "value": value})
 
 
 func _apply_transitions(event_key: String) -> void:
@@ -871,6 +897,26 @@ func evaluate_condition(cond) -> bool:
 		return has_flag(d["flag"])
 	if d.has("not_flag"):
 		return not has_flag(d["not_flag"])
+	# 别名（与旧 CompanionService 讨论条件键统一口径）
+	if d.has("has_evidence"):
+		return has_evidence(d["has_evidence"])
+	if d.has("has_clue"):
+		return has_clue(d["has_clue"])
+	if d.has("has_flag"):
+		return has_flag(d["has_flag"])
+	# 精确剧情日
+	if d.has("day"):
+		return get_story_day() == int(d["day"])
+	# 关键证据收集比例（用于"证据是否齐了的"话题/提示）
+	if d.has("evidence_ratio_gte"):
+		var key_ev: Array = case_data.get("key_evidence", [])
+		if key_ev.is_empty():
+			return false
+		var ev_count := 0
+		for ev in key_ev:
+			if has_evidence(str(ev)):
+				ev_count += 1
+		return float(ev_count) / float(key_ev.size()) >= float(d["evidence_ratio_gte"])
 	# 当前地点条件，用于 NPC 移动后的场景化开场白/选项
 	if d.has("location"):
 		return current_location == str(d["location"])
@@ -899,13 +945,16 @@ func evaluate_condition(cond) -> bool:
 		var parts := v.split(".")
 		if parts.size() == 2:
 			return has_visited(parts[0], parts[1])
-		return false
+		# 单段：按地点访问理解（与旧 CompanionService 语义统一）
+		return visited_locations.has(v)
+	if d.has("not_visited"):
+		return not visited_locations.has(str(d["not_visited"]))
 	if d.has("location_unlocked"):
 		return is_location_unlocked(str(d["location_unlocked"]))
 	if d.has("day_gte"):
-		return current_day >= int(d["day_gte"])
+		return get_story_day() >= int(d["day_gte"])
 	if d.has("day_lte"):
-		return current_day <= int(d["day_lte"])
+		return get_story_day() <= int(d["day_lte"])
 	if d.has("total_periods_used_gte"):
 		var total := 0
 		for v in search_history.values():
@@ -988,6 +1037,7 @@ func resolve_search(location_id: String, point_id: String) -> Dictionary:
 			result.gained_clue = cl_ref
 	# 触发对话不论是否第一次都执行（适用于"再次约见"场景）
 	# 自动存档已移除，改为关键节点前存档
+	HookBus.emit_hook(HookBus.SEARCH_RESOLVED, {"location_id": location_id, "point_id": point_id, "result": result})
 	return result
 
 
@@ -1164,13 +1214,53 @@ func get_current_phase_hint() -> String:
 	return phase.get("hint", "")
 
 
+## 剧情日：从 time_progression.csv 推导（与 get_current_time_label 同一遍历逻辑）。
+## 序章的时间不是消耗制，而是剧情标签制——第一个 trigger 满足的行决定"今天是第几天"。
+## 无数据时回退 current_day 字段。
+var _story_day_resolving := false
+
+func get_story_day() -> int:
+	# 防递归：trigger_condition 若含 day_gte/day_lte 会回到 evaluate_condition → get_story_day
+	if _story_day_resolving:
+		return current_day
+	_story_day_resolving = true
+	var result := current_day
+	for entry in time_progression_data:
+		if evaluate_condition(entry.get("trigger_condition", null)):
+			result = int(entry.get("day", current_day))
+			break
+	_story_day_resolving = false
+	return result
+
+
+## 案件总天数：time_progression 中的最大剧情日（无数据时回退 1）
+func get_total_days() -> int:
+	var max_day := 1
+	for entry in time_progression_data:
+		max_day = maxi(max_day, int(entry.get("day", 1)))
+	return max_day
+
+
+## 年代前缀：从 manifest.subtitle 推导（"万历廿二年 · 腊月 · 荆江" → "万历廿二年 · 腊月"）
+func _era_prefix() -> String:
+	var subtitle: String = str(case_manifest.get("subtitle", ""))
+	if subtitle == "":
+		return ""
+	var parts: Array = []
+	for p in subtitle.split("·"):
+		parts.append(str(p).strip_edges())
+	if parts.size() >= 2:
+		parts = parts.slice(0, parts.size() - 1)
+	return " · ".join(parts)
+
+
 ## 根据 time_progression 数据返回当前时间标签（数据驱动）
 func get_current_time_label() -> String:
 	# 万历格式的日期标签
 	var day_names := ["", "第一天", "第二天", "第三天", "第四天", "第五天"]
-	# 万历格式的时辰标签（从case_info的subtitle获取）
-	var era_prefix := "万历廿二年 · 腊月"
-	
+	# 年代前缀（从 manifest.subtitle 推导，数据驱动）
+	var era_prefix := _era_prefix()
+
 	for entry in time_progression_data:
 		if evaluate_condition(entry.get("trigger_condition", null)):
 			var d: int = int(entry.get("day", 1))
@@ -1206,40 +1296,12 @@ func get_day_event(evt_id: String) -> Dictionary:
 
 
 func apply_event_effects(evt: Dictionary, hold_obtain_display := true) -> void:
-	var effects: Dictionary = evt.get("effects", {})
-	if effects.has("set_flag"):
-		var f = effects["set_flag"]
-		if f is String:
-			set_flag(f)
-		elif f is Array:
-			for x in f:
-				set_flag(x)
-	if effects.has("gain_clue"):
-		var clue_value = effects["gain_clue"]
-		if clue_value is Array:
-			for clue_id in clue_value:
-				add_clue(str(clue_id))
-		else:
-			add_clue(str(clue_value))
+	var effects: Dictionary = evt.get("effects", {}).duplicate()
 	# 自动设置一个 evt_id_done 的 flag（与事件 trigger 中的 not flag 配对）
 	var evt_id: String = str(evt.get("id", ""))
 	if evt_id != "":
-		set_flag(evt_id + "_done")
-	if effects.has("gain_evidence"):
-		var evidence_value = effects["gain_evidence"]
-		if evidence_value is Array:
-			for evidence_id in evidence_value:
-				add_evidence(str(evidence_id), hold_obtain_display)
-		else:
-			add_evidence(str(evidence_value), hold_obtain_display)
-	if effects.has("unlock_phase"):
-		var phase_id: String = effects["unlock_phase"]
-		if not unlocked_phases.has(phase_id):
-			unlocked_phases.append(phase_id)
-			phase_unlocked.emit(phase_id)
-			save_game()
-	if effects.has("change_location"):
-		change_location(str(effects["change_location"]), false)
+		effects["auto_done_flag"] = evt_id
+	EffectRegistry.apply_effects(effects, {"hold_obtain_display": hold_obtain_display})
 
 
 # ─── 指证 ───

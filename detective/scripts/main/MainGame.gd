@@ -25,74 +25,14 @@ const SubPanels = {
 	"settings": "res://scenes/ui/SettingsPanel.tscn",
 }
 
-const GM_PRESET_ORDER := [
-	"rescue_start",
-	"before_wang",
-	"after_wang",
-	"before_agui",
-	"after_agui",
-	"before_shen",
-	"fixed_epilogue",
-]
+## GM 调试预设（数据驱动：json_docs.csv 的 gm_presets 文档）
+func _gm_presets() -> Dictionary:
+	return GameManager.gm_presets_data.get("presets", {})
 
-const GM_PRESETS := {
-	"rescue_start": {
-		"label": "① 沉船救援（凌瑶出场）",
-		"location": "ferry_inn",
-		"flags": ["cabin_review_done"],
-	},
-	"before_wang": {
-		"label": "② 王大爷对峙前",
-		"location": "ferry_inn",
-		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done"],
-		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location"],
-		"clues": ["evidence_no_motive"],
-		"confrontation": "confrontation_wang",
-	},
-	"after_wang": {
-		"label": "③ 王大爷对峙后·循线查证（自动续播）",
-		"location": "ferry_dock",
-		"linear_chain": ["evt_self_cleared"],
-		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked"],
-		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time"],
-		"clues": ["evidence_no_motive"],
-	},
-	"before_agui": {
-		"label": "④ 老范阿贵对峙前",
-		"location": "ferry_inn",
-		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked"],
-		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time", "evidence_hull_hole", "evidence_nail_marks", "evidence_no_blunt_trauma", "evidence_float_bladder", "evidence_dismissal_note", "evidence_gambling_iou"],
-		"clues": ["evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole"],
-		"confrontation": "confrontation",
-	},
-	"after_agui": {
-		"label": "⑤ 阿贵招供后·收网（自动续播）",
-		"location": "ferry_inn",
-		"linear_chain": ["evt_phase3_transition", "evt_night_before_shen"],
-		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "confrontation_completed", "agui_confessed_mastermind"],
-		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time", "evidence_hull_hole", "evidence_nail_marks", "evidence_no_blunt_trauma", "evidence_float_bladder", "evidence_dismissal_note", "evidence_gambling_iou"],
-		"clues": ["evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing"],
-	},
-	"before_shen": {
-		"label": "⑥ 沈清月终局前",
-		"location": "shen_room",
-		"flags": ["cabin_review_done", "evt_cabin_sinking_done", "accused_of_murder", "cabin_phase_done", "confrontation_wang_completed", "self_cleared", "wang_testimony_debunked", "confrontation_completed", "agui_confessed_mastermind", "evt_phase3_transition_done"],
-		"evidence": ["evidence_seal_lost", "evidence_lingyao_identity", "evidence_iron_crowbar_location", "evidence_weather_fog", "evidence_storm_noise", "evidence_cabin_escape_time", "evidence_hull_hole", "evidence_nail_marks", "evidence_no_blunt_trauma", "evidence_float_bladder", "evidence_dismissal_note", "evidence_gambling_iou", "evidence_cargo_silver", "evidence_drug_capsule_shell", "evidence_tongue_herb_residue", "evidence_oil_lock_residue", "evidence_father_ledger"],
-		"clues": ["evidence_no_motive", "evidence_wrong_channel", "clue_fan_alibi_hole", "clue_agui_confession", "evidence_dock_timing", "evidence_salvage_mark", "evidence_shen_connection"],
-		"confrontation": "confrontation_final",
-	},
-	"fixed_epilogue": {
-		"label": "⑦ 固定结尾",
-		"location": "ferry_inn",
-		"flags": ["cabin_phase_done", "prologue_truth_reached", "prologue_defeated", "case_partially_resolved"],
-	},
-}
 
-const GM_CONFRONTATION_PRESET_MAP := {
-	"confrontation_wang": "before_wang",
-	"confrontation": "before_agui",
-	"confrontation_final": "before_shen",
-}
+func _gm_confrontation_preset_map() -> Dictionary:
+	return GameManager.gm_presets_data.get("confrontation_preset_map", {})
+
 
 const SettingsSealIcon = preload("res://scripts/ui/SettingsSealIcon.gd")
 const SETTINGS_BUTTON_ICON_PATH := "res://assets/cn/ui/icon_settings_seal.png"
@@ -111,7 +51,7 @@ var _silent_auto_event_suppress_evidence_hold := false
 var _pending_adhoc_lines: Array = []
 var _defer_adhoc_until_confrontation_result_done := false
 var _linear_prologue_active := false      # 线性序章进行中：全程由回调驱动，不展示菜单/自由探索
-var _wang_confrontation_entry_pending := false
+var _forced_confrontation_entry_pending := false
 var _last_location_day: int = -1         # 上次进入场景时的 day
 var _time_card_playing: bool = false     # 场景过场是否正在播放
 var _visited_locations: Dictionary = {}  # 已访问过的场景 ID → true（首次访问时显示地名卡）
@@ -793,8 +733,9 @@ func _start_new_game() -> void:
 	DialogueManager.start_narration("prologue")
 
 
+## 线性流程路由：案件配了 flow 骨架数据即走线性路由（此前写死 prologue_ferry）
 func _use_linear_prologue_route() -> bool:
-	return GameManager.ACTIVE_CASE == "prologue_ferry"
+	return FlowRunner.has_flow()
 
 
 func _prepare_linear_prologue_surface(location_id: String) -> void:
@@ -823,10 +764,10 @@ func _start_linear_prologue_route() -> void:
 
 
 func _advance_linear_prologue_checkpoint(preset_id: String, event_id: String, extra_flags: Array = []) -> void:
-	if not GM_PRESETS.has(preset_id):
+	if not _gm_presets().has(preset_id):
 		return
 	GameManager.reload_current_case_tables()
-	var preset: Dictionary = GM_PRESETS[preset_id]
+	var preset: Dictionary = _gm_presets()[preset_id]
 	for flag_id in extra_flags:
 		GameManager.set_flag(str(flag_id))
 	_gm_grant_state(preset)
@@ -869,24 +810,21 @@ func resume_loaded_game() -> void:
 		_schedule_silent_auto_event(true)
 	else:
 		_refresh_event_hint()
-	_force_wang_confrontation_entry()
+	_force_configured_confrontation_entry()
 
 
+## 读档后是否处于"船舱阶段"（从 flow.resume_markers 读，任一标记命中即真）
 func _should_resume_cabin_from_prologue_save() -> bool:
-	if GameManager.ACTIVE_CASE != "prologue_ferry":
+	var markers: Dictionary = FlowRunner.get_resume_markers()
+	if markers.is_empty():
 		return false
-	return (
-		GameManager.has_clue("clue_travel_notes")
-		or GameManager.has_flag("cabin_seal_box_checked")
-		or GameManager.has_flag("cabin_route_note_checked")
-		or GameManager.has_flag("cabin_storm_window_checked")
-		or GameManager.has_flag("cabin_wet_cloak_checked")
-		or GameManager.has_flag("cabin_agui_talked")
-		or GameManager.has_flag("cabin_lao_fan_talked")
-		or GameManager.has_flag("cabin_zhou_talked")
-		or GameManager.has_flag("cabin_explore_done")
-		or GameManager.has_flag("cabin_phase_done")
-	)
+	for cid in markers.get("any_clues", []):
+		if GameManager.has_clue(str(cid)):
+			return true
+	for fid in markers.get("any_flags", []):
+		if GameManager.has_flag(str(fid)):
+			return true
+	return false
 
 
 func _restore_session_visited_locations_from_save() -> void:
@@ -911,46 +849,45 @@ func _has_pending_auto_event() -> bool:
 	return false
 
 
-func _should_resume_wang_confrontation_after_continue() -> bool:
-	return _should_force_wang_confrontation_entry()
-
-
-func _should_force_wang_confrontation_entry() -> bool:
-	return (
-		GameManager.ACTIVE_CASE == "prologue_ferry"
-		and GameManager.has_flag("accused_of_murder")
-		and not GameManager.has_flag("confrontation_wang_completed")
-		and GameManager.case_data.has("confrontation_wang")
-	)
-
-
-func _force_wang_confrontation_entry() -> bool:
-	if not _should_force_wang_confrontation_entry():
+## 是否应强制进入 flow.forced_confrontation 配置的对峙（数据驱动，如序章王大爷教学对峙）
+func _should_force_configured_confrontation() -> bool:
+	var conf: Dictionary = FlowRunner.get_forced_confrontation()
+	if conf.is_empty():
 		return false
-	if _wang_confrontation_entry_pending:
+	var key: String = str(conf.get("confront_key", ""))
+	if key == "" or not GameManager.case_data.has(key):
+		return false
+	return GameManager.evaluate_condition(conf.get("when", {}))
+
+
+func _force_configured_confrontation_entry() -> bool:
+	if not _should_force_configured_confrontation():
+		return false
+	if _forced_confrontation_entry_pending:
 		return true
-	_wang_confrontation_entry_pending = true
+	_forced_confrontation_entry_pending = true
 	_linear_prologue_active = true
 	_pending_events.clear()
 	event_hint_btn.visible = false
 	menu_panel.visible = false
 	_close_subpanel()
-	if GameManager.current_location != "ferry_inn":
+	var target_loc: String = str(FlowRunner.get_forced_confrontation().get("location", ""))
+	if target_loc != "" and GameManager.current_location != target_loc:
 		_suppress_next_arrival_banter = true
 		_suppress_next_location_intro = true
-		GameManager.change_location("ferry_inn", false)
-	_start_wang_confrontation_entry_when_idle.call_deferred()
+		GameManager.change_location(target_loc, false)
+	_start_forced_confrontation_when_idle.call_deferred()
 	return true
 
 
-func _start_wang_confrontation_entry_when_idle() -> void:
+func _start_forced_confrontation_when_idle() -> void:
 	await get_tree().process_frame
 	while dialogue_box.visible or GameManager.current_state == GameManager.STATE_DIALOGUE:
 		await get_tree().process_frame
-	_wang_confrontation_entry_pending = false
-	if not _should_force_wang_confrontation_entry():
+	_forced_confrontation_entry_pending = false
+	if not _should_force_configured_confrontation():
 		return
-	GameManager.active_confrontation_key = "confrontation_wang"
+	GameManager.active_confrontation_key = str(FlowRunner.get_forced_confrontation().get("confront_key", ""))
 	_open_confrontation_panel()
 
 
@@ -1381,13 +1318,6 @@ func _play_event_now(evt_id: String, suppress_evidence_hold := false, on_done: C
 	var suppress_arrival_banter_after_event := bool(evt.get("effects", {}).get("suppress_arrival_banter", false))
 	var suppress_location_intro_after_event := bool(evt.get("effects", {}).get("suppress_location_intro", false))
 	var auto_confront: String = str(evt.get("effects", {}).get("auto_start_confrontation", ""))
-	# 防止旧缓存/旧存档漏读 effects：沉船后必须回客栈并进入王大爷对峙。
-	if GameManager.ACTIVE_CASE == "prologue_ferry" and evt_id == "evt_cabin_sinking":
-		if deferred_location == "":
-			deferred_location = "ferry_inn"
-		suppress_arrival_banter_after_event = true
-		suppress_location_intro_after_event = true
-		auto_confront = "confrontation_wang"
 
 	# 这类事件的结尾会立刻切地点或开对峙；不要再依赖最后一次点击，避免被输入层/焦点竞争吞掉。
 	if (deferred_location != "" or auto_confront != "") and not lines.is_empty():
@@ -1415,8 +1345,9 @@ func _play_event_now(evt_id: String, suppress_evidence_hold := false, on_done: C
 			GameManager.change_location(deferred_location, false)
 		_refresh_event_hint()
 		_try_companion_banter("after_event:" + evt_id)
-		if auto_confront == "confrontation_wang" and GameManager.ACTIVE_CASE == "prologue_ferry":
-			_force_wang_confrontation_entry()
+		var forced_key: String = str(FlowRunner.get_forced_confrontation().get("confront_key", ""))
+		if auto_confront != "" and auto_confront == forced_key:
+			_force_configured_confrontation_entry()
 		elif auto_confront != "":
 			_deferred_start_confrontation.call_deferred(auto_confront)
 		elif on_done.is_valid():
@@ -1576,7 +1507,7 @@ func _on_menu_locked_hint_requested(hint: String) -> void:
 
 
 func _on_menu_clicked(menu_id: String) -> void:
-	if _force_wang_confrontation_entry():
+	if _force_configured_confrontation_entry():
 		return
 	if menu_id == "talk":
 		var npcs: Array = GameManager.get_active_npcs_at(GameManager.current_location)
@@ -1654,18 +1585,18 @@ func _on_game_reset() -> void:
 
 func gm_preset_options() -> Array:
 	var out: Array = []
-	for preset_id in GM_PRESET_ORDER:
-		var preset: Dictionary = GM_PRESETS.get(preset_id, {})
+	for preset_id in _gm_presets().keys():
+		var preset: Dictionary = _gm_presets().get(preset_id, {})
 		out.append({"id": preset_id, "label": preset.get("label", preset_id)})
 	return out
 
 
 func gm_apply_preset(preset_id: String, reset_first := true) -> void:
-	if not GM_PRESETS.has(preset_id):
+	if not _gm_presets().has(preset_id):
 		_flash_notification("未知 GM 预设：" + preset_id)
 		return
 	GameManager.reload_current_case_tables()
-	var preset: Dictionary = GM_PRESETS[preset_id]
+	var preset: Dictionary = _gm_presets()[preset_id]
 	# 线性续播型预设（序章中段）：跳进去后不展示菜单/自由探索，
 	# 直接续播过渡事件链 → 由事件自带的 auto_start_confrontation 自动进入对峙，
 	# 与正式线性流程完全一致（玩家不会撞见调查取证界面）。
@@ -1706,7 +1637,7 @@ func _gm_play_linear_chain(events: Array, index := 0) -> void:
 
 func gm_apply_preset_and_confront(preset_id: String) -> void:
 	gm_apply_preset(preset_id, true)
-	var preset: Dictionary = GM_PRESETS.get(preset_id, {})
+	var preset: Dictionary = _gm_presets().get(preset_id, {})
 	var confront_key := str(preset.get("confrontation", ""))
 	if confront_key == "":
 		_flash_notification("此预设没有绑定对峙")
@@ -1746,7 +1677,7 @@ func gm_play_event(evt_id: String) -> void:
 
 func gm_start_confrontation(confront_key: String, reload_tables := true) -> void:
 	if reload_tables:
-		var preset_id := str(GM_CONFRONTATION_PRESET_MAP.get(confront_key, ""))
+		var preset_id := str(_gm_confrontation_preset_map().get(confront_key, ""))
 		if preset_id != "":
 			gm_apply_preset(preset_id, true)
 		else:
@@ -1766,7 +1697,7 @@ func gm_start_confrontation(confront_key: String, reload_tables := true) -> void
 func gm_play_fixed_epilogue() -> void:
 	GameManager.reload_current_case_tables()
 	_gm_prepare_surface(false)
-	var preset: Dictionary = GM_PRESETS.get("fixed_epilogue", {})
+	var preset: Dictionary = _gm_presets().get("fixed_epilogue", {})
 	_gm_grant_state(preset)
 	GameManager.save_game()
 	if not _try_play_case_epilogue("prologue_fixed"):
@@ -1960,21 +1891,15 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 	_close_subpanel()
 	GameManager.suppress_evidence_obtain_hold = false
 	var confront_key: String = GameManager.active_confrontation_key
+	HookBus.emit_hook(HookBus.CONFRONTATION_FINISHED, {"confront_key": confront_key, "result": result, "mistakes": mistakes})
 	var confront_data: Dictionary = GameManager.case_data.get(confront_key, {})
 	_defer_adhoc_until_confrontation_result_done = not bool(confront_data.get("is_final", false))
-	# 对峙胜利后设置对应 flag
+	# 对峙胜利后设置对应 flag（路由数据驱动，见 json_docs flow.confrontation_routes）
 	if result == "victory":
 		var suspect: String = GameManager.case_data.get(confront_key, {}).get("suspect", "")
-		if confront_key == "confrontation_wang":
-			GameManager.set_flag("self_cleared")
-			GameManager.set_flag("wang_testimony_debunked")
-			GameManager.set_flag("zhou_wife_bribe_exposed")
-		elif suspect == "agui":
-			GameManager.set_flag("agui_confessed_mastermind")
-		elif confront_key == "confrontation_final" and GameManager.ACTIVE_CASE == "prologue_ferry":
-			GameManager.set_flag("prologue_truth_reached")
-			GameManager.set_flag("prologue_defeated")
-			GameManager.set_flag("case_partially_resolved")
+		var route := FlowRunner.get_confrontation_route(confront_key, suspect)
+		for f in route.get("victory_flags", []):
+			GameManager.set_flag(str(f))
 		GameManager.set_flag(confront_key + "_completed")
 	# 重置对峙路由键（DialogueManager 在下次触发时会重新设置正确的 key）
 	GameManager.active_confrontation_key = "confrontation"
@@ -1985,14 +1910,16 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 		else:
 			_play_mid_confrontation_result(confront_key, confront_data, result, mistakes)
 		return
-	# 最终对峙 → 结局流程。序章终局无论机制胜败，都是"逼近真相但沈清月翻盘"的败局。
+	# 最终对峙 → 结局流程。结局走向由 flow 路由数据决定（序章终局无论机制胜败，都是"逼近真相但沈清月翻盘"的败局）。
 	var ending_id := GameManager.judge_confrontation(result, mistakes)
-	if confront_key == "confrontation_final" and GameManager.ACTIVE_CASE == "prologue_ferry":
-		GameManager.set_flag("prologue_defeated")
-		GameManager.set_flag("case_partially_resolved")
+	var final_route := FlowRunner.get_confrontation_route(confront_key, GameManager.case_data.get(confront_key, {}).get("suspect", ""))
+	if confront_data.get("is_final", false) and not final_route.is_empty():
+		for f in final_route.get("final_flags", []):
+			GameManager.set_flag(str(f))
 		if result == "victory":
-			GameManager.set_flag("prologue_truth_reached")
-		ending_id = "prologue_fixed"
+			for f in final_route.get("victory_flags", []):
+				GameManager.set_flag(str(f))
+		ending_id = str(final_route.get("ending_override", ending_id))
 	if ending_id == "bad" or ending_id == "partial":
 		_try_companion_banter("accuse_fail")
 	if _try_play_case_epilogue(ending_id):
@@ -2002,44 +1929,44 @@ func _on_confrontation_finished(result: String, mistakes: int) -> void:
 
 
 func _play_linear_prologue_mid_confrontation(confront_key: String, result: String) -> void:
-	# 线性序章的两次中途对峙（王大爷 / 老范阿贵）结束后的衔接。
-	# 胜利：播放情感缓冲台词，再播下一段过渡事件（事件内行内发放下一轮证据）。
+	# 线性序章的中途对峙（王大爷 / 老范阿贵）结束后的衔接。
+	# 胜利：按 flow 路由数据播放情感缓冲台词，再接续过渡事件链（事件内行内发放下一轮证据）。
 	# 失败：沿用原有败北流程（旁白 → 返回标题）。
 	if result != "victory":
 		_after_mid_confrontation(confront_key, result)
 		return
 	var suspect: String = GameManager.case_data.get(confront_key, {}).get("suspect", "")
-	match confront_key:
-		"confrontation_wang":
-			var buf_wang: Array = [
-				{"speaker": "凌瑶", "text": "看吧！那大雾天怎么看清人、风浪那么响怎么听得见喊声，还有你上岸时连气都喘不匀的样子……一听就是瞎编的。这下他们别想再赖你了！", "emotion": "determined"},
-				{"speaker": "陆昭", "text": "王大爷的证词站不住了。有人想先把罪名按在我头上。", "emotion": "cold"}
-			]
-			DialogueManager.play_adhoc_narration(buf_wang, func():
-				_gm_clear_event_noise()
-				_prepare_linear_prologue_surface("")
-				# evt_self_cleared 行内发放对峙二所需物证，事件级 auto_start_confrontation: confrontation
-				_play_event_now("evt_self_cleared", true)
-			)
-		_:
-			if suspect == "agui" or confront_key == "confrontation":
-				var buf_agui: Array = [
-					{"speaker": "凌瑶", "text": "……这案子比我想的要深多了。阿贵不过是听人摆布的，真正的对头，怕是还躲在后头呢。", "emotion": "worried"},
-					{"speaker": "陆昭", "text": "太顺了。破船、遣散银、赌债……像是有人替我们把路铺好的。", "emotion": "cold"}
-				]
-				DialogueManager.play_adhoc_narration(buf_agui, func():
-					_gm_clear_event_noise()
-					_prepare_linear_prologue_surface("")
-					# evt_phase3_transition 行内发放终局物证 → evt_night_before_shen 情感铺垫
-					#（后者事件级 auto_start_confrontation: confrontation_final）
-					_play_event_now("evt_phase3_transition", true, func():
-						_gm_clear_event_noise()
-						_prepare_linear_prologue_surface("")
-						_play_event_now("evt_night_before_shen", true)
-					)
-				)
-			else:
-				_return_to_investigation(confront_key, result)
+	var route := FlowRunner.get_confrontation_route(confront_key, suspect)
+	if route.is_empty():
+		_return_to_investigation(confront_key, result)
+		return
+	var buffer: Array = route.get("victory_buffer", [])
+	var play_events := func():
+		_gm_clear_event_noise()
+		_prepare_linear_prologue_surface("")
+		var chain: Array = route.get("victory_event_chain", [])
+		var single: String = str(route.get("victory_event", ""))
+		if single != "":
+			chain = [single]
+		_play_linear_event_chain(chain, 0)
+	if buffer.is_empty():
+		play_events.call()
+	else:
+		DialogueManager.play_adhoc_narration(buffer, play_events)
+
+
+## 依次播放线性事件链；事件含 auto_start_confrontation 时链自然终止（on_done 不会被调）
+func _play_linear_event_chain(chain: Array, idx: int) -> void:
+	if idx >= chain.size():
+		return
+	var has_next := idx + 1 < chain.size()
+	var cb := Callable()
+	if has_next:
+		cb = func():
+			_gm_clear_event_noise()
+			_prepare_linear_prologue_surface("")
+			_play_linear_event_chain(chain, idx + 1)
+	_play_event_now(str(chain[idx]), true, cb)
 
 
 func _play_mid_confrontation_result(confront_key: String, confront_data: Dictionary, result: String, _mistakes: int) -> void:

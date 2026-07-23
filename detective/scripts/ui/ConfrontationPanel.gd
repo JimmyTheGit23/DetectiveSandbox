@@ -1868,16 +1868,11 @@ func _play_fail_anim() -> void:
 func _play_victory() -> void:
 	_set_browsing_visible(false)
 
-	# ── 判决/击破大字特效。按对峙类型选择不同的大字：
-	#   confrontation_wang: 自证清白，不涉及定罪，显示"指认推翻"
-	#   confrontation_final: 序章终局是机制胜利、剧情败局，显示"真相抵岸"
-	#   其他（如阿贵对峙）: 定罪，显示"有罪"
-	var verdict_text := "有  罪"
-	match GameManager.active_confrontation_key:
-		"confrontation_wang":
-			verdict_text = "指认推翻"
-		"confrontation_final":
-			verdict_text = "真相抵岸"
+	# ── 判决/击破大字特效。文案数据驱动（confrontations.csv 的 verdict_text 列）：
+	#   未配置时默认"有罪"（定罪）；序章 wang=指认推翻（自证清白）、final=真相抵岸（机制胜利剧情败局）。
+	var verdict_text: String = _confrontation_data.get("verdict_text", "")
+	if verdict_text == "":
+		verdict_text = "有  罪"
 	await _play_guilty_verdict(verdict_text)
 
 	# 击破闪屏 + 震屏

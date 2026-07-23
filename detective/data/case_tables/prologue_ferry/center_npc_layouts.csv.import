@@ -6,12 +6,14 @@ uid="uid://bjaem7nu1jl7v"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/center_npc_layouts.enabled.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.emotion.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.portrait.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.screen.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.offset.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.pivot.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.confrontation.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.confrontation.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.writer.translation"]
+files=["res://data/case_tables/prologue_ferry/center_npc_layouts.enabled.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.emotion.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.portrait.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.screen.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.offset.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.pivot.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.confrontation.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.confrontation.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.en.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/center_npc_layouts.csv"
-dest_files=["res://data/case_tables/prologue_ferry/center_npc_layouts.enabled.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.emotion.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.portrait.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.screen.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.offset.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.pivot.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.confrontation.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.confrontation.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.writer.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/center_npc_layouts.enabled.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.emotion.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.portrait.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.screen.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.offset.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.pivot.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.confrontation.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.confrontation.translation", "res://data/case_tables/prologue_ferry/center_npc_layouts.en.translation"]
 
 [params]
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true

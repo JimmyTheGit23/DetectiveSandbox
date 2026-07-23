@@ -1,5 +1,47 @@
 # 临川驿案 - Project Rules
 
+## 三层架构开发规范（所有代码改动必须遵守）
+
+> 完整技术细节见 `docs/ARCHITECTURE.md`。本节为强制性开发纪律，违反即返工。
+
+### 分层职责（禁止越层）
+
+```
+Layer 1  流程骨架层（冻结）     scripts/core/flow/FlowRunner.gd   —— 只驱动大阶段流转
+Layer 2  钩子骨架层（只追加）   scripts/core/hooks/HookBus.gd     —— 统一事件订阅中心
+Layer 3  内容执行层（数据）     scripts/core/effects/EffectRegistry.gd + data/case_tables/
+```
+
+1. **FlowRunner** 禁止写入任何案件具体内容（flag/证据/台词/地点 ID），阶段定义只能来自 `flow` 数据。
+2. **HookBus** 本体禁止修改；新机制 = 在常量清单追加钩子名 + `emit_hook`/`subscribe`。
+3. **EffectRegistry** 是所有内容效果的唯一执行点；新效果类型用 `register_effect` 注册，禁止绕开它直接改 GameManager 状态。
+
+### 硬性禁止
+
+1. **禁止在 `.gd` 脚本里硬编码案件内容**：flag/证据/线索 ID、台词文本、地图坐标、BGM 映射、判决文案、立绘缩放参数、GM 预设 → 全部进 `data/case_tables/`（CSV 或 json_docs）。
+2. **禁止新增第二套条件求值器**：唯一口径 `GameManager.evaluate_condition`；缺条件键就在其中加键。
+3. **禁止在 mutator 里手动调用检查函数**（`_check_day_events`/`_check_progression`）：状态变更只发钩子，检查链由订阅触发（优先级 day_events=20 > progression=10 > FlowRunner=5）。
+4. **禁止用 `ACTIVE_CASE == "xxx"` 做流程分支**：流程差异走数据配置；线性流程判断用 `FlowRunner.has_flow()`。
+5. **禁止恢复时段消耗制**：时间 = 剧情日（`GameManager.get_story_day()`，由 time_progression.csv 的 flag 推导）；3 日 × 14 时段方案已废弃。
+6. **禁止剧本/文案内容写进代码**：对峙后路由、缓冲台词、事件链、结局覆盖全部进 `flow` 数据的 `confrontation_routes`。
+
+### 新机制接入流程（按类型对号入座）
+
+| 要加什么 | 加在哪里 |
+|---|---|
+| 新效果（如"扣理智值"） | `EffectRegistry.register_effect("fx_name", handler)` |
+| 新事件钩子（如"证据出示"） | `HookBus` 常量清单追加 + 产生处 `emit_hook` + 关心处 `subscribe` |
+| 新案件大阶段流程 | 该案 json_docs 的 `flow` 文档（start/phases/confrontation_routes/resume_markers/forced_confrontation） |
+| 新条件类型（如"理智低于"） | `GameManager.evaluate_condition` 加键 |
+| 新内容数据（坐标/文案/配置） | 优先进 json_docs/CSV，代码只读数据（经 GameManager 持有的 *_data） |
+| 新 autoload | project.godot 注册 + 提醒需重启编辑器（编辑器编译缓存不识别新标识符，headless 无此问题） |
+
+### 验证要求
+
+- 框架层改动后**必须跑 headless 行为测试**（临时场景 + `get_tree().quit(code)`，验证行为等价），不能只靠编辑器 validate_script。
+- 临时测试脚本/场景/迁移脚本**用完即删**。
+- 编辑器内 `execute_editor_script` 访问不到游戏 autoload 实例，验证一律用 headless 进程。
+
 ## Art Generation Rules (Image Assets)
 
 ### API & Tools

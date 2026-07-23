@@ -141,14 +141,16 @@ func get_companion_portrait() -> String:
 func try_emit_banter(context: Dictionary) -> void:
 	if not _active:
 		return
-	if GameManager.ACTIVE_CASE == "prologue_ferry" and not GameManager.has_flag("cabin_phase_done"):
+	# 旁白抑制期（数据驱动：companion_config.banter_suppress_until_flag，如序章船舱阶段不播 banter）
+	var suppress_flag: String = _case_config.get("banter_suppress_until_flag", "")
+	if suppress_flag != "" and not GameManager.has_flag(suppress_flag):
 		return
 
-	# 每日上限检查
+	# 每日上限检查（按剧情日重置）
 	var max_per_day: int = int(_case_config.get("banter_max_per_day", 8))
-	if _last_banter_day != GameManager.current_day:
+	if _last_banter_day != GameManager.get_story_day():
 		_banter_count_today = 0
-		_last_banter_day = GameManager.current_day
+		_last_banter_day = GameManager.get_story_day()
 	if _banter_count_today >= max_per_day:
 		return
 
@@ -262,30 +264,7 @@ func _append_banter_requirement(requirements: Array, requirement) -> void:
 
 
 func _apply_banter_effects(effects) -> void:
-	if effects == null or typeof(effects) != TYPE_DICTIONARY:
-		return
-	var d: Dictionary = effects
-	if d.has("set_flag"):
-		var flag_value = d["set_flag"]
-		if flag_value is String:
-			GameManager.set_flag(flag_value)
-		elif flag_value is Array:
-			for flag_id in flag_value:
-				GameManager.set_flag(str(flag_id))
-	if d.has("gain_clue"):
-		var clue_value = d["gain_clue"]
-		if clue_value is Array:
-			for clue_id in clue_value:
-				GameManager.add_clue(str(clue_id))
-		else:
-			GameManager.add_clue(str(clue_value))
-	if d.has("gain_evidence"):
-		var evidence_value = d["gain_evidence"]
-		if evidence_value is Array:
-			for evidence_id in evidence_value:
-				GameManager.add_evidence(str(evidence_id))
-		else:
-			GameManager.add_evidence(str(evidence_value))
+	EffectRegistry.apply_effects(effects)
 
 
 # ─── 主动讨论（Discussion）─────────────────────────────────────────────────
@@ -314,16 +293,16 @@ func get_topic_state(topic_id: String) -> Dictionary:
 
 	# 终局日锁定
 	var lock_final: bool = _case_config.get("lock_on_final_day", false)
-	if lock_final and GameManager.current_day >= GameManager.TOTAL_DAYS:
+	if lock_final and GameManager.get_story_day() >= GameManager.get_total_days():
 		if topic_id != "chitchat":
 			return {"available": false, "reason": "final_day_locked", "remaining": 0}
 
-	# 今日使用次数
+	# 今日使用次数（按剧情日）
 	var usage: Dictionary = _topic_usage.get(topic_id, {})
 	var used_days: Array = usage.get("used_on_days", [])
 	var today_count: int = 0
 	for d in used_days:
-		if int(d) == GameManager.current_day:
+		if int(d) == GameManager.get_story_day():
 			today_count += 1
 
 	var remaining: int = max(0, per_day - today_count)
@@ -344,10 +323,10 @@ func discuss(topic_id: String) -> Array:
 	if not state.get("available", false):
 		return []
 
-	# 记录使用
+	# 记录使用（按剧情日）
 	if not _topic_usage.has(topic_id):
 		_topic_usage[topic_id] = {"used_on_days": []}
-	_topic_usage[topic_id]["used_on_days"].append(GameManager.current_day)
+	_topic_usage[topic_id]["used_on_days"].append(GameManager.get_story_day())
 
 	topic_state_changed.emit()
 
@@ -417,95 +396,17 @@ func _resolve_discussion(topic_id: String) -> Array:
 	return [{"speaker": _role_name, "text": "唔……这个我也说不清，您比我懂。"}]
 
 
+## 讨论规则条件求值：统一委托 GameManager.evaluate_condition（单一口径）。
+## 本函数仅处理讨论规则特有的 default 短路语义。
 func _evaluate_discussion_condition(when) -> bool:
-	if when == null:
-		return true
-	if typeof(when) != TYPE_DICTIONARY:
+	if when == null or typeof(when) != TYPE_DICTIONARY:
 		return true
 	var d: Dictionary = when
 	if d.is_empty():
 		return true
 	if d.get("default", false):
 		return true
-
-	# 复合条件：委托给 GameManager.evaluate_condition
-	if d.has("all") or d.has("any") or d.has("not"):
-		return GameManager.evaluate_condition(d)
-
-	# day 条件
-	if d.has("day"):
-		if GameManager.current_day != int(d["day"]):
-			return false
-	if d.has("day_gte"):
-		if GameManager.current_day < int(d["day_gte"]):
-			return false
-	if d.has("day_lte"):
-		if GameManager.current_day > int(d["day_lte"]):
-			return false
-
-	# 线索条件
-	if d.has("has_clue"):
-		if not GameManager.has_clue(d["has_clue"]):
-			return false
-	if d.has("has_evidence"):
-		if not GameManager.has_evidence(d["has_evidence"]):
-			return false
-	if d.has("has_flag"):
-		if not GameManager.has_flag(d["has_flag"]):
-			return false
-	if d.has("not_flag"):
-		if GameManager.has_flag(d["not_flag"]):
-			return false
-
-	# 支持 GameManager 风格的条件键
-	if d.has("flag"):
-		if not GameManager.has_flag(d["flag"]):
-			return false
-	if d.has("evidence"):
-		if not GameManager.has_evidence(d["evidence"]):
-			return false
-	if d.has("clue"):
-		if not GameManager.has_clue(d["clue"]):
-			return false
-	if d.has("visited"):
-		var v: String = d["visited"]
-		var parts := v.split(".")
-		if parts.size() == 2:
-			if not GameManager.has_visited(parts[0], parts[1]):
-				return false
-		else:
-			if not GameManager.visited_locations.has(v):
-				return false
-
-	# 未访问地点
-	if d.has("not_visited"):
-		var loc: String = d["not_visited"]
-		if GameManager.visited_locations.has(loc):
-			return false
-
-	# 证据充足度
-	if d.has("evidence_ratio_gte"):
-		var key_ev: Array = GameManager.case_data.get("key_evidence", [])
-		var total: int = key_ev.size()
-		if total == 0:
-			return false
-		var count: int = 0
-		for ev in key_ev:
-			if GameManager.has_evidence(ev):
-				count += 1
-		var ratio: float = float(count) / float(total)
-		if ratio < float(d["evidence_ratio_gte"]):
-			return false
-
-	# 证据数量条件
-	if d.has("evidence_count_gte"):
-		if GameManager.collected_evidence.size() < int(d["evidence_count_gte"]):
-			return false
-	if d.has("clue_count_gte"):
-		if GameManager.collected_clues.size() < int(d["clue_count_gte"]):
-			return false
-
-	return true
+	return GameManager.evaluate_condition(d)
 
 
 # ─── 日切换重置 ────────────────────────────────────────────────────────────

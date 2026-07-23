@@ -1,4 +1,4 @@
-﻿confrontation_id,suspect,is_final,background,bgm,bgm_break,bgm_break_actual,bgm_final_round,confidence,writer_note
-confrontation_wang,fisherman_wang,,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_inn_investigation,Prelogue_Confrontation_Intro,ferry_confrontation,5,自证清白对峙：王大爷。被指控后立即触发，用证据反驳钱里正的推理。
-confrontation,agui,,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_inn_investigation,Prelogue_Confrontation_Intro,ferry_confrontation,6,
-confrontation_final,shen_qingyue,true,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_inn_investigation,Prelogue_Confrontation_Intro,confrontation_final,5,终局对峙：沈清月从讼师变为被告。玩家完成击破后沈清月以法理（毒素时效性规则）脱罪，陆昭赢推理输法律。
+﻿confrontation_id,suspect,is_final,background,bgm,bgm_break,bgm_break_actual,bgm_final_round,confidence,writer_note,verdict_text
+confrontation_wang,fisherman_wang,,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_inn_investigation,Prelogue_Confrontation_Intro,ferry_confrontation,5,自证清白对峙：王大爷。被指控后立即触发，用证据反驳钱里正的推理。,指认推翻
+confrontation,agui,,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_inn_investigation,Prelogue_Confrontation_Intro,ferry_confrontation,6,,
+confrontation_final,shen_qingyue,true,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_inn_investigation,Prelogue_Confrontation_Intro,confrontation_final,5,终局对峙：沈清月从讼师变为被告。玩家完成击破后沈清月以法理（毒素时效性规则）脱罪，陆昭赢推理输法律。,真相抵岸

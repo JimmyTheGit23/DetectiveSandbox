@@ -6,12 +6,14 @@ uid="uid://dite0e5mitmk8"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/confrontations.suspect.translation", "res://data/case_tables/prologue_ferry/confrontations.is.translation", "res://data/case_tables/prologue_ferry/confrontations.background.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.confidence.translation", "res://data/case_tables/prologue_ferry/confrontations.writer.translation"]
+files=["res://data/case_tables/prologue_ferry/confrontations.suspect.translation", "res://data/case_tables/prologue_ferry/confrontations.is.translation", "res://data/case_tables/prologue_ferry/confrontations.background.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.confidence.translation", "res://data/case_tables/prologue_ferry/confrontations.writer.translation", "res://data/case_tables/prologue_ferry/confrontations.verdict.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/confrontations.csv"
-dest_files=["res://data/case_tables/prologue_ferry/confrontations.suspect.translation", "res://data/case_tables/prologue_ferry/confrontations.is.translation", "res://data/case_tables/prologue_ferry/confrontations.background.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.confidence.translation", "res://data/case_tables/prologue_ferry/confrontations.writer.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/confrontations.suspect.translation", "res://data/case_tables/prologue_ferry/confrontations.is.translation", "res://data/case_tables/prologue_ferry/confrontations.background.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.bgm.translation", "res://data/case_tables/prologue_ferry/confrontations.confidence.translation", "res://data/case_tables/prologue_ferry/confrontations.writer.translation", "res://data/case_tables/prologue_ferry/confrontations.verdict.translation"]
 
 [params]
 
 compress=1
 delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -4,31 +4,7 @@ extends Control
 signal close_requested()
 signal location_selected(location_id: String)
 
-# 地图上各案件地点的相对坐标（基于 1280x720 viewport）
-const CASE_MAP_POSITIONS := {
-	"linchuan_inn": {
-		"post_station": Vector2(580, 540),
-		"shen_residence": Vector2(540, 380),
-		"yamen": Vector2(650, 290),
-		"spring_wind_tower": Vector2(820, 290),
-		"guanyin_temple": Vector2(560, 130),
-		"market": Vector2(310, 310),
-	},
-	"xunyang_pavilion": {
-		"yamen": Vector2(610, 270),
-		"pavilion_main": Vector2(850, 300),
-		"convent": Vector2(650, 160),
-		"marketplace": Vector2(330, 330),
-		"silk_shop": Vector2(280, 460),
-	},
-	"prologue_ferry": {
-		"ferry_inn": Vector2(330, 350),
-		"ferry_dock": Vector2(585, 430),
-		"wreck_site": Vector2(860, 390),
-		"river_bend": Vector2(970, 235),
-	},
-}
-
+# 地图坐标/背景图全部数据驱动（各案 json_docs 的 map_config 文档，原硬编码已删除）。
 # 未配置坐标的新案件：按网格临时排布，避免英文 id 漏到界面上。
 const FALLBACK_POSITIONS := [
 	Vector2(330, 330), Vector2(610, 270), Vector2(850, 300),
@@ -43,16 +19,10 @@ const FALLBACK_POSITIONS := [
 @onready var close_btn: Button = $Panel/CloseBtn
 
 
-# 各案件专属地图背景
-const CASE_MAP_IMAGES := {
-	"xunyang_pavilion": "res://assets/cn/scenes/xunyang_map.png",
-	"prologue_ferry": "res://assets/cn/scenes/prologue_ferry_map.png",
-}
-
 func _ready() -> void:
 	close_btn.pressed.connect(func(): close_requested.emit())
-	# 加载案件专属地图，否则使用默认城镇地图；新生成图片若尚未完成 Godot 导入，则用 Image 兜底读取。
-	var map_path: String = CASE_MAP_IMAGES.get(GameManager.ACTIVE_CASE, "res://assets/cn/scenes/town_map.png")
+	# 加载案件专属地图（map_config.image），否则使用默认城镇地图；新生成图片若尚未完成 Godot 导入，则用 Image 兜底读取。
+	var map_path: String = str(GameManager.map_config_data.get("image", "res://assets/cn/scenes/town_map.png"))
 	map_image.texture = _load_map_texture(map_path)
 	if map_image.texture == null:
 		map_image.texture = _load_map_texture("res://assets/cn/scenes/town_map.png")
@@ -84,7 +54,7 @@ func _build_points() -> void:
 	if loc_ids.is_empty():
 		info_label.text = "[center][color=#ffaa88]当前案件还没有地点数据。[/color][/center]"
 		return
-	var configured: Dictionary = CASE_MAP_POSITIONS.get(GameManager.ACTIVE_CASE, {})
+	var configured: Dictionary = GameManager.map_config_data.get("positions", {})
 	var markers: Array = []
 	for i in range(loc_ids.size()):
 		var loc_id: String = loc_ids[i]
@@ -211,7 +181,11 @@ func _case_location_ids() -> Array:
 
 func _position_for(loc_id: String, index: int, configured: Dictionary) -> Vector2:
 	if configured.has(loc_id):
-		return configured[loc_id]
+		var pos = configured[loc_id]
+		if pos is Array and pos.size() >= 2:
+			return Vector2(float(pos[0]), float(pos[1]))
+		if pos is Vector2:
+			return pos
 	return FALLBACK_POSITIONS[index % FALLBACK_POSITIONS.size()]
 
 

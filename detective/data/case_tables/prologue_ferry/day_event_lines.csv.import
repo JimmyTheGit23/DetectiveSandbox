@@ -6,12 +6,14 @@ uid="uid://dblo8ps6hbsha"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/day_event_lines.line.translation", "res://data/case_tables/prologue_ferry/day_event_lines.order.translation", "res://data/case_tables/prologue_ferry/day_event_lines.speaker.translation", "res://data/case_tables/prologue_ferry/day_event_lines.text.translation", "res://data/case_tables/prologue_ferry/day_event_lines.emotion.translation", "res://data/case_tables/prologue_ferry/day_event_lines.voice.translation", "res://data/case_tables/prologue_ferry/day_event_lines.background.translation", "res://data/case_tables/prologue_ferry/day_event_lines.effect.translation"]
+files=["res://data/case_tables/prologue_ferry/day_event_lines.line.translation", "res://data/case_tables/prologue_ferry/day_event_lines.order.translation", "res://data/case_tables/prologue_ferry/day_event_lines.speaker.translation", "res://data/case_tables/prologue_ferry/day_event_lines.text.translation", "res://data/case_tables/prologue_ferry/day_event_lines.emotion.translation", "res://data/case_tables/prologue_ferry/day_event_lines.en.translation", "res://data/case_tables/prologue_ferry/day_event_lines.background.translation", "res://data/case_tables/prologue_ferry/day_event_lines.effect.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/day_event_lines.csv"
-dest_files=["res://data/case_tables/prologue_ferry/day_event_lines.line.translation", "res://data/case_tables/prologue_ferry/day_event_lines.order.translation", "res://data/case_tables/prologue_ferry/day_event_lines.speaker.translation", "res://data/case_tables/prologue_ferry/day_event_lines.text.translation", "res://data/case_tables/prologue_ferry/day_event_lines.emotion.translation", "res://data/case_tables/prologue_ferry/day_event_lines.voice.translation", "res://data/case_tables/prologue_ferry/day_event_lines.background.translation", "res://data/case_tables/prologue_ferry/day_event_lines.effect.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/day_event_lines.line.translation", "res://data/case_tables/prologue_ferry/day_event_lines.order.translation", "res://data/case_tables/prologue_ferry/day_event_lines.speaker.translation", "res://data/case_tables/prologue_ferry/day_event_lines.text.translation", "res://data/case_tables/prologue_ferry/day_event_lines.emotion.translation", "res://data/case_tables/prologue_ferry/day_event_lines.en.translation", "res://data/case_tables/prologue_ferry/day_event_lines.background.translation", "res://data/case_tables/prologue_ferry/day_event_lines.effect.translation"]
 
 [params]
 
 compress=1
 delimiter=0
+unescape_keys=false
+unescape_translations=true

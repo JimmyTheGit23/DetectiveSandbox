@@ -6,12 +6,14 @@ uid="uid://cvpso7qdl72ld"
 
 [deps]
 
-files=["res://docs/case_template/locations.name.translation", "res://docs/case_template/locations.parent.translation", "res://docs/case_template/locations.description.translation", "res://docs/case_template/locations.unlock.translation", "res://docs/case_template/locations.background.translation", "res://docs/case_template/locations.scene.translation", "res://docs/case_template/locations.npcs.translation"]
+files=["res://docs/templates/locations.name.translation", "res://docs/templates/locations.parent.translation", "res://docs/templates/locations.description.translation", "res://docs/templates/locations.unlock.translation", "res://docs/templates/locations.background.translation", "res://docs/templates/locations.scene.translation", "res://docs/templates/locations.npcs.translation"]
 
 source_file="res://docs/templates/locations.csv"
-dest_files=["res://docs/case_template/locations.name.translation", "res://docs/case_template/locations.parent.translation", "res://docs/case_template/locations.description.translation", "res://docs/case_template/locations.unlock.translation", "res://docs/case_template/locations.background.translation", "res://docs/case_template/locations.scene.translation", "res://docs/case_template/locations.npcs.translation"]
+dest_files=["res://docs/templates/locations.name.translation", "res://docs/templates/locations.parent.translation", "res://docs/templates/locations.description.translation", "res://docs/templates/locations.unlock.translation", "res://docs/templates/locations.background.translation", "res://docs/templates/locations.scene.translation", "res://docs/templates/locations.npcs.translation"]
 
 [params]
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true

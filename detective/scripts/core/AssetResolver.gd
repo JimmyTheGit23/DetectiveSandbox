@@ -29,6 +29,7 @@ var _current_case_id: String = ""
 var _casting: Dictionary = {}         # role_npc_id -> casting_entry
 var _bgm_config: Dictionary = {}      # bgm_config.json 内容
 var _portrait_expressions: Dictionary = {}  # base_portrait -> emotion -> portrait_path
+var _portrait_meta: Dictionary = {}         # portrait_file_name -> {screen_scale, pivot_y}（对话立绘缩放校正）
 var _center_npc_layouts_by_npc: Dictionary = {}
 var _center_npc_layouts_by_portrait: Dictionary = {}
 var _voice_status: String = "full"    # 当前案件的语音状态：full / partial / missing
@@ -36,27 +37,8 @@ var _voice_status: String = "full"    # 当前案件的语音状态：full / par
 # 调试
 @export var debug_log: bool = false
 
-# 部分旧规格立绘需要按实际脸部大小做屏幕缩放校正。
-# 数值以 1280x720 对话画面中的脸高约 145px 为基准。
-const PORTRAIT_SCREEN_SCALE_BY_FILE := {
-	"prologue_li_zheng.png": 0.82,
-	"prologue_li_zheng_nervous.png": 0.92,
-	"prologue_li_zheng_sighing.png": 0.68,
-	"prologue_li_zheng_stern.png": 0.70,
-	"prologue_li_zheng_shocked.png": 1.05,
-	"prologue_li_zheng_gossip.png": 0.68,
-	"prologue_li_zheng_evasive.png": 0.78,
-}
-
-const PORTRAIT_SCREEN_PIVOT_Y_BY_FILE := {
-	"prologue_li_zheng.png": 145.0,
-	"prologue_li_zheng_nervous.png": 145.0,
-	"prologue_li_zheng_sighing.png": 145.0,
-	"prologue_li_zheng_stern.png": 145.0,
-	"prologue_li_zheng_shocked.png": 145.0,
-	"prologue_li_zheng_gossip.png": 145.0,
-	"prologue_li_zheng_evasive.png": 145.0,
-}
+# 对话立绘缩放校正数据已迁移到 portrait_expressions.csv 的 screen_scale / pivot_y 列
+# （旧规格立绘按实际脸部大小校正，基准：1280x720 对话画面中脸高约 145px）。
 
 # 中央立绘的标准框体，供 GM 预览 / 正式对话 / 场景常驻共用。
 const CENTER_PORTRAIT_STANDARD_FRAME := {
@@ -148,6 +130,7 @@ func load_case(case_id: String) -> void:
 	_casting = table_data.get("casting", {}).get("casting", {})
 	_bgm_config = table_data.get("bgm_config", {})
 	_portrait_expressions = table_data.get("portrait_expressions", {}).get("portraits", {})
+	_portrait_meta = table_data.get("portrait_expressions", {}).get("portrait_meta", {})
 	_center_npc_layouts_by_npc = table_data.get("center_npc_layouts", {}).get("by_npc", {})
 	_center_npc_layouts_by_portrait = table_data.get("center_npc_layouts", {}).get("by_portrait", {})
 	# 读 voice_status：优先 manifest.voice_status；找不到时从 case_index.csv 读；都没有默认 full
@@ -288,16 +271,16 @@ func get_case_portrait_emotions(npc_id: String, npcs_data: Dictionary = {}) -> A
 	return out
 
 
-## 取立绘在屏幕上的显示缩放。默认 1.0；用于旧规格立绘的脸部比例校正。
+## 取立绘在屏幕上的显示缩放。默认 1.0；用于旧规格立绘的脸部比例校正（数据驱动）。
 func get_portrait_screen_scale(portrait_path: String) -> float:
 	var file_name := portrait_path.get_file()
-	return float(PORTRAIT_SCREEN_SCALE_BY_FILE.get(file_name, 1.0))
+	return float(_portrait_meta.get(file_name, {}).get("screen_scale", 1.0))
 
 
-## 取立绘缩放支点的 Y 坐标。默认使用 640x660 立绘框中心；旧规格立绘靠近头脸缩放。
+## 取立绘缩放支点的 Y 坐标。默认使用 640x660 立绘框中心；旧规格立绘靠近头脸缩放（数据驱动）。
 func get_portrait_screen_pivot_y(portrait_path: String) -> float:
 	var file_name := portrait_path.get_file()
-	return float(PORTRAIT_SCREEN_PIVOT_Y_BY_FILE.get(file_name, 330.0))
+	return float(_portrait_meta.get(file_name, {}).get("pivot_y", 330.0))
 
 
 func get_center_portrait_standard_frame() -> Dictionary:
