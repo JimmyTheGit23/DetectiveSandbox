@@ -11,10 +11,10 @@ extends Node
 ##
 ## flow 数据格式（json_docs.csv, doc_id="flow"）：
 ## {
-##   "start": "cabin",
+##   "start": "banquet",
 ##   "phases": [
-##     {"id": "cabin", "type": "search",
-##      "next_when": {"flag": "cabin_phase_done"}, "next": "accused",
+##     {"id": "banquet", "type": "search",
+##      "next_when": {"flag": "accused_of_murder"}, "next": "accused",
 ##      "enter_effects": {"set_flag": "..."}          # 可选
 ##     }, ...
 ##   ],

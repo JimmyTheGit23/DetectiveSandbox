@@ -139,21 +139,38 @@ func refresh_npcs(location_id: String) -> void:
 		_hide_portrait()
 		return
 
-	# 单 NPC：保持原行为
+	# 逆转裁判式：一场景一立绘。多 NPC 场景只显示焦点角色（默认列表首位，
+	# 或保持当前焦点），对话选择对象时经 focus_npc 切换；不再多立绘并排。
+	var focus_id := ""
 	if filtered.size() == 1:
-		_switch_to_single_mode()
-		var portrait_path: String = AssetResolver.get_portrait(filtered[0], GameManager.npcs_data)
-		if portrait_path == "" or not ResourceLoader.exists(portrait_path):
-			_hide_portrait()
-			return
-		_current_npc_id = filtered[0]
-		_apply_single_portrait_presentation(filtered[0], "base", portrait_path)
-		_portrait.texture = _load_portrait_texture(portrait_path)
-		_show_portrait()
+		focus_id = filtered[0]
+	elif _current_npc_id != "" and filtered.has(_current_npc_id):
+		focus_id = _current_npc_id
+	else:
+		focus_id = filtered[0]
+	_switch_to_single_mode()
+	var portrait_path: String = AssetResolver.get_portrait(focus_id, GameManager.npcs_data)
+	if portrait_path == "" or not ResourceLoader.exists(portrait_path):
+		_hide_portrait()
 		return
+	_current_npc_id = focus_id
+	_apply_single_portrait_presentation(focus_id, "base", portrait_path)
+	_portrait.texture = _load_portrait_texture(portrait_path)
+	_show_portrait()
 
-	# 多 NPC：分槽位显示
-	_switch_to_multi_mode(filtered)
+
+## 对话选择对象时切换焦点立绘（逆转式：立绘跟随对话对象）。
+## 对话开始本身会 hide_npcs，故此处只换纹理与焦点 id，不主动显示。
+func focus_npc(npc_id: String) -> void:
+	if npc_id == "" or npc_id == _current_npc_id:
+		return
+	_switch_to_single_mode()
+	_current_npc_id = npc_id
+	var portrait_path: String = AssetResolver.get_portrait(npc_id, GameManager.npcs_data)
+	if portrait_path == "" or not ResourceLoader.exists(portrait_path):
+		return
+	_apply_single_portrait_presentation(npc_id, "base", portrait_path)
+	_portrait.texture = _load_portrait_texture(portrait_path)
 
 
 func _switch_to_single_mode() -> void:

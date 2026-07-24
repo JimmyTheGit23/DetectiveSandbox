@@ -114,7 +114,7 @@ static func load_case(case_id: String) -> Dictionary:
 		"dialogues": _compile_dialogues(src),
 		"bgm_config": docs.get("bgm_config", {}),
 		"prologue": _compile_prologue(src),
-		"epilogue_meta": _compile_epilogue_meta(src),
+		"epilogue_meta": _compile_epilogue_meta(src, docs.get("epilogue_meta", {})),
 		"companion_config": _compile_companion_config(src),
 		"companion_discussions": _compile_companion_discussions(src),
 		"companion_banter": _compile_companion_banter(src),

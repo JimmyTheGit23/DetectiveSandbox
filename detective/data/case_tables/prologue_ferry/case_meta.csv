@@ -1,10 +1,16 @@
-﻿key,value
+key,value
 culprit,shen_qingyue
-motive,shen_medicine_money
-method,drugged_scuttle_drown
-min_evidence_required,5
-key_evidence,"[""evidence_drug_capsule_shell"", ""evidence_capsule_position_match"", ""evidence_tongue_herb_residue"", ""evidence_oil_lock_residue"", ""evidence_cargo_silver"", ""evidence_salvage_mark"", ""evidence_shen_connection"", ""evidence_dock_timing""]"
-suspects,"[{""id"": ""agui"", ""name"": ""阿贵（死者仆从 / 执行从犯）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""lao_fan"", ""name"": ""老范（船家 / 沉船从犯）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""shen_qingyue"", ""name"": ""沈清月（药材商之女 / 幕后主谋）"", ""unlock"": [{""flag"": ""agui_confessed_mastermind""}], ""unlock_hint"": ""击破阿贵后解锁""}, {""id"": ""zhou_wife"", ""name"": ""周氏（死者妻子）"", ""unlock"": [{""clue"": ""clue_wife_suspicion""}], ""unlock_hint"": ""继续调查后解锁""}]"
-motives,"[{""id"": ""shen_medicine_money"", ""name"": ""表层动机：药钱缺口（三十八两旧债 + 五十两货银）"", ""unlock"": [{""evidence"": ""evidence_father_ledger""}], ""unlock_hint"": ""继续调查沈清月的账册""}, {""id"": ""servant_revenge"", ""name"": ""仆从怨恨（十二年换二两银）"", ""unlock"": [{""evidence"": ""evidence_dismissal_note""}], ""unlock_hint"": ""继续调查阿贵动机""}, {""id"": ""gambling_debt"", ""name"": ""船家赌债（被主谋利用）"", ""unlock"": [{""evidence"": ""evidence_gambling_iou""}], ""unlock_hint"": ""继续调查老范动机""}, {""id"": ""accident"", ""name"": ""暗礁意外（原始说法）"", ""unlock"": [], ""unlock_hint"": """"}]"
-methods,"[{""id"": ""drugged_scuttle_drown"", ""name"": ""预埋毒囊触发麻痹溺亡"", ""unlock"": [{""evidence"": ""evidence_drug_capsule_shell""}], ""unlock_hint"": ""继续调查沉船进水口和尸体药残""}, {""id"": ""scuttle_decoy"", ""name"": ""凿船制造沉船假象（从犯手段）"", ""unlock"": [{""evidence"": ""evidence_hull_hole""}], ""unlock_hint"": ""继续调查沉船残骸""}, {""id"": ""natural_wreck"", ""name"": ""暗礁翻船（原始说法）"", ""unlock"": [], ""unlock_hint"": """"}]"
-endings,"{""prologue_fixed"": {""title"": ""「渡口余波」"", ""narration"": ""石矶渡命案暂告一段落。阿贵和老范被押往县衙，沈清月借着律法门槛暂时脱身。\n\n陆昭恢复身份，却也看清了第一条裂缝：真相需要证据，证据还必须经得住律法的门槛。\n\n沉船残骸中浮出的官印封角和漕账残页，把案子引向更深的水面。\n\n第一案 · 浔阳楼，即将开启。""}}"
+motive,silence_witness
+method,poisoned_in_hiding
+min_evidence_required,4
+key_evidence,"[""evidence_dry_mud_ring"", ""evidence_money_chest_empty"", ""evidence_fresh_writing"", ""evidence_quiet_death"", ""evidence_wet_letter""]"
+suspects,"[{""id"": ""agui"", ""name"": ""阿贵（死者仆从 / 假死局共犯）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""lao_fan"", ""name"": ""老范（船家 / 假死局共犯）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""zhou_wife"", ""name"": ""周氏（死者妻子 / 假死局共犯）"", ""unlock"": [{""flag"": ""fake_scheme_exposed""}], ""unlock_hint"": ""假死局揭穿后解锁""}, {""id"": ""shen_qingyue"", ""name"": ""沈清月（药材商之女 / 幕后真凶）"", ""unlock"": [{""flag"": ""fifth_person_known""}], ""unlock_hint"": ""第五知情人浮出后解锁""}]"
+motives,"[{""id"": ""silence_witness"", ""name"": ""杀人灭口（沈氏旧案密信）"", ""unlock"": [{""clue"": ""clue_letter_exists""}], ""unlock_hint"": ""查明密信存在""}, {""id"": ""debt_grudge"", ""name"": ""三十八两旧债（表层动机）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""servant_revenge"", ""name"": ""仆从怨恨（十二年卖身）"", ""unlock"": [{""clue"": ""clue_dismissal_note""}], ""unlock_hint"": ""调查阿贵动机""}, {""id"": ""gambling_debt"", ""name"": ""船家赌债（铤而走险）"", ""unlock"": [{""clue"": ""clue_gambling_iou""}], ""unlock_hint"": ""调查老范动机""}, {""id"": ""robbery_outsider"", ""name"": ""劫财害命（流窜脚夫）"", ""unlock"": [], ""unlock_hint"": """"}]"
+methods,"[{""id"": ""poisoned_in_hiding"", ""name"": ""藏身地毒杀（静死）"", ""unlock"": [{""evidence"": ""evidence_quiet_death""}], ""unlock_hint"": ""验明真死性质""}, {""id"": ""drowned_accident"", ""name"": ""夜渡失足落水（原初说法）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""fake_death_scheme"", ""name"": ""假死脱身（骗局本身）"", ""unlock"": [{""evidence"": ""evidence_fresh_writing""}], ""unlock_hint"": ""揭穿假死局""}, {""id"": ""robbery_killing"", ""name"": ""劫财杀人"", ""unlock"": [], ""unlock_hint"": """"}]"
+endings,"{""prologue_fixed"": {""title"": ""「渡口余波」"", ""narration"": ""石矶渡命案暂告一段落。阿贵、老范、周氏因假死骗局收押，沈清月借着律法门槛暂时脱身。
+
+陆昭恢复身份，却也看清了第一条裂缝：真相需要证据，证据还必须经得住律法的门槛。
+
+废窑砖缝里那半页泡烂的密信，把案子引向更深的水面。
+
+第一案 · 浔阳楼，即将开启。""}}"

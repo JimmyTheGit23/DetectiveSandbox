@@ -1,7 +1,8 @@
-﻿npc_id,role_note,location,activity,public
-li_zheng,里正,ferry_inn,press_for_closure,true
-zhou_wife,死者妻子,zhou_room,mourning,true
-agui,仆从，中间凶手,agui_room,hide_in_room,true
-shen_qingyue,药材行姑娘，最终对手,inn_corridor,openly_provoke,true
-lao_fan,船家，共犯,ferry_dock,guard_boat,true
-fisherman_wang,下游渔翁，关键证人,river_bend,mend_nets,true
+npc_id,role_note,location,activity,public
+zhou_demao,host,ferry_inn,banquet_host,true
+agui,servant,ferry_dock,carry_wine,true
+lao_fan,boatman,ferry_dock,smoke_break,true
+zhou_wife,wife,zhou_room,rest_chamber,true
+shen_qingyue,guest,inn_corridor,observe_guests,true
+li_zheng,village_head,ferry_inn,host_banquet,true
+fisherman_wang,fisherman,river_bend,mend_nets,true

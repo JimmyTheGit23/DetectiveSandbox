@@ -541,53 +541,9 @@ func _apply_save_data(data: Dictionary) -> void:
 		var comp_data: Dictionary = data.get("companion_state", {})
 		if not comp_data.is_empty():
 			cs.load_save_data(comp_data)
-	_repair_loaded_save_state()
 	_check_day_events()
 	_check_progression()
 	HookBus.emit_hook(HookBus.SAVE_LOADED, {})
-
-
-func _repair_loaded_save_state() -> void:
-	if ACTIVE_CASE != "prologue_ferry":
-		return
-	var changed := false
-	if has_flag("cabin_phase_done") and has_flag("accused_of_murder") and current_location.begins_with("cabin_"):
-		# 旧版会在沉船长事件开头就写入完成标记；若玩家中途退出，
-		# 存档会显示已被指控但地点仍在船舱。回滚事件完成态，让继续游戏重播沉船段。
-		for flag_id in [
-			"evt_cabin_sinking_done",
-			"evt_cabin_sleep_done",
-			"cabin_explore_done",
-			"cabin_phase_done",
-			"accused_of_murder",
-		]:
-			if dialogue_flags.has(flag_id):
-				dialogue_flags.erase(flag_id)
-		for evidence_id in [
-			"evidence_lingyao_identity",
-			"evidence_cabin_escape_time",
-			"evidence_weather_fog",
-			"evidence_storm_noise",
-		]:
-			if collected_evidence.has(evidence_id):
-				collected_evidence.erase(evidence_id)
-		triggered_events["evt_cabin_sinking"] = true
-		changed = true
-	# 旧版沉船事件会在剧情第一句前发放 evidence_hull_hole，导致
-	# evt_hull_discovered 在船舱阶段被排队。继续游戏时这会插入调查阶段台词并卡住流程。
-	var allowed_hull_event := has_flag("self_cleared") and (current_location == "ferry_dock" or current_location == "wreck_site")
-	if not allowed_hull_event:
-		if triggered_events.has("evt_hull_discovered"):
-			triggered_events.erase("evt_hull_discovered")
-			changed = true
-		if has_flag("evt_hull_discovered_done"):
-			dialogue_flags.erase("evt_hull_discovered_done")
-			changed = true
-		if has_flag("hull_sabotage_known"):
-			dialogue_flags.erase("hull_sabotage_known")
-			changed = true
-	if changed:
-		save_game()
 
 
 func pending_event_ids() -> Array[String]:

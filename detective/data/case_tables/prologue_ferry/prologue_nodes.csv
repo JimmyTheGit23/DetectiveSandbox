@@ -1,21 +1,10 @@
 node_id,type,background,next,centered,end,portrait,emotion,fx,video,effect
-# === 开场视频 → 直接进入沉船/救援事件 ===
-intro_video,video,res://assets/cn/scenes/pure_black.png,,,end,,,,res://assets/video/intro.ogv,
-# === 船舱开场（已停用，保留供 GM 跳转调试）===
-cabin_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_2,,,,,"{""bgm"": ""ferry_cabin_night"",""gain_clue"": ""clue_travel_notes""}"
-cabin_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_3,,,,,
-cabin_3,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_4,,,,,
-cabin_4,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_5,,,,,
-cabin_5,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_6,,,,,
-cabin_6,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_7,,,,,
-cabin_7,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_8,,,,,
-cabin_8,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_free_explore,,,,,
-cabin_free_explore,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,,,,,,,,,
-cabin_after_all_talked_1,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_2,,,,,"{""set_flags"": ""cabin_review_done""}"
-cabin_after_all_talked_2,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_3,,,,,
-cabin_after_all_talked_3,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_4,,,,,
-cabin_after_all_talked_4,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_5,,,,,
-cabin_after_all_talked_5,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_6,,,,,
-cabin_after_all_talked_6,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_7,,,,,
-cabin_after_all_talked_7,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,cabin_after_all_talked_8,,,,,
-cabin_after_all_talked_8,,res://assets/cn/scenes/prologue_ship_cabin_lu_room.png,,,,,,,,{}
+p1,,res://assets/cn/scenes/prologue_ferry_dock.png,p2,,,,,"{""bgm"": ""ferry_prologue_shore""}",,"{""gain_clue"": ""clue_travel_notes""}"
+p2,,res://assets/cn/scenes/prologue_ferry_dock.png,p3,,,,,,,
+p3,,res://assets/cn/scenes/prologue_ferry_dock.png,p4,,,,,,,
+p4,,res://assets/cn/scenes/prologue_ferry_inn.png,p5,,,,,,,
+p5,,res://assets/cn/scenes/prologue_ferry_inn.png,p6,,,,,,,
+p6,,res://assets/cn/scenes/prologue_ferry_inn.png,p7,,,,,,,
+p7,,res://assets/cn/scenes/prologue_ferry_inn.png,p8,,,,,,,
+p8,,res://assets/cn/scenes/prologue_ferry_inn.png,p9,,,,,,,
+p9,,res://assets/cn/scenes/prologue_ferry_inn.png,,,end,,,,,

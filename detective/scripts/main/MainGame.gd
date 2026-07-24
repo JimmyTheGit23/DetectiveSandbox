@@ -750,17 +750,19 @@ func _prepare_linear_prologue_surface(location_id: String) -> void:
 
 
 func _start_linear_prologue_route() -> void:
-	# 线性序章入口：开场动画结束后直接进入沉船事件，全程不灌注预设证据。
-	# 所有证据都由过渡事件（evt_cabin_sinking / evt_self_cleared / evt_phase3_transition）
-	# 的行内 gain_evidence/gain_clue 在对应剧情画面随台词自然发放。
+	# v4：序曲结束后进入首阶段自由探索（flow.start 阶段，如序章的"渡口夜宴"）。
+	# 玩家与在场 NPC 自由对话；day_events 检查链在条件满足时自动播放下一事件，
+	# 后续事件链/对峙衔接全部由 flow 数据（confrontation_routes / forced_confrontation）驱动。
 	GameManager.reload_current_case_tables()
 	GameManager.set_state(GameManager.STATE_PLAYING)
-	GameManager.set_flag("cabin_review_done")   # 满足 evt_cabin_sinking 的 trigger 语义
 	_gm_clear_event_noise()
-	_prepare_linear_prologue_surface(GameManager.case_main_scene)
-	_set_background("res://assets/cn/scenes/pure_black.png", false, true)
-	# evt_cabin_sinking 的 effects 会在播完后静默切到客栈并自动进入王大爷证词对峙。
-	_play_event_now("evt_cabin_sinking", true)
+	GameManager.change_location(GameManager.case_main_scene, false)
+	top_bar_label.get_parent().visible = true
+	menu_panel.visible = true
+	if _npc_layer and _npc_layer.has_method("show_npcs"):
+		_npc_layer.show_npcs()
+	_update_top_bar()
+	_refresh_event_hint()
 
 
 func _advance_linear_prologue_checkpoint(preset_id: String, event_id: String, extra_flags: Array = []) -> void:
@@ -1852,6 +1854,9 @@ func _open_search_overlay() -> void:
 
 func _on_npc_selected(npc_id: String) -> void:
 	_close_subpanel()
+	# 逆转式：对话对象即场景焦点立绘
+	if _npc_layer and _npc_layer.has_method("focus_npc"):
+		_npc_layer.focus_npc(npc_id)
 	DialogueManager.start_dialogue(npc_id)
 
 
@@ -1872,6 +1877,9 @@ func _on_confrontation_from_dialogue() -> void:
 
 func _open_confrontation_panel() -> void:
 	_close_subpanel()
+	# 对峙演出段开始：屏蔽探索期自动事件插队
+	if _use_linear_prologue_route():
+		_linear_prologue_active = true
 	BgmPlayer.play("ferry_inn_investigation")
 	menu_panel.visible = false
 	var scene_path: String = SubPanels["confrontation"]
@@ -1958,6 +1966,9 @@ func _play_linear_prologue_mid_confrontation(confront_key: String, result: Strin
 ## 依次播放线性事件链；事件含 auto_start_confrontation 时链自然终止（on_done 不会被调）
 func _play_linear_event_chain(chain: Array, idx: int) -> void:
 	if idx >= chain.size():
+		# 事件链播完：演出段结束，回到自由探索
+		if _use_linear_prologue_route():
+			_linear_prologue_active = false
 		return
 	var has_next := idx + 1 < chain.size()
 	var cb := Callable()
@@ -2014,7 +2025,9 @@ func _after_mid_confrontation(confront_key: String, result: String) -> void:
 
 
 func _return_to_investigation(confront_key: String, result: String) -> void:
-	# 返回主界面继续调查
+	# 返回主界面继续调查（演出段结束，恢复探索期自动事件）
+	if _use_linear_prologue_route():
+		_linear_prologue_active = false
 	menu_panel.visible = true
 	_defer_adhoc_until_confrontation_result_done = false
 	BgmPlayer.play(GameManager.current_location)
@@ -2140,9 +2153,9 @@ func _on_narration_ended() -> void:
 		top_bar_label.get_parent().visible = true
 		var initial_time_card_key := "D%d_%s" % [GameManager.current_day, GameManager.case_main_scene]
 		GameManager.shown_time_cards[initial_time_card_key] = true
-		# 序章走纯线性流程：开场动画结束后直接进入沉船事件，跳过船舱自由探索。
+		# v4：序曲结束后进入首阶段自由探索（如渡口夜宴），linear 保持 false；
+		# linear 仅在对峙/事件链演出段为 true（见 _open_confrontation_panel 等管理点）。
 		if _use_linear_prologue_route():
-			_linear_prologue_active = true
 			_start_linear_prologue_route()
 			return
 		GameManager.change_location(GameManager.case_main_scene, false)

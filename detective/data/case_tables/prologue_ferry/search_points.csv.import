@@ -6,10 +6,10 @@ uid="uid://ea4dmo8vl33i"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/search_points.point.translation", "res://data/case_tables/prologue_ferry/search_points.name.translation", "res://data/case_tables/prologue_ferry/search_points.time.translation", "res://data/case_tables/prologue_ferry/search_points.hint.translation", "res://data/case_tables/prologue_ferry/search_points.unlock.translation", "res://data/case_tables/prologue_ferry/search_points.locked.translation"]
+files=["res://data/case_tables/prologue_ferry/search_points.point.translation", "res://data/case_tables/prologue_ferry/search_points.name.translation", "res://data/case_tables/prologue_ferry/search_points.time.translation", "res://data/case_tables/prologue_ferry/search_points.hint.translation", "res://data/case_tables/prologue_ferry/search_points.unlock.translation", "res://data/case_tables/prologue_ferry/search_points.en.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/search_points.csv"
-dest_files=["res://data/case_tables/prologue_ferry/search_points.point.translation", "res://data/case_tables/prologue_ferry/search_points.name.translation", "res://data/case_tables/prologue_ferry/search_points.time.translation", "res://data/case_tables/prologue_ferry/search_points.hint.translation", "res://data/case_tables/prologue_ferry/search_points.unlock.translation", "res://data/case_tables/prologue_ferry/search_points.locked.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/search_points.point.translation", "res://data/case_tables/prologue_ferry/search_points.name.translation", "res://data/case_tables/prologue_ferry/search_points.time.translation", "res://data/case_tables/prologue_ferry/search_points.hint.translation", "res://data/case_tables/prologue_ferry/search_points.unlock.translation", "res://data/case_tables/prologue_ferry/search_points.en.translation"]
 
 [params]
 

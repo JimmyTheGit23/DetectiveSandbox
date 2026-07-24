@@ -1,21 +1,15 @@
-﻿unlock_type,target_id,condition,locked_hint,writer_note
-# === 船舱阶段（phase_0）禁用面板：船还没沉，不该有调查/笔记/讨论 ===
-panel_unlock,search,"{""any"": [{""flag"": ""cabin_phase_done""}, {""location"": ""cabin_lu_room""}]}",此处无可调查之物。先和船舱里的人聊聊。,船舱阶段仅自己的舱室可轻调查
-panel_unlock,notebook,"{""any"": [{""flag"": ""cabin_phase_done""}, {""clue"": ""clue_travel_notes""}]}",此时无案可记。,船舱阶段显示旅途札记
-panel_unlock,discuss,"{""flag"": ""cabin_phase_done""}",此时无人可议。,凌瑶要到岸边救助才登场
-panel_unlock,map,"{""flag"": ""cabin_phase_done""}",此处不可远行。,船舱阶段不允许打开大地图
-search_point_unlock,agui_room.agui_clothes,"{""all"": [{""evidence"": ""evidence_hull_hole""}, {""any"": [{""clue"": ""clue_wife_suspicion""}, {""clue"": ""clue_agui_dry_inner""}]}]}",没有理由搜查别人的房间。也许先找到船被动手脚的证据，再回来找嫌疑人的破绽。,
-search_point_unlock,wreck_site.wreck_shore_bag,"{""any"": [{""clue"": ""clue_agui_suspicious_bag""}, {""evidence"": ""evidence_hull_hole""}]}",芦苇丛似乎有什么东西，但太远了看不清。需要更多线索才能确定该不该去翻。,
-search_point_unlock,ferry_dock.dock_fan_belongings,"{""flag"": ""agui_confessed_mastermind""}",现在先别翻老范的私物。第一堂前只需要船、尸体、浮囊、时间和遣散字据这几块核心证据。,
-search_point_unlock,shen_room.shen_desk,"{""flag"": ""agui_confessed_mastermind""}",阿贵还没招供，现在没有理由搜沈清月的房间。,
-search_point_unlock,shen_room.shen_window,"{""flag"": ""agui_confessed_mastermind""}",阿贵还没招供，现在没有理由搜沈清月的房间。,
-search_point_unlock,gambling_alley.gambling_den,"{""flag"": ""agui_confessed_mastermind""}",赌坊在渡口后街。目前没有理由去那里。,
-search_point_unlock,gambling_alley.gambling_alley_wall,"{""flag"": ""agui_confessed_mastermind""}",后巷暂时没有调查价值。,
-npc_unlock,fisherman_wang,"{""any"": [{""evidence"": ""evidence_hull_hole""}, {""clue"": ""clue_reef_common_knowledge""}, {""total_periods_used_gte"": 10}]}",,
-npc_unlock,shen_qingyue,,,沈清月在phase_1就可以交谈（她是'追债的外地人'），但Phase 3后对话树会解锁新分支。
-# === 王大爷对峙解锁条件（需要证据） ===
-confrontation_unlock,confrontation_wang,"{""flag"": ""accused_of_murder""}",事态还没有发展到当面对质。,王大爷对峙由船舱沉船事件自动触发，不再要求玩家先自由搜齐证据。
-confrontation_unlock,confrontation,"{""flag"": ""self_cleared""}",,方案B：阿贵老范对峙不再要求玩家先持有证据。王大爷对峙完成后即可上堂，物证由角色在各证词 preamble 当庭抛出（见 testimony_lines.csv 的 effect）。
-confrontation_unlock,confrontation_final,"{""flag"": ""agui_confessed_mastermind""}",,方案B：沈清月终局对峙不再要求玩家先持有证据。阿贵招供后即可上堂，终局物证由角色在各证词 preamble 当庭抛出（见 testimony_lines.csv 的 effect）。
-search_point_unlock,shen_room.shen_bedside,"{""all"": [{""flag"": ""agui_confessed_mastermind""}, {""evidence"": ""evidence_blue_herb_residue""}]}",还没有足够理由搜到沈清月的床边细处。先确认尸体上的草药痕迹。,沈父药账线索需先发现尸体草药残迹。
-search_point_unlock,ferry_dock.dock_reed_seal,"{""flag"": ""prologue_defeated""}",此时还没意识到官印暗线的重要性。,序章败局后补官印暗线。
+unlock_type,target_id,condition,locked_hint,writer_note
+panel_unlock,search,"{""flag"": ""accused_of_murder""}",夜宴正酣，此时搜什么。,夜宴阶段（phase_0）只开放对话/移动
+panel_unlock,notebook,"{""flag"": ""accused_of_murder""}",此时无案可记。,被指控后解锁笔记本
+panel_unlock,discuss,"{""flag"": ""accused_of_murder""}",此时无人可议。,被指控后解锁讨论
+panel_unlock,map,"{""flag"": ""self_cleared""}",你现在是嫌疑人，走不了。,自证清白后解锁地图
+npc_unlock,fisherman_wang,"{""flag"": ""self_cleared""}",,王大爷在对峙①后才肯见你
+confrontation_unlock,confrontation_wang,"{""flag"": ""accused_of_murder""}",事态还没有发展到当面对质。,对峙①由指控事件自动触发
+confrontation_unlock,confrontation_fake,"{""flag"": ""fake_scheme_exposed""}",,对峙②由灵堂对质事件自动触发
+confrontation_unlock,confrontation_final,"{""flag"": ""fifth_person_known""}",,对峙③由第五知情人浮出后触发
+search_point_unlock,abandoned_kiln.kiln_mouth,"{""flag"": ""kiln_unlocked""}",荒窑一座，此刻没有去的理由。,疑点聚合后解锁废窑
+search_point_unlock,abandoned_kiln.kiln_hay,"{""flag"": ""kiln_unlocked""}",荒窑一座，此刻没有去的理由。,疑点聚合后解锁废窑
+search_point_unlock,abandoned_kiln.kiln_brick,"{""flag"": ""prologue_defeated""}",此时还没意识到那半页纸的分量。,尾声钩子点
+search_point_unlock,shen_room.shen_desk,"{""flag"": ""true_death_found""}",还没有理由搜沈清月的房间。,真死发现后解锁
+search_point_unlock,shen_room.shen_window,"{""flag"": ""true_death_found""}",还没有理由搜沈清月的房间。,真死发现后解锁
+search_point_unlock,gambling_alley.gambling_den,"{""flag"": ""self_cleared""}",眼下还顾不上去后街。,自证清白后解锁赌坊

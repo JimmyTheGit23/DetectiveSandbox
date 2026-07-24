@@ -1,14 +1,10 @@
 npc_id,name,title,intro,dialogue_id,actor_id,portrait,always_in_notebook,is_victim,is_player,is_culprit
-agui,阿贵,死者仆从,跟随周德茂十二年的老仆，受怨恨与银钱诱导卷入沉船局。,agui,,res://assets/cn/portraits/prologue_agui.png,,,,
-fisherman_wang,王大爷,江边渔翁,下游渔村的老渔翁，受人用银钱诱导在堂上补说不实目击；不实指认被拆穿后，说话再不敢说死，只能提供一些边角线索。,fisherman_wang,,res://assets/cn/portraits/prologue_fisherman_wang.png,,,,
-lao_fan,老范,石矶渡船家,在这段江面跑了二十年船的老船家，熟悉沉船骗保的河道门道。,lao_fan,,res://assets/cn/portraits/prologue_lao_fan.png,,,,
-li_zheng,钱里正,石矶渡里正,地方小吏，圆滑世故，熟知河上骗保陋习却畏惧担责。,li_zheng,,res://assets/cn/portraits/prologue_li_zheng.png,,,,
+zhou_demao,周德茂,布商（夜宴）,荆江布商。精明、刻薄，欠着沈家三十八两赖账不还——可夜宴上细看，他骂阿贵时，手一直在抖。,zhou_demao,,res://assets/cn/portraits/prologue_zhou_demao.png,,,,
+agui,阿贵,死者仆从,跟随周德茂十二年的老仆。夜宴上挨了骂还赔笑，指节却把袖口抠出了洞。,agui,,res://assets/cn/portraits/prologue_agui.png,,,,
+lao_fan,老范,石矶渡船家,在这段江面跑了二十年船的老船家。欠赌坊四十二两，有人给钱让他演一出戏——他没有理由不答应。,lao_fan,,res://assets/cn/portraits/prologue_lao_fan.png,,,,
+zhou_wife,周氏,死者妻子,周德茂之妻。悲痛是真的，脑子也从未停止运转——假死局里，她是最沉得住气的那个。,zhou_wife,,res://assets/cn/portraits/prologue_zhou_wife.png,,,,
+fisherman_wang,王大爷,江边渔翁,下游渔村的老渔翁，一辈子在江上讨生活。受人银钱诱导在堂上补说不实目击——他有他的难处。,fisherman_wang,,res://assets/cn/portraits/prologue_fisherman_wang.png,,,,
+li_zheng,钱里正,石矶渡里正,地方小吏，圆滑世故。谁都不想得罪，只想把事糊弄过去——可偏偏案子落在他眼皮底下。,li_zheng,,res://assets/cn/portraits/prologue_li_zheng.png,,,,
+shen_qingyue,沈清月,药材商之女兼讼师,浔阳沈氏药材行独女，兼通讼理与草药毒理。爽利、周到、滴水不漏——她以协助查案的身份，留在了离真相最近的地方。,shen_qingyue,,res://assets/cn/portraits/prologue_shen_qingyue.png,,,,True
 lu_zhao,陆昭,巡按御史,玩家本人。奉旨南下暗查漕运账弊，途经石矶渡时被卷入命案。,,actor_imperial_inspector,res://assets/cn/portraits/prologue_lu_zhao.png,,,True,
-shen_qingyue,沈清月,药材商之女兼讼师,浔阳沈氏药材行独女，兼通讼理与草药毒理。以讼师身份介入此案，最终从辩方走到被告席。,shen_qingyue,,res://assets/cn/portraits/prologue_shen_qingyue.png,,,,True
-victim_zhou_demao,周德茂,死者 · 布商,荆江布商，携五十两货银乘夜船过江；其货物中疑似藏有与漕运账目有关的残页。,,,,True,True,,
-zhou_wife,周氏,死者妻子,周德茂之妻，悲痛之下被人暗中引导，将矛头指向同船幸存的陆昭。,zhou_wife,,res://assets/cn/portraits/prologue_zhou_wife.png,,,,
-
-# === 船舱阶段NPC ===
-agui_cabin,阿贵,死者仆从（船舱阶段）,跟随周德茂十二年的老仆。船舱中的紧张仆从。,agui_cabin,,res://assets/cn/portraits/prologue_agui.png,,,,
-lao_fan_cabin,老范,船家（船舱阶段）,在这段江面跑了二十年船的老船家。船舱中的老船家。,lao_fan_cabin,,res://assets/cn/portraits/prologue_lao_fan.png,,,,
-zhou_de_gui_cabin,周德茂,布商（船舱阶段）,荆江布商，携五十两货银乘夜船过江。船舱中的精明商人。,zhou_de_gui_cabin,,res://assets/cn/portraits/prologue_zhou_demao.png,,,,
+victim_zhou_demao,周德茂,死者 · 布商,荆江布商。先『淹死』了一次，又在废窑里真正死了一次。他不是贪财的骗子——是吓破胆的知情人。,,,res://assets/cn/portraits/prologue_zhou_demao.png,,True,,

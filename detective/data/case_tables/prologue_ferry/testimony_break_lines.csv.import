@@ -6,10 +6,10 @@ uid="uid://cfcutg62xi1rr"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/testimony_break_lines.order.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.speaker.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.text.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.emotion.translation"]
+files=["res://data/case_tables/prologue_ferry/testimony_break_lines.order.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.speaker.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.text.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.emotion.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.en.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.en.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/testimony_break_lines.csv"
-dest_files=["res://data/case_tables/prologue_ferry/testimony_break_lines.order.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.speaker.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.text.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.emotion.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/testimony_break_lines.order.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.speaker.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.text.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.emotion.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.en.translation", "res://data/case_tables/prologue_ferry/testimony_break_lines.en.translation"]
 
 [params]
 

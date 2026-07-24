@@ -6,10 +6,10 @@ uid="uid://b6g01511ccb64"
 
 [deps]
 
-files=["res://data/case_tables/prologue_ferry/confrontation_lines.section.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.order.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.speaker.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.speaker.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.text.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.emotion.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.effect.translation"]
+files=["res://data/case_tables/prologue_ferry/confrontation_lines.section.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.order.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.speaker.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.speaker.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.text.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.emotion.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.en.translation"]
 
 source_file="res://data/case_tables/prologue_ferry/confrontation_lines.csv"
-dest_files=["res://data/case_tables/prologue_ferry/confrontation_lines.section.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.order.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.speaker.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.speaker.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.text.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.emotion.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.effect.translation"]
+dest_files=["res://data/case_tables/prologue_ferry/confrontation_lines.section.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.order.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.speaker.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.speaker.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.text.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.emotion.translation", "res://data/case_tables/prologue_ferry/confrontation_lines.en.translation"]
 
 [params]
 

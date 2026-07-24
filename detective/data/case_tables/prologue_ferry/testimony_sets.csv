@@ -1,16 +1,11 @@
-﻿confrontation_id,testimony_id,witness,title,order,grant_evidence,mode,proof_statement_id,proof_evidence,proof_alt_evidence,proof_prompt,skip_title_card
-confrontation_wang,testimony_wang_self,fisherman_wang,— 王大爷的证词：我看见了船头的人 —,0,,,,,,,
-confrontation_wang,testimony_wang_self_hearing,fisherman_wang,— 王大爷的证词：我听见了船上的喊声 —,1,,,,,,,
-confrontation_wang,testimony_wang_self_escape,fisherman_wang,— 王大爷的证词：后来上岸的那个人 —,2,,,,,,,
-confrontation_wang,testimony_wang_shen_counter,fisherman_wang,— 沈清月的反压：你拿什么证明自己没做局 —,3,,forced_proof,wang_sc05,evidence_lingyao_identity,,沈清月质疑凌瑶来历不明。必须出示能证明凌瑶身份、并证明她不是串供者的证物。,true
-confrontation,testimony_lao_fan_route,lao_fan,— 证人证词：老范其一·翻船原因 —,1,,,,,,,
-confrontation,testimony_lao_fan_rescue,lao_fan,— 证人证词：老范其二·落水之后 —,2,,,,,,,
-confrontation,testimony_lao_fan_motive,lao_fan,— 证人证词：老范其三·无冤无仇 —,3,,,,,,,
-confrontation,testimony_0,,— 证词其一：他杀了老爷！ —,4,,,,,,,
-confrontation,testimony_1,,— 证词其二：那晚的经过 —,5,clue_agui_spending,,,,,,
-confrontation,testimony_2,,— 证词其三：关于那个洞 —,6,,,,,,,
-confrontation,testimony_3,,— 证词其四：不是我干的 —,7,clue_third_handwriting,,,,,,
-confrontation_final,shen_testimony_1,,— 证词其一：我没有理由 —,1,,,,,,,
-confrontation_final,shen_testimony_2,,— 证词其二：我跟他们没有关系 —,2,,,,,,,
-confrontation_final,shen_testimony_3,,— 证词其三：你没有证据 —,3,evidence_capsule_position_match,,,,,,
-confrontation_final,shen_testimony_4,,— 证词其四：残迹难以定罪 —,4,,,,,,,
+confrontation_id,testimony_id,witness,title,order,grant_evidence,mode,proof_statement_id,proof_evidence,proof_alt_evidence,proof_prompt,skip_title_card
+confrontation_wang,testimony_wang_meet,fisherman_wang,— 王大爷的证词：我看见你们同去渡口 —,0,clue_fog_rivery,,,,,,
+confrontation_wang,testimony_wang_ring,fisherman_wang,— 王大爷的证词：扳指是从你行囊里搜出来的 —,1,,,,,,,
+confrontation_wang,testimony_wang_motive,fisherman_wang,— 王大爷的证词：你们当众吵过 —,2,clue_zhou_quarrel,,,,,,
+confrontation_wang,testimony_wang_counter,fisherman_wang,— 沈清月的反压：这位姑娘又是什么人 —,3,,forced_proof,wang_c01,evidence_lingyao_identity,,沈清月质疑凌瑶来历不明、可能串供。出示凌瑶的镖师身份证明。,true
+confrontation_fake,testimony_fake_night,lao_fan,— 三人的证词：落水那夜 —,0,clue_alibis_too_neat,,,,,,
+confrontation_fake,testimony_fake_money,zhou_wife,— 三人的证词：钱箱随他去了 —,1,,,,,,,
+confrontation_fake,testimony_fake_alive,agui,— 三人的证词：他当然死了 —,2,,,,,,,
+confrontation_final,testimony_final_buyer,shen_qingyue,— 沈清月的陈述：带话买信 —,0,,,,,,,
+confrontation_final,testimony_final_alibi,shen_qingyue,— 沈清月的陈述：当众吊唁 —,1,,,,,,,
+confrontation_final,testimony_final_method,shen_qingyue,— 沈清月的陈述：安静的死 —,2,,,,,,,

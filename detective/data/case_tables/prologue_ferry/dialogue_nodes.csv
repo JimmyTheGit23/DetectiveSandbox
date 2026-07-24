@@ -1,4 +1,4 @@
-﻿npc_id,node_id,is_start,text,emotion,set_flags,gain_evidence,gain_clue,trigger_confrontation,confrontation_key,end,writer_note
+npc_id,node_id,is_start,text,emotion,set_flags,gain_evidence,gain_clue,trigger_confrontation,confrontation_key,end,writer_note
 agui,hub,true,陆公子，小的该说的都说了。您要再问，就一句句问吧。,crying,,,,,,,
 agui,intro,,,,agui_talked_once,,,,,,
 agui,ask_relationship,,,,,,,,,,
@@ -40,7 +40,7 @@ fisherman_wang,ask_river_life,,"我在这江上打了一辈子鱼。
 哪条汊水有暗礁，哪片浅滩能藏东西，心里都有数。
 
 所以我才说——老范那样的老船家，绝不可能糊里糊涂把船往东汊暗礁上带。",evasive,,,clue_reef_common_knowledge,,,,
-lao_fan,hub,true,陆公子，船沉了，我也差点没命。你要问就问，别一上来就按罪名。,,,,,,,,
+lao_fan,hub,true,嗐，陆公子。人都不在了……你要问就问嘛。,evasive,,,,,,,
 lao_fan,intro,,,,fan_talked_once,,,,,,
 lao_fan,ask_route,,"周老板说赶早市，码头上又有人把东汊说得近。我想着绕大弯太费时，就拣了那条水路。
 
@@ -113,23 +113,13 @@ zhou_wife,ask_documents,,"都在房间里。陆公子自己去看吧——遣散
 zhou_wife,ask_why_night_ferry,,,,zhou_letter_revealed,,clue_route_change,,,,
 zhou_wife,react_murder_confirmed,,,,zhou_knows_murder,,,,,,
 zhou_wife,react_agui_confessed,,,,zhou_knows_agui_guilty,,,,,,
-# === 船舱阶段对话节点 ===,,,,,,,,,,,
-agui_cabin,hub,true,公子找小的？小的叫阿贵，跟周老爷跑腿。您要问路，老爷和船家都比小的清楚。,nervous,,,,,,,
-
-agui_cabin,ask_master,,,,cabin_agui_talked,,,,,,
-agui_cabin,ask_voyage,,,,cabin_agui_talked,,,,,,
-agui_cabin,ask_feelings,,,,cabin_agui_talked,,,,,,
-agui_cabin,press_bag,,,,cabin_agui_observed,,clue_agui_suspicious_bag,,,,
-
-lao_fan_cabin,hub,true,公子问路还是问船？我跑这条水路二十来年，能说的都说。,evasive,,,,,,,
-
-lao_fan_cabin,ask_route,,,,cabin_lao_fan_talked,,,,,,
-lao_fan_cabin,ask_weather,,,,cabin_lao_fan_talked,,,,,,
-lao_fan_cabin,ask_money,,,,cabin_lao_fan_talked,,,,,,
-lao_fan_cabin,press_crowbar,,,,cabin_observed;cabin_saw_crowbar,,,,,,
-zhou_de_gui_cabin,hub,true,同船的公子？周德茂，做布匹。今夜赶武昌，明早要看一批货。,serious,,,,,,,
-
-zhou_de_gui_cabin,ask_background,,,,cabin_zhou_talked,,,,,,
-zhou_de_gui_cabin,ask_night_ferry,,,,cabin_zhou_talked;cabin_friend_pressed,,,,,,
-zhou_de_gui_cabin,press_cargo_marks,,,,cabin_observed,,,,,,
-zhou_de_gui_cabin,ask_business,,,,cabin_zhou_talked,,,,,,
+zhou_demao,hub,true,还有事？酒在桌上，话就免了。,dismissive,,,,,,,文案管道重写：夜宴 hub
+zhou_demao,intro,,,,zhou_demao_talked_once,,,,,,文案管道重写：初见——他骂阿贵时手在抖
+zhou_demao,ask_debt,,,,,,,,,,话题：沈家三十八两欠账
+zhou_demao,ask_goods,,,,,,,,,,话题：船上货物（密信伏笔）
+zhou_demao,ask_fear,,,,zhou_fear_noticed,,,,,,话题：他最近在怕什么
+agui,intro_banquet,,,,agui_talked_once,,,,,,夜宴初见（案发前版本）
+lao_fan,intro_banquet,,,,fan_talked_once,,,,,,夜宴初见（案发前版本）
+zhou_wife,intro_banquet,,,,zhou_talked_once,,,,,,夜宴初见（案发前版本）
+shen_qingyue,intro_banquet,,,,shen_talked_once,,,,,,夜宴初见（案发前版本）
+li_zheng,intro_banquet,,,,lizheng_talked_once,,,,,,夜宴初见（案发前版本）
