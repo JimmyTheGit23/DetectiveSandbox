@@ -525,6 +525,18 @@ func _emit_narration() -> void:
 		return
 	# 时间卡片节点：发出信号让 MainGame 显示时间过场，然后自动跳到下一节点
 	if node.get("type", "") == "time_card":
+		# 字幕卡同样支持演出（BGM 淡入/音效等）——逆转裁判式字幕卡伴随主题曲
+		_apply_narration_effects(node.get("effect", {}))
+		var tc_fx: Dictionary = node.get("fx", {})
+		if not tc_fx.is_empty():
+			var tc_bgm: String = tc_fx.get("bgm", "")
+			if tc_bgm != "":
+				var tc_bgm_player = get_node_or_null("/root/BgmPlayer")
+				if tc_bgm_player and tc_bgm_player.has_method("play"):
+					tc_bgm_player.play(tc_bgm)
+				else:
+					BgmPlayer.play(tc_bgm)
+			narration_effects.emit(tc_fx)
 		narration_time_card.emit(node.get("text", ""), node.get("sub_text", ""))
 		return
 	# 应用节点自身效果（进入即触发）

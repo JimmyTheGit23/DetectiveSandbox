@@ -44,7 +44,18 @@ static func ensure_inner_thought_parentheses(text: String) -> String:
 		return result
 	if _is_fully_wrapped_by_chinese_parentheses(result):
 		return result
+	# 多段括号并列（如 （A）（B））：剥掉全部括号段后无实质残留，
+	# 说明整句已是心理活动格式，不得再外层包裹（否则变成 （（A）（B）） 错乱）。
+	if _is_all_parenthetical_segments(result):
+		return result
 	return "（%s）" % result
+
+
+## 整句是否完全由若干段（）并列组成（（A）（B）…），中间无实质文本残留。
+static func _is_all_parenthetical_segments(text: String) -> bool:
+	if text.find("（") < 0:
+		return false
+	return strip_all_parentheticals(text).strip_edges() == ""
 
 
 ## 剥离所有中文括号内容（用于非心理活动的普通对话，确保漏网的舞台指示不残留）。

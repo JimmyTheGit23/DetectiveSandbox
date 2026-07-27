@@ -2291,6 +2291,9 @@ func _on_narration_effects(fx: Dictionary) -> void:
 		var bgm_id := str(fx.get("bgm", ""))
 		if bgm_id != "":
 			BgmPlayer.play(bgm_id)
+	# BGM 骤停（案发瞬间等"音乐戛然"的逆转式节拍）
+	if fx.get("bgm_stop", false):
+		BgmPlayer.stop()
 	if fx.get("shake", false):
 		var intensity: float = float(fx.get("shake_intensity", 6.0))
 		var duration: float = float(fx.get("shake_duration", 0.4))
@@ -2320,6 +2323,15 @@ func _on_narration_effects(fx: Dictionary) -> void:
 		var sfx_player = get_node_or_null("/root/SfxPlayer")
 		if sfx_player and sfx_player.has_method("play"):
 			sfx_player.play(str(fx.get("sfx")))
+	# 循环环境音铺底（雨声/人群声）
+	if fx.has("sfx_loop"):
+		var loop_player = get_node_or_null("/root/SfxPlayer")
+		if loop_player and loop_player.has_method("play_loop"):
+			loop_player.play_loop(str(fx.get("sfx_loop")))
+	if fx.get("sfx_loop_stop", false):
+		var loop_stop_player = get_node_or_null("/root/SfxPlayer")
+		if loop_stop_player and loop_stop_player.has_method("stop_loop"):
+			loop_stop_player.stop_loop()
 	# CG 背景偏移：bg_offset_y 负值向上推画面，露出被对话框遮住的下半部分
 	if fx.has("bg_offset_y"):
 		scene_bg.position.y = float(fx.get("bg_offset_y"))

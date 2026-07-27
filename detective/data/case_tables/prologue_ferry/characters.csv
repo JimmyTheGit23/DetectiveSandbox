@@ -1,10 +1,8 @@
 npc_id,name,title,intro,dialogue_id,actor_id,portrait,always_in_notebook,is_victim,is_player,is_culprit
-zhou_demao,周德茂,布商（夜宴）,荆江布商。精明、刻薄，欠着沈家三十八两赖账不还——可夜宴上细看，他骂阿贵时，手一直在抖。,zhou_demao,,res://assets/cn/portraits/prologue_zhou_demao.png,,,,
-agui,阿贵,死者仆从,跟随周德茂十二年的老仆。夜宴上挨了骂还赔笑，指节却把袖口抠出了洞。,agui,,res://assets/cn/portraits/prologue_agui.png,,,,
-lao_fan,老范,石矶渡船家,在这段江面跑了二十年船的老船家。欠赌坊四十二两，有人给钱让他演一出戏——他没有理由不答应。,lao_fan,,res://assets/cn/portraits/prologue_lao_fan.png,,,,
-zhou_wife,周氏,死者妻子,周德茂之妻。悲痛是真的，脑子也从未停止运转——假死局里，她是最沉得住气的那个。,zhou_wife,,res://assets/cn/portraits/prologue_zhou_wife.png,,,,
-fisherman_wang,王大爷,江边渔翁,下游渔村的老渔翁，一辈子在江上讨生活。受人银钱诱导在堂上补说不实目击——他有他的难处。,fisherman_wang,,res://assets/cn/portraits/prologue_fisherman_wang.png,,,,
-li_zheng,钱里正,石矶渡里正,地方小吏，圆滑世故。谁都不想得罪，只想把事糊弄过去——可偏偏案子落在他眼皮底下。,li_zheng,,res://assets/cn/portraits/prologue_li_zheng.png,,,,
-shen_qingyue,沈清月,药材商之女兼讼师,浔阳沈氏药材行独女，兼通讼理与草药毒理。爽利、周到、滴水不漏——她以协助查案的身份，留在了离真相最近的地方。,shen_qingyue,,res://assets/cn/portraits/prologue_shen_qingyue.png,,,,True
-lu_zhao,陆昭,巡按御史,玩家本人。奉旨南下暗查漕运账弊，途经石矶渡时被卷入命案。,,actor_imperial_inspector,res://assets/cn/portraits/prologue_lu_zhao.png,,,True,
-victim_zhou_demao,周德茂,死者 · 布商,荆江布商。先『淹死』了一次，又在废窑里真正死了一次。他不是贪财的骗子——是吓破胆的知情人。,,,res://assets/cn/portraits/prologue_zhou_demao.png,,True,,
+lu_zhao,陆昭,巡按御史,玩家本人。奉旨南下暗查沿江账弊，途经平阳镇随凌瑶回镖局拜师——当夜成了命案第一嫌疑人。,,actor_imperial_inspector,res://assets/cn/portraits/prologue_lu_zhao.png,,,True,
+victim_tie,铁震岳,死者 · 总镖头,金鳞镖局总镖头。严在外、慈在骨。出场即尸体——他的样子，要众人你一句我一句才拼得出来。,,,res://assets/cn/portraits/prologue_zhou_demao.png,,True,,
+zong_yan,宗岩,大师兄,镖局大弟子，全镖局最稳的人。师父捡他回来那年，他九岁。为师父报仇喊得最响的，也是他。,zong_yan,,res://assets/cn/portraits/prologue_lao_fan.png,,,,True
+jiao,焦先生,账房,镖局账房先生，懦得像团面。账上平不平，他不敢细看——他的恐惧，是"不敢知道"。,jiao,,res://assets/cn/portraits/prologue_li_zheng.png,,,,
+shitou,石头,趟子手,十六岁的趟子手，凌瑶的跟屁虫。话比脑子快，学大人说话总学不像。,shitou,,res://assets/cn/portraits/prologue_agui.png,,,,
+qin_popo,秦婆婆,灶房老仆,镖局灶房的老仆，耳朵背，说话岔。可她听岔的每句话，都歪打正着。,qin_popo,,res://assets/cn/portraits/prologue_zhou_wife.png,,,,
+lei_butou,雷捕头,县衙捕头,县衙捕头，天亮到。不关心真相，关心流程——人犯、凶器、口供，齐了就行。,lei_butou,,res://assets/cn/portraits/prologue_li_zheng.png,,,,

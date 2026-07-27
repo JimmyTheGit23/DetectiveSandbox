@@ -5,13 +5,15 @@ extends Node
 ## 使用 3 个 AudioStreamPlayer 池实现多音效同时播放（不会互相打断）。
 ## 路径解析：res://assets/cn/sfx/{sfx_id}.wav（或 .mp3）
 
-@export var enabled: bool = false
+@export var enabled: bool = true
 @export var default_volume_db: float = -3.0
 @export var debug_log: bool = false
 
 var _players: Array[AudioStreamPlayer] = []
 var _next_player_idx: int = 0
 var _stream_cache: Dictionary = {}
+var _loop_stream_cache: Dictionary = {}
+var _loop_player: AudioStreamPlayer = null
 
 const POOL_SIZE := 3
 const SFX_BASE_PATH := "res://assets/cn/sfx/"
@@ -50,6 +52,50 @@ func play(sfx_id: String, volume_db: float = -100.0) -> void:
 func stop_all() -> void:
 	for p in _players:
 		p.stop()
+	stop_loop()
+
+
+## 循环播放环境音（雨声/人群声等铺底）。独立于一次性音效的流缓存，
+## 避免给共享 stream 设置 loop 后污染一次性播放。
+func play_loop(sfx_id: String, volume_db: float = -100.0) -> void:
+	if not enabled or sfx_id == "":
+		return
+	var stream := _load_loop_stream(sfx_id)
+	if stream == null:
+		if debug_log:
+			print("[SFX] loop not found: ", sfx_id)
+		return
+	if _loop_player == null:
+		_loop_player = AudioStreamPlayer.new()
+		_loop_player.name = "SfxLoopPlayer"
+		_loop_player.bus = "Master"
+		add_child(_loop_player)
+	_loop_player.stream = stream
+	_loop_player.volume_db = volume_db if volume_db > -100.0 else default_volume_db
+	_loop_player.play()
+	if debug_log:
+		print("[SFX] play_loop: ", sfx_id)
+
+
+## 停止循环环境音
+func stop_loop() -> void:
+	if _loop_player and _loop_player.playing:
+		_loop_player.stop()
+
+
+func _load_loop_stream(sfx_id: String) -> AudioStream:
+	if _loop_stream_cache.has(sfx_id):
+		return _loop_stream_cache[sfx_id]
+	var base := _load_stream(sfx_id)
+	if base == null:
+		return null
+	var stream := base.duplicate()
+	if stream is AudioStreamWAV:
+		stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		stream.loop_begin = 0
+		stream.loop_end = 0
+	_loop_stream_cache[sfx_id] = stream
+	return stream
 
 
 ## 设置是否启用

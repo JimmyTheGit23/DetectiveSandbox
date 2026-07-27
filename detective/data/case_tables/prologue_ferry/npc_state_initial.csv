@@ -1,10 +1,7 @@
 npc_id,stat,value
-agui,composure,3
-lao_fan,composure,4
-zhou_wife,composure,2
-zhou_wife,openness,2
-li_zheng,composure,4
-fisherman_wang,composure,3
-fisherman_wang,openness,1
-shen_qingyue,composure,5
-shen_qingyue,mask,5
+zong_yan,composure,5
+zong_yan,mask,5
+jiao,composure,2
+shitou,openness,4
+qin_popo,openness,3
+lei_butou,composure,4

@@ -1,10 +1,7 @@
 location_id,name,parent,description,unlock_phase,background,scene_type,npcs
-ferry_inn,石矶渡·客栈,,江畔一间简陋的客栈，土墙木梁。冬雨绵绵，门口泥泞。今夜里头倒是热闹——有人摆了一桌送行酒。,phase_0,res://assets/cn/scenes/prologue_ferry_inn.png,scene_prologue_ferry_inn,li_zheng
-zhou_room,周氏房间,ferry_inn,一间狭小的偏房。桌上散着纸笔，墙角堆着包袱行李。空气中有淡淡的香烛气味。,phase_0,res://assets/cn/scenes/prologue_zhou_room.png,scene_prologue_zhou_room,zhou_wife
-agui_room,阿贵住处,ferry_inn,杂物间改的临时住处。一张矮床，地上散着湿衣物。空气潮湿阴冷。,phase_1,res://assets/cn/scenes/prologue_agui_room.png,scene_prologue_agui_room,agui
-inn_corridor,客栈走廊,ferry_inn,通往二楼的过道。一个穿劲装的高挑女子抱臂靠在廊柱上，单脚踩着柱根。看到你过来，她不紧不慢地挑了挑眉。,phase_0,res://assets/cn/scenes/prologue_inn_corridor.png,scene_prologue_inn_corridor,shen_qingyue
-shen_room,客栈二楼·沈清月房间,ferry_inn,客栈二楼的客房。比楼下整洁得多——桌上整整齐齐摆着笔墨和一本账册。窗户正对着渡口方向。,phase_4,res://assets/cn/scenes/prologue_shen_room.png,scene_prologue_shen_room,shen_qingyue
-ferry_dock,石矶渡·渡口,,渡口码头。几条乌篷船歪歪斜斜泊在岸边。昨夜捞起的那堆湿衣帽，还晾在竹棚下没人敢动。,phase_0,res://assets/cn/scenes/prologue_ferry_dock.png,scene_prologue_ferry_dock,lao_fan
-river_bend,江湾渔村,,下游一个小渔村。几间茅屋散落在江湾，渔网晾在竹竿上。冬日清冷，江面上飘着薄雾。,phase_2,res://assets/cn/scenes/prologue_river_bend.png,scene_prologue_river_bend,fisherman_wang
-gambling_alley,渡口后街·赌坊,,渡口背面的窄巷子。一间挂着褪色招牌的赌坊，白天门半掩着。里面传出骰子声和低哑的争吵。,phase_2,res://assets/cn/scenes/prologue_gambling_alley.png,scene_prologue_gambling_alley,
-abandoned_kiln,上游·废砖窑,,上游半里，一座塌了半边的旧砖窑。荒了十几年，野草丛生。可窑口的砖灰上，有新鲜脚印。,phase_3,res://assets/cn/scenes/prologue_wreck_site.png,scene_prologue_wreck_site,
+biaoju_hall,金鳞镖局·前厅,,镖局正厅。师父的灵位供在正中，香烧到第三根。地上还留着昨夜家法会的痕迹。,phase_0,res://assets/cn/scenes/prologue_confrontation_hall.png,scene_prologue_confrontation_hall,zong_yan
+yanwu_tang,演武堂,biaoju_hall,师父每晚独练的地方。断闩还躺在门边，兵器架挪了半寸。血已经擦过了，可血腥气还在。,phase_3,res://assets/cn/scenes/prologue_zhou_room.png,scene_prologue_zhou_room,shitou
+account_room,账房,biaoju_hall,一间小屋，满墙账册。算盘珠子被人拨得发亮——可最亮的那几颗，是被人反复摩挲过的。,phase_3,res://assets/cn/scenes/prologue_agui_room.png,scene_prologue_agui_room,jiao
+kitchen,灶房,biaoju_hall,灶上温着水。茶盏摆了一排，有两个还没收。秦婆婆在灶前打盹，耳朵背，听不见人进门。,phase_3,res://assets/cn/scenes/prologue_shen_room.png,scene_prologue_shen_room,qin_popo
+backyard,后墙外,kitchen,演武堂后墙外的一条窄巷。雪被冻雨浇得半化，泥地上什么都留不住——除了那半枚脚印。,phase_3,res://assets/cn/scenes/prologue_ferry_dock_night.png,scene_prologue_ferry_dock_night,
+side_hall,偏厅,biaoju_hall,陆昭被"看管"的偏厅。一张矮榻，一床薄被。昨夜他在这里想了一整夜。,phase_3,res://assets/cn/scenes/prologue_ferry_inn.png,scene_prologue_ferry_inn,

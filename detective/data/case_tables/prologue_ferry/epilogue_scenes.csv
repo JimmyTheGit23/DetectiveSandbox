@@ -1,4 +1,3 @@
 scene_id,type,background,bgm,order
-meta_departure,cinematic,res://assets/cn/scenes/prologue_ferry_dock.png,main_theme,0
-meta_letter,cinematic,res://assets/cn/scenes/prologue_cg_letter.png,main_theme,1
-meta_narrator,cinematic,res://assets/cn/scenes/prologue_wreck_site.png,main_theme,2
+epilogue_departure,cinematic,res://assets/cn/scenes/prologue_ferry_dock.png,ending_warm,0
+epilogue_tea,cinematic,res://assets/cn/scenes/prologue_zhou_room.png,ending_warm,1

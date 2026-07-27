@@ -1,8 +1,6 @@
 npc_id,role_note,location,activity,public
-zhou_demao,host,ferry_inn,banquet_host,true
-agui,servant,ferry_dock,carry_wine,true
-lao_fan,boatman,ferry_dock,smoke_break,true
-zhou_wife,wife,zhou_room,rest_chamber,true
-shen_qingyue,guest,inn_corridor,observe_guests,true
-li_zheng,village_head,ferry_inn,host_banquet,true
-fisherman_wang,fisherman,river_bend,mend_nets,true
+zong_yan,eldest_disciple,biaoju_hall,preside_hall,true
+jiao,accountant,account_room,check_ledger,true
+shitou,apprentice,yanwu_tang,guard_scene,true
+qin_popo,cook,kitchen,doze_stove,true
+lei_butou,constable,side_hall,await_dawn,true

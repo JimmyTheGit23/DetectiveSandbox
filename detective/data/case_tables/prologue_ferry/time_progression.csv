@@ -1,8 +1,7 @@
 order,trigger_condition,day,period_label
-1,"{""flag"":""fifth_person_known""}",2,巳时
-2,"{""flag"":""true_death_found""}",2,辰时
-3,"{""flag"":""fake_confessed""}",1,未时
-4,"{""flag"":""kiln_unlocked""}",1,午时
-5,"{""flag"":""self_cleared""}",1,巳时
-6,"{""flag"":""accused_of_murder""}",1,辰时
-7,"{""default"":true}",0,亥时
+1,"{""flag"":""prologue_truth_reached""}",2,拂晓
+2,"{""flag"":""finale_called""}",2,寅时
+3,"{""flag"":""lingyao_cleared""}",1,丑时
+4,"{""flag"":""self_cleared""}",1,子时
+5,"{""flag"":""accused_of_murder""}",1,亥时
+6,"{""default"":true}",0,戌时

@@ -286,8 +286,8 @@ func show_narration(speaker: String, text: String, has_next: bool, portrait: Str
 	_typewriter.base_char_delay = custom_char_delay if custom_char_delay > 0.0 else DEFAULT_TYPEWRITER_CHAR_DELAY
 	# 根据说话人角色切换打字音效 profile
 	_typewriter.set_blip_profile(_resolve_blip_profile(_normalize_visible_speaker(speaker)))
-	# 叙述模式不播放打字电子音（物品描述等场景不需要）
-	_typewriter.typing_sound_enabled = false
+	# 叙述模式播放打字音（逆转裁判式逐字 blip，烘托文本节奏）
+	_typewriter.typing_sound_enabled = true
 	# 打字机播放文字（不调用说话动画，避免立绘偏移）
 	_typewriter.play(text_label, rich_display_text)
 	await _typewriter.finished

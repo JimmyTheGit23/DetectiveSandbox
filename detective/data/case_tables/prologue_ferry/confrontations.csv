@@ -1,4 +1,4 @@
 confrontation_id,suspect,is_final,background,bgm,bgm_break,bgm_break_actual,bgm_final_round,confidence,writer_note,verdict_text
-confrontation_wang,fisherman_wang,,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_inn_investigation,Prelogue_Confrontation_Intro,ferry_confrontation,5,教学对峙①：指控四重锁死，逐层拆（目击→物证→动机→反压）。,指认推翻
-confrontation_fake,agui,,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_inn_investigation,Prelogue_Confrontation_Intro,ferry_confrontation,6,教学对峙②：拆穿三笨贼假死局（互斥供词→钱箱→新笔迹），喜剧峰值。,戏该散了
-confrontation_final,shen_qingyue,true,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_inn_investigation,Prelogue_Confrontation_Intro,confrontation_final,5,终局对峙③：买家→铁壁→安静的死，推理全中物证不足，法理脱身。,真相抵岸
+confrontation_zongyan,zong_yan,,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_inn_investigation,Prelogue_Confrontation_Intro,ferry_confrontation,5,教学对峙①家法会：拆"撞门握刀=刚杀"（血凝）→"早进镇"（更夫），钩子转向凌瑶,指控暂消
+confrontation_lingyao,zong_yan,,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_inn_investigation,Prelogue_Confrontation_Intro,ferry_confrontation,5,对峙②"凌瑶行凶"论：拆"刀是她的"（失窃报备）→"她易如反掌"（伤口角度），指向内部人,凌瑶暂脱
+confrontation_zongyan_final,zong_yan,true,res://assets/cn/scenes/prologue_confrontation_hall.png,ferry_confrontation,ferry_inn_investigation,Prelogue_Confrontation_Intro,confrontation_final,5,终局对峙③：四层剥皮（守岁未离→气窗→手套→动机），两碗茶落定,雪夜见人心

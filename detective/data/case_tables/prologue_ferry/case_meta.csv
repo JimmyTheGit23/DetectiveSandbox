@@ -1,16 +1,8 @@
 key,value
-culprit,shen_qingyue
-motive,silence_witness
-method,poisoned_in_hiding
-min_evidence_required,4
-key_evidence,"[""evidence_dry_mud_ring"", ""evidence_money_chest_empty"", ""evidence_fresh_writing"", ""evidence_quiet_death"", ""evidence_wet_letter""]"
-suspects,"[{""id"": ""agui"", ""name"": ""阿贵（死者仆从 / 假死局共犯）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""lao_fan"", ""name"": ""老范（船家 / 假死局共犯）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""zhou_wife"", ""name"": ""周氏（死者妻子 / 假死局共犯）"", ""unlock"": [{""flag"": ""fake_scheme_exposed""}], ""unlock_hint"": ""假死局揭穿后解锁""}, {""id"": ""shen_qingyue"", ""name"": ""沈清月（药材商之女 / 幕后真凶）"", ""unlock"": [{""flag"": ""fifth_person_known""}], ""unlock_hint"": ""第五知情人浮出后解锁""}]"
-motives,"[{""id"": ""silence_witness"", ""name"": ""杀人灭口（沈氏旧案密信）"", ""unlock"": [{""clue"": ""clue_letter_exists""}], ""unlock_hint"": ""查明密信存在""}, {""id"": ""debt_grudge"", ""name"": ""三十八两旧债（表层动机）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""servant_revenge"", ""name"": ""仆从怨恨（十二年卖身）"", ""unlock"": [{""clue"": ""clue_dismissal_note""}], ""unlock_hint"": ""调查阿贵动机""}, {""id"": ""gambling_debt"", ""name"": ""船家赌债（铤而走险）"", ""unlock"": [{""clue"": ""clue_gambling_iou""}], ""unlock_hint"": ""调查老范动机""}, {""id"": ""robbery_outsider"", ""name"": ""劫财害命（流窜脚夫）"", ""unlock"": [], ""unlock_hint"": """"}]"
-methods,"[{""id"": ""poisoned_in_hiding"", ""name"": ""藏身地毒杀（静死）"", ""unlock"": [{""evidence"": ""evidence_quiet_death""}], ""unlock_hint"": ""验明真死性质""}, {""id"": ""drowned_accident"", ""name"": ""夜渡失足落水（原初说法）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""fake_death_scheme"", ""name"": ""假死脱身（骗局本身）"", ""unlock"": [{""evidence"": ""evidence_fresh_writing""}], ""unlock_hint"": ""揭穿假死局""}, {""id"": ""robbery_killing"", ""name"": ""劫财杀人"", ""unlock"": [], ""unlock_hint"": """"}]"
-endings,"{""prologue_fixed"": {""title"": ""「渡口余波」"", ""narration"": ""石矶渡命案暂告一段落。阿贵、老范、周氏因假死骗局收押，沈清月借着律法门槛暂时脱身。
-
-陆昭恢复身份，却也看清了第一条裂缝：真相需要证据，证据还必须经得住律法的门槛。
-
-废窑砖缝里那半页泡烂的密信，把案子引向更深的水面。
-
-第一案 · 浔阳楼，即将开启。""}}"
+culprit,zong_yan
+motive,cover_deficit
+method,locked_room_window
+min_evidence_required,5
+key_evidence,"[""evidence_window_scratch"", ""evidence_rack_moved"", ""evidence_half_footprint"", ""evidence_ledger"", ""evidence_two_teacups""]"
+suspects,"[{""id"": ""shitou"", ""name"": ""石头（趟子手 / 撞门目击者）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""jiao"", ""name"": ""焦先生（账房 / 当夜送过账本）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""zong_yan"", ""name"": ""宗岩（大师兄 / 真凶）"", ""unlock"": [{""flag"": ""inside_job""}], ""unlock_hint"": ""凶手锁定为内部人后解锁""}]"
+motives,"[{""id"": ""cover_deficit"", ""name"": ""掩盖镖银亏空（三年窟窿）"", ""unlock"": [{""evidence"": ""evidence_ledger""}], ""unlock_hint"": ""查明账房亏空""}, {""id"": ""robbery_outsider"", ""name"": ""外乡人劫财（表层诬陷）"", ""unlock"": [], ""unlock_hint"": """"}, {""id"": ""lingyao_grudge"", ""name"": ""凌瑶弑师（大师兄的构陷）"", ""unlock"": [], ""unlock_hint"": """"}]"

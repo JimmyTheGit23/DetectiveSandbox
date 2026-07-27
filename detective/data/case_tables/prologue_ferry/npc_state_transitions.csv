@@ -1,12 +1,5 @@
-﻿npc_id,event,delta,writer_note
-agui,node_visited:agui.press_alibi,"{""composure"": -1}",
-agui,node_visited:agui.show_bladder,"{""composure"": -2}",
-agui,evidence_obtained:evidence_float_bladder,"{""composure"": -1}",
-agui,evidence_obtained:evidence_dismissal_note,"{""composure"": -1}",
-lao_fan,node_visited:lao_fan.press_route,"{""composure"": -1}",
-lao_fan,node_visited:lao_fan.show_iou,"{""composure"": -2}",
-lao_fan,evidence_obtained:evidence_hull_hole,"{""composure"": -1}",
-lao_fan,clue_obtained:clue_fan_alibi_hole,"{""composure"": -1}",
-lao_fan,evidence_obtained:evidence_gambling_iou,"{""composure"": -1}",
-zhou_wife,node_visited:zhou_wife.comfort,"{""openness"": 1}",
-fisherman_wang,node_visited:fisherman_wang.trust,"{""openness"": 1}",
+npc_id,event,delta,writer_note
+zong_yan,confrontation_zongyan_victory,-1,"对峙①被拆，他第一次需要""再想一步"""
+zong_yan,confrontation_lingyao_victory,-1,牺牲凌瑶失败，他开始紧
+zong_yan,confrontation_zongyan_final_victory,-5,四层剥皮，彻底塌了
+shitou,confrontation_zongyan_victory,1,"石头开始动摇""外乡人=凶手"""

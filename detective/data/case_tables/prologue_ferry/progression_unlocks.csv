@@ -1,15 +1,8 @@
 unlock_type,target_id,condition,locked_hint,writer_note
-panel_unlock,search,"{""flag"": ""accused_of_murder""}",夜宴正酣，此时搜什么。,夜宴阶段（phase_0）只开放对话/移动
+panel_unlock,search,"{""flag"": ""lingyao_cleared""}",你被看押着，此时搜什么。,对峙②后解锁搜索
 panel_unlock,notebook,"{""flag"": ""accused_of_murder""}",此时无案可记。,被指控后解锁笔记本
 panel_unlock,discuss,"{""flag"": ""accused_of_murder""}",此时无人可议。,被指控后解锁讨论
-panel_unlock,map,"{""flag"": ""self_cleared""}",你现在是嫌疑人，走不了。,自证清白后解锁地图
-npc_unlock,fisherman_wang,"{""flag"": ""self_cleared""}",,王大爷在对峙①后才肯见你
-confrontation_unlock,confrontation_wang,"{""flag"": ""accused_of_murder""}",事态还没有发展到当面对质。,对峙①由指控事件自动触发
-confrontation_unlock,confrontation_fake,"{""flag"": ""fake_scheme_exposed""}",,对峙②由灵堂对质事件自动触发
-confrontation_unlock,confrontation_final,"{""flag"": ""fifth_person_known""}",,对峙③由第五知情人浮出后触发
-search_point_unlock,abandoned_kiln.kiln_mouth,"{""flag"": ""kiln_unlocked""}",荒窑一座，此刻没有去的理由。,疑点聚合后解锁废窑
-search_point_unlock,abandoned_kiln.kiln_hay,"{""flag"": ""kiln_unlocked""}",荒窑一座，此刻没有去的理由。,疑点聚合后解锁废窑
-search_point_unlock,abandoned_kiln.kiln_brick,"{""flag"": ""prologue_defeated""}",此时还没意识到那半页纸的分量。,尾声钩子点
-search_point_unlock,shen_room.shen_desk,"{""flag"": ""true_death_found""}",还没有理由搜沈清月的房间。,真死发现后解锁
-search_point_unlock,shen_room.shen_window,"{""flag"": ""true_death_found""}",还没有理由搜沈清月的房间。,真死发现后解锁
-search_point_unlock,gambling_alley.gambling_den,"{""flag"": ""self_cleared""}",眼下还顾不上去后街。,自证清白后解锁赌坊
+panel_unlock,map,"{""flag"": ""lingyao_cleared""}",你还是人犯，走不了。,对峙②后解锁地图
+confrontation_unlock,confrontation_zongyan,"{""flag"": ""accused_of_murder""}",事态还没有发展到当面对质。,对峙①由家法会事件自动触发
+confrontation_unlock,confrontation_lingyao,"{""flag"": ""self_cleared""}",,对峙②由矛头转向事件自动触发
+confrontation_unlock,confrontation_zongyan_final,"{""flag"": ""finale_called""}",,终局由再开家法会事件自动触发

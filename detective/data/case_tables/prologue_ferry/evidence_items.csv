@@ -1,20 +1,17 @@
 item_id,type,category,name,description,hidden,meta_clue,icon,tags,phase,source,writer_note
-evidence_dry_mud_ring,evidence,,干泥扳指,钱里正从陆昭行囊中搜出的铜扳指——周德茂的贴身物，据称随他落水。但扳指内侧的江泥早已干透发白：泡了一夜冬雨的东西，泥不可能是干的。它根本没落过水，是有人干着手塞进陆昭行囊的。,False,,res://assets/ai_processed/objects/evidence_icons/evidence_dry_mud_ring.png,ring;frame,phase_1,,指控陆昭的物证 → 拆穿栽赃的矛点
-evidence_money_chest_empty,evidence,,遗物清单·钱箱独缺,渡口捞起的遗物清单：衣帽、油伞、钱袋（空）、扳指（后证实为栽赃）——唯独随身钱箱不见。一个连夜逃命的人，什么都能丢，唯独不会丢钱箱。要么他没打算逃，要么……他根本没落水。,False,,res://assets/ai_processed/objects/evidence_icons/evidence_money_chest_empty.png,chest;fake,phase_2,,假死局第一破绽
-evidence_fresh_writing,evidence,,废窑新笔迹,废窑砖墙上压着的半张纸——墨迹不过两三日，是周德茂的笔迹：『初七夜，勿点灯。』一个三天前就『淹死』的人，不可能前天还在写字。,False,,res://assets/ai_processed/objects/evidence_icons/evidence_fresh_writing.png,writing;alive,phase_2,,假高潮顶点：他还活着的铁证
-evidence_quiet_death,evidence,,尸格异常·死得太安静,废窑中的遗体：衣着整齐，指缝干净，唇色暗紫，舌根有极淡苦渣。没有挣扎痕，没有打斗痕，连砖灰都没蹭乱。他不是被杀死的——是安安静静断了气。,False,,res://assets/ai_processed/objects/evidence_icons/evidence_quiet_death.png,autopsy;poison,phase_3,,真死性质：安静的灭口
-evidence_wet_letter,evidence,,泡烂的密信残角,废窑砖缝里抠出的半页纸，泡得只剩几行：『……沈氏旧案……按察司……棋子不知棋盘……』。唯一指向买主的物证——但残缺至此，县衙断不了任何人的罪。,True,True,,letter;mainplot,phase_4,,钩子 + 法理缺口化身
-clue_dismissal_note,clue,,遣散字据,周德茂亲笔：兹遣仆人阿贵，给银二两，各不相欠。落款是『落水』前三日。十二年只值二两——阿贵嘴上说不敢算，指节却把袖口抠出了洞。,,,,,phase_1,,
-clue_gambling_iou,clue,,赌债字据,老范欠赌坊四十二两，腊月底还清，否则断指抵债。一个赌到绝路的船家，有人给钱让他演一出戏，他没有理由不答应。,,,,,phase_2,,
-clue_alibis_too_neat,clue,,过于整齐的供词,阿贵、老范、周氏三人对『落水』那夜的说辞，时辰、先后、字眼严丝合缝。真经历的事各说各样，背下来的词才一字不差。,,,,,phase_2,,
-clue_kiln_trace,clue,,废窑居住痕,废窑里有新踩的砖灰、半袋干粮、一堆极新的炭烬——有人在这里住了好几日，而且走得很急。,,,,,phase_2,,
-clue_letter_exists,clue,,密信的存在,周氏崩溃后说出：周德茂假死不为赖账——他怕。他手里有一封『沈氏旧案』的信，原想卖个价钱远走高飞。他说过：『这封信，能要我的命。』,,,True,,phase_3,,假死动机反转：他是吓破胆的知情人
-clue_buyer_appoint,clue,,带话买主,渡口脚夫回忆：周德茂『落水』前两日，曾塞钱托他给『药材行的姑娘』带话——『有笔买卖，请她赏脸一叙』。,,,,,phase_3,,
-clue_funeral_alibi,clue,,丧事不在场,周德茂死的那半日，阿贵、老范、周氏都在客栈给他办丧事，几十双眼睛看着。他们谁都去不了废窑。,,,,,phase_3,,
-clue_shen_public_alibi,clue,,当众吊唁,同一日，沈清月也在客栈——她随了份子，安慰了周氏，陪众人坐到天黑。几十双眼睛，同样看着她。,,,,,phase_4,,
-clue_wang_bribe,clue,,王大爷的难处,王大爷认了：有人给了他五两银子，让他『看见什么就说什么』。他独孙在城里治病，等钱抓药。,,,,,phase_1,,
-clue_travel_notes,clue,,旅途札记,奉旨南下暗查沿江漕运账弊，途经石矶渡。微服——身份不能亮，一亮，查案的人先成了被赶出渡口的人。,True,True,,,,
-clue_zhou_quarrel,clue,,渡口当众翻脸,夜宴上陆昭借『查官船夹带』试探，周德茂当众变色发作，几十人围观。死者心里有鬼——这架，是他先急的。,,,,,phase_1,,
-clue_ferry_timeline,clue,,更香与潮位,落水当夜：二更鼓响时周德茂回房（掌柜亲见），三更有人在渡口听见水声（王大爷）。中间这一更，是所有人都没有眼睛的时辰。,,,,,phase_2,,
-evidence_lingyao_identity,evidence,item,金鳞镖局腰牌,凌瑶随身的铜制腰牌，刻着金鳞镖局的鳞纹与她的排行。镖局在江湖上的名号，比官府文书还管用几分。,,,,identity;lingyao,phase_0,夜宴自我介绍,教学对峙反压段的唯一解；也奠定凌瑶镖局身份的叙事功能
-clue_fog_rivery,clue,condition,当夜江雾,落水当夜，江上起了入冬最大的一场雾。王大爷自己都承认——“雾大，网都撒不准”。雾大到撒不准网，怎么看准了人影？,,,,weather;night;fog,phase_1,testimony_wang_meet 读证获得,教学对峙第一件武器：证词内部矛盾
+clue_travel_notes,clue,,旅途札记,奉旨南下暗查沿江账弊，途经平阳镇。微服——身份不能亮。在这镖局里一亮，查案的人先成了被行家法的人。,True,True,,,phase_0,序曲,陆昭身份封印
+evidence_clotted_blood,evidence,,血凝尸身,凌瑶验看师父后低声告诉陆昭：血凝了，尸身凉了——人走了，不止一个时辰。而陆昭凌瑶亥时才进镇。,False,,,autopsy;time,phase_1,evt_aftermath 凌瑶验看,"对峙①武器一：死亡时间拆""握刀=杀人"""
+evidence_watchman,evidence,,镇口更夫,镇口更夫亥时亲眼见到陆昭凌瑶两人进镇。宗岩不否认更夫，只质疑一个打更的认不认得人——这质疑本身，就留了缝。,False,,,alibi;witness,phase_1,evt_aftermath 凌瑶提及,对峙①武器二：不在场坐实
+evidence_dart_knife,evidence,,凶器·制式短刀,插在铁震岳胸口的短刀——金鳞镖局制式，凌瑶的佩刀。三日前失窃的那把。,False,,,weapon;frame,phase_2,案发现场,矛头转向凌瑶的物证本体
+evidence_wound_angle,evidence,,伤口角度,伤口自右上斜刺而下，入肉极深。凌瑶的身高，够不出这个角度——除非她踩了凳子杀人。,False,,,autopsy;angle,phase_2,对峙②凌瑶自述,对峙②武器一：角度反证
+evidence_knife_stolen,evidence,,失窃报备,三日前凌瑶的刀失窃，她当日报备过师门——宗岩亲手记的档。偷刀栽赃的人，是知道报备也不会牵连自己的内部人。,False,,,frame;inside,phase_2,对峙②宗岩确认,对峙②武器二：内部人指向
+evidence_window_scratch,evidence,,气窗擦痕,演武堂高处气窗的插销上，有一道新鲜擦痕——窗板从外面被拨开过。人人都说那窗子猫才钻得过。可镖师不是猫。,False,,,lockedroom;window,phase_3,调查幕搜索,密室解答核心物证一
+evidence_rack_moved,evidence,,挪位的兵器架,尸体旁的兵器架挪了半寸——架脚的尘印错开了。有人踩上去过。气窗正下方，就是它。,False,,,lockedroom;rack,phase_3,调查幕搜索,密室解答核心物证二
+evidence_half_footprint,evidence,,墙外半枚鞋印,演武堂后墙外的雪地里，半枚鞋印，被冻雨糊掉大半。印子很深——从高处跳下的人，才踩得这么实。,False,,,lockedroom;footprint,phase_3,调查幕搜索,密室解答核心物证三
+clue_gloves,clue,,不摘的手套,腊月廿九戴手套不奇怪。奇怪的是：问案、喝茶、验尸，宗岩全程没摘过。,True,,,gloves;culprit,phase_3,调查幕观察,终局揭穿的核心伏笔
+evidence_ledger,evidence,,镖银账本,账房焦先生手里的总账。面上是平的——可三年的走镖红利和进项对不上，有个窟窿，被人一笔一笔填得很小心。,False,,,ledger;motive,phase_3,调查幕账房,动机物证：亏空
+evidence_two_teacups,evidence,,两碗茶,演武堂桌上摆着两碗茶。一碗见了底，一碗一口没动。师父那晚沏了两碗茶——他在等人。,False,,,tea;heart,phase_3,调查幕搜索,情感核心物证：师父在等他坦白
+clue_zongyan_cut,clue,,掌心的新伤,手套下面，宗岩掌心有一道新划的口子——气窗外沿的旧瓦刃，才割得出那样的口子。,True,,,gloves;culprit,phase_4,终局揭露,终局一锤
+clue_biaoju_rules,clue,,演武堂的规矩,师父练拳，天王老子不见。每晚戌时关门独练，没人敢靠近演武堂——所以没人知道他到底是几点死的。,,,,rules;time,phase_1,众人皆知,密室的时间锁由来
+clue_watchdog_none,clue,,没叫的镖犬,镖局后院养着两条镖犬，见生人就吠。案发那夜，没人听见狗叫。,,,,dog;inside,phase_3,调查幕秦婆婆/石头,内部人佐证：狗没叫=来的是熟人
+clue_popo_backyard,clue,,秦婆婆的目击,"秦婆婆亥时看见宗岩从后院方向回前厅——她说""岩娃，喝茶不""，他只摆了摆手。亥时，正是案发前后。后院，正是演武堂的方向。",True,,,witness;alibi,phase_3,秦婆婆对话,"终局武器：拆""守岁只离开一刻"""

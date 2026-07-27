@@ -1,10 +1,11 @@
 node_id,type,background,next,centered,end,portrait,emotion,fx,video,effect
-p1,,res://assets/cn/scenes/prologue_ferry_dock.png,p2,,,,,"{""bgm"": ""ferry_prologue_shore""}",,"{""gain_clue"": ""clue_travel_notes""}"
-p2,,res://assets/cn/scenes/prologue_ferry_dock.png,p3,,,,,,,
-p3,,res://assets/cn/scenes/prologue_ferry_dock.png,p4,,,,,,,
-p4,,res://assets/cn/scenes/prologue_ferry_inn.png,p5,,,,,,,
+p1,time_card,,p2,,,,,"{""sfx_loop"": ""rain_ambient""}",,
+p2,,res://assets/cn/scenes/prologue_ferry_dock_night.png,p3,,,,,"{""bgm"": ""ferry_cabin_night""}",,"{""gain_clue"": ""clue_travel_notes""}"
+p3,,res://assets/cn/scenes/prologue_ferry_dock_night.png,p4,,,,,,,
+p4,,res://assets/cn/scenes/prologue_ferry_dock_night.png,p5,,,,,,,
 p5,,res://assets/cn/scenes/prologue_ferry_inn.png,p6,,,,,,,
-p6,,res://assets/cn/scenes/prologue_ferry_inn.png,p7,,,,,,,
-p7,,res://assets/cn/scenes/prologue_ferry_inn.png,p8,,,,,,,
-p8,,res://assets/cn/scenes/prologue_ferry_inn.png,p9,,,,,,,
-p9,,res://assets/cn/scenes/prologue_ferry_inn.png,,,end,,,,,
+p6,,res://assets/cn/scenes/prologue_inn_corridor.png,p7,,,,,,,
+p7,,res://assets/cn/scenes/prologue_inn_corridor.png,p8,,,,,"{""bgm_stop"": true, ""sfx"": ""combat_hit"", ""shake"": true, ""shake_intensity"": 5.0, ""shake_duration"": 0.4}",,
+p8,,res://assets/cn/scenes/prologue_zhou_room.png,p9,,,,,"{""sfx"": ""heartbeat""}",,
+p9,,res://assets/cn/scenes/prologue_zhou_room.png,p10,,,,,,,
+p10,,res://assets/cn/scenes/prologue_zhou_room.png,,,end,,,"{""sfx"": ""crowd_murmur"", ""bgm"": ""accuse""}",,

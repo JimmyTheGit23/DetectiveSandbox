@@ -80,6 +80,10 @@ func _register_builtin_handlers() -> void:
 	register_effect("unlock_phase", _effect_unlock_phase)
 	register_effect("change_location", _effect_change_location)
 	register_effect("auto_done_flag", _effect_auto_done_flag)
+	# 演出类 key：实际执行在 MainGame._on_narration_effects（narration_effects 信号）。
+	# 此处注册为空操作，仅消除 "unknown effect key" 告警，让数据层可自由书写演出效果。
+	for k in ["sfx", "mind_sfx", "bgm", "bgm_stop", "sfx_loop", "sfx_loop_stop", "shake", "shake_intensity", "shake_duration", "flash", "flash_duration", "tint", "bg_offset_y", "disable_typewriter_skip", "typewriter_char_delay"]:
+		register_effect(k, _effect_noop_presentation)
 
 
 static func _as_string_list(value) -> Array[String]:
@@ -132,3 +136,9 @@ func _effect_auto_done_flag(value, _context: Dictionary) -> void:
 	var source_id := str(value)
 	if source_id != "":
 		GameManager.set_flag(source_id + "_done")
+
+
+## 演出类效果空操作：sfx/shake/flash/tint 等由 MainGame._on_narration_effects 消费，
+## 本 handler 仅占位，避免 EffectRegistry 报 unknown key。
+func _effect_noop_presentation(_value, _context: Dictionary) -> void:
+	pass

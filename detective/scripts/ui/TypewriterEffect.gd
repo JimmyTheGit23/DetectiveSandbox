@@ -31,8 +31,8 @@ signal sfx_requested(sfx_name: String)
 @export var punctuation_pause_ellipsis: float = 2.5 # 省略号中的每个点
 ## 括号内（旁白/动作描写）加速倍率
 @export var parenthesis_speed: float = 1.5
-## 打字音效开关
-@export var typing_sound_enabled: bool = false
+## 打字音效开关（默认开启：逆转裁判式逐字 blip 音，按角色分音色）
+@export var typing_sound_enabled: bool = true
 ## 打字音效音量（dB）
 @export var typing_sound_volume_db: float = -14.0
 

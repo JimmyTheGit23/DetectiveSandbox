@@ -197,8 +197,8 @@ func show_narration(speaker: String, text: String, has_next: bool, centered := f
 	while display_text.find("\n\n") >= 0:
 		display_text = display_text.replace("\n\n", "\n")
 	display_text = TextUtilsScript.color_inner_thoughts(display_text)
-	# 叙述模式不播放打字电子音（物品描述等场景不需要）
-	_typewriter.typing_sound_enabled = false
+	# 叙述模式播放打字音（逆转裁判式逐字 blip，烘托文本节奏）
+	_typewriter.typing_sound_enabled = true
 	_typewriter.play(text_label, display_text)
 	await _typewriter.finished
 	if run_id != _narration_run_id:
