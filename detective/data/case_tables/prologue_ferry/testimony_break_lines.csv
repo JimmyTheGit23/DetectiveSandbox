@@ -1,12 +1,12 @@
 statement_id,order,speaker,text,emotion,voice_path,effect
-shitou_s03,1,陆昭,血没干？——再看清楚。,determined,,"{""sfx"": ""discovery_big"", ""flash"": ""white""}"
+shitou_s03,1,陆昭,血没干？……你再看清楚。,determined,,"{""sfx"": ""discovery_big"", ""flash"": ""white""}"
 shitou_s03,2,陆昭,伤口的血，凝了。尸身，凉了。,determined,,
 shitou_s03,3,陆昭,人走了，不止一个时辰。,determined,,
 shitou_s03,4,石头,凉……凉了？！,worried,,
 shitou_s03,5,凌瑶,我验过了。伤，我见得多了。,determined,,
 shitou_s03,6,陆昭,（一个时辰前，我们在十里外的官道上。）,inner_thought,,
 shitou_s03,7,宗岩,…………,stern,,
-zongyan_e03,1,陆昭,更夫认不认得清——问他。,determined,,"{""sfx"": ""discovery_big"", ""flash"": ""white""}"
+zongyan_e03,1,陆昭,更夫认不认得清，问他不就知道了。,determined,,"{""sfx"": ""discovery_big"", ""flash"": ""white""}"
 zongyan_e03,2,陆昭,亥时，镇口。两个人，一高一矮，披雪进镇。,determined,,
 zongyan_e03,3,陆昭,他亲口说的。……要传吗。,determined,,
 zongyan_e03,4,宗岩,…………,stern,,

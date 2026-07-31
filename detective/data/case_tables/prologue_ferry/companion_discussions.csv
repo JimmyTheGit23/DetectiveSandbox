@@ -1,7 +1,7 @@
 topic_id,rule_order,when,lines,once,priority
-next_direction,0,"{""flag"": ""lingyao_cleared""}","[{""speaker"": ""凌瑶"", ""text"": ""查哪儿？演武堂我还没看够。""}, {""speaker"": ""凌瑶"", ""text"": ""气窗、兵器架、桌案。……那屋里一定还有东西。""}]",,
+next_direction,0,"{""flag"": ""lingyao_cleared""}","[{""speaker"": ""凌瑶"", ""text"": ""查哪儿？演武堂我还没看够。""}, {""speaker"": ""凌瑶"", ""text"": ""窗子、架子、桌子……那屋里，肯定还藏着东西。""}]",,
 suspect_now,1,"{""flag"": ""inside_job""}","[{""speaker"": ""凌瑶"", ""text"": ""凶手在镖局里面。……这句话，我说不出口第二遍。""}, {""speaker"": ""陆昭"", ""text"": ""不用说。查就是。""}]",,
-evidence_ready,2,"{""all"": [{""flag"": ""found_window""}, {""flag"": ""found_rack""}, {""flag"": ""found_footprint""}]}","[{""speaker"": ""凌瑶"", ""text"": ""气窗、架子、鞋印。……密室开了。""}, {""speaker"": ""凌瑶"", ""text"": ""可我心里，一点都高兴不起来。""}]",,
+evidence_ready,2,"{""all"": [{""flag"": ""found_window""}, {""flag"": ""found_rack""}, {""flag"": ""found_footprint""}]}","[{""speaker"": ""凌瑶"", ""text"": ""窗子、架子、雪地里的鞋印……那扇门是怎么锁死的，我想明白了。""}, {""speaker"": ""凌瑶"", ""text"": ""可我这心里，一点都高兴不起来。""}]",,
 about_zongyan,3,"{""clue"": ""clue_gloves""}","[{""speaker"": ""凌瑶"", ""text"": ""大师兄的手套。""}, {""speaker"": ""凌瑶"", ""text"": ""他从小手凉。……可从不当众摘手套，是这几年才有的事。""}, {""speaker"": ""陆昭"", ""text"": ""（这几年。……他在藏什么？）""}]",,
 master_memory,4,"{""flag"": ""found_teacups""}","[{""speaker"": ""凌瑶"", ""text"": ""师父沏了两碗茶。""}, {""speaker"": ""凌瑶"", ""text"": ""……他那晚在等人。等的人，没敢坐下。""}, {""speaker"": ""陆昭"", ""text"": ""（她把「没敢坐下」四个字，说得很轻。）""}]",,
 chitchat,5,"{""flag"": ""evt_investigation_start_done""}","[{""speaker"": ""凌瑶"", ""text"": ""饿吗？灶房有秦婆婆温着的粥。""}, {""speaker"": ""陆昭"", ""text"": ""……先查案。""}, {""speaker"": ""凌瑶"", ""text"": ""查案也得吃饭。镖师的规矩。""}]",,
