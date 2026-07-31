@@ -11,11 +11,11 @@ p4,1,陆昭,没什么。在想你师父。他是个什么样的人。,calm,narra
 p4,2,凌瑶,他那个人啊，嘴毒，眼睛更毒。一会儿见了他，你可少说两句吧。,smug,narration
 p4,3,陆昭,（少开口。行，我记下了。）,,inner_thought
 p4,4,陆昭,（她越是这么说，我越想会会这位总镖头。）,,inner_thought
-p5,0,凌瑶,……门怎么没闩？,worried,narration
-p5,1,凌瑶,不对劲。咱们局里的门，天一黑就得落双闩的，几十年都这规矩……,worried,narration
+p5,0,凌瑶,……门怎么开着？,worried,narration
+p5,1,凌瑶,不对劲。这门，天黑了从来不敢不闩的。,worried,narration
 p5,2,陆昭,（她的话音，一下子低下去了。）,,inner_thought
 p5,3,凌瑶,师父？,worried,narration
-p6,0,凌瑶,师父！……师父！你在里屋吗？,worried,narration
+p6,0,凌瑶,师父！……师父！你在不在啊？,worried,narration
 p6,1,陆昭,（灯还亮着。喊了两声，没人应。）,,inner_thought
 p6,2,陆昭,（安静得……不对劲。）,,inner_thought
 p7,0,凌瑶,让开！,angry,narration
