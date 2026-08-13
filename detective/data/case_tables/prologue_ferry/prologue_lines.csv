@@ -3,7 +3,8 @@ p1,0,旁白,万历廿二年 · 腊月廿九 · 雪夜 · 平阳镇,,narration
 p2,0,凌瑶,看！前头亮灯了。可算到了，平阳镇。,determined,narration
 p2,1,凌瑶,再走个半里地就是金鳞镖局。……我到家啦。,smug,narration
 p2,2,陆昭,（她跑起来了。这丫头，三个月没这么轻快过。）,,inner_thought
-p3,0,陆昭,（人家回家。我一个外人，跟着进去算什么。……得，都到家门口了，总不能再往回走。）,,inner_thought
+p2,3,陆昭,我说，到家了也不能慢点走？,calm,narration
+p2,4,凌瑶,你快点！,smug,narration
 p4,0,凌瑶,怎么啦？发什么呆呢你。,worried,narration
 p4,1,陆昭,没什么。在想你师父。他是个什么样的人。,calm,narration
 p4,2,凌瑶,他那个人啊，嘴毒，眼睛更毒。一会儿见了他，你可少说两句吧。,smug,narration
@@ -11,11 +12,11 @@ p4,3,陆昭,（……少说话。成。）,,inner_thought
 p4,4,陆昭,（嘴毒眼毒。这倒像个有真本事的。）,,inner_thought
 p5,0,凌瑶,……门怎么开着？,worried,narration
 p5,1,凌瑶,不对劲。这门，天黑了从来不敢不闩的。,worried,narration
-p5,2,陆昭,（她声音一下就沉了。我心里也跟着咯噔一下。）,,inner_thought
+p5,2,陆昭,等等。,calm,narration
 p5,3,凌瑶,师父？,worried,narration
 p6,0,凌瑶,师父！……师父！你在不在啊？,worried,narration
-p6,1,陆昭,（喊了两声，没人应。灯，还亮着。）,,inner_thought
-p6,2,陆昭,（太静了。这屋里静得瘆人。）,,inner_thought
+p6,1,陆昭,凌瑶。,calm,narration
+p6,2,陆昭,灯还亮着，没人应。,calm,narration
 p7,0,凌瑶,让开！,angry,narration
 p8,0,凌瑶,师……师父……？您怎么，怎么躺地上了……,worried,narration
 p8,1,陆昭,（血。）,,inner_thought
